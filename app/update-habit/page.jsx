@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, Suspense } from "react";
+import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 
 import HabitForm from "@components/HabitForm";
@@ -58,15 +58,13 @@ const EditHabit = () => {
   };
 
   return (
-    <Suspense fallback={<div>Loading...</div>}>
-      <HabitForm
-        type="Edit"
-        habit={habit}
-        setHabit={setHabit}
-        submitting={submitting}
-        handleSubmit={updateHabit}
-      />
-    </Suspense>
+    <HabitForm
+      type="Edit"
+      habit={habit}
+      setHabit={setHabit}
+      submitting={submitting}
+      handleSubmit={updateHabit}
+    />
   );
 };
 

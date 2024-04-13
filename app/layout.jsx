@@ -2,6 +2,7 @@ import "@styles/global.css";
 import Header from "@components/Header";
 import Footer from "@components/Footer";
 import Provider from "@components/Provider";
+import { Suspense } from "react";
 
 export const metadata = {
   title: "Master of Self",
@@ -14,7 +15,9 @@ const RootLayout = ({ children }) => {
       <body className="bg-white-200 dark:bg-gray-800 antialiased">
         <Provider>
           <Header />
-          <main>{children}</main>
+          <Suspense fallback={<div>Loading...</div>}>
+            <main>{children}</main>
+          </Suspense>
           <Footer />
         </Provider>
       </body>
