@@ -1,12 +1,16 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
+  darkMode: "class",
   content: [
+    "./node_modules/flowbite-react/lib/**/*.js",
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
     extend: {
+      backgroundColor: ["dark"],
+      textColor: ["dark"],
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic":
@@ -14,5 +18,5 @@ module.exports = {
       },
     },
   },
-  plugins: [],
+  plugins: [require("flowbite/plugin")],
 };
