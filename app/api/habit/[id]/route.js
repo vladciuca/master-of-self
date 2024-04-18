@@ -17,40 +17,15 @@ export const GET = async (req, { params }) => {
   }
 };
 
-//PATCH (update)
-
-// export const PATCH = async (req, { params }) => {
-//   const { name, description, category } = await req.json();
-
-//   try {
-//     await connectToDB();
-
-//     const existingHabit = await Habit.findById(params.id);
-
-//     if (!existingHabit) return new Response("Habit not found", { status: 404 });
-
-//     existingHabit.name = name;
-//     existingHabit.description = description;
-//     existingHabit.category = category;
-
-//     await existingHabit.save();
-
-//     return new Response(JSON.stringify(existingHabit), { status: 200 });
-//   } catch (error) {
-//     new Response("Failed to update habit", { status: 500 });
-//   }
-// };
-
-// refactored PATCH to use findAndUpdate
 export const PATCH = async (req, { params }) => {
-  const { name, description, category } = await req.json();
+  const { name, description } = await req.json();
 
   try {
     await connectToDB();
 
     const updatedHabit = await Habit.findByIdAndUpdate(
       params.id,
-      { $set: { name: name, description: description, category: category } }, // The update operation
+      { $set: { name: name, description: description } },
       { new: true }
     );
 

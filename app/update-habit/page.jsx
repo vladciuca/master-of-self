@@ -2,8 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-
-import HabitForm from "@components/HabitForm";
+import SkillForm from "@components/SkillForm";
 
 const EditHabit = () => {
   const router = useRouter();
@@ -11,28 +10,24 @@ const EditHabit = () => {
   const habitId = searchParams.get("id");
 
   const [submitting, setSubmitting] = useState(false);
-  const [habit, setHabit] = useState({
-    name: "",
-    description: "",
-    categories: [],
-  });
+  const [habit, setHabit] = useState(null);
 
   useEffect(() => {
     const getHabitDetails = async () => {
       const response = await fetch(`api/habit/${habitId}`);
       const data = await response.json();
+
       setHabit({
         name: data.name,
         description: data.description,
-        categories: data.categories,
       });
     };
 
     if (habitId) getHabitDetails();
   }, [habitId]);
 
-  const updateHabit = async (e) => {
-    e.preventDefault();
+  const updateHabit = async (value) => {
+    const { skillName, skillDescription } = value;
     setSubmitting(true);
 
     if (!habitId) return alert("Habit ID not found");
@@ -41,9 +36,8 @@ const EditHabit = () => {
       const response = await fetch(`/api/habit/${habitId}`, {
         method: "PATCH",
         body: JSON.stringify({
-          name: habit.name,
-          description: habit.description,
-          categories: habit.categories,
+          name: skillName,
+          description: skillDescription,
         }),
       });
 
@@ -57,14 +51,15 @@ const EditHabit = () => {
     }
   };
 
-  return (
-    <HabitForm
+  return habit ? (
+    <SkillForm
       type="Edit"
       habit={habit}
-      setHabit={setHabit}
       submitting={submitting}
-      handleSubmit={updateHabit}
+      onSubmit={updateHabit}
     />
+  ) : (
+    <div>Loading skeleton</div>
   );
 };
 

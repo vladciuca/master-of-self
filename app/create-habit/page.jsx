@@ -4,20 +4,15 @@ import { useState } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
-import HabitForm from "@components/HabitForm";
+import SkillForm from "@components/SkillForm";
 
 const CreateHabit = () => {
   const router = useRouter();
   const { data: session } = useSession();
   const [submitting, setSubmitting] = useState(false);
-  const [habit, setHabit] = useState({
-    name: "",
-    description: "",
-    categories: [],
-  });
 
-  const createHabit = async (e) => {
-    e.preventDefault();
+  const createHabit = async (value) => {
+    const { skillName, skillDescription, skillTag } = value;
     setSubmitting(true);
 
     try {
@@ -25,9 +20,9 @@ const CreateHabit = () => {
         method: "POST",
         body: JSON.stringify({
           userId: session?.user.id,
-          name: habit.name,
-          description: habit.description,
-          categories: habit.categories,
+          name: skillName,
+          description: skillDescription,
+          categories: skillTag,
         }),
       });
 
@@ -42,13 +37,7 @@ const CreateHabit = () => {
   };
 
   return (
-    <HabitForm
-      type="Create"
-      habit={habit}
-      setHabit={setHabit}
-      submitting={submitting}
-      handleSubmit={createHabit}
-    />
+    <SkillForm type="Create" submitting={submitting} onSubmit={createHabit} />
   );
 };
 

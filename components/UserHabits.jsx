@@ -3,10 +3,26 @@
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import HabitCard from "./HabitCard";
+import NewHabit from "@components/NewHabit";
 
-import Profile from "@components/Profile";
+const HabitList = ({ habits, handleEdit, handleDelete }) => {
+  return (
+    <div className="w-full">
+      <NewHabit />
+      {habits.map((habit) => (
+        <HabitCard
+          key={habit._id}
+          habit={habit}
+          handleEdit={() => handleEdit && handleEdit(habit)}
+          handleDelete={() => handleDelete && handleDelete(habit)}
+        />
+      ))}
+    </div>
+  );
+};
 
-const MyProfile = () => {
+const Habits = () => {
   const router = useRouter();
   const { data: session } = useSession();
   const [habits, setHabits] = useState([]);
@@ -33,7 +49,7 @@ const MyProfile = () => {
         await fetch(`/api/habit/${habit._id.toString()}`, { method: "DELETE" });
 
         const filteredHabits = habits.filter(
-          (myHabit) => myHabit._id !== habit.id
+          (myHabit) => myHabit._id !== habit._id
         );
 
         setHabits(filteredHabits);
@@ -46,9 +62,7 @@ const MyProfile = () => {
   };
 
   return (
-    <Profile
-      name="My"
-      desc="Welcome to your personalized profile page"
+    <HabitList
       habits={habits}
       handleEdit={handleEdit}
       handleDelete={handleDelete}
@@ -56,4 +70,4 @@ const MyProfile = () => {
   );
 };
 
-export default MyProfile;
+export default Habits;

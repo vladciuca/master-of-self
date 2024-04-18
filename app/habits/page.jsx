@@ -1,9 +1,9 @@
-import HabitCardList from "@components/HabitList";
+import UserHabits from "@components/UserHabits";
 
 const Habits = () => {
   return (
     <div className="flex justify-center">
-      <HabitCardList />
+      <UserHabits />
     </div>
   );
 };
