@@ -14,8 +14,8 @@ export const metadata = {
 
 const RootLayout = ({ children }) => {
   return (
-    <html lang="en" suppressHydrationWarning className="container">
-      <body className="relative h-[100vh] container">
+    <html lang="en" suppressHydrationWarning>
+      <body className="relative">
         <Provider>
           <ThemeProvider
             attribute="class"
@@ -23,7 +23,7 @@ const RootLayout = ({ children }) => {
             enableSystem
             disableTransitionOnChange
           >
-            <div className="fixed sm:border-2 sm:rounded-3xl flex flex-col top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 mx-auto flex items-center justify-center w-full max-w-[450px] sm:max-h-[800px] h-screen overflow-hidden">
+            <div className="phone_container fixed sm:border-2 sm:rounded-3xl flex flex-col top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 mx-auto flex items-center justify-center w-full max-w-[450px] sm:max-h-[800px] h-screen overflow-hidden">
               <div className="fixed top-0 w-full h-24">
                 <Header />
               </div>
