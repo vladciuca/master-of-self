@@ -60,6 +60,7 @@ const SkillForm = ({ type, submitting, onSubmit, habit }) => {
                 <FormLabel>Habit name</FormLabel>
                 <FormControl>
                   <Input
+                    className="text-base"
                     placeholder="What habit can aid you in jour journey?"
                     {...field}
                   />
@@ -105,6 +106,7 @@ const SkillForm = ({ type, submitting, onSubmit, habit }) => {
                 <FormLabel>Habit description</FormLabel>
                 <FormControl>
                   <Textarea
+                    className="text-base"
                     placeholder="How can this habit aid you in jour journey?"
                     {...field}
                   />
