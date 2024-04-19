@@ -9,12 +9,13 @@ import { ThemeProvider } from "@components/theme-provider";
 export const metadata = {
   title: "Master of Self",
   description: "Take control of your life",
+  viewport: "width=device-width, initial-scale=1.0",
 };
 
 const RootLayout = ({ children }) => {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body className="relative container">
+    <html lang="en" suppressHydrationWarning className="container">
+      <body className="relative h-[100vh] container">
         <Provider>
           <ThemeProvider
             attribute="class"
@@ -34,9 +35,6 @@ const RootLayout = ({ children }) => {
               </div>
             </div>
           </ThemeProvider>
-          {/* <Suspense fallback={<div>Loading...</div>}>
-            <main>{children}</main>
-          </Suspense> */}
         </Provider>
       </body>
     </html>

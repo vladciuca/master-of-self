@@ -76,18 +76,5 @@
 }
 
 .container {
-  height: 100vh;
-}
-
-/* Media query for iPhone X and above */
-@media only screen and (max-device-width: 414px) and (max-device-height: 896px) and (-webkit-device-pixel-ratio: 3) {
-  .container {
-    /* Adjust height for iPhone X and above */
-    height: calc(
-      100vh - constant(safe-area-inset-top) - constant(safe-area-inset-bottom)
-    );
-    height: calc(
-      100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom)
-    );
-  }
+  height: -webkit-fill-available;
 }
