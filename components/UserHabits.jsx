@@ -76,9 +76,7 @@ const Habits = () => {
       <NewHabit />
       {!habitsLoaded &&
         [...Array(4)].map((index) => <SkeletonCard key={index} />)}
-      {[...Array(1)].map((index) => (
-        <SkeletonCard key={index} />
-      ))}
+
       {habitsLoaded && (
         <HabitList
           habits={habits}
