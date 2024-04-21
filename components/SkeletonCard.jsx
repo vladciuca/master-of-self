@@ -13,20 +13,20 @@ const SkeletonCard = () => {
     <Card className="mb-4">
       <CardHeader>
         <CardTitle>
-          <Skeleton className="w-1/2 h-[45px]" />
+          <Skeleton className="w-1/2 h-[35px]" />
         </CardTitle>
         <CardDescription>
-          <Skeleton className="w-1/4 h-[20px] rounded-full" />
+          <Skeleton className="w-1/6 h-[20px] rounded-full" />
         </CardDescription>
       </CardHeader>
       <CardContent>
         <p>
-          <Skeleton className="w-full h-[20px]" />
+          <Skeleton className="w-full h-[25px]" />
         </p>
       </CardContent>
       <CardFooter>
-        <Skeleton className="w-1/6 h-[30px] mr-3" />
-        <Skeleton className="w-1/6 h-[30px]" />
+        <Skeleton className="w-1/6 h-[40px] mr-3" />
+        <Skeleton className="w-1/6 h-[40px]" />
       </CardFooter>
     </Card>
   );
