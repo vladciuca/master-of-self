@@ -5,7 +5,7 @@ import { Button } from "@components/ui/button";
 
 const JournalNav = () => {
   return (
-    <nav className="flex h-full justify-around items-center">
+    <nav className="flex h-full justify-around items-center w-full">
       <Link href="/">
         <Button
           variant="ghost"

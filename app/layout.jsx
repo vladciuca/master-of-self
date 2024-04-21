@@ -3,13 +3,12 @@ import Header from "@components/Header";
 import Footer from "@components/Footer";
 import Section from "@components/Section";
 import Provider from "@components/Provider";
-// import { Suspense } from "react";
 import { ThemeProvider } from "@components/theme-provider";
 
 export const metadata = {
   title: "Master of Self",
   description: "Take control of your life",
-  viewport: "width=device-width, initial-scale=1.0",
+  // viewport: "width=device-width, initial-scale=1.0",
 };
 
 const RootLayout = ({ children }) => {
@@ -27,9 +26,11 @@ const RootLayout = ({ children }) => {
               <div className="fixed top-0 w-full h-24">
                 <Header />
               </div>
+
               <div className="my-24 p-4 h-full w-full overflow-scroll border rounded-3xl">
                 <Section children={children} />
               </div>
+
               <div className="fixed bottom-0 w-full h-24">
                 <Footer />
               </div>

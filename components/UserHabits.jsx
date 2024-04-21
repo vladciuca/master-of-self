@@ -4,12 +4,12 @@ import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import HabitCard from "./HabitCard";
+import SkeletonCard from "./SkeletonCard";
 import NewHabit from "@components/NewHabit";
 
 const HabitList = ({ habits, handleEdit, handleDelete }) => {
   return (
     <div className="w-full">
-      <NewHabit />
       {habits.map((habit) => (
         <HabitCard
           key={habit._id}
@@ -26,16 +26,26 @@ const Habits = () => {
   const router = useRouter();
   const { data: session } = useSession();
   const [habits, setHabits] = useState([]);
+  const [habitsLoaded, setHabitsLoaded] = useState(false);
 
   useEffect(() => {
     const fetchHabits = async () => {
-      const response = await fetch(`/api/users/${session?.user.id}/habits`);
-      const data = await response.json();
-      setHabits(data);
+      setHabitsLoaded(false); // Start with skeleton cards
+      try {
+        const response = await fetch(`/api/users/${session?.user.id}/habits`);
+        const data = await response.json();
+        setHabits(data);
+      } catch (error) {
+        console.error("Failed to fetch habits", error);
+      } finally {
+        setHabitsLoaded(true); // After data is loaded, show the actual cards
+      }
     };
 
-    if (session?.user.id) fetchHabits();
-  }, []);
+    if (session?.user.id) {
+      fetchHabits();
+    }
+  }, [session]);
 
   const handleEdit = (habit) => {
     router.push(`/update-habit?id=${habit._id}`);
@@ -62,11 +72,18 @@ const Habits = () => {
   };
 
   return (
-    <HabitList
-      habits={habits}
-      handleEdit={handleEdit}
-      handleDelete={handleDelete}
-    />
+    <div className="w-full">
+      <NewHabit />
+      {!habitsLoaded &&
+        [...Array(4)].map((index) => <SkeletonCard key={index} />)}
+      {habitsLoaded && (
+        <HabitList
+          habits={habits}
+          handleEdit={handleEdit}
+          handleDelete={handleDelete}
+        />
+      )}
+    </div>
   );
 };
 
