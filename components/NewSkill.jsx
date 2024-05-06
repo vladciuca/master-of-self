@@ -8,14 +8,14 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Button } from "./ui/button";
-import { LuTarget } from "react-icons/lu";
+import { LuAtom } from "react-icons/lu";
 
-const NewHabit = () => {
+const NewSkill = () => {
   return (
     <Card className="mb-4">
       <CardHeader>
         <CardTitle className="flex">
-          <LuTarget className="mr-2" />
+          <LuAtom className="mr-2" />
           New habit
         </CardTitle>
         {/* <CardDescription>Card Description</CardDescription> */}
@@ -32,4 +32,4 @@ const NewHabit = () => {
   );
 };
 
-export default NewHabit;
+export default NewSkill;

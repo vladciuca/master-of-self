@@ -9,6 +9,9 @@ const HabitSchema = new Schema({
     type: String,
     required: [true, "Name is required."],
   },
+  icon: {
+    type: String,
+  },
   description: {
     type: String,
     required: [true, "Description is required."],
@@ -16,6 +19,10 @@ const HabitSchema = new Schema({
   categories: {
     type: Array,
     required: [true, "Must select a Category"],
+  },
+  resource: {
+    type: Number,
+    default: 0,
   },
 });
 

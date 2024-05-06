@@ -22,9 +22,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import IconPicker from "@components/IconPicker";
 
 const formSchema = z.object({
   skillName: z.string().min(3),
+  skillIcon: z.string(),
   skillDescription: z.string(),
   skillTag: z.enum(["mind", "body", "spirit"]).optional(),
 });
@@ -34,10 +36,15 @@ const SkillForm = ({ type, submitting, onSubmit, habit }) => {
     resolver: zodResolver(formSchema),
     defaultValues: {
       skillName: type === "Edit" ? habit.name : "",
+      skillIcon: type === "Edit" ? habit.icon : "",
       skillDescription: type === "Edit" ? habit.description : "",
       skillTag: type === "Create" ? "" : undefined,
     },
   });
+
+  const handleIconSelect = (iconId) => {
+    form.setValue("skillIcon", iconId);
+  };
 
   const handleSubmit = form.handleSubmit(onSubmit);
 
@@ -50,6 +57,12 @@ const SkillForm = ({ type, submitting, onSubmit, habit }) => {
         <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
           {type} Habit
         </h1>
+        <div>
+          <div className="mb-1">
+            <FormLabel>Habit icon</FormLabel>
+          </div>
+          <IconPicker onIconSelect={handleIconSelect} skillIcon={habit?.icon} />
+        </div>
 
         <FormField
           control={form.control}
@@ -121,7 +134,7 @@ const SkillForm = ({ type, submitting, onSubmit, habit }) => {
           <Button type="submit" disabled={submitting} className="w-1/2 mt-3">
             {type} Habit
           </Button>
-          <Link href="/habits" className="w-full flex justify-center mt-6">
+          <Link href="/habits" className="w-full flex justify-center my-6">
             <Button variant="secondary" className="w-1/2">
               Cancel
             </Button>

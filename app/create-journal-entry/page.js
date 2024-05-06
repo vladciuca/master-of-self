@@ -4,32 +4,27 @@ import { useState } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
-import SkillForm from "@components/SkillForm";
+import JournalEntryForm from "@components/JournalEntryForm";
 
-const CreateHabit = () => {
+const CreateJournalEntry = () => {
   const router = useRouter();
   const { data: session } = useSession();
   const [submitting, setSubmitting] = useState(false);
 
-  const createHabit = async (value) => {
-    const { skillName, skillIcon, skillDescription, skillTag } = value;
+  const createJournalEntry = async (value) => {
     setSubmitting(true);
 
     try {
-      const response = await fetch("/api/habit/new", {
+      const response = await fetch("/api/journal-entry/new", {
         method: "POST",
         body: JSON.stringify({
           userId: session?.user.id,
-          name: skillName,
-          icon: skillIcon,
-          description: skillDescription,
-          categories: skillTag,
-          resource: 0,
+          gratefulItems: value,
         }),
       });
 
       if (response.ok) {
-        router.push("/habits");
+        router.push("/journal");
       }
     } catch (error) {
       console.log(error);
@@ -39,8 +34,12 @@ const CreateHabit = () => {
   };
 
   return (
-    <SkillForm type="Create" submitting={submitting} onSubmit={createHabit} />
+    <JournalEntryForm
+      //   type="Create"
+      submitting={submitting}
+      onSubmit={createJournalEntry}
+    />
   );
 };
 
-export default CreateHabit;
+export default CreateJournalEntry;

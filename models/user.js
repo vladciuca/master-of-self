@@ -17,6 +17,20 @@ const UserSchema = new Schema({
   image: {
     type: String,
   },
+  stats: {
+    mind: {
+      type: Number,
+      default: 0,
+    },
+    body: {
+      type: Number,
+      default: 0,
+    },
+    spirit: {
+      type: Number,
+      default: 0,
+    },
+  },
 });
 
 const User = models.User || model("User", UserSchema);

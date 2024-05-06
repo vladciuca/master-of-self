@@ -11,12 +11,12 @@ const JournalNav = () => {
           variant="ghost"
           className="flex flex-col items-center hover: rounded-full h-16 px-10"
         >
-          <LuAtom size={"2.4rem"} />
+          <LuTarget size={"2.4rem"} />
           {/* <div className="text-xs mt-2">Powers</div> */}
         </Button>
       </Link>
 
-      <Link href="/">
+      <Link href="/journal">
         <Button
           variant="ghost"
           className="flex flex-col items-center hover: rounded-full h-16 px-10"
@@ -31,7 +31,7 @@ const JournalNav = () => {
           variant="ghost"
           className="flex flex-col items-center hover: rounded-full h-16 px-10"
         >
-          <LuTarget size={"2.4rem"} />
+          <LuAtom size={"2.4rem"} />
           {/* <div className="text-xs mt-2">Habits</div> */}
         </Button>
       </Link>

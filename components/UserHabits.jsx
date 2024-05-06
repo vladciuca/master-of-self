@@ -3,22 +3,22 @@
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import HabitCard from "./HabitCard";
-import SkeletonCard from "./SkeletonCard";
-import NewHabit from "@components/NewHabit";
+import SkillCard from "./SkillCard";
+import NewHabit from "@components/NewSkill";
+import { Accordion } from "@/components/ui/accordion";
 
-const HabitList = ({ habits, handleEdit, handleDelete }) => {
+const SkillList = ({ habits, handleEdit, handleDelete }) => {
   return (
-    <div className="w-full">
+    <Accordion className="w-full">
       {habits.map((habit) => (
-        <HabitCard
+        <SkillCard
           key={habit._id}
           habit={habit}
           handleEdit={() => handleEdit && handleEdit(habit)}
           handleDelete={() => handleDelete && handleDelete(habit)}
         />
       ))}
-    </div>
+    </Accordion>
   );
 };
 
@@ -30,11 +30,11 @@ const Habits = () => {
 
   useEffect(() => {
     const fetchHabits = async () => {
-      setHabitsLoaded(false); // Start with skeleton cards
+      setHabitsLoaded(false);
       try {
         const response = await fetch(`/api/users/${session?.user.id}/habits`);
         const data = await response.json();
-        setHabits(data);
+        setHabits(data.reverse());
       } catch (error) {
         console.error("Failed to fetch habits", error);
       } finally {
@@ -74,11 +74,14 @@ const Habits = () => {
   return (
     <div className="w-full">
       <NewHabit />
-      {!habitsLoaded &&
-        [...Array(4)].map((index) => <SkeletonCard key={index} />)}
+      {!habitsLoaded && (
+        <div className="w-full h-full flex justify-center items-center">
+          <div className="loader" />
+        </div>
+      )}
 
       {habitsLoaded && (
-        <HabitList
+        <SkillList
           habits={habits}
           handleEdit={handleEdit}
           handleDelete={handleDelete}

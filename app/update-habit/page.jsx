@@ -20,6 +20,7 @@ const EditHabit = () => {
 
       setHabit({
         name: data.name,
+        icon: data.icon,
         description: data.description,
       });
     };
@@ -28,7 +29,8 @@ const EditHabit = () => {
   }, [habitId]);
 
   const updateHabit = async (value) => {
-    const { skillName, skillDescription } = value;
+    const { skillName, skillIcon, skillDescription } = value;
+
     setSubmitting(true);
 
     if (!habitId) return alert("Habit ID not found");
@@ -38,6 +40,7 @@ const EditHabit = () => {
         method: "PATCH",
         body: JSON.stringify({
           name: skillName,
+          icon: skillIcon,
           description: skillDescription,
         }),
       });

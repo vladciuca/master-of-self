@@ -18,14 +18,14 @@ export const GET = async (req, { params }) => {
 };
 
 export const PATCH = async (req, { params }) => {
-  const { name, description } = await req.json();
+  const { name, icon, description } = await req.json();
 
   try {
     await connectToDB();
 
     const updatedHabit = await Habit.findByIdAndUpdate(
       params.id,
-      { $set: { name: name, description: description } },
+      { $set: { name: name, icon: icon, description: description } },
       { new: true }
     );
 

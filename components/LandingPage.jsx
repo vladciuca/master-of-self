@@ -29,7 +29,7 @@ import {
 } from "react-icons/gi";
 // import { MdOutlineSelfImprovement } from "react-icons/md";
 
-const Section = ({ children }) => {
+const LandingPage = ({ children }) => {
   const { data: session } = useSession();
 
   return (
@@ -45,4 +45,4 @@ const Section = ({ children }) => {
   );
 };
 
-export default Section;
+export default LandingPage;

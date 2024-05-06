@@ -2,13 +2,14 @@ import { connectToDB } from "@utils/database";
 import Habit from "@models/habit";
 
 export const POST = async (req, res) => {
-  const { userId, name, description, categories } = await req.json();
+  const { userId, name, icon, description, categories } = await req.json();
 
   try {
     await connectToDB();
     const newHabit = new Habit({
       creator: userId,
       name,
+      icon,
       description,
       categories,
     });

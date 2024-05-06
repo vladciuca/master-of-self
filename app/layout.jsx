@@ -1,7 +1,7 @@
 import "@styles/global.css";
 import Header from "@components/Header";
 import Footer from "@components/Footer";
-import Section from "@components/Section";
+import LandingPage from "@components/LandingPage";
 import Provider from "@components/Provider";
 import { ThemeProvider } from "@components/theme-provider";
 
@@ -28,7 +28,7 @@ const RootLayout = ({ children }) => {
               </div>
 
               <div className="my-24 p-4 h-full w-full overflow-scroll border rounded-3xl">
-                <Section children={children} />
+                <LandingPage children={children} />
               </div>
 
               <div className="fixed bottom-0 w-full h-24">
