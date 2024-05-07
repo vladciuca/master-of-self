@@ -8,7 +8,7 @@ import { FaHandFist, FaBrain, FaHeart } from "react-icons/fa6";
 const Profile = ({ session }) => {
   const { email, name } = session.user;
 
-  const [user, setUser] = useState(null);
+  const [userProfile, setUserProfile] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -16,7 +16,7 @@ const Profile = ({ session }) => {
       try {
         const response = await fetch(`/api/user?email=${email}`);
         const data = await response.json();
-        setUser(data);
+        setUserProfile(data);
       } catch (error) {
         console.error("Error fetching user data:", error);
       } finally {
@@ -33,9 +33,9 @@ const Profile = ({ session }) => {
   }
 
   // Handle the user data
-  const mindScore = user?.stats?.mind || 0;
-  const bodyScore = user?.stats?.body || 0;
-  const spiritScore = user?.stats?.spirit || 0;
+  const mindScore = userProfile?.stats?.mind || 0;
+  const bodyScore = userProfile?.stats?.body || 0;
+  const spiritScore = userProfile?.stats?.spirit || 0;
 
   // Create user initials for the avatar
   const nameInitials = name
