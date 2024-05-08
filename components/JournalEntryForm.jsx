@@ -1,91 +1,105 @@
 "use client";
 
-import * as z from "zod";
 import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import Link from "next/link";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@components/ui/form";
-import { Input } from "./ui/input";
 import { Button } from "./ui/button";
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import { GiLightningTrio, GiInternalInjury, GiAura } from "react-icons/gi";
 
-const formSchema = z.object({
-  dailyGratefulItems: z.array(z.string()),
-});
+const formSteps = [
+  {
+    name: "STEP_1",
+    icon: <GiInternalInjury size={"3rem"} />,
+  },
+  { name: "STEP_2", icon: <GiLightningTrio size={"3.5rem"} /> },
+  { name: "STEP_3", icon: <GiAura size={"3.5rem"} /> },
+];
 
-const JournalEntryForm = ({ submitting, onSubmit }) => {
-  const form = useForm({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      dailyGratefulItems: [],
-    },
-  });
-  const [gratefulItems, setGratefulItems] = useState([]);
+const JournalEntryForm = () => {
+  const [currentStep, setCurrentStep] = useState(0);
 
-  const addGratefulItem = () => {
-    const currentValue = form.getValues("gratefulItem");
-    if (currentValue) {
-      setGratefulItems((prevItems) => [...prevItems, currentValue]);
-      form.setValue("gratefulItem", "");
+  const next = () => {
+    if (currentStep < formSteps.length - 1) {
+      setCurrentStep((step) => step + 1);
     }
   };
 
-  const handleSubmit = () => {
-    onSubmit(gratefulItems);
+  const prev = () => {
+    if (currentStep > 0) {
+      setCurrentStep((step) => step - 1);
+    }
   };
-
   return (
-    <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(handleSubmit)}
-        className="w-full flex flex-col space-y-8"
-      >
-        <FormField
-          control={form.control}
-          name="gratefulItem"
-          render={({ field }) => {
-            return (
-              <FormItem>
-                <FormLabel>Things I am grateful for...</FormLabel>
-                <FormControl>
-                  <Input
-                    className="text-base"
-                    placeholder="What are you feeling grateful for?"
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            );
-          }}
-        />
-        <Button type="button" className="1/2" onClick={addGratefulItem}>
-          Add
+    <div>
+      {/*TRACKER */}
+      <ol className="flex items-center w-full mb-4 sm:mb-5 px-12 py-6">
+        {formSteps.map((step, index) => (
+          <li
+            key={index}
+            className={`flex items-center relative after:h-0.5 ${
+              index < formSteps.length - 1
+                ? "w-full after:content-[''] after:w-full after:block"
+                : ""
+            } ${
+              index <= currentStep ? "after:bg-primary " : "after:bg-border "
+            }`}
+          >
+            <div
+              className={`w-16 h-16 border-2 flex items-center justify-center rounded-full shrink-0 ${
+                index <= currentStep
+                  ? "bg-primary text-primary-foreground border-primary"
+                  : "bg-primary-foreground text-primary"
+              }`}
+            >
+              {step.icon}
+            </div>
+          </li>
+        ))}
+      </ol>
+
+      <div className="flex justify-center items-center">
+        {currentStep === 0 && (
+          <div>
+            <h2 className="mt-18 scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight transition-colors first:mt-0">
+              Generate Willpower
+            </h2>
+          </div>
+        )}
+        {currentStep === 1 && (
+          <div>
+            <h2 className="mt-18 scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight transition-colors first:mt-0">
+              Channel Willpower
+            </h2>
+          </div>
+        )}
+        {currentStep === 2 && (
+          <div>
+            <h1 className="mt-6 text-4xl font-extrabold tracking-tight text-center">
+              Congratulations!
+            </h1>
+            <h2 className="mt-10 scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight transition-colors first:mt-0">
+              You are all Charged Up
+            </h2>
+          </div>
+        )}
+      </div>
+
+      {/* Nav */}
+      <div className="flex items-center justify-evenly w-full py-6 fixed bottom-24 left-0 border-t">
+        <Button type="button" size="sm" onClick={prev}>
+          <FaChevronLeft className="mr-1" size="0.7rem" />
+          Prev
         </Button>
-        <ul>
-          {gratefulItems.map((item, index) => (
-            <li key={index}>{item}</li> // Display the list of grateful items
-          ))}
-        </ul>
-        <div className="flex flex-col justify-center items-center">
-          <Button type="submit" disabled={submitting} className="w-1/2 mt-3">
-            Submit
-          </Button>
-          <Link href="/habits" className="w-full flex justify-center my-6">
-            <Button variant="secondary" className="w-1/2">
-              Cancel
-            </Button>
-          </Link>
-        </div>
-      </form>
-    </Form>
+
+        <Button type="button" size="sm" variant="ghost" onClick={prev}>
+          Cancel
+        </Button>
+
+        <Button type="button" size="sm" onClick={next}>
+          Next
+          <FaChevronRight className="ml-1" size="0.7rem" />
+        </Button>
+      </div>
+    </div>
   );
 };
 
