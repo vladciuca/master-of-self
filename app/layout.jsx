@@ -6,10 +6,10 @@ import Provider from "@components/Provider";
 import { ThemeProvider } from "@components/theme-provider";
 // import { Aclonica } from "next/font/google";
 // import { Silkscreen } from "next/font/google";
-// import { DotGothic16 } from "next/font/google";
-import { Poppins } from "next/font/google";
+import { DotGothic16 } from "next/font/google";
+// import { Poppins } from "next/font/google";
 
-const font = Poppins({
+const font = DotGothic16({
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
   subsets: ["latin"],
 });
