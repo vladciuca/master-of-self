@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import JournalFormResource from "./JournalFormResource";
 import JournalFormNavigation from "./JournalFormNavigation";
 import JournalChannelForm from "./JournalChannelForm";
+import JournalConcentrateForm from "./JournalConcentrateForm";
 import { Title } from "./ui/tipography";
 import { GiLightningTrio, GiInternalInjury, GiAura } from "react-icons/gi";
 
@@ -79,6 +80,7 @@ const JournalForm = () => {
             addGratefulItem={addGratefulItem}
           />
         )}
+        {currentStep === 1 && <JournalConcentrateForm />}
       </div>
     </div>
   );

@@ -14,7 +14,6 @@ const JournalChannelForm = ({ gratefulItems, addGratefulItem }) => {
 
   const handleAddItem = () => {
     if (value === "") return;
-    console.log("===", value);
 
     addGratefulItem(value);
     setValue("");
@@ -44,7 +43,7 @@ const JournalChannelForm = ({ gratefulItems, addGratefulItem }) => {
             className="mx-2"
           >
             <span className="mr-1 font-bold text-xl">+1</span>
-            <FaBoltLightning />
+            <FaBoltLightning size="1.2rem" />
           </Button>
         </div>
       </div>
