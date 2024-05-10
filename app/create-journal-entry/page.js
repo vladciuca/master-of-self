@@ -3,8 +3,7 @@
 import { useState } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-
-import JournalEntryForm from "@components/JournalEntryForm";
+import JournalForm from "@components/JournalForm";
 
 const CreateJournalEntry = () => {
   const router = useRouter();
@@ -34,7 +33,7 @@ const CreateJournalEntry = () => {
   };
 
   return (
-    <JournalEntryForm
+    <JournalForm
       //   type="Create"
       submitting={submitting}
       onSubmit={createJournalEntry}

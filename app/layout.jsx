@@ -4,6 +4,15 @@ import Footer from "@components/Footer";
 import LandingPage from "@components/LandingPage";
 import Provider from "@components/Provider";
 import { ThemeProvider } from "@components/theme-provider";
+// import { Aclonica } from "next/font/google";
+// import { Silkscreen } from "next/font/google";
+// import { DotGothic16 } from "next/font/google";
+import { Poppins } from "next/font/google";
+
+const font = Poppins({
+  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+  subsets: ["latin"],
+});
 
 export const metadata = {
   title: "Master of Self",
@@ -14,7 +23,7 @@ export const metadata = {
 const RootLayout = ({ children }) => {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className="relative">
+      <body className={`relative ${font.className}`}>
         <Provider>
           <ThemeProvider
             attribute="class"

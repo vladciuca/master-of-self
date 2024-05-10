@@ -35,7 +35,7 @@ const LandingPage = ({ children }) => {
   return (
     <section className="h-full w-full">
       {session?.user ? (
-        <main>{children}</main>
+        <main className="h-full w-full">{children}</main>
       ) : (
         <div className="h-full flex items-center justify-center">
           <GiAllSeeingEye size={"20rem"} />
