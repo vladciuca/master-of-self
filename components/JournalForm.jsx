@@ -52,8 +52,8 @@ const JournalForm = () => {
       <div class="mb-3">
         <div className="text-center mb-4">
           {currentStep === 0 && <Title text={"Channel Willpower"} />}
-          {currentStep === 1 && <Title text={"Direct Willpower"} />}
-          {currentStep === 2 && <Title text={"GG"} />}
+          {currentStep === 1 && <Title text={"Concentrate Willpower"} />}
+          {currentStep === 2 && <Title text={"GG GL HF"} />}
         </div>
         <JournalFormNavigation
           formSteps={formSteps}
