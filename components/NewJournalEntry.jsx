@@ -7,7 +7,7 @@ const NewJournalEntry = () => {
   return (
     <Card className="mb-4">
       <CardHeader>
-        <CardTitle className="flex">
+        <CardTitle className="flex tracking-wide">
           <FaSun className="mr-2" />
           New Journal Entry
         </CardTitle>

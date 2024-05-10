@@ -14,7 +14,7 @@ const NewSkill = () => {
   return (
     <Card className="mb-4">
       <CardHeader>
-        <CardTitle className="flex">
+        <CardTitle className="flex tracking-wide">
           <LuAtom className="mr-2" />
           New habit
         </CardTitle>

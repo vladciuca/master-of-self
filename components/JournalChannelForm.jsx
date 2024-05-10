@@ -43,7 +43,7 @@ const JournalChannelForm = ({ gratefulItems, addGratefulItem }) => {
             disabled={value === ""}
             className="mx-2"
           >
-            <span className="mr-1 font-bold">+1</span>
+            <span className="mr-1 font-bold text-xl">+1</span>
             <FaBoltLightning />
           </Button>
         </div>

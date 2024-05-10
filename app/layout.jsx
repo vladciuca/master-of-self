@@ -32,12 +32,12 @@ const RootLayout = ({ children }) => {
             enableSystem
             disableTransitionOnChange
           >
-            <div className="phone_container fixed sm:border-2 sm:rounded-3xl flex flex-col top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 mx-auto flex items-center justify-center w-full max-w-[450px] sm:max-h-[800px] h-screen overflow-hidden">
+            <div className="phone_container fixed sm:border-2 sm:rounded-3xl top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 mx-auto flex flex-col items-center justify-center w-full max-w-[450px] sm:max-h-[800px] h-screen overflow-hidden">
               <div className="fixed top-0 w-full h-24">
                 <Header />
               </div>
 
-              <div className="my-24 p-4 h-full w-full overflow-scroll border rounded-3xl">
+              <div className="my-24 p-2 sm:p-4 h-full w-full overflow-scroll border rounded-3xl">
                 <LandingPage children={children} />
               </div>
 
