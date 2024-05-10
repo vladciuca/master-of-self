@@ -22,7 +22,7 @@ const JournalChannelForm = ({ gratefulItems, addGratefulItem }) => {
   return (
     <>
       <div className="grid grid-rows-[1fr,auto] h-full">
-        <ol className="list-decimal overflow-y-auto w-full px-8">
+        <ol className="list-decimal overflow-y-auto w-full px-8 mt-4">
           {gratefulItems?.map((item, index) => (
             <li key={index} className="mb-3">
               <div className="overflow-x-hidden text-ellipsis">{item}</div>
