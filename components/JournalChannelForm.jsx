@@ -35,7 +35,7 @@ const JournalChannelForm = ({ gratefulItems, addGratefulItem }) => {
             value={value}
             placeholder="What are you feeling grateful for?"
             onChange={handleOnChange}
-            className="ml-2"
+            className="ml-2 text-base"
           />
           <Button
             type="button"

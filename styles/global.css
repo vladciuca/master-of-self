@@ -109,16 +109,3 @@
 .dark .loader {
   color: white;
 }
-
-.unity {
-  width: 50px;
-  aspect-ratio: 1.154;
-  position: relative;
-  background: conic-gradient(
-    from 120deg at 50% 64%,
-    transparent,
-    black 1deg 120deg,
-    transparent 121deg
-  );
-  animation: l27-0 1.5s infinite cubic-bezier(0.3, 1, 0, 1);
-}

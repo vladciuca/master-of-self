@@ -8,7 +8,7 @@ export const BigTitle = ({ text }) => {
 
 export const Title = ({ text }) => {
   return (
-    <h2 className="mt-18 scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight transition-colors first:mt-0">
+    <h2 className="mt-18 scroll-m-20 text-3xl font-semibold tracking-tight transition-colors first:mt-0">
       {text}
     </h2>
   );

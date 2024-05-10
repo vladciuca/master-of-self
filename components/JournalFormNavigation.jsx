@@ -2,11 +2,11 @@ import { RxChevronLeft, RxChevronRight } from "react-icons/rx";
 
 const JournalFormNavigation = ({ formSteps, currentStep, prev, next }) => {
   return (
-    <div className="flex items-center pb-4">
+    <div className="flex items-center">
       <button type="button" size="sm" onClick={prev}>
         <RxChevronLeft className="mr-1" size="2rem" />
       </button>
-      <ol className="flex items-center w-full px-5">
+      <ol className="flex items-center w-full">
         {formSteps.map((step, index) => (
           <li
             key={index}

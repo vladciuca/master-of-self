@@ -1,9 +1,10 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import JournalFormSteps from "./JournalFormSteps";
+import JournalFormResource from "./JournalFormResource";
 import JournalFormNavigation from "./JournalFormNavigation";
 import JournalChannelForm from "./JournalChannelForm";
+import { Title } from "./ui/tipography";
 import { GiLightningTrio, GiInternalInjury, GiAura } from "react-icons/gi";
 
 const formSteps = [
@@ -48,14 +49,12 @@ const JournalForm = () => {
 
   return (
     <div className="grid grid-rows-[auto,auto,1fr] h-full">
-      <div>
-        <JournalFormSteps
-          formSteps={formSteps}
-          currentStep={currentStep}
-          willpower={willpower}
-        />
-      </div>
-      <div class="border-b mb-2">
+      <div class="mb-3">
+        <div className="text-center mb-4">
+          {currentStep === 0 && <Title text={"Channel Willpower"} />}
+          {currentStep === 1 && <Title text={"Direct Willpower"} />}
+          {currentStep === 2 && <Title text={"GG"} />}
+        </div>
         <JournalFormNavigation
           formSteps={formSteps}
           currentStep={currentStep}
@@ -64,6 +63,14 @@ const JournalForm = () => {
           next={next}
         />
       </div>
+      <div>
+        <JournalFormResource
+          formSteps={formSteps}
+          currentStep={currentStep}
+          willpower={willpower}
+        />
+      </div>
+
       <div class="overflow-y-auto">
         {currentStep === 0 && (
           <JournalChannelForm
