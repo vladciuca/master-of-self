@@ -61,15 +61,14 @@ const JournalConcentrateForm = ({ willpower }) => {
     <div className="grid grid-rows-[1fr,auto] h-full">
       <div className="flex flex-col items-center justify-center">
         <JournalFormResource resource={remainingWillpower} />
-      </div>
-
-      <div className="overflow-y-auto w-full px-8 mt-4">
         {!habitsLoaded && (
-          <div className="w-full h-full flex justify-center items-center mt-12">
+          <div className="h-full w-full flex justify-center items-center">
             <div className="loader" />
           </div>
         )}
+      </div>
 
+      <div className="overflow-y-auto w-full px-8 mt-4">
         {habitsLoaded && (
           <div>
             {habits?.map((habit) => {
