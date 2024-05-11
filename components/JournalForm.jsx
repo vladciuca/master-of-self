@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import JournalFormResource from "./JournalFormResource";
 import JournalFormNavigation from "./JournalFormNavigation";
 import JournalChannelForm from "./JournalChannelForm";
 import JournalConcentrateForm from "./JournalConcentrateForm";
@@ -49,7 +48,7 @@ const JournalForm = () => {
   }, [gratefulItems]);
 
   return (
-    <div className="grid grid-rows-[auto,auto,1fr] h-full">
+    <div className="grid grid-rows-[auto,1fr] h-full">
       <div class="mb-3">
         <div className="text-center mb-4">
           {currentStep === 0 && <Title text={"Channel Willpower"} />}
@@ -64,13 +63,6 @@ const JournalForm = () => {
           next={next}
         />
       </div>
-      <div>
-        <JournalFormResource
-          formSteps={formSteps}
-          currentStep={currentStep}
-          willpower={willpower}
-        />
-      </div>
 
       <div class="overflow-y-auto">
         {currentStep === 0 && (
@@ -80,7 +72,7 @@ const JournalForm = () => {
             addGratefulItem={addGratefulItem}
           />
         )}
-        {currentStep === 1 && <JournalConcentrateForm />}
+        {currentStep === 1 && <JournalConcentrateForm willpower={willpower} />}
       </div>
     </div>
   );
