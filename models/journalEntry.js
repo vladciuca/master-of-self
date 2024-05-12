@@ -5,9 +5,17 @@ const JournalEntrySchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "User",
   },
+  createDate: {
+    type: Date,
+    default: Date.now,
+  },
   gratefulItems: {
     type: Array,
     required: [true, "Must be grateful for at least one thing"],
+  },
+  habitWillpower: {
+    type: Object,
+    default: {},
   },
 });
 

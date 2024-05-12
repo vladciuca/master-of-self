@@ -69,9 +69,8 @@ const JournalForm = ({ session, submitting, onSubmit }) => {
   };
 
   const handleSubmit = () => {
-    console.log("===VAL IN SUBMIT FORM", gratefulItems);
     //dont submit if gratefulItems/length <= 0
-    onSubmit(gratefulItems);
+    onSubmit(gratefulItems, habitWillpower);
   };
 
   return (

@@ -1,5 +1,5 @@
-import NewJournalEntry from "@components/NewJournalEntry";
 import UserJournal from "@components/UserJournal";
+import NewJournalEntry from "@components/NewJournalEntry";
 
 const Journal = () => {
   return (

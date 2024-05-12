@@ -1,5 +1,15 @@
 import Link from "next/link";
-import { Target, Atom, NotepadText } from "lucide-react";
+import {
+  Target,
+  Atom,
+  Orbit,
+  NotepadText,
+  NotebookPen,
+  NotebookText,
+  BookMarked,
+  Notebook,
+  Album,
+} from "lucide-react";
 import { Button } from "@components/ui/button";
 
 const JournalNav = () => {
@@ -20,7 +30,7 @@ const JournalNav = () => {
           variant="ghost"
           className="flex flex-col items-center hover: rounded-full h-16 px-10"
         >
-          <NotepadText size={"2.4rem"} />
+          <NotebookText size={"2.4rem"} />
           {/* <div className="text-xs mt-2">00:00</div> */}
         </Button>
       </Link>

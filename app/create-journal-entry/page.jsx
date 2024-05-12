@@ -10,8 +10,7 @@ const CreateJournalEntry = () => {
   const { data: session } = useSession();
   const [submitting, setSubmitting] = useState(false);
 
-  const createJournalEntry = async (value) => {
-    console.log("===VAL IN SUBMIT ASYNC TO DB", value);
+  const createJournalEntry = async (gratefulItems, habitWillpower) => {
     setSubmitting(true);
 
     try {
@@ -19,7 +18,8 @@ const CreateJournalEntry = () => {
         method: "POST",
         body: JSON.stringify({
           userId: session?.user.id,
-          gratefulItems: value,
+          gratefulItems: gratefulItems,
+          habitWillpower: habitWillpower,
         }),
       });
 

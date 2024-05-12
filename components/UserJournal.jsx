@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
-import JournalEntryCard from "./JournalEntryCard";
+import JournalEntryList from "./JournalEntryList";
 
 const UserJournal = () => {
   const { data: session } = useSession();
@@ -30,13 +30,22 @@ const UserJournal = () => {
     }
   }, [session]);
 
-  useEffect(() => {
-    console.log("===journalEntries", journalEntries);
-  }, [journalEntries]);
+  // useEffect(() => {
+  //   console.log("===journalEntries", journalEntries);
+  // }, [journalEntries]);
 
   return (
     <div>
-      <JournalEntryCard journalEntries={journalEntries} />
+      {!journalEntriesLoaded && (
+        <div className="w-full h-full flex flex-grow justify-center items-center mt-20">
+          <div className="loader" />
+        </div>
+      )}
+      {journalEntriesLoaded && (
+        <div>
+          <JournalEntryList journalEntries={journalEntries} />
+        </div>
+      )}
     </div>
   );
 };
