@@ -84,7 +84,7 @@ const JournalForm = ({ session, submitting, onSubmit, updateHabit }) => {
         <div className="text-center mb-4">
           {currentStep === 0 && <Title text={"Channel Willpower"} />}
           {currentStep === 1 && <Title text={"Concentrate Willpower"} />}
-          {currentStep === 2 && <Title text={"GG GL HF"} />}
+          {currentStep === 2 && <Title text={"GL HF"} />}
         </div>
         <JournalFormNavigation
           formSteps={formSteps}
