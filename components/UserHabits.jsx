@@ -38,7 +38,7 @@ const Habits = () => {
       } catch (error) {
         console.error("Failed to fetch habits", error);
       } finally {
-        setHabitsLoaded(true); // After data is loaded, show the actual cards
+        setHabitsLoaded(true);
       }
     };
 

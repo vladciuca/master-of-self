@@ -26,7 +26,7 @@ const JournalFormSummary = ({
             </div>
           );
         })}
-        <ol className="list-decimal mx-4 my-6">
+        <ol className="list-decimal mx-12 md:mx-6 my-6">
           {gratefulItems?.map((item, index) => (
             <li key={index}>{item}</li>
           ))}

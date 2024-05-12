@@ -1,6 +1,5 @@
 import Link from "next/link";
-import { LuTarget, LuAtom } from "react-icons/lu";
-import { FaSun, FaMoon } from "react-icons/fa6";
+import { Target, Atom, NotepadText } from "lucide-react";
 import { Button } from "@components/ui/button";
 
 const JournalNav = () => {
@@ -11,7 +10,7 @@ const JournalNav = () => {
           variant="ghost"
           className="flex flex-col items-center hover: rounded-full h-16 px-10"
         >
-          <LuTarget size={"2.4rem"} />
+          <Target size={"2.4rem"} />
           {/* <div className="text-xs mt-2">Powers</div> */}
         </Button>
       </Link>
@@ -21,7 +20,7 @@ const JournalNav = () => {
           variant="ghost"
           className="flex flex-col items-center hover: rounded-full h-16 px-10"
         >
-          <FaSun size={"2.4rem"} />
+          <NotepadText size={"2.4rem"} />
           {/* <div className="text-xs mt-2">00:00</div> */}
         </Button>
       </Link>
@@ -31,7 +30,7 @@ const JournalNav = () => {
           variant="ghost"
           className="flex flex-col items-center hover: rounded-full h-16 px-10"
         >
-          <LuAtom size={"2.4rem"} />
+          <Atom size={"2.4rem"} />
           {/* <div className="text-xs mt-2">Habits</div> */}
         </Button>
       </Link>
