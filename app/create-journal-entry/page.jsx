@@ -33,12 +33,37 @@ const CreateJournalEntry = () => {
     }
   };
 
+  const updateHabitResource = async (value) => {
+    const { habitId, resource } = value;
+
+    setSubmitting(true);
+
+    if (!habitId) return alert("Habit ID not found");
+
+    try {
+      const response = await fetch(`/api/habit/${habitId}/resource`, {
+        method: "PATCH",
+        body: JSON.stringify({
+          resource: resource,
+        }),
+      });
+
+      // if (response.ok) {
+      // }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
   return (
     <JournalForm
       //   type="Create"
       session={session}
       submitting={submitting}
       onSubmit={createJournalEntry}
+      updateHabit={updateHabitResource}
     />
   );
 };

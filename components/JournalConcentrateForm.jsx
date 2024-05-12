@@ -53,7 +53,10 @@ const JournalConcentrateForm = ({
               const { _id, name, icon } = habit;
 
               return (
-                <div className="flex items-center justify-center space-x-2 my-8 mx-6 sm:mx-8">
+                <div
+                  key={_id}
+                  className="flex items-center justify-center space-x-2 my-8 mx-6 sm:mx-8"
+                >
                   <Button
                     variant="outline"
                     size="icon"

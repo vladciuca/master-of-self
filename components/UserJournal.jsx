@@ -30,10 +30,6 @@ const UserJournal = () => {
     }
   }, [session]);
 
-  // useEffect(() => {
-  //   console.log("===journalEntries", journalEntries);
-  // }, [journalEntries]);
-
   return (
     <div>
       {!journalEntriesLoaded && (

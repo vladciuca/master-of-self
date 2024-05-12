@@ -23,7 +23,7 @@ const formSteps = [
   },
 ];
 
-const JournalForm = ({ session, submitting, onSubmit }) => {
+const JournalForm = ({ session, submitting, onSubmit, updateHabit }) => {
   const [currentStep, setCurrentStep] = useState(0);
   // list of grateful items
   const [gratefulItems, setGratefulItems] = useState([]);
@@ -68,9 +68,14 @@ const JournalForm = ({ session, submitting, onSubmit }) => {
     setGratefulItems((prevItems) => [...prevItems, item]);
   };
 
-  const handleSubmit = () => {
-    //dont submit if gratefulItems/length <= 0
+  const handleSubmit = async () => {
+    if (gratefulItems.length <= 0) return;
     onSubmit(gratefulItems, habitWillpower);
+
+    for (const habitId in habitWillpower) {
+      const resource = habitWillpower[habitId];
+      await updateHabit({ habitId, resource });
+    }
   };
 
   return (

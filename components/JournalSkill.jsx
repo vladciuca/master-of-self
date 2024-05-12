@@ -7,7 +7,7 @@ import { FaBoltLightning } from "react-icons/fa6";
 
 init({ data });
 
-const JournalSkill = ({ habitWillpower }) => {
+const JournalSkill = ({ habitWillpower = {} }) => {
   const [habitDetails, setHabitDetails] = useState({});
   const habitIdList = Object.keys(habitWillpower);
 
@@ -15,7 +15,7 @@ const JournalSkill = ({ habitWillpower }) => {
     try {
       const response = await fetch(`api/habit/${id}`);
       const habitData = await response.json();
-      console.log("===DATA_HABIT", habitData);
+
       setHabitDetails((prevDetails) => ({
         ...prevDetails,
         [id]: habitData.icon,
@@ -31,8 +31,6 @@ const JournalSkill = ({ habitWillpower }) => {
       getHabitDetails(id);
     });
   }, []);
-
-  console.log("habitDetails:", habitDetails);
 
   return (
     <div className="flex items-center space-x-4">
