@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useSession } from "next-auth/react";
 import JournalFormNavigation from "./JournalFormNavigation";
 import JournalChannelForm from "./JournalChannelForm";
 import JournalConcentrateForm from "./JournalConcentrateForm";
@@ -24,12 +23,11 @@ const formSteps = [
   },
 ];
 
-const JournalForm = () => {
+const JournalForm = ({ session, submitting, onSubmit }) => {
   const [currentStep, setCurrentStep] = useState(0);
   // list of grateful items
   const [gratefulItems, setGratefulItems] = useState([]);
   // list of habits
-  const { data: session } = useSession();
   const [habits, setHabits] = useState([]);
   const [habitsLoaded, setHabitsLoaded] = useState(false);
   // list of willpower into skills
@@ -70,6 +68,12 @@ const JournalForm = () => {
     setGratefulItems((prevItems) => [...prevItems, item]);
   };
 
+  const handleSubmit = () => {
+    console.log("===VAL IN SUBMIT FORM", gratefulItems);
+    //dont submit if gratefulItems/length <= 0
+    onSubmit(gratefulItems);
+  };
+
   return (
     <div className="grid grid-rows-[auto,1fr] h-full">
       <div class="mb-3">
@@ -105,11 +109,15 @@ const JournalForm = () => {
           />
         )}
         {currentStep === 2 && (
-          <JournalFormSummary
-            gratefulItems={gratefulItems}
-            habits={habits}
-            habitWillpower={habitWillpower}
-          />
+          <>
+            <JournalFormSummary
+              gratefulItems={gratefulItems}
+              habits={habits}
+              habitWillpower={habitWillpower}
+              submitting={submitting}
+              handleSubmit={handleSubmit}
+            />
+          </>
         )}
       </div>
     </div>

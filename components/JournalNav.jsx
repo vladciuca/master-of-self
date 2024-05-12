@@ -21,7 +21,7 @@ const JournalNav = () => {
           variant="ghost"
           className="flex flex-col items-center hover: rounded-full h-16 px-10"
         >
-          <FaMoon size={"2.4rem"} />
+          <FaSun size={"2.4rem"} />
           {/* <div className="text-xs mt-2">00:00</div> */}
         </Button>
       </Link>

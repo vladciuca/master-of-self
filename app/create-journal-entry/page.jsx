@@ -11,6 +11,7 @@ const CreateJournalEntry = () => {
   const [submitting, setSubmitting] = useState(false);
 
   const createJournalEntry = async (value) => {
+    console.log("===VAL IN SUBMIT ASYNC TO DB", value);
     setSubmitting(true);
 
     try {
@@ -35,6 +36,7 @@ const CreateJournalEntry = () => {
   return (
     <JournalForm
       //   type="Create"
+      session={session}
       submitting={submitting}
       onSubmit={createJournalEntry}
     />

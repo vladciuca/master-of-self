@@ -5,7 +5,13 @@ import { FaBoltLightning } from "react-icons/fa6";
 
 init({ data });
 
-const JournalFormSummary = ({ gratefulItems, habits, habitWillpower }) => {
+const JournalFormSummary = ({
+  gratefulItems,
+  habits,
+  habitWillpower,
+  submitting,
+  handleSubmit,
+}) => {
   return (
     <div className="h-full flex flex-col">
       <div className="flex-grow overflow-y-auto">
@@ -27,7 +33,12 @@ const JournalFormSummary = ({ gratefulItems, habits, habitWillpower }) => {
         </ol>
       </div>
       <div className="flex justify-center items-center py-2">
-        <Button type="button" className="w-2/3">
+        <Button
+          type="button"
+          disabled={submitting}
+          className="w-2/3"
+          onClick={handleSubmit}
+        >
           Submit
         </Button>
       </div>
