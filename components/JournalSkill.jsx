@@ -9,10 +9,13 @@ init({ data });
 
 const JournalSkill = ({ habitWillpower = {} }) => {
   const [habitDetails, setHabitDetails] = useState({});
+  const [loading, setLoading] = useState({});
+
   const habitIdList = Object.keys(habitWillpower);
 
   const getHabitDetails = async (id) => {
     try {
+      setLoading((prevLoading) => ({ ...prevLoading, [id]: true }));
       const response = await fetch(`api/habit/${id}`);
       const habitData = await response.json();
 
@@ -22,6 +25,8 @@ const JournalSkill = ({ habitWillpower = {} }) => {
       }));
     } catch (error) {
       console.error("Error fetching habit details:", error);
+    } finally {
+      setLoading((prevLoading) => ({ ...prevLoading, [id]: false }));
     }
   };
 
@@ -37,11 +42,19 @@ const JournalSkill = ({ habitWillpower = {} }) => {
       {Object.entries(habitWillpower).map(([id, willpower]) => {
         if (!id || !habitDetails[id]) return null;
         return (
-          <div className="flex items-center">
-            <em-emoji key={id} id={habitDetails[id]} size="2rem" />
-            <span className="ml-1 text-lg flex items-center">
-              + {willpower} <FaBoltLightning size="0.8rem" />
-            </span>
+          <div className="flex items-center" key={id}>
+            {loading[id] ? (
+              <div className="w-full h-full flex justify-center items-center">
+                <div className="loader" />
+              </div>
+            ) : (
+              <>
+                <em-emoji id={habitDetails[id]} size="2rem" />
+                <span className="ml-1 text-lg flex items-center">
+                  + {willpower} <FaBoltLightning size="0.8rem" />
+                </span>
+              </>
+            )}
           </div>
         );
       })}
