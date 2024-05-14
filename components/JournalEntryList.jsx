@@ -10,7 +10,7 @@ import { FaSun } from "react-icons/fa";
 
 const JournalEntryList = ({ journalEntries }) => {
   return (
-    <Accordion>
+    <Accordion className="pb-1">
       {journalEntries.map((item) => {
         const { _id, createDate, gratefulItems, habitWillpower } = item;
         const date = new Date(createDate);
