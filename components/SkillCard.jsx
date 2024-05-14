@@ -17,7 +17,7 @@ init({ data });
 
 const SkillCard = ({ habit, handleEdit, handleDelete }) => {
   const {
-    _id,
+    _id = "",
     name = "",
     icon = "",
     description = "",
@@ -43,42 +43,31 @@ const SkillCard = ({ habit, handleEdit, handleDelete }) => {
           <SkillLevel xp={resource} />
           <div className="flex items-center justify-start mt-4">
             {categories?.map((cat) => {
-              if (cat === "mind") {
-                return (
-                  <div className="h-7 w-7 bg-primary rounded-full flex items-center justify-center">
+              return (
+                <div
+                  key={cat}
+                  className="h-7 w-7 bg-primary rounded-full flex items-center justify-center"
+                >
+                  {cat === "mind" && (
                     <FaBrain
                       className="text-primary-foreground"
                       size={"1.3rem"}
                     />
-                  </div>
-                );
-              }
-              if (cat === "body") {
-                return (
-                  <div className="flex items-center">
-                    <div className="h-7 w-7 bg-primary rounded-full flex items-center justify-center">
-                      <FaHandFist
-                        className="text-primary-foreground"
-                        size={"1.3rem"}
-                      />
-                    </div>
-                    <div className="ml-2 h-7 flex items-center">+ 20</div>
-                  </div>
-                );
-              }
-              if (cat === "spirit") {
-                return (
-                  <div className="h-7 w-7 bg-primary rounded-full flex items-center justify-center">
+                  )}
+                  {cat === "body" && (
+                    <FaHandFist
+                      className="text-primary-foreground"
+                      size={"1.3rem"}
+                    />
+                  )}
+                  {cat === "spirit" && (
                     <FaHeart
                       className="text-primary-foreground"
                       size={"1.3rem"}
                     />
-                  </div>
-                );
-              }
-
-              if (cat === "body") return <FaHandFist />;
-              if (cat === "spirit") return <FaHeart />;
+                  )}
+                </div>
+              );
             })}
           </div>
         </div>

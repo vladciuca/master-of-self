@@ -20,7 +20,7 @@ const JournalEntryList = ({ journalEntries }) => {
         }/${date.getFullYear()}`;
 
         return (
-          <AccordionItem value={_id} className="pb-0">
+          <AccordionItem key={_id} value={_id} className="pb-0">
             <AccordionTrigger>
               <div className="flex flex-col w-full">
                 <div className="flex items-center justify-between mb-4">
