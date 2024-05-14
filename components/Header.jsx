@@ -7,7 +7,7 @@ const Header = () => {
   const { data: session } = useSession();
 
   return (
-    <div className="sticky top-0 w-full z-50 h-24">
+    <div className="sticky top-0 w-full z-50 h-20">
       {session?.user ? (
         <Profile session={session} />
       ) : (
