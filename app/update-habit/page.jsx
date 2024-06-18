@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import SkillForm from "@components/SkillForm";
-import SkeletonForm from "@components/SkeletonForm";
+import SkillForm from "@/components/SkillForm";
+import SkeletonForm from "@/components/SkeletonForm";
 
 const EditHabit = () => {
   const router = useRouter();

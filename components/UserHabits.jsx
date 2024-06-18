@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import SkillCard from "./SkillCard";
-import NewHabit from "@components/NewSkill";
+import NewHabit from "@/components/NewSkill";
 import { Accordion } from "@/components/ui/accordion";
 
 const SkillList = ({ habits, handleEdit, handleDelete }) => {
