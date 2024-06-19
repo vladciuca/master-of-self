@@ -1,6 +1,6 @@
 "use client";
 
-import JournalNav from "@components/JournalNav";
+import JournalNav from "@/components/JournalNav";
 import { useState, useEffect } from "react";
 import { signIn, useSession, getProviders } from "next-auth/react";
 import { Button } from "./ui/button";

@@ -1,9 +1,9 @@
-import "@styles/global.css";
-import Header from "@components/Header";
-import Footer from "@components/Footer";
-import LandingPage from "@components/LandingPage";
-import Provider from "@components/Provider";
-import { ThemeProvider } from "@components/theme-provider";
+import "@/styles/global.css";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
+import LandingPage from "@/components/LandingPage";
+import Provider from "@/components/Provider";
+import { ThemeProvider } from "@/components/theme-provider";
 // import { Aclonica } from "next/font/google";
 // import { Silkscreen } from "next/font/google";
 // import { DotGothic16 } from "next/font/google";

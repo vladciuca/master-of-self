@@ -4,13 +4,13 @@ import { useSession } from "next-auth/react";
 import { usePathname } from "next/navigation";
 import data from "@emoji-mart/data";
 import { init } from "emoji-mart";
-import SkillLevel from "@components/SkillLevel";
+import SkillLevel from "@/components/SkillLevel";
 import {
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { Button } from "@components/ui/button";
+import { Button } from "@/components/ui/button";
 import { FaHandFist, FaBrain, FaHeart } from "react-icons/fa6";
 
 init({ data });

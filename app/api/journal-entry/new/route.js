@@ -1,5 +1,5 @@
-import { connectToDB } from "@utils/database";
-import JournalEntry from "@models/journalEntry";
+import { connectToDB } from "@/utils/database";
+import JournalEntry from "@/models/journalEntry";
 
 export const POST = async (req, res) => {
   const { userId, createDate, gratefulItems, habitWillpower } =
