@@ -1,6 +1,6 @@
 "use client";
 
-import Profile from "@/components/Profile";
+import Profile from "@components/Profile";
 import { useSession } from "next-auth/react";
 
 const Header = () => {

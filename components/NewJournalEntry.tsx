@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Card, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardFooter, CardHeader, CardTitle } from "@components/ui/card";
 import { Button } from "./ui/button";
 import { FaSun } from "react-icons/fa";
 

@@ -3,14 +3,31 @@
 import { useState } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import JournalForm from "@/components/JournalForm";
+import JournalForm from "@components/JournalForm";
+
+// Define the types for user and session
+interface User {
+  id: string;
+  name?: string;
+  email?: string;
+  // Add other properties you expect in the user object
+}
+
+interface Session {
+  user: User;
+  // Add other properties you expect in the session object
+}
 
 const CreateJournalEntry = () => {
   const router = useRouter();
-  const { data: session } = useSession();
+  const { data: session } = useSession() as { data: Session | null };
   const [submitting, setSubmitting] = useState(false);
 
-  const createJournalEntry = async (gratefulItems, habitWillpower) => {
+  const createJournalEntry = async (
+    gratefulItems: any,
+    habitWillpower: any
+  ) => {
+    console.log("===", gratefulItems, habitWillpower);
     setSubmitting(true);
 
     try {
@@ -33,7 +50,7 @@ const CreateJournalEntry = () => {
     }
   };
 
-  const updateHabitResource = async (value) => {
+  const updateHabitResource = async (value: any) => {
     const { habitId, resource } = value;
 
     setSubmitting(true);

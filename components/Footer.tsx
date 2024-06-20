@@ -1,17 +1,17 @@
 "use client";
 
-import JournalNav from "@/components/JournalNav";
+import JournalNav from "@components/JournalNav";
 import { useState, useEffect } from "react";
 import { signIn, useSession, getProviders } from "next-auth/react";
 import { Button } from "./ui/button";
 
 const Footer = () => {
   const { data: session, status } = useSession();
-  const [providers, setProviders] = useState(null);
+  const [providers, setProviders] = useState<any>(null);
 
   useEffect(() => {
     const setUpProviders = async () => {
-      const response = await getProviders();
+      const response: any = await getProviders();
       setProviders(response);
     };
 
@@ -32,7 +32,7 @@ const Footer = () => {
         <JournalNav />
       ) : (
         providers &&
-        Object.values(providers).map((provider) => (
+        Object.values(providers).map((provider: any) => (
           <Button
             className="w-1/2"
             type="button"

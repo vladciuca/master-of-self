@@ -11,7 +11,7 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
+} from "@components/ui/form";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import { Textarea } from "./ui/textarea";
@@ -21,8 +21,8 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import IconPicker from "@/components/IconPicker";
+} from "@components/ui/select";
+import IconPicker from "@components/IconPicker";
 
 const formSchema = z.object({
   skillName: z.string().min(3),

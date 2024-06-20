@@ -1,5 +1,5 @@
-import { connectToDB } from "@/utils/database";
-import Habit from "@/models/habit";
+import { connectToDB } from "@utils/database";
+import Habit from "@models/habit";
 
 export const PATCH = async (req, { params }) => {
   const { resource: newResourceValue } = await req.json();

@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
-import SkillForm from "@/components/SkillForm";
+import SkillForm from "@components/SkillForm";
 
 const CreateHabit = () => {
   const router = useRouter();

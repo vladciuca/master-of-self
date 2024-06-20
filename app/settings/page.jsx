@@ -1,8 +1,8 @@
 "use client";
 
 import { signOut } from "next-auth/react";
-import { Button } from "@/components/ui/button";
-import { ModeToggle } from "@/components/ui/toggle-mode";
+import { Button } from "@components/ui/button";
+import { ModeToggle } from "@components/ui/toggle-mode";
 
 const Settings = () => {
   const handleSignOut = () => {

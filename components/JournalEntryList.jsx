@@ -4,7 +4,7 @@ import {
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from "@/components/ui/accordion";
+} from "@components/ui/accordion";
 import { Info } from "./ui/tipography";
 import { FaSun } from "react-icons/fa";
 

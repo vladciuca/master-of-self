@@ -5,7 +5,7 @@ import { useTheme } from "next-themes";
 import data from "@emoji-mart/data";
 import { init } from "emoji-mart";
 import Picker from "@emoji-mart/react";
-import { Button } from "@/components/ui/button";
+import { Button } from "@components/ui/button";
 
 init({ data });
 

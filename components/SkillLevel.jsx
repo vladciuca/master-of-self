@@ -1,6 +1,6 @@
 "use client";
 
-import { Progress } from "@/components/ui/progress";
+import { Progress } from "@components/ui/progress";
 import { FaBoltLightning } from "react-icons/fa6";
 
 function xpForLevel(level) {
