@@ -20,7 +20,7 @@ const JournalFormSummary = ({
 
           return (
             <div key={key} className="flex items-center justify-center">
-              <em-emoji id={habit.icon} size="3rem" />
+              <em-emoji shortcodes={habit.icon} size="3rem" />
               <span className="mx-3 text-3xl">+{value}</span>
               <FaBoltLightning size="1.7rem" />
             </div>

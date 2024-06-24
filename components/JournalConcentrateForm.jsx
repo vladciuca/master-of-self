@@ -74,7 +74,7 @@ const JournalConcentrateForm = ({
                     </div>
                     <div className="text-2xl font-bold tracking-wide">
                       <span className="mr-2">
-                        <em-emoji id={icon} size="1.8rem" />
+                        <em-emoji shortcodes={icon} size="1.8rem" />
                       </span>
                       {name}
                     </div>

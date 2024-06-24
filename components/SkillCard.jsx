@@ -34,7 +34,7 @@ const SkillCard = ({ habit, handleEdit, handleDelete }) => {
         <div className="w-full">
           <div className="flex items-center justify-start mb-2">
             <div className="mr-3">
-              <em-emoji id={icon} size="2.2rem" />
+              <em-emoji shortcodes={icon} size="2.2rem" />
             </div>
             <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight">
               {name}
