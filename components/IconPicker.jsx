@@ -43,7 +43,7 @@ const IconPicker = ({ onIconSelect, skillIcon }) => {
         </div>
       </Button>
       {isPickerVisible && (
-        <div className="absolute">
+        <div className={`picker-${theme} absolute`}>
           <Picker
             data={data}
             onEmojiSelect={handleIconSelect}

@@ -109,3 +109,13 @@
 .dark .loader {
   color: white;
 }
+
+/* Emoji Mart Picker Overwrites */
+
+.picker-light > div > em-emoji-picker {
+  --rgb-accent: 0, 0, 0;
+}
+
+.picker-dark > div > em-emoji-picker {
+  --rgb-accent: 255, 255, 255;
+}
