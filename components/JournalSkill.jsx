@@ -52,7 +52,7 @@ const JournalSkill = ({ habitWillpower = {} }) => {
               </div>
             ) : ( */}
             <div key={id} className="flex items-center">
-              <em-emoji id={habitDetails[id]} size="2rem" />
+              <em-emoji shortcodes={habitDetails[id]} size="2rem" />
               <span className="ml-1 text-lg flex items-center">
                 + {willpower} <FaBoltLightning size="0.8rem" />
               </span>

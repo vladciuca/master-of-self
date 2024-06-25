@@ -10,14 +10,14 @@ import { Button } from "@components/ui/button";
 init({ data });
 
 const IconPicker = ({ onIconSelect, skillIcon }) => {
-  const defaultIcon = skillIcon ? skillIcon : "heavy_plus_sign";
+  const defaultIcon = skillIcon ? skillIcon : ":heavy_plus_sign:";
   const { theme } = useTheme();
   const [isPickerVisible, setIsPickerVisible] = useState(false);
   const [currentIcon, setCurrentIcon] = useState(defaultIcon);
 
   const handleIconSelect = (e) => {
-    setCurrentIcon(e.id);
-    onIconSelect(e.id);
+    setCurrentIcon(e.shortcodes);
+    onIconSelect(e.shortcodes);
     setIsPickerVisible(false);
   };
 
@@ -36,14 +36,14 @@ const IconPicker = ({ onIconSelect, skillIcon }) => {
           }}
         >
           <em-emoji
-            id={currentIcon}
+            shortcodes={currentIcon}
             size="2.2rem"
             style={{ verticalAlign: "middle" }}
           />
         </div>
       </Button>
       {isPickerVisible && (
-        <div className="absolute">
+        <div className={`picker-${theme} absolute`}>
           <Picker
             data={data}
             onEmojiSelect={handleIconSelect}
