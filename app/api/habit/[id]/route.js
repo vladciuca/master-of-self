@@ -49,6 +49,7 @@ export const DELETE = async (req, { params }) => {
 
     new Response("Habit was deleted successfully", { status: 200 });
   } catch (error) {
+    console.log(error);
     new Response("Failed to delete habit", { status: 500 });
   }
 };

@@ -1,9 +1,20 @@
-import { Schema, model, models } from "mongoose";
+import { Schema, model, models, Document, Model } from "mongoose";
 
-const UserSchema = new Schema({
+interface IUser extends Document {
+  email: string;
+  username: string;
+  image?: string; // Optional field
+  // TODO: remove after flow redesign
+  stats: {
+    mind: number;
+    body: number;
+    spirit: number;
+  };
+}
+const UserSchema = new Schema<IUser>({
   email: {
     type: String,
-    unique: [true, "Email already exists!"],
+    unique: true,
     required: [true, "Email is required"],
   },
   username: {
@@ -33,6 +44,6 @@ const UserSchema = new Schema({
   },
 });
 
-const User = models.User || model("User", UserSchema);
+const User: Model<IUser> = models.User || model<IUser>("User", UserSchema);
 
 export default User;
