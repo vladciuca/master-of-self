@@ -80,7 +80,7 @@ const JournalForm = ({ session, submitting, onSubmit, updateHabit }) => {
 
   return (
     <div className="grid grid-rows-[auto,1fr] h-full">
-      <div class="mb-3">
+      <div className="mb-3">
         <div className="text-center mb-4">
           {currentStep === 0 && <Title text={"Channel Willpower"} />}
           {currentStep === 1 && <Title text={"Concentrate Willpower"} />}
@@ -95,7 +95,7 @@ const JournalForm = ({ session, submitting, onSubmit, updateHabit }) => {
         />
       </div>
 
-      <div class="overflow-y-auto">
+      <div className="overflow-y-auto">
         {currentStep === 0 && (
           <JournalChannelForm
             gratefulItems={gratefulItems}
