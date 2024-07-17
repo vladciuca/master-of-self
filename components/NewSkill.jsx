@@ -8,14 +8,14 @@ import {
   CardTitle,
 } from "@components/ui/card";
 import { Button } from "./ui/button";
-import { Atom } from "lucide-react";
+import { Target } from "lucide-react";
 
 const NewSkill = () => {
   return (
     <Card className="mb-4">
       <CardHeader>
         <CardTitle className="flex tracking-wide">
-          <Atom className="mr-2" />
+          <Target className="mr-2" />
           New habit
         </CardTitle>
         {/* <CardDescription>Card Description</CardDescription> */}
