@@ -11,10 +11,10 @@ const TextAreaList: React.FC = () => {
   const [focusedLine, setFocusedLine] = useState<number>(1);
   const textAreaRef = useRef<HTMLTextAreaElement | null>(null);
 
-  // useEffect(() => {
-  //   const newText = updateNumbering(text);
-  //   setText(newText);
-  // }, [text]);
+  useEffect(() => {
+    const newText = updateNumbering(text);
+    setText(newText);
+  }, [text]);
 
   const handleSelectionChange = () => {
     if (textAreaRef.current) {

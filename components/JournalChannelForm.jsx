@@ -5,7 +5,7 @@ import JournalFormResource from "./JournalFormResource";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import { FaBoltLightning } from "react-icons/fa6";
-import TextAreaList from "./TextAreaList";
+import TextAreaList from "./TextAreaList2";
 
 const JournalChannelForm = ({ gratefulItems, addGratefulItem }) => {
   const [value, setValue] = useState("");
