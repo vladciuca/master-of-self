@@ -1,94 +1,89 @@
-import React, {
-  useState,
-  useRef,
-  useEffect,
-  ChangeEvent,
-  KeyboardEvent,
-} from "react";
+import React, { useState, useRef, useEffect, KeyboardEvent, useCallback } from "react";
 
 const TextAreaList: React.FC = () => {
-  const [text, setText] = useState<string>("1. ");
-  const [focusedLine, setFocusedLine] = useState<number>(1);
-  const textAreaRef = useRef<HTMLTextAreaElement | null>(null);
+  const [textRows, setTextRows] = useState<string[]>([""]);
+  const [focusedRow, setFocusedRow] = useState<number>(0);
+  const itemRefs = useRef<(HTMLLIElement | null)[]>([]);
 
   useEffect(() => {
-    const newText = updateNumbering(text);
-    setText(newText);
-  }, [text]);
+    itemRefs.current = itemRefs.current.slice(0, textRows.length);
+  }, [textRows]);
 
-  const handleSelectionChange = () => {
-    if (textAreaRef.current) {
-      const textarea = textAreaRef.current;
-      const cursorPosition = textarea.selectionStart;
-      const textBeforeCursor = textarea.value.substring(0, cursorPosition);
-      const lineNumber = textBeforeCursor.split("\n").length;
-      setFocusedLine(lineNumber);
+  const handleKeyDown = (event: KeyboardEvent<HTMLOListElement>) => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      const newIndex = focusedRow + 1;
+      setTextRows((prev) => [
+        ...prev.slice(0, newIndex),
+        "",
+        ...prev.slice(newIndex),
+      ]);
+      setFocusedRow(newIndex);
+
+      setTimeout(() => {
+        itemRefs.current[newIndex]?.focus();
+      }, 0);
     }
-  };
+    if (event.key === "Backspace") {
+      const currentLi = itemRefs.current[focusedRow];
+      if (currentLi?.textContent === "" && textRows.length > 1) {
+        event.preventDefault();
+        const newIndex = Math.max(0, focusedRow - 1);
+        setTextRows((prev) => prev.filter((_, index) => index !== focusedRow));
+        setFocusedRow(newIndex);
 
-  const updateNumbering = (value: string): string => {
-    const lines = value.split("\n");
-    return lines
-      .map((line, index) => {
-        const trimmedLine = line.trim();
-        if (
-          trimmedLine === "" ||
-          (trimmedLine === `${index + 1}.` && index === focusedLine - 1)
-        ) {
-          return "";
-        }
-        const lineContent = line.replace(/^\d+\.\s*/, "");
-        return `${index + 1}. ${lineContent}`;
-      })
-      .filter((line) => line !== "")
-      .join("\n");
-  };
-
-  const handleKeyDown = (e: KeyboardEvent<HTMLTextAreaElement>) => {
-    const lines = text.split("\n");
-    const lastLineNumber = lines.length;
-    if (e.key === "Enter") {
-      e.preventDefault();
-      if (lines[lastLineNumber - 1] == "" && lastLineNumber <= 1) {
-        lines[0] = "1. ";
-        lines[1] = "2. ";
-        const linesToText = lines.join("\n");
-        setText(linesToText);
-        return;
-      }
-      lines.splice(focusedLine, 0, `${focusedLine + 1}. `);
-      const linesToText = updateNumbering(lines.join("\n"));
-
-      setText(linesToText);
-    }
-    if (e.key === "Backspace") {
-      if (lines[focusedLine - 1] === `${focusedLine}. `) {
-        lines.splice(focusedLine - 1, 1);
-        const linesToText = updateNumbering(lines.join("\n"));
-        setText(linesToText);
+        setTimeout(() => {
+          const prevLi = itemRefs.current[newIndex];
+          if (prevLi) {
+            prevLi.focus();
+            const range = document.createRange();
+            range.selectNodeContents(prevLi);
+            range.collapse(false);
+            const selection = window.getSelection();
+            selection?.removeAllRanges();
+            selection?.addRange(range);
+          }
+        }, 0);
       }
     }
   };
 
-  const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-    const newText = updateNumbering(e.target.value);
-    setText(newText);
-  };
+  const refCallback = useCallback((index: number, text: string) => (el: HTMLLIElement | null) => {
+    itemRefs.current[index] = el;
+    if (el && el.textContent !== text) {
+      el.textContent = text;
+    }
+  }, []);
+
+  const handleInputCurried = useCallback((index: number) => (event: React.FormEvent<HTMLLIElement>) => {
+    const newText = event.currentTarget.textContent || "";
+    setTextRows((prev) => {
+      const newRows = [...prev];
+      newRows[index] = newText;
+      return newRows;
+    });
+  }, []);
+
+  const handleFocusCurried = useCallback((index: number) => () => {
+    setFocusedRow(index);
+  }, []);
 
   return (
-    <textarea
-      className="relative w-full p-5 outline-none overflow-y-scroll border border-white"
-      ref={textAreaRef}
-      value={text}
-      onChange={handleChange}
-      onKeyDown={handleKeyDown}
-      onSelect={handleSelectionChange}
-      onKeyUp={handleSelectionChange}
-      onClick={handleSelectionChange}
-      rows={10}
-      cols={50}
-      style={{ whiteSpace: "pre-wrap" }}
-    />
+    <div className="m-2 rounded-md overflow-scroll h-40 bg-slate-700 list-decimal">
+      <ol className="list-decimal ml-8 mr-3 py-2" onKeyDown={handleKeyDown}>
+        {textRows.map((text, index) => (
+          <li
+          key={`row-${index}`}
+          ref={refCallback(index, text)}
+          className="outline-none"
+          contentEditable
+          suppressContentEditableWarning={true}
+          onInput={handleInputCurried(index)}
+          onFocus={handleFocusCurried(index)}
+          />
+        ))}
+      </ol>
+    </div>
   );
 };
 
