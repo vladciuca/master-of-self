@@ -1,13 +1,14 @@
 import { Schema, model, models, Document, Model } from "mongoose";
 
-interface IJournalEntry extends Document {
+export interface JournalEntryType extends Document {
   creator: Schema.Types.ObjectId;
   createDate: Date;
+  willPower: Number;
   dayEntry: Object;
   nightEntry: Object;
 }
 
-const JournalEntrySchema = new Schema<IJournalEntry>({
+const JournalEntrySchema = new Schema<JournalEntryType>({
   creator: {
     type: Schema.Types.ObjectId,
     ref: "User",
@@ -16,6 +17,10 @@ const JournalEntrySchema = new Schema<IJournalEntry>({
   createDate: {
     type: Date,
     default: Date.now,
+  },
+  willPower: {
+    type: Number,
+    default: 0,
   },
   dayEntry: {
     type: Object,
@@ -27,7 +32,7 @@ const JournalEntrySchema = new Schema<IJournalEntry>({
   },
 });
 
-const JournalEntry: Model<IJournalEntry> =
-  models.JournalEntry || model<IJournalEntry>("Habit", JournalEntrySchema);
+const JournalEntry: Model<JournalEntryType> =
+  models.JournalEntry || model<JournalEntryType>("Habit", JournalEntrySchema);
 
 export default JournalEntry;
