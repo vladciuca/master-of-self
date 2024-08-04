@@ -3,7 +3,9 @@
 import { useState } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import JournalForm from "@components/JournalForm";
+// import { User, Session } from "next-auth";
+import JournalEntryForm from "@components/journal-entry-form/JournalEntryForm";
+// import JournalForm from "@components/JournalForm";
 
 // Define the types for user and session
 interface User {
@@ -24,10 +26,11 @@ const CreateJournalEntry = () => {
   const [submitting, setSubmitting] = useState(false);
 
   const createJournalEntry = async (
-    gratefulItems: any,
-    habitWillpower: any
+    dailyWillpower: number,
+    dayEntry: object,
+    nightEntry: object
   ) => {
-    console.log("===", gratefulItems, habitWillpower);
+    console.log("===", dailyWillpower, dayEntry, nightEntry);
     setSubmitting(true);
 
     try {
@@ -35,8 +38,9 @@ const CreateJournalEntry = () => {
         method: "POST",
         body: JSON.stringify({
           userId: session?.user.id,
-          gratefulItems: gratefulItems,
-          habitWillpower: habitWillpower,
+          dailyWillpower: dailyWillpower,
+          dayEntry: dayEntry,
+          nightEntry: nightEntry,
         }),
       });
 
@@ -50,37 +54,42 @@ const CreateJournalEntry = () => {
     }
   };
 
-  const updateHabitResource = async (value: any) => {
-    const { habitId, resource } = value;
+  // const updateHabitResource = async (value: any) => {
+  //   const { habitId, resource } = value;
 
-    setSubmitting(true);
+  //   setSubmitting(true);
 
-    if (!habitId) return alert("Habit ID not found");
+  //   if (!habitId) return alert("Habit ID not found");
 
-    try {
-      const response = await fetch(`/api/habit/${habitId}/resource`, {
-        method: "PATCH",
-        body: JSON.stringify({
-          resource: resource,
-        }),
-      });
+  //   try {
+  //     const response = await fetch(`/api/habit/${habitId}/resource`, {
+  //       method: "PATCH",
+  //       body: JSON.stringify({
+  //         resource: resource,
+  //       }),
+  //     });
 
-      // if (response.ok) {
-      // }
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setSubmitting(false);
-    }
-  };
+  //     // if (response.ok) {
+  //     // }
+  //   } catch (error) {
+  //     console.log(error);
+  //   } finally {
+  //     setSubmitting(false);
+  //   }
+  // };
 
   return (
-    <JournalForm
-      //   type="Create"
+    // <JournalForm
+    //   //   type="Create"
+    //   session={session}
+    //   submitting={submitting}
+    //   onSubmit={createJournalEntry}
+    //   updateHabit={updateHabitResource}
+    // />
+    <JournalEntryForm
       session={session}
       submitting={submitting}
       onSubmit={createJournalEntry}
-      updateHabit={updateHabitResource}
     />
   );
 };

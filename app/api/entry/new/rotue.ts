@@ -5,7 +5,7 @@ import JournalEntry, { JournalEntryType } from "@models/entry";
 interface JournalEntryInput {
   userId: string;
   createDate: Date;
-  willPower: number;
+  dailyWillpower: number;
   dayEntry: object;
   nightEntry: object;
 }
@@ -14,7 +14,7 @@ export const POST = async (req: NextRequest) => {
   const {
     userId,
     createDate,
-    willPower,
+    dailyWillpower,
     dayEntry,
     nightEntry,
   }: JournalEntryInput = await req.json();
@@ -24,7 +24,7 @@ export const POST = async (req: NextRequest) => {
     const newJournalEntry: JournalEntryType = new JournalEntry({
       createDate,
       creator: userId,
-      willPower,
+      dailyWillpower,
       dayEntry,
       nightEntry,
     });

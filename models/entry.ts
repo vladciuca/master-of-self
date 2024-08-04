@@ -3,7 +3,7 @@ import { Schema, model, models, Document, Model } from "mongoose";
 export interface JournalEntryType extends Document {
   creator: Schema.Types.ObjectId;
   createDate: Date;
-  willPower: Number;
+  dailyWillpower: Number;
   dayEntry: Object;
   nightEntry: Object;
 }
@@ -18,7 +18,7 @@ const JournalEntrySchema = new Schema<JournalEntryType>({
     type: Date,
     default: Date.now,
   },
-  willPower: {
+  dailyWillpower: {
     type: Number,
     default: 0,
   },

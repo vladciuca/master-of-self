@@ -4,12 +4,6 @@ interface UserType extends Document {
   email: string;
   username: string;
   image?: string; // Optional field
-  // TODO: completely remove categories
-  stats: {
-    mind: number;
-    body: number;
-    spirit: number;
-  };
 }
 const UserSchema = new Schema<UserType>({
   email: {
@@ -27,20 +21,6 @@ const UserSchema = new Schema<UserType>({
   },
   image: {
     type: String,
-  },
-  stats: {
-    mind: {
-      type: Number,
-      default: 0,
-    },
-    body: {
-      type: Number,
-      default: 0,
-    },
-    spirit: {
-      type: Number,
-      default: 0,
-    },
   },
 });
 
