@@ -30,7 +30,6 @@ const CreateJournalEntry = () => {
     dayEntry: object,
     nightEntry: object
   ) => {
-    console.log("===", dailyWillpower, dayEntry, nightEntry);
     setSubmitting(true);
 
     try {

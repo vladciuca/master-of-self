@@ -48,7 +48,9 @@ const JournalEntryForm: React.FC<JournalEntryFormProps> = ({
       {/* PATCH_FUNC FOR The journal-entry object with the dayEntry: {} obj + dailyWillpower nr */}
       {/* NIGHT FORM*/}
       {/* PATCH_FUNC FOR The journal-entry object with the nightEntry: {} obj + dailyWillpower nr */}
-      <Button>Create entry</Button>
+      <Button onClick={handleSubmit} disabled={submitting}>
+        Create entry
+      </Button>
     </div>
   );
 };

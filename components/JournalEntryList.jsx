@@ -1,4 +1,3 @@
-import JournalSkill from "./JournalSkill";
 import {
   Accordion,
   AccordionContent,
@@ -12,7 +11,7 @@ const JournalEntryList = ({ journalEntries }) => {
   return (
     <Accordion className="pb-1">
       {journalEntries.map((item) => {
-        const { _id, createDate, gratefulItems, habitWillpower } = item;
+        const { _id, createDate, dailyWillpower } = item;
         const date = new Date(createDate);
 
         const formattedDate = `${date.getDate()}/${
@@ -26,18 +25,11 @@ const JournalEntryList = ({ journalEntries }) => {
                 <div className="flex items-center justify-between mb-4">
                   <FaSun size={"1.5rem"} /> {formattedDate}
                 </div>
-                <div>
-                  <JournalSkill habitWillpower={habitWillpower} />
-                </div>
+                <div>{dailyWillpower}</div>
               </div>
             </AccordionTrigger>
             <AccordionContent>
               <Info text={"Grateful Items of the day:"} />
-              <ol className="list-decimal px-4 mt-2">
-                {gratefulItems.map((item) => (
-                  <li>{item}</li>
-                ))}
-              </ol>
             </AccordionContent>
           </AccordionItem>
         );

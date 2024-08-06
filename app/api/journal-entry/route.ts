@@ -1,6 +1,6 @@
 import { NextRequest } from "next/server";
 import { connectToDB } from "@utils/database";
-import JournalEntry, { JournalEntryType } from "@models/entry";
+import JournalEntry, { JournalEntryType } from "@models/journalEntry";
 
 export const GET = async (req: NextRequest) => {
   try {

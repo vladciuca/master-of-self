@@ -1,6 +1,6 @@
 import { NextRequest } from "next/server";
 import { connectToDB } from "@utils/database";
-import JournalEntry, { JournalEntryType } from "@models/entry";
+import JournalEntry, { JournalEntryType } from "@models/journalEntry";
 
 interface JournalEntryInput {
   userId: string;
@@ -33,6 +33,6 @@ export const POST = async (req: NextRequest) => {
 
     return new Response(JSON.stringify(newJournalEntry), { status: 201 });
   } catch (error) {
-    return new Response("Failed to create new habit", { status: 500 });
+    return new Response("Failed to create new entry", { status: 500 });
   }
 };
