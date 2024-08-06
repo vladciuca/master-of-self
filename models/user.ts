@@ -1,17 +1,11 @@
 import { Schema, model, models, Document, Model } from "mongoose";
 
-interface IUser extends Document {
+interface UserType extends Document {
   email: string;
   username: string;
   image?: string; // Optional field
-  // TODO: remove after flow redesign
-  stats: {
-    mind: number;
-    body: number;
-    spirit: number;
-  };
 }
-const UserSchema = new Schema<IUser>({
+const UserSchema = new Schema<UserType>({
   email: {
     type: String,
     unique: true,
@@ -28,22 +22,9 @@ const UserSchema = new Schema<IUser>({
   image: {
     type: String,
   },
-  stats: {
-    mind: {
-      type: Number,
-      default: 0,
-    },
-    body: {
-      type: Number,
-      default: 0,
-    },
-    spirit: {
-      type: Number,
-      default: 0,
-    },
-  },
 });
 
-const User: Model<IUser> = models.User || model<IUser>("User", UserSchema);
+const User: Model<UserType> =
+  models.User || model<UserType>("User", UserSchema);
 
 export default User;

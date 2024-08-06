@@ -1,22 +1,33 @@
 "use client";
 
-import JournalNav from "@components/JournalNav";
 import { useState, useEffect } from "react";
-import { signIn, useSession, getProviders } from "next-auth/react";
+import {
+  signIn,
+  useSession,
+  getProviders,
+  ClientSafeProvider,
+} from "next-auth/react";
+import JournalNav from "@components/JournalNav";
 import { Button } from "./ui/button";
 
-const Footer = () => {
+interface Providers {
+  [key: string]: ClientSafeProvider;
+}
+
+const Footer: React.FC = () => {
   const { data: session, status } = useSession();
-  const [providers, setProviders] = useState<any>(null);
+  const [providers, setProviders] = useState<Providers | null>(null);
 
   useEffect(() => {
     const setUpProviders = async () => {
       const response: any = await getProviders();
-      setProviders(response);
+      setProviders(response as Providers);
     };
 
     setUpProviders();
   }, []);
+
+  const createSignInHandler = (providerId: string) => () => signIn(providerId);
 
   if (status === "loading" || !providers) {
     return (
@@ -32,12 +43,12 @@ const Footer = () => {
         <JournalNav />
       ) : (
         providers &&
-        Object.values(providers).map((provider: any) => (
+        Object.values(providers).map((provider: ClientSafeProvider) => (
           <Button
             className="w-1/2"
             type="button"
             key={provider.name}
-            onClick={() => signIn(provider.id)}
+            onClick={createSignInHandler(provider.id)}
           >
             Sign In
           </Button>
