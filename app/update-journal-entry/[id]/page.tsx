@@ -20,12 +20,14 @@ interface Session {
   // Add other properties you expect in the session object
 }
 
-const CreateJournalEntry = () => {
+const UpdateJournalEntry = () => {
   const router = useRouter();
   const { data: session } = useSession() as { data: Session | null };
   const [submitting, setSubmitting] = useState(false);
 
-  const createJournalEntry = async (
+  const updateJournalEntry = async (
+    id: string,
+    type: "day" | "night",
     dailyWillpower: number,
     dayEntry: object,
     nightEntry: object
@@ -33,13 +35,13 @@ const CreateJournalEntry = () => {
     setSubmitting(true);
 
     try {
-      const response = await fetch("/api/journal-entry/new", {
-        method: "POST",
+      const response = await fetch(`/api/journal-entry/${id}`, {
+        method: "PATCH",
         body: JSON.stringify({
-          userId: session?.user.id,
-          dailyWillpower: dailyWillpower,
-          dayEntry: dayEntry,
-          nightEntry: nightEntry,
+          id,
+          type,
+          dayEntry,
+          nightEntry,
         }),
       });
 
@@ -53,47 +55,16 @@ const CreateJournalEntry = () => {
     }
   };
 
-  // const updateHabitResource = async (value: any) => {
-  //   const { habitId, resource } = value;
-
-  //   setSubmitting(true);
-
-  //   if (!habitId) return alert("Habit ID not found");
-
-  //   try {
-  //     const response = await fetch(`/api/habit/${habitId}/resource`, {
-  //       method: "PATCH",
-  //       body: JSON.stringify({
-  //         resource: resource,
-  //       }),
-  //     });
-
-  //     // if (response.ok) {
-  //     // }
-  //   } catch (error) {
-  //     console.log(error);
-  //   } finally {
-  //     setSubmitting(false);
-  //   }
-  // };
-
   return (
-    // <JournalForm
-    //   //   type="Create"
-    //   session={session}
-    //   submitting={submitting}
-    //   onSubmit={createJournalEntry}
-    //   updateHabit={updateHabitResource}
-    // />
     <div>
       <JournalEntryForm
-        type="create"
+        type="update"
         session={session}
         submitting={submitting}
-        onSubmit={createJournalEntry}
+        onSubmit={updateJournalEntry}
       />
     </div>
   );
 };
 
-export default CreateJournalEntry;
+export default UpdateJournalEntry;

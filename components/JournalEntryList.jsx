@@ -4,6 +4,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@components/ui/accordion";
+import Link from "next/link";
 import { Info } from "./ui/tipography";
 import { FaSun } from "react-icons/fa";
 
@@ -28,6 +29,9 @@ const JournalEntryList = ({ journalEntries }) => {
                 <div>{dailyWillpower}</div>
               </div>
             </AccordionTrigger>
+            <button className="bg-white text-black p-2 my-4 rounded-md">
+              <Link href={`/update-journal-entry/${_id}`}>EDIT</Link>
+            </button>
             <AccordionContent>
               <Info text={"Grateful Items of the day:"} />
             </AccordionContent>
