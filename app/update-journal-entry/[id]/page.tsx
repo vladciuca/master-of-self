@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import JournalEntryForm from "@components/journal-entry-form/JournalEntryForm";
 
 interface User {
@@ -17,19 +17,22 @@ interface Session {
 
 interface JournalEntry {
   dailyWillpower: number;
-  day: { myDay: string };
-  night: { myNight: string };
+  dayEntry: { myDay: string };
+  nightEntry: { myNight: string };
 }
 
-const UpdateJournalEntry = ({ params }: { params: { id: string } }) => {
+const UpdateJournalEntry = () => {
   const router = useRouter();
+  const params = useParams<{ id: string }>();
   const { data: session } = useSession() as { data: Session | null };
   const [submitting, setSubmitting] = useState(false);
   const [initialData, setInitialData] = useState<JournalEntry | null>(null);
 
   useEffect(() => {
     const fetchEntry = async () => {
-      const response = await fetch(`/api/journal-entry/${params.id}`);
+      const response = await fetch(`/api/journal-entry/${params.id}`, {
+        method: "GET",
+      });
       const data = await response.json();
       setInitialData(data);
     };
@@ -42,7 +45,7 @@ const UpdateJournalEntry = ({ params }: { params: { id: string } }) => {
     try {
       const response = await fetch(`/api/journal-entry/${params.id}`, {
         method: "PATCH",
-        body: JSON.stringify(entry),
+        body: JSON.stringify({ ...entry }),
       });
 
       if (response.ok) {
@@ -60,15 +63,17 @@ const UpdateJournalEntry = ({ params }: { params: { id: string } }) => {
   }
 
   return (
-    <div>
-      <JournalEntryForm
-        type="update"
-        session={session}
-        submitting={submitting}
-        onSubmit={updateJournalEntry}
-        initialData={initialData}
-      />
-    </div>
+    initialData && (
+      <div>
+        <JournalEntryForm
+          type="update"
+          session={session}
+          submitting={submitting}
+          onSubmit={updateJournalEntry}
+          initialData={initialData}
+        />
+      </div>
+    )
   );
 };
 

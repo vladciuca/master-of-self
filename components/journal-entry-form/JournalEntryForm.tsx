@@ -1,4 +1,6 @@
-import React, { ChangeEvent, useState } from "react";
+"use client";
+
+import React, { ChangeEvent, useEffect, useState } from "react";
 import { Button } from "@components/ui/button";
 
 interface User {
@@ -13,8 +15,8 @@ interface Session {
 
 interface JournalEntry {
   dailyWillpower: number;
-  day: { myDay: string };
-  night: { myNight: string };
+  dayEntry: { myDay: string };
+  nightEntry: { myNight: string };
 }
 
 type JournalEntryFormProps = {
@@ -32,13 +34,15 @@ const JournalEntryForm: React.FC<JournalEntryFormProps> = ({
   onSubmit,
   initialData,
 }) => {
-  const [entry, setEntry] = useState<JournalEntry>(
-    initialData || {
-      dailyWillpower: 0,
-      day: { myDay: "" },
-      night: { myNight: "" },
-    }
-  );
+  const [entry, setEntry] = useState<JournalEntry>({
+    dailyWillpower: 0,
+    dayEntry: { myDay: "" },
+    nightEntry: { myNight: "" },
+  });
+
+  useEffect(() => {
+    if (initialData) setEntry(initialData);
+  }, []);
 
   const handleChange = (
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -48,9 +52,9 @@ const JournalEntryForm: React.FC<JournalEntryFormProps> = ({
     if (field === "dailyWillpower") {
       setEntry({ ...entry, dailyWillpower: Number(value) });
     } else if (field === "day") {
-      setEntry({ ...entry, day: { myDay: value } });
+      setEntry({ ...entry, dayEntry: { myDay: value } });
     } else {
-      setEntry({ ...entry, night: { myNight: value } });
+      setEntry({ ...entry, nightEntry: { myNight: value } });
     }
   };
 
@@ -81,7 +85,7 @@ const JournalEntryForm: React.FC<JournalEntryFormProps> = ({
         Day Entry:
         <textarea
           className="w-full"
-          value={entry.day.myDay}
+          value={entry.dayEntry.myDay}
           onChange={(e) => handleChange(e, "day")}
         />
       </label>
@@ -89,7 +93,7 @@ const JournalEntryForm: React.FC<JournalEntryFormProps> = ({
         Night Entry:
         <textarea
           className="w-full"
-          value={entry.night.myNight}
+          value={entry.nightEntry.myNight}
           onChange={(e) => handleChange(e, "night")}
         />
       </label>

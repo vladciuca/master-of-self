@@ -17,8 +17,8 @@ interface Session {
 
 interface JournalEntry {
   dailyWillpower: number;
-  day: { myDay: string };
-  night: { myNight: string };
+  dayEntry: { myDay: string };
+  nightEntry: { myNight: string };
 }
 
 const CreateJournalEntry = () => {
@@ -27,7 +27,7 @@ const CreateJournalEntry = () => {
   const [submitting, setSubmitting] = useState(false);
 
   const createJournalEntry = async (entry: JournalEntry) => {
-    const { dailyWillpower, day, night } = entry;
+    const { dailyWillpower, dayEntry, nightEntry } = entry;
     setSubmitting(true);
 
     try {
@@ -35,9 +35,9 @@ const CreateJournalEntry = () => {
         method: "POST",
         body: JSON.stringify({
           userId: session?.user?.id,
-          dailyWillpower: dailyWillpower,
-          dayEntry: day,
-          nightEntry: night,
+          dailyWillpower,
+          dayEntry,
+          nightEntry,
         }),
       });
 
