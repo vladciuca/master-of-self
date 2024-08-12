@@ -1,85 +1,102 @@
-import React, { ChangeEvent, useEffect, useState } from "react";
+import React, { ChangeEvent, useState } from "react";
 import { Button } from "@components/ui/button";
 
 interface User {
   id: string;
   name?: string;
   email?: string;
-  // Add other properties you expect in the user object
 }
 
 interface Session {
   user: User;
-  // Add other properties you expect in the session object
 }
 
-interface JournalEntryFormProps {
-  type?: "update" | "create";
+interface JournalEntry {
+  dailyWillpower: number;
+  day: { myDay: string };
+  night: { myNight: string };
+}
+
+type JournalEntryFormProps = {
+  type: "create" | "update";
   session: Session | null;
   submitting: boolean;
-  onSubmit: (
-    dailyWillpower: number,
-    dayEntry: object,
-    nightEntry: object
-  ) => Promise<void>;
-}
+  onSubmit: (entry: JournalEntry) => Promise<void>;
+  initialData?: JournalEntry;
+};
 
 const JournalEntryForm: React.FC<JournalEntryFormProps> = ({
-  type = "create",
+  type,
   session,
   submitting,
   onSubmit,
-}, {params: }) => {
-  const [dailyWillpower, setDailyWillpower] = useState<number>(0);
-  const [dayEntry, setDayEntry] = useState<object>({});
-  const [nightEntry, setNightEntry] = useState<object>({});
+  initialData,
+}) => {
+  const [entry, setEntry] = useState<JournalEntry>(
+    initialData || {
+      dailyWillpower: 0,
+      day: { myDay: "" },
+      night: { myNight: "" },
+    }
+  );
 
   const handleChange = (
-    event: ChangeEvent<HTMLInputElement>,
-    entryType: "day" | "night"
+    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    field: "dailyWillpower" | "day" | "night"
   ) => {
-    entryType === "day"
-      ? setDayEntry({ day: event.target.value })
-      : setNightEntry({ night: event.target.value });
+    const value = event.target.value;
+    if (field === "dailyWillpower") {
+      setEntry({ ...entry, dailyWillpower: Number(value) });
+    } else if (field === "day") {
+      setEntry({ ...entry, day: { myDay: value } });
+    } else {
+      setEntry({ ...entry, night: { myNight: value } });
+    }
   };
 
-  const handleSubmit = async () => {
-    onSubmit(dailyWillpower, dayEntry, nightEntry);
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (session?.user) {
+      await onSubmit(entry);
+    } else {
+      console.error("User not authenticated");
+    }
   };
+
   return (
-    <div className="flex flex-col w-full p-2">
-      {/* POST_FUNC FOR The journal-entry obj in DB */}
-      {/* check to see if any journal-entry exists in DB - GET_BY_ID */}
-
-      {/* render button for Day or Night form based time*/}
-
-      {/* PATCH_FUN to update dailyWillpower for both Day & Night forms */}
-
-      {/*DAY FORM */}
-      {/* PATCH_FUNC FOR The journal-entry object with the dayEntry: {} obj + dailyWillpower nr */}
-      {/* NIGHT FORM*/}
-      {/* PATCH_FUNC FOR The journal-entry object with the nightEntry: {} obj + dailyWillpower nr */}
-      <label className="w-full mb-10">
-        DAY CONTENT:
+    <form onSubmit={handleSubmit} className="flex flex-col w-full p-2">
+      <h1 className="py-10 text-3xl">
+        {type === "create" ? "Create" : "Edit"}
+      </h1>
+      <label className="w-full mb-4">
+        Daily Willpower:
         <input
           className="w-full"
-          type="text"
-          onChange={(event) => handleChange(event, "day")}
+          type="number"
+          value={entry.dailyWillpower}
+          onChange={(e) => handleChange(e, "dailyWillpower")}
         />
       </label>
-      <label className="w-full mb-10">
-        NIGHT CONTENT:
-        <input
+      <label className="w-full mb-4">
+        Day Entry:
+        <textarea
           className="w-full"
-          type="text"
-          onChange={(event) => handleChange(event, "night")}
+          value={entry.day.myDay}
+          onChange={(e) => handleChange(e, "day")}
         />
       </label>
-
-      <Button onClick={handleSubmit} disabled={submitting}>
-        {type === "create" ? "Create entry" : "Update entry"}
+      <label className="w-full mb-4">
+        Night Entry:
+        <textarea
+          className="w-full"
+          value={entry.night.myNight}
+          onChange={(e) => handleChange(e, "night")}
+        />
+      </label>
+      <Button type="submit" disabled={submitting}>
+        {type === "create" ? "Create Entry" : "Update Entry"}
       </Button>
-    </div>
+    </form>
   );
 };
 

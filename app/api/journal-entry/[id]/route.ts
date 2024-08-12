@@ -1,6 +1,6 @@
 import { connectToDB } from "@utils/database";
 import { NextResponse, NextRequest } from "next/server";
-import JournalEntry from "@models/entry";
+import JournalEntry from "@models/journalEntry";
 
 interface Params {
   id: string;

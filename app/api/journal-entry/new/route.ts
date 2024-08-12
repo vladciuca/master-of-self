@@ -18,6 +18,7 @@ export const POST = async (req: NextRequest) => {
     dayEntry,
     nightEntry,
   }: JournalEntryInput = await req.json();
+
   try {
     await connectToDB();
 

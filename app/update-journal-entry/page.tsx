@@ -1,48 +1,48 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-// import { User, Session } from "next-auth";
 import JournalEntryForm from "@components/journal-entry-form/JournalEntryForm";
-// import JournalForm from "@components/JournalForm";
 
-// Define the types for user and session
 interface User {
   id: string;
   name?: string;
   email?: string;
-  // Add other properties you expect in the user object
 }
 
 interface Session {
   user: User;
-  // Add other properties you expect in the session object
 }
 
-const UpdateJournalEntry = () => {
+interface JournalEntry {
+  dailyWillpower: number;
+  day: { myDay: string };
+  night: { myNight: string };
+}
+
+const UpdateJournalEntry = ({ params }: { params: { id: string } }) => {
   const router = useRouter();
   const { data: session } = useSession() as { data: Session | null };
   const [submitting, setSubmitting] = useState(false);
+  const [initialData, setInitialData] = useState<JournalEntry | null>(null);
 
-  const updateJournalEntry = async (
-    id: string,
-    type: "day" | "night",
-    dailyWillpower: number,
-    dayEntry: object,
-    nightEntry: object
-  ) => {
+  useEffect(() => {
+    const fetchEntry = async () => {
+      const response = await fetch(`/api/journal-entry/${params.id}`);
+      const data = await response.json();
+      setInitialData(data);
+    };
+    fetchEntry();
+  }, [params.id]);
+
+  const updateJournalEntry = async (entry: JournalEntry) => {
     setSubmitting(true);
 
     try {
-      const response = await fetch(`/api/journal-entry/${id}`, {
+      const response = await fetch(`/api/journal-entry/${params.id}`, {
         method: "PATCH",
-        body: JSON.stringify({
-          id,
-          type,
-          dayEntry,
-          nightEntry,
-        }),
+        body: JSON.stringify(entry),
       });
 
       if (response.ok) {
@@ -55,6 +55,10 @@ const UpdateJournalEntry = () => {
     }
   };
 
+  if (!initialData) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <div>
       <JournalEntryForm
@@ -62,6 +66,7 @@ const UpdateJournalEntry = () => {
         session={session}
         submitting={submitting}
         onSubmit={updateJournalEntry}
+        initialData={initialData}
       />
     </div>
   );
