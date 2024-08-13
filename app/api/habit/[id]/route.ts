@@ -1,9 +1,13 @@
 import { connectToDB } from "@utils/database";
 import Habit from "@models/habit";
+import { NextRequest } from "next/server";
 
 //GET (read)
 
-export const GET = async (req, { params }) => {
+export const GET = async (
+  req: NextRequest,
+  { params }: { params: { id: string } }
+) => {
   try {
     await connectToDB();
 
@@ -17,7 +21,10 @@ export const GET = async (req, { params }) => {
   }
 };
 
-export const PATCH = async (req, { params }) => {
+export const PATCH = async (
+  req: NextRequest,
+  { params }: { params: { id: string } }
+) => {
   const { name, icon, description } = await req.json();
 
   try {
@@ -41,15 +48,18 @@ export const PATCH = async (req, { params }) => {
 
 //DELETE (delete)
 
-export const DELETE = async (req, { params }) => {
+export const DELETE = async (
+  req: NextRequest,
+  { params }: { params: { id: string } }
+) => {
   try {
     await connectToDB();
 
     await Habit.findByIdAndDelete(params.id);
 
-    new Response("Habit was deleted successfully", { status: 200 });
+    return new Response("Habit was deleted successfully", { status: 200 });
   } catch (error) {
     console.log(error);
-    new Response("Failed to delete habit", { status: 500 });
+    return new Response("Failed to delete habit", { status: 500 });
   }
 };

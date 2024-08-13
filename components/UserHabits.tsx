@@ -7,10 +7,20 @@ import SkillCard from "./SkillCard";
 import NewHabit from "@components/NewSkill";
 import { Accordion } from "@components/ui/accordion";
 
-const SkillList = ({ habits, handleEdit, handleDelete }) => {
+interface User {
+  id: string;
+  name?: string;
+  email?: string;
+}
+
+interface Session {
+  user: User;
+}
+
+const SkillList = ({ habits, handleEdit, handleDelete }: any) => {
   return (
     <Accordion className="w-full">
-      {habits.map((habit) => (
+      {habits.map((habit: any) => (
         <SkillCard
           key={habit._id}
           habit={habit}
@@ -24,7 +34,7 @@ const SkillList = ({ habits, handleEdit, handleDelete }) => {
 
 const Habits = () => {
   const router = useRouter();
-  const { data: session } = useSession();
+  const { data: session } = useSession() as { data: Session | null };
   const [habits, setHabits] = useState([]);
   const [habitsLoaded, setHabitsLoaded] = useState(false);
 
@@ -47,11 +57,11 @@ const Habits = () => {
     }
   }, [session]);
 
-  const handleEdit = (habit) => {
-    router.push(`/update-habit?id=${habit._id}`);
+  const handleEdit = (habit: any) => {
+    router.push(`/update-habit/${habit._id}`);
   };
 
-  const handleDelete = async (habit) => {
+  const handleDelete = async (habit: any) => {
     const hasConfirmed = confirm("Are you sure you want to delete this habit?");
 
     if (hasConfirmed) {
@@ -59,7 +69,7 @@ const Habits = () => {
         await fetch(`/api/habit/${habit._id.toString()}`, { method: "DELETE" });
 
         const filteredHabits = habits.filter(
-          (myHabit) => myHabit._id !== habit._id
+          (myHabit: any) => myHabit._id !== habit._id
         );
 
         setHabits(filteredHabits);

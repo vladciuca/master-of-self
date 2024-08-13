@@ -5,25 +5,35 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
 import SkillForm from "@components/SkillForm";
+import { Habit } from "@components/SkillForm";
+
+interface User {
+  id: string;
+  name?: string;
+  email?: string;
+}
+
+interface Session {
+  user: User;
+}
 
 const CreateHabit = () => {
   const router = useRouter();
-  const { data: session } = useSession();
-  const [submitting, setSubmitting] = useState(false);
+  const { data: session } = useSession() as { data: Session | null };
+  const [submitting, setSubmitting] = useState<boolean>(false);
 
-  const createHabit = async (value) => {
-    const { skillName, skillIcon, skillDescription, skillTag } = value;
+  const createHabit = async (habit: Habit) => {
+    const { skillName, skillIcon, skillDescription } = habit;
     setSubmitting(true);
 
     try {
       const response = await fetch("/api/habit/new", {
         method: "POST",
         body: JSON.stringify({
-          userId: session?.user.id,
+          userId: session?.user?.id,
           name: skillName,
           icon: skillIcon,
           description: skillDescription,
-          categories: skillTag,
           resource: 0,
         }),
       });

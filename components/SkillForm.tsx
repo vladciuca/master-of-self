@@ -28,30 +28,40 @@ const formSchema = z.object({
   skillName: z.string().min(3),
   skillIcon: z.string(),
   skillDescription: z.string(),
-  skillTag: z.enum(["mind", "body", "spirit"]).optional(),
 });
 
-const SkillForm = ({ type, submitting, onSubmit, habit }) => {
-  const form = useForm({
+export type Habit = z.infer<typeof formSchema>;
+
+type SkillFormProps = {
+  type: "Edit" | "Create";
+  submitting: boolean;
+  onSubmit: (habit: Habit) => Promise<void>;
+  habit?: Habit;
+};
+
+const SkillForm: React.FC<SkillFormProps> = ({
+  type,
+  submitting,
+  onSubmit,
+  habit,
+}) => {
+  const form = useForm<Habit>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      skillName: type === "Edit" ? habit.name : "",
-      skillIcon: type === "Edit" ? habit.icon : "",
-      skillDescription: type === "Edit" ? habit.description : "",
-      skillTag: type === "Create" ? "" : undefined,
+      skillName: type === "Edit" ? habit?.skillName : "",
+      skillIcon: type === "Edit" ? habit?.skillIcon : "",
+      skillDescription: type === "Edit" ? habit?.skillDescription : "",
     },
   });
 
-  const handleIconSelect = (iconId) => {
+  const handleIconSelect = (iconId: string) => {
     form.setValue("skillIcon", iconId);
   };
-
-  const handleSubmit = form.handleSubmit(onSubmit);
 
   return (
     <Form {...form}>
       <form
-        onSubmit={form.handleSubmit(handleSubmit)}
+        onSubmit={form.handleSubmit(onSubmit)}
         className="w-full flex flex-col space-y-8"
       >
         <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
@@ -61,7 +71,10 @@ const SkillForm = ({ type, submitting, onSubmit, habit }) => {
           <div className="mb-1">
             <FormLabel>Habit icon</FormLabel>
           </div>
-          <IconPicker onIconSelect={handleIconSelect} skillIcon={habit?.icon} />
+          <IconPicker
+            onIconSelect={handleIconSelect}
+            skillIcon={habit?.skillIcon}
+          />
         </div>
 
         <FormField
@@ -83,32 +96,6 @@ const SkillForm = ({ type, submitting, onSubmit, habit }) => {
             );
           }}
         />
-        {type === "Create" && (
-          <FormField
-            control={form.control}
-            name="skillTag"
-            render={({ field }) => {
-              return (
-                <FormItem>
-                  <FormLabel>Habit category</FormLabel>
-                  <Select onValueChange={field.onChange}>
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select a category" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      <SelectItem value="mind">Mind</SelectItem>
-                      <SelectItem value="body">Body</SelectItem>
-                      <SelectItem value="spirit">Spirit</SelectItem>
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              );
-            }}
-          />
-        )}
 
         <FormField
           control={form.control}
