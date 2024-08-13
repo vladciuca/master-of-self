@@ -10,7 +10,11 @@ import TextAreaList from "./TextAreaList";
 const JournalChannelForm = ({ gratefulItems, addGratefulItem }) => {
   const [value, setValue] = useState("");
 
-  const handleAddItems = () => {
+  const handleOnChange = (e) => {
+    setValue(e.target.value);
+  };
+
+  const handleAddItem = () => {
     if (value === "") return;
 
     addGratefulItem(value);
@@ -20,9 +24,9 @@ const JournalChannelForm = ({ gratefulItems, addGratefulItem }) => {
   return (
     <div className="grid grid-rows-[1fr,auto] h-full">
       <JournalFormResource resource={gratefulItems.length} />
-      <TextAreaList />
+      {/* <TextAreaList /> */}
 
-      {/* <ol className="list-decimal overflow-y-auto w-full px-8 mt-4">
+      <ol className="list-decimal overflow-y-auto w-full px-8 mt-4">
         {gratefulItems?.map((item, index) => (
           <li key={index} className="mb-3">
             <div className="overflow-x-hidden text-ellipsis">{item}</div>
@@ -45,8 +49,8 @@ const JournalChannelForm = ({ gratefulItems, addGratefulItem }) => {
         >
           <span className="mr-1 font-bold text-xl">+1</span>
           <FaBoltLightning size="1.2rem" />
-        </Button> */}
-      {/* </div> */}
+        </Button>
+      </div>
     </div>
   );
 };
