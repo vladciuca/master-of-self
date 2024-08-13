@@ -55,7 +55,6 @@ const CreateJournalEntry = () => {
     <div>
       <JournalEntryForm
         type="create"
-        session={session}
         submitting={submitting}
         onSubmit={createJournalEntry}
       />

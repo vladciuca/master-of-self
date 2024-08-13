@@ -1,19 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useSession } from "next-auth/react";
 import { useParams, useRouter } from "next/navigation";
 import JournalEntryForm from "@components/journal-entry-form/JournalEntryForm";
-
-interface User {
-  id: string;
-  name?: string;
-  email?: string;
-}
-
-interface Session {
-  user: User;
-}
 
 interface JournalEntry {
   dailyWillpower: number;
@@ -24,28 +13,31 @@ interface JournalEntry {
 const UpdateJournalEntry = () => {
   const router = useRouter();
   const params = useParams<{ id: string }>();
-  const { data: session } = useSession() as { data: Session | null };
+  const { id } = params;
   const [submitting, setSubmitting] = useState(false);
-  const [initialData, setInitialData] = useState<JournalEntry | null>(null);
+  const [journalEntryData, setJournalEntryData] = useState<JournalEntry | null>(
+    null
+  );
 
   useEffect(() => {
-    const fetchEntry = async () => {
-      const response = await fetch(`/api/journal-entry/${params.id}`, {
+    const getJournalEntryData = async () => {
+      const response = await fetch(`/api/journal-entry/${id}`, {
         method: "GET",
       });
       const data = await response.json();
-      setInitialData(data);
+      setJournalEntryData(data);
     };
-    fetchEntry();
-  }, [params.id]);
+    getJournalEntryData();
+  }, [id]);
 
-  const updateJournalEntry = async (entry: JournalEntry) => {
+  const updateJournalEntry = async (journalEntry: JournalEntry) => {
     setSubmitting(true);
 
     try {
-      const response = await fetch(`/api/journal-entry/${params.id}`, {
+      const response = await fetch(`/api/journal-entry/${id}`, {
         method: "PATCH",
-        body: JSON.stringify({ ...entry }),
+        //can be deconstructed, or use spread operator and new properties
+        body: JSON.stringify(journalEntry),
       });
 
       if (response.ok) {
@@ -58,22 +50,15 @@ const UpdateJournalEntry = () => {
     }
   };
 
-  if (!initialData) {
-    return <div>Loading...</div>;
-  }
-
-  return (
-    initialData && (
-      <div>
-        <JournalEntryForm
-          type="update"
-          session={session}
-          submitting={submitting}
-          onSubmit={updateJournalEntry}
-          initialData={initialData}
-        />
-      </div>
-    )
+  return journalEntryData ? (
+    <JournalEntryForm
+      type="update"
+      journalEntryData={journalEntryData}
+      submitting={submitting}
+      onSubmit={updateJournalEntry}
+    />
+  ) : (
+    <div>Loading...</div>
   );
 };
 

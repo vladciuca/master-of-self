@@ -12,6 +12,7 @@ export const PATCH = async (
     await connectToDB();
     let updatedJournalEntry;
 
+    // refactor logic when implementing separate Day / Night Forms
     if (type === "day") {
       updatedJournalEntry = await JournalEntry.findByIdAndUpdate(
         params.id,

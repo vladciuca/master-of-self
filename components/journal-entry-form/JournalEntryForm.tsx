@@ -3,16 +3,6 @@
 import React, { ChangeEvent, useEffect, useState } from "react";
 import { Button } from "@components/ui/button";
 
-interface User {
-  id: string;
-  name?: string;
-  email?: string;
-}
-
-interface Session {
-  user: User;
-}
-
 interface JournalEntry {
   dailyWillpower: number;
   dayEntry: { myDay: string };
@@ -21,50 +11,46 @@ interface JournalEntry {
 
 type JournalEntryFormProps = {
   type: "create" | "update";
-  session: Session | null;
   submitting: boolean;
-  onSubmit: (entry: JournalEntry) => Promise<void>;
-  initialData?: JournalEntry;
+  onSubmit: (journalEntry: JournalEntry) => Promise<void>;
+  journalEntryData?: JournalEntry;
 };
 
 const JournalEntryForm: React.FC<JournalEntryFormProps> = ({
   type,
-  session,
+  journalEntryData,
   submitting,
   onSubmit,
-  initialData,
 }) => {
-  const [entry, setEntry] = useState<JournalEntry>({
+  const [journalEntry, setJournalEntry] = useState<JournalEntry>({
     dailyWillpower: 0,
     dayEntry: { myDay: "" },
     nightEntry: { myNight: "" },
   });
 
   useEffect(() => {
-    if (initialData) setEntry(initialData);
+    if (journalEntryData) setJournalEntry(journalEntryData);
   }, []);
 
   const handleChange = (
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-    field: "dailyWillpower" | "day" | "night"
+    field: "dailyWillpowerField" | "dayField" | "nightField"
   ) => {
     const value = event.target.value;
-    if (field === "dailyWillpower") {
-      setEntry({ ...entry, dailyWillpower: Number(value) });
-    } else if (field === "day") {
-      setEntry({ ...entry, dayEntry: { myDay: value } });
-    } else {
-      setEntry({ ...entry, nightEntry: { myNight: value } });
+    if (field === "dailyWillpowerField") {
+      setJournalEntry({ ...journalEntry, dailyWillpower: Number(value) });
+    }
+    if (field === "dayField") {
+      setJournalEntry({ ...journalEntry, dayEntry: { myDay: value } });
+    }
+    if (field === "nightField") {
+      setJournalEntry({ ...journalEntry, nightEntry: { myNight: value } });
     }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (session?.user) {
-      await onSubmit(entry);
-    } else {
-      console.error("User not authenticated");
-    }
+    await onSubmit(journalEntry);
   };
 
   return (
@@ -77,24 +63,24 @@ const JournalEntryForm: React.FC<JournalEntryFormProps> = ({
         <input
           className="w-full"
           type="number"
-          value={entry.dailyWillpower}
-          onChange={(e) => handleChange(e, "dailyWillpower")}
+          value={journalEntry.dailyWillpower}
+          onChange={(e) => handleChange(e, "dailyWillpowerField")}
         />
       </label>
       <label className="w-full mb-4">
         Day Entry:
         <textarea
           className="w-full"
-          value={entry.dayEntry.myDay}
-          onChange={(e) => handleChange(e, "day")}
+          value={journalEntry.dayEntry.myDay}
+          onChange={(e) => handleChange(e, "dayField")}
         />
       </label>
       <label className="w-full mb-4">
         Night Entry:
         <textarea
           className="w-full"
-          value={entry.nightEntry.myNight}
-          onChange={(e) => handleChange(e, "night")}
+          value={journalEntry.nightEntry.myNight}
+          onChange={(e) => handleChange(e, "nightField")}
         />
       </label>
       <Button type="submit" disabled={submitting}>
