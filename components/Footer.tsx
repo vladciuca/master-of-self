@@ -27,7 +27,8 @@ const Footer: React.FC = () => {
     setUpProviders();
   }, []);
 
-  const createSignInHandler = (providerId: string) => () => signIn(providerId);
+  const createSignInHandler = (providerId: string) => () =>
+    signIn(providerId, { callbackUrl: "/journal" });
 
   if (status === "loading" || !providers) {
     return (
