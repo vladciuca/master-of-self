@@ -1,42 +1,40 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter, useParams } from "next/navigation";
 import SkillForm from "@components/SkillForm";
+import { Habit } from "@components/SkillForm";
 import SkeletonForm from "@components/SkeletonForm";
 
 const EditHabit = () => {
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const habitId = searchParams.get("id");
-
+  const params = useParams<{ id: string }>();
+  const { id } = params;
   const [submitting, setSubmitting] = useState(false);
-  const [habit, setHabit] = useState(null);
+  const [habitData, setHabitData] = useState<Habit | null>(null);
 
   useEffect(() => {
-    const getHabitDetails = async () => {
-      const response = await fetch(`api/habit/${habitId}`);
+    const getHabitData = async () => {
+      const response = await fetch(`/api/habit/${id}`);
       const data = await response.json();
-
-      setHabit({
-        name: data.name,
-        icon: data.icon,
-        description: data.description,
+      setHabitData({
+        skillName: data.name,
+        skillIcon: data.icon,
+        skillDescription: data.description,
       });
     };
+    if (id) getHabitData();
+  }, [id]);
 
-    if (habitId) getHabitDetails();
-  }, [habitId]);
-
-  const updateHabit = async (value) => {
-    const { skillName, skillIcon, skillDescription } = value;
+  const updateHabit = async (habit: Habit) => {
+    const { skillName, skillIcon, skillDescription } = habit;
 
     setSubmitting(true);
 
-    if (!habitId) return alert("Habit ID not found");
+    if (!id) return alert("Habit ID not found");
 
     try {
-      const response = await fetch(`/api/habit/${habitId}`, {
+      const response = await fetch(`/api/habit/${id}`, {
         method: "PATCH",
         body: JSON.stringify({
           name: skillName,
@@ -55,10 +53,10 @@ const EditHabit = () => {
     }
   };
 
-  return habit ? (
+  return habitData ? (
     <SkillForm
       type="Edit"
-      habit={habit}
+      habit={habitData}
       submitting={submitting}
       onSubmit={updateHabit}
     />

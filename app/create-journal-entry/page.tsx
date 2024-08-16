@@ -24,10 +24,10 @@ interface JournalEntry {
 const CreateJournalEntry = () => {
   const router = useRouter();
   const { data: session } = useSession() as { data: Session | null };
-  const [submitting, setSubmitting] = useState(false);
+  const [submitting, setSubmitting] = useState<boolean>(false);
 
-  const createJournalEntry = async (entry: JournalEntry) => {
-    const { dailyWillpower, dayEntry, nightEntry } = entry;
+  const createJournalEntry = async (journalEntry: JournalEntry) => {
+    const { dailyWillpower, dayEntry, nightEntry } = journalEntry;
     setSubmitting(true);
 
     try {

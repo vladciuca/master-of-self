@@ -5,8 +5,7 @@ interface HabitType extends Document {
   name: string;
   icon: string;
   description: string;
-  categories: string[]; // Figure out if keep it an array to have multiple cat for one habit or leave it as a simple string
-  resource: number;
+  xp: number;
 }
 
 const HabitSchema = new Schema<HabitType>({
@@ -27,11 +26,7 @@ const HabitSchema = new Schema<HabitType>({
     type: String,
     required: [true, "Description is required."],
   },
-  categories: {
-    type: [String],
-    required: [true, "Must select a Category"],
-  },
-  resource: {
+  xp: {
     type: Number,
     default: 0,
   },
