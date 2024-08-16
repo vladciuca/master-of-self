@@ -17,10 +17,24 @@ interface Session {
   user: User;
 }
 
-const SkillList = ({ habits, handleEdit, handleDelete }: any) => {
+type Habit = {
+  _id: string;
+  name: string;
+  icon: string;
+  description: string;
+  xp: number;
+};
+
+type SkillListProps = {
+  habits: Habit[];
+  handleEdit: (habit: Habit) => void;
+  handleDelete: (habit: Habit) => Promise<void>;
+};
+
+const SkillList = ({ habits, handleEdit, handleDelete }: SkillListProps) => {
   return (
-    <Accordion className="w-full">
-      {habits.map((habit: any) => (
+    <Accordion type="single" className="w-full">
+      {habits.map((habit: Habit) => (
         <SkillCard
           key={habit._id}
           habit={habit}
@@ -57,11 +71,12 @@ const Habits = () => {
     }
   }, [session]);
 
-  const handleEdit = (habit: any) => {
+  // To take a second look for consistency (handleEdit function can be replaced by Link or DELETE button can be moved to the /update-habit page)
+  const handleEdit = (habit: Habit) => {
     router.push(`/update-habit/${habit._id}`);
   };
 
-  const handleDelete = async (habit: any) => {
+  const handleDelete = async (habit: Habit) => {
     const hasConfirmed = confirm("Are you sure you want to delete this habit?");
 
     if (hasConfirmed) {
@@ -69,7 +84,7 @@ const Habits = () => {
         await fetch(`/api/habit/${habit._id.toString()}`, { method: "DELETE" });
 
         const filteredHabits = habits.filter(
-          (myHabit: any) => myHabit._id !== habit._id
+          (myHabit: Habit) => myHabit._id !== habit._id
         );
 
         setHabits(filteredHabits);

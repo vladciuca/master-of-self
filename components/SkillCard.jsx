@@ -11,19 +11,11 @@ import {
   AccordionTrigger,
 } from "@components/ui/accordion";
 import { Button } from "@components/ui/button";
-import { FaHandFist, FaBrain, FaHeart } from "react-icons/fa6";
 
 init({ data });
 
 const SkillCard = ({ habit, handleEdit, handleDelete }) => {
-  const {
-    _id = "",
-    name = "",
-    icon = "",
-    description = "",
-    categories = [],
-    resource = 0,
-  } = habit;
+  const { _id = "", name = "", icon = "", description = "", xp = 0 } = habit;
 
   const { data: session } = useSession();
   const pathName = usePathname();
@@ -40,36 +32,7 @@ const SkillCard = ({ habit, handleEdit, handleDelete }) => {
               {name}
             </h3>
           </div>
-          <SkillLevel xp={resource} />
-          <div className="flex items-center justify-start mt-4">
-            {categories?.map((cat) => {
-              return (
-                <div
-                  key={cat}
-                  className="h-7 w-7 bg-primary rounded-full flex items-center justify-center"
-                >
-                  {cat === "mind" && (
-                    <FaBrain
-                      className="text-primary-foreground"
-                      size={"1.3rem"}
-                    />
-                  )}
-                  {cat === "body" && (
-                    <FaHandFist
-                      className="text-primary-foreground"
-                      size={"1.3rem"}
-                    />
-                  )}
-                  {cat === "spirit" && (
-                    <FaHeart
-                      className="text-primary-foreground"
-                      size={"1.3rem"}
-                    />
-                  )}
-                </div>
-              );
-            })}
-          </div>
+          <SkillLevel xp={xp} />
         </div>
       </AccordionTrigger>
       <AccordionContent>

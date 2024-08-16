@@ -1,4 +1,4 @@
-import { NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { connectToDB } from "@utils/database";
 import JournalEntry, { JournalEntryType } from "@models/journalEntry";
 
@@ -32,8 +32,8 @@ export const POST = async (req: NextRequest) => {
 
     await newJournalEntry.save();
 
-    return new Response(JSON.stringify(newJournalEntry), { status: 201 });
+    return new NextResponse(JSON.stringify(newJournalEntry), { status: 201 });
   } catch (error) {
-    return new Response("Failed to create new entry", { status: 500 });
+    return new NextResponse("Failed to create new entry", { status: 500 });
   }
 };
