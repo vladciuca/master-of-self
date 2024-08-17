@@ -2,7 +2,7 @@
 
 import { ReactNode } from "react";
 import { useSession } from "next-auth/react";
-import { GiAllSeeingEye } from "react-icons/gi";
+import PageLogo from "@components/PageLogo";
 
 interface RootLayoutProps {
   children: ReactNode;
@@ -16,9 +16,7 @@ const LandingPage = ({ children }: RootLayoutProps) => {
       {session?.user ? (
         <main className="h-full w-full">{children}</main>
       ) : (
-        <div className="h-full flex items-center justify-center">
-          <GiAllSeeingEye size={"20rem"} />
-        </div>
+        <PageLogo />
       )}
     </section>
   );

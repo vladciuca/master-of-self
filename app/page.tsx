@@ -1,5 +1,5 @@
+import PageLogo from "@components/PageLogo";
 import { CardTitle } from "@components/ui/tipography";
-import { GiAllSeeingEye } from "react-icons/gi";
 
 const Home = () => {
   return (
@@ -8,9 +8,7 @@ const Home = () => {
         <CardTitle text="In this moment I have" />
         <CardTitle text="everything I need" />
       </div>
-      <div className="h-full flex items-center justify-center">
-        <GiAllSeeingEye size={"20rem"} />
-      </div>
+      <PageLogo />
     </section>
   );
 };

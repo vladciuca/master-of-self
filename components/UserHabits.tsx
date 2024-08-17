@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import SkillCard from "./SkillCard";
+import HabitCard from "@components/HabitCard";
 import { Accordion } from "@components/ui/accordion";
 
 // tyr and use import { Session } from "next-auth"; type here
@@ -31,11 +31,11 @@ type SkillListProps = {
   handleDelete: (habit: Habit) => Promise<void>;
 };
 
-const SkillList = ({ habits, handleEdit, handleDelete }: SkillListProps) => {
+const HabitList = ({ habits, handleEdit, handleDelete }: SkillListProps) => {
   return (
     <Accordion type="single" className="w-full">
       {habits.map((habit: Habit) => (
-        <SkillCard
+        <HabitCard
           key={habit._id}
           habit={habit}
           handleEdit={() => handleEdit && handleEdit(habit)}
@@ -105,7 +105,7 @@ const Habits = () => {
       )}
 
       {habitsLoaded && (
-        <SkillList
+        <HabitList
           habits={habits}
           handleEdit={handleEdit}
           handleDelete={handleDelete}

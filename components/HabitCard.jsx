@@ -14,7 +14,7 @@ import { Button } from "@components/ui/button";
 
 init({ data });
 
-const SkillCard = ({ habit, handleEdit, handleDelete }) => {
+const HabitCard = ({ habit, handleEdit, handleDelete }) => {
   const { _id = "", name = "", icon = "", description = "", xp = 0 } = habit;
 
   const { data: session } = useSession();
@@ -46,7 +46,7 @@ const SkillCard = ({ habit, handleEdit, handleDelete }) => {
                 Edit
               </Button>
               <Button variant="ghost" onClick={handleDelete} size="sm">
-                Delete
+                Drop
               </Button>
             </div>
           )}
@@ -56,4 +56,4 @@ const SkillCard = ({ habit, handleEdit, handleDelete }) => {
   );
 };
 
-export default SkillCard;
+export default HabitCard;
