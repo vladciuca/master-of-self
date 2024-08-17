@@ -19,6 +19,10 @@ const NEW_JOURNAL_ENTRY_CARD_DETAILS = {
     day: "Start today's Journal",
     night: "Finish today's Journal",
   },
+  linkTo: {
+    day: "/create-journal-entry",
+    night: "",
+  },
 };
 
 const Journal = () => {
@@ -29,13 +33,14 @@ const Journal = () => {
         title={NEW_JOURNAL_ENTRY_CARD_DETAILS.title.day}
         description={NEW_JOURNAL_ENTRY_CARD_DETAILS.description.day}
         buttonText={NEW_JOURNAL_ENTRY_CARD_DETAILS.buttonText.day}
+        linkTo={NEW_JOURNAL_ENTRY_CARD_DETAILS.linkTo.day}
       />
-      <NewEntry
+      {/* <NewEntry
         symbol={NEW_JOURNAL_ENTRY_CARD_DETAILS.symbol.night}
         title={NEW_JOURNAL_ENTRY_CARD_DETAILS.title.night}
         description={NEW_JOURNAL_ENTRY_CARD_DETAILS.description.night}
         buttonText={NEW_JOURNAL_ENTRY_CARD_DETAILS.buttonText.night}
-      />
+      /> */}
       <UserJournal />
     </div>
   );

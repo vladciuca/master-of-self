@@ -13,14 +13,16 @@ interface NewEntryProps {
   title: string;
   description: string;
   buttonText: string;
+  linkTo: string;
 }
 
-const NewEntry: React.FC<NewEntryProps> = ({
+const NewEntry = ({
   symbol,
   title,
   description,
   buttonText,
-}) => {
+  linkTo,
+}: NewEntryProps) => {
   return (
     <Card className="mb-4">
       <CardHeader>
@@ -31,7 +33,7 @@ const NewEntry: React.FC<NewEntryProps> = ({
         <CardDescription className="mt-1 mr-4">{description}</CardDescription>
       </CardHeader>
       <CardFooter>
-        <Link href="/create-habit">
+        <Link href={`${linkTo}`}>
           <Button size="sm" className="py-3">
             {buttonText}
           </Button>

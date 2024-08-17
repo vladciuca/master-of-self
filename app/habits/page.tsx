@@ -1,13 +1,14 @@
 import UserHabits from "@components/UserHabits";
 import NewEntry from "@components/NewEntry";
-import { Target } from "lucide-react";
+import { Shell } from "lucide-react";
 
 const NEW_HABIT_CARD_DETAILS = {
-  symbol: <Target className="mr-2" />,
+  symbol: <Shell className="mr-2" />,
   title: "Habits",
   description:
-    "These represent actions that you take daily to progress on your missions.",
+    "These represent actions that you can take daily to progress on your missions.",
   buttonText: "Create New Habit",
+  linkTo: "/create-habit",
 };
 
 const Habits = () => {
@@ -18,6 +19,7 @@ const Habits = () => {
         title={NEW_HABIT_CARD_DETAILS.title}
         description={NEW_HABIT_CARD_DETAILS.description}
         buttonText={NEW_HABIT_CARD_DETAILS.buttonText}
+        linkTo={NEW_HABIT_CARD_DETAILS.linkTo}
       />
       <UserHabits />
     </div>

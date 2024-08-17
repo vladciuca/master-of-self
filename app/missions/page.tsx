@@ -1,21 +1,26 @@
 import React from "react";
-import Link from "next/link";
-import { Button } from "@components/ui/button";
+import NewEntry from "@components/NewEntry";
+import { Target } from "lucide-react";
+
+const NEW_MISSION_CARD_DETAILS = {
+  symbol: <Target className="mr-2" />,
+  title: "Missions",
+  description:
+    "These represent actions that you can take daily to progress on your missions.",
+  buttonText: "Create New Mission",
+  linkTo: "/create-mission",
+};
 
 const Missions = () => {
   return (
     <div>
-      <section className="flex flex-col items-center justify-center h-[400px]">
-        <h1 className="scroll-m-20 text-4xl font-extrabold tracking-widest lg:text-5xl">
-          COMING SOON
-        </h1>
-        <p className="leading-7 [&:not(:first-child)]:mt-6">
-          UNTIL THEN YOU CAN ADD HABITS
-        </p>
-        <Link href="/habits">
-          <Button className="mt-5">TO HABITS</Button>
-        </Link>
-      </section>
+      <NewEntry
+        symbol={NEW_MISSION_CARD_DETAILS.symbol}
+        title={NEW_MISSION_CARD_DETAILS.title}
+        description={NEW_MISSION_CARD_DETAILS.description}
+        buttonText={NEW_MISSION_CARD_DETAILS.buttonText}
+        linkTo={NEW_MISSION_CARD_DETAILS.linkTo}
+      />
     </div>
   );
 };

@@ -6,6 +6,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@components/ui/accordion";
+import { Button } from "@components/ui/button";
 import { FaSun } from "react-icons/fa";
 
 interface HabitCardProps {
@@ -29,11 +30,13 @@ const JournalEntryCard = ({
           <div>{dailyWillpower}</div>
         </div>
       </AccordionTrigger>
-      <button className="bg-white text-black p-2 my-4 rounded-md">
-        <Link href={`/update-journal-entry/${id}`}>Edit</Link>
-      </button>
       <AccordionContent>
         <Info text={"Grateful Items of the day:"} />
+        <div className="mt-12">
+          <Button className="mr-3" size="sm">
+            <Link href={`/update-journal-entry/${id}`}>Edit</Link>
+          </Button>
+        </div>
       </AccordionContent>
     </AccordionItem>
   );
