@@ -2,9 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { useRouter, useParams } from "next/navigation";
-import HabitForm from "@components/HabitForm";
-import { Habit } from "@components/HabitForm";
-import SkeletonForm from "@components/SkeletonForm";
+import HabitForm, { Habit } from "@components/HabitForm";
+import SkeletonForm from "@components/skeletons/SkeletonForm";
 
 const EditHabit = () => {
   const router = useRouter();

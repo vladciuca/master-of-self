@@ -5,6 +5,7 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import HabitCard from "@components/HabitCard";
 import { Accordion } from "@components/ui/accordion";
+import SkeletonCard from "@components/skeletons/SkeletonCard";
 
 // try and use import { Session } from "next-auth"; type here
 interface User {
@@ -48,6 +49,10 @@ const HabitList = ({ habits, handleEdit, handleDelete }: HabitListProps) => {
     </Accordion>
   );
 };
+
+const skeletonCards = Array.from({ length: 3 }, (_, index) => (
+  <SkeletonCard key={index} />
+));
 
 const Habits = () => {
   const router = useRouter();
@@ -101,12 +106,7 @@ const Habits = () => {
 
   return (
     <div className="w-full">
-      {!habitsLoaded && (
-        <div className="w-full h-full flex justify-center items-center">
-          <div className="loader" />
-        </div>
-      )}
-
+      {!habitsLoaded && <>{skeletonCards}</>}
       {habitsLoaded && (
         <HabitList
           habits={habits}
