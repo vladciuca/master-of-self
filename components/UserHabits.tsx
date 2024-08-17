@@ -3,8 +3,7 @@
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import HabitCard from "@components/HabitCard";
-import { Accordion } from "@components/ui/accordion";
+import HabitList from "@components/HabitList";
 import SkeletonCard from "@components/skeletons/SkeletonCard";
 
 // try and use import { Session } from "next-auth"; type here
@@ -27,27 +26,6 @@ type Habit = {
   creator: {
     _id: string;
   };
-};
-
-type HabitListProps = {
-  habits: Habit[];
-  handleEdit: (habit: Habit) => void;
-  handleDelete: (habit: Habit) => Promise<void>;
-};
-
-const HabitList = ({ habits, handleEdit, handleDelete }: HabitListProps) => {
-  return (
-    <Accordion type="single" className="w-full">
-      {habits.map((habit: Habit) => (
-        <HabitCard
-          key={habit._id}
-          habit={habit}
-          handleEdit={handleEdit}
-          handleDelete={handleDelete}
-        />
-      ))}
-    </Accordion>
-  );
 };
 
 const skeletonCards = Array.from({ length: 3 }, (_, index) => (

@@ -4,8 +4,18 @@ import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import JournalEntryList from "./JournalEntryList";
 
+interface User {
+  id: string;
+  name?: string;
+  email?: string;
+}
+
+interface Session {
+  user: User;
+}
+
 const UserJournal = () => {
-  const { data: session } = useSession();
+  const { data: session } = useSession() as { data: Session | null };
   const [journalEntries, setJournalEntries] = useState([]);
   const [journalEntriesLoaded, setJournalEntriesLoaded] = useState(false);
 
