@@ -3,7 +3,7 @@
 import { Progress } from "@components/ui/progress";
 import { FaBoltLightning } from "react-icons/fa6";
 
-function xpForLevel(level) {
+function xpForLevel(level: number) {
   let baseXP = 0;
   let xpRequired = 10;
 
@@ -15,7 +15,7 @@ function xpForLevel(level) {
   return { baseXP, nextLevelXP: baseXP + xpRequired };
 }
 
-function calculateLevel(xp) {
+function calculateLevel(xp: number) {
   let level = 1;
 
   while (true) {
@@ -27,7 +27,7 @@ function calculateLevel(xp) {
   }
 }
 
-function SkillLevel({ xp }) {
+function LevelBar({ xp }: { xp: number }) {
   const level = calculateLevel(xp);
   const { baseXP, nextLevelXP } = xpForLevel(level);
   const progressPercentage = ((xp - baseXP) / (nextLevelXP - baseXP)) * 100;
@@ -50,4 +50,4 @@ function SkillLevel({ xp }) {
   );
 }
 
-export default SkillLevel;
+export default LevelBar;

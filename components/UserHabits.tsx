@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import HabitCard from "@components/HabitCard";
 import { Accordion } from "@components/ui/accordion";
 
-// tyr and use import { Session } from "next-auth"; type here
+// try and use import { Session } from "next-auth"; type here
 interface User {
   id: string;
   name?: string;
@@ -23,6 +23,9 @@ type Habit = {
   icon: string;
   description: string;
   xp: number;
+  creator: {
+    _id: string;
+  };
 };
 
 type SkillListProps = {
