@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { useRouter, useParams } from "next/navigation";
-import SkillForm from "@components/SkillForm";
-import { Habit } from "@components/SkillForm";
+import HabitForm from "@components/HabitForm";
+import { Habit } from "@components/HabitForm";
 import SkeletonForm from "@components/SkeletonForm";
 
 const EditHabit = () => {
@@ -54,7 +54,7 @@ const EditHabit = () => {
   };
 
   return habitData ? (
-    <SkillForm
+    <HabitForm
       type="Edit"
       habit={habitData}
       submitting={submitting}

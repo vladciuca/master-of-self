@@ -28,21 +28,21 @@ type Habit = {
   };
 };
 
-type SkillListProps = {
+type HabitListProps = {
   habits: Habit[];
   handleEdit: (habit: Habit) => void;
   handleDelete: (habit: Habit) => Promise<void>;
 };
 
-const HabitList = ({ habits, handleEdit, handleDelete }: SkillListProps) => {
+const HabitList = ({ habits, handleEdit, handleDelete }: HabitListProps) => {
   return (
     <Accordion type="single" className="w-full">
       {habits.map((habit: Habit) => (
         <HabitCard
           key={habit._id}
           habit={habit}
-          handleEdit={() => handleEdit && handleEdit(habit)}
-          handleDelete={() => handleDelete && handleDelete(habit)}
+          handleEdit={handleEdit}
+          handleDelete={handleDelete}
         />
       ))}
     </Accordion>

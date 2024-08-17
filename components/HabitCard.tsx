@@ -55,11 +55,7 @@ interface HabitCardProps {
   handleDelete: (habit: Habit) => Promise<void>;
 }
 
-const HabitCard: React.FC<HabitCardProps> = ({
-  habit,
-  handleEdit,
-  handleDelete,
-}) => {
+const HabitCard = ({ habit, handleEdit, handleDelete }: HabitCardProps) => {
   const { _id = "", name = "", icon = "", description = "", xp = 0 } = habit;
   const { data: session } = useSession() as { data: Session | null };
   const pathName = usePathname();
@@ -87,10 +83,18 @@ const HabitCard: React.FC<HabitCardProps> = ({
           {session?.user?.id === habit.creator._id &&
             pathName === "/habits" && (
               <div>
-                <Button onClick={() => handleEdit} className="mr-3" size="sm">
+                <Button
+                  onClick={() => handleEdit(habit)}
+                  className="mr-3"
+                  size="sm"
+                >
                   Edit
                 </Button>
-                <Button variant="ghost" onClick={() => handleDelete} size="sm">
+                <Button
+                  variant="ghost"
+                  onClick={() => handleDelete(habit)}
+                  size="sm"
+                >
                   Drop
                 </Button>
               </div>

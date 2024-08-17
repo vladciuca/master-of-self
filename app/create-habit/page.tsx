@@ -3,9 +3,8 @@
 import { useState } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-
-import SkillForm from "@components/SkillForm";
-import { Habit } from "@components/SkillForm";
+import HabitForm from "@components/HabitForm";
+import { Habit } from "@components/HabitForm";
 
 interface User {
   id: string;
@@ -49,7 +48,7 @@ const CreateHabit = () => {
   };
 
   return (
-    <SkillForm type="Create" submitting={submitting} onSubmit={createHabit} />
+    <HabitForm type="Create" submitting={submitting} onSubmit={createHabit} />
   );
 };
 
