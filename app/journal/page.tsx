@@ -4,8 +4,8 @@ import { FaSun, FaMoon } from "react-icons/fa";
 
 const NEW_JOURNAL_ENTRY_CARD_DETAILS = {
   symbol: {
-    day: <FaSun className="mr-2" />,
-    night: <FaMoon className="mr-2" />,
+    day: <FaSun size="1.5rem" className="mr-2" />,
+    night: <FaMoon size="1.5rem" className="mr-2" />,
   },
   title: {
     day: "Day Entry",
