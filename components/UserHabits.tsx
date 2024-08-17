@@ -4,9 +4,11 @@ import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import SkillCard from "./SkillCard";
-import NewHabit from "@components/NewSkill";
+import NewEntry from "@components/NewEntry";
 import { Accordion } from "@components/ui/accordion";
+import { Target } from "lucide-react";
 
+// tyr and use import { Session } from "next-auth"; type here
 interface User {
   id: string;
   name?: string;
@@ -29,6 +31,14 @@ type SkillListProps = {
   habits: Habit[];
   handleEdit: (habit: Habit) => void;
   handleDelete: (habit: Habit) => Promise<void>;
+};
+
+const NEW_HABIT_CARD_DETAILS = {
+  symbol: <Target className="mr-2" />,
+  title: "Habits",
+  description:
+    "These are actions that you take daily to progress on your missions",
+  buttonText: "Create New Habit",
 };
 
 const SkillList = ({ habits, handleEdit, handleDelete }: SkillListProps) => {
@@ -98,7 +108,12 @@ const Habits = () => {
 
   return (
     <div className="w-full">
-      <NewHabit />
+      <NewEntry
+        symbol={NEW_HABIT_CARD_DETAILS.symbol}
+        title={NEW_HABIT_CARD_DETAILS.title}
+        description={NEW_HABIT_CARD_DETAILS.description}
+        buttonText={NEW_HABIT_CARD_DETAILS.buttonText}
+      />
       {!habitsLoaded && (
         <div className="w-full h-full flex justify-center items-center">
           <div className="loader" />

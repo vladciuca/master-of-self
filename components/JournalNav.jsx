@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { Target, Atom } from "lucide-react";
+import { Target, Compass } from "lucide-react";
 import { FaMoon, FaSun } from "react-icons/fa6";
 import { Button } from "@components/ui/button";
 
@@ -43,13 +43,13 @@ const JournalNav = () => {
 
   return (
     <nav className="flex h-full justify-around items-center w-full">
-      <Link href="/">
+      <Link href="/missions">
         <Button
           variant="ghost"
           className="flex flex-col items-center hover: rounded-full h-16 px-10"
         >
-          <Atom size={"2.4rem"} />
-          <div className="text-xs mt-1">Powers</div>
+          <Compass size={"2.4rem"} />
+          <div className="text-xs mt-1">Missions</div>
         </Button>
       </Link>
 
