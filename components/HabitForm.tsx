@@ -25,14 +25,14 @@ const formSchema = z.object({
 
 export type Habit = z.infer<typeof formSchema>;
 
-type SkillFormProps = {
+type HabitFormProps = {
   type: "Edit" | "Create";
   submitting: boolean;
   onSubmit: (habit: Habit) => Promise<void>;
   habit?: Habit;
 };
 
-const SkillForm: React.FC<SkillFormProps> = ({
+const HabitForm: React.FC<HabitFormProps> = ({
   type,
   submitting,
   onSubmit,
@@ -130,4 +130,4 @@ const SkillForm: React.FC<SkillFormProps> = ({
   );
 };
 
-export default SkillForm;
+export default HabitForm;

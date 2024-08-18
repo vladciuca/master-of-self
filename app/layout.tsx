@@ -4,24 +4,24 @@ import Footer from "@components/Footer";
 import LandingPage from "@components/LandingPage";
 import Provider from "@components/Provider";
 import { ThemeProvider } from "@components/theme-provider";
-// import { Aclonica } from "next/font/google";
-// import { Silkscreen } from "next/font/google";
-// import { DotGothic16 } from "next/font/google";
 import { Poppins } from "next/font/google";
+import { ReactNode } from "react";
 
 const font = Poppins({
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
-  // weight: ["400"],
   subsets: ["latin"],
 });
 
 export const metadata = {
   title: "Master of Self",
   description: "Take control of your life",
-  // viewport: "width=device-width, initial-scale=1.0",
 };
 
-const RootLayout = ({ children }) => {
+interface RootLayoutProps {
+  children: ReactNode;
+}
+
+const RootLayout = ({ children }: RootLayoutProps) => {
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`relative ${font.className}`}>

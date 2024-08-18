@@ -22,7 +22,11 @@ export const CardTitle = ({ text }: { text: String }) => {
   );
 };
 
-export const SubTitle = () => {};
+export const SubTitle = ({ text }: { text: String }) => {
+  return (
+    <h4 className="scroll-m-20 text-xl font-semibold tracking-tight">{text}</h4>
+  );
+};
 
 export const Info = ({ text }: { text: String }) => {
   return <p className="text-sm mt-2 text-muted-foreground">{text}</p>;

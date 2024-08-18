@@ -3,10 +3,10 @@
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import SkillCard from "./SkillCard";
-import NewHabit from "@components/NewSkill";
-import { Accordion } from "@components/ui/accordion";
+import HabitList from "@components/HabitList";
+import SkeletonCard from "@components/skeletons/SkeletonCard";
 
+// try and use import { Session } from "next-auth"; type here
 interface User {
   id: string;
   name?: string;
@@ -23,28 +23,14 @@ type Habit = {
   icon: string;
   description: string;
   xp: number;
+  creator: {
+    _id: string;
+  };
 };
 
-type SkillListProps = {
-  habits: Habit[];
-  handleEdit: (habit: Habit) => void;
-  handleDelete: (habit: Habit) => Promise<void>;
-};
-
-const SkillList = ({ habits, handleEdit, handleDelete }: SkillListProps) => {
-  return (
-    <Accordion type="single" className="w-full">
-      {habits.map((habit: Habit) => (
-        <SkillCard
-          key={habit._id}
-          habit={habit}
-          handleEdit={() => handleEdit && handleEdit(habit)}
-          handleDelete={() => handleDelete && handleDelete(habit)}
-        />
-      ))}
-    </Accordion>
-  );
-};
+const skeletonCards = Array.from({ length: 3 }, (_, index) => (
+  <SkeletonCard key={index} />
+));
 
 const Habits = () => {
   const router = useRouter();
@@ -98,15 +84,9 @@ const Habits = () => {
 
   return (
     <div className="w-full">
-      <NewHabit />
-      {!habitsLoaded && (
-        <div className="w-full h-full flex justify-center items-center">
-          <div className="loader" />
-        </div>
-      )}
-
+      {!habitsLoaded && <>{skeletonCards}</>}
       {habitsLoaded && (
-        <SkillList
+        <HabitList
           habits={habits}
           handleEdit={handleEdit}
           handleDelete={handleDelete}
