@@ -2,7 +2,8 @@
 
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
-import JournalEntryList from "./JournalEntryList";
+import JournalEntryList from "@components/JournalEntryList";
+import SkeletonJournalEntryCard from "@components/skeletons/SkeletonJournalEntryCard";
 
 interface User {
   id: string;
@@ -13,6 +14,10 @@ interface User {
 interface Session {
   user: User;
 }
+
+const skeletonCards = Array.from({ length: 3 }, (_, index) => (
+  <SkeletonJournalEntryCard key={index} />
+));
 
 const UserJournal = () => {
   const { data: session } = useSession() as { data: Session | null };
@@ -42,11 +47,7 @@ const UserJournal = () => {
 
   return (
     <div>
-      {!journalEntriesLoaded && (
-        <div className="w-full h-full flex flex-grow justify-center items-center mt-20">
-          <div className="loader" />
-        </div>
-      )}
+      {!journalEntriesLoaded && <>{skeletonCards}</>}
       {journalEntriesLoaded && (
         <div>
           <JournalEntryList journalEntries={journalEntries} />

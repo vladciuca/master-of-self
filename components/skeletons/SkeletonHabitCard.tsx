@@ -1,14 +1,7 @@
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@components/ui/card";
 import { Skeleton } from "../ui/skeleton";
 
-const SkeletonCard = () => {
+const SkeletonHabitCard = () => {
   return (
     <Card className="mb-4">
       <CardHeader>
@@ -25,4 +18,4 @@ const SkeletonCard = () => {
   );
 };
 
-export default SkeletonCard;
+export default SkeletonHabitCard;

@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import HabitList from "@components/HabitList";
-import SkeletonCard from "@components/skeletons/SkeletonCard";
+import SkeletonHabitCard from "@components/skeletons/SkeletonHabitCard";
 
 // try and use import { Session } from "next-auth"; type here
 interface User {
@@ -29,7 +29,7 @@ type Habit = {
 };
 
 const skeletonCards = Array.from({ length: 3 }, (_, index) => (
-  <SkeletonCard key={index} />
+  <SkeletonHabitCard key={index} />
 ));
 
 const Habits = () => {
