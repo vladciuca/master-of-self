@@ -16,16 +16,16 @@ const JournalEntryList = ({ journalEntries }: JournalEntryListProps) => {
     <Accordion type="single" className="pb-1">
       {journalEntries.map((journalEntry) => {
         const { _id, createDate, dailyWillpower } = journalEntry;
-        const date = new Date(createDate);
 
-        const formattedDate = `${date.getDate()}/${
-          date.getMonth() + 1
-        }/${date.getFullYear()}`;
+        const date = new Date(createDate);
+        const day = date.getDate();
+        const month = date.toLocaleString("default", { month: "short" });
 
         return (
           <JournalEntryCard
             id={_id}
-            formattedDate={formattedDate}
+            day={day}
+            month={month}
             dailyWillpower={dailyWillpower}
           />
         );

@@ -11,6 +11,7 @@ import {
   AccordionTrigger,
 } from "@components/ui/accordion";
 import { Button } from "@components/ui/button";
+import { SubTitle } from "./ui/tipography";
 
 declare global {
   namespace JSX {
@@ -68,9 +69,7 @@ const HabitCard = ({ habit, handleEdit, handleDelete }: HabitCardProps) => {
             <div className="mr-3">
               <em-emoji shortcodes={icon} size="2.2rem" />
             </div>
-            <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight">
-              {name}
-            </h3>
+            <SubTitle text={`${name}`} />
           </div>
           <LevelBar xp={xp} />
         </div>
