@@ -3,8 +3,7 @@
 import { useState } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import HabitForm from "@components/HabitForm";
-import { Habit } from "@components/HabitForm";
+import HabitForm, { Habit } from "@components/HabitForm";
 
 interface User {
   id: string;
