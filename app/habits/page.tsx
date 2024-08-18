@@ -6,7 +6,7 @@ const NEW_HABIT_CARD_DETAILS = {
   symbol: <Shell className="mr-2" />,
   title: "Habits",
   description:
-    "These represent actions that you can take daily to progress on your missions.",
+    "represent actions that you can take daily to progress on your missions.",
   buttonText: "Create New Habit",
   linkTo: "/create-habit",
 };

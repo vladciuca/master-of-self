@@ -12,8 +12,8 @@ const NEW_JOURNAL_ENTRY_CARD_DETAILS = {
     night: "Night Entry",
   },
   description: {
-    day: "Generate willpower and rise to today's challenges.",
-    night: "Spend willpower on actions to increase mission progress.",
+    day: "generate willpower to rise to today's challenges.",
+    night: "spend willpower on habits to increase mission progress.",
   },
   buttonText: {
     day: "Start today's Journal",
