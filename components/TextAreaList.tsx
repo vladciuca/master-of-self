@@ -1,19 +1,34 @@
-import React, { useState, useRef, useEffect, KeyboardEvent, useCallback } from "react";
+import React, {
+  useState,
+  useRef,
+  useEffect,
+  KeyboardEvent,
+  useCallback,
+} from "react";
 
-const TextAreaList: React.FC = () => {
-  const [textRows, setTextRows] = useState<string[]>([""]);
+type TextAreaListProps = {
+  inputText: string[];
+  setInputText: React.Dispatch<React.SetStateAction<string[]>>;
+  className?: string;
+};
+
+const TextAreaList: React.FC<TextAreaListProps> = ({
+  inputText,
+  setInputText,
+  className,
+}) => {
   const [focusedRow, setFocusedRow] = useState<number>(0);
   const itemRefs = useRef<(HTMLLIElement | null)[]>([]);
 
   useEffect(() => {
-    itemRefs.current = itemRefs.current.slice(0, textRows.length);
-  }, [textRows]);
+    itemRefs.current = itemRefs.current.slice(0, inputText.length);
+  }, [inputText]);
 
   const handleKeyDown = (event: KeyboardEvent<HTMLOListElement>) => {
     if (event.key === "Enter") {
       event.preventDefault();
       const newIndex = focusedRow + 1;
-      setTextRows((prev) => [
+      setInputText((prev) => [
         ...prev.slice(0, newIndex),
         "",
         ...prev.slice(newIndex),
@@ -26,10 +41,10 @@ const TextAreaList: React.FC = () => {
     }
     if (event.key === "Backspace") {
       const currentLi = itemRefs.current[focusedRow];
-      if (currentLi?.textContent === "" && textRows.length > 1) {
+      if (currentLi?.textContent === "" && inputText.length > 1) {
         event.preventDefault();
         const newIndex = Math.max(0, focusedRow - 1);
-        setTextRows((prev) => prev.filter((_, index) => index !== focusedRow));
+        setInputText((prev) => prev.filter((_, index) => index !== focusedRow));
         setFocusedRow(newIndex);
 
         setTimeout(() => {
@@ -48,38 +63,49 @@ const TextAreaList: React.FC = () => {
     }
   };
 
-  const refCallback = useCallback((index: number, text: string) => (el: HTMLLIElement | null) => {
-    itemRefs.current[index] = el;
-    if (el && el.textContent !== text) {
-      el.textContent = text;
-    }
-  }, []);
+  const refCallback = useCallback(
+    (index: number, text: string) => (el: HTMLLIElement | null) => {
+      itemRefs.current[index] = el;
+      if (el && el.textContent !== text) {
+        el.textContent = text;
+      }
+    },
+    []
+  );
 
-  const handleInputCurried = useCallback((index: number) => (event: React.FormEvent<HTMLLIElement>) => {
-    const newText = event.currentTarget.textContent || "";
-    setTextRows((prev) => {
-      const newRows = [...prev];
-      newRows[index] = newText;
-      return newRows;
-    });
-  }, []);
+  const handleInputCurried = useCallback(
+    (index: number) => (event: React.FormEvent<HTMLLIElement>) => {
+      const newText = event.currentTarget.textContent || "";
+      setInputText((prev) => {
+        const newRows = [...prev];
+        newRows[index] = newText;
+        return newRows;
+      });
+    },
+    []
+  );
 
-  const handleFocusCurried = useCallback((index: number) => () => {
-    setFocusedRow(index);
-  }, []);
+  const handleFocusCurried = useCallback(
+    (index: number) => () => {
+      setFocusedRow(index);
+    },
+    []
+  );
 
   return (
-    <div className="m-2 rounded-md overflow-scroll h-40 bg-slate-700 list-decimal">
+    <div
+      className={`m-2 rounded-md overflow-scroll h-40 bg-slate-700 list-decimal ${className}`}
+    >
       <ol className="list-decimal ml-8 mr-3 py-2" onKeyDown={handleKeyDown}>
-        {textRows.map((text, index) => (
+        {inputText.map((text, index) => (
           <li
-          key={`row-${index}`}
-          ref={refCallback(index, text)}
-          className="outline-none"
-          contentEditable
-          suppressContentEditableWarning={true}
-          onInput={handleInputCurried(index)}
-          onFocus={handleFocusCurried(index)}
+            key={`row-${index}`}
+            ref={refCallback(index, text)}
+            className="outline-none"
+            contentEditable
+            suppressContentEditableWarning={true}
+            onInput={handleInputCurried(index)}
+            onFocus={handleFocusCurried(index)}
           />
         ))}
       </ol>

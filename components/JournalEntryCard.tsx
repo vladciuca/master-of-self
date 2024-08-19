@@ -14,6 +14,8 @@ type HabitCardProps = {
   day: number;
   month: string;
   dailyWillpower: number;
+  dayEntry?: string[];
+  nightEntry?: string[];
 };
 
 const JournalEntryCard = ({
@@ -21,6 +23,8 @@ const JournalEntryCard = ({
   day,
   month,
   dailyWillpower,
+  dayEntry,
+  nightEntry,
 }: HabitCardProps) => {
   return (
     <AccordionItem key={id} value={id} className="pb-0">
@@ -46,10 +50,36 @@ const JournalEntryCard = ({
         </div>
       </AccordionTrigger>
       <AccordionContent>
-        <Info text={"Day"} />
-
-        <Info text={"Night"} />
-
+        {dayEntry?.length ? (
+          <>
+            <Info text={"Day"} />
+            <ol>
+              {dayEntry.map((entry: string, index: number) => (
+                <li className="flex" key={index}>
+                  <span className="text-right w-4 mr-3">{index + 1}.</span>
+                  <div>{entry}</div>
+                </li>
+              ))}
+            </ol>
+          </>
+        ) : (
+          <Info text={"You have not completed your DAY entry yet"} />
+        )}
+        {nightEntry?.length ? (
+          <>
+            <Info text={"Night"} />
+            <ol>
+              {nightEntry.map((entry: string, index: number) => (
+                <li className="flex" key={index}>
+                  <span className="text-right w-4 mr-3">{index + 1}.</span>
+                  <div>{entry}</div>
+                </li>
+              ))}
+            </ol>
+          </>
+        ) : (
+          <Info text={"You have not completed your NIGHT entry yet"} />
+        )}
         <div className="mt-12">
           <Button className="mr-3" size="sm">
             <Link href={`/update-journal-entry/${id}`}>Edit</Link>

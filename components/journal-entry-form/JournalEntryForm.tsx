@@ -2,11 +2,12 @@
 
 import React, { ChangeEvent, useEffect, useState } from "react";
 import { Button } from "@components/ui/button";
+import TextAreaList from "@components/TextAreaList";
 
 interface JournalEntry {
   dailyWillpower: number;
-  dayEntry: { myDay: string };
-  nightEntry: { myNight: string };
+  dayEntry: string[];
+  nightEntry: string[];
 }
 
 type JournalEntryFormProps = {
@@ -14,6 +15,7 @@ type JournalEntryFormProps = {
   submitting: boolean;
   onSubmit: (journalEntry: JournalEntry) => Promise<void>;
   journalEntryData?: JournalEntry;
+  step?: 1 | 2;
 };
 
 const JournalEntryForm: React.FC<JournalEntryFormProps> = ({
@@ -21,32 +23,34 @@ const JournalEntryForm: React.FC<JournalEntryFormProps> = ({
   journalEntryData,
   submitting,
   onSubmit,
+  step,
 }) => {
   const [journalEntry, setJournalEntry] = useState<JournalEntry>({
     dailyWillpower: 0,
-    dayEntry: { myDay: "" },
-    nightEntry: { myNight: "" },
+    dayEntry: [],
+    nightEntry: [],
   });
 
+  const [inputTextDay, setInputTextDay] = useState<string[]>([""]);
+  const [inputTextNight, setInputTextNight] = useState<string[]>([""]);
+
+  const willpowerCounter = inputTextDay.length;
+
   useEffect(() => {
-    if (journalEntryData) setJournalEntry(journalEntryData);
+    if (journalEntryData) {
+      setJournalEntry(journalEntryData);
+      setInputTextDay(journalEntryData?.dayEntry);
+    }
   }, []);
 
-  const handleChange = (
-    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-    field: "dailyWillpowerField" | "dayField" | "nightField"
-  ) => {
-    const value = event.target.value;
-    if (field === "dailyWillpowerField") {
-      setJournalEntry({ ...journalEntry, dailyWillpower: Number(value) });
-    }
-    if (field === "dayField") {
-      setJournalEntry({ ...journalEntry, dayEntry: { myDay: value } });
-    }
-    if (field === "nightField") {
-      setJournalEntry({ ...journalEntry, nightEntry: { myNight: value } });
-    }
-  };
+  useEffect(() => {
+    setJournalEntry({
+      ...journalEntry,
+      dailyWillpower: willpowerCounter,
+      dayEntry: inputTextDay,
+      nightEntry: inputTextNight,
+    });
+  }, [inputTextDay, inputTextNight]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -55,38 +59,140 @@ const JournalEntryForm: React.FC<JournalEntryFormProps> = ({
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col w-full p-2">
-      <h1 className="py-10 text-3xl">
-        {type === "create" ? "Create" : "Edit"}
-      </h1>
-      <label className="w-full mb-4">
-        Daily Willpower:
-        <input
-          className="w-full"
-          type="number"
-          value={journalEntry.dailyWillpower}
-          onChange={(e) => handleChange(e, "dailyWillpowerField")}
+      {step === 1 && (
+        <JournalStep1
+          willpowerCounter={willpowerCounter}
+          inputTextDay={inputTextDay}
+          setInputTextDay={setInputTextDay}
         />
-      </label>
-      <label className="w-full mb-4">
-        Day Entry:
-        <textarea
-          className="w-full"
-          value={journalEntry.dayEntry.myDay}
-          onChange={(e) => handleChange(e, "dayField")}
+      )}
+      {step === 2 && (
+        <JournalStep2
+          inputTextNight={inputTextNight}
+          setInputTextNight={setInputTextNight}
         />
-      </label>
-      <label className="w-full mb-4">
-        Night Entry:
-        <textarea
-          className="w-full"
-          value={journalEntry.nightEntry.myNight}
-          onChange={(e) => handleChange(e, "nightField")}
+      )}
+      {type === "update" && journalEntry.nightEntry.length < 1 ? (
+        <JournalEditDay
+          willpowerCounter={willpowerCounter}
+          inputTextDay={inputTextDay}
+          setInputTextDay={setInputTextDay}
         />
-      </label>
+      ) : (
+        <></>
+      )}
+
+      {type === "update" && journalEntry.nightEntry.length >= 1 ? (
+        <JournalEditAll
+          willpowerCounter={willpowerCounter}
+          inputTextDay={inputTextDay}
+          setInputTextDay={setInputTextDay}
+          inputTextNight={inputTextNight}
+          setInputTextNight={setInputTextNight}
+        />
+      ) : (
+        <></>
+      )}
+
       <Button type="submit" disabled={submitting}>
-        {type === "create" ? "Create Entry" : "Update Entry"}
+        Submit
       </Button>
     </form>
+  );
+};
+
+const JournalStep1: React.FC<any> = ({
+  willpowerCounter,
+  inputTextDay,
+  setInputTextDay,
+}) => {
+  return (
+    <>
+      <h1 className="py-10 text-3xl">Create DAY entry</h1>
+      <label className="w-full mb-4">
+        <h4 className="">{`Daily Willpower: ${willpowerCounter}`}</h4>
+      </label>
+      <label className="w-full mb-4">
+        <h3 className="text-xl">What will make today great?</h3>
+        <TextAreaList
+          className="mx-0 bg-transparent ring-2 ring-white"
+          inputText={inputTextDay}
+          setInputText={setInputTextDay}
+        />
+      </label>
+    </>
+  );
+};
+
+const JournalStep2: React.FC<any> = ({ inputTextNight, setInputTextNight }) => {
+  return (
+    <>
+      <h1 className="py-10 text-3xl">Create NIGHT entry</h1>
+      <label className="w-full mb-4">
+        <h3 className="text-xl">What were the highlights of your day?</h3>
+        <TextAreaList
+          className="mx-0 bg-transparent ring-2 ring-white"
+          inputText={inputTextNight}
+          setInputText={setInputTextNight}
+        />
+      </label>
+    </>
+  );
+};
+
+const JournalEditDay: React.FC<any> = ({
+  willpowerCounter,
+  inputTextDay,
+  setInputTextDay,
+}) => {
+  return (
+    <>
+      <h1 className="py-10 text-3xl">Edit your DAY entry</h1>
+      <label className="w-full mb-4">
+        <h4 className="">{`Daily Willpower: ${willpowerCounter}`}</h4>
+      </label>
+      <label className="w-full mb-4">
+        <h3 className="text-xl">What will make today great?</h3>
+        <TextAreaList
+          className="mx-0 bg-transparent ring-2 ring-white"
+          inputText={inputTextDay}
+          setInputText={setInputTextDay}
+        />
+      </label>
+    </>
+  );
+};
+
+const JournalEditAll: React.FC<any> = ({
+  willpowerCounter,
+  inputTextDay,
+  setInputTextDay,
+  inputTextNight,
+  setInputTextNight,
+}) => {
+  return (
+    <>
+      <h1 className="py-10 text-3xl">Edit your entries for today</h1>
+      <label className="w-full mb-4">
+        <h4 className="">{`Daily Willpower: ${willpowerCounter}`}</h4>
+      </label>
+      <label className="w-full mb-4">
+        <h3 className="text-xl">What will make today great?</h3>
+        <TextAreaList
+          className="mx-0 bg-transparent ring-2 ring-white"
+          inputText={inputTextDay}
+          setInputText={setInputTextDay}
+        />
+      </label>
+      <label className="w-full mb-4">
+        <h3 className="text-xl">What were the highlights of your day?</h3>
+        <TextAreaList
+          className="mx-0 bg-transparent ring-2 ring-white"
+          inputText={inputTextNight}
+          setInputText={setInputTextNight}
+        />
+      </label>
+    </>
   );
 };
 

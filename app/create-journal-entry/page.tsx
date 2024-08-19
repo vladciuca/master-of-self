@@ -17,14 +17,19 @@ interface Session {
 
 interface JournalEntry {
   dailyWillpower: number;
-  dayEntry: { myDay: string };
-  nightEntry: { myNight: string };
+  dayEntry: string[];
+  nightEntry: string[];
 }
 
-const CreateJournalEntry = () => {
+const CreateJournalEntry = ({
+  searchParams,
+}: {
+  searchParams: { time: "day" | "night" };
+}) => {
   const router = useRouter();
   const { data: session } = useSession() as { data: Session | null };
   const [submitting, setSubmitting] = useState<boolean>(false);
+  const { time } = searchParams;
 
   const createJournalEntry = async (journalEntry: JournalEntry) => {
     const { dailyWillpower, dayEntry, nightEntry } = journalEntry;
@@ -37,7 +42,6 @@ const CreateJournalEntry = () => {
           userId: session?.user?.id,
           dailyWillpower,
           dayEntry,
-          nightEntry,
         }),
       });
 
@@ -57,6 +61,7 @@ const CreateJournalEntry = () => {
         type="create"
         submitting={submitting}
         onSubmit={createJournalEntry}
+        step={1}
       />
     </div>
   );

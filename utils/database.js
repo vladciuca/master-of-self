@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-mongoose.set("debug", false);
+mongoose.set("debug", true);
 
 let isConnected = false;
 
