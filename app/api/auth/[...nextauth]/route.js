@@ -34,11 +34,6 @@ const handler = NextAuth({
             email: profile.email,
             username: profile.name,
             image: profile.picture,
-            stats: {
-              mind: 0,
-              body: 0,
-              spirit: 0,
-            },
           });
         }
         return true;

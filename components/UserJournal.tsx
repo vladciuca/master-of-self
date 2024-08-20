@@ -4,15 +4,10 @@ import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import JournalEntryList from "@components/JournalEntryList";
 import SkeletonJournalEntryCard from "@components/skeletons/SkeletonJournalEntryCard";
-
-interface User {
-  id: string;
-  name?: string;
-  email?: string;
-}
-
 interface Session {
-  user: User;
+  user?: {
+    id?: string | null;
+  };
 }
 
 const skeletonCards = Array.from({ length: 3 }, (_, index) => (
@@ -29,7 +24,7 @@ const UserJournal = () => {
       setJournalEntriesLoaded(false);
       try {
         const response = await fetch(
-          `/api/users/${session?.user.id}/journal-entries`
+          `/api/users/${session?.user?.id}/journal-entries`
         );
         const data = await response.json();
         setJournalEntries(data.reverse());
@@ -40,7 +35,7 @@ const UserJournal = () => {
       }
     };
 
-    if (session?.user.id) {
+    if (session?.user?.id) {
       fetchJournalEntries();
     }
   }, [session]);

@@ -14,9 +14,11 @@ type HabitCardProps = {
   day: number;
   month: string;
   dailyWillpower: number;
+  isToday: boolean;
 };
 
 const JournalEntryCard = ({
+  isToday,
   id,
   day,
   month,
@@ -27,7 +29,11 @@ const JournalEntryCard = ({
       <AccordionTrigger>
         <div className="flex w-full justify-between">
           <div className="flex items-center">
-            <div className="bg-primary text-primary-foreground h-16 w-16 rounded-sm flex flex-col justify-center">
+            <div
+              className={`${
+                isToday ? "bg-red-400" : "bg-primary"
+              } text-primary-foreground h-16 w-16 rounded-sm flex flex-col justify-center`}
+            >
               <div className="uppercase">{month}</div>
               <div className="text-4xl font-semibold">{day}</div>
             </div>
