@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
 import JournalEntryForm from "@components/journal-entry-form/JournalEntryForm";
+import PageLogo from "@components/PageLogo";
 
 interface JournalEntry {
   dailyWillpower: number;
@@ -58,7 +59,7 @@ const UpdateJournalEntry = () => {
       onSubmit={updateJournalEntry}
     />
   ) : (
-    <div>Loading...</div>
+    <PageLogo />
   );
 };
 

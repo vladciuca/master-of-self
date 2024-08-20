@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
+import PageLogo from "@components/PageLogo";
 
 interface Session {
   user?: {
@@ -58,11 +59,7 @@ const StepFormController = () => {
     router.push(`/update-journal-entry/${todaysEntry?._id}`);
   }, [journalEntriesLoaded]);
 
-  return (
-    <>
-      <div>LOADING</div>
-    </>
-  );
+  return <PageLogo />;
 };
 
 export default StepFormController;

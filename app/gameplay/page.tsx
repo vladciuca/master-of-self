@@ -1,11 +1,7 @@
 import StepFormController from "@components/journal-entry-form/FormStepController";
 
 const Gameplay = () => {
-  return (
-    <div>
-      <StepFormController />
-    </div>
-  );
+  return <StepFormController />;
 };
 
 export default Gameplay;
