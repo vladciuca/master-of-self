@@ -59,6 +59,7 @@ const JournalEntryForm = ({
       <h1 className="py-10 text-3xl">
         {type === "create" ? "Create" : "Edit"}
       </h1>
+      {/*WILLPOWER SHOULD NEVER BE NEGATIVE */}
       <label className="w-full mb-4">
         Daily Willpower:
         <input

@@ -1,6 +1,3 @@
-"use client";
-
-import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import {
@@ -19,14 +16,34 @@ interface Session {
   };
 }
 
+const NEW_JOURNAL_ENTRY_CARD_DETAILS = {
+  symbol: {
+    day: <FaSun size="1.5rem" className="mr-2" />,
+    night: <FaMoon size="1.5rem" className="mr-2" />,
+  },
+  title: {
+    day: "Day Entry",
+    night: "Night Entry",
+  },
+  description: {
+    day: "Generate willpower to rise and today's challenges.",
+    night: "spend willpower on habits to increase mission progress.",
+  },
+  buttonText: {
+    day: "Start today's Journal",
+    night: "Finish today's Journal",
+  },
+  linkTo: {
+    day: "/create-journal-entry",
+    night: "",
+  },
+};
+
 const NewJournalEntry = () => {
   const router = useRouter();
   const { data: session } = useSession() as { data: Session | null };
-  const [submitting, setSubmitting] = useState<boolean>(false);
 
   const createJournalEntry = async () => {
-    setSubmitting(true);
-
     try {
       const response = await fetch("/api/journal-entry/new", {
         method: "POST",
@@ -41,8 +58,6 @@ const NewJournalEntry = () => {
       }
     } catch (error) {
       console.log(error);
-    } finally {
-      setSubmitting(false);
     }
   };
 
