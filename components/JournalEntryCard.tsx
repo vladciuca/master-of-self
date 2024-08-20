@@ -15,6 +15,12 @@ type HabitCardProps = {
   month: string;
   dailyWillpower: number;
   isToday: boolean;
+  dayEntry?: {
+    myDay: string;
+  };
+  nightEntry?: {
+    myNight: string;
+  };
 };
 
 const JournalEntryCard = ({
@@ -23,6 +29,8 @@ const JournalEntryCard = ({
   day,
   month,
   dailyWillpower,
+  dayEntry,
+  nightEntry,
 }: HabitCardProps) => {
   return (
     <AccordionItem key={id} value={id} className="pb-0">
@@ -53,9 +61,9 @@ const JournalEntryCard = ({
       </AccordionTrigger>
       <AccordionContent>
         <Info text={"Day"} />
-
+        <div className="mt-2">{dayEntry?.myDay}</div>
         <Info text={"Night"} />
-
+        <div className="mt-2">{nightEntry?.myNight}</div>
         <div className="mt-12">
           <Button className="mr-3" size="sm">
             <Link href={`/update-journal-entry/${id}`}>Edit</Link>

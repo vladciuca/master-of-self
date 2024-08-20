@@ -12,7 +12,7 @@ const NEW_JOURNAL_ENTRY_CARD_DETAILS = {
     night: "Night Entry",
   },
   description: {
-    day: "generate willpower to rise to today's challenges.",
+    day: "Generate willpower to rise and today's challenges.",
     night: "spend willpower on habits to increase mission progress.",
   },
   buttonText: {
@@ -35,12 +35,6 @@ const Journal = () => {
         buttonText={NEW_JOURNAL_ENTRY_CARD_DETAILS.buttonText.day}
         linkTo={NEW_JOURNAL_ENTRY_CARD_DETAILS.linkTo.day}
       />
-      {/* <NewEntry
-        symbol={NEW_JOURNAL_ENTRY_CARD_DETAILS.symbol.night}
-        title={NEW_JOURNAL_ENTRY_CARD_DETAILS.title.night}
-        description={NEW_JOURNAL_ENTRY_CARD_DETAILS.description.night}
-        buttonText={NEW_JOURNAL_ENTRY_CARD_DETAILS.buttonText.night}
-      /> */}
       <UserJournal />
     </div>
   );

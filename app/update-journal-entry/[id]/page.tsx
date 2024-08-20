@@ -6,8 +6,8 @@ import JournalEntryForm from "@components/journal-entry-form/JournalEntryForm";
 
 interface JournalEntry {
   dailyWillpower: number;
-  dayEntry: { myDay: string };
-  nightEntry: { myNight: string };
+  dayEntry?: { myDay: string };
+  nightEntry?: { myNight: string };
 }
 
 const UpdateJournalEntry = () => {

@@ -7,6 +7,12 @@ type JournalEntryProps = {
   _id: string;
   createDate: Date;
   dailyWillpower: number;
+  dayEntry?: {
+    myDay: string;
+  };
+  nightEntry?: {
+    myNight: string;
+  };
 };
 
 type JournalEntryListProps = {
@@ -25,7 +31,8 @@ const JournalEntryList = ({ journalEntries }: JournalEntryListProps) => {
       {!hasTodayEntry && <NewJournalEntry />}
       <Accordion type="single" className="pb-1">
         {journalEntries.map((journalEntry) => {
-          const { _id, createDate, dailyWillpower } = journalEntry;
+          const { _id, createDate, dailyWillpower, dayEntry, nightEntry } =
+            journalEntry;
 
           const entryDate = new Date(createDate);
           const currentDate = new Date();
@@ -41,6 +48,8 @@ const JournalEntryList = ({ journalEntries }: JournalEntryListProps) => {
               month={month}
               isToday={isToday}
               dailyWillpower={dailyWillpower}
+              dayEntry={dayEntry}
+              nightEntry={nightEntry}
             />
           );
         })}

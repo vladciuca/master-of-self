@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import {
@@ -11,6 +11,7 @@ import {
   CardFooter,
 } from "@components/ui/card";
 import { Button } from "@components/ui/button";
+import { FaSun, FaMoon } from "react-icons/fa";
 
 interface Session {
   user?: {
@@ -36,13 +37,7 @@ const NewJournalEntry = () => {
       });
 
       if (response.ok) {
-        // for now need to refresh
-        // to change to - Form Step Controller (update form)
-        // nu ai cum "/update-journal-form-entry" pt ca aici creezi obiectu nu exista idu trebuie sa faci get si dupa sa iei idu
-        // navigating to another page will solve the issue, but i still need to trigger a rerender after submitting
-        //in order to refetch the list after submitting this we need JournalEntryContext
-        // router.push("/journal");
-        window.location.reload();
+        router.push(`/gameplay`);
       }
     } catch (error) {
       console.log(error);
@@ -54,12 +49,17 @@ const NewJournalEntry = () => {
   return (
     <Card className="mb-4">
       <CardHeader>
-        <CardTitle className="flex">title</CardTitle>
-        <CardDescription className="mt-1 mr-4">desc</CardDescription>
+        <CardTitle className="flex">
+          <FaSun className="mr-2" />
+          {"Day Entry"}
+        </CardTitle>
+        <CardDescription className="mt-1 mr-4">
+          {"Generate willpower to rise and today's challenges."}
+        </CardDescription>
       </CardHeader>
       <CardFooter>
         <Button size="sm" className="py-3" onClick={createJournalEntry}>
-          Start today's journal
+          {"Start today's journal"}
         </Button>
       </CardFooter>
     </Card>

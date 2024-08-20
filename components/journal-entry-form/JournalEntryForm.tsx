@@ -1,12 +1,13 @@
 "use client";
 
 import React, { ChangeEvent, useEffect, useState } from "react";
+import Link from "next/link";
 import { Button } from "@components/ui/button";
 
 interface JournalEntry {
   dailyWillpower: number;
-  dayEntry: { myDay: string };
-  nightEntry: { myNight: string };
+  dayEntry?: { myDay: string };
+  nightEntry?: { myNight: string };
 }
 
 type JournalEntryFormProps = {
@@ -16,12 +17,12 @@ type JournalEntryFormProps = {
   journalEntryData?: JournalEntry;
 };
 
-const JournalEntryForm: React.FC<JournalEntryFormProps> = ({
+const JournalEntryForm = ({
   type,
   journalEntryData,
   submitting,
   onSubmit,
-}) => {
+}: JournalEntryFormProps) => {
   const [journalEntry, setJournalEntry] = useState<JournalEntry>({
     dailyWillpower: 0,
     dayEntry: { myDay: "" },
@@ -71,7 +72,7 @@ const JournalEntryForm: React.FC<JournalEntryFormProps> = ({
         Day Entry:
         <textarea
           className="w-full"
-          value={journalEntry.dayEntry.myDay}
+          value={journalEntry?.dayEntry?.myDay}
           onChange={(e) => handleChange(e, "dayField")}
         />
       </label>
@@ -79,13 +80,18 @@ const JournalEntryForm: React.FC<JournalEntryFormProps> = ({
         Night Entry:
         <textarea
           className="w-full"
-          value={journalEntry.nightEntry.myNight}
+          value={journalEntry?.nightEntry?.myNight}
           onChange={(e) => handleChange(e, "nightField")}
         />
       </label>
       <Button type="submit" disabled={submitting}>
         {type === "create" ? "Create Entry" : "Update Entry"}
       </Button>
+      <Link href="/journal" className="w-full flex justify-center my-6">
+        <Button variant="secondary" className="w-1/2">
+          Cancel
+        </Button>
+      </Link>
     </form>
   );
 };
