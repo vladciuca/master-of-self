@@ -53,7 +53,7 @@ const UpdateJournalEntry = () => {
 
   return journalEntryData ? (
     <JournalEntryForm
-      type="update"
+      type="edit"
       journalEntryData={journalEntryData}
       submitting={submitting}
       onSubmit={updateJournalEntry}

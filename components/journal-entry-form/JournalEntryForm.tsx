@@ -14,7 +14,7 @@ interface JournalEntry {
 }
 
 type JournalEntryFormProps = {
-  type: "create" | "update";
+  type: "create" | "edit";
   submitting: boolean;
   onSubmit: (journalEntry: JournalEntry) => Promise<void>;
   journalEntryData?: JournalEntry;
@@ -62,8 +62,8 @@ const JournalEntryForm = ({
       onSubmit={handleSubmit}
       className="flex flex-col w-full p-2 space-y-8"
     >
-      <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
-        {type} Journal Entry
+      <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl capitalize">
+        {type} Entry
       </h1>
       {/*WILLPOWER SHOULD NEVER BE NEGATIVE */}
       <Label className="w-full mb-4">
@@ -92,8 +92,12 @@ const JournalEntryForm = ({
         />
       </Label>
       <div className="flex flex-col justify-center items-center">
-        <Button type="submit" className="w-1/2 mt-3" disabled={submitting}>
-          {type === "create" ? "Create Entry" : "Update Entry"}
+        <Button
+          type="submit"
+          className="w-1/2 mt-3 capitalize"
+          disabled={submitting}
+        >
+          {type} Entry
         </Button>
         <Link href="/journal" className="w-full flex justify-center my-6">
           <Button variant="secondary" className="w-1/2">

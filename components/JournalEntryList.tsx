@@ -13,13 +13,20 @@ type JournalEntryProps = {
   nightEntry?: {
     myNight: string;
   };
+  creator?: {
+    _id: string;
+  };
 };
 
 type JournalEntryListProps = {
   journalEntries: JournalEntryProps[];
+  handleDelete: (journalEntry: JournalEntryProps) => Promise<void>;
 };
 
-const JournalEntryList = ({ journalEntries }: JournalEntryListProps) => {
+const JournalEntryList = ({
+  journalEntries,
+  handleDelete,
+}: JournalEntryListProps) => {
   const hasTodayEntry = journalEntries.some((entry) => {
     const entryDate = new Date(entry.createDate);
     const currentDate = new Date();
@@ -31,25 +38,34 @@ const JournalEntryList = ({ journalEntries }: JournalEntryListProps) => {
       {!hasTodayEntry && <NewJournalEntry />}
       <Accordion type="single" className="pb-1">
         {journalEntries.map((journalEntry) => {
-          const { _id, createDate, dailyWillpower, dayEntry, nightEntry } =
-            journalEntry;
+          // const {
+          //   _id,
+          //   createDate,
+          //   dailyWillpower,
+          //   dayEntry,
+          //   nightEntry,
+          //   creator,
+          // } = journalEntry;
 
-          const entryDate = new Date(createDate);
-          const currentDate = new Date();
-          const isToday =
-            entryDate.toLocaleDateString() === currentDate.toLocaleDateString();
-          const day = entryDate.getDate();
-          const month = entryDate.toLocaleString("default", { month: "short" });
+          // const entryDate = new Date(createDate);
+          // const currentDate = new Date();
+          // const isToday =
+          //   entryDate.toLocaleDateString() === currentDate.toLocaleDateString();
+          // const day = entryDate.getDate();
+          // const month = entryDate.toLocaleString("default", { month: "short" });
 
           return (
             <JournalEntryCard
-              id={_id}
-              day={day}
-              month={month}
-              isToday={isToday}
-              dailyWillpower={dailyWillpower}
-              dayEntry={dayEntry}
-              nightEntry={nightEntry}
+              // id={_id}
+              // day={day}
+              // month={month}
+              // isToday={isToday}
+              // dailyWillpower={dailyWillpower}
+              // dayEntry={dayEntry}
+              // nightEntry={nightEntry}
+              // creator={creator}
+              journalEntry={journalEntry}
+              handleDelete={handleDelete}
             />
           );
         })}
