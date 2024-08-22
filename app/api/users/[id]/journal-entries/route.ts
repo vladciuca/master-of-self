@@ -1,7 +1,11 @@
+import { NextRequest } from "next/server";
 import { connectToDB } from "@utils/database";
 import JournalEntry from "@models/journalEntry";
 
-export const GET = async (req, { params }) => {
+export const GET = async (
+  req: NextRequest,
+  { params }: { params: { id: string } }
+) => {
   try {
     await connectToDB();
 

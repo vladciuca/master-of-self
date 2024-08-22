@@ -19,12 +19,6 @@ interface Session {
   };
 }
 
-type JournalEntryProps = {
-  _id: string;
-  createDate: Date;
-  dailyWillpower: number;
-};
-
 const NewJournalEntry = () => {
   const router = useRouter();
   const { data: session } = useSession() as { data: Session | null };
@@ -34,8 +28,7 @@ const NewJournalEntry = () => {
     setSubmitting(true);
 
     try {
-      // Create new journal entry
-      const createResponse = await fetch("/api/journal-entry/new", {
+      const createNewEntryResponse = await fetch("/api/journal-entry/new", {
         method: "POST",
         body: JSON.stringify({
           userId: session?.user?.id,
@@ -43,21 +36,12 @@ const NewJournalEntry = () => {
         }),
       });
 
-      if (createResponse.ok) {
-        // Fetch all journal entries to find the one we just created
-        const entriesResponse = await fetch(
-          `/api/users/${session?.user?.id}/journal-entries`
+      if (createNewEntryResponse.ok) {
+        const todayEntryResponse = await fetch(
+          `/api/users/${session?.user?.id}/journal-entries/today`
         );
-        const entries = await entriesResponse.json();
 
-        // Find today's entry
-        const todayEntry = entries.find((entry: JournalEntryProps) => {
-          const entryDate = new Date(entry.createDate);
-          const currentDate = new Date();
-          return (
-            entryDate.toLocaleDateString() === currentDate.toLocaleDateString()
-          );
-        });
+        const todayEntry = await todayEntryResponse.json();
 
         if (todayEntry?._id) {
           router.push(`/update-journal-entry/${todayEntry._id}`);
