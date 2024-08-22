@@ -9,8 +9,8 @@ import { Button } from "@components/ui/button";
 
 init({ data });
 
-const IconPicker = ({ onIconSelect, skillIcon }) => {
-  const defaultIcon = skillIcon ? skillIcon : ":heavy_plus_sign:";
+const IconPicker = ({ onIconSelect, icon }) => {
+  const defaultIcon = icon ? icon : ":heavy_plus_sign:";
   const { theme } = useTheme();
   const [isPickerVisible, setIsPickerVisible] = useState(false);
   const [currentIcon, setCurrentIcon] = useState(defaultIcon);

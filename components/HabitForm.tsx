@@ -18,9 +18,9 @@ import { Textarea } from "./ui/textarea";
 import IconPicker from "@components/IconPicker";
 
 const formSchema = z.object({
-  skillName: z.string().min(3),
-  skillIcon: z.string(),
-  skillDescription: z.string(),
+  name: z.string().min(3),
+  icon: z.string(),
+  description: z.string(),
 });
 
 export type Habit = z.infer<typeof formSchema>;
@@ -41,14 +41,14 @@ const HabitForm: React.FC<HabitFormProps> = ({
   const form = useForm<Habit>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      skillName: type === "Edit" ? habit?.skillName : "",
-      skillIcon: type === "Edit" ? habit?.skillIcon : "",
-      skillDescription: type === "Edit" ? habit?.skillDescription : "",
+      name: type === "Edit" ? habit?.name : "",
+      icon: type === "Edit" ? habit?.icon : "",
+      description: type === "Edit" ? habit?.description : "",
     },
   });
 
   const handleIconSelect = (iconId: string) => {
-    form.setValue("skillIcon", iconId);
+    form.setValue("icon", iconId);
   };
 
   return (
@@ -64,15 +64,12 @@ const HabitForm: React.FC<HabitFormProps> = ({
           <div className="mb-1">
             <FormLabel>Habit icon</FormLabel>
           </div>
-          <IconPicker
-            onIconSelect={handleIconSelect}
-            skillIcon={habit?.skillIcon}
-          />
+          <IconPicker onIconSelect={handleIconSelect} icon={habit?.icon} />
         </div>
 
         <FormField
           control={form.control}
-          name="skillName"
+          name="name"
           render={({ field }) => {
             return (
               <FormItem>
@@ -92,7 +89,7 @@ const HabitForm: React.FC<HabitFormProps> = ({
 
         <FormField
           control={form.control}
-          name="skillDescription"
+          name="description"
           render={({ field }) => {
             return (
               <FormItem>

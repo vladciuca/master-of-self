@@ -1,6 +1,6 @@
+import { NextRequest, NextResponse } from "next/server";
 import { connectToDB } from "@utils/database";
 import Habit from "@models/habit";
-import { NextRequest, NextResponse } from "next/server";
 
 export const POST = async (req: NextRequest) => {
   const { userId, name, icon, description } = await req.json();

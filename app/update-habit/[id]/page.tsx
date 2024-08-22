@@ -17,16 +17,16 @@ const EditHabit = () => {
       const response = await fetch(`/api/habit/${id}`);
       const data = await response.json();
       setHabitData({
-        skillName: data.name,
-        skillIcon: data.icon,
-        skillDescription: data.description,
+        name: data.name,
+        icon: data.icon,
+        description: data.description,
       });
     };
     if (id) getHabitData();
   }, [id]);
 
   const updateHabit = async (habit: Habit) => {
-    const { skillName, skillIcon, skillDescription } = habit;
+    const { name, icon, description } = habit;
 
     setSubmitting(true);
 
@@ -36,9 +36,9 @@ const EditHabit = () => {
       const response = await fetch(`/api/habit/${id}`, {
         method: "PATCH",
         body: JSON.stringify({
-          name: skillName,
-          icon: skillIcon,
-          description: skillDescription,
+          name: name,
+          icon: icon,
+          description: description,
         }),
       });
 

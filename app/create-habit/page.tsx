@@ -21,7 +21,7 @@ const CreateHabit = () => {
   const [submitting, setSubmitting] = useState<boolean>(false);
 
   const createHabit = async (habit: Habit) => {
-    const { skillName, skillIcon, skillDescription } = habit;
+    const { name, icon, description } = habit;
     setSubmitting(true);
 
     try {
@@ -29,9 +29,9 @@ const CreateHabit = () => {
         method: "POST",
         body: JSON.stringify({
           userId: session?.user?.id,
-          name: skillName,
-          icon: skillIcon,
-          description: skillDescription,
+          name: name,
+          icon: icon,
+          description: description,
           resource: 0,
         }),
       });

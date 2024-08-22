@@ -1,6 +1,6 @@
+import { NextRequest, NextResponse } from "next/server";
 import { connectToDB } from "@utils/database";
 import Habit from "@models/habit";
-import { NextRequest, NextResponse } from "next/server";
 
 export const GET = async (req: NextRequest) => {
   try {

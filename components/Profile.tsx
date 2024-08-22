@@ -9,6 +9,8 @@ interface ProfileProps {
 
 const Profile = ({ session }: ProfileProps) => {
   const name = session.user?.name || "";
+  const email = session.user?.email || "";
+
   const nameInitials = name
     ? name
         .split(" ")
@@ -25,7 +27,7 @@ const Profile = ({ session }: ProfileProps) => {
           </div>
         </Link>
       </div>
-      <div className="flex grow">{name}</div>
+      <div className="flex grow">{email}</div>
     </div>
   );
 };
