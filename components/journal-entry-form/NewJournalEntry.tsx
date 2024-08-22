@@ -1,3 +1,6 @@
+"use client";
+
+import { useState } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import {
@@ -8,7 +11,7 @@ import {
   CardFooter,
 } from "@components/ui/card";
 import { Button } from "@components/ui/button";
-import { FaSun, FaMoon } from "react-icons/fa";
+import { FaSun } from "react-icons/fa";
 
 interface Session {
   user?: {
@@ -16,36 +19,23 @@ interface Session {
   };
 }
 
-const NEW_JOURNAL_ENTRY_CARD_DETAILS = {
-  symbol: {
-    day: <FaSun size="1.5rem" className="mr-2" />,
-    night: <FaMoon size="1.5rem" className="mr-2" />,
-  },
-  title: {
-    day: "Day Entry",
-    night: "Night Entry",
-  },
-  description: {
-    day: "Generate willpower to rise and today's challenges.",
-    night: "spend willpower on habits to increase mission progress.",
-  },
-  buttonText: {
-    day: "Start today's Journal",
-    night: "Finish today's Journal",
-  },
-  linkTo: {
-    day: "/create-journal-entry",
-    night: "",
-  },
+type JournalEntryProps = {
+  _id: string;
+  createDate: Date;
+  dailyWillpower: number;
 };
 
 const NewJournalEntry = () => {
   const router = useRouter();
   const { data: session } = useSession() as { data: Session | null };
+  const [submitting, setSubmitting] = useState<boolean>(false);
 
   const createJournalEntry = async () => {
+    setSubmitting(true);
+
     try {
-      const response = await fetch("/api/journal-entry/new", {
+      // Create new journal entry
+      const createResponse = await fetch("/api/journal-entry/new", {
         method: "POST",
         body: JSON.stringify({
           userId: session?.user?.id,
@@ -53,11 +43,32 @@ const NewJournalEntry = () => {
         }),
       });
 
-      if (response.ok) {
-        router.push(`/gameplay`);
+      if (createResponse.ok) {
+        // Fetch all journal entries to find the one we just created
+        const entriesResponse = await fetch(
+          `/api/users/${session?.user?.id}/journal-entries`
+        );
+        const entries = await entriesResponse.json();
+
+        // Find today's entry
+        const todayEntry = entries.find((entry: JournalEntryProps) => {
+          const entryDate = new Date(entry.createDate);
+          const currentDate = new Date();
+          return (
+            entryDate.toLocaleDateString() === currentDate.toLocaleDateString()
+          );
+        });
+
+        if (todayEntry?._id) {
+          router.push(`/update-journal-entry/${todayEntry._id}`);
+        } else {
+          console.error("Failed to find today's entry after creation");
+        }
       }
     } catch (error) {
       console.log(error);
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -73,8 +84,13 @@ const NewJournalEntry = () => {
         </CardDescription>
       </CardHeader>
       <CardFooter>
-        <Button size="sm" className="py-3" onClick={createJournalEntry}>
-          {"Start today's journal"}
+        <Button
+          size="sm"
+          className="py-3"
+          onClick={createJournalEntry}
+          disabled={submitting}
+        >
+          {submitting ? "Creating..." : "Start today's journal"}
         </Button>
       </CardFooter>
     </Card>

@@ -73,8 +73,6 @@ const UserJournal = () => {
 
         setJournalEntries(filteredJournalEntries);
 
-        console.log("===", filteredJournalEntries);
-
         router.push("/journal");
       } catch (error) {
         console.log(error);
