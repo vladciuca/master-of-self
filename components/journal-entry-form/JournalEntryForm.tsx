@@ -1,27 +1,31 @@
 "use client";
 
 import React, { ChangeEvent, useEffect, useState } from "react";
+import Link from "next/link";
 import { Button } from "@components/ui/button";
+import { Label } from "@components/ui/label";
+import { Input } from "@components/ui/input";
+import { Textarea } from "@components/ui/textarea";
 
 interface JournalEntry {
   dailyWillpower: number;
-  dayEntry: { myDay: string };
-  nightEntry: { myNight: string };
+  dayEntry?: { myDay: string };
+  nightEntry?: { myNight: string };
 }
 
 type JournalEntryFormProps = {
-  type: "create" | "update";
+  type: "create" | "edit";
   submitting: boolean;
   onSubmit: (journalEntry: JournalEntry) => Promise<void>;
   journalEntryData?: JournalEntry;
 };
 
-const JournalEntryForm: React.FC<JournalEntryFormProps> = ({
+const JournalEntryForm = ({
   type,
   journalEntryData,
   submitting,
   onSubmit,
-}) => {
+}: JournalEntryFormProps) => {
   const [journalEntry, setJournalEntry] = useState<JournalEntry>({
     dailyWillpower: 0,
     dayEntry: { myDay: "" },
@@ -54,38 +58,53 @@ const JournalEntryForm: React.FC<JournalEntryFormProps> = ({
   };
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col w-full p-2">
-      <h1 className="py-10 text-3xl">
-        {type === "create" ? "Create" : "Edit"}
+    <form
+      onSubmit={handleSubmit}
+      className="flex flex-col w-full p-2 space-y-8"
+    >
+      <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl capitalize">
+        {type} Entry
       </h1>
-      <label className="w-full mb-4">
+      {/*WILLPOWER SHOULD NEVER BE NEGATIVE */}
+      <Label className="w-full mb-4">
         Daily Willpower:
-        <input
+        <Input
           className="w-full"
           type="number"
           value={journalEntry.dailyWillpower}
           onChange={(e) => handleChange(e, "dailyWillpowerField")}
         />
-      </label>
-      <label className="w-full mb-4">
+      </Label>
+      <Label className="w-full mb-4">
         Day Entry:
-        <textarea
+        <Textarea
           className="w-full"
-          value={journalEntry.dayEntry.myDay}
+          value={journalEntry?.dayEntry?.myDay}
           onChange={(e) => handleChange(e, "dayField")}
         />
-      </label>
-      <label className="w-full mb-4">
+      </Label>
+      <Label className="w-full mb-4">
         Night Entry:
-        <textarea
+        <Textarea
           className="w-full"
-          value={journalEntry.nightEntry.myNight}
+          value={journalEntry?.nightEntry?.myNight}
           onChange={(e) => handleChange(e, "nightField")}
         />
-      </label>
-      <Button type="submit" disabled={submitting}>
-        {type === "create" ? "Create Entry" : "Update Entry"}
-      </Button>
+      </Label>
+      <div className="flex flex-col justify-center items-center">
+        <Button
+          type="submit"
+          className="w-1/2 mt-3 capitalize"
+          disabled={submitting}
+        >
+          {type} Entry
+        </Button>
+        <Link href="/journal" className="w-full flex justify-center my-6">
+          <Button variant="secondary" className="w-1/2">
+            Cancel
+          </Button>
+        </Link>
+      </div>
     </form>
   );
 };

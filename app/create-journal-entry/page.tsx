@@ -17,8 +17,8 @@ interface Session {
 
 interface JournalEntry {
   dailyWillpower: number;
-  dayEntry: { myDay: string };
-  nightEntry: { myNight: string };
+  dayEntry?: { myDay: string };
+  nightEntry?: { myNight: string };
 }
 
 const CreateJournalEntry = () => {
