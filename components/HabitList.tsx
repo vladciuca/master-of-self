@@ -23,8 +23,12 @@ type HabitListProps = {
 const NEW_HABIT_CARD_DETAILS = {
   symbol: <Shell className="mr-2" size={"2rem"} />,
   title: "Key Habits",
-  description:
-    "These represent actions that you can take daily to progress on your missions.",
+  description: (
+    <>
+      These represent <span className="text-foreground">actions</span> that you
+      can take daily to progress on your missions.
+    </>
+  ),
   buttonText: "Create New Habit",
   linkTo: "/create-habit",
 };

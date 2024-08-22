@@ -11,7 +11,7 @@ import { Button } from "./ui/button";
 interface NewEntryProps {
   symbol: JSX.Element;
   title: string;
-  description: string;
+  description: JSX.Element;
   buttonText: string;
   linkTo: string;
   numberOfEntries: number;

@@ -5,7 +5,12 @@ import { Target } from "lucide-react";
 const NEW_MISSION_CARD_DETAILS = {
   symbol: <Target className="mr-2" size={"2rem"} />,
   title: "Missions",
-  description: "These create a clear roadmap for the journey ahead.",
+  description: (
+    <>
+      These create a clear <span className="text-foreground">roadmap</span> for
+      the journey ahead.
+    </>
+  ),
   buttonText: "Create New Mission",
   linkTo: "/create-mission",
 };
