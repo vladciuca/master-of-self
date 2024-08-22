@@ -1,5 +1,5 @@
 import JournalEntryCard from "@components/JournalEntryCard";
-import NewJournalEntry from "@components/journal-entry-form/NewJournalEntry";
+import NewJournalEntry from "@components/NewJournalEntry";
 import { Accordion } from "@components/ui/accordion";
 
 type JournalEntryProps = {
