@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import FormStepProgressBar from "./FormStepProgressBar";
 import DayForm from "./form-steps/DayFrom";
 import NightForm from "./form-steps/NightForm";
 import { Button } from "@components/ui/button";
 import { RxChevronLeft, RxChevronRight } from "react-icons/rx";
-import { useRouter } from "next/navigation";
+import { FaBoltLightning } from "react-icons/fa6";
 
 const formSteps = [{ name: "Day entry" }, { name: "Night entry" }];
 
@@ -20,11 +21,11 @@ type FormStepControllerProps = {
   journalEntryData?: JournalEntry;
 };
 
-const FormStepController = ({
+const FormStepController: React.FC<FormStepControllerProps> = ({
   journalEntryData,
   submitting,
   onSubmit,
-}: FormStepControllerProps) => {
+}) => {
   const [currentStep, setCurrentStep] = useState(0);
   const [formData, setFormData] = useState<JournalEntry>(
     journalEntryData || {
@@ -41,11 +42,22 @@ const FormStepController = ({
     }
   }, [journalEntryData]);
 
+  const calculateWillpower = (dayLength: number, nightLength: number) => {
+    // You can adjust this calculation as needed
+    return Math.floor((dayLength + nightLength) / 10);
+  };
+
   const handleChange = (
-    field: "dailyWillpower" | "dayEntry" | "nightEntry",
-    value: number | { myDay: string } | { myNight: string }
+    field: "dayEntry" | "nightEntry",
+    value: { myDay: string } | { myNight: string }
   ) => {
-    setFormData((prev) => ({ ...prev, [field]: value }));
+    setFormData((prev) => {
+      const newData = { ...prev, [field]: value };
+      const dayLength = newData.dayEntry?.myDay.length || 0;
+      const nightLength = newData.nightEntry?.myNight.length || 0;
+      const newWillpower = calculateWillpower(dayLength, nightLength);
+      return { ...newData, dailyWillpower: newWillpower };
+    });
   };
 
   const next = async () => {
@@ -67,7 +79,13 @@ const FormStepController = ({
   };
 
   return (
-    <div className="grid grid-rows-[auto,1fr,auto] h-full">
+    <div className="grid grid-rows-[auto,auto,1fr,auto] h-full">
+      <div className="text-center mb-2">
+        <h2 className="text-4xl font-semibold flex items-center justify-center">
+          {formData.dailyWillpower}
+          <FaBoltLightning className="ml-2" />
+        </h2>
+      </div>
       <div className="mb-3">
         <FormStepProgressBar steps={formSteps} currentStep={currentStep} />
       </div>
@@ -75,7 +93,6 @@ const FormStepController = ({
       <div className="overflow-y-auto">
         {currentStep === 0 && (
           <DayForm
-            dailyWillpower={formData.dailyWillpower}
             dayEntry={formData.dayEntry?.myDay || ""}
             onChange={handleChange}
           />
