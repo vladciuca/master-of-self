@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
 import JournalEntryForm from "@components/journal-entry-form/JournalEntryForm";
+import FormStepController from "@components/journal-entry-form/FormStepController";
 import PageLogo from "@components/PageLogo";
 
 interface JournalEntry {
@@ -52,12 +53,13 @@ const UpdateJournalEntry = () => {
   };
 
   return journalEntryData ? (
-    <JournalEntryForm
-      type="edit"
-      journalEntryData={journalEntryData}
-      submitting={submitting}
-      onSubmit={updateJournalEntry}
-    />
+    // <JournalEntryForm
+    //   type="edit"
+    //   journalEntryData={journalEntryData}
+    //   submitting={submitting}
+    //   onSubmit={updateJournalEntry}
+    // />
+    <FormStepController />
   ) : (
     <PageLogo />
   );
