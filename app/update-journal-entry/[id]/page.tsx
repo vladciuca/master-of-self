@@ -1,8 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useParams, useRouter } from "next/navigation";
-import JournalEntryForm from "@components/journal-entry-form/JournalEntryForm";
+import { useParams } from "next/navigation";
 import FormStepController from "@components/journal-entry-form/FormStepController";
 import PageLogo from "@components/PageLogo";
 
@@ -13,7 +12,6 @@ interface JournalEntry {
 }
 
 const UpdateJournalEntry = () => {
-  const router = useRouter();
   const params = useParams<{ id: string }>();
   const { id } = params;
   const [submitting, setSubmitting] = useState(false);
@@ -38,12 +36,12 @@ const UpdateJournalEntry = () => {
     try {
       const response = await fetch(`/api/journal-entry/${id}`, {
         method: "PATCH",
-        //can be deconstructed, or use spread operator and new properties
         body: JSON.stringify(journalEntry),
       });
 
       if (response.ok) {
-        router.push("/journal");
+        // Don't navigate here, let the FormStepController handle navigation
+        setJournalEntryData(journalEntry);
       }
     } catch (error) {
       console.log(error);
@@ -53,13 +51,11 @@ const UpdateJournalEntry = () => {
   };
 
   return journalEntryData ? (
-    // <JournalEntryForm
-    //   type="edit"
-    //   journalEntryData={journalEntryData}
-    //   submitting={submitting}
-    //   onSubmit={updateJournalEntry}
-    // />
-    <FormStepController />
+    <FormStepController
+      journalEntryData={journalEntryData}
+      submitting={submitting}
+      onSubmit={updateJournalEntry}
+    />
   ) : (
     <PageLogo />
   );
