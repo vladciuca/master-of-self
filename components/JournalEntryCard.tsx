@@ -9,7 +9,7 @@ import {
 } from "@components/ui/accordion";
 import { Button } from "@components/ui/button";
 import { Info } from "@components/ui/tipography";
-import { FaBoltLightning } from "react-icons/fa6";
+import { FaBoltLightning, FaSun, FaMoon } from "react-icons/fa6";
 
 interface Session {
   user?: {
@@ -81,9 +81,16 @@ const JournalEntryCard = ({
         </div>
       </AccordionTrigger>
       <AccordionContent>
-        <Info text={"Day"} />
+        <div className="flex items-center">
+          <FaSun className="mt-2 mr-2 text-muted-foreground" />
+          <Info text={"Day"} />
+        </div>
         <div className="mt-2">{dayEntry?.myDay}</div>
-        <Info text={"Night"} />
+
+        <div className="flex items-center">
+          <FaMoon className="mt-2 mr-2 text-muted-foreground" />
+          <Info text={"Night"} />
+        </div>
         <div className="mt-2">{nightEntry?.myNight}</div>
         <div className="mt-12">
           {session?.user?.id === creator?._id && pathName === "/journal" && (
