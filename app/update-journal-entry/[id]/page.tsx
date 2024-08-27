@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 import FormStepController from "@components/journal-entry-form/FormStepController";
 import PageLogo from "@components/PageLogo";
 
@@ -12,7 +12,6 @@ interface JournalEntry {
 }
 
 const UpdateJournalEntry = () => {
-  const router = useRouter();
   const params = useParams<{ id: string }>();
   const { id } = params;
   const [submitting, setSubmitting] = useState(false);

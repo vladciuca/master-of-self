@@ -21,11 +21,11 @@ type FormStepControllerProps = {
   journalEntryData?: JournalEntry;
 };
 
-const FormStepController: React.FC<FormStepControllerProps> = ({
+const FormStepController = ({
   journalEntryData,
   submitting,
   onSubmit,
-}) => {
+}: FormStepControllerProps) => {
   const [currentStep, setCurrentStep] = useState(0);
   const [formData, setFormData] = useState<JournalEntry>(
     journalEntryData || {

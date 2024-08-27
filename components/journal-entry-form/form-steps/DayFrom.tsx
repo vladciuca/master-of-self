@@ -7,7 +7,7 @@ interface DayFormProps {
   onChange: (field: "dayEntry", value: { myDay: string }) => void;
 }
 
-const DayForm: React.FC<DayFormProps> = ({ dayEntry, onChange }) => {
+const DayForm = ({ dayEntry, onChange }: DayFormProps) => {
   return (
     <div className="space-y-4">
       <Label className="w-full">
