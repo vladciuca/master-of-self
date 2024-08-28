@@ -22,10 +22,10 @@ type JournalEntryProps = {
   createDate: Date;
   dailyWillpower: number;
   dayEntry?: {
-    myDay: string;
+    greatToday: string;
   };
   nightEntry?: {
-    myNight: string;
+    dailyHighlights: string;
   };
   creator?: {
     _id: string;
@@ -81,17 +81,17 @@ const JournalEntryCard = ({
         </div>
       </AccordionTrigger>
       <AccordionContent>
-        <div className="flex items-center">
+        <div className="flex items-center mt-4">
           <FaSun className="mt-2 mr-2 text-muted-foreground" />
           <Info text={"Day"} />
         </div>
-        <div className="mt-2">{dayEntry?.myDay}</div>
+        <div className="mt-2">{dayEntry?.greatToday}</div>
 
-        <div className="flex items-center">
+        <div className="flex items-center mt-4">
           <FaMoon className="mt-2 mr-2 text-muted-foreground" />
           <Info text={"Night"} />
         </div>
-        <div className="mt-2">{nightEntry?.myNight}</div>
+        <div className="mt-2">{nightEntry?.dailyHighlights}</div>
         <div className="mt-12">
           {session?.user?.id === creator?._id && pathName === "/journal" && (
             <div>

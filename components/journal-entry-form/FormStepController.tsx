@@ -1,18 +1,21 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import FormStepProgressBar from "./FormStepProgressBar";
-import DayForm from "./form-steps/DayFrom";
-import NightForm from "./form-steps/NightForm";
+import GreatToday from "./form-steps/GreatToday";
+import DailyHighlights from "./form-steps/DailyHighlights";
 import { Button } from "@components/ui/button";
 import { RxChevronLeft, RxChevronRight } from "react-icons/rx";
 import { FaBoltLightning } from "react-icons/fa6";
 
-const formSteps = [{ name: "Day entry" }, { name: "Night entry" }];
+const formSteps = [
+  { name: "What will make today great?" },
+  { name: "What are your highlights of the day?" },
+];
 
 interface JournalEntry {
   dailyWillpower: number;
-  dayEntry?: { myDay: string };
-  nightEntry?: { myNight: string };
+  dayEntry?: { greatToday: string };
+  nightEntry?: { dailyHighlights: string };
 }
 
 type FormStepControllerProps = {
@@ -30,8 +33,8 @@ const FormStepController = ({
   const [formData, setFormData] = useState<JournalEntry>(
     journalEntryData || {
       dailyWillpower: 0,
-      dayEntry: { myDay: "" },
-      nightEntry: { myNight: "" },
+      dayEntry: { greatToday: "" },
+      nightEntry: { dailyHighlights: "" },
     }
   );
   const router = useRouter();
@@ -43,18 +46,17 @@ const FormStepController = ({
   }, [journalEntryData]);
 
   const calculateWillpower = (dayLength: number, nightLength: number) => {
-    // You can adjust this calculation as needed
     return Math.floor((dayLength + nightLength) / 10);
   };
 
   const handleChange = (
     field: "dayEntry" | "nightEntry",
-    value: { myDay: string } | { myNight: string }
+    value: { greatToday: string } | { dailyHighlights: string }
   ) => {
     setFormData((prev) => {
       const newData = { ...prev, [field]: value };
-      const dayLength = newData.dayEntry?.myDay.length || 0;
-      const nightLength = newData.nightEntry?.myNight.length || 0;
+      const dayLength = newData.dayEntry?.greatToday.length || 0;
+      const nightLength = newData.nightEntry?.dailyHighlights.length || 0;
       const newWillpower = calculateWillpower(dayLength, nightLength);
       return { ...newData, dailyWillpower: newWillpower };
     });
@@ -92,14 +94,14 @@ const FormStepController = ({
 
       <div className="overflow-y-auto">
         {currentStep === 0 && (
-          <DayForm
-            dayEntry={formData.dayEntry?.myDay || ""}
+          <GreatToday
+            dayEntry={formData.dayEntry?.greatToday || ""}
             onChange={handleChange}
           />
         )}
         {currentStep === 1 && (
-          <NightForm
-            nightEntry={formData.nightEntry?.myNight || ""}
+          <DailyHighlights
+            nightEntry={formData.nightEntry?.dailyHighlights || ""}
             onChange={handleChange}
           />
         )}

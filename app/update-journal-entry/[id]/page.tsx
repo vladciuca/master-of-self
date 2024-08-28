@@ -7,8 +7,8 @@ import PageLogo from "@components/PageLogo";
 
 interface JournalEntry {
   dailyWillpower: number;
-  dayEntry?: { myDay: string };
-  nightEntry?: { myNight: string };
+  dayEntry?: { greatToday: string };
+  nightEntry?: { dailyHighlights: string };
 }
 
 const UpdateJournalEntry = () => {
