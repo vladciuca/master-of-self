@@ -9,7 +9,7 @@ import {
 } from "@components/ui/accordion";
 import { Button } from "@components/ui/button";
 import { Info } from "@components/ui/tipography";
-import { FaBoltLightning } from "react-icons/fa6";
+import { FaBoltLightning, FaSun, FaMoon } from "react-icons/fa6";
 
 interface Session {
   user?: {
@@ -22,10 +22,10 @@ type JournalEntryProps = {
   createDate: Date;
   dailyWillpower: number;
   dayEntry?: {
-    myDay: string;
+    greatToday: string[];
   };
   nightEntry?: {
-    myNight: string;
+    dailyHighlights: string[];
   };
   creator?: {
     _id: string;
@@ -81,10 +81,25 @@ const JournalEntryCard = ({
         </div>
       </AccordionTrigger>
       <AccordionContent>
-        <Info text={"Day"} />
-        <div className="mt-2">{dayEntry?.myDay}</div>
-        <Info text={"Night"} />
-        <div className="mt-2">{nightEntry?.myNight}</div>
+        <div className="flex items-center mt-4">
+          <FaSun className="mt-2 mr-2 text-muted-foreground" />
+          <Info text={"Day"} />
+        </div>
+        <ol className="mt-2 list-decimal pl-6">
+          {dayEntry?.greatToday?.map((greatItem, index) => (
+            <li key={index}>{greatItem}</li>
+          ))}
+        </ol>
+
+        <div className="flex items-center mt-4">
+          <FaMoon className="mt-2 mr-2 text-muted-foreground" />
+          <Info text={"Night"} />
+        </div>
+        <ol className="mt-2 list-decimal pl-6">
+          {nightEntry?.dailyHighlights?.map((highlightItem, index) => (
+            <li key={index}>{highlightItem}</li>
+          ))}
+        </ol>
         <div className="mt-12">
           {session?.user?.id === creator?._id && pathName === "/journal" && (
             <div>

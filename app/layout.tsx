@@ -4,11 +4,17 @@ import Footer from "@components/Footer";
 import LandingPage from "@components/LandingPage";
 import Provider from "@components/Provider";
 import { ThemeProvider } from "@components/theme-provider";
-import { Poppins } from "next/font/google";
+// import { Poppins } from "next/font/google";
+import { Silkscreen } from "next/font/google";
 import { ReactNode } from "react";
 
-const font = Poppins({
-  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+// const font = Poppins({
+//   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+//   subsets: ["latin"],
+// });
+
+const font = Silkscreen({
+  weight: ["400"],
   subsets: ["latin"],
 });
 

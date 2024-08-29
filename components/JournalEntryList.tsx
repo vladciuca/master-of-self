@@ -7,10 +7,10 @@ type JournalEntryProps = {
   createDate: Date;
   dailyWillpower: number;
   dayEntry?: {
-    myDay: string;
+    greatToday: string[];
   };
   nightEntry?: {
-    myNight: string;
+    dailyHighlights: string[];
   };
   creator?: {
     _id: string;
@@ -36,9 +36,10 @@ const JournalEntryList = ({
     <>
       {!hasTodayEntry && <NewJournalEntry />}
       <Accordion type="single" className="pb-1">
-        {journalEntries.map((journalEntry) => {
+        {journalEntries.map((journalEntry, index) => {
           return (
             <JournalEntryCard
+              key={index}
               journalEntry={journalEntry}
               handleDelete={handleDelete}
             />

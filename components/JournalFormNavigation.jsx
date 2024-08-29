@@ -25,7 +25,7 @@ const JournalFormNavigation = ({ formSteps, currentStep, prev, next }) => {
                   : "bg-primary-foreground text-primary"
               }`}
             >
-              {step.icon}
+              {/* {step.icon} */}
             </div>
           </li>
         ))}
