@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect, useCallback } from "react";
+import { isArray } from "util";
 
 interface TextAreaListProps {
   entries: string[];
@@ -100,9 +101,36 @@ const TextAreaList = React.memo(({ entries, onChange }: TextAreaListProps) => {
     []
   );
 
+  // const focusOnTouch = () => {
+  //   console.log("====click");
+  //   itemRefs.current[textRows.length - 1]?.focus();
+  // };
+
+  const focusOnTouch = () => {
+    console.log("====click");
+    const lastIndex = textRows.length - 1;
+    if (lastIndex >= 0 && itemRefs.current[lastIndex]) {
+      itemRefs.current[lastIndex].focus();
+
+      // Move cursor to the end of the content
+      const range = document.createRange();
+      const selection = window.getSelection();
+      range.selectNodeContents(itemRefs.current[lastIndex]);
+      range.collapse(false);
+      selection?.removeAllRanges();
+      selection?.addRange(range);
+    }
+  };
+
   return (
-    <div className="m-2 rounded-md overflow-scroll h-40 bg-slate-700 list-decimal">
-      <ol className="list-decimal ml-8 mr-3 py-2" onKeyDown={handleKeyDown}>
+    <div
+      className="m-2 rounded-md overflow-scroll min-h-60 bg-slate-700 list-decimal"
+      onClick={focusOnTouch}
+    >
+      <ol
+        className="list-decimal ml-8 mr-3 py-2  bg-red-700"
+        onKeyDown={handleKeyDown}
+      >
         {textRows.map((text, index) => (
           <li
             key={`row-${index}`}
