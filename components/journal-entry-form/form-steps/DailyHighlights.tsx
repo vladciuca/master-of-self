@@ -1,14 +1,21 @@
-import React from "react";
+import TextAreaList from "@components/TextAreaList";
 import { Label } from "@components/ui/label";
-import { Textarea } from "@components/ui/textarea";
 import { FaMoon } from "react-icons/fa6";
 
 interface DailyHighlightsProps {
-  nightEntry: string;
-  onChange: (field: "nightEntry", value: { dailyHighlights: string }) => void;
+  nightEntry: string[];
+  onChange: (
+    field: "nightEntry",
+    value: { dailyHighlights: string[] },
+    score: number
+  ) => void;
 }
 
 const NightForm = ({ nightEntry, onChange }: DailyHighlightsProps) => {
+  const handleTextAreaListChange = (newEntries: string[], score: number) => {
+    onChange("nightEntry", { dailyHighlights: newEntries }, score);
+  };
+
   return (
     <div className="space-y-4">
       <Label className="w-full">
@@ -19,12 +26,9 @@ const NightForm = ({ nightEntry, onChange }: DailyHighlightsProps) => {
           </h2>
         </div>
 
-        <Textarea
-          className="w-full mt-1"
-          value={nightEntry}
-          onChange={(e) =>
-            onChange("nightEntry", { dailyHighlights: e.target.value })
-          }
+        <TextAreaList
+          entries={nightEntry}
+          onChange={handleTextAreaListChange}
         />
       </Label>
     </div>

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import FormStepProgressBar from "./FormStepProgressBar";
 import GreatToday from "./form-steps/GreatToday";
@@ -14,8 +14,8 @@ const formSteps = [
 
 interface JournalEntry {
   dailyWillpower: number;
-  dayEntry?: { greatToday: string };
-  nightEntry?: { dailyHighlights: string };
+  dayEntry?: { greatToday: string[]; score: number };
+  nightEntry?: { dailyHighlights: string[]; score: number };
 }
 
 type FormStepControllerProps = {
@@ -24,17 +24,17 @@ type FormStepControllerProps = {
   journalEntryData?: JournalEntry;
 };
 
-const FormStepController = ({
+const FormStepController: React.FC<FormStepControllerProps> = ({
   journalEntryData,
   submitting,
   onSubmit,
-}: FormStepControllerProps) => {
+}) => {
   const [currentStep, setCurrentStep] = useState(0);
-  const [formData, setFormData] = useState<JournalEntry>(
+  const [formData, setFormData] = useState(
     journalEntryData || {
       dailyWillpower: 0,
-      dayEntry: { greatToday: "" },
-      nightEntry: { dailyHighlights: "" },
+      dayEntry: { greatToday: [], score: 0 },
+      nightEntry: { dailyHighlights: [], score: 0 },
     }
   );
   const router = useRouter();
@@ -45,40 +45,52 @@ const FormStepController = ({
     }
   }, [journalEntryData]);
 
-  const calculateWillpower = (dayLength: number, nightLength: number) => {
-    return Math.floor((dayLength + nightLength) / 10);
-  };
+  useEffect(() => {
+    const totalScore =
+      (formData.dayEntry?.score || 0) + (formData.nightEntry?.score || 0);
+    const willpower = Math.floor(totalScore * 1.5); // Example calculation, adjust as needed
+    if (willpower !== formData.dailyWillpower) {
+      setFormData((prev) => ({ ...prev, dailyWillpower: willpower }));
+    }
+  }, [
+    formData.dayEntry?.score,
+    formData.nightEntry?.score,
+    formData.dailyWillpower,
+  ]);
 
-  const handleChange = (
-    field: "dayEntry" | "nightEntry",
-    value: { greatToday: string } | { dailyHighlights: string }
-  ) => {
-    setFormData((prev) => {
-      const newData = { ...prev, [field]: value };
-      const dayLength = newData.dayEntry?.greatToday.length || 0;
-      const nightLength = newData.nightEntry?.dailyHighlights.length || 0;
-      const newWillpower = calculateWillpower(dayLength, nightLength);
-      return { ...newData, dailyWillpower: newWillpower };
-    });
-  };
+  const handleChange = useCallback(
+    (
+      field: "dayEntry" | "nightEntry",
+      value: { greatToday: string[] } | { dailyHighlights: string[] },
+      score: number
+    ) => {
+      setFormData((prev) => {
+        if (
+          JSON.stringify(prev[field]) !== JSON.stringify({ ...value, score })
+        ) {
+          return { ...prev, [field]: { ...value, score } };
+        }
+        return prev;
+      });
+    },
+    []
+  );
 
-  const next = async () => {
+  const next = useCallback(async () => {
     if (currentStep < formSteps.length - 1) {
-      // Submit the current step data
       await onSubmit(formData);
       setCurrentStep((step) => step + 1);
     } else {
-      // Final submission
       await onSubmit(formData);
       router.push("/journal");
     }
-  };
+  }, [currentStep, formData, onSubmit, router]);
 
-  const prev = () => {
+  const prev = useCallback(() => {
     if (currentStep > 0) {
       setCurrentStep((step) => step - 1);
     }
-  };
+  }, [currentStep]);
 
   return (
     <div className="grid grid-rows-[auto,auto,1fr,auto] h-full">
@@ -95,13 +107,13 @@ const FormStepController = ({
       <div className="overflow-y-auto">
         {currentStep === 0 && (
           <GreatToday
-            dayEntry={formData.dayEntry?.greatToday || ""}
+            dayEntry={formData.dayEntry?.greatToday || []}
             onChange={handleChange}
           />
         )}
         {currentStep === 1 && (
           <DailyHighlights
-            nightEntry={formData.nightEntry?.dailyHighlights || ""}
+            nightEntry={formData.nightEntry?.dailyHighlights || []}
             onChange={handleChange}
           />
         )}
@@ -131,4 +143,4 @@ const FormStepController = ({
   );
 };
 
-export default FormStepController;
+export default React.memo(FormStepController);
