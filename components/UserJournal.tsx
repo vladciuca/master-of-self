@@ -16,10 +16,10 @@ type JournalEntryProps = {
   createDate: Date;
   dailyWillpower: number;
   dayEntry?: {
-    greatToday: string;
+    greatToday: string[];
   };
   nightEntry?: {
-    dailyHighlights: string;
+    dailyHighlights: string[];
   };
   creator?: {
     _id: string;

@@ -14,8 +14,8 @@ const formSteps = [
 
 interface JournalEntry {
   dailyWillpower: number;
-  dayEntry?: { greatToday: string[]; score: number };
-  nightEntry?: { dailyHighlights: string[]; score: number };
+  dayEntry?: { greatToday: string[]; score?: number };
+  nightEntry?: { dailyHighlights: string[]; score?: number };
 }
 
 type FormStepControllerProps = {
@@ -119,7 +119,7 @@ const FormStepController: React.FC<FormStepControllerProps> = ({
         )}
       </div>
 
-      <div className="flex justify-around items-center mb-4">
+      <div className="flex justify-around items-center  my-4">
         <Button
           className="w-1/3"
           type="button"
