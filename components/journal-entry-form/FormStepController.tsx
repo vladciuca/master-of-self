@@ -7,10 +7,10 @@ import { Button } from "@components/ui/button";
 import { RxChevronLeft, RxChevronRight } from "react-icons/rx";
 import { FaBoltLightning } from "react-icons/fa6";
 
-const formSteps = [
-  { name: "What will make today great?" },
-  { name: "What are your highlights of the day?" },
-];
+//user object will contain flags for form rendering conditions
+const hasMissions = false;
+const hasHabits = false;
+const hasGrateful = false;
 
 interface JournalEntry {
   dailyWillpower: number;
@@ -92,6 +92,45 @@ const FormStepController: React.FC<FormStepControllerProps> = ({
     }
   }, [currentStep]);
 
+  const formSteps = [
+    {
+      name: "greatToday",
+      type: "day",
+      component: (
+        <GreatToday
+          dayEntry={formData.dayEntry?.greatToday || []}
+          onChange={handleChange}
+        />
+      ),
+      renderCondition: true,
+    },
+    {
+      name: "dailyHighlights",
+      type: "night",
+      component: (
+        <DailyHighlights
+          nightEntry={formData.nightEntry?.dailyHighlights || []}
+          onChange={handleChange}
+        />
+      ),
+      renderCondition: true,
+    },
+    {
+      name: "gratefulFor",
+      type: "day",
+      component: <>gratefulFor</>,
+      renderCondition: hasGrateful,
+    },
+    {
+      name: "habitWillpower",
+      type: "night",
+      component: <>habitWillpower</>,
+      renderCondition: hasHabits,
+    },
+  ];
+
+  const CurrentStepComponent = formSteps[currentStep].component;
+
   return (
     <div className="grid grid-rows-[auto,auto,1fr,auto] h-full">
       <div className="text-center mb-2">
@@ -104,20 +143,7 @@ const FormStepController: React.FC<FormStepControllerProps> = ({
         <FormStepProgressBar steps={formSteps} currentStep={currentStep} />
       </div>
 
-      <div className="overflow-y-auto">
-        {currentStep === 0 && (
-          <GreatToday
-            dayEntry={formData.dayEntry?.greatToday || []}
-            onChange={handleChange}
-          />
-        )}
-        {currentStep === 1 && (
-          <DailyHighlights
-            nightEntry={formData.nightEntry?.dailyHighlights || []}
-            onChange={handleChange}
-          />
-        )}
-      </div>
+      <div className="overflow-y-auto">{CurrentStepComponent}</div>
 
       <div className="flex justify-around items-center  my-4">
         <Button

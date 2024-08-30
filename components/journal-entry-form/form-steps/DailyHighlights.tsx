@@ -1,6 +1,5 @@
 import TextAreaList from "@components/TextAreaList";
 import { Label } from "@components/ui/label";
-import { FaMoon } from "react-icons/fa6";
 
 interface DailyHighlightsProps {
   nightEntry: string[];
@@ -17,15 +16,11 @@ const NightForm = ({ nightEntry, onChange }: DailyHighlightsProps) => {
   };
 
   return (
-    <div className="h-full flex flex-col">
+    <div className="h-full flex flex-col mt-5">
       <Label className="w-full">
         <div className="sticky top-0 bg-background z-10 pb-4">
           <div className="flex flex-col items-center justify-center text-center">
-            <FaMoon
-              className="mt-2 ml-2 text-muted-foreground"
-              size={"1.5rem"}
-            />
-            <h2 className="my-5 mb-8 scroll-m-20 text-3xl font-semibold tracking-tight transition-colors first:mt-0">
+            <h2 className="scroll-m-20 text-3xl font-semibold tracking-tight transition-colors first:mt-0">
               {"What are your highlights of the day?"}
             </h2>
           </div>
