@@ -205,7 +205,7 @@ const FormStepController = ({
           onClick={next}
           disabled={submitting}
         >
-          {currentStep === availableSteps.length - 1 ? "Submit" : "Next"}
+          {currentStep === availableSteps.length - 1 ? "Complete" : "Next"}
           <RxChevronRight />
         </Button>
       </div>

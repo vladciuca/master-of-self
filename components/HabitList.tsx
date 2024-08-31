@@ -22,7 +22,7 @@ type HabitListProps = {
 
 const NEW_HABIT_CARD_DETAILS = {
   symbol: <Shell className="mr-2" size={"2rem"} />,
-  title: "Key Habits",
+  title: "Habits",
   description: (
     <>
       These represent <span className="text-foreground">actions</span> that you
@@ -44,7 +44,7 @@ const HabitList = ({ habits, handleEdit, handleDelete }: HabitListProps) => {
         linkTo={NEW_HABIT_CARD_DETAILS.linkTo}
         numberOfEntries={habits.length}
       />
-      <Accordion type="single" className="w-full">
+      <Accordion type="single" className="w-full pb-1">
         {habits.map((habit: Habit) => (
           <HabitCard
             key={habit._id}
