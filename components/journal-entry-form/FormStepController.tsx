@@ -10,7 +10,7 @@ import { FaBoltLightning } from "react-icons/fa6";
 //user object will contain flags for form rendering conditions
 const hasMissions = false;
 const hasHabits = false;
-const hasGrateful = false;
+const hasGrateful = true;
 
 interface JournalEntry {
   dailyWillpower: number;
@@ -24,11 +24,11 @@ type FormStepControllerProps = {
   journalEntryData?: JournalEntry;
 };
 
-const FormStepController: React.FC<FormStepControllerProps> = ({
+const FormStepController = ({
   journalEntryData,
   submitting,
   onSubmit,
-}) => {
+}: FormStepControllerProps) => {
   const [currentStep, setCurrentStep] = useState(0);
   const [formData, setFormData] = useState(
     journalEntryData || {
@@ -77,7 +77,7 @@ const FormStepController: React.FC<FormStepControllerProps> = ({
   );
 
   const next = useCallback(async () => {
-    if (currentStep < formSteps.length - 1) {
+    if (currentStep < availableSteps.length - 1) {
       await onSubmit(formData);
       setCurrentStep((step) => step + 1);
     } else {
@@ -102,7 +102,13 @@ const FormStepController: React.FC<FormStepControllerProps> = ({
           onChange={handleChange}
         />
       ),
-      renderCondition: true,
+      isAvailable: true,
+    },
+    {
+      name: "gratefulFor",
+      type: "day",
+      component: <>gratefulFor</>,
+      isAvailable: hasGrateful,
     },
     {
       name: "dailyHighlights",
@@ -113,23 +119,25 @@ const FormStepController: React.FC<FormStepControllerProps> = ({
           onChange={handleChange}
         />
       ),
-      renderCondition: true,
-    },
-    {
-      name: "gratefulFor",
-      type: "day",
-      component: <>gratefulFor</>,
-      renderCondition: hasGrateful,
+      isAvailable: true,
     },
     {
       name: "habitWillpower",
       type: "night",
       component: <>habitWillpower</>,
-      renderCondition: hasHabits,
+      isAvailable: hasHabits,
+    },
+    {
+      name: "missionProgress",
+      type: "night",
+      component: <>missionProgress</>,
+      isAvailable: hasMissions,
     },
   ];
 
-  const CurrentStepComponent = formSteps[currentStep].component;
+  const availableSteps = formSteps.filter((step) => step.isAvailable);
+
+  const CurrentStepComponent = availableSteps[currentStep].component;
 
   return (
     <div className="grid grid-rows-[auto,auto,1fr,auto] h-full">
@@ -140,7 +148,7 @@ const FormStepController: React.FC<FormStepControllerProps> = ({
         </h2>
       </div>
       <div className="mb-3">
-        <FormStepProgressBar steps={formSteps} currentStep={currentStep} />
+        <FormStepProgressBar steps={availableSteps} currentStep={currentStep} />
       </div>
 
       <div className="overflow-y-auto">{CurrentStepComponent}</div>
@@ -161,7 +169,7 @@ const FormStepController: React.FC<FormStepControllerProps> = ({
           onClick={next}
           disabled={submitting}
         >
-          {currentStep === formSteps.length - 1 ? "Submit" : "Next"}
+          {currentStep === availableSteps.length - 1 ? "Submit" : "Next"}
           <RxChevronRight />
         </Button>
       </div>
