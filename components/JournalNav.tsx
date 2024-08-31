@@ -1,11 +1,6 @@
 import Link from "next/link";
 import { Target, Shell } from "lucide-react";
-import {
-  GiSpellBook,
-  GiOpenBook,
-  GiBookmark,
-  GiBookmarklet,
-} from "react-icons/gi";
+import { GiSpellBook } from "react-icons/gi";
 import { Button } from "@components/ui/button";
 
 const JournalNav = () => {
@@ -16,7 +11,7 @@ const JournalNav = () => {
           variant="ghost"
           className="flex flex-col items-center hover: rounded-full h-16 px-10"
         >
-          <Target size={"2.4rem"} />
+          <Shell size={"2.4rem"} />
           <div className="text-xs mt-1">Missions</div>
         </Button>
       </Link>
@@ -35,7 +30,7 @@ const JournalNav = () => {
           variant="ghost"
           className="flex flex-col items-center hover: rounded-full h-16 px-10"
         >
-          <Shell size={"2.4rem"} />
+          <Target size={"2.4rem"} />
           <div className="text-xs mt-1">Habits</div>
         </Button>
       </Link>

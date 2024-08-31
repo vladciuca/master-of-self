@@ -125,6 +125,12 @@ const FormStepController = ({
 
   const formSteps = [
     {
+      name: "Claim BONUS Willpower from yesterday's highlights!",
+      type: "reward",
+      component: <>BONUS WILLPOWER</>,
+      isAvailable: true,
+    },
+    {
       name: "What will make today great?",
       type: "day",
       component: (
