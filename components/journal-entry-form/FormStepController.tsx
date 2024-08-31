@@ -14,8 +14,13 @@ const hasGrateful = true;
 
 interface JournalEntry {
   dailyWillpower: number;
-  dayEntry?: { greatToday: string[]; score?: number };
-  nightEntry?: { dailyHighlights: string[]; score?: number };
+  dayEntry?: {
+    greatToday?: string[];
+    gratefulFor?: string[];
+  };
+  nightEntry?: {
+    dailyHighlights?: string[];
+  };
 }
 
 type FormStepControllerProps = {
@@ -30,14 +35,38 @@ const FormStepController = ({
   onSubmit,
 }: FormStepControllerProps) => {
   const [currentStep, setCurrentStep] = useState(0);
-  const [formData, setFormData] = useState(
+  const [formData, setFormData] = useState<JournalEntry>(
     journalEntryData || {
       dailyWillpower: 0,
-      dayEntry: { greatToday: [], score: 0 },
-      nightEntry: { dailyHighlights: [], score: 0 },
+      dayEntry: {
+        greatToday: [],
+        gratefulFor: [],
+      },
+      nightEntry: {
+        dailyHighlights: [],
+      },
     }
   );
   const router = useRouter();
+
+  const calculateScore = useCallback((entries: string[]) => {
+    const totalEntries = entries.length;
+    const totalLength = entries.join("").length;
+    return Math.floor((totalEntries * 5 + totalLength) / 10);
+  }, []);
+
+  const calculateWillpower = useCallback(
+    (formData: JournalEntry) => {
+      const greatTodayScore = calculateScore(
+        formData.dayEntry?.greatToday || []
+      );
+      const gratefulForScore = calculateScore(
+        formData.dayEntry?.gratefulFor || []
+      );
+      return Math.floor((greatTodayScore + gratefulForScore) * 1.5); // Example calculation, adjust as needed
+    },
+    [calculateScore]
+  );
 
   useEffect(() => {
     if (journalEntryData) {
@@ -46,31 +75,32 @@ const FormStepController = ({
   }, [journalEntryData]);
 
   useEffect(() => {
-    const totalScore =
-      (formData.dayEntry?.score || 0) + (formData.nightEntry?.score || 0);
-    const willpower = Math.floor(totalScore * 1.5); // Example calculation, adjust as needed
+    const willpower = calculateWillpower(formData);
     if (willpower !== formData.dailyWillpower) {
       setFormData((prev) => ({ ...prev, dailyWillpower: willpower }));
     }
-  }, [
-    formData.dayEntry?.score,
-    formData.nightEntry?.score,
-    formData.dailyWillpower,
-  ]);
+  }, [formData, calculateWillpower]);
 
   const handleChange = useCallback(
     (
-      field: "dayEntry" | "nightEntry",
-      value: { greatToday: string[] } | { dailyHighlights: string[] },
-      score: number
+      field: "greatToday" | "gratefulFor" | "dailyHighlights",
+      value: string[]
     ) => {
       setFormData((prev) => {
-        if (
-          JSON.stringify(prev[field]) !== JSON.stringify({ ...value, score })
-        ) {
-          return { ...prev, [field]: { ...value, score } };
+        if (field === "dailyHighlights") {
+          return {
+            ...prev,
+            nightEntry: { ...prev.nightEntry, dailyHighlights: value },
+          };
+        } else {
+          return {
+            ...prev,
+            dayEntry: {
+              ...prev.dayEntry,
+              [field]: value,
+            },
+          };
         }
-        return prev;
       });
     },
     []
@@ -98,8 +128,8 @@ const FormStepController = ({
       type: "day",
       component: (
         <GreatToday
-          dayEntry={formData.dayEntry?.greatToday || []}
-          onChange={handleChange}
+          entryList={formData.dayEntry?.greatToday || []}
+          onChange={(value) => handleChange("greatToday", value)}
         />
       ),
       isAvailable: true,
@@ -107,7 +137,13 @@ const FormStepController = ({
     {
       name: "gratefulFor",
       type: "day",
-      component: <>gratefulFor</>,
+      // component: (
+      //   <GratefulFor
+      //     dayEntry={formData.dayEntry?.gratefulFor || []}
+      //     onChange={(value) => handleChange("gratefulFor", value)}
+      //   />
+      // ),
+      component: <>GRATEFUL</>,
       isAvailable: hasGrateful,
     },
     {
@@ -115,8 +151,8 @@ const FormStepController = ({
       type: "night",
       component: (
         <DailyHighlights
-          nightEntry={formData.nightEntry?.dailyHighlights || []}
-          onChange={handleChange}
+          entryList={formData.nightEntry?.dailyHighlights || []}
+          onChange={(value) => handleChange("dailyHighlights", value)}
         />
       ),
       isAvailable: true,

@@ -3,18 +3,14 @@ import { Label } from "@components/ui/label";
 import TextAreaList from "@components/TextAreaList";
 
 interface GreatTodayProps {
-  dayEntry: string[];
-  onChange: (
-    field: "dayEntry",
-    value: { greatToday: string[] },
-    score: number
-  ) => void;
+  entryList: string[];
+  onChange: (value: string[]) => void;
 }
 
-const GreatToday = React.memo(({ dayEntry, onChange }: GreatTodayProps) => {
+const GreatToday = React.memo(({ entryList, onChange }: GreatTodayProps) => {
   const handleTextAreaListChange = useCallback(
-    (newEntries: string[], score: number) => {
-      onChange("dayEntry", { greatToday: newEntries }, score);
+    (newEntries: string[]) => {
+      onChange(newEntries);
     },
     [onChange]
   );
@@ -31,7 +27,7 @@ const GreatToday = React.memo(({ dayEntry, onChange }: GreatTodayProps) => {
         </div>
         <div className="flex-grow overflow-y-auto">
           <TextAreaList
-            entries={dayEntry}
+            entryList={entryList}
             onChange={handleTextAreaListChange}
           />
         </div>

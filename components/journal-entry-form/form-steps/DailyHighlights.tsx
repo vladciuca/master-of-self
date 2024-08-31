@@ -2,17 +2,13 @@ import TextAreaList from "@components/TextAreaList";
 import { Label } from "@components/ui/label";
 
 interface DailyHighlightsProps {
-  nightEntry: string[];
-  onChange: (
-    field: "nightEntry",
-    value: { dailyHighlights: string[] },
-    score: number
-  ) => void;
+  entryList: string[];
+  onChange: (value: string[]) => void;
 }
 
-const NightForm = ({ nightEntry, onChange }: DailyHighlightsProps) => {
-  const handleTextAreaListChange = (newEntries: string[], score: number) => {
-    onChange("nightEntry", { dailyHighlights: newEntries }, score);
+const DailyHighlights = ({ entryList, onChange }: DailyHighlightsProps) => {
+  const handleTextAreaListChange = (newEntries: string[]) => {
+    onChange(newEntries);
   };
 
   return (
@@ -27,7 +23,7 @@ const NightForm = ({ nightEntry, onChange }: DailyHighlightsProps) => {
         </div>
         <div className="flex-grow overflow-y-auto">
           <TextAreaList
-            entries={nightEntry}
+            entryList={entryList}
             onChange={handleTextAreaListChange}
           />
         </div>
@@ -36,4 +32,4 @@ const NightForm = ({ nightEntry, onChange }: DailyHighlightsProps) => {
   );
 };
 
-export default NightForm;
+export default DailyHighlights;
