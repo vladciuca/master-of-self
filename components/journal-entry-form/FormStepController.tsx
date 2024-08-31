@@ -13,7 +13,7 @@ const hasMissions = false;
 const hasHabits = false;
 const hasGrateful = true;
 
-interface JournalEntry {
+export interface JournalEntry {
   dailyWillpower: number;
   dayEntry?: {
     greatToday?: string[];

@@ -5,26 +5,21 @@ import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import JournalEntryList from "@components/JournalEntryList";
 import SkeletonJournalEntryCard from "@components/skeletons/SkeletonJournalEntryCard";
+import { JournalEntry } from "@components/journal-entry-form/FormStepController";
+
 interface Session {
   user?: {
     id?: string | null;
   };
 }
 
-type JournalEntryProps = {
+export interface JournalEntryProps extends JournalEntry {
   _id: string;
   createDate: Date;
-  dailyWillpower: number;
-  dayEntry?: {
-    greatToday: string[];
-  };
-  nightEntry?: {
-    dailyHighlights: string[];
-  };
   creator?: {
     _id: string;
   };
-};
+}
 
 const skeletonCards = Array.from({ length: 3 }, (_, index) => (
   <SkeletonJournalEntryCard key={index} />
