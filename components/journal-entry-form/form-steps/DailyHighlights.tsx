@@ -16,6 +16,9 @@ const DailyHighlights = ({ entryList, onChange }: DailyHighlightsProps) => {
       <Label className="w-full">
         <div className="sticky top-0 bg-background z-10 pb-4">
           <div className="flex flex-col items-center justify-center text-center">
+            <div className="w-full mb-2 text-muted-foreground">
+              {"Generate Bonus Willpower for Tomorrow"}
+            </div>
             <h2 className="scroll-m-20 text-3xl font-semibold tracking-tight transition-colors first:mt-0">
               {"What are your highlights of the day?"}
             </h2>

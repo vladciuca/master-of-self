@@ -3,6 +3,7 @@ import { useRouter } from "next/navigation";
 import FormStepProgressBar from "./FormStepProgressBar";
 import GreatToday from "./form-steps/GreatToday";
 import DailyHighlights from "./form-steps/DailyHighlights";
+import GratefulFor from "./form-steps/GratefulFor";
 import { Button } from "@components/ui/button";
 import { RxChevronLeft, RxChevronRight } from "react-icons/rx";
 import { FaBoltLightning } from "react-icons/fa6";
@@ -137,13 +138,12 @@ const FormStepController = ({
     {
       name: "gratefulFor",
       type: "day",
-      // component: (
-      //   <GratefulFor
-      //     dayEntry={formData.dayEntry?.gratefulFor || []}
-      //     onChange={(value) => handleChange("gratefulFor", value)}
-      //   />
-      // ),
-      component: <>GRATEFUL</>,
+      component: (
+        <GratefulFor
+          entryList={formData.dayEntry?.gratefulFor || []}
+          onChange={(value) => handleChange("gratefulFor", value)}
+        />
+      ),
       isAvailable: hasGrateful,
     },
     {
