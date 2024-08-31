@@ -18,13 +18,8 @@ const FormStepProgressBar = ({
   const progressPercentage = ((currentStep + 1) / steps.length) * 100;
 
   return (
-    <div className="flex flex-col items-center w-full mt-4">
-      <div className="flex items-center justify-between w-full">
-        <div className="flex-grow mx-4">
-          <Progress value={progressPercentage} className="w-full h-2" />
-        </div>
-      </div>
-      <div className="flex justify-around w-full mt-4 px-4">
+    <div className="flex flex-col items-center w-full">
+      <div className="flex justify-around w-full mb-4 px-4">
         {steps.map((step: Step, index: number) => (
           <span
             key={index}
@@ -39,6 +34,11 @@ const FormStepProgressBar = ({
             )}
           </span>
         ))}
+      </div>
+      <div className="flex items-center justify-between w-full">
+        <div className="flex-grow mx-4">
+          <Progress value={progressPercentage} className="w-full h-2" />
+        </div>
       </div>
     </div>
   );

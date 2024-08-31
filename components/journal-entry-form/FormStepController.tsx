@@ -6,7 +6,7 @@ import DailyHighlights from "./form-steps/DailyHighlights";
 import GratefulFor from "./form-steps/GratefulFor";
 import { Button } from "@components/ui/button";
 import { RxChevronLeft, RxChevronRight } from "react-icons/rx";
-import { FaBoltLightning } from "react-icons/fa6";
+// import { FaBoltLightning } from "react-icons/fa6";
 
 //user object will contain flags for form rendering conditions
 const hasMissions = false;
@@ -125,10 +125,11 @@ const FormStepController = ({
 
   const formSteps = [
     {
-      name: "greatToday",
+      name: "What will make today great?",
       type: "day",
       component: (
         <GreatToday
+          dailyWillpower={formData.dailyWillpower}
           entryList={formData.dayEntry?.greatToday || []}
           onChange={(value) => handleChange("greatToday", value)}
         />
@@ -136,10 +137,11 @@ const FormStepController = ({
       isAvailable: true,
     },
     {
-      name: "gratefulFor",
+      name: "What are you feeling grateful for?",
       type: "day",
       component: (
         <GratefulFor
+          dailyWillpower={formData.dailyWillpower}
           entryList={formData.dayEntry?.gratefulFor || []}
           onChange={(value) => handleChange("gratefulFor", value)}
         />
@@ -147,7 +149,7 @@ const FormStepController = ({
       isAvailable: hasGrateful,
     },
     {
-      name: "dailyHighlights",
+      name: "What are your highlights of the day?",
       type: "night",
       component: (
         <DailyHighlights
@@ -177,18 +179,15 @@ const FormStepController = ({
 
   return (
     <div className="grid grid-rows-[auto,auto,1fr,auto] h-full">
-      <div className="text-center mb-2">
-        <h2 className="text-4xl font-semibold flex items-center justify-center">
-          {formData.dailyWillpower}
-          <FaBoltLightning className="ml-2" />
-        </h2>
+      <FormStepProgressBar steps={availableSteps} currentStep={currentStep} />
+      <div className="text-center mt-6 px-6">
+        <div className="flex flex-col items-center justify-center text-center">
+          <h2 className="scroll-m-20 text-xl font-semibold tracking-tight transition-colors first:mt-0 leading-relaxed">
+            {availableSteps[currentStep].name}
+          </h2>
+        </div>
       </div>
-      <div className="mb-3">
-        <FormStepProgressBar steps={availableSteps} currentStep={currentStep} />
-      </div>
-
       <div className="overflow-y-auto">{CurrentStepComponent}</div>
-
       <div className="flex justify-around items-center  my-4">
         <Button
           className="w-1/3"

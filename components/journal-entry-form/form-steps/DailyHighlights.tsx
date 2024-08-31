@@ -12,17 +12,17 @@ const DailyHighlights = ({ entryList, onChange }: DailyHighlightsProps) => {
   };
 
   return (
-    <div className="h-full flex flex-col mt-5">
+    <div className="h-full flex flex-col mt-2">
       <Label className="w-full">
         <div className="sticky top-0 bg-background z-10 pb-4">
-          <div className="flex flex-col items-center justify-center text-center">
+          {/* <div className="flex flex-col items-center justify-center text-center">
             <div className="w-full mb-2 text-muted-foreground">
               {"Generate Bonus Willpower for Tomorrow"}
             </div>
             <h2 className="scroll-m-20 text-3xl font-semibold tracking-tight transition-colors first:mt-0">
               {"What are your highlights of the day?"}
             </h2>
-          </div>
+          </div> */}
         </div>
         <div className="flex-grow overflow-y-auto">
           <TextAreaList
