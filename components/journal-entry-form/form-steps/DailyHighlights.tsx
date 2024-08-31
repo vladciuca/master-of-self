@@ -1,38 +1,32 @@
 import TextAreaList from "@components/TextAreaList";
 import { Label } from "@components/ui/label";
-import { FaMoon } from "react-icons/fa6";
 
 interface DailyHighlightsProps {
-  nightEntry: string[];
-  onChange: (
-    field: "nightEntry",
-    value: { dailyHighlights: string[] },
-    score: number
-  ) => void;
+  entryList: string[];
+  onChange: (value: string[]) => void;
 }
 
-const NightForm = ({ nightEntry, onChange }: DailyHighlightsProps) => {
-  const handleTextAreaListChange = (newEntries: string[], score: number) => {
-    onChange("nightEntry", { dailyHighlights: newEntries }, score);
+const DailyHighlights = ({ entryList, onChange }: DailyHighlightsProps) => {
+  const handleTextAreaListChange = (newEntries: string[]) => {
+    onChange(newEntries);
   };
 
   return (
-    <div className="h-full flex flex-col">
+    <div className="h-full flex flex-col mt-2">
       <Label className="w-full">
         <div className="sticky top-0 bg-background z-10 pb-4">
-          <div className="flex flex-col items-center justify-center text-center">
-            <FaMoon
-              className="mt-2 ml-2 text-muted-foreground"
-              size={"1.5rem"}
-            />
-            <h2 className="my-5 mb-8 scroll-m-20 text-3xl font-semibold tracking-tight transition-colors first:mt-0">
+          {/* <div className="flex flex-col items-center justify-center text-center">
+            <div className="w-full mb-2 text-muted-foreground">
+              {"Generate Bonus Willpower for Tomorrow"}
+            </div>
+            <h2 className="scroll-m-20 text-3xl font-semibold tracking-tight transition-colors first:mt-0">
               {"What are your highlights of the day?"}
             </h2>
-          </div>
+          </div> */}
         </div>
         <div className="flex-grow overflow-y-auto">
           <TextAreaList
-            entries={nightEntry}
+            entryList={entryList}
             onChange={handleTextAreaListChange}
           />
         </div>
@@ -41,4 +35,4 @@ const NightForm = ({ nightEntry, onChange }: DailyHighlightsProps) => {
   );
 };
 
-export default NightForm;
+export default DailyHighlights;

@@ -1,21 +1,15 @@
 import JournalEntryCard from "@components/JournalEntryCard";
 import NewJournalEntry from "@components/NewJournalEntry";
 import { Accordion } from "@components/ui/accordion";
+import { JournalEntry } from "@components/journal-entry-form/FormStepController";
 
-type JournalEntryProps = {
+export interface JournalEntryProps extends JournalEntry {
   _id: string;
   createDate: Date;
-  dailyWillpower: number;
-  dayEntry?: {
-    greatToday: string[];
-  };
-  nightEntry?: {
-    dailyHighlights: string[];
-  };
   creator?: {
     _id: string;
   };
-};
+}
 
 type JournalEntryListProps = {
   journalEntries: JournalEntryProps[];

@@ -11,7 +11,7 @@ const NEW_MISSION_CARD_DETAILS = {
       the journey ahead.
     </>
   ),
-  buttonText: "Create New Mission",
+  buttonText: "Start a New Mission",
   linkTo: "/create-mission",
 };
 

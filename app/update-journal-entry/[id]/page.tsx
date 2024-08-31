@@ -5,10 +5,15 @@ import { useParams } from "next/navigation";
 import FormStepController from "@components/journal-entry-form/FormStepController";
 import PageLogo from "@components/PageLogo";
 
-interface JournalEntry {
+export interface JournalEntry {
   dailyWillpower: number;
-  dayEntry?: { greatToday: string[] };
-  nightEntry?: { dailyHighlights: string[] };
+  dayEntry?: {
+    greatToday?: string[];
+    gratefulFor?: string[];
+  };
+  nightEntry?: {
+    dailyHighlights?: string[];
+  };
 }
 
 const UpdateJournalEntry = () => {

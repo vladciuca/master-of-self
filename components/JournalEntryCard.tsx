@@ -22,10 +22,11 @@ type JournalEntryProps = {
   createDate: Date;
   dailyWillpower: number;
   dayEntry?: {
-    greatToday: string[];
+    greatToday?: string[];
+    gratefulFor?: string[];
   };
   nightEntry?: {
-    dailyHighlights: string[];
+    dailyHighlights?: string[];
   };
   creator?: {
     _id: string;
@@ -81,33 +82,56 @@ const JournalEntryCard = ({
         </div>
       </AccordionTrigger>
       <AccordionContent>
-        <div className="flex items-center mt-4">
-          <FaSun className="mt-2 mr-2 text-muted-foreground" />
-          <Info text={"Day"} />
-        </div>
-        <ol className="mt-2 list-decimal pl-6">
-          {dayEntry?.greatToday?.map((greatItem, index) => (
-            <li key={index}>{greatItem}</li>
-          ))}
-        </ol>
+        {dayEntry?.gratefulFor && dayEntry.gratefulFor.length > 0 && (
+          <>
+            <div className="flex items-center mt-4">
+              <FaSun className="mt-2 mr-2 text-muted-foreground" />
+              <Info text={"What I am grateful for..."} />
+            </div>
 
-        <div className="flex items-center mt-4">
-          <FaMoon className="mt-2 mr-2 text-muted-foreground" />
-          <Info text={"Night"} />
-        </div>
-        <ol className="mt-2 list-decimal pl-6">
-          {nightEntry?.dailyHighlights?.map((highlightItem, index) => (
-            <li key={index}>{highlightItem}</li>
-          ))}
-        </ol>
+            <ol className="mt-2 list-decimal pl-6">
+              {dayEntry.gratefulFor.map((gratefulItem, index) => (
+                <li key={index}>{gratefulItem}</li>
+              ))}
+            </ol>
+          </>
+        )}
+
+        {dayEntry?.greatToday && dayEntry.greatToday.length > 0 && (
+          <>
+            <div className="flex items-center mt-4">
+              <FaSun className="mt-2 mr-2 text-muted-foreground" />
+              <Info text={"What will make today great..."} />
+            </div>
+
+            <ol className="mt-2 list-decimal pl-6">
+              {dayEntry.greatToday.map((greatItem, index) => (
+                <li key={index}>{greatItem}</li>
+              ))}
+            </ol>
+          </>
+        )}
+
+        {nightEntry?.dailyHighlights &&
+          nightEntry.dailyHighlights.length > 0 && (
+            <>
+              <div className="flex items-center mt-4">
+                <FaMoon className="mt-2 mr-2 text-muted-foreground" />
+                <Info text={"Today's highlights..."} />
+              </div>
+
+              <ol className="mt-2 list-decimal pl-6">
+                {nightEntry.dailyHighlights.map((highlightItem, index) => (
+                  <li key={index}>{highlightItem}</li>
+                ))}
+              </ol>
+            </>
+          )}
+
         <div className="mt-12">
           {session?.user?.id === creator?._id && pathName === "/journal" && (
             <div>
-              <Button
-                // onClick={() => handleEdit(habit)}
-                className="mr-3"
-                size="sm"
-              >
+              <Button className="mr-3" size="sm">
                 <Link href={`/update-journal-entry/${_id}`}>Edit</Link>
               </Button>
               <Button
@@ -120,10 +144,6 @@ const JournalEntryCard = ({
             </div>
           )}
         </div>
-        {/* <Button className="mr-3" size="sm">
-            <Link href={`/update-journal-entry/${id}`}>Edit</Link>
-          </Button>
-        </div> */}
       </AccordionContent>
     </AccordionItem>
   );

@@ -3,19 +3,25 @@ import { useRouter } from "next/navigation";
 import FormStepProgressBar from "./FormStepProgressBar";
 import GreatToday from "./form-steps/GreatToday";
 import DailyHighlights from "./form-steps/DailyHighlights";
+import GratefulFor from "./form-steps/GratefulFor";
 import { Button } from "@components/ui/button";
 import { RxChevronLeft, RxChevronRight } from "react-icons/rx";
-import { FaBoltLightning } from "react-icons/fa6";
+// import { FaBoltLightning } from "react-icons/fa6";
 
-const formSteps = [
-  { name: "What will make today great?" },
-  { name: "What are your highlights of the day?" },
-];
+//user object will contain flags for form rendering conditions
+const hasMissions = false;
+const hasHabits = false;
+const hasGrateful = true;
 
-interface JournalEntry {
+export interface JournalEntry {
   dailyWillpower: number;
-  dayEntry?: { greatToday: string[]; score?: number };
-  nightEntry?: { dailyHighlights: string[]; score?: number };
+  dayEntry?: {
+    greatToday?: string[];
+    gratefulFor?: string[];
+  };
+  nightEntry?: {
+    dailyHighlights?: string[];
+  };
 }
 
 type FormStepControllerProps = {
@@ -24,20 +30,44 @@ type FormStepControllerProps = {
   journalEntryData?: JournalEntry;
 };
 
-const FormStepController: React.FC<FormStepControllerProps> = ({
+const FormStepController = ({
   journalEntryData,
   submitting,
   onSubmit,
-}) => {
+}: FormStepControllerProps) => {
   const [currentStep, setCurrentStep] = useState(0);
-  const [formData, setFormData] = useState(
+  const [formData, setFormData] = useState<JournalEntry>(
     journalEntryData || {
       dailyWillpower: 0,
-      dayEntry: { greatToday: [], score: 0 },
-      nightEntry: { dailyHighlights: [], score: 0 },
+      dayEntry: {
+        greatToday: [],
+        gratefulFor: [],
+      },
+      nightEntry: {
+        dailyHighlights: [],
+      },
     }
   );
   const router = useRouter();
+
+  const calculateScore = useCallback((entries: string[]) => {
+    const totalEntries = entries.length;
+    const totalLength = entries.join("").length;
+    return Math.floor((totalEntries * 5 + totalLength) / 10);
+  }, []);
+
+  const calculateWillpower = useCallback(
+    (formData: JournalEntry) => {
+      const greatTodayScore = calculateScore(
+        formData.dayEntry?.greatToday || []
+      );
+      const gratefulForScore = calculateScore(
+        formData.dayEntry?.gratefulFor || []
+      );
+      return Math.floor((greatTodayScore + gratefulForScore) * 1.5); // Example calculation, adjust as needed
+    },
+    [calculateScore]
+  );
 
   useEffect(() => {
     if (journalEntryData) {
@@ -46,38 +76,39 @@ const FormStepController: React.FC<FormStepControllerProps> = ({
   }, [journalEntryData]);
 
   useEffect(() => {
-    const totalScore =
-      (formData.dayEntry?.score || 0) + (formData.nightEntry?.score || 0);
-    const willpower = Math.floor(totalScore * 1.5); // Example calculation, adjust as needed
+    const willpower = calculateWillpower(formData);
     if (willpower !== formData.dailyWillpower) {
       setFormData((prev) => ({ ...prev, dailyWillpower: willpower }));
     }
-  }, [
-    formData.dayEntry?.score,
-    formData.nightEntry?.score,
-    formData.dailyWillpower,
-  ]);
+  }, [formData, calculateWillpower]);
 
   const handleChange = useCallback(
     (
-      field: "dayEntry" | "nightEntry",
-      value: { greatToday: string[] } | { dailyHighlights: string[] },
-      score: number
+      field: "greatToday" | "gratefulFor" | "dailyHighlights",
+      value: string[]
     ) => {
       setFormData((prev) => {
-        if (
-          JSON.stringify(prev[field]) !== JSON.stringify({ ...value, score })
-        ) {
-          return { ...prev, [field]: { ...value, score } };
+        if (field === "dailyHighlights") {
+          return {
+            ...prev,
+            nightEntry: { ...prev.nightEntry, dailyHighlights: value },
+          };
+        } else {
+          return {
+            ...prev,
+            dayEntry: {
+              ...prev.dayEntry,
+              [field]: value,
+            },
+          };
         }
-        return prev;
       });
     },
     []
   );
 
   const next = useCallback(async () => {
-    if (currentStep < formSteps.length - 1) {
+    if (currentStep < availableSteps.length - 1) {
       await onSubmit(formData);
       setCurrentStep((step) => step + 1);
     } else {
@@ -92,33 +123,71 @@ const FormStepController: React.FC<FormStepControllerProps> = ({
     }
   }, [currentStep]);
 
+  const formSteps = [
+    {
+      name: "What will make today great?",
+      type: "day",
+      component: (
+        <GreatToday
+          dailyWillpower={formData.dailyWillpower}
+          entryList={formData.dayEntry?.greatToday || []}
+          onChange={(value) => handleChange("greatToday", value)}
+        />
+      ),
+      isAvailable: true,
+    },
+    {
+      name: "What are you feeling grateful for?",
+      type: "day",
+      component: (
+        <GratefulFor
+          dailyWillpower={formData.dailyWillpower}
+          entryList={formData.dayEntry?.gratefulFor || []}
+          onChange={(value) => handleChange("gratefulFor", value)}
+        />
+      ),
+      isAvailable: hasGrateful,
+    },
+    {
+      name: "What are your highlights of the day?",
+      type: "night",
+      component: (
+        <DailyHighlights
+          entryList={formData.nightEntry?.dailyHighlights || []}
+          onChange={(value) => handleChange("dailyHighlights", value)}
+        />
+      ),
+      isAvailable: true,
+    },
+    {
+      name: "habitWillpower",
+      type: "night",
+      component: <>habitWillpower</>,
+      isAvailable: hasHabits,
+    },
+    {
+      name: "missionProgress",
+      type: "night",
+      component: <>missionProgress</>,
+      isAvailable: hasMissions,
+    },
+  ];
+
+  const availableSteps = formSteps.filter((step) => step.isAvailable);
+
+  const CurrentStepComponent = availableSteps[currentStep].component;
+
   return (
     <div className="grid grid-rows-[auto,auto,1fr,auto] h-full">
-      <div className="text-center mb-2">
-        <h2 className="text-4xl font-semibold flex items-center justify-center">
-          {formData.dailyWillpower}
-          <FaBoltLightning className="ml-2" />
-        </h2>
+      <FormStepProgressBar steps={availableSteps} currentStep={currentStep} />
+      <div className="text-center mt-6 px-6">
+        <div className="flex flex-col items-center justify-center text-center">
+          <h2 className="scroll-m-20 text-xl font-semibold tracking-tight transition-colors first:mt-0 leading-relaxed">
+            {availableSteps[currentStep].name}
+          </h2>
+        </div>
       </div>
-      <div className="mb-3">
-        <FormStepProgressBar steps={formSteps} currentStep={currentStep} />
-      </div>
-
-      <div className="overflow-y-auto">
-        {currentStep === 0 && (
-          <GreatToday
-            dayEntry={formData.dayEntry?.greatToday || []}
-            onChange={handleChange}
-          />
-        )}
-        {currentStep === 1 && (
-          <DailyHighlights
-            nightEntry={formData.nightEntry?.dailyHighlights || []}
-            onChange={handleChange}
-          />
-        )}
-      </div>
-
+      <div className="overflow-y-auto">{CurrentStepComponent}</div>
       <div className="flex justify-around items-center  my-4">
         <Button
           className="w-1/3"
@@ -135,7 +204,7 @@ const FormStepController: React.FC<FormStepControllerProps> = ({
           onClick={next}
           disabled={submitting}
         >
-          {currentStep === formSteps.length - 1 ? "Submit" : "Next"}
+          {currentStep === availableSteps.length - 1 ? "Complete" : "Next"}
           <RxChevronRight />
         </Button>
       </div>
