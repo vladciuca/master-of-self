@@ -130,7 +130,7 @@ const TextAreaList = React.memo(
             <li
               key={`row-${index}`}
               ref={refCallback(index, text)}
-              className="outline-none my-2"
+              className="outline-none text-base"
               contentEditable
               suppressContentEditableWarning={true}
               onInput={handleInputCurried(index)}

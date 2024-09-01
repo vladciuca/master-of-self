@@ -56,7 +56,7 @@ const DailyBonus = ({ bonusWillpower }: { bonusWillpower: number }) => {
       <div className="mt-12">
         {isLoading && <SkeletonList />}
         {!isLoading && dailyHighlights.length > 0 && (
-          <ol className="pl-6 mx-3 mt-2 list-decimal text-sm">
+          <ol className="pl-6 mx-3 mt-2 list-decimal text-base">
             {dailyHighlights.map((highlightItem, index) => (
               <li key={index}>{highlightItem}</li>
             ))}
