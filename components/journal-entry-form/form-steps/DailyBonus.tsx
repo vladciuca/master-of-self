@@ -5,7 +5,6 @@ const DailyBonus = ({ bonusWillpower }: { bonusWillpower: number }) => {
   return (
     <div>
       <div className="text-center mt-20">
-        <div className="uppercase text-2xl font-bold">bonus willpower</div>
         <div className="my-6 flex items-center justify-center">
           <FaBoltLightning size={"3.5rem"} />
 

@@ -130,7 +130,7 @@ const FormStepController = ({
 
   const formSteps = [
     {
-      name: "",
+      name: "Bonus Willpower",
       type: "reward",
       component: <DailyBonus bonusWillpower={formData.bonusWillpower} />,
       isAvailable: formData.bonusWillpower > 0,

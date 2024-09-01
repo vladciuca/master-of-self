@@ -1,5 +1,5 @@
 import { Progress } from "@/components/ui/progress";
-import { FaSun, FaMoon, FaTrophy } from "react-icons/fa6";
+import { FaSun, FaMoon, FaStar } from "react-icons/fa6";
 
 interface Step {
   name?: string;
@@ -32,9 +32,7 @@ const FormStepProgressBar = ({
             ) : step.type === "night" ? (
               <FaMoon size={`${index === currentStep ? "1.3rem" : "1.1rem"}`} />
             ) : (
-              <FaTrophy
-                size={`${index === currentStep ? "1.3rem" : "1.1rem"}`}
-              />
+              <FaStar size={`${index === currentStep ? "1.3rem" : "1.1rem"}`} />
             )}
           </span>
         ))}

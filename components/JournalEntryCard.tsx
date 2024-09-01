@@ -78,7 +78,7 @@ const JournalEntryCard = ({
               </div>
             </div>
           </div>
-          {isToday ? (
+          {isToday && (
             <div className="mt-8 mb-2 w-full flex">
               {session?.user?.id === creator?._id &&
                 pathName === "/journal" && (
@@ -98,8 +98,6 @@ const JournalEntryCard = ({
                   </div>
                 )}
             </div>
-          ) : (
-            <></>
           )}
         </div>
       </AccordionTrigger>
