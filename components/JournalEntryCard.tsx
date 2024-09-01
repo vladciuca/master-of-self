@@ -15,7 +15,7 @@ import {
 } from "@components/ui/card";
 import { Button } from "@components/ui/button";
 import { Info } from "@components/ui/tipography";
-import { FaBoltLightning, FaSun, FaMoon } from "react-icons/fa6";
+import { FaBoltLightning, FaSun, FaMoon, FaStar } from "react-icons/fa6";
 
 interface Session {
   user?: {
@@ -99,10 +99,15 @@ const JournalEntryCard = ({
 
             {bonusWillpower > 0 && (
               <CardDescription className="w-full text-start text-muted-foreground">
-                Willpower Bonus:
-                <span className="ml-1 text-sm text-green-500 font-semibold">
-                  +{bonusWillpower}
-                </span>
+                <div className="flex items-center mt-2">
+                  <FaStar className="mr-2 text-muted-foreground" />
+                  <div>
+                    Willpower Bonus:
+                    <span className="ml-1 text-sm text-green-500 font-semibold">
+                      +{bonusWillpower}
+                    </span>
+                  </div>
+                </div>
               </CardDescription>
             )}
           </CardHeader>

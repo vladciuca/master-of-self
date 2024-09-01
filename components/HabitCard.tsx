@@ -56,17 +56,36 @@ interface HabitCardProps {
   handleDelete: (habit: Habit) => Promise<void>;
 }
 
+const getLevelColor = (xp: number): string => {
+  if (xp < 100) return "#FFFFFF"; // Common
+  if (xp < 300) return "#1EFF00"; // Uncommon
+  if (xp < 600) return "#0070DD"; // Rare
+  if (xp < 1000) return "#A335EE"; // Epic
+  if (xp < 1500) return "#FF8000"; // Legendary
+  if (xp < 2000) return "#E6CC80"; // Artifact
+  return "#00CCFF"; // Heirloom
+};
+
 const HabitCard = ({ habit, handleEdit, handleDelete }: HabitCardProps) => {
   const { _id = "", name = "", icon = "", description = "", xp = 0 } = habit;
   const { data: session } = useSession() as { data: Session | null };
   const pathName = usePathname();
 
+  const borderColor = getLevelColor(xp);
+  const neonGlowStyle = {
+    boxShadow: `0 0 1px ${borderColor}, 0 0 5px ${borderColor}, 0 0 7px ${borderColor}, 0 0 12px ${borderColor}`,
+    transition: "box-shadow 0.3s ease-in-out",
+  };
+
   return (
-    <AccordionItem value={_id}>
+    <AccordionItem value={_id} className="my-6">
       <AccordionTrigger>
         <div className="w-full">
           <div className="flex items-center justify-start mb-2">
-            <div className="mr-3">
+            <div
+              className="mr-3 px-2 rounded"
+              style={{ borderColor: borderColor, ...neonGlowStyle }}
+            >
               <em-emoji shortcodes={icon} size="2.2rem" />
             </div>
             <SubTitle text={`${name}`} />
