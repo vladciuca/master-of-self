@@ -21,6 +21,7 @@ type JournalEntryProps = {
   _id: string;
   createDate: Date;
   dailyWillpower: number;
+  bonusWillpower: number;
   dayEntry?: {
     greatToday?: string[];
     gratefulFor?: string[];
