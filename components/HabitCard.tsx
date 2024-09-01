@@ -83,7 +83,7 @@ const HabitCard = ({ habit, handleEdit, handleDelete }: HabitCardProps) => {
         <div className="w-full">
           <div className="flex items-center justify-start mb-2">
             <div
-              className="mr-3 px-2 rounded"
+              className="mr-3 px-2 rounded-full"
               style={{ borderColor: borderColor, ...neonGlowStyle }}
             >
               <em-emoji shortcodes={icon} size="2.2rem" />
