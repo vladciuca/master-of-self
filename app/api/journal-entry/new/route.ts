@@ -5,13 +5,19 @@ import JournalEntry, { JournalEntryType } from "@models/journalEntry";
 interface JournalEntryInput {
   userId: string;
   dailyWillpower: number;
+  bonusWillpower: number;
   dayEntry?: object;
   nightEntry?: object;
 }
 
 export const POST = async (req: NextRequest) => {
-  const { userId, dailyWillpower, dayEntry, nightEntry }: JournalEntryInput =
-    await req.json();
+  const {
+    userId,
+    dailyWillpower,
+    bonusWillpower,
+    dayEntry,
+    nightEntry,
+  }: JournalEntryInput = await req.json();
 
   try {
     await connectToDB();
@@ -41,6 +47,7 @@ export const POST = async (req: NextRequest) => {
       createDate: new Date(),
       creator: userId,
       dailyWillpower,
+      bonusWillpower,
       dayEntry,
       nightEntry,
     });

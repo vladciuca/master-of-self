@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import FormStepProgressBar from "./FormStepProgressBar";
+import DailyBonus from "./form-steps/DailyBonus";
 import GreatToday from "./form-steps/GreatToday";
 import DailyHighlights from "./form-steps/DailyHighlights";
 import GratefulFor from "./form-steps/GratefulFor";
@@ -15,6 +16,7 @@ const hasGrateful = true;
 
 export interface JournalEntry {
   dailyWillpower: number;
+  bonusWillpower: number;
   dayEntry?: {
     greatToday?: string[];
     gratefulFor?: string[];
@@ -36,18 +38,17 @@ const FormStepController = ({
   onSubmit,
 }: FormStepControllerProps) => {
   const [currentStep, setCurrentStep] = useState(0);
-  const [formData, setFormData] = useState<JournalEntry>(
-    journalEntryData || {
-      dailyWillpower: 0,
-      dayEntry: {
-        greatToday: [],
-        gratefulFor: [],
-      },
-      nightEntry: {
-        dailyHighlights: [],
-      },
-    }
-  );
+  const [formData, setFormData] = useState<JournalEntry>(() => ({
+    dailyWillpower: journalEntryData?.dailyWillpower || 0,
+    bonusWillpower: journalEntryData?.bonusWillpower || 0,
+    dayEntry: {
+      greatToday: journalEntryData?.dayEntry?.greatToday || [],
+      gratefulFor: journalEntryData?.dayEntry?.gratefulFor || [],
+    },
+    nightEntry: {
+      dailyHighlights: journalEntryData?.nightEntry?.dailyHighlights || [],
+    },
+  }));
   const router = useRouter();
 
   const calculateScore = useCallback((entries: string[]) => {
@@ -57,26 +58,33 @@ const FormStepController = ({
   }, []);
 
   const calculateWillpower = useCallback(
-    (formData: JournalEntry) => {
-      const greatTodayScore = calculateScore(
-        formData.dayEntry?.greatToday || []
-      );
-      const gratefulForScore = calculateScore(
-        formData.dayEntry?.gratefulFor || []
-      );
-      return Math.floor((greatTodayScore + gratefulForScore) * 1.5); // Example calculation, adjust as needed
+    (data: JournalEntry) => {
+      const greatTodayScore = calculateScore(data.dayEntry?.greatToday || []);
+      const gratefulForScore = calculateScore(data.dayEntry?.gratefulFor || []);
+      return Math.floor((greatTodayScore + gratefulForScore) * 1.5);
     },
     [calculateScore]
   );
 
   useEffect(() => {
     if (journalEntryData) {
-      setFormData(journalEntryData);
+      setFormData((prev) => ({
+        ...prev,
+        ...journalEntryData,
+        dayEntry: {
+          ...prev.dayEntry,
+          ...journalEntryData.dayEntry,
+        },
+        nightEntry: {
+          ...prev.nightEntry,
+          ...journalEntryData.nightEntry,
+        },
+      }));
     }
   }, [journalEntryData]);
 
   useEffect(() => {
-    const willpower = calculateWillpower(formData);
+    const willpower = calculateWillpower(formData) + formData.bonusWillpower;
     if (willpower !== formData.dailyWillpower) {
       setFormData((prev) => ({ ...prev, dailyWillpower: willpower }));
     }
@@ -88,20 +96,17 @@ const FormStepController = ({
       value: string[]
     ) => {
       setFormData((prev) => {
+        const newData = {
+          ...prev,
+          dayEntry: {
+            ...prev.dayEntry,
+            [field]: value,
+          },
+        };
         if (field === "dailyHighlights") {
-          return {
-            ...prev,
-            nightEntry: { ...prev.nightEntry, dailyHighlights: value },
-          };
-        } else {
-          return {
-            ...prev,
-            dayEntry: {
-              ...prev.dayEntry,
-              [field]: value,
-            },
-          };
+          newData.nightEntry = { ...prev.nightEntry, dailyHighlights: value };
         }
+        return newData;
       });
     },
     []
@@ -125,10 +130,10 @@ const FormStepController = ({
 
   const formSteps = [
     {
-      name: "Claim BONUS Willpower from yesterday's highlights!",
+      name: "",
       type: "reward",
-      component: <>BONUS WILLPOWER</>,
-      isAvailable: true,
+      component: <DailyBonus bonusWillpower={formData.bonusWillpower} />,
+      isAvailable: formData.bonusWillpower > 0,
     },
     {
       name: "What will make today great?",

@@ -1,17 +1,18 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import {
   Card,
-  CardDescription,
+  // CardDescription,
   CardHeader,
   CardTitle,
   CardFooter,
 } from "@components/ui/card";
 import { Button } from "@components/ui/button";
-import { FaSun } from "react-icons/fa";
+import { Info } from "@components/ui/tipography";
+import { FaBoltLightning } from "react-icons/fa6";
 
 interface Session {
   user?: {
@@ -19,10 +20,53 @@ interface Session {
   };
 }
 
+interface JournalEntry {
+  _id: string;
+  nightEntry?: {
+    dailyHighlights?: string[];
+  };
+}
+
 const NewJournalEntry = () => {
   const router = useRouter();
   const { data: session } = useSession() as { data: Session | null };
   const [submitting, setSubmitting] = useState<boolean>(false);
+  const [bonusWillpower, setBonusWillpower] = useState<number>(0);
+
+  const date = new Date();
+  const day = date.getDate();
+  const month = date.toLocaleString("default", { month: "short" });
+
+  useEffect(() => {
+    const checkYesterdayEntry = async () => {
+      if (session?.user?.id) {
+        try {
+          const yesterdayEntryResponse = await fetch(
+            `/api/users/${session.user.id}/journal-entries/yesterday`
+          );
+          const yesterdayEntry: JournalEntry =
+            await yesterdayEntryResponse.json();
+
+          if (yesterdayEntry?.nightEntry?.dailyHighlights?.length) {
+            const calculatedBonus = calculateBonusWillpower(
+              yesterdayEntry.nightEntry.dailyHighlights
+            );
+            setBonusWillpower(calculatedBonus);
+          }
+        } catch (error) {
+          console.error("Failed to fetch yesterday's entry:", error);
+        }
+      }
+    };
+
+    checkYesterdayEntry();
+  }, [session]);
+
+  const calculateBonusWillpower = (highlights: string[]) => {
+    const totalEntries = highlights.length;
+    const totalLength = highlights.join("").length;
+    return Math.floor((totalEntries * 5 + totalLength) / 10);
+  };
 
   const createJournalEntry = async () => {
     setSubmitting(true);
@@ -32,7 +76,10 @@ const NewJournalEntry = () => {
         method: "POST",
         body: JSON.stringify({
           userId: session?.user?.id,
-          dailyWillpower: 0,
+          // follow daily willpower flow and optimize logic
+          // if dailyWillpower is not set initially to bonusWillpower when the form is created the bonus will power will not be granted, it then resets when the score recalculates
+          dailyWillpower: bonusWillpower,
+          bonusWillpower: bonusWillpower,
         }),
       });
 
@@ -59,13 +106,35 @@ const NewJournalEntry = () => {
   return (
     <Card className="mb-4">
       <CardHeader>
-        <CardTitle className="flex">
-          <FaSun className="mr-2" />
-          {"Day Entry"}
+        <CardTitle className="flex mb-4">
+          <div className="flex w-full justify-between">
+            <div className="flex items-center">
+              <div className="bg-primary text-primary-foreground h-16 w-16 rounded-sm flex flex-col justify-center items-center">
+                <div className="uppercase text-base font-medium">{month}</div>
+                <div className="text-4xl font-semibold">{day}</div>
+              </div>
+            </div>
+            <div className="ml-6">
+              <div className="flex items-center">
+                <div className="flex items-center text-3xl">
+                  <FaBoltLightning className="ml-2" />
+                  {bonusWillpower > 0 ? (
+                    <span className="text-green-500">{bonusWillpower}</span>
+                  ) : (
+                    <span>0</span>
+                  )}
+                </div>
+              </div>
+              <div className="flex justify-end">
+                <Info text={"Willpower"} />
+              </div>
+            </div>
+          </div>
         </CardTitle>
-        <CardDescription className="mt-1 mr-4">
-          {"Generate willpower to rise and today's challenges."}
-        </CardDescription>
+
+        {/* <CardDescription>
+          {"Generate willpower and rise and today's challenges."}
+        </CardDescription> */}
       </CardHeader>
       <CardFooter>
         <Button

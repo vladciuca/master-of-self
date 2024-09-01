@@ -57,34 +57,55 @@ const JournalEntryCard = ({
   return (
     <AccordionItem key={_id} value={_id} className="pb-0">
       <AccordionTrigger>
-        <div className="flex w-full justify-between">
-          <div className="flex items-center">
-            <div
-              className={`${
-                isToday ? "bg-red-400" : "bg-primary"
-              } text-primary-foreground h-16 w-16 rounded-sm flex flex-col justify-center`}
-            >
-              <div className="uppercase">{month}</div>
-              <div className="text-4xl font-semibold">{day}</div>
-            </div>
-          </div>
-          <div className="ml-6">
+        <div className="w-full">
+          <div className="flex w-full justify-between py-2">
             <div className="flex items-center">
-              <div className="flex items-center text-3xl">
-                <FaBoltLightning className="ml-2" />
-                {dailyWillpower}
+              <div className="bg-primary text-primary-foreground h-16 w-16 rounded-sm flex flex-col justify-center">
+                <div className="uppercase">{month}</div>
+                <div className="text-4xl font-semibold">{day}</div>
               </div>
             </div>
-            <div className="flex justify-end">
-              <Info text={"Willpower"} />
+            <div className="ml-6">
+              <div className="flex items-center">
+                <div className="flex items-center text-3xl">
+                  <FaBoltLightning className="ml-2" />
+                  {dailyWillpower}
+                </div>
+              </div>
+              <div className="flex justify-end">
+                <Info text={"Willpower"} />
+              </div>
             </div>
           </div>
+          {isToday ? (
+            <div className="mt-8 mb-2 w-full flex">
+              {session?.user?.id === creator?._id &&
+                pathName === "/journal" && (
+                  <div>
+                    <Button className="mr-3" size="sm">
+                      <Link href={`/update-journal-entry/${_id}`}>
+                        Continue today's journal
+                      </Link>
+                    </Button>
+                    <Button
+                      variant="ghost"
+                      onClick={() => handleDelete(journalEntry)}
+                      size="sm"
+                    >
+                      Delete
+                    </Button>
+                  </div>
+                )}
+            </div>
+          ) : (
+            <></>
+          )}
         </div>
       </AccordionTrigger>
       <AccordionContent>
         {dayEntry?.gratefulFor && dayEntry.gratefulFor.length > 0 && (
           <>
-            <div className="flex items-center mt-4">
+            <div className="flex items-center mt-2">
               <FaSun className="mt-2 mr-2 text-muted-foreground" />
               <Info text={"What I am grateful for..."} />
             </div>
@@ -127,23 +148,6 @@ const JournalEntryCard = ({
               </ol>
             </>
           )}
-
-        <div className="mt-12">
-          {session?.user?.id === creator?._id && pathName === "/journal" && (
-            <div>
-              <Button className="mr-3" size="sm">
-                <Link href={`/update-journal-entry/${_id}`}>Edit</Link>
-              </Button>
-              <Button
-                variant="ghost"
-                onClick={() => handleDelete(journalEntry)}
-                size="sm"
-              >
-                Delete
-              </Button>
-            </div>
-          )}
-        </div>
       </AccordionContent>
     </AccordionItem>
   );

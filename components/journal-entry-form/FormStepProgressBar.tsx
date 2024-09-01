@@ -19,7 +19,7 @@ const FormStepProgressBar = ({
 
   return (
     <div className="flex flex-col items-center w-full">
-      <div className="flex justify-around w-full mb-4 px-4">
+      <div className="flex justify-around w-full my-4 px-4">
         {steps.map((step: Step, index: number) => (
           <span
             key={index}
