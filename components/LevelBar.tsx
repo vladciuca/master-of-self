@@ -37,15 +37,18 @@ function LevelBar({ xp }: { xp: number }) {
   return (
     <div>
       <div className="flex justify-between">
-        <h3 className="tracking-tight">Lvl {level}</h3>
+        <h3 className="tracking-normal text-muted-foreground">
+          LVL
+          <span className="font-bold ml-1 text-foreground">{level}</span>
+        </h3>
         <div className="flex items-center">
-          {currentXpForCurrentLevel} / {xpToLevelUp}
-          <span className="flex items-center ml-2">
+          <span className="flex items-center mr-1">
             <FaBoltLightning />
           </span>
+          {currentXpForCurrentLevel} / {xpToLevelUp}
         </div>
       </div>
-      <Progress value={progressPercentage} className="mt-2" />
+      <Progress value={progressPercentage} className="mt-2 h-3" />
     </div>
   );
 }
