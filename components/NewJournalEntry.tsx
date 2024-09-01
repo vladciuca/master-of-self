@@ -5,7 +5,7 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import {
   Card,
-  // CardDescription,
+  CardDescription,
   CardHeader,
   CardTitle,
   CardFooter,
@@ -76,7 +76,6 @@ const NewJournalEntry = () => {
         method: "POST",
         body: JSON.stringify({
           userId: session?.user?.id,
-          // follow daily willpower flow and optimize logic
           // if dailyWillpower is not set initially to bonusWillpower when the form is created the bonus will power will not be granted, it then resets when the score recalculates
           dailyWillpower: bonusWillpower,
           bonusWillpower: bonusWillpower,
@@ -119,7 +118,7 @@ const NewJournalEntry = () => {
                 <div className="flex items-center text-3xl">
                   <FaBoltLightning className="ml-2" />
                   {bonusWillpower > 0 ? (
-                    <span className="text-green-500">{bonusWillpower}</span>
+                    <span className="text-green-500">+{bonusWillpower}</span>
                   ) : (
                     <span>0</span>
                   )}
@@ -132,9 +131,9 @@ const NewJournalEntry = () => {
           </div>
         </CardTitle>
 
-        {/* <CardDescription>
-          {"Generate willpower and rise and today's challenges."}
-        </CardDescription> */}
+        <CardDescription>
+          {"Generate Willpower to channel into your goals!"}
+        </CardDescription>
       </CardHeader>
       <CardFooter>
         <Button

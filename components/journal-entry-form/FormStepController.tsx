@@ -141,6 +141,7 @@ const FormStepController = ({
       component: (
         <GreatToday
           dailyWillpower={formData.dailyWillpower}
+          bonusWillpower={formData.bonusWillpower}
           entryList={formData.dayEntry?.greatToday || []}
           onChange={(value) => handleChange("greatToday", value)}
         />

@@ -7,6 +7,12 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@components/ui/accordion";
+import {
+  CardDescription,
+  CardHeader,
+  CardTitle,
+  CardFooter,
+} from "@components/ui/card";
 import { Button } from "@components/ui/button";
 import { Info } from "@components/ui/tipography";
 import { FaBoltLightning, FaSun, FaMoon } from "react-icons/fa6";
@@ -45,8 +51,15 @@ const JournalEntryCard = ({
 }: JournalEntryCardProps) => {
   const { data: session } = useSession() as { data: Session | null };
   const pathName = usePathname();
-  const { _id, createDate, dailyWillpower, dayEntry, nightEntry, creator } =
-    journalEntry;
+  const {
+    _id,
+    createDate,
+    dailyWillpower,
+    bonusWillpower,
+    dayEntry,
+    nightEntry,
+    creator,
+  } = journalEntry;
 
   const entryDate = new Date(createDate);
   const currentDate = new Date();
@@ -59,46 +72,63 @@ const JournalEntryCard = ({
     <AccordionItem key={_id} value={_id} className="pb-0">
       <AccordionTrigger>
         <div className="w-full">
-          <div className="flex w-full justify-between py-2">
-            <div className="flex items-center">
-              <div className="bg-primary text-primary-foreground h-16 w-16 rounded-sm flex flex-col justify-center">
-                <div className="uppercase">{month}</div>
-                <div className="text-4xl font-semibold">{day}</div>
-              </div>
-            </div>
-            <div className="ml-6">
-              <div className="flex items-center">
-                <div className="flex items-center text-3xl">
-                  <FaBoltLightning className="ml-2" />
-                  {dailyWillpower}
+          <CardHeader className="px-0 pt-2 pb-0">
+            <CardTitle className="flex mb-4">
+              <div className="flex w-full justify-between">
+                <div className="flex items-center">
+                  <div className="bg-primary text-primary-foreground h-16 w-16 rounded-sm flex flex-col justify-center items-center">
+                    <div className="uppercase text-base font-medium">
+                      {month}
+                    </div>
+                    <div className="text-4xl font-semibold">{day}</div>
+                  </div>
+                </div>
+                <div className="ml-6">
+                  <div className="flex items-center">
+                    <div className="flex items-center text-3xl">
+                      <FaBoltLightning className="ml-2" />
+                      {dailyWillpower}
+                    </div>
+                  </div>
+                  <div className="flex justify-end">
+                    <Info text={"Willpower"} />
+                  </div>
                 </div>
               </div>
-              <div className="flex justify-end">
-                <Info text={"Willpower"} />
+            </CardTitle>
+
+            {bonusWillpower > 0 && (
+              <CardDescription className="w-full text-start text-muted-foreground">
+                Willpower Bonus:
+                <span className="ml-1 text-sm text-green-500 font-semibold">
+                  +{bonusWillpower}
+                </span>
+              </CardDescription>
+            )}
+          </CardHeader>
+          <CardFooter className="p-0 pt-2">
+            {isToday && (
+              <div className="mt-4 mb-2 w-full flex">
+                {session?.user?.id === creator?._id &&
+                  pathName === "/journal" && (
+                    <div>
+                      <Button className="mr-3" size="sm">
+                        <Link href={`/update-journal-entry/${_id}`}>
+                          Continue today's journal
+                        </Link>
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        onClick={() => handleDelete(journalEntry)}
+                        size="sm"
+                      >
+                        Delete
+                      </Button>
+                    </div>
+                  )}
               </div>
-            </div>
-          </div>
-          {isToday && (
-            <div className="mt-8 mb-2 w-full flex">
-              {session?.user?.id === creator?._id &&
-                pathName === "/journal" && (
-                  <div>
-                    <Button className="mr-3" size="sm">
-                      <Link href={`/update-journal-entry/${_id}`}>
-                        Continue today's journal
-                      </Link>
-                    </Button>
-                    <Button
-                      variant="ghost"
-                      onClick={() => handleDelete(journalEntry)}
-                      size="sm"
-                    >
-                      Delete
-                    </Button>
-                  </div>
-                )}
-            </div>
-          )}
+            )}
+          </CardFooter>
         </div>
       </AccordionTrigger>
       <AccordionContent>

@@ -30,21 +30,19 @@ const NewEntry = ({
       <CardHeader>
         <CardTitle>
           <div>
-            <span className="font-normal text-muted-foreground text-xl">
-              You have
-              <span className="mx-2 font-light text-foreground">
-                {numberOfEntries}
-              </span>
-              active
-            </span>
-
             <div className="my-4 text-3xl flex items-center">
               {symbol}
               {title}
             </div>
           </div>
         </CardTitle>
-        <CardDescription className="mt-1 mr-4">{description}</CardDescription>
+        <CardDescription className="mt-1 mr-4">
+          You have
+          <span className="mx-1 font-light text-foreground">
+            {numberOfEntries}
+          </span>
+          active {title}. {description}
+        </CardDescription>
       </CardHeader>
       <CardFooter>
         <Link href={`${linkTo}`}>

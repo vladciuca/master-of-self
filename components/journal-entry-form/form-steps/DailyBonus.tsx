@@ -41,28 +41,29 @@ const DailyBonus = ({ bonusWillpower }: { bonusWillpower: number }) => {
   }, [session]);
 
   return (
-    <div>
-      <div className="text-center mt-6">
-        Earned from yesterday's highlights!
-        <div className="my-6 flex items-center justify-center">
-          <FaBoltLightning size={"3.5rem"} />
-          <span className="text-6xl text-green-500 font-semibold">
-            {bonusWillpower}
+    <>
+      <div className="text-center sticky top-0 bg-background z-10">
+        <span className="text-muted-foreground">
+          {"Earned from yesterday's highlights!"}
+        </span>
+        <div className="text-4xl my-3 flex items-center justify-center">
+          <FaBoltLightning />
+          <span className="text-green-500 font-semibold">
+            +{bonusWillpower}
           </span>
         </div>
       </div>
-
-      {isLoading && <SkeletonList />}
-      {!isLoading && dailyHighlights.length > 0 && (
-        <div className="mt-6">
+      <div className="mt-12">
+        {isLoading && <SkeletonList />}
+        {!isLoading && dailyHighlights.length > 0 && (
           <ol className="pl-6 mx-3 mt-2 list-decimal text-sm">
             {dailyHighlights.map((highlightItem, index) => (
               <li key={index}>{highlightItem}</li>
             ))}
           </ol>
-        </div>
-      )}
-    </div>
+        )}
+      </div>
+    </>
   );
 };
 
