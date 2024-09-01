@@ -1,9 +1,9 @@
 import React from "react";
 import NewEntry from "@components/NewEntry";
-import { Target } from "lucide-react";
+import { Shell } from "lucide-react";
 
 const NEW_MISSION_CARD_DETAILS = {
-  symbol: <Target className="mr-2" size={"2rem"} />,
+  symbol: <Shell className="mr-2" size={"2rem"} />,
   title: "Missions",
   description: (
     <>

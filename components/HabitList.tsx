@@ -1,7 +1,7 @@
 import HabitCard from "@components/HabitCard";
 import NewEntry from "@components/NewEntry";
 import { Accordion } from "@components/ui/accordion";
-import { Shell } from "lucide-react";
+import { Target } from "lucide-react";
 
 type Habit = {
   _id: string;
@@ -21,7 +21,7 @@ type HabitListProps = {
 };
 
 const NEW_HABIT_CARD_DETAILS = {
-  symbol: <Shell className="mr-2" size={"2rem"} />,
+  symbol: <Target className="mr-2" size={"2rem"} />,
   title: "Habits",
   description: (
     <>

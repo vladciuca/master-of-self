@@ -1,5 +1,5 @@
 import { Progress } from "@/components/ui/progress";
-import { FaSun, FaMoon } from "react-icons/fa6";
+import { FaSun, FaMoon, FaStar } from "react-icons/fa6";
 
 interface Step {
   name?: string;
@@ -19,7 +19,7 @@ const FormStepProgressBar = ({
 
   return (
     <div className="flex flex-col items-center w-full">
-      <div className="flex justify-around w-full mb-4 px-4">
+      <div className="flex justify-around w-full my-4 px-4">
         {steps.map((step: Step, index: number) => (
           <span
             key={index}
@@ -29,8 +29,10 @@ const FormStepProgressBar = ({
           >
             {step.type === "day" ? (
               <FaSun size={`${index === currentStep ? "1.3rem" : "1.1rem"}`} />
-            ) : (
+            ) : step.type === "night" ? (
               <FaMoon size={`${index === currentStep ? "1.3rem" : "1.1rem"}`} />
+            ) : (
+              <FaStar size={`${index === currentStep ? "1.3rem" : "1.1rem"}`} />
             )}
           </span>
         ))}
