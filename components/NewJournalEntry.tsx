@@ -3,15 +3,8 @@
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import {
-  Card,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-  CardFooter,
-} from "@components/ui/card";
+import { Card } from "@components/ui/card";
 import { Button } from "@components/ui/button";
-import { Info } from "@components/ui/tipography";
 import { FaBoltLightning } from "react-icons/fa6";
 
 interface Session {
@@ -35,7 +28,9 @@ const NewJournalEntry = () => {
 
   const date = new Date();
   const day = date.getDate();
-  const month = date.toLocaleString("default", { month: "short" });
+  const dayOfWeek = date
+    .toLocaleString("default", { weekday: "short" })
+    .toUpperCase();
 
   useEffect(() => {
     const checkYesterdayEntry = async () => {
@@ -103,39 +98,46 @@ const NewJournalEntry = () => {
   };
 
   return (
-    <Card className="mb-4">
-      <CardHeader>
-        <CardTitle className="flex mb-4">
-          <div className="flex w-full justify-between">
+    <Card className="p-4 mb-4">
+      <div className="w-full">
+        <div className="flex w-full justify-between">
+          <div className="flex items-center">
+            <div className="bg-primary text-primary-foreground h-16 w-16 rounded-sm flex flex-col justify-center items-center">
+              <div className="uppercase text-base font-semibold">
+                {dayOfWeek}
+              </div>
+              <div className="text-4xl font-bold">{day}</div>
+            </div>
+          </div>
+          <div className="ml-6">
             <div className="flex items-center">
-              <div className="bg-primary text-primary-foreground h-16 w-16 rounded-sm flex flex-col justify-center items-center">
-                <div className="uppercase text-base font-medium">{month}</div>
-                <div className="text-4xl font-semibold">{day}</div>
+              <div className="w-full flex items-center justify-center text-3xl">
+                {bonusWillpower > 0 ? (
+                  <span className="text-green-500 font-semibold">
+                    +{bonusWillpower}
+                  </span>
+                ) : (
+                  <span>0</span>
+                )}
+                <FaBoltLightning className="ml-2" />
               </div>
             </div>
-            <div className="ml-6">
-              <div className="flex items-center">
-                <div className="flex items-center text-3xl">
-                  <FaBoltLightning className="ml-2" />
-                  {bonusWillpower > 0 ? (
-                    <span className="text-green-500">+{bonusWillpower}</span>
-                  ) : (
-                    <span>0</span>
-                  )}
-                </div>
-              </div>
-              <div className="flex justify-end">
-                <Info text={"Willpower"} />
+            <div className="flex justify-end">
+              <div className="text-sm mt-2 text-muted-foreground">
+                {"Willpower"}
               </div>
             </div>
           </div>
-        </CardTitle>
-
-        <CardDescription>
-          {"Generate Willpower to channel into your goals!"}
-        </CardDescription>
-      </CardHeader>
-      <CardFooter>
+        </div>
+      </div>
+      <div className="w-full text-muted-foreground mt-4">
+        <div className="flex items-center">
+          <div className="flex items-center">
+            {"Generate Willpower to channel into your goals!"}
+          </div>
+        </div>
+      </div>
+      <div className="w-full flex mt-4">
         <Button
           size="sm"
           className="py-3"
@@ -144,7 +146,7 @@ const NewJournalEntry = () => {
         >
           {submitting ? "Creating..." : "Start today's journal"}
         </Button>
-      </CardFooter>
+      </div>
     </Card>
   );
 };

@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useSession } from "next-auth/react";
 import SkeletonList from "../../skeletons/SkeletonList";
-import { FaBoltLightning } from "react-icons/fa6";
+import { FaBoltLightning, FaChevronDown } from "react-icons/fa6";
+import { GiEmbrassedEnergy } from "react-icons/gi";
 
 interface Session {
   user?: {
@@ -13,6 +14,7 @@ const DailyBonus = ({ bonusWillpower }: { bonusWillpower: number }) => {
   const { data: session } = useSession() as { data: Session | null };
   const [dailyHighlights, setDailyHighlights] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const highlightsRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const fetchYesterdayEntry = async () => {
@@ -40,23 +42,37 @@ const DailyBonus = ({ bonusWillpower }: { bonusWillpower: number }) => {
     fetchYesterdayEntry();
   }, [session]);
 
+  const scrollToHighlights = () => {
+    highlightsRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
   return (
     <>
-      <div className="text-center sticky top-0 bg-background z-10">
+      <div className="my-6 w-full flex justify-center">
+        <GiEmbrassedEnergy size={"10rem"} />
+      </div>
+      <div className="text-center">
+        <div className="text-4xl my-4 flex items-center justify-center">
+          <span className="text-green-500 font-semibold mr-2">
+            +{bonusWillpower}
+          </span>
+          <FaBoltLightning />
+        </div>
         <span className="text-muted-foreground">
           {"Earned from yesterday's highlights!"}
         </span>
-        <div className="text-4xl my-3 flex items-center justify-center">
-          <FaBoltLightning />
-          <span className="text-green-500 font-semibold">
-            +{bonusWillpower}
-          </span>
-        </div>
       </div>
-      <div className="mt-12">
+      <div className="mt-6 w-full flex justify-center">
+        <FaChevronDown
+          className="my-6 text-muted-foreground cursor-pointer"
+          size={"3rem"}
+          onClick={scrollToHighlights}
+        />
+      </div>
+      <div className="my-12 mx-12" ref={highlightsRef}>
         {isLoading && <SkeletonList />}
         {!isLoading && dailyHighlights.length > 0 && (
-          <ol className="pl-6 mx-3 mt-2 list-decimal text-base">
+          <ol className="pl-6 mt-2 list-disc text-base">
             {dailyHighlights.map((highlightItem, index) => (
               <li key={index}>{highlightItem}</li>
             ))}

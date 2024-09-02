@@ -29,7 +29,7 @@ const JournalEntryList = ({
   return (
     <>
       {!hasTodayEntry && <NewJournalEntry />}
-      <Accordion type="single" className="pb-1">
+      <Accordion type="single" collapsible className="pb-1">
         {journalEntries.map((journalEntry, index) => {
           return (
             <JournalEntryCard

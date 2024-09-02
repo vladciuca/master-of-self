@@ -43,7 +43,7 @@ const RootLayout = ({ children }: RootLayoutProps) => {
                 <Header />
               </div>
 
-              <div className="my-20 p-2 sm:p-4 h-full w-full overflow-scroll border rounded-3xl">
+              <div className="my-20 p-4 h-full w-full overflow-scroll border rounded-3xl">
                 <LandingPage children={children} />
               </div>
 

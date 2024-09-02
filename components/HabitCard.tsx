@@ -62,8 +62,7 @@ const getLevelColor = (xp: number): string => {
   if (xp < 600) return "#0070DD"; // Rare
   if (xp < 1000) return "#A335EE"; // Epic
   if (xp < 1500) return "#FF8000"; // Legendary
-  if (xp < 2000) return "#E6CC80"; // Artifact
-  return "#00CCFF"; // Heirloom
+  return "#E6CC80"; // Artifact
 };
 
 const HabitCard = ({ habit, handleEdit, handleDelete }: HabitCardProps) => {
