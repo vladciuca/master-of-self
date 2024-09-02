@@ -1,10 +1,10 @@
 import React from "react";
 import NewEntry from "@components/NewEntry";
-import { Shell } from "lucide-react";
+import { Target } from "lucide-react";
 
 const NEW_MISSION_CARD_DETAILS = {
-  symbol: <Shell className="mr-2" size={"2rem"} />,
-  title: "Missions",
+  symbol: <Target className="mr-2" size={"2rem"} />,
+  title: "Goals",
   description: (
     <>
       These create a clear <span className="text-foreground">roadmap</span> for

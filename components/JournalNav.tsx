@@ -11,8 +11,8 @@ const JournalNav = () => {
           variant="ghost"
           className="flex flex-col items-center hover: rounded-full h-16 px-10"
         >
-          <Shell size={"2.4rem"} />
-          <div className="text-xs mt-1">Missions</div>
+          <Target size={"2.4rem"} />
+          <div className="text-xs mt-1">Goals</div>
         </Button>
       </Link>
 
@@ -30,7 +30,7 @@ const JournalNav = () => {
           variant="ghost"
           className="flex flex-col items-center hover: rounded-full h-16 px-10"
         >
-          <Target size={"2.4rem"} />
+          <Shell size={"2.4rem"} />
           <div className="text-xs mt-1">Habits</div>
         </Button>
       </Link>
