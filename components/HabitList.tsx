@@ -44,7 +44,7 @@ const HabitList = ({ habits, handleEdit, handleDelete }: HabitListProps) => {
         linkTo={NEW_HABIT_CARD_DETAILS.linkTo}
         numberOfEntries={habits.length}
       />
-      <Accordion type="single" className="w-full pb-1">
+      <Accordion type="single" collapsible className="w-full pb-1">
         {habits.map((habit: Habit) => (
           <HabitCard
             key={habit._id}

@@ -59,7 +59,7 @@ const DailyBonus = ({ bonusWillpower }: { bonusWillpower: number }) => {
           <FaBoltLightning />
         </div>
         <span className="text-muted-foreground">
-          {"Earned from yesterday's highlights!"}
+          {"Empowered from yesterday's highlights!"}
         </span>
       </div>
       <div className="mt-6 w-full flex justify-center">
