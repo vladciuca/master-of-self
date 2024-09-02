@@ -31,9 +31,9 @@ const GreatToday = React.memo(
             <span className="text-muted-foreground">
               {"Generate Willpower for today!"}
             </span>
-            <div className="text-4xl my-3 flex items-center justify-center">
-              <FaBoltLightning />
-              {dailyWillpower}
+            <div className="text-4xl my-3 flex items-center justify-center font-semibold">
+              +{dailyWillpower}
+              <FaBoltLightning className="ml-2" />
             </div>
           </div>
           <div className="flex-grow overflow-y-auto mt-6">
