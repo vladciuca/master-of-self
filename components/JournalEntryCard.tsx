@@ -72,7 +72,7 @@ const JournalEntryCard = ({
     <AccordionItem key={_id} value={_id} className="pb-0">
       <AccordionTrigger>
         <div className="w-full">
-          <CardHeader className="px-0 pt-2 pb-0">
+          <CardHeader className="px-0 pb-0">
             <CardTitle className="flex mb-4">
               <div className="flex w-full justify-between">
                 <div className="flex items-center">
@@ -96,20 +96,6 @@ const JournalEntryCard = ({
                 </div>
               </div>
             </CardTitle>
-
-            {bonusWillpower > 0 && (
-              <CardDescription className="w-full text-start text-muted-foreground">
-                <div className="flex items-center mt-2">
-                  <FaStar className="mr-2 text-muted-foreground" />
-                  <div>
-                    Willpower Bonus:
-                    <span className="ml-1 text-sm text-green-500 font-semibold">
-                      +{bonusWillpower}
-                    </span>
-                  </div>
-                </div>
-              </CardDescription>
-            )}
           </CardHeader>
           <CardFooter className="p-0 pt-2">
             {isToday && (
@@ -137,6 +123,19 @@ const JournalEntryCard = ({
         </div>
       </AccordionTrigger>
       <AccordionContent>
+        {bonusWillpower > 0 && (
+          <CardDescription className="w-full text-start text-muted-foreground">
+            <div className="flex items-center mt-2">
+              <FaStar className="mr-2 text-muted-foreground" />
+              <div>
+                Willpower Bonus:
+                <span className="ml-1 text-sm text-green-500 font-semibold">
+                  +{bonusWillpower}
+                </span>
+              </div>
+            </div>
+          </CardDescription>
+        )}
         {dayEntry?.gratefulFor && dayEntry.gratefulFor.length > 0 && (
           <>
             <div className="flex items-center mt-2">

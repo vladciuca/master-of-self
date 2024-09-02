@@ -78,7 +78,7 @@ const HabitCard = ({ habit, handleEdit, handleDelete }: HabitCardProps) => {
   };
 
   return (
-    <AccordionItem value={_id} className="my-6">
+    <AccordionItem value={_id} className="my-6 pt-2">
       <AccordionTrigger>
         <div className="w-full">
           <div className="flex items-center justify-start mb-6">
