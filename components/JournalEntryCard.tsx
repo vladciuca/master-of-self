@@ -70,9 +70,9 @@ const JournalEntryCard = ({
 
   return (
     <AccordionItem key={_id} value={_id} className="pb-0">
-      <AccordionTrigger>
+      <AccordionTrigger className="pb-0">
         <div className="w-full">
-          <CardHeader className="px-0 pb-0">
+          <CardHeader className="px-0 py-2">
             <CardTitle className="flex mb-4">
               <div className="flex w-full justify-between">
                 <div className="flex items-center">
@@ -97,29 +97,27 @@ const JournalEntryCard = ({
               </div>
             </CardTitle>
           </CardHeader>
-          <CardFooter className="p-0 pt-2">
-            {isToday && (
-              <div className="mt-4 mb-2 w-full flex">
-                {session?.user?.id === creator?._id &&
-                  pathName === "/journal" && (
-                    <div>
-                      <Button className="mr-3" size="sm">
-                        <Link href={`/update-journal-entry/${_id}`}>
-                          Continue today's journal
-                        </Link>
-                      </Button>
-                      <Button
-                        variant="ghost"
-                        onClick={() => handleDelete(journalEntry)}
-                        size="sm"
-                      >
-                        Delete
-                      </Button>
-                    </div>
-                  )}
-              </div>
-            )}
-          </CardFooter>
+          {isToday && (
+            <CardFooter className="p-0 pb-4 mt-4 mb-2 w-full flex">
+              {session?.user?.id === creator?._id &&
+                pathName === "/journal" && (
+                  <div>
+                    <Button className="mr-3" size="sm">
+                      <Link href={`/update-journal-entry/${_id}`}>
+                        Continue today's journal
+                      </Link>
+                    </Button>
+                    <Button
+                      variant="ghost"
+                      onClick={() => handleDelete(journalEntry)}
+                      size="sm"
+                    >
+                      Delete
+                    </Button>
+                  </div>
+                )}
+            </CardFooter>
+          )}
         </div>
       </AccordionTrigger>
       <AccordionContent>
