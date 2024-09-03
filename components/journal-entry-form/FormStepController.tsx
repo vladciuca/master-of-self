@@ -215,7 +215,7 @@ const FormStepController = ({
           disabled={currentStep === 0}
         >
           <RxChevronLeft />
-          Prev
+          Back
         </Button>
         <Button
           className="w-1/3"
