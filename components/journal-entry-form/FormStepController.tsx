@@ -3,11 +3,11 @@ import { useRouter } from "next/navigation";
 import FormStepProgressBar from "./FormStepProgressBar";
 import DailyBonus from "./form-steps/DailyBonus";
 import GreatToday from "./form-steps/GreatToday";
-import DailyHighlights from "./form-steps/DailyHighlights";
 import GratefulFor from "./form-steps/GratefulFor";
+import DailyHighlights from "./form-steps/DailyHighlights";
+import LearnedToady from "./form-steps/LearnedToday";
 import { Button } from "@components/ui/button";
 import { RxChevronLeft, RxChevronRight } from "react-icons/rx";
-// import { FaBoltLightning } from "react-icons/fa6";
 
 //user object will contain flags for form rendering conditions
 const hasMissions = false;
@@ -172,6 +172,12 @@ const FormStepController = ({
       isAvailable: true,
     },
     {
+      name: "What have I learned today?",
+      type: "night",
+      component: <LearnedToady />,
+      isAvailable: false,
+    },
+    {
       name: "habitWillpower",
       type: "night",
       component: <>habitWillpower</>,
@@ -187,15 +193,16 @@ const FormStepController = ({
 
   const availableSteps = formSteps.filter((step) => step.isAvailable);
 
+  const componentName = availableSteps[currentStep].name;
   const CurrentStepComponent = availableSteps[currentStep].component;
 
   return (
     <div className="grid grid-rows-[auto,auto,1fr,auto] h-full">
       <FormStepProgressBar steps={availableSteps} currentStep={currentStep} />
-      <div className="text-center mt-6 px-6">
+      <div className="text-center mt-6 mb-2">
         <div className="flex flex-col items-center justify-center text-center">
           <h2 className="scroll-m-20 text-xl font-semibold tracking-tight transition-colors first:mt-0 leading-relaxed">
-            {availableSteps[currentStep].name}
+            {componentName}
           </h2>
         </div>
       </div>

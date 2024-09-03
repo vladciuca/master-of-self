@@ -19,18 +19,18 @@ const GratefulFor = React.memo(
     );
 
     return (
-      <div className="h-full flex flex-col mt-2">
-        <Label className="w-full">
+      <div className="h-full flex flex-col">
+        <Label className="w-full flex flex-col h-full mt-2">
           <div className="text-center sticky top-0 bg-background z-10">
             <span className="text-muted-foreground">
               {"Generate Willpower for today!"}
             </span>
-            <div className="text-4xl my-3 flex items-center justify-center font-semibold">
+            <div className="text-4xl mt-3 flex items-center justify-center font-semibold">
               +{dailyWillpower}
               <FaBoltLightning className="ml-2" />
             </div>
           </div>
-          <div className="flex-grow overflow-y-auto mt-6">
+          <div className="flex-grow overflow-y-auto h-full mt-4">
             <TextAreaList
               entryList={entryList}
               onChange={handleTextAreaListChange}

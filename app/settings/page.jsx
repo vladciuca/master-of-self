@@ -3,6 +3,8 @@
 import { signOut } from "next-auth/react";
 import { Button } from "@components/ui/button";
 import { ModeToggle } from "@components/ui/toggle-mode";
+import { Checkbox } from "@components/ui/checkbox";
+import { GiPrayer, GiBackup } from "react-icons/gi";
 
 const Settings = () => {
   const handleSignOut = () => {
@@ -10,13 +12,34 @@ const Settings = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center h-[400px]">
-      <div className="flex items-center">
-        <span className="mr-2">Change Theme Color</span>
-
+    <div className="flex flex-col items-center justify-between h-full">
+      <div className="my-6 w-1/2 flex justify-between items-center">
+        <span>Change Theme</span>
         <ModeToggle />
       </div>
-      <Button onClick={handleSignOut} className="w-1/2 mt-6">
+      <div className="my-4 flex flex-col items-center w-4/5">
+        <div className="my-4 flex justify-between items-center">
+          <GiPrayer size={"4rem"} className="mr-4" />
+          <div>
+            <h1>Gratitude Ritual</h1>
+            <p className="text-sm text-muted-foreground">
+              Unlock this step in your daily morning routine.
+            </p>
+          </div>
+          <Checkbox className="ml-4" />
+        </div>
+        <div className="my-4 flex justify-between items-center">
+          <GiBackup size={"4rem"} className="mr-4" />
+          <div>
+            <h1>Refection Ritual</h1>
+            <p className="text-sm text-muted-foreground">
+              Unlock this step in your daily evening routine.
+            </p>
+          </div>
+          <Checkbox className="ml-4" />
+        </div>
+      </div>
+      <Button onClick={handleSignOut} className="w-1/2 my-6">
         Sign Out
       </Button>
     </div>

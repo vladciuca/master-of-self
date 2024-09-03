@@ -1,7 +1,8 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useSession } from "next-auth/react";
 import SkeletonList from "../../skeletons/SkeletonList";
-import { FaBoltLightning, FaChevronDown } from "react-icons/fa6";
+import { FaBoltLightning } from "react-icons/fa6";
+import { BsChevronCompactDown } from "react-icons/bs";
 import { GiEmbrassedEnergy } from "react-icons/gi";
 
 interface Session {
@@ -43,13 +44,16 @@ const DailyBonus = ({ bonusWillpower }: { bonusWillpower: number }) => {
   }, [session]);
 
   const scrollToHighlights = () => {
-    highlightsRef.current?.scrollIntoView({ behavior: "smooth" });
+    highlightsRef.current?.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    });
   };
 
   return (
-    <>
+    <div className="h-full overflow-hidden">
       <div className="my-6 w-full flex justify-center">
-        <GiEmbrassedEnergy size={"10rem"} />
+        <GiEmbrassedEnergy size={"8rem"} />
       </div>
       <div className="text-center">
         <div className="text-4xl my-4 flex items-center justify-center">
@@ -62,24 +66,29 @@ const DailyBonus = ({ bonusWillpower }: { bonusWillpower: number }) => {
           {"Empowered from yesterday's highlights!"}
         </span>
       </div>
-      <div className="mt-6 w-full flex justify-center">
-        <FaChevronDown
+      <div className="mt-6 mb-12 w-full flex justify-center">
+        <BsChevronCompactDown
           className="my-6 text-muted-foreground cursor-pointer"
           size={"3rem"}
           onClick={scrollToHighlights}
         />
       </div>
-      <div className="my-12 mx-12" ref={highlightsRef}>
+
+      <div className="mx-2" ref={highlightsRef}>
+        <div className="text-muted-foreground w-full text-center mb-6">
+          {"Yesterday's highlights!"}
+        </div>
         {isLoading && <SkeletonList />}
         {!isLoading && dailyHighlights.length > 0 && (
-          <ol className="pl-6 mt-2 list-disc text-base">
+          <ol className="pl-6 list-disc text-base h-[400px] overflow-scroll">
             {dailyHighlights.map((highlightItem, index) => (
               <li key={index}>{highlightItem}</li>
             ))}
           </ol>
         )}
       </div>
-    </>
+      <div className="h-[500px]" />
+    </div>
   );
 };
 

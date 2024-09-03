@@ -118,7 +118,7 @@ const TextAreaList = React.memo(
 
     return (
       <div
-        className="m-2 mb-12 rounded-md overflow-scroll min-h-60 list-decimal"
+        className="rounded-md overflow-scroll h-full min-h-60 list-decimal"
         onClick={focusOnTouch}
       >
         <ol
@@ -142,5 +142,7 @@ const TextAreaList = React.memo(
     );
   }
 );
+
+TextAreaList.displayName = "TextAreaList";
 
 export default TextAreaList;
