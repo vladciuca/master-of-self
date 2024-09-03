@@ -157,7 +157,7 @@ const FormStepController = ({
       isAvailable: formData.bonusWillpower > 0,
     },
     {
-      name: "What are you feeling grateful for?",
+      name: "What am I feeling grateful for?",
       type: "day",
       component: (
         <GratefulFor
@@ -182,7 +182,7 @@ const FormStepController = ({
     },
 
     {
-      name: "What are your highlights of the day?",
+      name: "What are today's highlights?",
       type: "night",
       component: (
         <DailyHighlights
