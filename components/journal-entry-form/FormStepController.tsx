@@ -54,6 +54,22 @@ const FormStepController = ({
   }));
   const router = useRouter();
 
+  // const eveningStartingHour = "18:00";
+  // const isEvening = () => {
+  //   const now = new Date();
+  //   const currentHour = now.getHours();
+  //   const currentMinute = now.getMinutes();
+
+  //   const [eveningHour, eveningMinute] = eveningStartingHour
+  //     .split(":")
+  //     .map(Number);
+
+  //   return (
+  //     currentHour > eveningHour ||
+  //     (currentHour === eveningHour && currentMinute >= eveningMinute)
+  //   );
+  // };
+
   const calculateScore = useCallback((entries: string[]) => {
     const totalEntries = entries.length;
     const totalLength = entries.join("").length;

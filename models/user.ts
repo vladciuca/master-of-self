@@ -7,8 +7,12 @@ interface UserType extends Document {
   stats: {
     totalWillpower: number;
     steps: {
-      gratefulStep: true;
-      reflectionStep: true;
+      gratefulStep: boolean;
+      reflectionStep: boolean;
+    };
+    journalStartTime: {
+      morning: string;
+      evening: string;
     };
   };
 }
@@ -35,6 +39,10 @@ const UserSchema = new Schema<UserType>({
     steps: {
       gratefulStep: Boolean,
       reflectionStep: Boolean,
+    },
+    journalStartTime: {
+      morning: String,
+      evening: String,
     },
   },
 });

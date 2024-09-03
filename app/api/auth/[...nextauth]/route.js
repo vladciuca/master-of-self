@@ -40,6 +40,10 @@ const handler = NextAuth({
                 gratefulStep: false,
                 reflectionStep: false,
               },
+              journalStartTime: {
+                morning: "08:00",
+                evening: "18:00",
+              },
             },
           });
         }
