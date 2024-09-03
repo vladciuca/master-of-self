@@ -28,6 +28,7 @@ type JournalEntryProps = {
   };
   nightEntry?: {
     dailyHighlights?: string[];
+    learnedToday?: string;
   };
   creator?: {
     _id: string;
@@ -132,14 +133,14 @@ const JournalEntryCard = ({
 
         <JournalEntrySection
           icon={<FaSun />}
-          title={"What will make today great..."}
-          items={dayEntry?.greatToday}
+          title="What I am grateful for today..."
+          items={dayEntry?.gratefulFor}
         />
 
         <JournalEntrySection
           icon={<FaSun />}
-          title="What I am grateful for today..."
-          items={dayEntry?.gratefulFor}
+          title={"What will make today great..."}
+          items={dayEntry?.greatToday}
         />
 
         <JournalEntrySection
@@ -147,6 +148,17 @@ const JournalEntryCard = ({
           title="Today's highlights..."
           items={nightEntry?.dailyHighlights}
         />
+
+        <div className="mt-4">
+          <div className="flex items-center mt-4">
+            <FaMoon className="mr-2 text-muted-foreground" />
+            <div className="text-sm text-muted-foreground">
+              {"What have I learned today..."}
+            </div>
+          </div>
+
+          <div className="mt-2 ml-1">{nightEntry?.learnedToday}</div>
+        </div>
       </AccordionContent>
     </AccordionItem>
   );

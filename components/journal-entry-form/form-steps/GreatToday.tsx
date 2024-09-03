@@ -5,18 +5,12 @@ import { FaBoltLightning } from "react-icons/fa6";
 
 interface GreatTodayProps {
   dailyWillpower: number;
-  bonusWillpower: number;
   entryList: string[];
   onChange: (value: string[]) => void;
 }
 
 const GreatToday = React.memo(
-  ({
-    dailyWillpower,
-    bonusWillpower,
-    entryList,
-    onChange,
-  }: GreatTodayProps) => {
+  ({ dailyWillpower, entryList, onChange }: GreatTodayProps) => {
     const handleTextAreaListChange = useCallback(
       (newEntries: string[]) => {
         onChange(newEntries);

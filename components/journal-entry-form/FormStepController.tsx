@@ -5,14 +5,15 @@ import DailyBonus from "./form-steps/DailyBonus";
 import GreatToday from "./form-steps/GreatToday";
 import GratefulFor from "./form-steps/GratefulFor";
 import DailyHighlights from "./form-steps/DailyHighlights";
-import LearnedToady from "./form-steps/LearnedToday";
+import LearnedToday from "./form-steps/LearnedToday";
 import { Button } from "@components/ui/button";
 import { RxChevronLeft, RxChevronRight } from "react-icons/rx";
 
 //user object will contain flags for form rendering conditions
 const hasMissions = false;
 const hasHabits = false;
-const hasGrateful = true;
+const hasGratitude = true;
+const hasReflection = true;
 
 export interface JournalEntry {
   dailyWillpower: number;
@@ -23,6 +24,7 @@ export interface JournalEntry {
   };
   nightEntry?: {
     dailyHighlights?: string[];
+    learnedToday?: string;
   };
 }
 
@@ -47,6 +49,7 @@ const FormStepController = ({
     },
     nightEntry: {
       dailyHighlights: journalEntryData?.nightEntry?.dailyHighlights || [],
+      learnedToday: journalEntryData?.nightEntry?.learnedToday || "",
     },
   }));
   const router = useRouter();
@@ -92,19 +95,21 @@ const FormStepController = ({
 
   const handleChange = useCallback(
     (
-      field: "greatToday" | "gratefulFor" | "dailyHighlights",
-      value: string[]
+      field: "greatToday" | "gratefulFor" | "dailyHighlights" | "learnedToday",
+      value: string[] | string
     ) => {
       setFormData((prev) => {
-        const newData = {
-          ...prev,
-          dayEntry: {
+        const newData = { ...prev };
+        if (field === "greatToday" || field === "gratefulFor") {
+          newData.dayEntry = {
             ...prev.dayEntry,
+            [field]: value as string[],
+          };
+        } else if (field === "dailyHighlights" || field === "learnedToday") {
+          newData.nightEntry = {
+            ...prev.nightEntry,
             [field]: value,
-          },
-        };
-        if (field === "dailyHighlights") {
-          newData.nightEntry = { ...prev.nightEntry, dailyHighlights: value };
+          };
         }
         return newData;
       });
@@ -136,19 +141,6 @@ const FormStepController = ({
       isAvailable: formData.bonusWillpower > 0,
     },
     {
-      name: "What will make today great?",
-      type: "day",
-      component: (
-        <GreatToday
-          dailyWillpower={formData.dailyWillpower}
-          bonusWillpower={formData.bonusWillpower}
-          entryList={formData.dayEntry?.greatToday || []}
-          onChange={(value) => handleChange("greatToday", value)}
-        />
-      ),
-      isAvailable: true,
-    },
-    {
       name: "What are you feeling grateful for?",
       type: "day",
       component: (
@@ -158,8 +150,21 @@ const FormStepController = ({
           onChange={(value) => handleChange("gratefulFor", value)}
         />
       ),
-      isAvailable: hasGrateful,
+      isAvailable: hasGratitude,
     },
+    {
+      name: "What will make today great?",
+      type: "day",
+      component: (
+        <GreatToday
+          dailyWillpower={formData.dailyWillpower}
+          entryList={formData.dayEntry?.greatToday || []}
+          onChange={(value) => handleChange("greatToday", value)}
+        />
+      ),
+      isAvailable: true,
+    },
+
     {
       name: "What are your highlights of the day?",
       type: "night",
@@ -174,8 +179,13 @@ const FormStepController = ({
     {
       name: "What have I learned today?",
       type: "night",
-      component: <LearnedToady />,
-      isAvailable: false,
+      component: (
+        <LearnedToday
+          learnedToday={formData.nightEntry?.learnedToday || ""}
+          onChange={(value) => handleChange("learnedToday", value)}
+        />
+      ),
+      isAvailable: hasReflection,
     },
     {
       name: "habitWillpower",

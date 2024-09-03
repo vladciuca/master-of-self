@@ -21,7 +21,7 @@ const Settings = () => {
         <div className="my-4 flex justify-between items-center">
           <GiPrayer size={"4rem"} className="mr-4" />
           <div>
-            <h1>Gratitude Ritual</h1>
+            <h1>Gratitude</h1>
             <p className="text-sm text-muted-foreground">
               Unlock this step in your daily morning routine.
             </p>
@@ -31,7 +31,7 @@ const Settings = () => {
         <div className="my-4 flex justify-between items-center">
           <GiBackup size={"4rem"} className="mr-4" />
           <div>
-            <h1>Refection Ritual</h1>
+            <h1>Refection</h1>
             <p className="text-sm text-muted-foreground">
               Unlock this step in your daily evening routine.
             </p>
