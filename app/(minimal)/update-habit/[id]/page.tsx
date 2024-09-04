@@ -54,7 +54,7 @@ const EditHabit = () => {
 
   return habitData ? (
     <HabitForm
-      type="Edit"
+      type="Update"
       habit={habitData}
       submitting={submitting}
       onSubmit={updateHabit}

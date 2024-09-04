@@ -26,7 +26,7 @@ const formSchema = z.object({
 export type Habit = z.infer<typeof formSchema>;
 
 type HabitFormProps = {
-  type: "Edit" | "Create";
+  type: "Update" | "Create";
   submitting: boolean;
   onSubmit: (habit: Habit) => Promise<void>;
   habit?: Habit;
@@ -41,9 +41,9 @@ const HabitForm: React.FC<HabitFormProps> = ({
   const form = useForm<Habit>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: type === "Edit" ? habit?.name : "",
-      icon: type === "Edit" ? habit?.icon : "",
-      description: type === "Edit" ? habit?.description : "",
+      name: type === "Update" ? habit?.name : "",
+      icon: type === "Update" ? habit?.icon : "",
+      description: type === "Update" ? habit?.description : "",
     },
   });
 

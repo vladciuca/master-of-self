@@ -52,26 +52,28 @@ const DailyBonus = ({ bonusWillpower }: { bonusWillpower: number }) => {
 
   return (
     <div className="h-full overflow-hidden">
-      <div className="my-6 w-full flex justify-center">
-        <GiEmbrassedEnergy size={"8rem"} />
-      </div>
-      <div className="text-center">
-        <div className="text-4xl my-4 flex items-center justify-center">
-          <span className="text-green-500 font-semibold mr-2">
-            +{bonusWillpower}
-          </span>
-          <FaBoltLightning />
+      <div className="min-h-[800px]">
+        <div className="w-full flex justify-center">
+          <GiEmbrassedEnergy size={"12rem"} />
         </div>
-        <span className="text-muted-foreground">
-          {"Empowered from yesterday's highlights!"}
-        </span>
-      </div>
-      <div className="mt-6 mb-12 w-full flex justify-center">
-        <BsChevronCompactDown
-          className="my-6 text-muted-foreground cursor-pointer"
-          size={"3rem"}
-          onClick={scrollToHighlights}
-        />
+        <div className="text-center">
+          <div className="text-4xl my-4 flex items-center justify-center">
+            <span className="text-green-500 font-semibold mr-2">
+              +{bonusWillpower}
+            </span>
+            <FaBoltLightning />
+          </div>
+          <span className="text-muted-foreground">
+            {"Empowered from yesterday's highlights!"}
+          </span>
+        </div>
+        <div className="my-12 w-full flex justify-center">
+          <BsChevronCompactDown
+            className="my-6 text-muted-foreground cursor-pointer"
+            size={"3rem"}
+            onClick={scrollToHighlights}
+          />
+        </div>
       </div>
 
       <div className="mx-2" ref={highlightsRef}>

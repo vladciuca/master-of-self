@@ -106,7 +106,7 @@ const HabitCard = ({ habit, handleEdit, handleDelete }: HabitCardProps) => {
                   className="mr-3"
                   size="sm"
                 >
-                  Edit
+                  Update
                 </Button>
                 <Button
                   variant="ghost"
