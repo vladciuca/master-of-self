@@ -5,7 +5,7 @@ import { useRouter, useParams } from "next/navigation";
 import HabitForm, { Habit } from "@components/habits/HabitForm";
 import SkeletonForm from "@components/skeletons/SkeletonForm";
 
-const EditHabit = () => {
+const UpdateHabit = () => {
   const router = useRouter();
   const params = useParams<{ id: string }>();
   const { id } = params;
@@ -64,4 +64,4 @@ const EditHabit = () => {
   );
 };
 
-export default EditHabit;
+export default UpdateHabit;

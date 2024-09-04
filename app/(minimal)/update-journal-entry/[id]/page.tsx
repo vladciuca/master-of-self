@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
 import FormStepController from "@components/journal/journal-entry-form/FormStepController";
 import PageLogo from "@components/PageLogo";
-//NEED SOME REFACTORING
+
 export interface JournalEntry {
   dailyWillpower: number;
   bonusWillpower: number;
@@ -25,7 +25,7 @@ const UpdateJournalEntry = () => {
   const [journalEntryData, setJournalEntryData] = useState<JournalEntry | null>(
     null
   );
-  const [error, setError] = useState<string | null>(null);
+  // const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const getJournalEntryData = async () => {
@@ -40,7 +40,7 @@ const UpdateJournalEntry = () => {
         setJournalEntryData(data);
       } catch (error) {
         console.error("Error fetching journal entry:", error);
-        setError("Failed to load journal entry. Please try again.");
+        // setError("Failed to load journal entry. Please try again.");
       }
     };
     getJournalEntryData();
@@ -48,7 +48,7 @@ const UpdateJournalEntry = () => {
 
   const updateJournalEntry = async (journalEntry: JournalEntry) => {
     setSubmitting(true);
-    setError(null);
+    // setError(null);
 
     try {
       const response = await fetch(`/api/journal-entry/${id}`, {
@@ -67,15 +67,15 @@ const UpdateJournalEntry = () => {
       setJournalEntryData(updatedData);
     } catch (error) {
       console.error("Error updating journal entry:", error);
-      setError("Failed to update journal entry. Please try again.");
+      // setError("Failed to update journal entry. Please try again.");
     } finally {
       setSubmitting(false);
     }
   };
 
-  if (error) {
-    return <div className="text-center text-red-500">{error}</div>;
-  }
+  // if (error) {
+  //   return <div className="text-center text-red-500">{error}</div>;
+  // }
 
   return journalEntryData ? (
     <FormStepController

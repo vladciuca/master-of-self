@@ -32,6 +32,7 @@ export const PATCH = async (
     await connectToDB();
     let updatedJournalEntry;
 
+    //DO WE STILL NEED THIS?
     // refactor logic when implementing separate Day / Night Forms
     if (type === "day") {
       updatedJournalEntry = await JournalEntry.findByIdAndUpdate(

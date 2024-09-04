@@ -14,6 +14,7 @@ const hasMissions = false;
 const hasHabits = false;
 const hasGratitude = true;
 const hasReflection = true;
+const isDefault = true;
 
 export interface JournalEntry {
   dailyWillpower: number;
@@ -174,7 +175,7 @@ const FormStepController = ({
           onChange={(value) => handleChange("greatToday", value)}
         />
       ),
-      isAvailable: true,
+      isAvailable: isDefault,
     },
 
     {
