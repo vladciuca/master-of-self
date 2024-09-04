@@ -54,21 +54,17 @@ const FormStepController = ({
   }));
   const router = useRouter();
 
-  // const eveningStartingHour = "18:00";
-  // const isEvening = () => {
-  //   const now = new Date();
-  //   const currentHour = now.getHours();
-  //   const currentMinute = now.getMinutes();
+  const eveningStartingHour = "18:00";
+  function isEvening() {
+    const currentHour = new Date().getHours();
+    const eveningStartHour = parseInt(eveningStartingHour.split(":")[0]);
 
-  //   const [eveningHour, eveningMinute] = eveningStartingHour
-  //     .split(":")
-  //     .map(Number);
-
-  //   return (
-  //     currentHour > eveningHour ||
-  //     (currentHour === eveningHour && currentMinute >= eveningMinute)
-  //   );
-  // };
+    if (currentHour >= eveningStartHour || currentHour < 6) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 
   const calculateScore = useCallback((entries: string[]) => {
     const totalEntries = entries.length;
@@ -190,7 +186,7 @@ const FormStepController = ({
           onChange={(value) => handleChange("dailyHighlights", value)}
         />
       ),
-      isAvailable: true,
+      isAvailable: isEvening(),
     },
     {
       name: "What have I learned today?",
@@ -201,7 +197,7 @@ const FormStepController = ({
           onChange={(value) => handleChange("learnedToday", value)}
         />
       ),
-      isAvailable: hasReflection,
+      isAvailable: isEvening() && hasReflection,
     },
     {
       name: "habitWillpower",
