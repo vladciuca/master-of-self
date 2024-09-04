@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
-import FormStepProgressBar from "./FormStepProgressBar";
-import DailyBonus from "./form-steps/DailyBonus";
-import GreatToday from "./form-steps/GreatToday";
-import GratefulFor from "./form-steps/GratefulFor";
-import DailyHighlights from "./form-steps/DailyHighlights";
-import LearnedToday from "./form-steps/LearnedToday";
+import FormStepProgressBar from "@components/journal/journal-entry-form/FormStepProgressBar";
+import DailyBonus from "@components/journal/journal-entry-form/form-steps/DailyBonus";
+import GreatToday from "@components/journal/journal-entry-form/form-steps/GreatToday";
+import GratefulFor from "@components/journal/journal-entry-form/form-steps/GratefulFor";
+import DailyHighlights from "@components/journal/journal-entry-form/form-steps/DailyHighlights";
+import LearnedToday from "@components/journal/journal-entry-form/form-steps/LearnedToday";
 import { Button } from "@components/ui/button";
 import { RxChevronLeft, RxChevronRight } from "react-icons/rx";
 
@@ -130,17 +130,28 @@ const FormStepController = ({
     []
   );
 
-  const next = useCallback(async () => {
+  const handleStepClick = (
+    event: React.MouseEvent<HTMLSpanElement>,
+    index: number
+  ) => {
+    setCurrentStep(index);
+  };
+
+  const handleCloseForm = () => {
+    router.push("/journal");
+  };
+
+  const handleNextForm = useCallback(async () => {
     if (currentStep < availableSteps.length - 1) {
       await onSubmit(formData);
       setCurrentStep((step) => step + 1);
     } else {
       await onSubmit(formData);
-      router.push("/journal");
+      handleCloseForm();
     }
   }, [currentStep, formData, onSubmit, router]);
 
-  const prev = useCallback(() => {
+  const handlePrevForm = useCallback(() => {
     if (currentStep > 0) {
       setCurrentStep((step) => step - 1);
     }
@@ -221,7 +232,11 @@ const FormStepController = ({
 
   return (
     <div className="grid grid-rows-[auto,auto,1fr,auto] h-full">
-      <FormStepProgressBar steps={availableSteps} currentStep={currentStep} />
+      <FormStepProgressBar
+        steps={availableSteps}
+        currentStep={currentStep}
+        handleStepClick={handleStepClick}
+      />
       <div className="text-center mt-6 mb-2">
         <div className="flex flex-col items-center justify-center text-center">
           <h2 className="scroll-m-20 text-xl font-semibold tracking-tight transition-colors first:mt-0 leading-relaxed">
@@ -230,20 +245,24 @@ const FormStepController = ({
         </div>
       </div>
       <div className="overflow-y-auto">{CurrentStepComponent}</div>
-      <div className="flex justify-around items-center  my-4">
+      <div className="flex justify-around items-center my-4">
         <Button
           className="w-1/3"
+          variant={currentStep === 0 ? "secondary" : "default"}
           type="button"
-          onClick={prev}
-          disabled={currentStep === 0}
+          onClick={currentStep === 0 ? handleCloseForm : handlePrevForm}
         >
           <RxChevronLeft />
-          Back
+          {currentStep === 0 ? "Cancel" : "Back"}
         </Button>
+
         <Button
           className="w-1/3"
+          variant={
+            currentStep === availableSteps.length - 1 ? "secondary" : "default"
+          }
           type="button"
-          onClick={next}
+          onClick={handleNextForm}
           disabled={submitting}
         >
           {currentStep === availableSteps.length - 1 ? "Complete" : "Next"}

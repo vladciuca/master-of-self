@@ -4,17 +4,23 @@ import { GiPrayer, GiBackup } from "react-icons/gi";
 
 interface Step {
   name?: string;
+  //add specific strings here
   type: string;
 }
 
 interface FormStepProgressBarProps {
   steps: Step[];
   currentStep: number;
+  handleStepClick: (
+    event: React.MouseEvent<HTMLSpanElement>,
+    index: number
+  ) => void;
 }
 
 const FormStepProgressBar = ({
   steps,
   currentStep,
+  handleStepClick,
 }: FormStepProgressBarProps) => {
   const progressPercentage = ((currentStep + 1) / steps.length) * 100;
 
@@ -27,6 +33,7 @@ const FormStepProgressBar = ({
             className={`text-sm ${
               index === currentStep ? "" : "text-muted-foreground"
             }`}
+            onClick={(event) => handleStepClick(event, index)}
           >
             {step.type === "day" ? (
               <FaSun size={`${index === currentStep ? "1.4rem" : "1.1rem"}`} />

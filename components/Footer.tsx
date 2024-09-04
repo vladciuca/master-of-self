@@ -8,7 +8,7 @@ import {
   ClientSafeProvider,
 } from "next-auth/react";
 import Navigation from "@components/Navigation";
-import { Button } from "./ui/button";
+import { Button } from "@components/ui/button";
 
 interface Providers {
   [key: string]: ClientSafeProvider;
