@@ -54,7 +54,7 @@ const FormStepController = ({
   }));
   const router = useRouter();
 
-  const eveningStartingHour = "18:00";
+  const eveningStartingHour = "12:00";
   function isEvening() {
     const currentHour = new Date().getHours();
     const eveningStartHour = parseInt(eveningStartingHour.split(":")[0]);
@@ -154,7 +154,7 @@ const FormStepController = ({
     },
     {
       name: "What am I feeling grateful for?",
-      type: "day",
+      type: "gratitude",
       component: (
         <GratefulFor
           dailyWillpower={formData.dailyWillpower}
@@ -190,7 +190,7 @@ const FormStepController = ({
     },
     {
       name: "What have I learned today?",
-      type: "night",
+      type: "reflection",
       component: (
         <LearnedToday
           learnedToday={formData.nightEntry?.learnedToday || ""}

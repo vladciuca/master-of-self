@@ -1,5 +1,6 @@
 import { Progress } from "@/components/ui/progress";
 import { FaSun, FaMoon, FaStar } from "react-icons/fa6";
+import { GiPrayer, GiBackup } from "react-icons/gi";
 
 interface Step {
   name?: string;
@@ -28,11 +29,19 @@ const FormStepProgressBar = ({
             }`}
           >
             {step.type === "day" ? (
-              <FaSun size={`${index === currentStep ? "1.3rem" : "1.1rem"}`} />
+              <FaSun size={`${index === currentStep ? "1.4rem" : "1.1rem"}`} />
             ) : step.type === "night" ? (
-              <FaMoon size={`${index === currentStep ? "1.3rem" : "1.1rem"}`} />
+              <FaMoon size={`${index === currentStep ? "1.4rem" : "1.1rem"}`} />
+            ) : step.type === "gratitude" ? (
+              <GiPrayer
+                size={`${index === currentStep ? "1.4rem" : "1.1rem"}`}
+              />
+            ) : step.type === "reflection" ? (
+              <GiBackup
+                size={`${index === currentStep ? "1.4rem" : "1.1rem"}`}
+              />
             ) : (
-              <FaStar size={`${index === currentStep ? "1.3rem" : "1.1rem"}`} />
+              <FaStar size={`${index === currentStep ? "1.4rem" : "1.1rem"}`} />
             )}
           </span>
         ))}

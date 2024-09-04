@@ -10,6 +10,7 @@ import {
 } from "@components/ui/accordion";
 import { Button } from "@components/ui/button";
 import { FaBoltLightning, FaSun, FaMoon, FaStar } from "react-icons/fa6";
+import { GiPrayer, GiBackup } from "react-icons/gi";
 
 interface Session {
   user?: {
@@ -132,7 +133,7 @@ const JournalEntryCard = ({
         <hr className="mt-4" />
 
         <JournalEntrySection
-          icon={<FaSun />}
+          icon={<GiPrayer />}
           title="What I am grateful for today..."
           items={dayEntry?.gratefulFor}
         />
@@ -151,7 +152,7 @@ const JournalEntryCard = ({
 
         <div className="mt-4">
           <div className="flex items-center mt-4">
-            <FaMoon className="mr-2 text-muted-foreground" />
+            <GiBackup className="mr-2 text-muted-foreground" />
             <div className="text-sm text-muted-foreground">
               {"What have I learned today..."}
             </div>
