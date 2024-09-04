@@ -12,9 +12,9 @@ import {
   FormLabel,
   FormMessage,
 } from "@components/ui/form";
-import { Input } from "./ui/input";
-import { Button } from "./ui/button";
-import { Textarea } from "./ui/textarea";
+import { Input } from "../ui/input";
+import { Button } from "../ui/button";
+import { Textarea } from "../ui/textarea";
 import IconPicker from "@components/IconPicker";
 
 const formSchema = z.object({
@@ -32,12 +32,7 @@ type HabitFormProps = {
   habit?: Habit;
 };
 
-const HabitForm: React.FC<HabitFormProps> = ({
-  type,
-  submitting,
-  onSubmit,
-  habit,
-}) => {
+const HabitForm = ({ type, submitting, onSubmit, habit }: HabitFormProps) => {
   const form = useForm<Habit>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -116,11 +111,6 @@ const HabitForm: React.FC<HabitFormProps> = ({
               Cancel
             </Button>
           </Link>
-          {/* {type === "Edit" && (
-            <Button variant="destructive" className="w-1/2 rounded-full mt-6">
-              Delete Habit
-            </Button>
-          )} */}
         </div>
       </form>
     </Form>

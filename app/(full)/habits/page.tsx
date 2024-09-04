@@ -1,4 +1,4 @@
-import UserHabits from "@components/UserHabits";
+import UserHabits from "@components/habits/UserHabits";
 
 const Habits = () => {
   return (

@@ -11,7 +11,7 @@ import {
   AccordionTrigger,
 } from "@components/ui/accordion";
 import { Button } from "@components/ui/button";
-import { SubTitle } from "./ui/tipography";
+import { SubTitle } from "../ui/tipography";
 
 declare global {
   namespace JSX {

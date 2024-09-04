@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import HabitList from "@components/HabitList";
+import HabitList from "@components/habits/HabitList";
 import SkeletonHabitCard from "@components/skeletons/SkeletonHabitCard";
 
 // try and use import { Session } from "next-auth"; type here

@@ -8,7 +8,7 @@ interface RootLayoutProps {
   children: ReactNode;
 }
 
-const LandingPage = ({ children }: RootLayoutProps) => {
+const SectionContent = ({ children }: RootLayoutProps) => {
   const { data: session } = useSession();
 
   return (
@@ -22,4 +22,4 @@ const LandingPage = ({ children }: RootLayoutProps) => {
   );
 };
 
-export default LandingPage;
+export default SectionContent;

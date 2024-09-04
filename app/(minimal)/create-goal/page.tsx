@@ -2,8 +2,7 @@ import React from "react";
 import Link from "next/link";
 import { Button } from "@components/ui/button";
 import { Shell } from "lucide-react";
-
-const CreateMission = () => {
+const CreateGoal = () => {
   return (
     <div>
       <section className="mt-20 flex flex-col items-center justify-center h-[400px]">
@@ -24,4 +23,4 @@ const CreateMission = () => {
   );
 };
 
-export default CreateMission;
+export default CreateGoal;

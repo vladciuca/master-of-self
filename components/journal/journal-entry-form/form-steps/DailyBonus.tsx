@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useSession } from "next-auth/react";
-import SkeletonList from "../../skeletons/SkeletonList";
+import SkeletonList from "../../../skeletons/SkeletonList";
 import { FaBoltLightning } from "react-icons/fa6";
 import { BsChevronCompactDown } from "react-icons/bs";
 import { GiEmbrassedEnergy } from "react-icons/gi";

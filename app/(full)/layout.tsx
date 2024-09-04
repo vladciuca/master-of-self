@@ -1,6 +1,6 @@
 import Header from "@components/Header";
 import Footer from "@components/Footer";
-import LandingPage from "@components/LandingPage";
+import SectionContent from "@components/SectionContent";
 import { ReactNode } from "react";
 
 interface FullLayoutProps {
@@ -14,7 +14,7 @@ const FullLayout = ({ children }: FullLayoutProps) => {
         <Header />
       </div>
       <div className="my-20 p-4 h-full w-full overflow-scroll border rounded-3xl">
-        <LandingPage children={children} />
+        <SectionContent children={children} />
       </div>
       <div className="fixed bottom-0 w-full h-20">
         <Footer />

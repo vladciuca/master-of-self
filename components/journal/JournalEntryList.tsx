@@ -1,7 +1,7 @@
-import JournalEntryCard from "@components/JournalEntryCard";
-import NewJournalEntry from "@components/NewJournalEntry";
+import JournalEntryCard from "@components/journal/JournalEntryCard";
+import NewJournalEntry from "@components/journal/NewJournalEntry";
 import { Accordion } from "@components/ui/accordion";
-import { JournalEntry } from "@components/journal-entry-form/FormStepController";
+import { JournalEntry } from "@components/journal/journal-entry-form/FormStepController";
 
 export interface JournalEntryProps extends JournalEntry {
   _id: string;

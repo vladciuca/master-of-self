@@ -3,9 +3,9 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
-import JournalEntryList from "@components/JournalEntryList";
+import JournalEntryList from "@components/journal/JournalEntryList";
 import SkeletonJournalEntryCard from "@components/skeletons/SkeletonJournalEntryCard";
-import { JournalEntry } from "@components/journal-entry-form/FormStepController";
+import { JournalEntry } from "@components/journal/journal-entry-form/FormStepController";
 
 interface Session {
   user?: {

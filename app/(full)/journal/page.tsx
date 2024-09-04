@@ -1,4 +1,4 @@
-import UserJournal from "@components/UserJournal";
+import UserJournal from "@components/journal/UserJournal";
 
 const Journal = () => {
   return (

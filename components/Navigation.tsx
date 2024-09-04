@@ -6,7 +6,7 @@ import { Button } from "@components/ui/button";
 const JournalNav = () => {
   return (
     <nav className="flex h-full justify-around items-center w-full">
-      <Link href="/missions">
+      <Link href="/goals">
         <Button
           variant="ghost"
           className="flex flex-col items-center hover: rounded-full h-16 px-10"

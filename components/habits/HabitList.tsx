@@ -1,4 +1,4 @@
-import HabitCard from "@components/HabitCard";
+import HabitCard from "@components/habits/HabitCard";
 import NewEntry from "@components/NewEntry";
 import { Accordion } from "@components/ui/accordion";
 import { Shell } from "lucide-react";

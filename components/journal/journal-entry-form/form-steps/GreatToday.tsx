@@ -1,5 +1,5 @@
 import React, { useCallback } from "react";
-import TextAreaList from "@components/TextAreaList";
+import TextAreaList from "@components/ui/TextAreaList";
 import { Label } from "@components/ui/label";
 import { FaBoltLightning } from "react-icons/fa6";
 

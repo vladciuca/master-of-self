@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter, useParams } from "next/navigation";
-import HabitForm, { Habit } from "@components/HabitForm";
+import HabitForm, { Habit } from "@components/habits/HabitForm";
 import SkeletonForm from "@components/skeletons/SkeletonForm";
 
 const EditHabit = () => {

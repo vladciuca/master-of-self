@@ -7,7 +7,7 @@ import {
   getProviders,
   ClientSafeProvider,
 } from "next-auth/react";
-import JournalNav from "@components/JournalNav";
+import Navigation from "@components/Navigation";
 import { Button } from "./ui/button";
 
 interface Providers {
@@ -41,7 +41,7 @@ const Footer: React.FC = () => {
   return (
     <div className="w-full h-full flex justify-center items-center">
       {session?.user ? (
-        <JournalNav />
+        <Navigation />
       ) : (
         providers &&
         Object.values(providers).map((provider: ClientSafeProvider) => (
