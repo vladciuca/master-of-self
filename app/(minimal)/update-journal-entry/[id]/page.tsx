@@ -84,7 +84,26 @@ const UpdateJournalEntry = () => {
       onSubmit={updateJournalEntry}
     />
   ) : (
-    <PageLogo />
+    <>
+      <div className="phone_container fixed sm:border-2 sm:rounded-3xl top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 mx-auto flex flex-col items-center justify-center w-full max-w-[450px] sm:max-h-[800px] h-screen overflow-hidden">
+        <div className="fixed top-0 w-full h-20">
+          <div className="w-full h-full flex justify-center items-center">
+            <h1 className="text-4xl uppercase tracking-wider font-semibold">
+              <span className="text-6xl font-normal">M</span>aster of{" "}
+              <span className="text-6xl font-normal">S</span>elf
+            </h1>
+          </div>
+        </div>
+        <div className="my-20 p-4 h-full w-full overflow-scroll border rounded-3xl">
+          <PageLogo />
+        </div>
+        <div className="fixed bottom-0 w-full h-20">
+          <div className="w-full h-full flex justify-center items-center">
+            <div className="loader" />
+          </div>
+        </div>
+      </div>
+    </>
   );
 };
 
