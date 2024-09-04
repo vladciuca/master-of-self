@@ -59,7 +59,7 @@ const FormStepController = ({
     const currentHour = new Date().getHours();
     const eveningStartHour = parseInt(eveningStartingHour.split(":")[0]);
 
-    if (currentHour >= eveningStartHour || currentHour < 6) {
+    if (currentHour >= eveningStartHour) {
       return true;
     } else {
       return false;
