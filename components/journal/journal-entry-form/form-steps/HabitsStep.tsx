@@ -77,7 +77,7 @@ HabitsStepProps) => {
   };
 
   return (
-    <div className="grid grid-rows-[1fr,auto] h-full">
+    <div className="h-full">
       <div className="flex flex-col items-center justify-center">
         <div className="text-md font-semibold leading-relaxed text-muted-foreground mx-4">
           {"Unspent Willpower"}
