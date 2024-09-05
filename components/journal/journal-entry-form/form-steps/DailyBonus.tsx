@@ -62,7 +62,7 @@ const DailyBonus = ({ bonusWillpower }: DailyBonusProps) => {
             </span>
             <FaBoltLightning />
           </div>
-          <span className="text-muted-foreground">
+          <span className="font-semibold text-muted-foreground">
             {"Empowered from yesterday's highlights!"}
           </span>
         </div>
@@ -76,7 +76,7 @@ const DailyBonus = ({ bonusWillpower }: DailyBonusProps) => {
       </div>
 
       <div className="mx-2" ref={highlightsRef}>
-        <div className="text-muted-foreground w-full text-center mb-6">
+        <div className="text-md font-semibold text-muted-foreground w-full text-center mb-6">
           {"Yesterday's highlights!"}
         </div>
         {isLoading && <SkeletonList />}

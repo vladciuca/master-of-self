@@ -28,7 +28,7 @@ const GratefulFor = React.memo(
               }
             </div>
             <div className="text-4xl mt-3 flex items-center justify-center font-semibold">
-              +{dailyWillpower}
+              {dailyWillpower}
               <FaBoltLightning className="ml-2" />
             </div>
           </div>

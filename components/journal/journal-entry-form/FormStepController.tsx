@@ -54,6 +54,9 @@ const FormStepController = ({
       learnedToday: journalEntryData?.nightEntry?.learnedToday || "",
     },
   }));
+  // const [habitXpUpdates, setHabitXpUpdates] = useState<{
+  //   [key: string]: number;
+  // }>({});
   const router = useRouter();
 
   const calculateScore = useCallback((entries: string[]) => {
@@ -70,6 +73,13 @@ const FormStepController = ({
     },
     [calculateScore]
   );
+
+  // const onHabitXpUpdate = (habitId: string, xp: number) => {
+  //   setHabitXpUpdates((prev) => ({
+  //     ...prev,
+  //     [habitId]: (prev[habitId] || 0) + xp,
+  //   }));
+  // };
 
   useEffect(() => {
     if (journalEntryData) {
@@ -133,6 +143,15 @@ const FormStepController = ({
   const handleNextForm = useCallback(async () => {
     if (currentStep < availableSteps.length - 1) {
       await onSubmit(formData);
+      // Update habit XP
+      // for (const [habitId, xp] of Object.entries(habitXpUpdates)) {
+      //   await fetch(`/api/habits/${habitId}/xp`, {
+      //     method: "PATCH",
+      //     headers: { "Content-Type": "application/json" },
+      //     body: JSON.stringify({ xp }),
+      //   });
+      // }
+      // setHabitXpUpdates({}); // Reset after updating
       setCurrentStep((step) => step + 1);
     } else {
       await onSubmit(formData);
@@ -203,7 +222,12 @@ const FormStepController = ({
     {
       name: "How did I use my Willpower today?",
       type: "habits",
-      component: <HabitsStep />,
+      component: (
+        <HabitsStep
+          dailyWillpower={formData.dailyWillpower}
+          // onHabitXpUpdate={onHabitXpUpdate}
+        />
+      ),
       isAvailable: hasHabits,
     },
     {

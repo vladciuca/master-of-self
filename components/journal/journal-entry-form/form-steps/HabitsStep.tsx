@@ -1,55 +1,31 @@
-"use client";
-
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import data from "@emoji-mart/data";
 import { init } from "emoji-mart";
 import LevelBar from "@components/LevelBar";
 import { Button } from "@components/ui/button";
-import { Minus, Plus } from "lucide-react";
+import { Minus, Plus, RotateCcw } from "lucide-react";
 import { FaBoltLightning } from "react-icons/fa6";
-import { Session } from "@app/types/types";
+import { Session, Habit } from "@app/types/types";
 
 init({ data });
 
-const HabitsStep = ({}) => {
-  // list of habits
-  const [habits, setHabits] = useState([]);
+type HabitsStepProps = {
+  dailyWillpower: number;
+  //   onHabitXpUpdate: (habitId: string, xp: number) => void;
+};
+
+const HabitsStep = ({
+  dailyWillpower,
+}: //   onHabitXpUpdate,
+HabitsStepProps) => {
+  //   list of habits
+  const [habits, setHabits] = useState<Habit[]>([]);
   const [habitsLoaded, setHabitsLoaded] = useState(false);
-  // list of willpower into skills
-  const [habitXp, setHabitXp] = useState({});
+  //   list of willpower into skills
+  const [habitXp, setHabitXp] = useState<{ [key: string]: number }>({});
+  const [remainingWillpower, setRemainingWillpower] = useState(0);
   const { data: session } = useSession() as { data: Session | null };
-  //   const willpowerSpent = Object.values(habitWillpower).reduce(
-  //     (acc, currentValue) => acc + currentValue,
-  //     0
-  //   );
-
-  //   const remainingWillpower = gratefulItems.length - willpowerSpent;
-
-  //   const handleAddWillpower = (habitId) => {
-  //     setHabitWillpower((prevState) => ({
-  //       ...prevState,
-  //       [habitId]: (prevState[habitId] || 0) + 1,
-  //     }));
-  //   };
-
-  //   const handleSubtractWillpower = (habitId) => {
-  //     setHabitWillpower((prevState) => ({
-  //       ...prevState,
-  //       [habitId]: (prevState[habitId] || 0) - 1,
-  //     }));
-  //   };
-
-  //   TODO: adapt and submit on Next button
-  //   const handleSubmit = async () => {
-  //     if (gratefulItems.length <= 0) return;
-  //     onSubmit(gratefulItems, habitWillpower);
-
-  //     for (const habitId in habitWillpower) {
-  //       const resource = habitWillpower[habitId];
-  //       await updateHabit({ habitId, resource });
-  //     }
-  //   };
 
   useEffect(() => {
     const fetchHabits = async () => {
@@ -62,6 +38,9 @@ const HabitsStep = ({}) => {
         console.error("Failed to fetch habits", error);
       } finally {
         setHabitsLoaded(true);
+        setRemainingWillpower(dailyWillpower);
+        //reset habit xp when willpower sets
+        setHabitXp({});
       }
     };
 
@@ -70,74 +49,109 @@ const HabitsStep = ({}) => {
     }
   }, [session]);
 
+  const handleXpUpdate = (habitId: string, xpChange: number) => {
+    if (xpChange > 0 && xpChange > remainingWillpower) {
+      // Not enough willpower
+      return;
+    }
+
+    //CHANGE XP DIRECTLY IN HABITS[] AFTER FETCH
+    // setHabits((prevHabits) =>
+    //   prevHabits.map((habit) =>
+    //     habit._id === habitId ? { ...habit, xp: habit.xp + xpChange } : habit
+    //   )
+    // );
+
+    setHabitXp((prev) => ({
+      ...prev,
+      [habitId]: (prev[habitId] || 0) + xpChange,
+    }));
+
+    setRemainingWillpower((prev) => prev - xpChange);
+    // onHabitXpUpdate(habitId, xpChange);
+  };
+
+  const handleXpReset = () => {
+    setRemainingWillpower(dailyWillpower);
+    setHabitXp({});
+  };
+
   return (
-    <div className="grid grid-rows-[1fr,auto] h-full">
-      <div className="flex flex-col items-center justify-center">
-        {/* <h1 className="text-6xl">{remainingWillpower}</h1> */}
-        {!habitsLoaded && (
-          <div className="h-full w-full flex justify-center items-center">
-            <div className="loader" />
+    <>
+      <div className="grid grid-rows-[1fr,auto] h-full">
+        <div className="flex flex-col items-center justify-center">
+          <div className="text-md font-semibold leading-relaxed text-muted-foreground mx-4">
+            {"Unspent Willpower"}
           </div>
-        )}
-      </div>
+          <div className="text-4xl mt-3 flex items-center justify-center font-semibold">
+            {remainingWillpower}
+            <FaBoltLightning className="ml-2" />
+            <Button
+              variant={"outline"}
+              className="ml-2 rounded-full p-0 w-10 h-10"
+              onClick={handleXpReset}
+            >
+              <RotateCcw />
+            </Button>
+          </div>
+          {!habitsLoaded && (
+            <div className="h-full w-full flex justify-center items-center">
+              <div className="loader" />
+            </div>
+          )}
+        </div>
 
-      <div className="overflow-y-auto w-full mt-4">
-        {habitsLoaded && (
-          <div>
-            {habits?.map((habit) => {
-              const { _id, name, icon } = habit;
-
-              return (
-                <div
-                  key={_id}
-                  className="flex flex-col items-center justify-center my-8 mx-4 sm:mx-8"
-                >
-                  <div className="flex items-center justify-center text-xl rounded-full border py-1 px-2">
-                    <span className="mx-1 font-semibold">+{0}</span>
-                    {/* + <span className="mx-1">{habitWillpower[_id] || 0}</span> */}
-                    <FaBoltLightning />
-                  </div>
-                  <div className="w-full flex items-center justify-center space-x-4">
-                    <Button
-                      variant="outline"
-                      size="icon"
-                      className="h-8 w-8 shrink-0 rounded-full"
-                      // onClick={() => handleSubtractWillpower(_id)}
-                      // disabled={(habitWillpower[_id] || 0) === 0}
-                    >
-                      <Minus className="h-4 w-4" />
-                      <span className="sr-only">Decrease</span>
-                    </Button>
-                    <div className="flex-1 text-center">
-                      {/* <Progress className="h-4 my-2" /> */}
-                      <LevelBar
-                        // Add xp here
-                        xp={123}
-                        icon={<em-emoji shortcodes={icon} size="1.8rem" />}
-                      />
-                      <div className="mt-2 flex-grow text-lg font-semibold tracking-wide">
-                        {name}
+        <div className="overflow-y-auto w-full mt-4">
+          {habitsLoaded && (
+            <div>
+              {habits?.map((habit) => {
+                const { _id, name, icon, xp } = habit;
+                return (
+                  <div
+                    key={_id}
+                    className="flex flex-col items-center justify-center my-8 mx-4 sm:mx-8"
+                  >
+                    <div className="w-full flex items-center justify-center space-x-4 mb-4">
+                      <Button
+                        variant="outline"
+                        size="icon"
+                        className="h-8 w-8 shrink-0 rounded-full"
+                        disabled={(habitXp[_id] || 0) === 0}
+                        onClick={() => handleXpUpdate(habit._id, -1)}
+                      >
+                        <Minus className="h-4 w-4" />
+                        <span className="sr-only">Decrease</span>
+                      </Button>
+                      <div className="flex-1 text-center">
+                        <LevelBar
+                          xp={xp}
+                          xpChange={habitXp[_id] || 0}
+                          icon={<em-emoji shortcodes={icon} size="1.8rem" />}
+                        />
+                        <div className="mt-4 flex-grow text-lg font-semibold tracking-wide">
+                          {name}
+                        </div>
                       </div>
-                    </div>
 
-                    <Button
-                      variant="outline"
-                      size="icon"
-                      className="h-8 w-8 shrink-0 rounded-full"
-                      // onClick={() => handleAddWillpower(_id)}
-                      // disabled={willpowerSpent === gratefulItems.length}
-                    >
-                      <Plus className="h-4 w-4" />
-                      <span className="sr-only">Increase</span>
-                    </Button>
+                      <Button
+                        variant="outline"
+                        size="icon"
+                        className="h-8 w-8 shrink-0 rounded-full"
+                        onClick={() => handleXpUpdate(habit._id, 1)}
+                        disabled={remainingWillpower < 1}
+                      >
+                        <Plus className="h-4 w-4" />
+                        <span className="sr-only">Increase</span>
+                      </Button>
+                    </div>
                   </div>
-                </div>
-              );
-            })}
-          </div>
-        )}
+                );
+              })}
+            </div>
+          )}
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 
