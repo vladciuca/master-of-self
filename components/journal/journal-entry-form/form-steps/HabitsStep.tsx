@@ -77,81 +77,79 @@ HabitsStepProps) => {
   };
 
   return (
-    <>
-      <div className="grid grid-rows-[1fr,auto] h-full">
-        <div className="flex flex-col items-center justify-center">
-          <div className="text-md font-semibold leading-relaxed text-muted-foreground mx-4">
-            {"Unspent Willpower"}
-          </div>
-          <div className="text-4xl mt-3 flex items-center justify-center font-semibold">
-            {remainingWillpower}
-            <FaBoltLightning className="ml-2" />
-            <Button
-              variant={"outline"}
-              className="ml-2 rounded-full p-0 w-10 h-10"
-              onClick={handleXpReset}
-            >
-              <RotateCcw />
-            </Button>
-          </div>
-          {!habitsLoaded && (
-            <div className="h-full w-full flex justify-center items-center">
-              <div className="loader" />
-            </div>
-          )}
+    <div className="grid grid-rows-[1fr,auto] h-full">
+      <div className="flex flex-col items-center justify-center">
+        <div className="text-md font-semibold leading-relaxed text-muted-foreground mx-4">
+          {"Unspent Willpower"}
         </div>
-
-        <div className="overflow-y-auto w-full mt-4">
-          {habitsLoaded && (
-            <div>
-              {habits?.map((habit) => {
-                const { _id, name, icon, xp } = habit;
-                return (
-                  <div
-                    key={_id}
-                    className="flex flex-col items-center justify-center my-8 mx-4 sm:mx-8"
-                  >
-                    <div className="w-full flex items-center justify-center space-x-4 mb-4">
-                      <Button
-                        variant="outline"
-                        size="icon"
-                        className="h-8 w-8 shrink-0 rounded-full"
-                        disabled={(habitXp[_id] || 0) === 0}
-                        onClick={() => handleXpUpdate(habit._id, -1)}
-                      >
-                        <Minus className="h-4 w-4" />
-                        <span className="sr-only">Decrease</span>
-                      </Button>
-                      <div className="flex-1 text-center">
-                        <LevelBar
-                          xp={xp}
-                          xpChange={habitXp[_id] || 0}
-                          icon={<em-emoji shortcodes={icon} size="1.8rem" />}
-                        />
-                        <div className="mt-4 flex-grow text-lg font-semibold tracking-wide">
-                          {name}
-                        </div>
-                      </div>
-
-                      <Button
-                        variant="outline"
-                        size="icon"
-                        className="h-8 w-8 shrink-0 rounded-full"
-                        onClick={() => handleXpUpdate(habit._id, 1)}
-                        disabled={remainingWillpower < 1}
-                      >
-                        <Plus className="h-4 w-4" />
-                        <span className="sr-only">Increase</span>
-                      </Button>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          )}
+        <div className="text-4xl mt-3 flex items-center justify-center font-semibold">
+          {remainingWillpower}
+          <FaBoltLightning className="ml-2" />
+          <Button
+            variant={"outline"}
+            className="ml-2 rounded-full p-2 w-10 h-10"
+            onClick={handleXpReset}
+          >
+            <RotateCcw />
+          </Button>
         </div>
+        {!habitsLoaded && (
+          <div className="h-full w-full flex justify-center items-center">
+            <div className="loader" />
+          </div>
+        )}
       </div>
-    </>
+
+      <div className="overflow-y-auto w-full mt-4">
+        {habitsLoaded && (
+          <div>
+            {habits?.map((habit) => {
+              const { _id, name, icon, xp } = habit;
+              return (
+                <div
+                  key={_id}
+                  className="flex flex-col items-center justify-center my-8 mx-4 sm:mx-8"
+                >
+                  <div className="w-full flex items-center justify-center space-x-4 mb-4">
+                    <Button
+                      variant="outline"
+                      size="icon"
+                      className="h-8 w-8 shrink-0 rounded-full"
+                      disabled={(habitXp[_id] || 0) === 0}
+                      onClick={() => handleXpUpdate(habit._id, -1)}
+                    >
+                      <Minus className="h-4 w-4" />
+                      <span className="sr-only">Decrease</span>
+                    </Button>
+                    <div className="flex-1 text-center">
+                      <LevelBar
+                        xp={xp}
+                        xpChange={habitXp[_id] || 0}
+                        icon={<em-emoji shortcodes={icon} size="1.8rem" />}
+                      />
+                      <div className="mt-1 flex-grow text-lg font-semibold tracking-wide">
+                        {name}
+                      </div>
+                    </div>
+
+                    <Button
+                      variant="outline"
+                      size="icon"
+                      className="h-8 w-8 shrink-0 rounded-full"
+                      onClick={() => handleXpUpdate(habit._id, 1)}
+                      disabled={remainingWillpower < 1}
+                    >
+                      <Plus className="h-4 w-4" />
+                      <span className="sr-only">Increase</span>
+                    </Button>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        )}
+      </div>
+    </div>
   );
 };
 

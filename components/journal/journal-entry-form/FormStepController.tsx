@@ -13,7 +13,7 @@ import { JournalEntry } from "@app/types/types";
 
 //user object will contain flags for form rendering conditions
 const hasMissions = false;
-const hasHabits = false;
+const hasHabits = true;
 const hasGratitude = true;
 const hasReflection = true;
 const isDefault = true;
