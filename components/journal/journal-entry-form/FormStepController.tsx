@@ -16,7 +16,7 @@ const hasHabits = false;
 const hasGratitude = true;
 const hasReflection = true;
 const isDefault = true;
-const eveningStartingHour = "12:00";
+const eveningStartingHour = "18:00";
 // evening Flag check
 function isEvening() {
   const currentHour = new Date().getHours();
@@ -165,7 +165,7 @@ const FormStepController = ({
       isAvailable: hasGratitude,
     },
     {
-      name: "What will make today great?",
+      name: "What will I do to make today great?",
       type: "day",
       component: (
         <GreatToday

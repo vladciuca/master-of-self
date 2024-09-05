@@ -81,7 +81,7 @@ const DailyBonus = ({ bonusWillpower }: DailyBonusProps) => {
         </div>
         {isLoading && <SkeletonList />}
         {!isLoading && dailyHighlights.length > 0 && (
-          <ol className="pl-6 list-disc text-base h-[400px] overflow-scroll">
+          <ol className="mx-6 pl-6 list-disc text-base h-[400px] overflow-scroll">
             {dailyHighlights.map((highlightItem, index) => (
               <li key={index}>{highlightItem}</li>
             ))}

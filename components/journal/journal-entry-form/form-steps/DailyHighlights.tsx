@@ -14,7 +14,12 @@ const DailyHighlights = ({ entryList, onChange }: DailyHighlightsProps) => {
   return (
     <div className="h-full flex flex-col">
       <Label className="w-full flex flex-col h-full mt-2">
-        <div className="flex-grow h-full overflow-y-auto">
+        <div className="mb-4 text-center leading-relaxed text-muted-foreground mx-4">
+          {
+            "Build momentum by capturing meaningful events to boost tomorrow's Willpower"
+          }
+        </div>
+        <div className="flex-grow h-full overflow-y-auto mx-4">
           <TextAreaList
             entryList={entryList}
             onChange={handleTextAreaListChange}

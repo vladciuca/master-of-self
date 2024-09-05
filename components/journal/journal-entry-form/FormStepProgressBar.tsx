@@ -4,7 +4,7 @@ import { GiPrayer, GiBackup } from "react-icons/gi";
 
 type Step = {
   name?: string;
-  //add specific strings here
+  //add type specific strings here
   type: string;
 };
 
