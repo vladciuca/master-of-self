@@ -13,14 +13,14 @@ import {
 import { Button } from "@components/ui/button";
 import { Session, Habit } from "@/app/types/types";
 
-const getLevelColor = (xp: number): string => {
-  if (xp < 100) return "#FFFFFF"; // Common
-  if (xp < 300) return "#1EFF00"; // Uncommon
-  if (xp < 600) return "#0070DD"; // Rare
-  if (xp < 1000) return "#A335EE"; // Epic
-  if (xp < 1500) return "#FF8000"; // Legendary
-  return "#E6CC80"; // Artifact
-};
+// const getLevelColor = (xp: number): string => {
+//   if (xp < 100) return "#FFFFFF"; // Common
+//   if (xp < 300) return "#1EFF00"; // Uncommon
+//   if (xp < 600) return "#0070DD"; // Rare
+//   if (xp < 1000) return "#A335EE"; // Epic
+//   if (xp < 1500) return "#FF8000"; // Legendary
+//   return "#E6CC80"; // Artifact
+// };
 declare global {
   namespace JSX {
     interface IntrinsicElements {
@@ -48,11 +48,11 @@ const HabitCard = ({ habit, handleEdit, handleDelete }: HabitCardProps) => {
   const { data: session } = useSession() as { data: Session | null };
   const pathName = usePathname();
 
-  const borderColor = getLevelColor(xp);
-  const neonGlowStyle = {
-    boxShadow: `0 0 1px ${borderColor}, 0 0 5px ${borderColor}, 0 0 7px ${borderColor}, 0 0 12px ${borderColor}`,
-    transition: "box-shadow 0.3s ease-in-out",
-  };
+  // const borderColor = getLevelColor(xp);
+  // const neonGlowStyle = {
+  //   boxShadow: `0 0 1px ${borderColor}, 0 0 5px ${borderColor}, 0 0 7px ${borderColor}, 0 0 12px ${borderColor}`,
+  //   transition: "box-shadow 0.3s ease-in-out",
+  // };
 
   return (
     <AccordionItem value={_id} className="my-4 pt-2">
@@ -61,7 +61,7 @@ const HabitCard = ({ habit, handleEdit, handleDelete }: HabitCardProps) => {
           <div className="flex items-center justify-start mb-6">
             <div
               className="mr-5 px-2 rounded-full"
-              style={{ borderColor: borderColor, ...neonGlowStyle }}
+              // style={{ borderColor: borderColor, ...neonGlowStyle }}
             >
               <em-emoji shortcodes={icon} size="2.2rem" />
             </div>
