@@ -5,17 +5,7 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import HabitList from "@components/habits/HabitList";
 import SkeletonHabitCard from "@components/skeletons/SkeletonHabitCard";
-
-// try and use import { Session } from "next-auth"; type here
-interface User {
-  id: string;
-  name?: string;
-  email?: string;
-}
-
-interface Session {
-  user: User;
-}
+import { Session } from "@/app/types/types";
 
 type Habit = {
   _id: string;

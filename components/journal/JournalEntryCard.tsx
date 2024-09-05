@@ -11,12 +11,7 @@ import {
 import { Button } from "@components/ui/button";
 import { FaBoltLightning, FaSun, FaMoon, FaStar } from "react-icons/fa6";
 import { GiPrayer, GiBackup } from "react-icons/gi";
-
-interface Session {
-  user?: {
-    id: string;
-  };
-}
+import { Session } from "@/app/types/types";
 
 type JournalEntryProps = {
   _id: string;

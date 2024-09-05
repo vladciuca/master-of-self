@@ -6,12 +6,7 @@ import { useRouter } from "next/navigation";
 import { Card } from "@components/ui/card";
 import { Button } from "@components/ui/button";
 import { FaBoltLightning } from "react-icons/fa6";
-
-interface Session {
-  user?: {
-    id?: string | null;
-  };
-}
+import { Session } from "@/app/types/types";
 
 interface JournalEntry {
   _id: string;

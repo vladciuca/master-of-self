@@ -11,6 +11,7 @@ import {
   AccordionTrigger,
 } from "@components/ui/accordion";
 import { Button } from "@components/ui/button";
+import { Session } from "@/app/types/types";
 
 declare global {
   namespace JSX {
@@ -27,16 +28,6 @@ declare global {
 }
 
 init({ data });
-
-interface User {
-  id: string;
-  name?: string;
-  email?: string;
-}
-
-interface Session {
-  user: User;
-}
 
 type Habit = {
   _id: string;

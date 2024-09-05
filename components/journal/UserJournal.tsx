@@ -6,12 +6,7 @@ import { useSession } from "next-auth/react";
 import JournalEntryList from "@components/journal/JournalEntryList";
 import SkeletonJournalEntryCard from "@components/skeletons/SkeletonJournalEntryCard";
 import { JournalEntry } from "@components/journal/journal-entry-form/FormStepController";
-
-interface Session {
-  user?: {
-    id?: string | null;
-  };
-}
+import { Session } from "@/app/types/types";
 
 export interface JournalEntryProps extends JournalEntry {
   _id: string;

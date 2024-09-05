@@ -4,12 +4,7 @@ import SkeletonList from "@components/skeletons/SkeletonList";
 import { FaBoltLightning } from "react-icons/fa6";
 import { BsChevronCompactDown } from "react-icons/bs";
 import { GiEmbrassedEnergy } from "react-icons/gi";
-
-interface Session {
-  user?: {
-    id?: string | null;
-  };
-}
+import { Session } from "@/app/types/types";
 
 const DailyBonus = ({ bonusWillpower }: { bonusWillpower: number }) => {
   const { data: session } = useSession() as { data: Session | null };

@@ -4,16 +4,7 @@ import { useState } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import HabitForm, { Habit } from "@components/habits/HabitForm";
-
-interface User {
-  id: string;
-  name?: string;
-  email?: string;
-}
-
-interface Session {
-  user: User;
-}
+import { Session } from "@/app/types/types";
 
 const CreateHabit = () => {
   const router = useRouter();
