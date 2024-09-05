@@ -78,7 +78,7 @@ HabitsStepProps) => {
 
   return (
     <div className="h-full">
-      <div className="flex flex-col items-center justify-center">
+      <div className="flex flex-col items-center justify-center sticky top-0 bg-background z-10 pb-2">
         <div className="text-md font-semibold leading-relaxed text-muted-foreground mx-4">
           {"Unspent Willpower"}
         </div>
@@ -93,14 +93,14 @@ HabitsStepProps) => {
             <RotateCcw />
           </Button>
         </div>
+      </div>
+
+      <div className="overflow-y-auto w-full mt-4">
         {!habitsLoaded && (
           <div className="h-full w-full flex justify-center items-center">
             <div className="loader" />
           </div>
         )}
-      </div>
-
-      <div className="overflow-y-auto w-full mt-4">
         {habitsLoaded && (
           <div>
             {habits?.map((habit) => {
