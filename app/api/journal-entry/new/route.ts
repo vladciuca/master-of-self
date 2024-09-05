@@ -2,22 +2,9 @@ import { NextRequest, NextResponse } from "next/server";
 import { connectToDB } from "@utils/database";
 import JournalEntry, { JournalEntryType } from "@models/journalEntry";
 
-interface JournalEntryInput {
-  userId: string;
-  dailyWillpower: number;
-  bonusWillpower: number;
-  dayEntry?: object;
-  nightEntry?: object;
-}
-
 export const POST = async (req: NextRequest) => {
-  const {
-    userId,
-    dailyWillpower,
-    bonusWillpower,
-    dayEntry,
-    nightEntry,
-  }: JournalEntryInput = await req.json();
+  const { userId, dailyWillpower, bonusWillpower, dayEntry, nightEntry } =
+    await req.json();
 
   try {
     await connectToDB();

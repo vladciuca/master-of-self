@@ -8,14 +8,14 @@ import {
 } from "@components/ui/card";
 import { Button } from "@components/ui/button";
 
-interface NewEntryProps {
+type NewEntryProps = {
   symbol: JSX.Element;
   title: string;
   description: JSX.Element;
   buttonText: string;
   linkTo: string;
   numberOfEntries: number;
-}
+};
 
 const NewEntry = ({
   symbol,

@@ -3,9 +3,9 @@
 import Link from "next/link";
 import { Session } from "next-auth";
 
-interface ProfileProps {
+type ProfileProps = {
   session: Session;
-}
+};
 
 const Profile = ({ session }: ProfileProps) => {
   const name = session.user?.name || "";

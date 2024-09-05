@@ -10,11 +10,11 @@ import {
 import Navigation from "@components/Navigation";
 import { Button } from "@components/ui/button";
 
-interface Providers {
+type Providers = {
   [key: string]: ClientSafeProvider;
-}
+};
 
-const Footer: React.FC = () => {
+const Footer = () => {
   const { data: session, status } = useSession();
   const [providers, setProviders] = useState<Providers | null>(null);
 
