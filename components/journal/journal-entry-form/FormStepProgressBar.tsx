@@ -36,19 +36,19 @@ const FormStepProgressBar = ({
             onClick={(event) => handleStepClick(event, index)}
           >
             {step.type === "day" ? (
-              <FaSun size={`${index === currentStep ? "1.4rem" : "1.1rem"}`} />
+              <FaSun size={`${index === currentStep ? "1.4rem" : "1.3rem"}`} />
             ) : step.type === "night" ? (
-              <FaMoon size={`${index === currentStep ? "1.4rem" : "1.1rem"}`} />
+              <FaMoon size={`${index === currentStep ? "1.4rem" : "1.3rem"}`} />
             ) : step.type === "gratitude" ? (
               <GiPrayer
-                size={`${index === currentStep ? "1.4rem" : "1.1rem"}`}
+                size={`${index === currentStep ? "1.4rem" : "1.3rem"}`}
               />
             ) : step.type === "reflection" ? (
               <GiBackup
-                size={`${index === currentStep ? "1.4rem" : "1.1rem"}`}
+                size={`${index === currentStep ? "1.4rem" : "1.3rem"}`}
               />
             ) : (
-              <FaStar size={`${index === currentStep ? "1.4rem" : "1.1rem"}`} />
+              <FaStar size={`${index === currentStep ? "1.4rem" : "1.3rem"}`} />
             )}
           </span>
         ))}
