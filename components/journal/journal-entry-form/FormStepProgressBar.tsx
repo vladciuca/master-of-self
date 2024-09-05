@@ -1,4 +1,5 @@
 import { Progress } from "@/components/ui/progress";
+import { Shell } from "lucide-react";
 import { FaSun, FaMoon, FaStar } from "react-icons/fa6";
 import { GiPrayer, GiBackup } from "react-icons/gi";
 
@@ -47,6 +48,8 @@ const FormStepProgressBar = ({
               <GiBackup
                 size={`${index === currentStep ? "1.4rem" : "1.3rem"}`}
               />
+            ) : step.type === "habits" ? (
+              <Shell size={`${index === currentStep ? "1.4rem" : "1.3rem"}`} />
             ) : (
               <FaStar size={`${index === currentStep ? "1.4rem" : "1.3rem"}`} />
             )}

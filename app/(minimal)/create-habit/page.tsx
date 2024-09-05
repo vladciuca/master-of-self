@@ -38,7 +38,9 @@ const CreateHabit = () => {
   };
 
   return (
-    <HabitForm type="Create" submitting={submitting} onSubmit={createHabit} />
+    <div className="p-6">
+      <HabitForm type="Create" submitting={submitting} onSubmit={createHabit} />
+    </div>
   );
 };
 

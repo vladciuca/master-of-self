@@ -52,15 +52,19 @@ const UpdateHabit = () => {
     }
   };
 
-  return habitData ? (
-    <HabitForm
-      type="Update"
-      habit={habitData}
-      submitting={submitting}
-      onSubmit={updateHabit}
-    />
-  ) : (
-    <SkeletonForm />
+  return (
+    <div className="p-6">
+      {habitData ? (
+        <HabitForm
+          type="Update"
+          habit={habitData}
+          submitting={submitting}
+          onSubmit={updateHabit}
+        />
+      ) : (
+        <SkeletonForm />
+      )}
+    </div>
   );
 };
 

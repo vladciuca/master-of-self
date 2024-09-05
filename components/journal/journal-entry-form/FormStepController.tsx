@@ -6,6 +6,7 @@ import GreatToday from "@components/journal/journal-entry-form/form-steps/GreatT
 import GratefulFor from "@components/journal/journal-entry-form/form-steps/GratefulFor";
 import DailyHighlights from "@components/journal/journal-entry-form/form-steps/DailyHighlights";
 import LearnedToday from "@components/journal/journal-entry-form/form-steps/LearnedToday";
+import HabitsStep from "@components/journal/journal-entry-form/form-steps/HabitsStep";
 import { Button } from "@components/ui/button";
 import { RxChevronLeft, RxChevronRight } from "react-icons/rx";
 import { JournalEntry } from "@app/types/types";
@@ -200,9 +201,9 @@ const FormStepController = ({
       isAvailable: isEvening() && hasReflection,
     },
     {
-      name: "habitWillpower",
-      type: "night",
-      component: <>habitWillpower</>,
+      name: "How did I use my Willpower today?",
+      type: "habits",
+      component: <HabitsStep />,
       isAvailable: hasHabits,
     },
     {

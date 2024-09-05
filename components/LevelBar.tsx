@@ -27,7 +27,12 @@ function calculateLevel(xp: number) {
   }
 }
 
-function LevelBar({ xp }: { xp: number }) {
+type LevelBarProps = {
+  xp: number;
+  icon?: JSX.Element;
+};
+
+function LevelBar({ xp, icon }: LevelBarProps) {
   const level = calculateLevel(xp);
   const { baseXP, nextLevelXP } = xpForLevel(level);
   const progressPercentage = ((xp - baseXP) / (nextLevelXP - baseXP)) * 100;
@@ -36,16 +41,15 @@ function LevelBar({ xp }: { xp: number }) {
 
   return (
     <div>
-      <div className="flex justify-between">
+      <div className="flex justify-between text-sm">
         <h3 className="tracking-normal text-muted-foreground">
+          {icon && <span className="mr-2">{icon}</span>}
           LVL
           <span className="font-bold ml-1 text-foreground">{level}</span>
         </h3>
         <div className="flex items-center">
-          <span className="flex items-center mr-1">
-            <FaBoltLightning />
-          </span>
           {currentXpForCurrentLevel} / {xpToLevelUp}
+          <FaBoltLightning className="ml-1" />
         </div>
       </div>
       <Progress value={progressPercentage} className="mt-2 h-3" />
