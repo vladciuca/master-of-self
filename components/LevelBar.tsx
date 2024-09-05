@@ -63,7 +63,7 @@ function LevelBar({ xp, xpChange = 0, icon }: LevelBarProps) {
           <FaBoltLightning className="ml-1" />
         </div>
       </div>
-      <div className="relative mt-2 h-3 bg-secondary rounded-full overflow-hidden">
+      <div className="relative mt-2 h-6 bg-secondary rounded-full overflow-hidden">
         {xpChange > 0 && (
           <div
             className="absolute top-0 left-0 h-full bg-green-500 transition-all duration-300 ease-in-out rounded-full"
