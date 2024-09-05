@@ -8,12 +8,13 @@ import { Button } from "@components/ui/button";
 import { FaBoltLightning } from "react-icons/fa6";
 import { Session } from "@/app/types/types";
 
-interface JournalEntry {
+// could find a better way of doing this
+type JournalEntryHighlights = {
   _id: string;
   nightEntry?: {
     dailyHighlights?: string[];
   };
-}
+};
 
 const NewJournalEntry = () => {
   const router = useRouter();
@@ -34,7 +35,7 @@ const NewJournalEntry = () => {
           const yesterdayEntryResponse = await fetch(
             `/api/users/${session.user.id}/journal-entries/yesterday`
           );
-          const yesterdayEntry: JournalEntry =
+          const yesterdayEntry: JournalEntryHighlights =
             await yesterdayEntryResponse.json();
 
           if (yesterdayEntry?.nightEntry?.dailyHighlights?.length) {

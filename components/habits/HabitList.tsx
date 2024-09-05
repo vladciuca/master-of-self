@@ -2,17 +2,7 @@ import HabitCard from "@components/habits/HabitCard";
 import NewEntry from "@components/NewEntry";
 import { Accordion } from "@components/ui/accordion";
 import { Shell } from "lucide-react";
-
-type Habit = {
-  _id: string;
-  name: string;
-  icon: string;
-  description: string;
-  xp: number;
-  creator: {
-    _id: string;
-  };
-};
+import { Habit } from "@/app/types/types";
 
 type HabitListProps = {
   habits: Habit[];

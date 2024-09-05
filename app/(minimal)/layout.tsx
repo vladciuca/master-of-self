@@ -1,10 +1,6 @@
-import { ReactNode } from "react";
+import { Layout } from "@app/types/types";
 
-interface MinimalLayoutProps {
-  children: ReactNode;
-}
-
-const MinimalLayout = ({ children }: MinimalLayoutProps) => {
+const MinimalLayout = ({ children }: Layout) => {
   return <div className="h-screen w-full overflow-scroll p-4">{children}</div>;
 };
 

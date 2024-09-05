@@ -1,13 +1,9 @@
 import Header from "@components/Header";
 import Footer from "@components/Footer";
 import SectionContent from "@components/SectionContent";
-import { ReactNode } from "react";
+import { Layout } from "@app/types/types";
 
-interface FullLayoutProps {
-  children: ReactNode;
-}
-
-const FullLayout = ({ children }: FullLayoutProps) => {
+const FullLayout = ({ children }: Layout) => {
   return (
     <>
       <div className="fixed top-0 w-full h-20">

@@ -1,19 +1,11 @@
 import JournalEntryCard from "@components/journal/JournalEntryCard";
 import NewJournalEntry from "@components/journal/NewJournalEntry";
 import { Accordion } from "@components/ui/accordion";
-import { JournalEntry } from "@components/journal/journal-entry-form/FormStepController";
-
-export interface JournalEntryProps extends JournalEntry {
-  _id: string;
-  createDate: Date;
-  creator?: {
-    _id: string;
-  };
-}
+import { JournalEntryMetadata } from "@app/types/types";
 
 type JournalEntryListProps = {
-  journalEntries: JournalEntryProps[];
-  handleDelete: (journalEntry: JournalEntryProps) => Promise<void>;
+  journalEntries: JournalEntryMetadata[];
+  handleDelete: (journalEntry: JournalEntryMetadata) => Promise<void>;
 };
 
 const JournalEntryList = ({

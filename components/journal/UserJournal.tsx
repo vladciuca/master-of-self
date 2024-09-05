@@ -5,16 +5,7 @@ import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import JournalEntryList from "@components/journal/JournalEntryList";
 import SkeletonJournalEntryCard from "@components/skeletons/SkeletonJournalEntryCard";
-import { JournalEntry } from "@components/journal/journal-entry-form/FormStepController";
-import { Session } from "@/app/types/types";
-
-export interface JournalEntryProps extends JournalEntry {
-  _id: string;
-  createDate: Date;
-  creator?: {
-    _id: string;
-  };
-}
+import { Session, JournalEntryMetadata } from "@/app/types/types";
 
 const skeletonCards = Array.from({ length: 3 }, (_, index) => (
   <SkeletonJournalEntryCard key={index} />
@@ -47,7 +38,7 @@ const UserJournal = () => {
     }
   }, [session]);
 
-  const handleDelete = async (journalEntry: JournalEntryProps) => {
+  const handleDelete = async (journalEntry: JournalEntryMetadata) => {
     const hasConfirmed = confirm("Are you sure you want to delete this habit?");
 
     if (hasConfirmed) {
@@ -57,7 +48,7 @@ const UserJournal = () => {
         });
 
         const filteredJournalEntries = journalEntries.filter(
-          (myJournalEntry: JournalEntryProps) =>
+          (myJournalEntry: JournalEntryMetadata) =>
             myJournalEntry._id !== journalEntry._id
         );
 

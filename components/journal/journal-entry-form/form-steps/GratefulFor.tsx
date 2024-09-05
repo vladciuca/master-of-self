@@ -3,11 +3,11 @@ import TextAreaList from "@components/ui/TextAreaList";
 import { Label } from "@components/ui/label";
 import { FaBoltLightning } from "react-icons/fa6";
 
-interface GratefulForProps {
+type GratefulForProps = {
   dailyWillpower: number;
   entryList: string[];
   onChange: (value: string[]) => void;
-}
+};
 
 const GratefulFor = React.memo(
   ({ dailyWillpower, entryList, onChange }: GratefulForProps) => {

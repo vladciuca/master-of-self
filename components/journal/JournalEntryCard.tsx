@@ -11,29 +11,11 @@ import {
 import { Button } from "@components/ui/button";
 import { FaBoltLightning, FaSun, FaMoon, FaStar } from "react-icons/fa6";
 import { GiPrayer, GiBackup } from "react-icons/gi";
-import { Session } from "@/app/types/types";
-
-type JournalEntryProps = {
-  _id: string;
-  createDate: Date;
-  dailyWillpower: number;
-  bonusWillpower: number;
-  dayEntry?: {
-    greatToday?: string[];
-    gratefulFor?: string[];
-  };
-  nightEntry?: {
-    dailyHighlights?: string[];
-    learnedToday?: string;
-  };
-  creator?: {
-    _id: string;
-  };
-};
+import { Session, JournalEntryMetadata } from "@/app/types/types";
 
 type JournalEntryCardProps = {
-  journalEntry: JournalEntryProps;
-  handleDelete: (journalEntry: JournalEntryProps) => Promise<void>;
+  journalEntry: JournalEntryMetadata;
+  handleDelete: (journalEntry: JournalEntryMetadata) => Promise<void>;
 };
 
 const JournalEntryCard = ({

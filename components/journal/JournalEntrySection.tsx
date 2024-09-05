@@ -1,10 +1,10 @@
 import React, { ReactElement } from "react";
 
-interface EntrySectionProps {
+type EntrySectionProps = {
   icon: ReactElement;
   title: string;
   items?: string[];
-}
+};
 
 const JournalEntrySection = ({ icon, title, items }: EntrySectionProps) => {
   return (

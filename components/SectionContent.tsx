@@ -1,14 +1,10 @@
 "use client";
 
-import { ReactNode } from "react";
 import { useSession } from "next-auth/react";
 import PageLogo from "@components/PageLogo";
+import { Layout } from "@app/types/types";
 
-interface RootLayoutProps {
-  children: ReactNode;
-}
-
-const SectionContent = ({ children }: RootLayoutProps) => {
+const SectionContent = ({ children }: Layout) => {
   const { data: session } = useSession();
 
   return (

@@ -1,15 +1,13 @@
 "use client";
 
-import { ReactNode } from "react";
 import { SessionProvider } from "next-auth/react";
-import { Session } from "next-auth";
+import { Layout, Session } from "@/app/types/types";
 
-interface RootLayoutProps {
-  children: ReactNode;
+type ProviderProps = Layout & {
   session?: Session | null | undefined;
-}
+};
 
-const Provider = ({ children, session }: RootLayoutProps) => {
+const Provider = ({ children, session }: ProviderProps) => {
   return <SessionProvider session={session}>{children}</SessionProvider>;
 };
 

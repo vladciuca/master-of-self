@@ -11,8 +11,16 @@ import {
   AccordionTrigger,
 } from "@components/ui/accordion";
 import { Button } from "@components/ui/button";
-import { Session } from "@/app/types/types";
+import { Session, Habit } from "@/app/types/types";
 
+const getLevelColor = (xp: number): string => {
+  if (xp < 100) return "#FFFFFF"; // Common
+  if (xp < 300) return "#1EFF00"; // Uncommon
+  if (xp < 600) return "#0070DD"; // Rare
+  if (xp < 1000) return "#A335EE"; // Epic
+  if (xp < 1500) return "#FF8000"; // Legendary
+  return "#E6CC80"; // Artifact
+};
 declare global {
   namespace JSX {
     interface IntrinsicElements {
@@ -29,30 +37,10 @@ declare global {
 
 init({ data });
 
-type Habit = {
-  _id: string;
-  name: string;
-  icon: string;
-  description: string;
-  xp: number;
-  creator: {
-    _id: string;
-  };
-};
-
-interface HabitCardProps {
+type HabitCardProps = {
   habit: Habit;
   handleEdit: (habit: Habit) => void;
   handleDelete: (habit: Habit) => Promise<void>;
-}
-
-const getLevelColor = (xp: number): string => {
-  if (xp < 100) return "#FFFFFF"; // Common
-  if (xp < 300) return "#1EFF00"; // Uncommon
-  if (xp < 600) return "#0070DD"; // Rare
-  if (xp < 1000) return "#A335EE"; // Epic
-  if (xp < 1500) return "#FF8000"; // Legendary
-  return "#E6CC80"; // Artifact
 };
 
 const HabitCard = ({ habit, handleEdit, handleDelete }: HabitCardProps) => {

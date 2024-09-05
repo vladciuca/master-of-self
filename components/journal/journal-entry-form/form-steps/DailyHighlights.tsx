@@ -1,10 +1,10 @@
 import TextAreaList from "@components/ui/TextAreaList";
 import { Label } from "@components/ui/label";
 
-interface DailyHighlightsProps {
+type DailyHighlightsProps = {
   entryList: string[];
   onChange: (value: string[]) => void;
-}
+};
 
 const DailyHighlights = ({ entryList, onChange }: DailyHighlightsProps) => {
   const handleTextAreaListChange = (newEntries: string[]) => {

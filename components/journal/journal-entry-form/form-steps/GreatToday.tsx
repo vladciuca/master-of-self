@@ -3,11 +3,11 @@ import TextAreaList from "@components/ui/TextAreaList";
 import { Label } from "@components/ui/label";
 import { FaBoltLightning } from "react-icons/fa6";
 
-interface GreatTodayProps {
+type GreatTodayProps = {
   dailyWillpower: number;
   entryList: string[];
   onChange: (value: string[]) => void;
-}
+};
 
 const GreatToday = React.memo(
   ({ dailyWillpower, entryList, onChange }: GreatTodayProps) => {

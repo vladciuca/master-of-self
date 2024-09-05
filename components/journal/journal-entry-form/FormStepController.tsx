@@ -8,6 +8,7 @@ import DailyHighlights from "@components/journal/journal-entry-form/form-steps/D
 import LearnedToday from "@components/journal/journal-entry-form/form-steps/LearnedToday";
 import { Button } from "@components/ui/button";
 import { RxChevronLeft, RxChevronRight } from "react-icons/rx";
+import { JournalEntry } from "@app/types/types";
 
 //user object will contain flags for form rendering conditions
 const hasMissions = false;
@@ -15,18 +16,17 @@ const hasHabits = false;
 const hasGratitude = true;
 const hasReflection = true;
 const isDefault = true;
+const eveningStartingHour = "12:00";
+// evening Flag check
+function isEvening() {
+  const currentHour = new Date().getHours();
+  const eveningStartHour = parseInt(eveningStartingHour.split(":")[0]);
 
-export interface JournalEntry {
-  dailyWillpower: number;
-  bonusWillpower: number;
-  dayEntry?: {
-    greatToday?: string[];
-    gratefulFor?: string[];
-  };
-  nightEntry?: {
-    dailyHighlights?: string[];
-    learnedToday?: string;
-  };
+  if (currentHour >= eveningStartHour) {
+    return true;
+  } else {
+    return false;
+  }
 }
 
 type FormStepControllerProps = {
@@ -54,18 +54,6 @@ const FormStepController = ({
     },
   }));
   const router = useRouter();
-
-  const eveningStartingHour = "12:00";
-  function isEvening() {
-    const currentHour = new Date().getHours();
-    const eveningStartHour = parseInt(eveningStartingHour.split(":")[0]);
-
-    if (currentHour >= eveningStartHour) {
-      return true;
-    } else {
-      return false;
-    }
-  }
 
   const calculateScore = useCallback((entries: string[]) => {
     const totalEntries = entries.length;
@@ -226,7 +214,6 @@ const FormStepController = ({
   ];
 
   const availableSteps = formSteps.filter((step) => step.isAvailable);
-
   const componentName = availableSteps[currentStep].name;
   const CurrentStepComponent = availableSteps[currentStep].component;
 

@@ -2,20 +2,20 @@ import { Progress } from "@/components/ui/progress";
 import { FaSun, FaMoon, FaStar } from "react-icons/fa6";
 import { GiPrayer, GiBackup } from "react-icons/gi";
 
-interface Step {
+type Step = {
   name?: string;
   //add specific strings here
   type: string;
-}
+};
 
-interface FormStepProgressBarProps {
+type FormStepProgressBarProps = {
   steps: Step[];
   currentStep: number;
   handleStepClick: (
     event: React.MouseEvent<HTMLSpanElement>,
     index: number
   ) => void;
-}
+};
 
 const FormStepProgressBar = ({
   steps,

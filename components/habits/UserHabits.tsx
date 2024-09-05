@@ -5,18 +5,7 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import HabitList from "@components/habits/HabitList";
 import SkeletonHabitCard from "@components/skeletons/SkeletonHabitCard";
-import { Session } from "@/app/types/types";
-
-type Habit = {
-  _id: string;
-  name: string;
-  icon: string;
-  description: string;
-  xp: number;
-  creator: {
-    _id: string;
-  };
-};
+import { Session, Habit } from "@/app/types/types";
 
 const skeletonCards = Array.from({ length: 3 }, (_, index) => (
   <SkeletonHabitCard key={index} />

@@ -1,10 +1,10 @@
 import { Label } from "@components/ui/label";
 import { Textarea } from "@components/ui/textarea";
 
-interface LearnedTodayProps {
+type LearnedTodayProps = {
   learnedToday: string;
   onChange: (value: string) => void;
-}
+};
 
 const LearnedToday = ({ learnedToday, onChange }: LearnedTodayProps) => {
   return (

@@ -6,7 +6,11 @@ import { BsChevronCompactDown } from "react-icons/bs";
 import { GiEmbrassedEnergy } from "react-icons/gi";
 import { Session } from "@/app/types/types";
 
-const DailyBonus = ({ bonusWillpower }: { bonusWillpower: number }) => {
+type DailyBonusProps = {
+  bonusWillpower: number;
+};
+
+const DailyBonus = ({ bonusWillpower }: DailyBonusProps) => {
   const { data: session } = useSession() as { data: Session | null };
   const [dailyHighlights, setDailyHighlights] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
