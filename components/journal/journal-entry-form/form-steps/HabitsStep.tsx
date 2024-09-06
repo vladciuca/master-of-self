@@ -4,6 +4,7 @@ import data from "@emoji-mart/data";
 import { init } from "emoji-mart";
 import LevelBarXpGain from "@components/LevelBarXpGain";
 import { Button } from "@components/ui/button";
+import SkeletonHabitLevel from "@components/skeletons/SkeletonHabitLevel";
 import { Minus, Plus, RotateCcw } from "lucide-react";
 import { FaBoltLightning } from "react-icons/fa6";
 import { Session, Habit } from "@app/types/types";
@@ -92,6 +93,7 @@ const HabitsStep = ({
         <div className="text-4xl mt-3 flex items-center justify-center font-semibold">
           {remainingWillpower}
           <FaBoltLightning className="ml-2" />
+          {/* can change to check if object keys are in habitXp */}
           {dailyWillpower !== remainingWillpower && (
             <Button
               variant={"outline"}
@@ -105,11 +107,7 @@ const HabitsStep = ({
       </div>
 
       <div className="overflow-y-auto w-full mt-4">
-        {!habitsLoaded && (
-          <div className="h-full w-full flex justify-center items-center">
-            <div className="loader" />
-          </div>
-        )}
+        {!habitsLoaded && <SkeletonHabitLevel />}
         {habitsLoaded && (
           <div>
             {habits?.map((habit) => {
