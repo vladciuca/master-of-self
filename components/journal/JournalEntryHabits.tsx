@@ -48,7 +48,7 @@ const JournalEntryHabits = ({ habits }: JournalEntryHabitsProp) => {
       {Object.entries(habits).map(([id, value]) => (
         <div key={id} className="flex items-center">
           <div className="text-xl">
-            {habitIcons[id] ? (
+            {habitIcons[id] && value !== 0 ? (
               <div>
                 <em-emoji shortcodes={habitIcons[id]} size="1.4rem" />
               </div>
