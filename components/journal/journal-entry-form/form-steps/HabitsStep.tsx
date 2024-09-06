@@ -79,11 +79,11 @@ const HabitsStep = ({
     [remainingWillpower, onChange]
   );
 
-  const handleXpReset = useCallback(() => {
-    setRemainingWillpower(dailyWillpower);
-    setHabitXp({});
-    onChange({});
-  }, [dailyWillpower, onChange]);
+  //   const handleXpReset = useCallback(() => {
+  //     setRemainingWillpower(dailyWillpower);
+  //     setHabitXp({});
+  //     onChange({});
+  //   }, []);
 
   return (
     <div className="h-full">
@@ -98,16 +98,17 @@ const HabitsStep = ({
           <div className="text-4xl mt-3 flex items-center justify-center font-semibold">
             {remainingWillpower}
             <FaBoltLightning className="ml-2" />
-            {/* can change to check if object keys are in habitXp */}
+            {/* can change to check if object keys are in habitXp 
+            Object.values(habitXp).some((xp) => xp > 0) && 
             {dailyWillpower !== remainingWillpower && (
               <Button
                 variant={"outline"}
                 className="ml-2 rounded-full p-2 w-10 h-10"
-                onClick={handleXpReset}
+                // onClick={handleXpReset}
               >
                 <RotateCcw />
               </Button>
-            )}
+            )}*/}
           </div>
         </div>
         <div className="overflow-y-auto w-full mt-4">
@@ -148,7 +149,7 @@ const HabitsStep = ({
                         size="icon"
                         className="h-8 w-8 shrink-0 rounded-full mt-1"
                         onClick={() => handleXpUpdate(habit._id, 1)}
-                        disabled={remainingWillpower < 1}
+                        disabled={remainingWillpower === 0}
                       >
                         <Plus className="h-4 w-4" />
                         <span className="sr-only">Increase</span>
