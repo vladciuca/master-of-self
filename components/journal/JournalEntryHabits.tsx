@@ -45,25 +45,29 @@ const JournalEntryHabits = ({ habits }: JournalEntryHabitsProp) => {
         <Shell className="mr-2 text-muted-foreground" size={"1rem"} />
         Habits:
       </h2>
-      {Object.entries(habits).map(([id, value]) => (
-        <div key={id} className="flex items-center">
-          <div className="text-xl">
-            {habitIcons[id] && value !== 0 ? (
-              <div>
-                <em-emoji shortcodes={habitIcons[id]} size="1.4rem" />
-              </div>
-            ) : (
-              <div>
-                <Skeleton className="w-6 h-6 rounded-full" />
-              </div>
-            )}
+      {Object.entries(habits).map(([id, value]) => {
+        if (value === 0) return null;
+
+        return (
+          <div key={id} className="flex items-center">
+            <div className="text-xl">
+              {habitIcons[id] ? (
+                <div>
+                  <em-emoji shortcodes={habitIcons[id]} size="1.4rem" />
+                </div>
+              ) : (
+                <div>
+                  <Skeleton className="w-6 h-6 rounded-full" />
+                </div>
+              )}
+            </div>
+            <div className="flex items-center text-primary">
+              <span className="ml-1 font-semibold">{value}</span>
+              <FaBoltLightning className="ml-1" />
+            </div>
           </div>
-          <div className="flex items-center text-primary">
-            <span className="ml-1 font-semibold">{value}</span>
-            <FaBoltLightning className="ml-1" />
-          </div>
-        </div>
-      ))}
+        );
+      })}
     </div>
   );
 };
