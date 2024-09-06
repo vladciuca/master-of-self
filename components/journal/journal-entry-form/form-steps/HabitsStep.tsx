@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useSession } from "next-auth/react";
 import data from "@emoji-mart/data";
 import { init } from "emoji-mart";
@@ -12,19 +12,21 @@ init({ data });
 
 type HabitsStepProps = {
   dailyWillpower: number;
-  //   onHabitXpUpdate: (habitId: string, xp: number) => void;
+  onChange: (value: { [key: string]: number }) => void;
+  habitXpChanges?: { [key: string]: number };
 };
 
 const HabitsStep = ({
   dailyWillpower,
-}: //   onHabitXpUpdate,
-HabitsStepProps) => {
-  //   list of habits
+  onChange,
+  habitXpChanges = {},
+}: HabitsStepProps) => {
   const [habits, setHabits] = useState<Habit[]>([]);
   const [habitsLoaded, setHabitsLoaded] = useState(false);
-  //   list of willpower into skills
-  const [habitXp, setHabitXp] = useState<{ [key: string]: number }>({});
-  const [remainingWillpower, setRemainingWillpower] = useState(0);
+  const [habitXp, setHabitXp] = useState<{ [key: string]: number }>(
+    habitXpChanges
+  );
+  const [remainingWillpower, setRemainingWillpower] = useState(dailyWillpower);
   const { data: session } = useSession() as { data: Session | null };
 
   useEffect(() => {
@@ -38,9 +40,6 @@ HabitsStepProps) => {
         console.error("Failed to fetch habits", error);
       } finally {
         setHabitsLoaded(true);
-        setRemainingWillpower(dailyWillpower);
-        //reset habit xp when willpower sets
-        setHabitXp({});
       }
     };
 
@@ -49,32 +48,40 @@ HabitsStepProps) => {
     }
   }, [session]);
 
-  const handleXpUpdate = (habitId: string, xpChange: number) => {
-    if (xpChange > 0 && xpChange > remainingWillpower) {
-      // Not enough willpower
-      return;
-    }
+  useEffect(() => {
+    // Calculate remaining willpower based on existing habit XP
+    const usedWillpower = Object.values(habitXp).reduce(
+      (sum, xp) => sum + xp,
+      0
+    );
+    setRemainingWillpower(dailyWillpower - usedWillpower);
+  }, [dailyWillpower, habitXp]);
 
-    //CHANGE XP DIRECTLY IN HABITS[] AFTER FETCH
-    // setHabits((prevHabits) =>
-    //   prevHabits.map((habit) =>
-    //     habit._id === habitId ? { ...habit, xp: habit.xp + xpChange } : habit
-    //   )
-    // );
+  const handleXpUpdate = useCallback(
+    (habitId: string, xpChange: number) => {
+      if (xpChange > 0 && xpChange > remainingWillpower) {
+        return;
+      }
 
-    setHabitXp((prev) => ({
-      ...prev,
-      [habitId]: (prev[habitId] || 0) + xpChange,
-    }));
+      setHabitXp((prev) => {
+        const newHabitXp = {
+          ...prev,
+          [habitId]: (prev[habitId] || 0) + xpChange,
+        };
+        onChange(newHabitXp);
+        return newHabitXp;
+      });
 
-    setRemainingWillpower((prev) => prev - xpChange);
-    // onHabitXpUpdate(habitId, xpChange);
-  };
+      setRemainingWillpower((prev) => prev - xpChange);
+    },
+    [remainingWillpower, onChange]
+  );
 
-  const handleXpReset = () => {
+  const handleXpReset = useCallback(() => {
     setRemainingWillpower(dailyWillpower);
     setHabitXp({});
-  };
+    onChange({});
+  }, [dailyWillpower, onChange]);
 
   return (
     <div className="h-full">

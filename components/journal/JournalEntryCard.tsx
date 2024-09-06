@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 import { usePathname } from "next/navigation";
@@ -11,6 +11,7 @@ import {
 import { Button } from "@components/ui/button";
 import { FaBoltLightning, FaSun, FaMoon, FaStar } from "react-icons/fa6";
 import { GiPrayer, GiBackup } from "react-icons/gi";
+import { Shell } from "lucide-react";
 import { Session, JournalEntryMetadata } from "@/app/types/types";
 
 type JournalEntryCardProps = {
@@ -33,6 +34,11 @@ const JournalEntryCard = ({
     nightEntry,
     creator,
   } = journalEntry;
+
+  // console.log("=== NIGHT ENTRY", nightEntry);
+  // const habitKeys = Object.entries(nightEntry.habits).map(([key, value]) => key);
+
+  useEffect(() => {});
 
   const entryDate = new Date(createDate);
   const currentDate = new Date();
@@ -71,6 +77,7 @@ const JournalEntryCard = ({
             </div>
           </div>
         </div>
+
         {bonusWillpower > 0 && (
           <div className="w-full text-muted-foreground mt-4">
             <div className="flex items-center">
@@ -85,6 +92,25 @@ const JournalEntryCard = ({
             </div>
           </div>
         )}
+
+        {nightEntry?.habits && Object.keys(nightEntry.habits).length > 0 && (
+          <div className="w-full text-muted-foreground mt-4">
+            <div className="flex items-center">
+              <Shell className="mr-2 text-muted-foreground" size={"1rem"} />
+              <div className="flex items-center">
+                Habits
+                <span className="ml-1 text-green-500">
+                  {Object.entries(nightEntry.habits).map(([key, value]) => (
+                    <div key={key}>
+                      {key}: {value}
+                    </div>
+                  ))}
+                </span>
+              </div>
+            </div>
+          </div>
+        )}
+
         {isToday && (
           <div className="w-full flex mt-4">
             {session?.user?.id === creator?._id && pathName === "/journal" && (

@@ -52,11 +52,9 @@ const FormStepController = ({
     nightEntry: {
       dailyHighlights: journalEntryData?.nightEntry?.dailyHighlights || [],
       learnedToday: journalEntryData?.nightEntry?.learnedToday || "",
+      habits: journalEntryData?.nightEntry?.habits || {},
     },
   }));
-  // const [habitXpUpdates, setHabitXpUpdates] = useState<{
-  //   [key: string]: number;
-  // }>({});
   const router = useRouter();
 
   const calculateScore = useCallback((entries: string[]) => {
@@ -73,13 +71,6 @@ const FormStepController = ({
     },
     [calculateScore]
   );
-
-  // const onHabitXpUpdate = (habitId: string, xp: number) => {
-  //   setHabitXpUpdates((prev) => ({
-  //     ...prev,
-  //     [habitId]: (prev[habitId] || 0) + xp,
-  //   }));
-  // };
 
   useEffect(() => {
     if (journalEntryData) {
@@ -107,8 +98,13 @@ const FormStepController = ({
 
   const handleChange = useCallback(
     (
-      field: "greatToday" | "gratefulFor" | "dailyHighlights" | "learnedToday",
-      value: string[] | string
+      field:
+        | "greatToday"
+        | "gratefulFor"
+        | "dailyHighlights"
+        | "learnedToday"
+        | "habits",
+      value: string[] | string | { [key: string]: number }
     ) => {
       setFormData((prev) => {
         const newData = { ...prev };
@@ -117,7 +113,11 @@ const FormStepController = ({
             ...prev.dayEntry,
             [field]: value as string[],
           };
-        } else if (field === "dailyHighlights" || field === "learnedToday") {
+        } else if (
+          field === "dailyHighlights" ||
+          field === "learnedToday" ||
+          field === "habits"
+        ) {
           newData.nightEntry = {
             ...prev.nightEntry,
             [field]: value,
@@ -143,15 +143,6 @@ const FormStepController = ({
   const handleNextForm = useCallback(async () => {
     if (currentStep < availableSteps.length - 1) {
       await onSubmit(formData);
-      // Update habit XP
-      // for (const [habitId, xp] of Object.entries(habitXpUpdates)) {
-      //   await fetch(`/api/habits/${habitId}/xp`, {
-      //     method: "PATCH",
-      //     headers: { "Content-Type": "application/json" },
-      //     body: JSON.stringify({ xp }),
-      //   });
-      // }
-      // setHabitXpUpdates({}); // Reset after updating
       setCurrentStep((step) => step + 1);
     } else {
       await onSubmit(formData);
@@ -225,7 +216,8 @@ const FormStepController = ({
       component: (
         <HabitsStep
           dailyWillpower={formData.dailyWillpower}
-          // onHabitXpUpdate={onHabitXpUpdate}
+          onChange={(value) => handleChange("habits", value)}
+          habitXpChanges={formData.nightEntry?.habits || {}}
         />
       ),
       isAvailable: hasHabits,
