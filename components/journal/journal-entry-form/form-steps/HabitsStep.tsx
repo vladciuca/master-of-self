@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import data from "@emoji-mart/data";
 import { init } from "emoji-mart";
-import LevelBar from "@components/LevelBar";
+import LevelBarXpGain from "@components/LevelBarXpGain";
 import { Button } from "@components/ui/button";
 import { Minus, Plus, RotateCcw } from "lucide-react";
 import { FaBoltLightning } from "react-icons/fa6";
@@ -85,13 +85,15 @@ HabitsStepProps) => {
         <div className="text-4xl mt-3 flex items-center justify-center font-semibold">
           {remainingWillpower}
           <FaBoltLightning className="ml-2" />
-          <Button
-            variant={"outline"}
-            className="ml-2 rounded-full p-2 w-10 h-10"
-            onClick={handleXpReset}
-          >
-            <RotateCcw />
-          </Button>
+          {dailyWillpower !== remainingWillpower && (
+            <Button
+              variant={"outline"}
+              className="ml-2 rounded-full p-2 w-10 h-10"
+              onClick={handleXpReset}
+            >
+              <RotateCcw />
+            </Button>
+          )}
         </div>
       </div>
 
@@ -114,7 +116,7 @@ HabitsStepProps) => {
                     <Button
                       variant="outline"
                       size="icon"
-                      className="h-8 w-8 shrink-0 rounded-full"
+                      className="h-8 w-8 shrink-0 rounded-full mt-1"
                       disabled={(habitXp[_id] || 0) === 0}
                       onClick={() => handleXpUpdate(habit._id, -1)}
                     >
@@ -122,12 +124,12 @@ HabitsStepProps) => {
                       <span className="sr-only">Decrease</span>
                     </Button>
                     <div className="flex-1 text-center">
-                      <LevelBar
+                      <LevelBarXpGain
                         xp={xp}
                         xpChange={habitXp[_id] || 0}
-                        icon={<em-emoji shortcodes={icon} size="1.8rem" />}
+                        icon={<em-emoji shortcodes={icon} size="1.6rem" />}
                       />
-                      <div className="mt-1 flex-grow text-lg font-semibold tracking-wide">
+                      <div className="mt-2 flex-grow text-lg font-semibold tracking-wide">
                         {name}
                       </div>
                     </div>
@@ -135,7 +137,7 @@ HabitsStepProps) => {
                     <Button
                       variant="outline"
                       size="icon"
-                      className="h-8 w-8 shrink-0 rounded-full"
+                      className="h-8 w-8 shrink-0 rounded-full mt-1"
                       onClick={() => handleXpUpdate(habit._id, 1)}
                       disabled={remainingWillpower < 1}
                     >
