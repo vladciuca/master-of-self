@@ -67,7 +67,7 @@ function LevelBarXpGain({ xp, xpChange = 0, icon }: LevelBarXpGainProps) {
         <Progress
           value={xpGainProgressPercentage}
           className="absolute top-0 left-0 h-full"
-          indicatorColor="bg-green-500"
+          bgFillColor="#4ade80"
         />
 
         <Progress
