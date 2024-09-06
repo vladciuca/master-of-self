@@ -24,7 +24,7 @@ const GratefulFor = React.memo(
           <div className="text-center sticky top-0 bg-background z-10">
             <div className="leading-relaxed text-muted-foreground mx-4">
               {
-                "Use details to describe what you're feeling grateful for to generate Willpower"
+                "Use details to describe what you're feeling grateful for to generate Willpower."
               }
             </div>
             <div className="text-4xl mt-3 flex items-center justify-center font-semibold">

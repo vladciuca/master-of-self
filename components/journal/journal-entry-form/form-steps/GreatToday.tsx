@@ -24,7 +24,7 @@ const GreatToday = React.memo(
           <div className="text-center sticky top-0 bg-background z-10">
             <div className="leading-relaxed text-muted-foreground mx-4">
               {
-                "Write down meaningful and achievable goals for the day to generate Willpower"
+                "Write down meaningful and achievable goals for the day to generate Willpower."
               }
             </div>
             <div className="text-4xl mt-3 flex items-center justify-center font-semibold">
