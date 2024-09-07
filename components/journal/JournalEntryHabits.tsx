@@ -26,7 +26,6 @@ const JournalEntryHabits = ({ habits }: JournalEntryHabitsProp) => {
         );
         if (response.ok) {
           const icons: { [key: string]: string } = await response.json();
-          console.log("===", icons);
           setHabitIcons(icons);
         }
       } catch (error) {
@@ -40,7 +39,7 @@ const JournalEntryHabits = ({ habits }: JournalEntryHabitsProp) => {
   }, [habits]);
 
   return (
-    <div className="flex items-center space-x-2">
+    <div className="flex items-center space-x-2 flex-wrap">
       <h2 className="flex items-center">
         <Shell className="mr-2 text-muted-foreground" size={"1rem"} />
         Habits:
