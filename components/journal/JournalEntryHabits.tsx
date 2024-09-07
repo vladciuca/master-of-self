@@ -14,6 +14,7 @@ type JournalEntryHabitsProp = {
 };
 
 const JournalEntryHabits = ({ habits }: JournalEntryHabitsProp) => {
+  const [journalHabits, setJournalHabits] = useState(habits);
   const [habitIcons, setHabitIcons] = useState<{ [key: string]: string }>({});
 
   useEffect(() => {
@@ -26,7 +27,10 @@ const JournalEntryHabits = ({ habits }: JournalEntryHabitsProp) => {
         );
         if (response.ok) {
           const icons: { [key: string]: string } = await response.json();
+          const filteredJournalHabits = filterHabitIcons(habits, icons);
+
           setHabitIcons(icons);
+          setJournalHabits(filteredJournalHabits);
         }
       } catch (error) {
         console.error("Failed to fetch habit icons:", error);
@@ -38,13 +42,22 @@ const JournalEntryHabits = ({ habits }: JournalEntryHabitsProp) => {
     }
   }, [habits]);
 
+  const filterHabitIcons = (
+    habits: { [key: string]: number },
+    icons: { [key: string]: string }
+  ) => {
+    return Object.fromEntries(
+      Object.entries(habits).filter(([key]) => key in icons)
+    );
+  };
+
   return (
     <div className="flex items-center space-x-2 flex-wrap">
       <h2 className="flex items-center">
         <Shell className="mr-2 text-muted-foreground" size={"1rem"} />
         Habits:
       </h2>
-      {Object.entries(habits).map(([id, value]) => {
+      {Object.entries(journalHabits).map(([id, value]) => {
         if (value === 0) return null;
 
         return (
