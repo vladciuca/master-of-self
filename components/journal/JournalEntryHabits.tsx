@@ -34,6 +34,7 @@ const JournalEntryHabits = ({ habits }: JournalEntryHabitsProp) => {
           // FIX: Filtered habits with icon response from DB to remove the deleted habit
           // and to not be displayed in Journal Entry Card
           // Should consider what happens to a habit after it is deleted or if it can be deleted
+          // means the habit doesn't exist in db anymore
           setJournalHabits(filteredJournalHabits);
         }
       } catch (error) {
@@ -56,14 +57,14 @@ const JournalEntryHabits = ({ habits }: JournalEntryHabitsProp) => {
   };
 
   return (
-    <div className="flex items-center space-x-2 flex-wrap">
-      <h2 className="flex items-center">
+    <div className="flex items-center flex-wrap">
+      <h2 className="flex items-center mr-2">
         <Shell className="mr-2 text-muted-foreground" size={"1rem"} />
         Habits:
       </h2>
 
       {Object.entries(journalHabits).map(([id, value]) => (
-        <div key={id} className="flex items-center">
+        <div key={id} className="flex items-center mr-3">
           <div className="text-xl">
             {habitIcons[id] ? (
               <div>
