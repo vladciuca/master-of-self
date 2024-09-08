@@ -11,14 +11,14 @@ import { Button } from "@components/ui/button";
 import { RxChevronLeft, RxChevronRight } from "react-icons/rx";
 import { JournalEntry } from "@app/types/types";
 
+const SHOW_ALL_TEST = false;
 //user object will contain flags for form rendering conditions
 const hasMissions = false;
 const hasHabits = true;
 const hasGratitude = true;
 const hasReflection = true;
-const isDefault = true;
 const eveningStartingHour = "18:00";
-// evening Flag check
+// evening Flag check - move to own context isMorning = !isEvening();
 function isEvening() {
   const currentHour = new Date().getHours();
   const eveningStartHour = parseInt(eveningStartingHour.split(":")[0]);
@@ -173,8 +173,7 @@ const FormStepController = ({
           onChange={(value) => handleChange("gratefulFor", value)}
         />
       ),
-      // isAvailable: !isEvening() && hasGratitude, //default setting
-      isAvailable: hasGratitude, //TEST setting
+      isAvailable: SHOW_ALL_TEST || (!isEvening() && hasGratitude),
     },
     {
       name: "What will I do to make today great?",
@@ -186,8 +185,7 @@ const FormStepController = ({
           onChange={(value) => handleChange("greatToday", value)}
         />
       ),
-      // isAvailable: !isEvening() && isDefault, //default setting
-      isAvailable: isDefault, //TEST setting
+      isAvailable: SHOW_ALL_TEST || !isEvening(),
     },
 
     {
@@ -199,8 +197,7 @@ const FormStepController = ({
           onChange={(value) => handleChange("dailyHighlights", value)}
         />
       ),
-      // isAvailable: isEvening(),
-      isAvailable: true,
+      isAvailable: SHOW_ALL_TEST || isEvening(),
     },
     {
       name: "What have I learned today?",
@@ -211,8 +208,7 @@ const FormStepController = ({
           onChange={(value) => handleChange("learnedToday", value)}
         />
       ),
-      // isAvailable: isEvening() && hasReflection,
-      isAvailable: true,
+      isAvailable: SHOW_ALL_TEST || (isEvening() && hasReflection),
     },
     {
       name: "How did I use my Willpower today?",
@@ -224,13 +220,13 @@ const FormStepController = ({
           habitXpChanges={formData.nightEntry?.habits || {}}
         />
       ),
-      isAvailable: hasHabits,
+      isAvailable: SHOW_ALL_TEST || hasHabits,
     },
     {
       name: "missionProgress",
       type: "night",
       component: <>missionProgress</>,
-      isAvailable: hasMissions,
+      isAvailable: SHOW_ALL_TEST || hasMissions,
     },
   ];
 

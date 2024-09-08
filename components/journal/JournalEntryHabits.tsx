@@ -61,31 +61,26 @@ const JournalEntryHabits = ({ habits }: JournalEntryHabitsProp) => {
         <Shell className="mr-2 text-muted-foreground" size={"1rem"} />
         Habits:
       </h2>
-      {Object.entries(journalHabits).map(([id, value]) => {
-        // Here we still receive the ID : habitXp value if it is 0
-        // Should consider filtering before sending to DB if value is 0 *if not part of any feature*
-        if (value === 0) return null;
 
-        return (
-          <div key={id} className="flex items-center">
-            <div className="text-xl">
-              {habitIcons[id] ? (
-                <div>
-                  <em-emoji shortcodes={habitIcons[id]} size="1.4rem" />
-                </div>
-              ) : (
-                <div>
-                  <Skeleton className="w-6 h-6 rounded-full" />
-                </div>
-              )}
-            </div>
-            <div className="flex items-center text-primary">
-              <span className="ml-1 font-semibold">{value}</span>
-              <FaBoltLightning className="ml-1" />
-            </div>
+      {Object.entries(journalHabits).map(([id, value]) => (
+        <div key={id} className="flex items-center">
+          <div className="text-xl">
+            {habitIcons[id] ? (
+              <div>
+                <em-emoji shortcodes={habitIcons[id]} size="1.4rem" />
+              </div>
+            ) : (
+              <div>
+                <Skeleton className="w-6 h-6 rounded-full" />
+              </div>
+            )}
           </div>
-        );
-      })}
+          <div className="flex items-center text-primary">
+            <span className="ml-1 font-semibold">{value}</span>
+            <FaBoltLightning className="ml-1" />
+          </div>
+        </div>
+      ))}
     </div>
   );
 };

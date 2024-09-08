@@ -93,6 +93,7 @@ const JournalEntryCard = ({
         )}
 
         {/*a BUG here resulting in this being displayed after the habit has been deleted*/}
+        {/* Should remove after the fix not to post 0 values for habits in id: xp */}
         {nightEntry?.habits && Object.keys(nightEntry.habits).length > 0 && (
           <div className="w-full text-muted-foreground mt-4">
             <JournalEntryHabits habits={nightEntry?.habits} />

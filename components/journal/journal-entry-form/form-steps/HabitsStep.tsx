@@ -1,9 +1,3 @@
-// note* when a habit is deleted but willpower was spent on it the willpower is removed
-// habit delete will be removed?
-
-//TODO: remove habitXpChanges that contain value 0
-// right now they are filtered and removed when rendering the object in FE on the Journal Entry Card
-
 import { useState, useEffect, useCallback } from "react";
 import { useSession } from "next-auth/react";
 import data from "@emoji-mart/data";
@@ -72,10 +66,15 @@ const HabitsStep = ({
       }
 
       setHabitXp((prev) => {
-        const newHabitXp = {
-          ...prev,
-          [habitId]: (prev[habitId] || 0) + xpChange,
-        };
+        const newValue = (prev[habitId] || 0) + xpChange;
+        const newHabitXp = { ...prev };
+
+        if (newValue === 0) {
+          delete newHabitXp[habitId];
+        } else {
+          newHabitXp[habitId] = newValue;
+        }
+
         onChange(newHabitXp);
         return newHabitXp;
       });
