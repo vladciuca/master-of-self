@@ -35,7 +35,7 @@ const JournalEntryCard = ({
     creator,
   } = journalEntry;
 
-  useEffect(() => {});
+  // useEffect(() => {});
 
   const entryDate = new Date(createDate);
   const currentDate = new Date();

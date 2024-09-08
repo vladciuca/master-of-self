@@ -13,6 +13,7 @@ type JournalEntryHighlights = {
   _id: string;
   nightEntry?: {
     dailyHighlights?: string[];
+    habits?: { [key: string]: number };
   };
 };
 
@@ -43,6 +44,11 @@ const NewJournalEntry = () => {
               yesterdayEntry.nightEntry.dailyHighlights
             );
             setBonusWillpower(calculatedBonus);
+          }
+
+          // Handle habit XP updates
+          if (yesterdayEntry?.nightEntry?.habits) {
+            await updateHabitXP(yesterdayEntry.nightEntry.habits);
           }
         } catch (error) {
           console.error("Failed to fetch yesterday's entry:", error);
@@ -90,6 +96,31 @@ const NewJournalEntry = () => {
       console.log(error);
     } finally {
       setSubmitting(false);
+    }
+  };
+
+  const updateHabitXP = async (habits: { [key: string]: number }) => {
+    try {
+      const habitUpdates = Object.entries(habits);
+      const response = await fetch(
+        `/api/users/${session?.user.id}/habits/updateXp`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(habitUpdates),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to update habits");
+      }
+
+      const updatedHabits = await response.json();
+      console.log("Updated habits:", updatedHabits);
+    } catch (error) {
+      console.error("Error updating habits:", error);
     }
   };
 
