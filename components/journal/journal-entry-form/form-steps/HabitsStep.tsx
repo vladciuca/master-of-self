@@ -1,3 +1,9 @@
+// note* when a habit is deleted but willpower was spent on it the willpower is removed
+// habit delete will be removed?
+
+//TODO: remove habitXpChanges that contain value 0
+// right now they are filtered and removed when rendering the object in FE on the Journal Entry Card
+
 import { useState, useEffect, useCallback } from "react";
 import { useSession } from "next-auth/react";
 import data from "@emoji-mart/data";
@@ -79,36 +85,36 @@ const HabitsStep = ({
     [remainingWillpower, onChange]
   );
 
-  //   const handleXpReset = useCallback(() => {
-  //     setRemainingWillpower(dailyWillpower);
-  //     setHabitXp({});
-  //     onChange({});
-  //   }, []);
+  const handleXpReset = useCallback(() => {
+    setRemainingWillpower(dailyWillpower);
+    setHabitXp({});
+    onChange({});
+  }, []);
 
   return (
     <div className="h-full">
-      <Label className="w-full flex flex-col h-full mt-2">
+      <div className="w-full flex flex-col h-full mt-2">
         <div className="text-center sticky top-0 bg-background z-10">
-          <div className="leading-relaxed text-muted-foreground mx-4">
-            {
-              "Allocate your Willpower to the habits you worked on. Unspent Willpower:"
-            }
-          </div>
+          <Label>
+            <div className="leading-relaxed text-muted-foreground mx-4">
+              {
+                "Allocate your Willpower to the habits you worked on. Unspent Willpower:"
+              }
+            </div>
+          </Label>
 
           <div className="text-4xl mt-3 flex items-center justify-center font-semibold">
             {remainingWillpower}
             <FaBoltLightning className="ml-2" />
-            {/* can change to check if object keys are in habitXp 
-            Object.values(habitXp).some((xp) => xp > 0) && 
-            {dailyWillpower !== remainingWillpower && (
+            {Object.values(habitXp).some((xp) => xp > 0) && (
               <Button
                 variant={"outline"}
                 className="ml-2 rounded-full p-2 w-10 h-10"
-                // onClick={handleXpReset}
+                onClick={handleXpReset}
               >
                 <RotateCcw />
               </Button>
-            )}*/}
+            )}
           </div>
         </div>
         <div className="overflow-y-auto w-full mt-4">
@@ -161,7 +167,7 @@ const HabitsStep = ({
             </div>
           )}
         </div>
-      </Label>
+      </div>
     </div>
   );
 };

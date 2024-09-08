@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useSession } from "next-auth/react";
 import SkeletonList from "@components/skeletons/SkeletonList";
+import { Label } from "@components/ui/label";
 import { FaBoltLightning } from "react-icons/fa6";
 import { BsChevronCompactDown } from "react-icons/bs";
 import { GiEmbrassedEnergy } from "react-icons/gi";
@@ -76,9 +77,11 @@ const DailyBonus = ({ bonusWillpower }: DailyBonusProps) => {
       </div>
 
       <div className="mx-2" ref={highlightsRef}>
-        <div className="text-md font-semibold text-muted-foreground w-full text-center mb-6">
-          {"Yesterday's highlights!"}
-        </div>
+        <Label className="w-full text-center">
+          <div className="leading-relaxed text-muted-foreground mx-4 mb-6">
+            {"Yesterday's highlights!"}
+          </div>
+        </Label>
         {isLoading && <SkeletonList />}
         {!isLoading && dailyHighlights.length > 0 && (
           <ol className="mx-4 pl-6 list-disc text-base h-[400px] overflow-scroll">

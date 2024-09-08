@@ -93,7 +93,7 @@ const HabitCard = ({ habit, handleEdit, handleDelete }: HabitCardProps) => {
                   onClick={() => handleDelete(habit)}
                   size="sm"
                 >
-                  Drop
+                  Delete(TEST)
                 </Button>
               </div>
             )}

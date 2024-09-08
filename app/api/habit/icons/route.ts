@@ -1,4 +1,8 @@
-// File: app/api/habits/icons/route.ts
+// app/api/habits/icons/route.ts
+// can be changed to something more relevant
+// but right now habits is under user/[id] and I do not want to add that extra condition(user id) to the call
+// or do we?
+
 import { NextRequest, NextResponse } from "next/server";
 import { connectToDB } from "@utils/database";
 import Habit from "@models/habit";

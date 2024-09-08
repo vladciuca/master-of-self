@@ -92,6 +92,7 @@ const JournalEntryCard = ({
           </div>
         )}
 
+        {/*a BUG here resulting in this being displayed after the habit has been deleted*/}
         {nightEntry?.habits && Object.keys(nightEntry.habits).length > 0 && (
           <div className="w-full text-muted-foreground mt-4">
             <JournalEntryHabits habits={nightEntry?.habits} />
@@ -112,7 +113,7 @@ const JournalEntryCard = ({
                   onClick={() => handleDelete(journalEntry)}
                   size="sm"
                 >
-                  Delete
+                  Delete(TEST)
                 </Button>
               </div>
             )}

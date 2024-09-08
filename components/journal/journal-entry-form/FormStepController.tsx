@@ -173,7 +173,8 @@ const FormStepController = ({
           onChange={(value) => handleChange("gratefulFor", value)}
         />
       ),
-      isAvailable: hasGratitude,
+      // isAvailable: !isEvening() && hasGratitude, //default setting
+      isAvailable: hasGratitude, //TEST setting
     },
     {
       name: "What will I do to make today great?",
@@ -185,7 +186,8 @@ const FormStepController = ({
           onChange={(value) => handleChange("greatToday", value)}
         />
       ),
-      isAvailable: isDefault,
+      // isAvailable: !isEvening() && isDefault, //default setting
+      isAvailable: isDefault, //TEST setting
     },
 
     {
@@ -197,7 +199,8 @@ const FormStepController = ({
           onChange={(value) => handleChange("dailyHighlights", value)}
         />
       ),
-      isAvailable: isEvening(),
+      // isAvailable: isEvening(),
+      isAvailable: true,
     },
     {
       name: "What have I learned today?",
@@ -208,7 +211,8 @@ const FormStepController = ({
           onChange={(value) => handleChange("learnedToday", value)}
         />
       ),
-      isAvailable: isEvening() && hasReflection,
+      // isAvailable: isEvening() && hasReflection,
+      isAvailable: true,
     },
     {
       name: "How did I use my Willpower today?",

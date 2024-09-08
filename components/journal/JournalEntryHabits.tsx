@@ -30,6 +30,10 @@ const JournalEntryHabits = ({ habits }: JournalEntryHabitsProp) => {
           const filteredJournalHabits = filterHabitIcons(habits, icons);
 
           setHabitIcons(icons);
+          // BUG: If a habit has been deleted, it's icon will remain stuck in skeleton with its latest value
+          // FIX: Filtered habits with icon response from DB to remove the deleted habit
+          // and to not be displayed in Journal Entry Card
+          // Should consider what happens to a habit after it is deleted or if it can be deleted
           setJournalHabits(filteredJournalHabits);
         }
       } catch (error) {
@@ -58,6 +62,8 @@ const JournalEntryHabits = ({ habits }: JournalEntryHabitsProp) => {
         Habits:
       </h2>
       {Object.entries(journalHabits).map(([id, value]) => {
+        // Here we still receive the ID : habitXp value if it is 0
+        // Should consider filtering before sending to DB if value is 0 *if not part of any feature*
         if (value === 0) return null;
 
         return (
