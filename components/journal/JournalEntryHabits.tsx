@@ -64,6 +64,7 @@ const JournalEntryHabits = ({ habits }: JournalEntryHabitsProp) => {
       </h2>
       {Object.entries(journalHabits).map(([id, value]) => (
         <div key={id} className="flex items-center mr-3">
+          {/* highs need to resonate so the content wont jiggle: 1.4rem : ~30px */}
           <div className="text-xl">
             {habitIcons[id] ? (
               <div>
@@ -71,7 +72,7 @@ const JournalEntryHabits = ({ habits }: JournalEntryHabitsProp) => {
               </div>
             ) : (
               <div>
-                <Skeleton className="w-6 h-6 rounded-full" />
+                <Skeleton className="w-[30px] h-[30px] rounded-full" />
               </div>
             )}
           </div>
