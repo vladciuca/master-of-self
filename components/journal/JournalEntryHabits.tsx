@@ -62,7 +62,6 @@ const JournalEntryHabits = ({ habits }: JournalEntryHabitsProp) => {
         <Shell className="mr-2 text-muted-foreground" size={"1rem"} />
         Habits:
       </h2>
-
       {Object.entries(journalHabits).map(([id, value]) => (
         <div key={id} className="flex items-center mr-3">
           <div className="text-xl">

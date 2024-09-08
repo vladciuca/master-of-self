@@ -1,12 +1,13 @@
 import { useState, useEffect, useCallback } from "react";
 import { useSession } from "next-auth/react";
+import Link from "next/link";
 import data from "@emoji-mart/data";
 import { init } from "emoji-mart";
 import LevelBarXpGain from "@components/LevelBarXpGain";
 import { Label } from "@components/ui/label";
 import { Button } from "@components/ui/button";
 import SkeletonHabitLevel from "@components/skeletons/SkeletonHabitLevel";
-import { Minus, Plus, RotateCcw } from "lucide-react";
+import { Minus, Plus, RotateCcw, Shell } from "lucide-react";
 import { FaBoltLightning } from "react-icons/fa6";
 import { Session, Habit } from "@app/types/types";
 
@@ -92,7 +93,7 @@ const HabitsStep = ({
 
   return (
     <div className="h-full">
-      <div className="w-full flex flex-col h-full mt-2">
+      <div className="w-full flex flex-col h-full">
         <div className="text-center sticky top-0 bg-background z-10">
           <Label>
             <div className="leading-relaxed text-muted-foreground mx-4">
@@ -116,8 +117,28 @@ const HabitsStep = ({
             )}
           </div>
         </div>
-        <div className="overflow-y-auto w-full mt-4">
+        <div className="w-full flex flex-col h-full mt-2">
           {!habitsLoaded && <SkeletonHabitLevel />}
+          {habitsLoaded && habits.length === 0 && (
+            <div className="w-full h-full flex flex-col justify-evenly items-center flex-grow">
+              <Label className="text-center">
+                <div className="leading-relaxed text-muted-foreground mx-4">
+                  {"You don't have any habits."}
+                </div>
+                <div className="leading-relaxed text-muted-foreground mx-4">
+                  {"Lets create a new one right now!"}
+                </div>
+                <Link href="/create-habit">
+                  <Button className="mt-5">
+                    <Shell className="mr-2" />
+                    Create a Habit
+                  </Button>
+                </Link>
+              </Label>
+              {/* empty div to position the content properly, better structure needed*/}
+              <div></div>
+            </div>
+          )}
           {habitsLoaded && (
             <div>
               {habits?.map((habit) => {
