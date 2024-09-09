@@ -3,7 +3,7 @@
 import { Progress } from "@components/ui/progress";
 import { FaBoltLightning } from "react-icons/fa6";
 
-function xpForLevel(level: number) {
+export function xpForLevel(level: number) {
   let baseXP = 0;
   let xpRequired = 10;
 
@@ -15,7 +15,7 @@ function xpForLevel(level: number) {
   return { baseXP, nextLevelXP: baseXP + xpRequired };
 }
 
-function calculateLevel(xp: number) {
+export function calculateLevel(xp: number) {
   let level = 1;
 
   while (true) {
