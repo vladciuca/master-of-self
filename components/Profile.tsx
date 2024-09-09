@@ -27,7 +27,7 @@ const Profile = ({ session }: ProfileProps) => {
           </div>
         </Link>
       </div>
-      <div className="flex grow">{email}</div>
+      {/* <div className="flex grow">{email}</div> */}
     </div>
   );
 };
