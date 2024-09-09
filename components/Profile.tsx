@@ -20,7 +20,7 @@ const Profile = ({ session }: ProfileProps) => {
 
   return (
     <div className="flex items-center h-full">
-      <div className="w-1/4 flex justify-center">
+      <div className="w-1/4 flex justify-center mx-2">
         <Link href="/settings">
           <div className="avatar text-xl font-semibold bg-primary text-primary-foreground rounded-full h-12 w-12 flex justify-center items-center">
             {nameInitials}
