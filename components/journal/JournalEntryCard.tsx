@@ -3,7 +3,7 @@ import Link from "next/link";
 import { useSession } from "next-auth/react";
 import { usePathname } from "next/navigation";
 import JournalEntrySection from "@components/journal/JournalEntrySection";
-import JournalEntryHabits from "./JournalEntryHabits";
+import JournalEntryHabits from "@components/journal/JournalEntryHabits";
 import {
   AccordionContent,
   AccordionItem,
@@ -11,6 +11,7 @@ import {
 } from "@components/ui/accordion";
 import { Button } from "@components/ui/button";
 import { FaBoltLightning, FaSun, FaMoon, FaStar } from "react-icons/fa6";
+import { Shell } from "lucide-react";
 import { GiPrayer, GiBackup } from "react-icons/gi";
 import { Session, JournalEntryMetadata } from "@/app/types/types";
 
@@ -34,8 +35,6 @@ const JournalEntryCard = ({
     nightEntry,
     creator,
   } = journalEntry;
-
-  // useEffect(() => {});
 
   const entryDate = new Date(createDate);
   const currentDate = new Date();
@@ -95,7 +94,11 @@ const JournalEntryCard = ({
         {/*a BUG here resulting in this being displayed after the habit has been deleted*/}
         {/* Should remove after the fix not to post 0 values for habits in id: xp */}
         {nightEntry?.habits && Object.keys(nightEntry.habits).length > 0 && (
-          <div className="w-full text-muted-foreground mt-4">
+          <div className="mt-4 items-center flex flex-wrap">
+            <h2 className="flex items-center mr-2 text-muted-foreground">
+              <Shell className="mr-2 text-muted-foreground" size={"1rem"} />
+              Habits:
+            </h2>
             <JournalEntryHabits habits={nightEntry?.habits} />
           </div>
         )}

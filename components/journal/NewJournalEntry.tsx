@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import JournalEntryHabits from "@components/journal/JournalEntryHabits";
 import { Card } from "@components/ui/card";
 import { Button } from "@components/ui/button";
 import { FaBoltLightning } from "react-icons/fa6";
@@ -22,6 +23,7 @@ const NewJournalEntry = () => {
   const { data: session } = useSession() as { data: Session | null };
   const [submitting, setSubmitting] = useState<boolean>(false);
   const [bonusWillpower, setBonusWillpower] = useState<number>(0);
+  const [habitXp, setHabitXp] = useState<{ [key: string]: number }>({});
 
   const date = new Date();
   const day = date.getDate();
@@ -48,7 +50,7 @@ const NewJournalEntry = () => {
 
           // Handle habit XP updates
           if (yesterdayEntry?.nightEntry?.habits) {
-            await updateHabitXP(yesterdayEntry.nightEntry.habits);
+            setHabitXp(yesterdayEntry?.nightEntry?.habits);
           }
         } catch (error) {
           console.error("Failed to fetch yesterday's entry:", error);
@@ -80,6 +82,10 @@ const NewJournalEntry = () => {
       });
 
       if (createNewEntryResponse.ok) {
+        if (Object.keys(habitXp).length > 0) {
+          await updateHabitXP(habitXp);
+        }
+
         const todayEntryResponse = await fetch(
           `/api/users/${session?.user?.id}/journal-entries/today`
         );
@@ -118,7 +124,7 @@ const NewJournalEntry = () => {
       }
 
       const updatedHabits = await response.json();
-      console.log("Updated habits:", updatedHabits);
+      console.log("Updated habits:", updatedHabits); //wtf is this?
     } catch (error) {
       console.error("Error updating habits:", error);
     }
@@ -158,10 +164,18 @@ const NewJournalEntry = () => {
         </div>
       </div>
       <div className="w-full text-muted-foreground mt-4">
-        <div className="flex items-center">
+        <div className="flex items-center flex-col">
           <div className="flex items-center">
-            {"Generate Willpower to channel into your goals!"}
+            {
+              "Generate Willpower to channel into your goals through your habits!"
+            }
           </div>
+          {Object.keys(habitXp).length > 0 && (
+            <div className="w-full text-muted-foreground mt-4 flex flex-col">
+              {"Claim XP for yesterday's habits:"}
+              <JournalEntryHabits habits={habitXp} />
+            </div>
+          )}
         </div>
       </div>
       <div className="w-full flex mt-4">

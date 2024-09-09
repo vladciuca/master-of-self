@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import data from "@emoji-mart/data";
 import { init } from "emoji-mart";
-import { Shell } from "lucide-react";
+// import { Shell } from "lucide-react";
 import { Skeleton } from "@components/ui/skeleton";
 import { FaBoltLightning } from "react-icons/fa6";
 
@@ -58,13 +58,9 @@ const JournalEntryHabits = ({ habits }: JournalEntryHabitsProp) => {
 
   return (
     <div className="flex items-center flex-wrap">
-      <h2 className="flex items-center mr-2">
-        <Shell className="mr-2 text-muted-foreground" size={"1rem"} />
-        Habits:
-      </h2>
       {Object.entries(journalHabits).map(([id, value]) => (
         <div key={id} className="flex items-center mr-3">
-          {/* highs need to resonate so the content wont jiggle: 1.4rem : ~30px */}
+          {/* the icon size with skeleton highs need to corelate so content wont jiggle: 1.4rem : ~30px */}
           <div className="text-xl">
             {habitIcons[id] ? (
               <div>
