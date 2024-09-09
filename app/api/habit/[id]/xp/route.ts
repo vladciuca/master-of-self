@@ -1,32 +1,34 @@
+// currently not in Use, opted for updating multiple habits at once @user/[id]/habits/updateXp
+// might use for something else later
 import { NextRequest, NextResponse } from "next/server";
 import { connectToDB } from "@utils/database";
 import Habit from "@models/habit";
 
-// export const PATCH = async (
-//   req: NextRequest,
-//   { params }: { params: { id: string } }
-// ) => {
-//   const { xp: newXpValue } = await req.json();
+export const PATCH = async (
+  req: NextRequest,
+  { params }: { params: { id: string } }
+) => {
+  const { xp: newXpValue } = await req.json();
 
-//   try {
-//     await connectToDB();
+  try {
+    await connectToDB();
 
-//     const habit = await Habit.findById(params.id);
+    const habit = await Habit.findById(params.id);
 
-//     if (!habit) {
-//       return new Response("Habit not found", { status: 404 });
-//     }
+    if (!habit) {
+      return new Response("Habit not found", { status: 404 });
+    }
 
-//     const updatedXpValue = habit.xp + newXpValue;
+    const updatedXpValue = habit.xp + newXpValue;
 
-//     const updatedHabitXp = await Habit.findByIdAndUpdate(
-//       params.id,
-//       { $set: { xp: updatedXpValue } },
-//       { new: true }
-//     );
+    const updatedHabitXp = await Habit.findByIdAndUpdate(
+      params.id,
+      { $set: { xp: updatedXpValue } },
+      { new: true }
+    );
 
-//     return new Response(JSON.stringify(updatedHabitXp), { status: 200 });
-//   } catch (error) {
-//     return new Response("Failed to update habit xp", { status: 500 });
-//   }
-// };
+    return new Response(JSON.stringify(updatedHabitXp), { status: 200 });
+  } catch (error) {
+    return new Response("Failed to update habit xp", { status: 500 });
+  }
+};
