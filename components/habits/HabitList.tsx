@@ -16,7 +16,7 @@ const NEW_HABIT_CARD_DETAILS = {
   description: (
     <>
       These represent <span className="text-foreground">actions</span> that you
-      can take daily to progress on your missions.
+      can take daily to progress on your goals.
     </>
   ),
   buttonText: "Create New Habit",

@@ -16,7 +16,7 @@ const CreateGoal = () => {
         <Link href="/habits">
           <Button className="mt-5">
             <Shell className="mr-2" />
-            Habits
+            Go To Habits
           </Button>
         </Link>
       </section>

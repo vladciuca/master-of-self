@@ -11,7 +11,7 @@ const NEW_GOAL_CARD_DETAILS = {
       the journey ahead.
     </>
   ),
-  buttonText: "Start a New Mission",
+  buttonText: "Create New Goal",
   linkTo: "/create-goal",
 };
 
