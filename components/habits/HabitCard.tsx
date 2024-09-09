@@ -88,13 +88,13 @@ const HabitCard = ({ habit, handleEdit, handleDelete }: HabitCardProps) => {
                 >
                   Update
                 </Button>
-                <Button
+                {/* <Button
                   variant="ghost"
                   onClick={() => handleDelete(habit)}
                   size="sm"
                 >
                   Delete(TEST)
-                </Button>
+                </Button> */}
               </div>
             )}
         </div>

@@ -112,13 +112,13 @@ const JournalEntryCard = ({
                     Continue today's journal
                   </Link>
                 </Button>
-                <Button
+                {/* <Button
                   variant="ghost"
                   onClick={() => handleDelete(journalEntry)}
                   size="sm"
                 >
                   Delete(TEST)
-                </Button>
+                </Button> */}
               </div>
             )}
           </div>
