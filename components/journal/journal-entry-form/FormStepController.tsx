@@ -211,7 +211,7 @@ const FormStepController = ({
       isAvailable: SHOW_ALL_TEST || (isEvening() && hasReflection),
     },
     {
-      name: "How did I use my Willpower today?",
+      name: "How did I manage my Willpower?",
       type: "habits",
       component: (
         <HabitsStep
