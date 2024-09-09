@@ -72,7 +72,7 @@ const HabitForm = ({ type, submitting, onSubmit, habit }: HabitFormProps) => {
                 <FormControl>
                   <Input
                     className="text-base"
-                    placeholder="Action you need to take daily"
+                    placeholder="A consistent action you can take to improve..."
                     {...field}
                   />
                 </FormControl>
