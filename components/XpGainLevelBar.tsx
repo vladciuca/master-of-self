@@ -46,11 +46,13 @@ function XpGainLevelBar({ xp, xpChange = 0, icon, name }: LevelBarXpGainProps) {
             <div className="w-full flex items-center justify-center mb-2">
               <span className="text-3xl">{icon}</span>
               {xpChange !== undefined && xpChange > 0 && (
-                <div className="flex items-center ml-2">
+                <div className="flex items-center ml-1">
                   <span className="text-green-500 font-semibold text-xl">
                     +{xpChange}
                   </span>
-                  <FaBoltLightning />
+                  <span className="ml-1">
+                    <FaBoltLightning />
+                  </span>
                 </div>
               )}
             </div>

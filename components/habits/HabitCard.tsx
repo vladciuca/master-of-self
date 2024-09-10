@@ -77,7 +77,7 @@ const HabitCard = ({ habit, handleEdit, handleDelete }: HabitCardProps) => {
                 }}
               >
                 <div
-                  className="text-center text-sm"
+                  className="text-center text-xs"
                   style={{
                     pointerEvents: "none", // Ensure text does not block interactions
                   }}

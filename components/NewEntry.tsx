@@ -14,7 +14,7 @@ type NewEntryProps = {
   description: JSX.Element;
   buttonText: string;
   linkTo: string;
-  numberOfEntries: number;
+  numberOfEntries: number | string;
 };
 
 const NewEntry = ({
