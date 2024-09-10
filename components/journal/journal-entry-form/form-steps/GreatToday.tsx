@@ -20,8 +20,8 @@ const GreatToday = React.memo(
 
     return (
       <div className="h-full flex flex-col">
-        <Label className="w-full flex flex-col h-full mt-2">
-          <div className="text-center sticky top-0 bg-background z-10">
+        <div className="w-full flex flex-col h-full mt-2">
+          <Label className="text-center sticky top-0 bg-background z-10">
             <div className="leading-relaxed text-muted-foreground mx-4">
               {
                 "Write down meaningful and achievable goals for the day to generate Willpower."
@@ -31,14 +31,14 @@ const GreatToday = React.memo(
               {dailyWillpower}
               <FaBoltLightning className="ml-2" />
             </div>
-          </div>
+          </Label>
           <div className="flex-grow h-full overflow-y-auto mt-4 mx-4">
             <TextAreaList
               entryList={entryList}
               onChange={handleTextAreaListChange}
             />
           </div>
-        </Label>
+        </div>
       </div>
     );
   }
