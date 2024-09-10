@@ -12,7 +12,6 @@ import {
   AccordionTrigger,
 } from "@components/ui/accordion";
 import { Button } from "@components/ui/button";
-import { FaBoltLightning } from "react-icons/fa6";
 import { Session, Habit } from "@/app/types/types";
 
 declare global {
