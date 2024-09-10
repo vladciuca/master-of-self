@@ -11,7 +11,7 @@ import { Button } from "@components/ui/button";
 import { RxChevronLeft, RxChevronRight } from "react-icons/rx";
 import { JournalEntry } from "@app/types/types";
 
-const SHOW_ALL_TEST = true;
+const SHOW_ALL_TEST = false;
 //user object will contain flags for form rendering conditions
 const hasMissions = false;
 const hasHabits = true; // Check if habits > 0
