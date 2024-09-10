@@ -18,7 +18,7 @@ const LearnedToday = ({ learnedToday, onChange }: LearnedTodayProps) => {
           </div>
         </div>
 
-        <div className="flex-grow h-full overflow-y-auto mx-8">
+        <div className="flex-grow h-full overflow-y-auto mx-9">
           <Textarea
             value={learnedToday}
             onChange={(e) => onChange(e.target.value)}
