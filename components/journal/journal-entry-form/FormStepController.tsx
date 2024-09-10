@@ -11,10 +11,10 @@ import { Button } from "@components/ui/button";
 import { RxChevronLeft, RxChevronRight } from "react-icons/rx";
 import { JournalEntry } from "@app/types/types";
 
-const SHOW_ALL_TEST = false;
+const SHOW_ALL_TEST = true;
 //user object will contain flags for form rendering conditions
 const hasMissions = false;
-const hasHabits = true;
+const hasHabits = true; // Check if habits > 0
 const hasGratitude = true;
 const hasReflection = true;
 const eveningStartingHour = "18:00";

@@ -23,11 +23,16 @@ const LearnedToday = ({ learnedToday, onChange }: LearnedTodayProps) => {
         </div>
 
         <div className="flex-grow h-full overflow-y-auto mt-4 mx-4">
-          <Textarea
+          {/* <Textarea
             // id="LearnedTodayTextArea"
             value={learnedToday}
             onChange={(e) => onChange(e.target.value)}
             className="px-8 text-base resize-none flex-grow h-full border-none focus:outline-none focus-visible:outline-none focus:ring-0 focus-visible:ring-0 focus-visible:ring-offset-0"
+          /> */}
+          <textarea
+            value={learnedToday}
+            onChange={(e) => onChange(e.target.value)}
+            className="bg-transparent w-full px-8 text-base resize-none flex-grow h-full border-none focus:outline-none focus-visible:outline-none focus:ring-0 focus-visible:ring-0 focus-visible:ring-offset-0"
           />
         </div>
       </Label>

@@ -4,8 +4,7 @@ interface UserType extends Document {
   email: string;
   username: string;
   image?: string; // Optional field
-  stats: {
-    totalWillpower: number;
+  settings: {
     steps: {
       gratefulStep: boolean;
       reflectionStep: boolean;
@@ -34,8 +33,7 @@ const UserSchema = new Schema<UserType>({
   image: {
     type: String,
   },
-  stats: {
-    totalWillpower: Number,
+  settings: {
     steps: {
       gratefulStep: Boolean,
       reflectionStep: Boolean,

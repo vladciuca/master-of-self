@@ -34,8 +34,7 @@ const handler = NextAuth({
             email: profile.email,
             username: profile.name,
             image: profile.picture,
-            stats: {
-              totalWillpower: 0,
+            settings: {
               steps: {
                 gratefulStep: false,
                 reflectionStep: false,
