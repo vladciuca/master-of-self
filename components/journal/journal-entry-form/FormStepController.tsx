@@ -12,7 +12,7 @@ import { RxChevronLeft, RxChevronRight } from "react-icons/rx";
 import { JournalEntry } from "@app/types/types";
 
 //test flag for enabling all forms steps
-const SHOW_ALL_TEST = false;
+const SHOW_ALL_TEST = true;
 //user object will contain flags for form rendering conditions
 const hasMissions = false;
 const hasHabits = true; // Check if habits > 0
