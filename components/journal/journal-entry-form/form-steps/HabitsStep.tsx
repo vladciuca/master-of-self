@@ -3,7 +3,7 @@ import { useSession } from "next-auth/react";
 import Link from "next/link";
 import data from "@emoji-mart/data";
 import { init } from "emoji-mart";
-import LevelBarXpGain from "@components/LevelBarXpGain";
+import XpGainLevelBar from "@components/XpGainLevelBar";
 import { Label } from "@components/ui/label";
 import { Button } from "@components/ui/button";
 import SkeletonHabitLevel from "@components/skeletons/SkeletonHabitLevel";
@@ -146,9 +146,9 @@ const HabitsStep = ({
                 return (
                   <div
                     key={_id}
-                    className="flex flex-col items-center justify-center my-8 mx-4 sm:mx-8"
+                    className="flex flex-col items-center justify-center my-10 mx-4 sm:mx-8"
                   >
-                    <div className="w-full flex items-center justify-center space-x-4 mb-4">
+                    <div className="h-full flex items-center justify-center space-x-10">
                       <Button
                         variant="outline"
                         size="icon"
@@ -159,15 +159,14 @@ const HabitsStep = ({
                         <Minus className="h-4 w-4" />
                         <span className="sr-only">Decrease</span>
                       </Button>
+
                       <div className="flex-1 text-center">
-                        <LevelBarXpGain
+                        <XpGainLevelBar
                           xp={xp}
                           xpChange={habitXp[_id] || 0}
-                          icon={<em-emoji shortcodes={icon} size="1.6rem" />}
+                          icon={<em-emoji shortcodes={icon} />}
+                          name={name}
                         />
-                        <div className="mt-2 flex-grow text-lg font-semibold tracking-wide">
-                          {name}
-                        </div>
                       </div>
 
                       <Button
