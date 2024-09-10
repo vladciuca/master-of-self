@@ -118,7 +118,7 @@ const TextAreaList = React.memo(
 
     return (
       <div
-        className="rounded-md overflow-scroll h-full min-h-60 list-decimal"
+        className="rounded-md overflow-scroll h-full min-h-60"
         onClick={focusOnTouch}
       >
         <ol
