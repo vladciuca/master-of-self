@@ -15,8 +15,6 @@
 
     --primary: 240 5.9% 10%;
     --primary-level-bar: hsl(var(--primary));
-    --primary-habit-level-color: rgba(255, 255, 255, 0.1);
-    --primary-habit-level-glow: rgba(255, 255, 255, 0.4);
     --primary-foreground: 0 0% 98%;
 
     --secondary: 240 4.8% 95.9%;
@@ -56,8 +54,6 @@
 
     --primary: 0 0% 98%;
     --primary-level-bar: hsl(var(--primary));
-    --primary-habit-level-color: rgba(0, 0, 0, 0.1);
-    --primary-habit-level-glow: rgba(0, 0, 0, 0.4);
     --primary-foreground: 240 5.9% 10%;
 
     --secondary: 240 3.7% 15.9%;
