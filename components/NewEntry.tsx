@@ -14,7 +14,7 @@ type NewEntryProps = {
   description: JSX.Element;
   buttonText: string;
   linkTo: string;
-  numberOfEntries: number;
+  numberOfEntries: number | string;
 };
 
 const NewEntry = ({
@@ -30,7 +30,7 @@ const NewEntry = ({
       <CardHeader>
         <CardTitle>
           <div>
-            <div className="my-4 text-3xl flex items-center">
+            <div className="text-3xl flex items-center">
               {symbol}
               {title}
             </div>

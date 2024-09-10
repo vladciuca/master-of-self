@@ -4,7 +4,8 @@ import data from "@emoji-mart/data";
 import { init } from "emoji-mart";
 import { useSession } from "next-auth/react";
 import { usePathname } from "next/navigation";
-import LevelBar from "@components/LevelBar";
+import { calculateLevel, xpForLevel } from "@utils/level";
+import CircularProgress from "@components/ui/circular-progress";
 import {
   AccordionContent,
   AccordionItem,
@@ -13,14 +14,6 @@ import {
 import { Button } from "@components/ui/button";
 import { Session, Habit } from "@/app/types/types";
 
-// const getLevelColor = (xp: number): string => {
-//   if (xp < 100) return "#FFFFFF"; // Common
-//   if (xp < 300) return "#1EFF00"; // Uncommon
-//   if (xp < 600) return "#0070DD"; // Rare
-//   if (xp < 1000) return "#A335EE"; // Epic
-//   if (xp < 1500) return "#FF8000"; // Legendary
-//   return "#E6CC80"; // Artifact
-// };
 declare global {
   namespace JSX {
     interface IntrinsicElements {
@@ -29,7 +22,7 @@ declare global {
         HTMLElement
       > & {
         shortcodes: string;
-        size: string;
+        size?: string;
       };
     }
   }
@@ -48,33 +41,56 @@ const HabitCard = ({ habit, handleEdit, handleDelete }: HabitCardProps) => {
   const { data: session } = useSession() as { data: Session | null };
   const pathName = usePathname();
 
-  // const borderColor = getLevelColor(xp);
-  // const neonGlowStyle = {
-  //   boxShadow: `0 0 1px ${borderColor}, 0 0 5px ${borderColor}, 0 0 7px ${borderColor}, 0 0 12px ${borderColor}`,
-  //   transition: "box-shadow 0.3s ease-in-out",
-  // };
+  const level = calculateLevel(xp);
+  const { baseXP, nextLevelXP } = xpForLevel(level);
+  const progressPercentage = ((xp - baseXP) / (nextLevelXP - baseXP)) * 100;
+  const xpForCurrentLevel = xp - baseXP;
+  const xpToLevelUp = nextLevelXP - baseXP;
 
   return (
-    <AccordionItem value={_id} className="my-4 pt-2">
-      <AccordionTrigger>
-        <div className="w-full">
-          <div className="flex items-center justify-start mb-6">
-            <div
-              className="mr-5 px-2 rounded-full"
-              // style={{ borderColor: borderColor, ...neonGlowStyle }}
-            >
-              <em-emoji shortcodes={icon} size="2.2rem" />
+    <AccordionItem value={_id} className="my-4 p-0">
+      <AccordionTrigger className="p-0 m-0 rounded-md flex flex-col">
+        <div className="p-2 px-4 flex justify-between text-start w-full">
+          <div className="flex flex-grow">
+            <div className="text-4xl flex items-center">
+              <em-emoji shortcodes={icon} />
             </div>
-            <h4 className="scroll-m-20 text-xl font-semibold tracking-tight">
-              {name}
-            </h4>
+            <div className="px-4 flex flex-col justify-center">
+              <h4 className="scroll-m-20 text-xl font-semibold tracking-tight">
+                {name}
+              </h4>
+              <div className="text-sm text-muted-foreground">Level {level}</div>
+            </div>
           </div>
-
-          <LevelBar xp={xp} />
+          <div className="flex items-center justify-center">
+            <div className="relative flex items-center justify-center h-full w-full">
+              <CircularProgress
+                className="ml-4"
+                value={progressPercentage}
+                strokeWidth={6}
+                circleSize={70}
+              />
+              <div
+                className="absolute w-full flex flex-col"
+                style={{
+                  pointerEvents: "none", // Ensure text does not block interactions
+                }}
+              >
+                <div
+                  className="text-center text-xs"
+                  style={{
+                    pointerEvents: "none", // Ensure text does not block interactions
+                  }}
+                >
+                  {xpForCurrentLevel} / {xpToLevelUp}
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </AccordionTrigger>
-      <AccordionContent>
-        <div className="my-1">
+      <AccordionContent className="px-4">
+        <div className="my-4">
           <p className="text-muted-foreground">{description}</p>
         </div>
         <div className="mt-12">

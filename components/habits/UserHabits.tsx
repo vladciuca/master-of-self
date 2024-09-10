@@ -3,9 +3,24 @@
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import NewEntry from "@components/NewEntry";
 import HabitList from "@components/habits/HabitList";
 import SkeletonHabitCard from "@components/skeletons/SkeletonHabitCard";
+import { Shell } from "lucide-react";
 import { Session, Habit } from "@/app/types/types";
+
+const NEW_HABIT_CARD_DETAILS = {
+  symbol: <Shell className="mr-2" size={"2rem"} />,
+  title: "Habits",
+  description: (
+    <>
+      These represent <span className="text-foreground">actions</span> that you
+      can take daily to progress on your goals.
+    </>
+  ),
+  buttonText: "Create New Habit",
+  linkTo: "/create-habit",
+};
 
 const skeletonCards = Array.from({ length: 3 }, (_, index) => (
   <SkeletonHabitCard key={index} />
@@ -16,6 +31,7 @@ const Habits = () => {
   const { data: session } = useSession() as { data: Session | null };
   const [habits, setHabits] = useState([]);
   const [habitsLoaded, setHabitsLoaded] = useState(false);
+  const numberOfEntries = !habitsLoaded ? "??" : habits.length;
 
   useEffect(() => {
     const fetchHabits = async () => {
@@ -63,6 +79,14 @@ const Habits = () => {
 
   return (
     <div className="w-full">
+      <NewEntry
+        symbol={NEW_HABIT_CARD_DETAILS.symbol}
+        title={NEW_HABIT_CARD_DETAILS.title}
+        description={NEW_HABIT_CARD_DETAILS.description}
+        buttonText={NEW_HABIT_CARD_DETAILS.buttonText}
+        linkTo={NEW_HABIT_CARD_DETAILS.linkTo}
+        numberOfEntries={numberOfEntries}
+      />
       {!habitsLoaded && <>{skeletonCards}</>}
       {habitsLoaded && (
         <HabitList
