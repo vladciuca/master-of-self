@@ -10,7 +10,7 @@ const LearnedToday = ({ learnedToday, onChange }: LearnedTodayProps) => {
   return (
     <div className="h-full flex flex-col">
       <Label className="w-full flex flex-col h-full mt-2">
-        <div className="mb-4 text-center sticky top-0 bg-background z-10">
+        <div className="mb-6 text-center sticky top-0 bg-background z-10">
           <div className="leading-relaxed text-muted-foreground mx-4">
             {
               "If you could go back in time and change something, what would it be?"
