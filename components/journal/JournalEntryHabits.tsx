@@ -67,7 +67,7 @@ const JournalEntryHabits = ({ habits }: JournalEntryHabitsProp) => {
                 <em-emoji shortcodes={habitIcons[id]} size="1.4rem" />
               </div>
             ) : (
-              <div className="w-[20px] h-[30px] flex items-center">
+              <div className="w-[25px] h-[30px] flex items-center">
                 <Skeleton className="w-[20px] h-[20px] rounded-full" />
               </div>
             )}
