@@ -11,6 +11,17 @@ export type User = {
   email?: string;
 };
 
+export type UserSettings = {
+  steps: {
+    gratefulStep: boolean;
+    reflectionStep: boolean;
+  };
+  journalStartTime: {
+    morning: string;
+    evening: string;
+  };
+};
+
 export type Session = NextAuthSession & {
   user: User;
 };
