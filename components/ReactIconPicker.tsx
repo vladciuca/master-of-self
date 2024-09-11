@@ -77,7 +77,7 @@ export function ReactIconPicker({ value, onChange }: ReactIconPickerProps) {
             onChange={(e) => setSearchTerm(e.target.value)}
           />
         </div>
-        <ScrollArea className="h-[50vh] p-4">
+        <ScrollArea className="h-[40vh] p-4">
           <div className="grid grid-cols-6 gap-2 place-items-center">
             {filteredIcons.map(({ name, icon: Icon }) => (
               <Button
