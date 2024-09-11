@@ -14,9 +14,6 @@ import { JournalEntry, Session, UserSettings } from "@app/types/types";
 
 //test flag for enabling all forms steps
 const SHOW_ALL_TEST = false;
-//user object will contain flags for form rendering conditions
-const hasMissions = false;
-const hasHabits = true; // Check if habits > 0
 
 function isEvening(startHour: string | undefined): boolean {
   if (!startHour) return false; // or true, depending on your default behavior
@@ -50,6 +47,8 @@ const FormStepController = ({
       habits: journalEntryData?.nightEntry?.habits || {},
     },
   }));
+  const [habits, setHabits] = useState([]);
+  const [habitsLoaded, setHabitsLoaded] = useState(false);
   const [userSettings, setUserSettings] = useState<UserSettings | null>(null);
   const { data: session } = useSession() as { data: Session | null };
   const router = useRouter();
@@ -84,7 +83,21 @@ const FormStepController = ({
       }
     };
 
+    const fetchHabits = async () => {
+      setHabitsLoaded(false);
+      try {
+        const response = await fetch(`/api/users/${session?.user.id}/habits`);
+        const data = await response.json();
+        setHabits(data.reverse());
+      } catch (error) {
+        console.error("Failed to fetch habits", error);
+      } finally {
+        setHabitsLoaded(true);
+      }
+    };
+
     if (session?.user.id) {
+      fetchHabits();
       fetchUserSettings();
     }
   }, [session]);
@@ -241,13 +254,9 @@ const FormStepController = ({
           habitXpChanges={formData.nightEntry?.habits || {}}
         />
       ),
-      isAvailable: SHOW_ALL_TEST || (isEvening(userEveningTime) && hasHabits),
-    },
-    {
-      name: "missionProgress",
-      type: "night",
-      component: <>missionProgress</>,
-      isAvailable: hasMissions,
+      isAvailable:
+        SHOW_ALL_TEST ||
+        (isEvening(userEveningTime) && habitsLoaded && habits.length > 0),
     },
   ];
 
