@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
+import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import FormStepProgressBar from "@components/journal/journal-entry-form/FormStepProgressBar";
 import DailyBonus from "@components/journal/journal-entry-form/form-steps/DailyBonus";
@@ -9,26 +10,16 @@ import LearnedToday from "@components/journal/journal-entry-form/form-steps/Lear
 import HabitsStep from "@components/journal/journal-entry-form/form-steps/HabitsStep";
 import { Button } from "@components/ui/button";
 import { RxChevronLeft, RxChevronRight } from "react-icons/rx";
-import { JournalEntry } from "@app/types/types";
+import { JournalEntry, Session, UserSettings } from "@app/types/types";
 
 //test flag for enabling all forms steps
 const SHOW_ALL_TEST = false;
-//user object will contain flags for form rendering conditions
-const hasMissions = false;
-const hasHabits = true; // Check if habits > 0
-const hasGratitude = true;
-const hasReflection = true;
-const eveningStartingHour = "18:00";
-// evening Flag check - move to own context isMorning = !isEvening();
-function isEvening() {
-  const currentHour = new Date().getHours();
-  const eveningStartHour = parseInt(eveningStartingHour.split(":")[0]);
 
-  if (currentHour >= eveningStartHour) {
-    return true;
-  } else {
-    return false;
-  }
+function isEvening(startHour: string | undefined): boolean {
+  if (!startHour) return false; // or true, depending on your default behavior
+  const currentHour = new Date().getHours();
+  const eveningStartHour = parseInt(startHour.split(":")[0]);
+  return currentHour >= eveningStartHour;
 }
 
 type FormStepControllerProps = {
@@ -56,7 +47,14 @@ const FormStepController = ({
       habits: journalEntryData?.nightEntry?.habits || {},
     },
   }));
+  const [habits, setHabits] = useState([]);
+  const [habitsLoaded, setHabitsLoaded] = useState(false);
+  const [userSettings, setUserSettings] = useState<UserSettings | null>(null);
+  const { data: session } = useSession() as { data: Session | null };
   const router = useRouter();
+
+  const userSteps = userSettings?.steps;
+  const userEveningTime = userSettings?.journalStartTime.evening;
 
   const calculateScore = useCallback((entries: string[]) => {
     const totalEntries = entries.length;
@@ -72,6 +70,37 @@ const FormStepController = ({
     },
     [calculateScore]
   );
+
+  //consider passing this up to Journal Entry page so that the data is already loaded when accessing the form
+  useEffect(() => {
+    const fetchUserSettings = async () => {
+      try {
+        const response = await fetch(`/api/users/${session?.user.id}/settings`);
+        const data = await response.json();
+        setUserSettings(data.settings);
+      } catch (error) {
+        console.error("Failed to fetch user settings", error);
+      }
+    };
+
+    const fetchHabits = async () => {
+      setHabitsLoaded(false);
+      try {
+        const response = await fetch(`/api/users/${session?.user.id}/habits`);
+        const data = await response.json();
+        setHabits(data.reverse());
+      } catch (error) {
+        console.error("Failed to fetch habits", error);
+      } finally {
+        setHabitsLoaded(true);
+      }
+    };
+
+    if (session?.user.id) {
+      fetchHabits();
+      fetchUserSettings();
+    }
+  }, [session]);
 
   useEffect(() => {
     if (journalEntryData) {
@@ -174,7 +203,9 @@ const FormStepController = ({
           onChange={(value) => handleChange("gratefulFor", value)}
         />
       ),
-      isAvailable: SHOW_ALL_TEST || (!isEvening() && hasGratitude),
+      isAvailable:
+        SHOW_ALL_TEST ||
+        (!isEvening(userEveningTime) && userSteps?.gratefulStep),
     },
     {
       name: "What will I do to make today great?",
@@ -186,7 +217,7 @@ const FormStepController = ({
           onChange={(value) => handleChange("greatToday", value)}
         />
       ),
-      isAvailable: SHOW_ALL_TEST || !isEvening(),
+      isAvailable: SHOW_ALL_TEST || !isEvening(userEveningTime),
     },
 
     {
@@ -198,7 +229,7 @@ const FormStepController = ({
           onChange={(value) => handleChange("dailyHighlights", value)}
         />
       ),
-      isAvailable: SHOW_ALL_TEST || isEvening(),
+      isAvailable: SHOW_ALL_TEST || isEvening(userEveningTime),
     },
     {
       name: "What have I learned today?",
@@ -209,7 +240,9 @@ const FormStepController = ({
           onChange={(value) => handleChange("learnedToday", value)}
         />
       ),
-      isAvailable: SHOW_ALL_TEST || (isEvening() && hasReflection),
+      isAvailable:
+        SHOW_ALL_TEST ||
+        (isEvening(userEveningTime) && userSteps?.reflectionStep),
     },
     {
       name: "How did I manage my Willpower?",
@@ -221,13 +254,9 @@ const FormStepController = ({
           habitXpChanges={formData.nightEntry?.habits || {}}
         />
       ),
-      isAvailable: SHOW_ALL_TEST || (isEvening() && hasHabits),
-    },
-    {
-      name: "missionProgress",
-      type: "night",
-      component: <>missionProgress</>,
-      isAvailable: hasMissions,
+      isAvailable:
+        SHOW_ALL_TEST ||
+        (isEvening(userEveningTime) && habitsLoaded && habits.length > 0),
     },
   ];
 
