@@ -4,6 +4,7 @@ import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
+import { IconRenderer } from "@/components/IconRenderer";
 import {
   Form,
   FormControl,
@@ -15,10 +16,10 @@ import {
 import { Input } from "@components/ui/input";
 import { Button } from "@components/ui/button";
 import { Textarea } from "@components/ui/textarea";
-import IconPicker from "@components/IconPicker";
+import { ReactIconPicker } from "@components/ReactIconPicker";
 
 const formSchema = z.object({
-  name: z.string().min(3),
+  name: z.string().min(3).max(25),
   icon: z.string(),
   description: z.string(),
 });
@@ -42,10 +43,6 @@ const HabitForm = ({ type, submitting, onSubmit, habit }: HabitFormProps) => {
     },
   });
 
-  const handleIconSelect = (iconId: string) => {
-    form.setValue("icon", iconId);
-  };
-
   return (
     <Form {...form}>
       <form
@@ -55,12 +52,23 @@ const HabitForm = ({ type, submitting, onSubmit, habit }: HabitFormProps) => {
         <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
           {type} Habit
         </h1>
-        <div>
-          <div className="mb-1">
-            <FormLabel>Habit icon</FormLabel>
-          </div>
-          <IconPicker onIconSelect={handleIconSelect} icon={habit?.icon} />
-        </div>
+
+        <FormField
+          control={form.control}
+          name="icon"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Habit icon</FormLabel>
+              <FormControl>
+                <ReactIconPicker
+                  value={field.value}
+                  onChange={(iconName) => field.onChange(iconName)}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
         <FormField
           control={form.control}

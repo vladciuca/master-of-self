@@ -1,10 +1,8 @@
 "use client";
 
-import data from "@emoji-mart/data";
-import { init } from "emoji-mart";
 import { useSession } from "next-auth/react";
 import { usePathname } from "next/navigation";
-import { calculateLevel, xpForLevel } from "@utils/level";
+import { IconRenderer } from "@/components/IconRenderer";
 import CircularProgress from "@components/ui/circular-progress";
 import {
   AccordionContent,
@@ -13,22 +11,7 @@ import {
 } from "@components/ui/accordion";
 import { Button } from "@components/ui/button";
 import { Session, Habit } from "@/app/types/types";
-
-declare global {
-  namespace JSX {
-    interface IntrinsicElements {
-      "em-emoji": React.DetailedHTMLProps<
-        React.HTMLAttributes<HTMLElement>,
-        HTMLElement
-      > & {
-        shortcodes: string;
-        size?: string;
-      };
-    }
-  }
-}
-
-init({ data });
+import { calculateLevel, xpForLevel } from "@utils/level";
 
 type HabitCardProps = {
   habit: Habit;
@@ -53,7 +36,7 @@ const HabitCard = ({ habit, handleEdit, handleDelete }: HabitCardProps) => {
         <div className="p-2 px-4 flex justify-between text-start w-full">
           <div className="flex flex-grow">
             <div className="text-4xl flex items-center">
-              <em-emoji shortcodes={icon} />
+              <IconRenderer iconName={icon} />
             </div>
             <div className="px-4 flex flex-col justify-center">
               <h4 className="scroll-m-20 text-xl font-semibold tracking-tight">

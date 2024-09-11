@@ -23,7 +23,7 @@ const CreateHabit = () => {
           name: name,
           icon: icon,
           description: description,
-          resource: 0,
+          xp: 0,
         }),
       });
 

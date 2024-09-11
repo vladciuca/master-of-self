@@ -1,11 +1,12 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useSession } from "next-auth/react";
 import { useParams } from "next/navigation";
 import FormStepController from "@components/journal/journal-entry-form/FormStepController";
 import PageLogo from "@components/PageLogo";
 import HeaderTitle from "@components/HeaderTitle";
-import { JournalEntry } from "@app/types/types";
+import { JournalEntry, Session, UserSettings } from "@app/types/types";
 
 const UpdateJournalEntry = () => {
   const params = useParams<{ id: string }>();
@@ -15,6 +16,12 @@ const UpdateJournalEntry = () => {
     null
   );
   // const [error, setError] = useState<string | null>(null);
+  const [habits, setHabits] = useState([]);
+  const [habitsLoaded, setHabitsLoaded] = useState(false);
+  const [userSettings, setUserSettings] = useState<UserSettings | null>(null);
+  const { data: session } = useSession() as { data: Session | null };
+  const userSteps = userSettings?.steps;
+  const userEveningTime = userSettings?.journalStartTime.evening;
 
   useEffect(() => {
     const getJournalEntryData = async () => {
@@ -34,6 +41,36 @@ const UpdateJournalEntry = () => {
     };
     getJournalEntryData();
   }, [id]);
+
+  useEffect(() => {
+    const fetchUserSettings = async () => {
+      try {
+        const response = await fetch(`/api/users/${session?.user.id}/settings`);
+        const data = await response.json();
+        setUserSettings(data.settings);
+      } catch (error) {
+        console.error("Failed to fetch user settings", error);
+      }
+    };
+
+    const fetchHabits = async () => {
+      setHabitsLoaded(false);
+      try {
+        const response = await fetch(`/api/users/${session?.user.id}/habits`);
+        const data = await response.json();
+        setHabits(data.reverse());
+      } catch (error) {
+        console.error("Failed to fetch habits", error);
+      } finally {
+        setHabitsLoaded(true);
+      }
+    };
+
+    if (session?.user.id) {
+      fetchHabits();
+      fetchUserSettings();
+    }
+  }, [session]);
 
   const updateJournalEntry = async (journalEntry: JournalEntry) => {
     setSubmitting(true);
@@ -71,6 +108,10 @@ const UpdateJournalEntry = () => {
       journalEntryData={journalEntryData}
       submitting={submitting}
       onSubmit={updateJournalEntry}
+      userEveningTime={userEveningTime}
+      hasHabits={habitsLoaded && habits.length > 0}
+      hasGratitude={userSteps?.gratefulStep}
+      hasReflection={userSteps?.reflectionStep}
     />
   ) : (
     <div className="phone_container fixed sm:border-2 sm:rounded-3xl top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 mx-auto flex flex-col items-center justify-center w-full max-w-[450px] sm:max-h-[800px] h-screen overflow-hidden">

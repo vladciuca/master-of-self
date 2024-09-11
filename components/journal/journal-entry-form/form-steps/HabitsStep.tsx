@@ -1,17 +1,14 @@
 import { useState, useEffect, useCallback } from "react";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
-import data from "@emoji-mart/data";
-import { init } from "emoji-mart";
 import XpGainLevelBar from "@components/XpGainLevelBar";
+import { IconRenderer } from "@/components/IconRenderer";
 import { Label } from "@components/ui/label";
 import { Button } from "@components/ui/button";
 import SkeletonHabitLevel from "@components/skeletons/SkeletonHabitLevel";
 import { Minus, Plus, RotateCcw, Shell } from "lucide-react";
 import { FaBoltLightning } from "react-icons/fa6";
 import { Session, Habit } from "@app/types/types";
-
-init({ data });
 
 type HabitsStepProps = {
   dailyWillpower: number;
@@ -165,7 +162,7 @@ const HabitsStep = ({
                         <XpGainLevelBar
                           xp={xp}
                           xpChange={habitXp[_id] || 0}
-                          icon={<em-emoji shortcodes={icon} />}
+                          icon={<IconRenderer iconName={icon} />}
                           name={name}
                         />
                       </div>

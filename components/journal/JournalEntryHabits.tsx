@@ -1,13 +1,9 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import data from "@emoji-mart/data";
-import { init } from "emoji-mart";
-// import { Shell } from "lucide-react";
+import { IconRenderer } from "@/components/IconRenderer";
 import { Skeleton } from "@components/ui/skeleton";
 import { FaBoltLightning } from "react-icons/fa6";
-
-init({ data });
 
 type JournalEntryHabitsProp = {
   habits: { [key: string]: number };
@@ -60,16 +56,11 @@ const JournalEntryHabits = ({ habits }: JournalEntryHabitsProp) => {
     <div className="flex items-center flex-wrap">
       {Object.entries(journalHabits).map(([id, value]) => (
         <div key={id} className="flex items-center mr-3">
-          {/* the icon size with skeleton highs need to corelate so content wont jiggle: 1.4rem : ~30px */}
           <div className="text-xl">
             {habitIcons[id] ? (
-              <div>
-                <em-emoji shortcodes={habitIcons[id]} size="1.4rem" />
-              </div>
+              <IconRenderer iconName={habitIcons[id]} className="h-6 w-6" />
             ) : (
-              <div className="w-[25px] h-[30px] flex items-center">
-                <Skeleton className="w-[20px] h-[20px] rounded-full" />
-              </div>
+              <Skeleton className="h-6 w-6 rounded-full" />
             )}
           </div>
           <div className="flex items-center text-primary">
