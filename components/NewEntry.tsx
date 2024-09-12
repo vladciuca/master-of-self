@@ -27,7 +27,7 @@ const NewEntry = ({
 }: NewEntryProps) => {
   return (
     <Card className="mb-4">
-      <CardHeader>
+      <CardHeader className="p-4">
         <CardTitle>
           <div>
             <div className="text-3xl flex items-center">
@@ -44,7 +44,7 @@ const NewEntry = ({
           active {title}. {description}
         </CardDescription>
       </CardHeader>
-      <CardFooter>
+      <CardFooter className="p-4">
         <Link href={`${linkTo}`}>
           <Button size="sm" className="py-3">
             {buttonText}
