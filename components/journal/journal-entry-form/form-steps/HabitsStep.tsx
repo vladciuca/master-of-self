@@ -101,7 +101,7 @@ const HabitsStep = ({
             </div>
           </Label>
 
-          <div className="text-4xl mt-3 flex items-center justify-center font-semibold">
+          <div className="text-4xl my-3 flex items-center justify-center font-semibold">
             {remainingWillpower}
             <FaBoltLightning className="ml-2" />
             {Object.values(habitXp).some((xp) => xp > 0) && (
