@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/drawer";
 import { useIconSearch } from "@hooks/useIconSearch";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { CircleHelp, Plus } from "lucide-react";
+import { CircleHelp } from "lucide-react";
 import * as GiIcons from "react-icons/gi";
 
 type ReactIconPickerProps = {
@@ -46,18 +46,15 @@ export function ReactIconPicker({ value, onChange }: ReactIconPickerProps) {
       <DrawerTrigger asChild>
         <div className="w-full">
           {SelectedIcon ? (
-            <SelectedIcon className="h-24 w-24 mx-auto" />
+            <SelectedIcon className="h-16 w-16 mx-auto" />
           ) : (
-            <Button variant="outline" className="h-16 w-16 rounded-full">
-              <Plus />
-            </Button>
+            <CircleHelp className="h-8 w-8 mx-5" />
           )}
         </div>
       </DrawerTrigger>
       <DrawerContent className="max-w-md mx-auto left-0 right-0">
         <DrawerHeader>
           <DrawerTitle className="flex flex-col items-center">
-            {selectedIconName ? "Icon Selected" : "Select Icon"}
             {SelectedIcon ? (
               <SelectedIcon className="h-12 w-12 my-4" />
             ) : (

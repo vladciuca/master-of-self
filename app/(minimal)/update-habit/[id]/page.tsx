@@ -53,7 +53,7 @@ const UpdateHabit = () => {
   };
 
   return (
-    <div className="p-6">
+    <div className="p-6 h-full">
       {habitData ? (
         <HabitForm
           type="Update"

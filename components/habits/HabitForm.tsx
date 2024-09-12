@@ -4,7 +4,6 @@ import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
-import { IconRenderer } from "@/components/IconRenderer";
 import {
   Form,
   FormControl,
@@ -19,9 +18,12 @@ import { Textarea } from "@components/ui/textarea";
 import { ReactIconPicker } from "@components/ReactIconPicker";
 
 const formSchema = z.object({
-  name: z.string().min(3).max(25),
-  icon: z.string(),
-  description: z.string(),
+  name: z
+    .string()
+    .min(3, "Habit name must contain at least 3 characters")
+    .max(25, "Habit name must contain maximum 25 characters"),
+  icon: z.string().min(1, "Please select an icon"),
+  description: z.string().min(3, "Please add a habit description"),
 });
 
 export type Habit = z.infer<typeof formSchema>;
@@ -47,9 +49,9 @@ const HabitForm = ({ type, submitting, onSubmit, habit }: HabitFormProps) => {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="w-full flex flex-col space-y-8"
+        className="flex flex-col space-y-8 h-full justify-between"
       >
-        <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
+        <h1 className="scroll-m-20 text-4xl font-bold tracking-tight lg:text-5xl mb-6">
           {type} Habit
         </h1>
 
@@ -58,7 +60,7 @@ const HabitForm = ({ type, submitting, onSubmit, habit }: HabitFormProps) => {
           name="icon"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Habit icon</FormLabel>
+              <FormLabel>Habit Icon</FormLabel>
               <FormControl>
                 <ReactIconPicker
                   value={field.value}
@@ -110,7 +112,7 @@ const HabitForm = ({ type, submitting, onSubmit, habit }: HabitFormProps) => {
           }}
         />
 
-        <div className="flex flex-col justify-center items-center">
+        <div className="flex flex-col justify-center items-center flex-grow">
           <Button type="submit" disabled={submitting} className="w-1/2 mt-3">
             {type} Habit
           </Button>
