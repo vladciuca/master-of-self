@@ -3,6 +3,7 @@ import { useSession } from "next-auth/react";
 import Link from "next/link";
 import XpGainLevelBar from "@components/XpGainLevelBar";
 import { IconRenderer } from "@/components/IconRenderer";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { Label } from "@components/ui/label";
 import { Button } from "@components/ui/button";
 import SkeletonHabitLevel from "@components/skeletons/SkeletonHabitLevel";
@@ -114,75 +115,77 @@ const HabitsStep = ({
             )}
           </div>
         </div>
-        <div className="w-full flex flex-col h-full mt-2">
-          {!habitsLoaded && <SkeletonHabitLevel />}
-          {habitsLoaded && habits.length === 0 && (
-            <div className="w-full h-full flex flex-col justify-evenly items-center flex-grow">
-              <Label className="text-center">
-                <div className="leading-relaxed text-muted-foreground mx-4">
-                  {"You don't have any habits."}
-                </div>
-                <div className="leading-relaxed text-muted-foreground mx-4">
-                  {"Lets create a new one right now!"}
-                </div>
-                <Link href="/create-habit">
-                  <Button className="mt-5">
-                    <Shell className="mr-2" />
-                    Create a Habit
-                  </Button>
-                </Link>
-              </Label>
-              {/* empty div to position the content properly, better structure needed*/}
-              <div></div>
-            </div>
-          )}
-          {habitsLoaded && (
-            <div>
-              {habits?.map((habit) => {
-                const { _id, name, icon, xp } = habit;
-                return (
-                  <div
-                    key={_id}
-                    className="flex flex-col items-center justify-center my-10 mx-4 sm:mx-8"
-                  >
-                    <div className="h-full flex items-center justify-center space-x-10">
-                      <Button
-                        variant="outline"
-                        size="icon"
-                        className="h-8 w-8 shrink-0 rounded-full mt-1"
-                        disabled={(habitXp[_id] || 0) === 0}
-                        onClick={() => handleXpUpdate(habit._id, -1)}
-                      >
-                        <Minus className="h-4 w-4" />
-                        <span className="sr-only">Decrease</span>
-                      </Button>
-
-                      <div className="flex-1 text-center">
-                        <XpGainLevelBar
-                          xp={xp}
-                          xpChange={habitXp[_id] || 0}
-                          icon={<IconRenderer iconName={icon} xp={xp} />}
-                          name={name}
-                        />
-                      </div>
-
-                      <Button
-                        variant="outline"
-                        size="icon"
-                        className="h-8 w-8 shrink-0 rounded-full mt-1"
-                        onClick={() => handleXpUpdate(habit._id, 1)}
-                        disabled={remainingWillpower === 0}
-                      >
-                        <Plus className="h-4 w-4" />
-                        <span className="sr-only">Increase</span>
-                      </Button>
-                    </div>
+        <ScrollArea className="flex-grow">
+          <div className="w-full flex flex-col h-full mt-2">
+            {!habitsLoaded && <SkeletonHabitLevel />}
+            {habitsLoaded && habits.length === 0 && (
+              <div className="w-full h-full flex flex-col justify-evenly items-center flex-grow">
+                <Label className="text-center">
+                  <div className="leading-relaxed text-muted-foreground mx-4">
+                    {"You don't have any habits."}
                   </div>
-                );
-              })}
-            </div>
-          )}
-        </div>
+                  <div className="leading-relaxed text-muted-foreground mx-4">
+                    {"Lets create a new one right now!"}
+                  </div>
+                  <Link href="/create-habit">
+                    <Button className="mt-5">
+                      <Shell className="mr-2" />
+                      Create a Habit
+                    </Button>
+                  </Link>
+                </Label>
+                {/* empty div to position the content properly, better structure needed*/}
+                <div></div>
+              </div>
+            )}
+            {habitsLoaded && (
+              <div>
+                {habits?.map((habit) => {
+                  const { _id, name, icon, xp } = habit;
+                  return (
+                    <div
+                      key={_id}
+                      className="flex flex-col items-center justify-center my-10 mx-4 sm:mx-8"
+                    >
+                      <div className="h-full flex items-center justify-center space-x-10">
+                        <Button
+                          variant="outline"
+                          size="icon"
+                          className="h-8 w-8 shrink-0 rounded-full mt-1"
+                          disabled={(habitXp[_id] || 0) === 0}
+                          onClick={() => handleXpUpdate(habit._id, -1)}
+                        >
+                          <Minus className="h-4 w-4" />
+                          <span className="sr-only">Decrease</span>
+                        </Button>
+
+                        <div className="flex-1 text-center">
+                          <XpGainLevelBar
+                            xp={xp}
+                            xpChange={habitXp[_id] || 0}
+                            icon={<IconRenderer iconName={icon} xp={xp} />}
+                            name={name}
+                          />
+                        </div>
+
+                        <Button
+                          variant="outline"
+                          size="icon"
+                          className="h-8 w-8 shrink-0 rounded-full mt-1"
+                          onClick={() => handleXpUpdate(habit._id, 1)}
+                          disabled={remainingWillpower === 0}
+                        >
+                          <Plus className="h-4 w-4" />
+                          <span className="sr-only">Increase</span>
+                        </Button>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+        </ScrollArea>
       </div>
     </div>
   );
