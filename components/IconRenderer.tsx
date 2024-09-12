@@ -1,12 +1,19 @@
 import React from "react";
 import * as GiIcons from "react-icons/gi";
+import { useIconRarityLevel } from "@hooks/useIconRarityLevel";
 
-type IconRendererProps = {
+export type IconRendererProps = {
   iconName: string | null | undefined;
   className?: string;
+  xp?: number;
 };
 
-export function IconRenderer({ iconName, className }: IconRendererProps) {
+export function IconRenderer({
+  iconName,
+  className = "",
+  xp,
+}: IconRendererProps) {
+  const { iconColorClass, bgColorClass } = useIconRarityLevel(xp);
   const Icon = GiIcons[iconName as keyof typeof GiIcons];
 
   if (!Icon) {
@@ -14,5 +21,8 @@ export function IconRenderer({ iconName, className }: IconRendererProps) {
     return null;
   }
 
-  return <Icon className={className} />;
+  const combinedClassName =
+    `${className} ${iconColorClass} ${bgColorClass} rounded-md`.trim();
+
+  return <Icon className={combinedClassName} />;
 }

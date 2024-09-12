@@ -21,3 +21,11 @@ export function calculateLevel(xp: number) {
     level++;
   }
 }
+
+export const getRarityColor = (level: number): { bg: string; icon: string } => {
+  if (level >= 60) return { bg: "bg-orange-200", icon: "text-orange-500" }; // Legendary
+  if (level >= 40) return { bg: "bg-purple-200", icon: "text-purple-600" }; // Epic
+  if (level >= 20) return { bg: "bg-blue-200", icon: "text-blue-500" }; // Rare
+  if (level >= 10) return { bg: "bg-green-200", icon: "text-green-500" }; // Uncommon
+  return { bg: "bg-gray-200", icon: "text-gray-500" }; // Common
+};

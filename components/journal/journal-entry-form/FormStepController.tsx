@@ -12,7 +12,7 @@ import { RxChevronLeft, RxChevronRight } from "react-icons/rx";
 import { JournalEntry } from "@app/types/types";
 
 //test flag for enabling all forms steps
-const SHOW_ALL_TEST = false;
+const SHOW_ALL_TEST = true;
 
 function isEvening(startHour: string | undefined): boolean {
   if (!startHour) return false; // or true, depending on your default behavior

@@ -162,7 +162,7 @@ const HabitsStep = ({
                         <XpGainLevelBar
                           xp={xp}
                           xpChange={habitXp[_id] || 0}
-                          icon={<IconRenderer iconName={icon} />}
+                          icon={<IconRenderer iconName={icon} xp={xp} />}
                           name={name}
                         />
                       </div>

@@ -1,8 +1,3 @@
-// app/api/habits/icons/route.ts
-// can be changed to something more relevant
-// but right now habits is under user/[id] and I do not want to add that extra condition(user id) to the call
-// or do we?
-
 import { NextRequest, NextResponse } from "next/server";
 import { connectToDB } from "@utils/database";
 import Habit from "@models/habit";
@@ -20,13 +15,16 @@ export async function GET(req: NextRequest) {
 
     const habitIds = ids.split(",");
     const habits = await Habit.find({ _id: { $in: habitIds } }).select(
-      "_id icon"
+      "_id icon xp"
     );
 
     const iconMap = habits.reduce((acc, habit) => {
-      acc[habit._id.toString()] = habit.icon;
+      acc[habit._id.toString()] = {
+        icon: habit.icon,
+        xp: habit.xp,
+      };
       return acc;
-    }, {} as Record<string, string>);
+    }, {} as Record<string, { icon: string; xp: number }>);
 
     return new NextResponse(JSON.stringify(iconMap), { status: 200 });
   } catch (error) {

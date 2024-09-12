@@ -106,7 +106,7 @@ const JournalEntryCard = ({
           <div className="w-full flex mt-4">
             {session?.user?.id === creator?._id && pathName === "/journal" && (
               <div>
-                <Button className="mr-3" size="sm">
+                <Button className="mr-3 mt-1" size="sm">
                   <Link href={`/update-journal-entry/${_id}`}>
                     Continue today's journal
                   </Link>

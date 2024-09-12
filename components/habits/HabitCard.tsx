@@ -13,14 +13,6 @@ import { Button } from "@components/ui/button";
 import { Session, Habit } from "@/app/types/types";
 import { calculateLevel, xpForLevel } from "@utils/level";
 
-const getWoWRarityColor = (level: number): { bg: string; icon: string } => {
-  if (level >= 60) return { bg: "bg-orange-200", icon: "text-orange-500" }; // Legendary
-  if (level >= 40) return { bg: "bg-purple-200", icon: "text-purple-600" }; // Epic
-  if (level >= 20) return { bg: "bg-blue-200", icon: "text-blue-600" }; // Rare
-  if (level >= 10) return { bg: "bg-green-200", icon: "text-green-500" }; // Uncommon
-  return { bg: "bg-gray-200", icon: "text-gray-500" }; // Common
-};
-
 type HabitCardProps = {
   habit: Habit;
   handleEdit: (habit: Habit) => void;
@@ -38,18 +30,13 @@ const HabitCard = ({ habit, handleEdit, handleDelete }: HabitCardProps) => {
   const xpForCurrentLevel = xp - baseXP;
   const xpToLevelUp = nextLevelXP - baseXP;
 
-  const { bg: bgColorClass, icon: iconColorClass } = getWoWRarityColor(level);
-
   return (
     <AccordionItem value={_id} className="my-4 p-0">
       <AccordionTrigger className="p-0 m-0 rounded-md flex flex-col">
         <div className="p-2 px-4 flex justify-between text-start w-full">
           <div className="flex flex-grow">
             <div className="flex items-center">
-              <IconRenderer
-                iconName={icon}
-                className={`text-6xl ${iconColorClass} ${bgColorClass} rounded-md py-1`}
-              />
+              <IconRenderer iconName={icon} className="text-6xl" xp={xp} />
             </div>
             <div className="px-4 flex flex-col justify-center">
               <h4 className="scroll-m-20 text-xl font-semibold tracking-tight">

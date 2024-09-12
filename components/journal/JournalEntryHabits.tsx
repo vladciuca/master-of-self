@@ -1,31 +1,41 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import { useSession } from "next-auth/react";
 import { IconRenderer } from "@/components/IconRenderer";
 import { Skeleton } from "@components/ui/skeleton";
 import { FaBoltLightning } from "react-icons/fa6";
+import { Session } from "@/app/types/types";
 
 type JournalEntryHabitsProp = {
   habits: { [key: string]: number };
 };
 
+type HabitData = {
+  icon: string;
+  xp: number;
+};
+
 const JournalEntryHabits = ({ habits }: JournalEntryHabitsProp) => {
   const [journalHabits, setJournalHabits] = useState(habits);
-  const [habitIcons, setHabitIcons] = useState<{ [key: string]: string }>({});
+  const [habitData, setHabitData] = useState<{ [key: string]: HabitData }>({});
+  const { data: session } = useSession() as { data: Session | null };
 
   useEffect(() => {
-    const fetchHabitIcons = async () => {
+    const fetchHabitData = async () => {
       const habitIds = Object.keys(habits);
 
       try {
         const response = await fetch(
-          `/api/habit/icons?ids=${habitIds.join(",")}`
+          `/api/users/${session?.user.id}/habits/icons?ids=${habitIds.join(
+            ","
+          )}`
         );
         if (response.ok) {
-          const icons: { [key: string]: string } = await response.json();
-          const filteredJournalHabits = filterHabitIcons(habits, icons);
+          const data: { [key: string]: HabitData } = await response.json();
+          const filteredJournalHabits = filterHabitData(habits, data);
 
-          setHabitIcons(icons);
+          setHabitData(data);
           // BUG: If a habit has been deleted, it's icon will remain stuck in skeleton with its latest value
           // FIX: Filtered habits with icon response from DB to remove the deleted habit
           // and to not be displayed in Journal Entry Card
@@ -34,21 +44,21 @@ const JournalEntryHabits = ({ habits }: JournalEntryHabitsProp) => {
           setJournalHabits(filteredJournalHabits);
         }
       } catch (error) {
-        console.error("Failed to fetch habit icons:", error);
+        console.error("Failed to fetch habit data:", error);
       }
     };
 
     if (Object.keys(habits).length > 0) {
-      fetchHabitIcons();
+      fetchHabitData();
     }
-  }, [habits]);
+  }, [habits, session?.user.id]);
 
-  const filterHabitIcons = (
+  const filterHabitData = (
     habits: { [key: string]: number },
-    icons: { [key: string]: string }
+    data: { [key: string]: HabitData }
   ) => {
     return Object.fromEntries(
-      Object.entries(habits).filter(([key]) => key in icons)
+      Object.entries(habits).filter(([key]) => key in data)
     );
   };
 
@@ -57,10 +67,14 @@ const JournalEntryHabits = ({ habits }: JournalEntryHabitsProp) => {
       {Object.entries(journalHabits).map(([id, value]) => (
         <div key={id} className="flex items-center mr-3">
           <div className="text-xl">
-            {habitIcons[id] ? (
-              <IconRenderer iconName={habitIcons[id]} className="h-6 w-6" />
+            {habitData[id] ? (
+              <IconRenderer
+                iconName={habitData[id].icon}
+                xp={habitData[id].xp}
+                className="h-6 w-6"
+              />
             ) : (
-              <Skeleton className="h-6 w-6 rounded-full" />
+              <Skeleton className="h-6 w-6 rounded-md" />
             )}
           </div>
           <div className="flex items-center text-primary">
