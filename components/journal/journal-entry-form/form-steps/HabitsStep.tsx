@@ -116,7 +116,6 @@ const HabitsStep = ({
         </div>
         <div className="w-full flex flex-col h-full mt-2">
           {!habitsLoaded && <SkeletonHabitLevel />}
-
           {habitsLoaded && habits.length === 0 && (
             <div className="w-full h-full flex flex-col justify-evenly items-center flex-grow">
               <Label className="text-center">
