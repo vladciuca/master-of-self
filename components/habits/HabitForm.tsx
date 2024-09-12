@@ -16,6 +16,7 @@ import { Input } from "@components/ui/input";
 import { Button } from "@components/ui/button";
 import { Textarea } from "@components/ui/textarea";
 import { ReactIconPicker } from "@components/ReactIconPicker";
+import { useIconRarityLevel } from "@/hooks/useIconRarityLevel";
 
 const formSchema = z.object({
   name: z
@@ -24,6 +25,7 @@ const formSchema = z.object({
     .max(25, "Habit name must contain maximum 25 characters"),
   icon: z.string().min(1, "Please select an icon"),
   description: z.string().min(3, "Please add a habit description"),
+  xp: z.number().optional(),
 });
 
 export type Habit = z.infer<typeof formSchema>;
@@ -42,8 +44,11 @@ const HabitForm = ({ type, submitting, onSubmit, habit }: HabitFormProps) => {
       name: type === "Update" ? habit?.name : "",
       icon: type === "Update" ? habit?.icon : "",
       description: type === "Update" ? habit?.description : "",
+      xp: type === "Update" ? habit?.xp : 0,
     },
   });
+
+  const { iconColorClass, bgColorClass } = useIconRarityLevel(form.watch("xp"));
 
   return (
     <Form {...form}>
@@ -65,6 +70,8 @@ const HabitForm = ({ type, submitting, onSubmit, habit }: HabitFormProps) => {
                 <ReactIconPicker
                   value={field.value}
                   onChange={(iconName) => field.onChange(iconName)}
+                  iconColorClass={iconColorClass}
+                  bgColorClass={bgColorClass}
                 />
               </FormControl>
               <FormMessage />

@@ -20,6 +20,7 @@ const UpdateHabit = () => {
         name: data.name,
         icon: data.icon,
         description: data.description,
+        xp: data.xp,
       });
     };
     if (id) getHabitData();

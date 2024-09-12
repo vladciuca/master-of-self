@@ -19,9 +19,16 @@ import * as GiIcons from "react-icons/gi";
 type ReactIconPickerProps = {
   value?: string;
   onChange?: (iconName: string) => void;
+  iconColorClass?: string;
+  bgColorClass?: string;
 };
 
-export function ReactIconPicker({ value, onChange }: ReactIconPickerProps) {
+export function ReactIconPicker({
+  value,
+  onChange,
+  iconColorClass,
+  bgColorClass,
+}: ReactIconPickerProps) {
   const {
     searchTerm,
     setSearchTerm,
@@ -46,7 +53,9 @@ export function ReactIconPicker({ value, onChange }: ReactIconPickerProps) {
       <DrawerTrigger asChild>
         <div className="w-full">
           {SelectedIcon ? (
-            <SelectedIcon className="h-16 w-16 mx-auto" />
+            <SelectedIcon
+              className={`h-20 w-20 rounded-md ${bgColorClass} ${iconColorClass}`}
+            />
           ) : (
             <CircleHelp className="h-8 w-8 mx-5" />
           )}
@@ -55,13 +64,14 @@ export function ReactIconPicker({ value, onChange }: ReactIconPickerProps) {
       <DrawerContent className="max-w-md mx-auto left-0 right-0">
         <DrawerHeader>
           <DrawerTitle className="flex flex-col items-center">
+            {selectedIconName ? "Icon Selected" : "Select Icon"}
             {SelectedIcon ? (
-              <SelectedIcon className="h-12 w-12 my-4" />
+              <SelectedIcon className="h-16 w-16 my-4" />
             ) : (
               <CircleHelp className="h-12 w-12 my-4" />
             )}
           </DrawerTitle>
-          <DrawerDescription>
+          <DrawerDescription className="w-full text-center">
             Choose an icon that best resembles your action.
           </DrawerDescription>
         </DrawerHeader>
@@ -83,7 +93,7 @@ export function ReactIconPicker({ value, onChange }: ReactIconPickerProps) {
                 className="h-12 w-12 p-0"
                 onClick={() => handleSelectIcon(name)}
               >
-                <Icon className="h-6 w-6" />
+                <Icon className="h-8 w-8" />
               </Button>
             ))}
           </div>
