@@ -230,7 +230,7 @@ const FormStepController = ({
   const CurrentStepComponent = availableSteps[currentStep].component;
 
   return (
-    <div className="grid grid-rows-[auto,auto,1fr,auto] h-full">
+    <div className="grid grid-rows-[auto,auto,1fr,auto] h-full py-4">
       <FormStepProgressBar
         steps={availableSteps}
         currentStep={currentStep}
