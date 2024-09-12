@@ -93,12 +93,17 @@ const JournalEntryCard = ({
         {/*a BUG here resulting in this being displayed after the habit has been deleted*/}
         {/* Should remove after the fix not to post 0 values for habits in id: xp */}
         {nightEntry?.habits && Object.keys(nightEntry.habits).length > 0 && (
-          <div className="mt-4 items-center flex flex-wrap">
-            <h2 className="flex items-center mr-2 text-muted-foreground">
-              <Shell className="mr-2 text-muted-foreground" size={"1rem"} />
-              Habits:
-            </h2>
-            <JournalEntryHabits habits={nightEntry?.habits} />
+          <div className="mt-4 flex w-full">
+            <div className="flex-shrink-0 flex items-start mr-4">
+              <h2 className="flex items-center text-muted-foreground mt-1">
+                <Shell className="mr-2 text-muted-foreground" size={"1rem"} />
+                Habits:
+              </h2>
+            </div>
+
+            <div className="flex-grow flex flex-wrap items-start">
+              <JournalEntryHabits habits={nightEntry?.habits} />
+            </div>
           </div>
         )}
 

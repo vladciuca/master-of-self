@@ -65,7 +65,7 @@ const JournalEntryHabits = ({ habits }: JournalEntryHabitsProp) => {
   return (
     <div className="flex items-center flex-wrap">
       {Object.entries(journalHabits).map(([id, value]) => (
-        <div key={id} className="flex items-center mr-3">
+        <div key={id} className="flex items-center mr-3 my-1">
           <div className="text-xl">
             {habitData[id] ? (
               <IconRenderer
