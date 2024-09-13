@@ -1,9 +1,9 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { FormStepProgressBar } from "@components/journal/journal-entry-form/FormStepProgressBar";
 import { DailyBonus } from "@components/journal/journal-entry-form/form-steps/DailyBonus";
-import GreatToday from "@components/journal/journal-entry-form/form-steps/GreatToday";
-import GratefulFor from "@components/journal/journal-entry-form/form-steps/GratefulFor";
+import { GreatToday } from "@components/journal/journal-entry-form/form-steps/GreatToday";
+import { GratefulFor } from "@components/journal/journal-entry-form/form-steps/GratefulFor";
 import { DailyHighlights } from "@components/journal/journal-entry-form/form-steps/DailyHighlights";
 import { LearnedToday } from "@components/journal/journal-entry-form/form-steps/LearnedToday";
 import { HabitsStep } from "@components/journal/journal-entry-form/form-steps/HabitsStep";
@@ -12,7 +12,7 @@ import { RxChevronLeft, RxChevronRight } from "react-icons/rx";
 import { JournalEntry } from "@app/types/types";
 
 // TEST_FLAG: used for enabling all forms steps
-const SHOW_ALL_TEST = true;
+const SHOW_ALL_TEST = false;
 
 function isEvening(startHour: string | undefined): boolean {
   if (!startHour) return false;
@@ -31,7 +31,7 @@ type FormStepControllerProps = {
   hasReflection?: boolean;
 };
 
-const FormStepController = ({
+function FormStepController({
   journalEntryData,
   submitting,
   onSubmit,
@@ -39,7 +39,7 @@ const FormStepController = ({
   hasGratitude,
   hasReflection,
   hasHabits,
-}: FormStepControllerProps) => {
+}: FormStepControllerProps) {
   const [currentStep, setCurrentStep] = useState(0);
   const [formData, setFormData] = useState<JournalEntry>(() => ({
     dailyWillpower: journalEntryData?.dailyWillpower || 0,
@@ -56,14 +56,17 @@ const FormStepController = ({
   }));
   const router = useRouter();
 
-  const calculateScore = useCallback((entries: string[]) => {
-    const totalEntries = entries.length;
-    const totalLength = entries.join("").length;
-    return Math.floor((totalEntries * 5 + totalLength) / 10);
-  }, []);
+  const calculateScore = useMemo(
+    () => (entries: string[]) => {
+      const totalEntries = entries.length;
+      const totalLength = entries.join("").length;
+      return Math.floor((totalEntries * 5 + totalLength) / 10);
+    },
+    []
+  );
 
-  const calculateWillpower = useCallback(
-    (data: JournalEntry) => {
+  const calculateWillpower = useMemo(
+    () => (data: JournalEntry) => {
       const greatTodayScore = calculateScore(data.dayEntry?.greatToday || []);
       const gratefulForScore = calculateScore(data.dayEntry?.gratefulFor || []);
       return Math.floor((greatTodayScore + gratefulForScore) * 1.5);
@@ -270,6 +273,21 @@ const FormStepController = ({
       </div>
     </div>
   );
-};
+}
 
-export default React.memo(FormStepController);
+const MemoizedFormStepController = React.memo(
+  FormStepController,
+  (prevProps, nextProps) => {
+    return (
+      prevProps.submitting === nextProps.submitting &&
+      prevProps.userEveningTime === nextProps.userEveningTime &&
+      prevProps.hasGratitude === nextProps.hasGratitude &&
+      prevProps.hasReflection === nextProps.hasReflection &&
+      prevProps.hasHabits === nextProps.hasHabits &&
+      JSON.stringify(prevProps.journalEntryData) ===
+        JSON.stringify(nextProps.journalEntryData)
+    );
+  }
+);
+
+export { MemoizedFormStepController as FormStepController };

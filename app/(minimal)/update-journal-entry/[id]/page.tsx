@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { useParams } from "next/navigation";
-import FormStepController from "@components/journal/journal-entry-form/FormStepController";
+import { FormStepController } from "@components/journal/journal-entry-form/FormStepController";
 import { PageLogo } from "@components/PageLogo";
 import { HeaderTitle } from "@components/HeaderTitle";
 import { JournalEntry, Session, UserSettings } from "@app/types/types";

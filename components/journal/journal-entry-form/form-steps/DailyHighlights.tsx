@@ -1,4 +1,4 @@
-import TextAreaList from "@components/ui/TextAreaList";
+import { TextAreaList } from "@components/ui/TextAreaList";
 import { Label } from "@components/ui/label";
 
 type DailyHighlightsProps = {
