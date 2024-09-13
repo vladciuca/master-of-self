@@ -14,7 +14,7 @@ export const metadata = {
   description: "Take control of your life",
 };
 
-const RootLayout = ({ children }: Layout) => {
+export default function RootLayout({ children }: Layout) {
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`relative ${font.className}`}>
@@ -33,6 +33,4 @@ const RootLayout = ({ children }: Layout) => {
       </body>
     </html>
   );
-};
-
-export default RootLayout;
+}

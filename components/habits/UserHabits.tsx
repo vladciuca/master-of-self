@@ -3,9 +3,9 @@
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import NewEntry from "@components/NewEntry";
-import HabitList from "@components/habits/HabitList";
-import SkeletonHabitCard from "@components/skeletons/SkeletonHabitCard";
+import { NewEntry } from "@components/NewEntry";
+import { HabitList } from "@components/habits/HabitList";
+import { SkeletonHabitCard } from "@components/skeletons/SkeletonHabitCard";
 import { Shell } from "lucide-react";
 import { Session, Habit } from "@/app/types/types";
 
@@ -26,7 +26,7 @@ const skeletonCards = Array.from({ length: 3 }, (_, index) => (
   <SkeletonHabitCard key={index} />
 ));
 
-const Habits = () => {
+export function UserHabits() {
   const router = useRouter();
   const { data: session } = useSession() as { data: Session | null };
   const [habits, setHabits] = useState([]);
@@ -97,6 +97,4 @@ const Habits = () => {
       )}
     </div>
   );
-};
-
-export default Habits;
+}

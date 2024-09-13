@@ -1,4 +1,4 @@
-import HabitCard from "@components/habits/HabitCard";
+import { HabitCard } from "@components/habits/HabitCard";
 import { Accordion } from "@components/ui/accordion";
 import { Habit } from "@/app/types/types";
 
@@ -8,7 +8,11 @@ type HabitListProps = {
   handleDelete: (habit: Habit) => Promise<void>;
 };
 
-const HabitList = ({ habits, handleEdit, handleDelete }: HabitListProps) => {
+export function HabitList({
+  habits,
+  handleEdit,
+  handleDelete,
+}: HabitListProps) {
   return (
     <Accordion type="single" collapsible className="w-full pb-1">
       {habits.map((habit: Habit) => (
@@ -21,6 +25,4 @@ const HabitList = ({ habits, handleEdit, handleDelete }: HabitListProps) => {
       ))}
     </Accordion>
   );
-};
-
-export default HabitList;
+}

@@ -1,14 +1,9 @@
-import React from "react";
 import { Skeleton } from "@components/ui/skeleton";
 
-const SkeletonList = () => {
-  return (
-    <div className="mx-6">
-      <Skeleton className="h-4 w-full rounded-sm mb-6" />
-      <Skeleton className="h-4 w-full rounded-sm mb-6" />
-      <Skeleton className="h-4 w-full rounded-sm mb-6" />
-    </div>
-  );
-};
+export function SkeletonList() {
+  const skeletonListItem = Array.from({ length: 3 }, (_, index) => (
+    <Skeleton key={index} className="h-4 w-full rounded-sm mb-6" />
+  ));
 
-export default SkeletonList;
+  return <div className="mx-6">{skeletonListItem}</div>;
+}

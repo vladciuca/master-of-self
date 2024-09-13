@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { connectToDB } from "@utils/database";
-import JournalEntry, { JournalEntryType } from "@models/journalEntry";
+import JournalEntry, { JournalEntryInterface } from "@models/journalEntry";
 
 export const POST = async (req: NextRequest) => {
   const { userId, dailyWillpower, bonusWillpower, dayEntry, nightEntry } =
@@ -30,7 +30,7 @@ export const POST = async (req: NextRequest) => {
     }
 
     // If no entry exists, create a new one
-    const newJournalEntry: JournalEntryType = new JournalEntry({
+    const newJournalEntry: JournalEntryInterface = new JournalEntry({
       createDate: new Date(),
       creator: userId,
       dailyWillpower,

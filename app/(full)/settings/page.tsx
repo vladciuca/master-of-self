@@ -3,15 +3,15 @@
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import { signOut } from "next-auth/react";
+import { ModeToggle } from "@components/ui/toggle-mode";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@components/ui/checkbox";
-import { GiPrayer, GiBackup } from "react-icons/gi";
 import { Button } from "@components/ui/button";
-import { ModeToggle } from "@components/ui/toggle-mode";
+import { GiPrayer, GiBackup } from "react-icons/gi";
 import { Session } from "@/app/types/types";
 
-const Settings = () => {
+export default function Settings() {
   const [userSettings, setUserSettings] = useState({
     steps: {
       gratefulStep: false,
@@ -161,6 +161,4 @@ const Settings = () => {
       </Button>
     </div>
   );
-};
-
-export default Settings;
+}

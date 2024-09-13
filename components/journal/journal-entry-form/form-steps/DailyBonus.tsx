@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useSession } from "next-auth/react";
-import SkeletonList from "@components/skeletons/SkeletonList";
 import { Label } from "@components/ui/label";
+import { SkeletonList } from "@components/skeletons/SkeletonList";
 import { FaBoltLightning } from "react-icons/fa6";
 import { BsChevronCompactDown } from "react-icons/bs";
 import { GiEmbrassedEnergy } from "react-icons/gi";
@@ -11,7 +11,7 @@ type DailyBonusProps = {
   bonusWillpower: number;
 };
 
-const DailyBonus = ({ bonusWillpower }: DailyBonusProps) => {
+export function DailyBonus({ bonusWillpower }: DailyBonusProps) {
   const { data: session } = useSession() as { data: Session | null };
   const [dailyHighlights, setDailyHighlights] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -94,6 +94,4 @@ const DailyBonus = ({ bonusWillpower }: DailyBonusProps) => {
       <div className="h-[500px]" />
     </div>
   );
-};
-
-export default DailyBonus;
+}

@@ -1,10 +1,10 @@
 "use client";
 
 import { useSession } from "next-auth/react";
-import PageLogo from "@components/PageLogo";
+import { PageLogo } from "@components/PageLogo";
 import { Layout } from "@app/types/types";
 
-const SectionContent = ({ children }: Layout) => {
+export function SectionContent({ children }: Layout) {
   const { data: session } = useSession();
 
   return (
@@ -16,6 +16,4 @@ const SectionContent = ({ children }: Layout) => {
       )}
     </section>
   );
-};
-
-export default SectionContent;
+}

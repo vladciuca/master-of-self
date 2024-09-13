@@ -4,11 +4,11 @@ import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { useParams } from "next/navigation";
 import FormStepController from "@components/journal/journal-entry-form/FormStepController";
-import PageLogo from "@components/PageLogo";
-import HeaderTitle from "@components/HeaderTitle";
+import { PageLogo } from "@components/PageLogo";
+import { HeaderTitle } from "@components/HeaderTitle";
 import { JournalEntry, Session, UserSettings } from "@app/types/types";
 
-const UpdateJournalEntry = () => {
+export default function UpdateJournalEntry() {
   const params = useParams<{ id: string }>();
   const { id } = params;
   const [submitting, setSubmitting] = useState(false);
@@ -128,6 +128,4 @@ const UpdateJournalEntry = () => {
       </div>
     </div>
   );
-};
-
-export default UpdateJournalEntry;
+}

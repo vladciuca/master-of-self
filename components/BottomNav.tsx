@@ -1,9 +1,9 @@
 import Link from "next/link";
+import { Button } from "@components/ui/button";
 import { Target, Shell } from "lucide-react";
 import { GiSpellBook } from "react-icons/gi";
-import { Button } from "@components/ui/button";
 
-const JournalNav = () => {
+export function BottomNav() {
   return (
     <nav className="flex h-full justify-around items-center w-full">
       <Link href="/goals">
@@ -36,6 +36,4 @@ const JournalNav = () => {
       </Link>
     </nav>
   );
-};
-
-export default JournalNav;
+}

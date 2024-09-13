@@ -4,6 +4,7 @@ import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
+import { IconPicker } from "@components/IconPicker";
 import {
   Form,
   FormControl,
@@ -15,7 +16,6 @@ import {
 import { Input } from "@components/ui/input";
 import { Button } from "@components/ui/button";
 import { Textarea } from "@components/ui/textarea";
-import { ReactIconPicker } from "@components/ReactIconPicker";
 import { useIconRarityLevel } from "@/hooks/useIconRarityLevel";
 
 const formSchema = z.object({
@@ -28,17 +28,22 @@ const formSchema = z.object({
   xp: z.number().optional(),
 });
 
-export type Habit = z.infer<typeof formSchema>;
+export type HabitZodType = z.infer<typeof formSchema>;
 
 type HabitFormProps = {
   type: "Update" | "Create";
   submitting: boolean;
-  onSubmit: (habit: Habit) => Promise<void>;
-  habit?: Habit;
+  onSubmit: (habit: HabitZodType) => Promise<void>;
+  habit?: HabitZodType;
 };
 
-const HabitForm = ({ type, submitting, onSubmit, habit }: HabitFormProps) => {
-  const form = useForm<Habit>({
+export function HabitForm({
+  type,
+  submitting,
+  onSubmit,
+  habit,
+}: HabitFormProps) {
+  const form = useForm<HabitZodType>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: type === "Update" ? habit?.name : "",
@@ -67,7 +72,7 @@ const HabitForm = ({ type, submitting, onSubmit, habit }: HabitFormProps) => {
             <FormItem>
               <FormLabel>Habit Icon</FormLabel>
               <FormControl>
-                <ReactIconPicker
+                <IconPicker
                   value={field.value}
                   onChange={(iconName) => field.onChange(iconName)}
                   iconColorClass={iconColorClass}
@@ -132,6 +137,4 @@ const HabitForm = ({ type, submitting, onSubmit, habit }: HabitFormProps) => {
       </form>
     </Form>
   );
-};
-
-export default HabitForm;
+}

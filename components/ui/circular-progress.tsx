@@ -8,13 +8,13 @@ interface CircularProgressProps extends React.HTMLAttributes<HTMLDivElement> {
   circleSize: number;
 }
 
-const CircularProgress: React.FC<CircularProgressProps> = ({
+export function CircularProgress({
   value,
   xpGainValue,
   strokeWidth,
   circleSize,
   ...divProps
-}) => {
+}: CircularProgressProps) {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const [size, setSize] = useState(circleSize);
 
@@ -31,11 +31,11 @@ const CircularProgress: React.FC<CircularProgressProps> = ({
   const radius = (size - strokeWidth) / 2;
   const circumference = 2 * Math.PI * radius;
 
-  // Calculations for the primary circle
+  // Calculations for the default circle
   const percentage = Math.min(Math.max(value, 0), 100);
   const offset = circumference - (percentage / 100) * circumference;
 
-  // Calculations for the green circle
+  // Calculations for the XP Gain
   const gainPercentage = Math.min(Math.max(xpGainValue ?? 0, 0), 100);
   const gainCircumference = circumference; // The gain circle uses the same radius as the main circle
   const gainOffset =
@@ -84,7 +84,7 @@ const CircularProgress: React.FC<CircularProgressProps> = ({
               strokeDashoffset: circumference,
             }}
           />
-          {/* New green circle */}
+          {/* XP Gain circle */}
           {xpGainValue !== undefined && xpGainValue > 0 && (
             <circle
               cx={size / 2}
@@ -122,6 +122,4 @@ const CircularProgress: React.FC<CircularProgressProps> = ({
       )}
     </div>
   );
-};
-
-export default CircularProgress;
+}

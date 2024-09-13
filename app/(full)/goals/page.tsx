@@ -1,5 +1,4 @@
-import React from "react";
-import NewEntry from "@components/NewEntry";
+import { NewEntry } from "@components/NewEntry";
 import { Target } from "lucide-react";
 
 const NEW_GOAL_CARD_DETAILS = {
@@ -15,7 +14,7 @@ const NEW_GOAL_CARD_DETAILS = {
   linkTo: "/create-goal",
 };
 
-const Goals = () => {
+export default function Goals() {
   return (
     <div>
       <NewEntry
@@ -28,6 +27,4 @@ const Goals = () => {
       />
     </div>
   );
-};
-
-export default Goals;
+}

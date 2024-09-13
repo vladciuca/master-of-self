@@ -1,11 +1,9 @@
-import UserJournal from "@components/journal/UserJournal";
+import { UserJournal } from "@components/journal/UserJournal";
 
-const Journal = () => {
+export default function Journal() {
   return (
     <div>
       <UserJournal />
     </div>
   );
-};
-
-export default Journal;
+}

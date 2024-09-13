@@ -2,15 +2,15 @@
 
 import { useEffect, useState } from "react";
 import { useRouter, useParams } from "next/navigation";
-import HabitForm, { Habit } from "@components/habits/HabitForm";
-import SkeletonForm from "@components/skeletons/SkeletonForm";
+import { HabitForm, HabitZodType } from "@components/habits/HabitForm";
+import { SkeletonForm } from "@components/skeletons/SkeletonForm";
 
-const UpdateHabit = () => {
+export default function UpdateHabit() {
+  const [submitting, setSubmitting] = useState(false);
+  const [habitData, setHabitData] = useState<HabitZodType | null>(null);
   const router = useRouter();
   const params = useParams<{ id: string }>();
   const { id } = params;
-  const [submitting, setSubmitting] = useState(false);
-  const [habitData, setHabitData] = useState<Habit | null>(null);
 
   useEffect(() => {
     const getHabitData = async () => {
@@ -26,7 +26,7 @@ const UpdateHabit = () => {
     if (id) getHabitData();
   }, [id]);
 
-  const updateHabit = async (habit: Habit) => {
+  const updateHabit = async (habit: HabitZodType) => {
     const { name, icon, description } = habit;
 
     setSubmitting(true);
@@ -67,6 +67,4 @@ const UpdateHabit = () => {
       )}
     </div>
   );
-};
-
-export default UpdateHabit;
+}

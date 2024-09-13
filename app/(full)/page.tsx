@@ -1,6 +1,6 @@
-import PageLogo from "@components/PageLogo";
+import { PageLogo } from "@components/PageLogo";
 
-const Home = () => {
+export default function Home() {
   return (
     <section className="flex flex-col h-full items-center justify-center">
       <div className="text-center mt-10">
@@ -16,6 +16,4 @@ const Home = () => {
       <PageLogo />
     </section>
   );
-};
-
-export default Home;
+}

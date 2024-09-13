@@ -6,7 +6,7 @@ type EntrySectionProps = {
   items?: string[];
 };
 
-const JournalEntrySection = ({ icon, title, items }: EntrySectionProps) => {
+export function JournalEntrySection({ icon, title, items }: EntrySectionProps) {
   return (
     <div className="mt-4">
       <div className="flex items-center mt-4">
@@ -22,6 +22,4 @@ const JournalEntrySection = ({ icon, title, items }: EntrySectionProps) => {
       )}
     </div>
   );
-};
-
-export default JournalEntrySection;
+}

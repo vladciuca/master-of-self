@@ -7,8 +7,6 @@ type ProviderProps = Layout & {
   session?: Session | null | undefined;
 };
 
-const Provider = ({ children, session }: ProviderProps) => {
+export default function Provider({ children, session }: ProviderProps) {
   return <SessionProvider session={session}>{children}</SessionProvider>;
-};
-
-export default Provider;
+}

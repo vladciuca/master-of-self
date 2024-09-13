@@ -1,7 +1,7 @@
 import { Card, CardHeader, CardTitle } from "@components/ui/card";
 import { Skeleton } from "@components/ui/skeleton";
 
-const SkeletonJournalEntryCard = () => {
+export function SkeletonJournalEntryCard() {
   return (
     <Card className="mb-4">
       <CardHeader>
@@ -12,6 +12,4 @@ const SkeletonJournalEntryCard = () => {
       </CardHeader>
     </Card>
   );
-};
-
-export default SkeletonJournalEntryCard;
+}

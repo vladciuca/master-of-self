@@ -1,12 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 import { connectToDB } from "@utils/database";
-import JournalEntry, { JournalEntryType } from "@models/journalEntry";
+import JournalEntry, { JournalEntryInterface } from "@models/journalEntry";
 
 export const GET = async (req: NextRequest) => {
   try {
     await connectToDB();
 
-    const journalEntries: JournalEntryType[] = await JournalEntry.find(
+    const journalEntries: JournalEntryInterface[] = await JournalEntry.find(
       {}
     ).populate("creator");
 

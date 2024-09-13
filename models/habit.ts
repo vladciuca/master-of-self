@@ -1,6 +1,6 @@
 import { Schema, model, models, Document, Model } from "mongoose";
 
-interface HabitType extends Document {
+interface HabitInterface extends Document {
   creator: Schema.Types.ObjectId;
   name: string;
   icon: string;
@@ -8,7 +8,7 @@ interface HabitType extends Document {
   xp: number;
 }
 
-const HabitSchema = new Schema<HabitType>({
+const HabitSchema = new Schema<HabitInterface>({
   creator: {
     type: Schema.Types.ObjectId,
     ref: "User",
@@ -32,7 +32,7 @@ const HabitSchema = new Schema<HabitType>({
   },
 });
 
-const Habit: Model<HabitType> =
-  models.Habit || model<HabitType>("Habit", HabitSchema);
+const Habit: Model<HabitInterface> =
+  models.Habit || model<HabitInterface>("Habit", HabitSchema);
 
 export default Habit;

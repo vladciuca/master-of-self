@@ -11,24 +11,24 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer";
-import { useIconSearch } from "@hooks/useIconSearch";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { CircleHelp } from "lucide-react";
 import * as GiIcons from "react-icons/gi";
+import { useIconSearch } from "@hooks/useIconSearch";
 
-type ReactIconPickerProps = {
+type IconPickerProps = {
   value?: string;
   onChange?: (iconName: string) => void;
   iconColorClass?: string;
   bgColorClass?: string;
 };
 
-export function ReactIconPicker({
+export function IconPicker({
   value,
   onChange,
   iconColorClass,
   bgColorClass,
-}: ReactIconPickerProps) {
+}: IconPickerProps) {
   const {
     searchTerm,
     setSearchTerm,

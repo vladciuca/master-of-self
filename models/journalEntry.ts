@@ -1,6 +1,6 @@
 import { Schema, model, models, Document, Model } from "mongoose";
 
-export interface JournalEntryType extends Document {
+export interface JournalEntryInterface extends Document {
   creator: Schema.Types.ObjectId;
   createDate: Date;
   dailyWillpower: Number;
@@ -9,7 +9,7 @@ export interface JournalEntryType extends Document {
   nightEntry: Object;
 }
 
-const JournalEntrySchema = new Schema<JournalEntryType>({
+const JournalEntrySchema = new Schema<JournalEntryInterface>({
   creator: {
     type: Schema.Types.ObjectId,
     ref: "User",
@@ -37,8 +37,8 @@ const JournalEntrySchema = new Schema<JournalEntryType>({
   },
 });
 
-const JournalEntry: Model<JournalEntryType> =
+const JournalEntry: Model<JournalEntryInterface> =
   models.JournalEntry ||
-  model<JournalEntryType>("JournalEntry", JournalEntrySchema);
+  model<JournalEntryInterface>("JournalEntry", JournalEntrySchema);
 
 export default JournalEntry;

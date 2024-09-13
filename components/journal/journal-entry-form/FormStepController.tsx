@@ -1,21 +1,21 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
-import FormStepProgressBar from "@components/journal/journal-entry-form/FormStepProgressBar";
-import DailyBonus from "@components/journal/journal-entry-form/form-steps/DailyBonus";
+import { FormStepProgressBar } from "@components/journal/journal-entry-form/FormStepProgressBar";
+import { DailyBonus } from "@components/journal/journal-entry-form/form-steps/DailyBonus";
 import GreatToday from "@components/journal/journal-entry-form/form-steps/GreatToday";
 import GratefulFor from "@components/journal/journal-entry-form/form-steps/GratefulFor";
-import DailyHighlights from "@components/journal/journal-entry-form/form-steps/DailyHighlights";
-import LearnedToday from "@components/journal/journal-entry-form/form-steps/LearnedToday";
-import HabitsStep from "@components/journal/journal-entry-form/form-steps/HabitsStep";
+import { DailyHighlights } from "@components/journal/journal-entry-form/form-steps/DailyHighlights";
+import { LearnedToday } from "@components/journal/journal-entry-form/form-steps/LearnedToday";
+import { HabitsStep } from "@components/journal/journal-entry-form/form-steps/HabitsStep";
 import { Button } from "@components/ui/button";
 import { RxChevronLeft, RxChevronRight } from "react-icons/rx";
 import { JournalEntry } from "@app/types/types";
 
-//test flag for enabling all forms steps
-const SHOW_ALL_TEST = false;
+// TEST_FLAG: used for enabling all forms steps
+const SHOW_ALL_TEST = true;
 
 function isEvening(startHour: string | undefined): boolean {
-  if (!startHour) return false; // or true, depending on your default behavior
+  if (!startHour) return false;
   const currentHour = new Date().getHours();
   const eveningStartHour = parseInt(startHour.split(":")[0]);
   return currentHour >= eveningStartHour;

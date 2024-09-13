@@ -11,14 +11,16 @@ type JournalEntryHabitsProp = {
   habits: { [key: string]: number };
 };
 
-type HabitData = {
+type HabitDataType = {
   icon: string;
   xp: number;
 };
 
-const JournalEntryHabits = ({ habits }: JournalEntryHabitsProp) => {
+export function JournalEntryHabits({ habits }: JournalEntryHabitsProp) {
   const [journalHabits, setJournalHabits] = useState(habits);
-  const [habitData, setHabitData] = useState<{ [key: string]: HabitData }>({});
+  const [habitData, setHabitData] = useState<{ [key: string]: HabitDataType }>(
+    {}
+  );
   const { data: session } = useSession() as { data: Session | null };
 
   useEffect(() => {
@@ -32,7 +34,7 @@ const JournalEntryHabits = ({ habits }: JournalEntryHabitsProp) => {
           )}`
         );
         if (response.ok) {
-          const data: { [key: string]: HabitData } = await response.json();
+          const data: { [key: string]: HabitDataType } = await response.json();
           const filteredJournalHabits = filterHabitData(habits, data);
 
           setHabitData(data);
@@ -55,7 +57,7 @@ const JournalEntryHabits = ({ habits }: JournalEntryHabitsProp) => {
 
   const filterHabitData = (
     habits: { [key: string]: number },
-    data: { [key: string]: HabitData }
+    data: { [key: string]: HabitDataType }
   ) => {
     return Object.fromEntries(
       Object.entries(habits).filter(([key]) => key in data)
@@ -85,6 +87,4 @@ const JournalEntryHabits = ({ habits }: JournalEntryHabitsProp) => {
       ))}
     </div>
   );
-};
-
-export default JournalEntryHabits;
+}

@@ -6,7 +6,7 @@ type LearnedTodayProps = {
   onChange: (value: string) => void;
 };
 
-const LearnedToday = ({ learnedToday, onChange }: LearnedTodayProps) => {
+export function LearnedToday({ learnedToday, onChange }: LearnedTodayProps) {
   return (
     <div className="h-full flex flex-col">
       <Label className="w-full flex flex-col h-full mt-2">
@@ -28,6 +28,4 @@ const LearnedToday = ({ learnedToday, onChange }: LearnedTodayProps) => {
       </Label>
     </div>
   );
-};
-
-export default LearnedToday;
+}

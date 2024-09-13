@@ -6,7 +6,7 @@ type DailyHighlightsProps = {
   onChange: (value: string[]) => void;
 };
 
-const DailyHighlights = ({ entryList, onChange }: DailyHighlightsProps) => {
+export function DailyHighlights({ entryList, onChange }: DailyHighlightsProps) {
   const handleTextAreaListChange = (newEntries: string[]) => {
     onChange(newEntries);
   };
@@ -28,6 +28,4 @@ const DailyHighlights = ({ entryList, onChange }: DailyHighlightsProps) => {
       </Label>
     </div>
   );
-};
-
-export default DailyHighlights;
+}

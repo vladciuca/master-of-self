@@ -1,7 +1,7 @@
 import { Card } from "@components/ui/card";
 import { Skeleton } from "@components/ui/skeleton";
 
-const SkeletonHabitCard = () => {
+export function SkeletonHabitCard() {
   return (
     <Card className="mb-4 p-4">
       <div className="flex justify-between items-center">
@@ -10,6 +10,4 @@ const SkeletonHabitCard = () => {
       </div>
     </Card>
   );
-};
-
-export default SkeletonHabitCard;
+}

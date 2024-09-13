@@ -1,7 +1,6 @@
-import React from "react";
 import { Skeleton } from "@components/ui/skeleton";
 
-const SkeletonForm = () => {
+export function SkeletonForm() {
   return (
     <div className="w-full flex flex-col space-y-8 my-10 h-full">
       <Skeleton className="w-1/3 h-[45px] mb-6" />
@@ -15,6 +14,4 @@ const SkeletonForm = () => {
       </div>
     </div>
   );
-};
-
-export default SkeletonForm;
+}

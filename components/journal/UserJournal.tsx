@@ -3,15 +3,15 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
-import JournalEntryList from "@components/journal/JournalEntryList";
-import SkeletonJournalEntryCard from "@components/skeletons/SkeletonJournalEntryCard";
+import { JournalEntryList } from "@components/journal/JournalEntryList";
+import { SkeletonJournalEntryCard } from "@components/skeletons/SkeletonJournalEntryCard";
 import { Session, JournalEntryMetadata } from "@/app/types/types";
 
 const skeletonCards = Array.from({ length: 3 }, (_, index) => (
   <SkeletonJournalEntryCard key={index} />
 ));
 
-const UserJournal = () => {
+export function UserJournal() {
   const router = useRouter();
   const { data: session } = useSession() as { data: Session | null };
   const [journalEntries, setJournalEntries] = useState([]);
@@ -74,6 +74,4 @@ const UserJournal = () => {
       )}
     </div>
   );
-};
-
-export default UserJournal;
+}

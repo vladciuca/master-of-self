@@ -3,13 +3,13 @@
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import JournalEntryHabits from "@components/journal/JournalEntryHabits";
+import { JournalEntryHabits } from "@components/journal/JournalEntryHabits";
 import { Card } from "@components/ui/card";
 import { Button } from "@components/ui/button";
 import { FaBoltLightning } from "react-icons/fa6";
 import { Session } from "@/app/types/types";
 
-// could find a better way of doing this
+// could find a better way of doing this(added XP over highlights)
 type JournalEntryHighlights = {
   _id: string;
   nightEntry?: {
@@ -18,12 +18,12 @@ type JournalEntryHighlights = {
   };
 };
 
-const NewJournalEntry = () => {
-  const router = useRouter();
-  const { data: session } = useSession() as { data: Session | null };
+export function NewJournalEntry() {
   const [submitting, setSubmitting] = useState<boolean>(false);
   const [bonusWillpower, setBonusWillpower] = useState<number>(0);
   const [habitXp, setHabitXp] = useState<{ [key: string]: number }>({});
+  const { data: session } = useSession() as { data: Session | null };
+  const router = useRouter();
 
   const date = new Date();
   const day = date.getDate();
@@ -190,6 +190,4 @@ const NewJournalEntry = () => {
       </div>
     </Card>
   );
-};
-
-export default NewJournalEntry;
+}

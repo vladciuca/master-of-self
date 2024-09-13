@@ -1,13 +1,13 @@
 "use client";
 
 import Link from "next/link";
-import { Session } from "next-auth";
+import { Session } from "@app/types/types";
 
-type ProfileProps = {
+type ProfileBarProps = {
   session: Session;
 };
 
-const Profile = ({ session }: ProfileProps) => {
+export function ProfileNav({ session }: ProfileBarProps) {
   const name = session.user?.name || "";
   const email = session.user?.email || "";
 
@@ -30,6 +30,4 @@ const Profile = ({ session }: ProfileProps) => {
       {/* <div className="flex grow">{email}</div> */}
     </div>
   );
-};
-
-export default Profile;
+}

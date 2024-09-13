@@ -1,9 +1,9 @@
-import Header from "@components/Header";
-import Footer from "@components/Footer";
-import SectionContent from "@components/SectionContent";
+import { Header } from "@components/Header";
+import { Footer } from "@components/Footer";
+import { SectionContent } from "@components/SectionContent";
 import { Layout } from "@app/types/types";
 
-const FullLayout = ({ children }: Layout) => {
+export default function FullLayout({ children }: Layout) {
   return (
     <>
       <div className="fixed top-0 w-full h-20">
@@ -17,6 +17,4 @@ const FullLayout = ({ children }: Layout) => {
       </div>
     </>
   );
-};
-
-export default FullLayout;
+}

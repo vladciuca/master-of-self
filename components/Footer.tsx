@@ -7,14 +7,14 @@ import {
   getProviders,
   ClientSafeProvider,
 } from "next-auth/react";
-import Navigation from "@components/Navigation";
+import { BottomNav } from "@components/BottomNav";
 import { Button } from "@components/ui/button";
 
 type Providers = {
   [key: string]: ClientSafeProvider;
 };
 
-const Footer = () => {
+export function Footer() {
   const { data: session, status } = useSession();
   const [providers, setProviders] = useState<Providers | null>(null);
 
@@ -41,7 +41,7 @@ const Footer = () => {
   return (
     <div className="w-full h-full flex justify-center items-center">
       {session?.user ? (
-        <Navigation />
+        <BottomNav />
       ) : (
         providers &&
         Object.values(providers).map((provider: ClientSafeProvider) => (
@@ -57,6 +57,4 @@ const Footer = () => {
       )}
     </div>
   );
-};
-
-export default Footer;
+}

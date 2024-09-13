@@ -2,16 +2,16 @@
 
 import { useSession } from "next-auth/react";
 import { usePathname } from "next/navigation";
-import { IconRenderer } from "@/components/IconRenderer";
-import CircularProgress from "@components/ui/circular-progress";
+import { IconRenderer } from "@components/IconRenderer";
+import { CircularProgress } from "@components/ui/circular-progress";
 import {
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "@components/ui/accordion";
 import { Button } from "@components/ui/button";
-import { Session, Habit } from "@/app/types/types";
 import { calculateLevel, xpForLevel } from "@utils/level";
+import { Session, Habit } from "@/app/types/types";
 
 type HabitCardProps = {
   habit: Habit;
@@ -19,7 +19,7 @@ type HabitCardProps = {
   handleDelete: (habit: Habit) => Promise<void>;
 };
 
-const HabitCard = ({ habit, handleEdit, handleDelete }: HabitCardProps) => {
+export function HabitCard({ habit, handleEdit, handleDelete }: HabitCardProps) {
   const { _id = "", name = "", icon = "", description = "", xp = 0 } = habit;
   const { data: session } = useSession() as { data: Session | null };
   const pathName = usePathname();
@@ -100,6 +100,4 @@ const HabitCard = ({ habit, handleEdit, handleDelete }: HabitCardProps) => {
       </AccordionContent>
     </AccordionItem>
   );
-};
-
-export default HabitCard;
+}

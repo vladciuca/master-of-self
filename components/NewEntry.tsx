@@ -17,14 +17,14 @@ type NewEntryProps = {
   numberOfEntries: number | string;
 };
 
-const NewEntry = ({
+export function NewEntry({
   symbol,
   title,
   description,
   buttonText,
   linkTo,
   numberOfEntries,
-}: NewEntryProps) => {
+}: NewEntryProps) {
   return (
     <Card className="mb-4">
       <CardHeader className="p-4">
@@ -53,6 +53,4 @@ const NewEntry = ({
       </CardFooter>
     </Card>
   );
-};
-
-export default NewEntry;
+}

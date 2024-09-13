@@ -3,15 +3,15 @@
 import { useState } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import HabitForm, { Habit } from "@components/habits/HabitForm";
+import { HabitForm, HabitZodType } from "@components/habits/HabitForm";
 import { Session } from "@/app/types/types";
 
-const CreateHabit = () => {
+export default function CreateHabit() {
   const router = useRouter();
   const { data: session } = useSession() as { data: Session | null };
   const [submitting, setSubmitting] = useState<boolean>(false);
 
-  const createHabit = async (habit: Habit) => {
+  const createHabit = async (habit: HabitZodType) => {
     const { name, icon, description } = habit;
     setSubmitting(true);
 
@@ -42,6 +42,4 @@ const CreateHabit = () => {
       <HabitForm type="Create" submitting={submitting} onSubmit={createHabit} />
     </div>
   );
-};
-
-export default CreateHabit;
+}

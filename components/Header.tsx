@@ -1,17 +1,16 @@
 "use client";
 
 import { useSession } from "next-auth/react";
-import Profile from "@components/Profile";
-import HeaderTitle from "@components/HeaderTitle";
+import { ProfileNav } from "@components/ProfileNav";
+import { HeaderTitle } from "@components/HeaderTitle";
+import { Session } from "@app/types/types";
 
-const Header = () => {
-  const { data: session } = useSession();
+export function Header() {
+  const { data: session } = useSession() as { data: Session | null };
 
   return (
     <div className="sticky top-0 w-full z-50 h-20">
-      {session?.user ? <Profile session={session} /> : <HeaderTitle />}
+      {session?.user ? <ProfileNav session={session} /> : <HeaderTitle />}
     </div>
   );
-};
-
-export default Header;
+}

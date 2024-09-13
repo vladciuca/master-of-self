@@ -18,11 +18,11 @@ type FormStepProgressBarProps = {
   ) => void;
 };
 
-const FormStepProgressBar = ({
+export function FormStepProgressBar({
   steps,
   currentStep,
   handleStepClick,
-}: FormStepProgressBarProps) => {
+}: FormStepProgressBarProps) {
   const progressPercentage = ((currentStep + 1) / steps.length) * 100;
 
   return (
@@ -63,6 +63,4 @@ const FormStepProgressBar = ({
       </div>
     </div>
   );
-};
-
-export default FormStepProgressBar;
+}

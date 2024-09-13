@@ -1,11 +1,9 @@
-import UserHabits from "@components/habits/UserHabits";
+import { UserHabits } from "@components/habits/UserHabits";
 
-const Habits = () => {
+export default function Habits() {
   return (
     <div>
       <UserHabits />
     </div>
   );
-};
-
-export default Habits;
+}

@@ -1,8 +1,8 @@
-import Link from "next/link";
 import { useSession } from "next-auth/react";
 import { usePathname } from "next/navigation";
-import JournalEntrySection from "@components/journal/JournalEntrySection";
-import JournalEntryHabits from "@components/journal/JournalEntryHabits";
+import Link from "next/link";
+import { JournalEntrySection } from "@components/journal/JournalEntrySection";
+import { JournalEntryHabits } from "@components/journal/JournalEntryHabits";
 import {
   AccordionContent,
   AccordionItem,
@@ -19,10 +19,10 @@ type JournalEntryCardProps = {
   handleDelete: (journalEntry: JournalEntryMetadata) => Promise<void>;
 };
 
-const JournalEntryCard = ({
+export function JournalEntryCard({
   journalEntry,
   handleDelete,
-}: JournalEntryCardProps) => {
+}: JournalEntryCardProps) {
   const { data: session } = useSession() as { data: Session | null };
   const pathName = usePathname();
   const {
@@ -162,6 +162,4 @@ const JournalEntryCard = ({
       </AccordionContent>
     </AccordionItem>
   );
-};
-
-export default JournalEntryCard;
+}

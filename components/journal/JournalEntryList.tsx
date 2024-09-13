@@ -1,5 +1,5 @@
-import JournalEntryCard from "@components/journal/JournalEntryCard";
-import NewJournalEntry from "@components/journal/NewJournalEntry";
+import { NewJournalEntry } from "@components/journal/NewJournalEntry";
+import { JournalEntryCard } from "@components/journal/JournalEntryCard";
 import { Accordion } from "@components/ui/accordion";
 import { JournalEntryMetadata } from "@app/types/types";
 
@@ -8,10 +8,10 @@ type JournalEntryListProps = {
   handleDelete: (journalEntry: JournalEntryMetadata) => Promise<void>;
 };
 
-const JournalEntryList = ({
+export function JournalEntryList({
   journalEntries,
   handleDelete,
-}: JournalEntryListProps) => {
+}: JournalEntryListProps) {
   const hasTodayEntry = journalEntries.some((entry) => {
     const entryDate = new Date(entry.createDate);
     const currentDate = new Date();
@@ -34,6 +34,4 @@ const JournalEntryList = ({
       </Accordion>
     </>
   );
-};
-
-export default JournalEntryList;
+}
