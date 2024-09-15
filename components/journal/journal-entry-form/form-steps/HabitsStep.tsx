@@ -89,8 +89,8 @@ export function HabitsStep({
 
   return (
     <FormStepTemplate
-      title="What are today's highlights?"
-      description="Build momentum by capturing meaningful events to boost tomorrow's Willpower."
+      title="How did I manage my Willpower?"
+      description="Allocate your Willpower to the habits you worked on. Unspent Willpower:"
       scoreSection={
         <div className="text-4xl my-3 flex items-center justify-center font-semibold">
           {remainingWillpower}
