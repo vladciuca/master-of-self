@@ -59,7 +59,7 @@ return (
 )
 }
 
-## Named Exports
+## Default / Named Exports
 
 Use named exports: export function ComponentName() {...}
 For pages and layouts in the App Router: export default function Page() {...}

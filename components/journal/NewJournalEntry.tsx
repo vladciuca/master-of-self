@@ -123,8 +123,8 @@ export function NewJournalEntry() {
         throw new Error("Failed to update habits");
       }
 
-      const updatedHabits = await response.json();
-      console.log("Updated habits:", updatedHabits); //wtf is this?
+      // const updatedHabits = await response.json();
+      // console.log("Updated habits:", updatedHabits);
     } catch (error) {
       console.error("Error updating habits:", error);
     }
