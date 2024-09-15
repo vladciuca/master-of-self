@@ -1,5 +1,4 @@
 import React from "react";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import { Label } from "@components/ui/label";
 
 type FormStepTemplateProps = {
@@ -24,9 +23,7 @@ export function FormStepTemplate({
         )}
         {scoreSection}
       </div>
-      <ScrollArea className="flex-grow">
-        <div className="p-4 h-full">{children}</div>
-      </ScrollArea>
+      <div className="flex-grow overflow-y-auto p-4">{children}</div>
     </div>
   );
 }

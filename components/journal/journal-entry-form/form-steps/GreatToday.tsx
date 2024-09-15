@@ -19,8 +19,8 @@ function GreatToday({ dailyWillpower, entryList, onChange }: GreatTodayProps) {
 
   return (
     <FormStepTemplate
-      title="What are today's highlights?"
-      description="Build momentum by capturing meaningful events to boost tomorrow's Willpower."
+      title="What will I do to make today great?"
+      description="Write down meaningful and achievable goals for the day to generate Willpower."
       scoreSection={
         <div className="text-4xl mt-3 flex items-center justify-center font-semibold">
           {dailyWillpower}
