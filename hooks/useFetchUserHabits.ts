@@ -3,7 +3,7 @@ import { useSession } from "next-auth/react";
 import { Session, Habit } from "@app/types/types";
 
 export function useFetchUserHabits() {
-  const [habits, setHabits] = useState<Habit[] | null>(null);
+  const [habits, setHabits] = useState<Habit[]>([]);
   const [habitsLoading, setHabitsLoading] = useState(false);
   const [habitsError, setHabitsError] = useState<string | null>(null);
   const { data: session } = useSession() as { data: Session | null };
@@ -32,7 +32,7 @@ export function useFetchUserHabits() {
     }
   }, [session]);
 
-  const hasHabits = habits && habits.length > 0;
+  const hasHabits = habits?.length > 0;
 
   return {
     habits,

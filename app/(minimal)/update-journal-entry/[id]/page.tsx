@@ -85,9 +85,9 @@ export default function UpdateJournalEntry() {
           submitting={submitting}
           onSubmit={updateJournalEntry}
           userEveningTime={userEveningTime}
-          hasGratitude={hasGratitude || false}
-          hasReflection={hasReflection || false}
-          hasHabits={hasHabits || false}
+          hasGratitude={hasGratitude}
+          hasReflection={hasReflection}
+          hasHabits={hasHabits}
         />
       )}
       {journalEntryLoading && (

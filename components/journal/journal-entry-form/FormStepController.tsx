@@ -24,19 +24,19 @@ type FormStepControllerProps = {
   onSubmit: (journalEntry: JournalEntry) => Promise<void>;
   journalEntryData?: JournalEntry;
   userEveningTime?: string;
-  hasHabits: boolean;
-  hasGratitude: boolean;
-  hasReflection: boolean;
+  hasHabits?: boolean;
+  hasGratitude?: boolean;
+  hasReflection?: boolean;
 };
 
 function FormStepController({
   journalEntryData,
   submitting,
   onSubmit,
-  userEveningTime,
-  hasGratitude,
-  hasReflection,
-  hasHabits,
+  userEveningTime = "18:00",
+  hasGratitude = false,
+  hasReflection = false,
+  hasHabits = false,
 }: FormStepControllerProps) {
   const [currentStep, setCurrentStep] = useState(0);
   const [formData, setFormData] = useState<JournalEntry>(() => ({
