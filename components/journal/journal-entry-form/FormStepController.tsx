@@ -1,14 +1,12 @@
 import React, { useState, useEffect, useCallback, useMemo } from "react";
-import { useRouter } from "next/navigation";
 import { FormStepProgressBar } from "@components/journal/journal-entry-form/FormStepProgressBar";
+import { FormStepNavigation } from "@components/journal/journal-entry-form/FormStepNavigation";
 import { DailyBonus } from "@components/journal/journal-entry-form/form-steps/DailyBonus";
 import { GreatToday } from "@components/journal/journal-entry-form/form-steps/GreatToday";
 import { GratefulFor } from "@components/journal/journal-entry-form/form-steps/GratefulFor";
 import { DailyHighlights } from "@components/journal/journal-entry-form/form-steps/DailyHighlights";
 import { LearnedToday } from "@components/journal/journal-entry-form/form-steps/LearnedToday";
 import { HabitsStep } from "@components/journal/journal-entry-form/form-steps/HabitsStep";
-import { Button } from "@components/ui/button";
-import { RxChevronLeft, RxChevronRight } from "react-icons/rx";
 import { JournalEntry } from "@app/types/types";
 
 // TEST_FLAG: used for enabling all forms steps
@@ -54,7 +52,6 @@ function FormStepController({
       habits: journalEntryData?.nightEntry?.habits || {},
     },
   }));
-  const router = useRouter();
 
   const calculateScore = useMemo(
     () => (entries: string[]) => {
@@ -130,33 +127,6 @@ function FormStepController({
     },
     []
   );
-
-  const handleStepClick = (
-    event: React.MouseEvent<HTMLSpanElement>,
-    index: number
-  ) => {
-    setCurrentStep(index);
-  };
-
-  const handleCloseForm = () => {
-    router.push("/journal");
-  };
-
-  const handleNextForm = useCallback(async () => {
-    if (currentStep < availableSteps.length - 1) {
-      await onSubmit(formData);
-      setCurrentStep((step) => step + 1);
-    } else {
-      await onSubmit(formData);
-      handleCloseForm();
-    }
-  }, [currentStep, formData, onSubmit, router]);
-
-  const handlePrevForm = useCallback(() => {
-    if (currentStep > 0) {
-      setCurrentStep((step) => step - 1);
-    }
-  }, [currentStep]);
 
   const formSteps = [
     {
@@ -237,8 +207,9 @@ function FormStepController({
       <FormStepProgressBar
         steps={availableSteps}
         currentStep={currentStep}
-        handleStepClick={handleStepClick}
+        onStepChange={setCurrentStep}
       />
+
       <div className="text-center mt-6 mb-2">
         <div className="flex flex-col items-center justify-center text-center">
           <h2 className="scroll-m-20 text-xl font-semibold tracking-tight transition-colors first:mt-0 leading-relaxed">
@@ -247,30 +218,15 @@ function FormStepController({
         </div>
       </div>
       <div className="overflow-y-auto">{CurrentStepComponent}</div>
-      <div className="flex justify-around items-center my-4">
-        <Button
-          className="w-1/3"
-          variant={currentStep === 0 ? "secondary" : "default"}
-          type="button"
-          onClick={currentStep === 0 ? handleCloseForm : handlePrevForm}
-        >
-          <RxChevronLeft />
-          {currentStep === 0 ? "Cancel" : "Back"}
-        </Button>
 
-        <Button
-          className="w-1/3"
-          variant={
-            currentStep === availableSteps.length - 1 ? "secondary" : "default"
-          }
-          type="button"
-          onClick={handleNextForm}
-          disabled={submitting}
-        >
-          {currentStep === availableSteps.length - 1 ? "Complete" : "Next"}
-          <RxChevronRight />
-        </Button>
-      </div>
+      <FormStepNavigation
+        currentStep={currentStep}
+        totalSteps={availableSteps.length}
+        onSubmit={onSubmit}
+        formData={formData}
+        setCurrentStep={setCurrentStep}
+        isSubmitting={submitting}
+      />
     </div>
   );
 }
