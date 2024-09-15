@@ -1,6 +1,6 @@
 import React, { useCallback } from "react";
+import { FormStepTemplate } from "@components/journal/journal-entry-form/form-steps/FormStepTemplate";
 import { TextAreaList } from "@components/ui/TextAreaList";
-import { Label } from "@components/ui/label";
 import { FaBoltLightning } from "react-icons/fa6";
 
 type GreatTodayProps = {
@@ -18,27 +18,18 @@ function GreatToday({ dailyWillpower, entryList, onChange }: GreatTodayProps) {
   );
 
   return (
-    <div className="h-full flex flex-col">
-      <Label className="w-full flex flex-col h-full mt-2">
-        <div className="text-center sticky top-0 bg-background z-10">
-          <div className="leading-relaxed text-muted-foreground mx-4">
-            {
-              "Write down meaningful and achievable goals for the day to generate Willpower."
-            }
-          </div>
-          <div className="text-4xl mt-3 flex items-center justify-center font-semibold">
-            {dailyWillpower}
-            <FaBoltLightning className="ml-2" />
-          </div>
+    <FormStepTemplate
+      title="What are today's highlights?"
+      description="Build momentum by capturing meaningful events to boost tomorrow's Willpower."
+      scoreSection={
+        <div className="text-4xl mt-3 flex items-center justify-center font-semibold">
+          {dailyWillpower}
+          <FaBoltLightning className="ml-2" />
         </div>
-        <div className="flex-grow h-full overflow-y-auto mt-4 mx-4">
-          <TextAreaList
-            entryList={entryList}
-            onChange={handleTextAreaListChange}
-          />
-        </div>
-      </Label>
-    </div>
+      }
+    >
+      <TextAreaList entryList={entryList} onChange={handleTextAreaListChange} />
+    </FormStepTemplate>
   );
 }
 

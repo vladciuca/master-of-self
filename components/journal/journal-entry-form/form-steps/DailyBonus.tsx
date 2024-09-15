@@ -53,6 +53,11 @@ export function DailyBonus({ bonusWillpower }: DailyBonusProps) {
   return (
     <div className="h-full overflow-hidden">
       <div className="min-h-[800px]">
+        <div className="p-4 space-y-4 text-center">
+          <h2 className="text-xl font-semibold tracking-tight">
+            {"Bonus Willpower"}
+          </h2>
+        </div>
         <div className="w-full flex justify-center">
           <GiEmbrassedEnergy size={"12rem"} />
         </div>
@@ -76,7 +81,7 @@ export function DailyBonus({ bonusWillpower }: DailyBonusProps) {
         </div>
       </div>
 
-      <div className="mx-2" ref={highlightsRef}>
+      <div className="mx-2 mt-8" ref={highlightsRef}>
         <Label className="w-full text-center">
           <div className="leading-relaxed text-muted-foreground mx-4 mb-6">
             {"Yesterday's highlights!"}

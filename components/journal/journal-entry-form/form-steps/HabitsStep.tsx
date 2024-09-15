@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { useSession } from "next-auth/react";
+import { FormStepTemplate } from "@components/journal/journal-entry-form/form-steps/FormStepTemplate";
 import { XpGainLevelBar } from "@components/XpGainLevelBar";
 import { IconRenderer } from "@/components/IconRenderer";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -89,83 +90,155 @@ export function HabitsStep({
   }, []);
 
   return (
-    <div className="h-full">
-      <div className="w-full flex flex-col h-full">
-        <div className="text-center sticky top-0 bg-background z-10">
-          <Label>
-            <div className="leading-relaxed text-muted-foreground mx-4">
-              {
-                "Allocate your Willpower to the habits you worked on. Unspent Willpower:"
-              }
-            </div>
-          </Label>
-
-          <div className="text-4xl my-3 flex items-center justify-center font-semibold">
-            {remainingWillpower}
-            <FaBoltLightning className="ml-2" />
-            {Object.values(habitXp).some((xp) => xp > 0) && (
-              <Button
-                variant={"outline"}
-                className="ml-2 rounded-full p-2 w-10 h-10"
-                onClick={handleXpReset}
-              >
-                <RotateCcw />
-              </Button>
-            )}
-          </div>
+    <FormStepTemplate
+      title="What are today's highlights?"
+      description="Build momentum by capturing meaningful events to boost tomorrow's Willpower."
+      scoreSection={
+        <div className="text-4xl my-3 flex items-center justify-center font-semibold">
+          {remainingWillpower}
+          <FaBoltLightning className="ml-2" />
+          {Object.values(habitXp).some((xp) => xp > 0) && (
+            <Button
+              variant={"outline"}
+              className="ml-2 rounded-full p-2 w-10 h-10"
+              onClick={handleXpReset}
+            >
+              <RotateCcw />
+            </Button>
+          )}
         </div>
-        <ScrollArea className="flex-grow">
-          <div className="w-full flex flex-col h-full mt-2">
-            {!habitsLoaded && <SkeletonHabitLevel />}
-            {habitsLoaded && (
-              <div>
-                {habits?.map((habit) => {
-                  const { _id, name, icon, xp } = habit;
-                  return (
-                    <div
-                      key={_id}
-                      className="flex flex-col items-center justify-center my-10 mx-4 sm:mx-8"
+      }
+    >
+      <div className="w-full flex flex-col h-full mt-2">
+        {!habitsLoaded && <SkeletonHabitLevel />}
+        {habitsLoaded && (
+          <div>
+            {habits?.map((habit) => {
+              const { _id, name, icon, xp } = habit;
+              return (
+                <div
+                  key={_id}
+                  className="flex flex-col items-center justify-center my-10 mx-4 sm:mx-8"
+                >
+                  <div className="h-full flex items-center justify-center space-x-10">
+                    <Button
+                      variant="outline"
+                      size="icon"
+                      className="h-8 w-8 shrink-0 rounded-full mt-1"
+                      disabled={(habitXp[_id] || 0) === 0}
+                      onClick={() => handleXpUpdate(habit._id, -1)}
                     >
-                      <div className="h-full flex items-center justify-center space-x-10">
-                        <Button
-                          variant="outline"
-                          size="icon"
-                          className="h-8 w-8 shrink-0 rounded-full mt-1"
-                          disabled={(habitXp[_id] || 0) === 0}
-                          onClick={() => handleXpUpdate(habit._id, -1)}
-                        >
-                          <Minus className="h-4 w-4" />
-                          <span className="sr-only">Decrease</span>
-                        </Button>
+                      <Minus className="h-4 w-4" />
+                      <span className="sr-only">Decrease</span>
+                    </Button>
 
-                        <div className="flex-1 text-center">
-                          <XpGainLevelBar
-                            xp={xp}
-                            xpChange={habitXp[_id] || 0}
-                            icon={<IconRenderer iconName={icon} xp={xp} />}
-                            name={name}
-                          />
-                        </div>
-
-                        <Button
-                          variant="outline"
-                          size="icon"
-                          className="h-8 w-8 shrink-0 rounded-full mt-1"
-                          onClick={() => handleXpUpdate(habit._id, 1)}
-                          disabled={remainingWillpower === 0}
-                        >
-                          <Plus className="h-4 w-4" />
-                          <span className="sr-only">Increase</span>
-                        </Button>
-                      </div>
+                    <div className="flex-1 text-center">
+                      <XpGainLevelBar
+                        xp={xp}
+                        xpChange={habitXp[_id] || 0}
+                        icon={<IconRenderer iconName={icon} xp={xp} />}
+                        name={name}
+                      />
                     </div>
-                  );
-                })}
-              </div>
-            )}
+
+                    <Button
+                      variant="outline"
+                      size="icon"
+                      className="h-8 w-8 shrink-0 rounded-full mt-1"
+                      onClick={() => handleXpUpdate(habit._id, 1)}
+                      disabled={remainingWillpower === 0}
+                    >
+                      <Plus className="h-4 w-4" />
+                      <span className="sr-only">Increase</span>
+                    </Button>
+                  </div>
+                </div>
+              );
+            })}
           </div>
-        </ScrollArea>
+        )}
       </div>
-    </div>
+    </FormStepTemplate>
   );
+
+  // return (
+  //   <div className="h-full">
+  //     <div className="w-full flex flex-col h-full">
+  //       <div className="text-center sticky top-0 bg-background z-10">
+  //         <Label>
+  //           <div className="leading-relaxed text-muted-foreground mx-4">
+  //             {
+  //               "Allocate your Willpower to the habits you worked on. Unspent Willpower:"
+  //             }
+  //           </div>
+  //         </Label>
+
+  // <div className="text-4xl my-3 flex items-center justify-center font-semibold">
+  //   {remainingWillpower}
+  //   <FaBoltLightning className="ml-2" />
+  //   {Object.values(habitXp).some((xp) => xp > 0) && (
+  //     <Button
+  //       variant={"outline"}
+  //       className="ml-2 rounded-full p-2 w-10 h-10"
+  //       onClick={handleXpReset}
+  //     >
+  //       <RotateCcw />
+  //     </Button>
+  //   )}
+  // </div>
+  //       </div>
+  //       <ScrollArea className="flex-grow">
+  //         <div className="w-full flex flex-col h-full mt-2">
+  //           {!habitsLoaded && <SkeletonHabitLevel />}
+  //           {habitsLoaded && (
+  //             <div>
+  //               {habits?.map((habit) => {
+  //                 const { _id, name, icon, xp } = habit;
+  //                 return (
+  //                   <div
+  //                     key={_id}
+  //                     className="flex flex-col items-center justify-center my-10 mx-4 sm:mx-8"
+  //                   >
+  //                     <div className="h-full flex items-center justify-center space-x-10">
+  //                       <Button
+  //                         variant="outline"
+  //                         size="icon"
+  //                         className="h-8 w-8 shrink-0 rounded-full mt-1"
+  //                         disabled={(habitXp[_id] || 0) === 0}
+  //                         onClick={() => handleXpUpdate(habit._id, -1)}
+  //                       >
+  //                         <Minus className="h-4 w-4" />
+  //                         <span className="sr-only">Decrease</span>
+  //                       </Button>
+
+  //                       <div className="flex-1 text-center">
+  //                         <XpGainLevelBar
+  //                           xp={xp}
+  //                           xpChange={habitXp[_id] || 0}
+  //                           icon={<IconRenderer iconName={icon} xp={xp} />}
+  //                           name={name}
+  //                         />
+  //                       </div>
+
+  //                       <Button
+  //                         variant="outline"
+  //                         size="icon"
+  //                         className="h-8 w-8 shrink-0 rounded-full mt-1"
+  //                         onClick={() => handleXpUpdate(habit._id, 1)}
+  //                         disabled={remainingWillpower === 0}
+  //                       >
+  //                         <Plus className="h-4 w-4" />
+  //                         <span className="sr-only">Increase</span>
+  //                       </Button>
+  //                     </div>
+  //                   </div>
+  //                 );
+  //               })}
+  //             </div>
+  //           )}
+  //         </div>
+  //       </ScrollArea>
+  //     </div>
+  //   </div>
+  // );
 }
