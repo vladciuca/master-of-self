@@ -171,7 +171,7 @@ export function NewJournalEntry() {
             }
           </div>
           {Object.keys(habitXp).length > 0 && (
-            <div className="w-full text-muted-foreground mt-4 flex flex-col">
+            <div className="w-full text-muted-foreground my-4">
               {"Claim XP for yesterday's habits:"}
               <JournalEntryHabits habits={habitXp} />
             </div>

@@ -12,7 +12,7 @@ import { RxChevronLeft, RxChevronRight } from "react-icons/rx";
 import { JournalEntry } from "@app/types/types";
 
 // TEST_FLAG: used for enabling all forms steps
-const SHOW_ALL_TEST = true;
+const SHOW_ALL_TEST = false;
 
 function isEvening(startHour: string | undefined): boolean {
   if (!startHour) return false;
@@ -27,8 +27,8 @@ type FormStepControllerProps = {
   journalEntryData?: JournalEntry;
   userEveningTime?: string;
   hasHabits: boolean;
-  hasGratitude?: boolean;
-  hasReflection?: boolean;
+  hasGratitude: boolean;
+  hasReflection: boolean;
 };
 
 function FormStepController({
