@@ -1,13 +1,13 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useSession } from "next-auth/react";
 import { useParams } from "next/navigation";
 import { FormStepController } from "@components/journal/journal-entry-form/FormStepController";
 import { PageLogo } from "@components/PageLogo";
 import { HeaderTitle } from "@components/HeaderTitle";
-import { JournalEntry, Session } from "@app/types/types";
 import { useFetchUserSettings } from "@hooks/useFetchUserSettings";
+import { useFetchUserHabits } from "@hooks/useFetchUserHabits";
+import { JournalEntry } from "@app/types/types";
 
 export default function UpdateJournalEntry() {
   const params = useParams<{ id: string }>();
@@ -16,11 +16,9 @@ export default function UpdateJournalEntry() {
   const [journalEntryData, setJournalEntryData] = useState<JournalEntry | null>(
     null
   );
-  const [habits, setHabits] = useState([]);
-  const [habitsLoaded, setHabitsLoaded] = useState(false);
-  const { data: session } = useSession() as { data: Session | null };
   const { hasGratitude, hasReflection, userEveningTime } =
     useFetchUserSettings();
+  const { hasHabits } = useFetchUserHabits();
 
   useEffect(() => {
     const getJournalEntryData = async () => {
@@ -40,25 +38,6 @@ export default function UpdateJournalEntry() {
     };
     getJournalEntryData();
   }, [id]);
-
-  useEffect(() => {
-    const fetchHabits = async () => {
-      setHabitsLoaded(false);
-      try {
-        const response = await fetch(`/api/users/${session?.user.id}/habits`);
-        const data = await response.json();
-        setHabits(data.reverse());
-      } catch (error) {
-        console.error("Failed to fetch habits", error);
-      } finally {
-        setHabitsLoaded(true);
-      }
-    };
-
-    if (session?.user.id) {
-      fetchHabits();
-    }
-  }, [session]);
 
   const updateJournalEntry = async (journalEntry: JournalEntry) => {
     setSubmitting(true);
@@ -98,7 +77,7 @@ export default function UpdateJournalEntry() {
           submitting={submitting}
           onSubmit={updateJournalEntry}
           userEveningTime={userEveningTime}
-          hasHabits={habitsLoaded && habits.length > 0}
+          hasHabits={hasHabits || false}
           hasGratitude={hasGratitude}
           hasReflection={hasReflection}
         />

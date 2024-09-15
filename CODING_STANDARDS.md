@@ -36,12 +36,13 @@ Prefix boolean variables with "is", "has", or "should": isLoading, hasError
 import { useState } from 'react'
 // Component imports
 // UI component imports
-import { Button } from '@/components/ui/button'
+import { Button } from '@components/ui/button'
 // Utils imports
 // Icon imports
-// Type imports
-import type { dataType } from '@/types'
 // Custom Hook imports
+import {useCustomHook} from '@hooks/'
+// Type imports
+import type { dataType } from '@types/'
 
 type ComponentNameProps {
 dataKey: string

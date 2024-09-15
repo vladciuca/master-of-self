@@ -4,16 +4,22 @@ import { Session, UserSettings } from "@app/types/types";
 
 export function useFetchUserSettings() {
   const [userSettings, setUserSettings] = useState<UserSettings | null>(null);
+  const [settingsLoading, setSettingsLoading] = useState(false);
+  const [settingsError, setSettingsError] = useState<string | null>(null);
   const { data: session } = useSession() as { data: Session | null };
 
   useEffect(() => {
     const fetchUserSettings = async () => {
+      setSettingsLoading(true);
       try {
         const response = await fetch(`/api/users/${session?.user.id}/settings`);
         const data = await response.json();
         setUserSettings(data.settings);
       } catch (error) {
         console.error("Failed to fetch user settings", error);
+        setSettingsError("Failed to fetch user settings");
+      } finally {
+        setSettingsLoading(false);
       }
     };
 
@@ -30,5 +36,12 @@ export function useFetchUserSettings() {
   const userMorningTime = userSettings?.journalStartTime.morning;
   const userEveningTime = userSettings?.journalStartTime.evening;
 
-  return { hasGratitude, hasReflection, userMorningTime, userEveningTime };
+  return {
+    hasGratitude,
+    hasReflection,
+    userMorningTime,
+    userEveningTime,
+    settingsError,
+    settingsLoading,
+  };
 }
