@@ -21,9 +21,9 @@ export default function UpdateJournalEntry() {
     null
   );
 
-  const { hasGratitude, hasReflection, userEveningTime } =
+  const { hasGratitude, hasReflection, userEveningTime, settingsLoading } =
     useFetchUserSettings();
-  const { hasHabits } = useFetchUserHabits();
+  const { hasHabits, habitsLoading } = useFetchUserHabits();
 
   useEffect(() => {
     const getJournalEntryData = async () => {
@@ -88,6 +88,8 @@ export default function UpdateJournalEntry() {
           hasGratitude={hasGratitude}
           hasReflection={hasReflection}
           hasHabits={hasHabits}
+          settingsLoading={settingsLoading}
+          habitsLoading={habitsLoading}
         />
       )}
       {journalEntryLoading && (

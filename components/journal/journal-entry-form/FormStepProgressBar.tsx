@@ -14,6 +14,8 @@ type FormStepProgressBarProps = {
   steps: Step[];
   currentStep: number;
   onStepChange: (index: number) => void;
+  settingsLoading?: boolean;
+  habitsLoading?: boolean;
 };
 
 type StepIconMap = {
@@ -37,6 +39,8 @@ export function FormStepProgressBar({
   steps,
   currentStep,
   onStepChange,
+  settingsLoading,
+  habitsLoading,
 }: FormStepProgressBarProps) {
   const progressPercentage = ((currentStep + 1) / steps.length) * 100;
 
@@ -51,20 +55,22 @@ export function FormStepProgressBar({
   return (
     <div className="flex flex-col items-center w-full">
       <div className="flex items-center justify-around w-full my-4 px-4">
-        {steps.map((step: Step, index: number) => {
-          const Icon = getStepIcon(step.type);
-          return (
-            <span
-              key={index}
-              className={`text-sm ${
-                index === currentStep ? "" : "text-muted-foreground"
-              } cursor-pointer`}
-              onClick={() => handleStepClick(index)}
-            >
-              <Icon size={index === currentStep ? "1.4rem" : "1.3rem"} />
-            </span>
-          );
-        })}
+        {!settingsLoading &&
+          !habitsLoading &&
+          steps.map((step: Step, index: number) => {
+            const Icon = getStepIcon(step.type);
+            return (
+              <span
+                key={index}
+                className={`text-sm ${
+                  index === currentStep ? "" : "text-muted-foreground"
+                } cursor-pointer`}
+                onClick={() => handleStepClick(index)}
+              >
+                <Icon size={index === currentStep ? "1.4rem" : "1.3rem"} />
+              </span>
+            );
+          })}
       </div>
       <div className="flex items-center justify-between w-full">
         <div className="flex-grow mx-4">
