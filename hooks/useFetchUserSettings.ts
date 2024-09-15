@@ -14,12 +14,15 @@ export function useFetchUserSettings() {
       try {
         const response = await fetch(`/api/users/${session?.user.id}/settings`);
         const data = await response.json();
+
         setUserSettings(data.settings);
       } catch (error) {
         console.error("Failed to fetch user settings", error);
+        setSettingsLoading(false);
         setSettingsError("Failed to fetch user settings");
       } finally {
         setSettingsLoading(false);
+        setSettingsError(null);
       }
     };
 

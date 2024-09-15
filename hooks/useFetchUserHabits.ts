@@ -14,12 +14,16 @@ export function useFetchUserHabits() {
       try {
         const response = await fetch(`/api/users/${session?.user.id}/habits`);
         const data = await response.json();
+
         setHabits(data.reverse());
       } catch (error) {
         console.error("Failed to fetch habits", error);
+
+        setHabitsLoading(false);
         setHabitsError("Failed to fetch habits");
       } finally {
         setHabitsLoading(false);
+        setHabitsError(null);
       }
     };
 

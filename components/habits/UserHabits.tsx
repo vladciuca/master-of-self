@@ -27,15 +27,15 @@ const skeletonCards = Array.from({ length: 3 }, (_, index) => (
 ));
 
 export function UserHabits() {
+  const [habits, setHabits] = useState([]);
+  const [habitsLoading, setHabitsLoading] = useState(false);
   const router = useRouter();
   const { data: session } = useSession() as { data: Session | null };
-  const [habits, setHabits] = useState([]);
-  const [habitsLoaded, setHabitsLoaded] = useState(false);
-  const numberOfEntries = !habitsLoaded ? "??" : habits.length;
+  const numberOfEntries = habitsLoading ? "??" : habits.length;
 
   useEffect(() => {
     const fetchHabits = async () => {
-      setHabitsLoaded(false);
+      setHabitsLoading(true);
       try {
         const response = await fetch(`/api/users/${session?.user.id}/habits`);
         const data = await response.json();
@@ -43,7 +43,7 @@ export function UserHabits() {
       } catch (error) {
         console.error("Failed to fetch habits", error);
       } finally {
-        setHabitsLoaded(true);
+        setHabitsLoading(false);
       }
     };
 
@@ -87,8 +87,8 @@ export function UserHabits() {
         linkTo={NEW_HABIT_CARD_DETAILS.linkTo}
         numberOfEntries={numberOfEntries}
       />
-      {!habitsLoaded && <>{skeletonCards}</>}
-      {habitsLoaded && (
+      {habitsLoading && <>{skeletonCards}</>}
+      {!habitsLoading && (
         <HabitList
           habits={habits}
           handleEdit={handleEdit}

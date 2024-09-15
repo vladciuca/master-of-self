@@ -16,12 +16,18 @@ export default function UpdateJournalEntry() {
   const [journalEntryData, setJournalEntryData] = useState<JournalEntry | null>(
     null
   );
+  const [journalEntryLoading, setJournalEntryLoading] = useState(false);
+  const [journalEntryError, setJournalEntryError] = useState<string | null>(
+    null
+  );
+
   const { hasGratitude, hasReflection, userEveningTime } =
     useFetchUserSettings();
   const { hasHabits } = useFetchUserHabits();
 
   useEffect(() => {
     const getJournalEntryData = async () => {
+      setJournalEntryLoading(true);
       try {
         const response = await fetch(`/api/journal-entry/${id}`, {
           method: "GET",
@@ -30,10 +36,16 @@ export default function UpdateJournalEntry() {
           throw new Error("Failed to fetch journal entry");
         }
         const data = await response.json();
+
         setJournalEntryData(data);
       } catch (error) {
         console.error("Error fetching journal entry:", error);
-        // setError("Failed to load journal entry. Please try again.");
+
+        setJournalEntryLoading(false);
+        setJournalEntryError("Failed to load journal entry. Please try again.");
+      } finally {
+        setJournalEntryLoading(false);
+        setJournalEntryError(null);
       }
     };
     getJournalEntryData();
@@ -65,10 +77,6 @@ export default function UpdateJournalEntry() {
     }
   };
 
-  // if (error) {
-  //   return <div className="text-center text-red-500">{error}</div>;
-  // }
-
   return (
     <>
       {journalEntryData && (
@@ -82,7 +90,7 @@ export default function UpdateJournalEntry() {
           hasReflection={hasReflection}
         />
       )}
-      {!journalEntryData && (
+      {journalEntryLoading && (
         <div className="phone_container fixed sm:border-2 sm:rounded-3xl top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 mx-auto flex flex-col items-center justify-center w-full max-w-[450px] sm:max-h-[800px] h-screen overflow-hidden">
           <div className="fixed top-0 w-full h-20">
             <HeaderTitle />
@@ -97,6 +105,7 @@ export default function UpdateJournalEntry() {
           </div>
         </div>
       )}
+      {journalEntryError && <div>{journalEntryError}</div>}
     </>
   );
 }
