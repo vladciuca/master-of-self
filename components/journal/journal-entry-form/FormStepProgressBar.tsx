@@ -7,7 +7,6 @@ import { IconType } from "react-icons";
 import { LucideProps } from "lucide-react";
 
 type Step = {
-  name?: string;
   type: string;
 };
 

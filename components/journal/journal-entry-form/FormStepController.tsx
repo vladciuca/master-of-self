@@ -10,7 +10,7 @@ import { HabitsStep } from "@components/journal/journal-entry-form/form-steps/Ha
 import { JournalEntry } from "@app/types/types";
 
 // TEST_FLAG: used for enabling all forms steps
-const SHOW_ALL_TEST = false;
+const SHOW_ALL_TEST = true;
 
 function isEvening(startHour: string | undefined): boolean {
   if (!startHour) return false;
@@ -136,7 +136,7 @@ function FormStepController({
       isAvailable: formData.bonusWillpower > 0,
     },
     {
-      name: "What am I feeling grateful for?",
+      // name: "What am I feeling grateful for?",
       type: "gratitude",
       component: (
         <GratefulFor
@@ -149,7 +149,7 @@ function FormStepController({
         SHOW_ALL_TEST || (!isEvening(userEveningTime) && hasGratitude),
     },
     {
-      name: "What will I do to make today great?",
+      // name: "What will I do to make today great?",
       type: "day",
       component: (
         <GreatToday
@@ -162,7 +162,7 @@ function FormStepController({
     },
 
     {
-      name: "What are today's highlights?",
+      // name: "What are today's highlights?",
       type: "night",
       component: (
         <DailyHighlights
@@ -199,25 +199,17 @@ function FormStepController({
   ];
 
   const availableSteps = formSteps.filter((step) => step.isAvailable);
-  const componentName = availableSteps[currentStep].name;
   const CurrentStepComponent = availableSteps[currentStep].component;
 
   return (
-    <div className="grid grid-rows-[auto,auto,1fr,auto] h-full">
+    <div className="grid grid-rows-[auto,1fr,auto] h-full">
       <FormStepProgressBar
         steps={availableSteps}
         currentStep={currentStep}
         onStepChange={setCurrentStep}
       />
 
-      <div className="text-center mt-6 mb-2">
-        <div className="flex flex-col items-center justify-center text-center">
-          <h2 className="scroll-m-20 text-xl font-semibold tracking-tight transition-colors first:mt-0 leading-relaxed">
-            {componentName}
-          </h2>
-        </div>
-      </div>
-      <div className="overflow-y-auto">{CurrentStepComponent}</div>
+      <div className="h-full overflow-hidden">{CurrentStepComponent}</div>
 
       <FormStepNavigation
         currentStep={currentStep}
