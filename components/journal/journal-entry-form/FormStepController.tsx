@@ -10,7 +10,7 @@ import { HabitsStep } from "@components/journal/journal-entry-form/form-steps/Ha
 import { JournalEntry } from "@app/types/types";
 
 // TEST_FLAG: used for enabling all forms steps
-const SHOW_ALL_TEST = false;
+const SHOW_ALL_TEST = true;
 
 function isEvening(startHour: string | undefined): boolean {
   if (!startHour) return false;
@@ -27,8 +27,6 @@ type FormStepControllerProps = {
   hasHabits?: boolean;
   hasGratitude?: boolean;
   hasReflection?: boolean;
-  settingsLoading?: boolean;
-  habitsLoading?: boolean;
 };
 
 function FormStepController({
@@ -39,8 +37,6 @@ function FormStepController({
   hasGratitude = false,
   hasReflection = false,
   hasHabits = false,
-  settingsLoading,
-  habitsLoading,
 }: FormStepControllerProps) {
   const [currentStep, setCurrentStep] = useState(0);
   const [formData, setFormData] = useState<JournalEntry>(() => ({
@@ -211,8 +207,6 @@ function FormStepController({
         steps={availableSteps}
         currentStep={currentStep}
         onStepChange={setCurrentStep}
-        settingsLoading={settingsLoading}
-        habitsLoading={habitsLoading}
       />
 
       <div className="h-full overflow-hidden">{CurrentStepComponent}</div>
