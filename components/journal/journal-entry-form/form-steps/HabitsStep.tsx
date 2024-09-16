@@ -45,7 +45,7 @@ export function HabitsStep({
     if (session?.user.id) {
       fetchHabits();
     }
-  }, [session]);
+  }, []);
 
   useEffect(() => {
     // Calculate remaining willpower based on existing habit XP

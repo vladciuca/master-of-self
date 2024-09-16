@@ -41,7 +41,7 @@ export function DailyBonus({ bonusWillpower }: DailyBonusProps) {
     };
 
     fetchYesterdayEntry();
-  }, [session]);
+  }, []);
 
   const scrollToHighlights = () => {
     highlightsRef.current?.scrollIntoView({
