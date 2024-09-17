@@ -92,7 +92,7 @@ export function HabitsStep({
       title="How did I manage my Willpower?"
       description="Allocate your Willpower to the habits you worked on. Unspent Willpower:"
       scoreSection={
-        <div className="text-4xl my-3 flex items-center justify-center font-semibold">
+        <div className="text-4xl my-3 pb-3 flex items-center justify-center font-semibold">
           {remainingWillpower}
           <FaBoltLightning className="ml-2" />
           {Object.values(habitXp).some((xp) => xp > 0) && (
