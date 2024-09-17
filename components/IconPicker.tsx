@@ -54,7 +54,7 @@ export function IconPicker({
         <div className="w-full">
           {SelectedIcon ? (
             <SelectedIcon
-              className={`h-20 w-20 rounded-md ${bgColorClass} ${iconColorClass}`}
+              className={`h-16 w-16 rounded-md ${bgColorClass} ${iconColorClass}`}
             />
           ) : (
             <CircleHelp className="h-8 w-8 mx-5" />
