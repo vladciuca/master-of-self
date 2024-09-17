@@ -1,6 +1,8 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useSession } from "next-auth/react";
+import { FormStepTemplate } from "@components/journal/journal-entry-form/form-steps/FormStepTemplate";
 import { Label } from "@components/ui/label";
+
 import { SkeletonList } from "@components/skeletons/SkeletonList";
 import { FaBoltLightning } from "react-icons/fa6";
 import { BsChevronCompactDown } from "react-icons/bs";
@@ -51,57 +53,52 @@ export function DailyBonus({ bonusWillpower }: DailyBonusProps) {
   };
 
   return (
-    <>
-      <div className="h-full">
-        <div className="text-center sticky top-0 bg-background z-10">
-          <div className="p-4 space-y-4 text-center">
-            <h2 className="text-xl font-semibold tracking-tight">
-              {"Bonus Willpower"}
-            </h2>
-          </div>
-        </div>
-
-        <div className="h-full overflow-auto">
-          <div className="w-full flex justify-center">
-            <GiEmbrassedEnergy size={"12rem"} />
-          </div>
-          <div className="text-center">
-            <div className="text-4xl my-4 flex items-center justify-center">
-              <span className="text-green-500 font-semibold mr-2">
-                +{bonusWillpower}
-              </span>
-              <FaBoltLightning />
+    <FormStepTemplate title="Bonus Willpower">
+      <div className="h-full overflow-hidden">
+        <div className="h-full flex flex-col">
+          <div className="flex-1 flex flex-col items-center justify-between min-h-full">
+            <div className="flex flex-col items-center">
+              <GiEmbrassedEnergy size={200} />
+              <div className="text-4xl my-4 flex items-center">
+                <span className="text-green-500 font-semibold mr-2">
+                  +{bonusWillpower}
+                </span>
+                <FaBoltLightning />
+              </div>
+              <p className="font-semibold text-muted-foreground">
+                Empowered from yesterday's highlights!
+              </p>
             </div>
-            <span className="font-semibold text-muted-foreground">
-              {"Empowered from yesterday's highlights!"}
-            </span>
-          </div>
-          <div className="my-12 w-full flex justify-center">
-            <BsChevronCompactDown
-              className="my-6 text-muted-foreground cursor-pointer"
-              size={"3rem"}
-              onClick={scrollToHighlights}
-            />
-          </div>
-        </div>
 
-        <div className="mx-2" ref={highlightsRef}>
-          <Label className="w-full text-center">
-            <div className="leading-relaxed text-muted-foreground mx-4 mb-6">
-              {"Yesterday's highlights!"}
+            <div className="h-full flex items-center">
+              <BsChevronCompactDown
+                className="text-muted-foreground cursor-pointer"
+                size={48}
+                onClick={scrollToHighlights}
+              />
             </div>
-          </Label>
-          {isLoading && <SkeletonList />}
-          {!isLoading && dailyHighlights.length > 0 && (
-            <ol className="mx-4 pl-6 list-disc text-base h-[400px] overflow-scroll">
-              {dailyHighlights.map((highlightItem, index) => (
-                <li key={index}>{highlightItem}</li>
-              ))}
-            </ol>
-          )}
+          </div>
+
+          <div ref={highlightsRef} className="flex-1 min-h-full px-4">
+            <Label className="w-full text-center">
+              <div className="leading-relaxed text-muted-foreground mx-4 mb-6">
+                {"Yesterday's highlights!"}
+              </div>
+            </Label>
+            {isLoading ? (
+              <SkeletonList />
+            ) : (
+              <ol className="list-decimal pl-5">
+                {dailyHighlights.map((highlight, index) => (
+                  <li key={index} className="mb-2">
+                    {highlight}
+                  </li>
+                ))}
+              </ol>
+            )}
+          </div>
         </div>
-        <div className="h-[500px]" />
       </div>
-    </>
+    </FormStepTemplate>
   );
 }

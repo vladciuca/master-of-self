@@ -3,7 +3,7 @@ import { Label } from "@components/ui/label";
 
 type FormStepTemplateProps = {
   title: string;
-  description: string;
+  description?: string;
   scoreSection?: React.ReactNode;
   children: React.ReactNode;
 };
