@@ -128,7 +128,7 @@ export function HabitForm({
           <Button type="submit" disabled={submitting} className="w-1/2 mt-3">
             {type} Habit
           </Button>
-          <Link href="/habits" className="w-full flex justify-center my-6">
+          <Link href="/habits" className="w-full flex justify-center my-8">
             <Button variant="secondary" className="w-1/2">
               Cancel
             </Button>
