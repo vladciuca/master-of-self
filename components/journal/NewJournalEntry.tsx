@@ -95,13 +95,15 @@ export function NewJournalEntry() {
         if (todayEntry?._id) {
           router.push(`/update-journal-entry/${todayEntry._id}`);
         } else {
+          setSubmitting(false);
           console.error("Failed to find today's entry after creation");
         }
+      } else {
+        console.error("Failed to create new entry");
+        setSubmitting(false); // Reset submitting state if there's an error
       }
     } catch (error) {
       console.log(error);
-    } finally {
-      setSubmitting(false);
     }
   };
 
@@ -129,6 +131,12 @@ export function NewJournalEntry() {
       console.error("Error updating habits:", error);
     }
   };
+
+  useEffect(() => {
+    return () => {
+      setSubmitting(false);
+    };
+  }, []);
 
   return (
     <Card className="p-4 mb-4">
