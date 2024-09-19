@@ -21,8 +21,8 @@ import {
 } from "@components/ui/card";
 import {
   ChartContainer,
-  ChartTooltip,
-  ChartTooltipContent,
+  // ChartTooltip,
+  // ChartTooltipContent,
 } from "@components/ui/chart";
 import { Skeleton } from "@components/ui/skeleton";
 import { FaBoltLightning } from "react-icons/fa6";
@@ -278,10 +278,10 @@ export function WeeklyWillpowerChart() {
                     position="top"
                   />
                 </Bar>
-                <ChartTooltip
+                {/* <ChartTooltip
                   content={<ChartTooltipContent />}
                   cursor={false}
-                />
+                /> */}
               </BarChart>
             </ResponsiveContainer>
           </ChartContainer>
