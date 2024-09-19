@@ -9,8 +9,14 @@ export const GET = async (
   try {
     await connectToDB();
 
+    // Get the date from query parameters
+    const dateParam = req.nextUrl.searchParams.get("date");
+    if (!dateParam) {
+      return new Response("Date parameter is required", { status: 400 });
+    }
+
     // Set up the date range for yesterday (00:00:00 to 23:59:59)
-    const yesterday = new Date();
+    const yesterday = new Date(dateParam);
     yesterday.setDate(yesterday.getDate() - 1);
     yesterday.setHours(0, 0, 0, 0);
 
