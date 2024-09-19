@@ -231,7 +231,7 @@ export function WeeklyWillpowerChart({ userId }: WeeklyWillpowerChartProps) {
   return (
     <>
       <div className="mx-1 mb-4">
-        <CardTitle className="scroll-m-20 text-2xl font-semibold tracking-tight lg:text-5xl">
+        <CardTitle className="scroll-m-20 text-2xl font-semibold tracking-tight">
           {"Weekly Willpower"}
         </CardTitle>
         <CardDescription>
