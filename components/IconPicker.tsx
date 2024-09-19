@@ -1,6 +1,6 @@
-import React from "react";
-import { Button } from "@components/ui/button";
-import { Input } from "@components/ui/input";
+import React, { useState, useEffect } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import {
   Drawer,
   DrawerClose,
@@ -10,11 +10,12 @@ import {
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
-} from "@components/ui/drawer";
-import { ScrollArea } from "@components/ui/scroll-area";
+} from "@/components/ui/drawer";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Skeleton } from "@/components/ui/skeleton";
 import { CircleHelp } from "lucide-react";
 import * as GiIcons from "react-icons/gi";
-import { useIconSearch } from "@hooks/useIconSearch";
+import { useIconSearch } from "@/hooks/useIconSearch";
 
 type IconPickerProps = {
   value?: string;
@@ -35,7 +36,20 @@ export function IconPicker({
     selectedIconName,
     setSelectedIconName,
     filteredIcons,
+    isSearching,
   } = useIconSearch(value);
+
+  const [isLoading, setIsLoading] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
+
+  useEffect(() => {
+    if (isOpen) {
+      const timer = setTimeout(() => {
+        setIsLoading(false);
+      }, 1000); // Simulating a 1-second load time
+      return () => clearTimeout(timer);
+    }
+  }, [isOpen]);
 
   const handleSelectIcon = (iconName: string) => {
     setSelectedIconName(iconName);
@@ -49,7 +63,13 @@ export function IconPicker({
     : null;
 
   return (
-    <Drawer>
+    <Drawer
+      open={isOpen}
+      onOpenChange={(open) => {
+        setIsOpen(open);
+        if (open) setIsLoading(true);
+      }}
+    >
       <DrawerTrigger asChild>
         <div className="w-full">
           {SelectedIcon ? (
@@ -86,16 +106,20 @@ export function IconPicker({
         </div>
         <ScrollArea className="h-[40vh] p-4">
           <div className="grid grid-cols-6 gap-2 place-items-center">
-            {filteredIcons.map(({ name, icon: Icon }) => (
-              <Button
-                key={name}
-                variant="outline"
-                className="h-12 w-12 p-0"
-                onClick={() => handleSelectIcon(name)}
-              >
-                <Icon className="h-8 w-8" />
-              </Button>
-            ))}
+            {isLoading || isSearching
+              ? Array.from({ length: 30 }).map((_, index) => (
+                  <Skeleton key={index} className="h-12 w-12" />
+                ))
+              : filteredIcons.map(({ name, icon: Icon }) => (
+                  <Button
+                    key={name}
+                    variant="outline"
+                    className="h-12 w-12 p-0"
+                    onClick={() => handleSelectIcon(name)}
+                  >
+                    <Icon className="h-8 w-8" />
+                  </Button>
+                ))}
           </div>
         </ScrollArea>
         <DrawerFooter>
