@@ -7,7 +7,7 @@ import { JournalEntryHabits } from "@components/journal/JournalEntryHabits";
 import { Card } from "@components/ui/card";
 import { Button } from "@components/ui/button";
 import { FaBoltLightning } from "react-icons/fa6";
-import { Session } from "@/app/types/types";
+import { Session } from "@app/types/types";
 
 // could find a better way of doing this(added XP over highlights)
 type JournalEntryHighlights = {

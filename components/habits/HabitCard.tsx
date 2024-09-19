@@ -11,7 +11,7 @@ import {
 } from "@components/ui/accordion";
 import { Button } from "@components/ui/button";
 import { calculateLevel, xpForLevel } from "@utils/level";
-import { Session, Habit } from "@/app/types/types";
+import { Session, Habit } from "@app/types/types";
 
 type HabitCardProps = {
   habit: Habit;

@@ -2,10 +2,10 @@
 
 import React, { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
-import { IconRenderer } from "@/components/IconRenderer";
+import { IconRenderer } from "@components/IconRenderer";
 import { Skeleton } from "@components/ui/skeleton";
 import { FaBoltLightning } from "react-icons/fa6";
-import { Session } from "@/app/types/types";
+import { Session } from "@app/types/types";
 
 type JournalEntryHabitsProp = {
   habits: { [key: string]: number };

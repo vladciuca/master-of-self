@@ -17,12 +17,12 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
+} from "@components/ui/card";
 import {
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
-} from "@/components/ui/chart";
+} from "@components/ui/chart";
 import { Skeleton } from "./ui/skeleton";
 import { FaBoltLightning } from "react-icons/fa6";
 
@@ -229,7 +229,7 @@ export function WeeklyWillpowerChart({ userId }: WeeklyWillpowerChartProps) {
   }, [userId]);
 
   return (
-    <>
+    <div>
       <div className="mx-1 mb-4">
         <CardTitle className="scroll-m-20 text-2xl font-semibold tracking-tight">
           {"Weekly Willpower"}
@@ -288,6 +288,6 @@ export function WeeklyWillpowerChart({ userId }: WeeklyWillpowerChartProps) {
           </ChartContainer>
         </CardContent>
       </Card>
-    </>
+    </div>
   );
 }

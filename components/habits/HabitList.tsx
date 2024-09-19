@@ -1,6 +1,6 @@
 import { HabitCard } from "@components/habits/HabitCard";
 import { Accordion } from "@components/ui/accordion";
-import { Habit } from "@/app/types/types";
+import { Habit } from "@app/types/types";
 
 type HabitListProps = {
   habits: Habit[];

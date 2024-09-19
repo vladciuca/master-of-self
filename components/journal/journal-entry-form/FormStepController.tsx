@@ -10,7 +10,7 @@ import { HabitsStep } from "@components/journal/journal-entry-form/form-steps/Ha
 import { JournalEntry } from "@app/types/types";
 
 // TEST_FLAG: used for enabling all forms steps
-const SHOW_ALL_TEST = true;
+const SHOW_ALL_TEST = false;
 
 function isEvening(startHour: string | undefined): boolean {
   if (!startHour) return false;

@@ -1,5 +1,5 @@
 import React from "react";
-import { Progress } from "@/components/ui/progress";
+import { Progress } from "@components/ui/progress";
 import { Shell } from "lucide-react";
 import { FaSun, FaMoon, FaStar } from "react-icons/fa6";
 import { GiPrayer, GiBackup } from "react-icons/gi";

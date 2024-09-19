@@ -12,7 +12,7 @@ import { Button } from "@components/ui/button";
 import { FaBoltLightning, FaSun, FaMoon, FaStar } from "react-icons/fa6";
 import { Shell } from "lucide-react";
 import { GiPrayer, GiBackup } from "react-icons/gi";
-import { Session, JournalEntryMetadata } from "@/app/types/types";
+import { Session, JournalEntryMetadata } from "@app/types/types";
 
 type JournalEntryCardProps = {
   journalEntry: JournalEntryMetadata;

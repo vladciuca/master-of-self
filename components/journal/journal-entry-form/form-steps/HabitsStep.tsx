@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from "react";
 import { useSession } from "next-auth/react";
 import { FormStepTemplate } from "@components/journal/journal-entry-form/form-steps/FormStepTemplate";
 import { XpGainLevelBar } from "@components/XpGainLevelBar";
-import { IconRenderer } from "@/components/IconRenderer";
+import { IconRenderer } from "@components/IconRenderer";
 import { Button } from "@components/ui/button";
 import { SkeletonHabitLevel } from "@components/skeletons/SkeletonHabitLevel";
 import { Minus, Plus, RotateCcw } from "lucide-react";

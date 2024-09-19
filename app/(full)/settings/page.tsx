@@ -4,12 +4,12 @@ import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import { signOut } from "next-auth/react";
 import { ModeToggle } from "@components/ui/toggle-mode";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
+import { Label } from "@components/ui/label";
+import { Input } from "@components/ui/input";
 import { Checkbox } from "@components/ui/checkbox";
 import { Button } from "@components/ui/button";
 import { GiPrayer, GiBackup } from "react-icons/gi";
-import { Session } from "@/app/types/types";
+import { Session } from "@app/types/types";
 
 export default function Settings() {
   const [userSettings, setUserSettings] = useState({

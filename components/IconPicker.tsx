@@ -1,6 +1,6 @@
 import React from "react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { Button } from "@components/ui/button";
+import { Input } from "@components/ui/input";
 import {
   Drawer,
   DrawerClose,
@@ -10,8 +10,8 @@ import {
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
-} from "@/components/ui/drawer";
-import { ScrollArea } from "@/components/ui/scroll-area";
+} from "@components/ui/drawer";
+import { ScrollArea } from "@components/ui/scroll-area";
 import { CircleHelp } from "lucide-react";
 import * as GiIcons from "react-icons/gi";
 import { useIconSearch } from "@hooks/useIconSearch";

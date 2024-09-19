@@ -7,7 +7,7 @@ import { NewEntry } from "@components/NewEntry";
 import { HabitList } from "@components/habits/HabitList";
 import { SkeletonHabitCard } from "@components/skeletons/SkeletonHabitCard";
 import { Shell } from "lucide-react";
-import { Session, Habit } from "@/app/types/types";
+import { Session, Habit } from "@app/types/types";
 
 const NEW_HABIT_CARD_DETAILS = {
   symbol: <Shell className="mr-2" size={"2rem"} />,

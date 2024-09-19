@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { JournalEntryList } from "@components/journal/JournalEntryList";
 import { SkeletonJournalEntryCard } from "@components/skeletons/SkeletonJournalEntryCard";
-import { Session, JournalEntryMetadata } from "@/app/types/types";
+import { Session, JournalEntryMetadata } from "@app/types/types";
 
 const skeletonCards = Array.from({ length: 3 }, (_, index) => (
   <SkeletonJournalEntryCard key={index} />

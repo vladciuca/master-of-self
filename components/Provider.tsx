@@ -1,7 +1,7 @@
 "use client";
 
 import { SessionProvider } from "next-auth/react";
-import { Layout, Session } from "@/app/types/types";
+import { Layout, Session } from "@app/types/types";
 
 type ProviderProps = Layout & {
   session?: Session | null | undefined;

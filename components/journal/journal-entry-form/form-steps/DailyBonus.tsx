@@ -6,7 +6,7 @@ import { SkeletonList } from "@components/skeletons/SkeletonList";
 import { FaBoltLightning } from "react-icons/fa6";
 import { BsChevronCompactDown } from "react-icons/bs";
 import { GiEmbrassedEnergy } from "react-icons/gi";
-import { Session } from "@/app/types/types";
+import { Session } from "@app/types/types";
 
 type DailyBonusProps = {
   bonusWillpower: number;

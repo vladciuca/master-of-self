@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { HabitForm, HabitZodType } from "@components/habits/HabitForm";
-import { Session } from "@/app/types/types";
+import { Session } from "@app/types/types";
 
 export default function CreateHabit() {
   const router = useRouter();

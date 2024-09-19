@@ -16,7 +16,7 @@ import {
 import { Input } from "@components/ui/input";
 import { Button } from "@components/ui/button";
 import { Textarea } from "@components/ui/textarea";
-import { useIconRarityLevel } from "@/hooks/useIconRarityLevel";
+import { useIconRarityLevel } from "@hooks/useIconRarityLevel";
 
 const formSchema = z.object({
   name: z
