@@ -229,54 +229,65 @@ export function WeeklyWillpowerChart({ userId }: WeeklyWillpowerChartProps) {
   }, [userId]);
 
   return (
-    <Card>
-      <CardHeader className="p-6 pb-0">
-        <CardTitle className="flex items-center">
-          <FaBoltLightning className="mr-2" />
-          {chartTimePeriod(willpowerData)}
+    <>
+      <div className="mx-1 mb-4">
+        <CardTitle className="scroll-m-20 text-2xl font-semibold tracking-tight lg:text-5xl">
+          {"Weekly Willpower"}
         </CardTitle>
         <CardDescription>
           {"Your daily and bonus Willpower generated for the current week."}
         </CardDescription>
-      </CardHeader>
-      <CardContent className="p-2">
-        <ChartContainer config={chartConfig}>
-          <ResponsiveContainer width="100%" height={300}>
-            <BarChart data={willpowerData}>
-              <XAxis
-                dataKey="date"
-                tickLine={false}
-                tickMargin={10}
-                axisLine={false}
-                tickFormatter={(value) => {
-                  return new Date(value).toLocaleDateString("en-US", {
-                    weekday: "short",
-                  });
-                }}
-              />
-              <Bar
-                dataKey="generatedWillpower"
-                stackId="a"
-                fill="var(--color-generatedWillpower)"
-                shape={<WillpowerBar type="generated" />}
-              />
-              <Bar
-                dataKey="bonusWillpower"
-                stackId="a"
-                fill="var(--color-bonusWillpower)"
-                shape={<WillpowerBar type="bonus" />}
-              >
-                <LabelList
-                  dataKey="willpowerLabelValue"
-                  content={<WillpowerLabel />}
-                  position="top"
+      </div>
+
+      <Card>
+        <CardHeader className="p-4 pb-0">
+          <CardTitle className="flex items-center">
+            <FaBoltLightning className="mr-2" />
+            {chartTimePeriod(willpowerData)}
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="p-2">
+          <ChartContainer config={chartConfig}>
+            <ResponsiveContainer width="100%" height={300}>
+              <BarChart data={willpowerData}>
+                <XAxis
+                  dataKey="date"
+                  tickLine={false}
+                  tickMargin={10}
+                  axisLine={false}
+                  tickFormatter={(value) => {
+                    return new Date(value).toLocaleDateString("en-US", {
+                      weekday: "short",
+                    });
+                  }}
                 />
-              </Bar>
-              <ChartTooltip content={<ChartTooltipContent />} cursor={false} />
-            </BarChart>
-          </ResponsiveContainer>
-        </ChartContainer>
-      </CardContent>
-    </Card>
+                <Bar
+                  dataKey="generatedWillpower"
+                  stackId="a"
+                  fill="var(--color-generatedWillpower)"
+                  shape={<WillpowerBar type="generated" />}
+                />
+                <Bar
+                  dataKey="bonusWillpower"
+                  stackId="a"
+                  fill="var(--color-bonusWillpower)"
+                  shape={<WillpowerBar type="bonus" />}
+                >
+                  <LabelList
+                    dataKey="willpowerLabelValue"
+                    content={<WillpowerLabel />}
+                    position="top"
+                  />
+                </Bar>
+                <ChartTooltip
+                  content={<ChartTooltipContent />}
+                  cursor={false}
+                />
+              </BarChart>
+            </ResponsiveContainer>
+          </ChartContainer>
+        </CardContent>
+      </Card>
+    </>
   );
 }
