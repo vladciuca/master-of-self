@@ -9,7 +9,7 @@ type ProfileBarProps = {
 
 export function ProfileNav({ session }: ProfileBarProps) {
   const name = session.user?.name || "";
-  const email = session.user?.email || "";
+  // const email = session.user?.email || "";
 
   const nameInitials = name
     ? name
@@ -21,7 +21,7 @@ export function ProfileNav({ session }: ProfileBarProps) {
   return (
     <div className="flex items-center h-full">
       <div className="w-1/4 flex justify-center mx-2">
-        <Link href="/settings">
+        <Link href="/">
           <div className="avatar text-xl font-semibold bg-primary text-primary-foreground rounded-full h-12 w-12 flex justify-center items-center">
             {nameInitials}
           </div>
