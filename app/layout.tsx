@@ -1,6 +1,6 @@
 import "@styles/global.css";
 import Provider from "@components/Provider";
-import { ThemeProvider } from "@components/theme-provider";
+import { ThemeProvider } from "@context/theme-provider";
 import { Poppins } from "next/font/google";
 import { Layout } from "@app/types/types";
 

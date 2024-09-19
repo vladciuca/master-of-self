@@ -1,3 +1,5 @@
+"use client";
+
 import { Card, CardDescription, CardTitle } from "@components/ui/card";
 import { Label } from "@components/ui/label";
 import { Input } from "@components/ui/input";
@@ -18,7 +20,7 @@ export function DaySplit() {
       <Card>
         <div className="p-4 flex flex-col w-full">
           <div className="my-4 flex items-center">
-            <FaSun className="text-3xl mr-6" />
+            <FaSun className="text-3xl ml-3 mr-6" />
 
             <div className="flex items-center justify-between w-full">
               <Label htmlFor="morning-start">Morning start hour</Label>
@@ -33,7 +35,7 @@ export function DaySplit() {
             </div>
           </div>
           <div className="my-4 flex items-center">
-            <FaMoon className="text-3xl mr-6" />
+            <FaMoon className="text-3xl ml-3 mr-6" />
 
             <div className="flex items-center justify-between w-full">
               <Label htmlFor="evening-start">Evening start hour</Label>

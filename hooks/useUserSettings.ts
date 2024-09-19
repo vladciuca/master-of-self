@@ -1,3 +1,5 @@
+"use client";
+
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { Session } from "@app/types/types";

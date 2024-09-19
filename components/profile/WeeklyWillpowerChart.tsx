@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState, useRef } from "react";
+import { useSession } from "next-auth/react";
 import {
   Bar,
   BarChart,
@@ -25,6 +26,7 @@ import {
 } from "@components/ui/chart";
 import { Skeleton } from "./ui/skeleton";
 import { FaBoltLightning } from "react-icons/fa6";
+import { Session } from "@app/types/types";
 
 type WillpowerData = {
   date: string;
@@ -48,10 +50,6 @@ type WillpowerBarProps = RectangleProps &
     type: "bonus" | "generated";
     payload?: WillpowerData;
   };
-
-type WeeklyWillpowerChartProps = {
-  userId?: string;
-};
 
 function WillpowerLabel(props: WillpowerLabelProps) {
   const { x = 0, y = 0, width = 0, value } = props;
@@ -188,7 +186,8 @@ function chartTimePeriod(willpowerData: { date: string }[]) {
   }
 }
 
-export function WeeklyWillpowerChart({ userId }: WeeklyWillpowerChartProps) {
+export function WeeklyWillpowerChart() {
+  const { data: session } = useSession() as { data: Session | null };
   const [willpowerData, setWillpowerData] = useState<WillpowerData[]>([]);
 
   const chartConfig = {
@@ -209,7 +208,7 @@ export function WeeklyWillpowerChart({ userId }: WeeklyWillpowerChartProps) {
         const localDate = today.toISOString().split("T")[0];
 
         const response = await fetch(
-          `/api/users/${userId}/weekly-willpower?date=${localDate}`
+          `/api/users/${session?.user.id}/weekly-willpower?date=${localDate}`
         );
         if (!response.ok) throw new Error("Failed to fetch willpower data");
         const data = await response.json();
@@ -226,7 +225,7 @@ export function WeeklyWillpowerChart({ userId }: WeeklyWillpowerChartProps) {
     };
 
     fetchWillpowerData();
-  }, [userId]);
+  }, [session]);
 
   return (
     <div>

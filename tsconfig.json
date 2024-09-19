@@ -22,14 +22,6 @@
       }
     ]
   },
-  "include": [
-    "next-env.d.ts",
-    ".next/types/**/*.ts",
-    "**/*.ts",
-    "**/*.tsx",
-    "app/api/habit/[id]/xp/route.js",
-    "app/api/habit/[id]/xp/route.js",
-    "app/api/habit/[id]/xp/route.js"
-  ],
+  "include": ["next-env.d.ts", ".next/types/**/*.ts", "**/*.ts", "**/*.tsx"],
   "exclude": ["node_modules"]
 }
