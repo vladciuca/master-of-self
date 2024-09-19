@@ -10,10 +10,10 @@ export const GET = async (
     await connectToDB();
 
     // Get the date from query parameters
-    const dateParam = req.nextUrl.searchParams.get("date");
-    if (!dateParam) {
-      return new Response("Date parameter is required", { status: 400 });
-    }
+    // const dateParam = req.nextUrl.searchParams.get("date");
+    // if (!dateParam) {
+    //   return new Response("Date parameter is required", { status: 400 });
+    // }
 
     // Parse the date parameter
     const clientDate = new Date();

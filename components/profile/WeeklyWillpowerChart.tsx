@@ -204,11 +204,12 @@ export function WeeklyWillpowerChart() {
   useEffect(() => {
     const fetchWillpowerData = async () => {
       try {
-        const today = new Date();
-        const localDate = today.toISOString().split("T")[0];
+        // const today = new Date();
+        // const localDate = today.toISOString().split("T")[0];
+        // ?date=${localDate}
 
         const response = await fetch(
-          `/api/users/${session?.user.id}/weekly-willpower?date=${localDate}`
+          `/api/users/${session?.user.id}/weekly-willpower`
         );
         if (!response.ok) throw new Error("Failed to fetch willpower data");
         const data = await response.json();

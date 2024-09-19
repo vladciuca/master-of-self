@@ -35,11 +35,12 @@ export function NewJournalEntry() {
     const checkYesterdayEntry = async () => {
       if (session?.user?.id) {
         try {
-          const today = new Date();
-          const localDate = today.toISOString().split("T")[0];
+          // const today = new Date();
+          // const localDate = today.toISOString().split("T")[0];
+          // ?date=${localDate}
 
           const yesterdayEntryResponse = await fetch(
-            `/api/users/${session.user.id}/journal-entries/yesterday?date=${localDate}`
+            `/api/users/${session.user.id}/journal-entries/yesterday`
           );
           const yesterdayEntry: JournalEntryHighlights =
             await yesterdayEntryResponse.json();
