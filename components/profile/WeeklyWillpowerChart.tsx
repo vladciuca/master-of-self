@@ -188,6 +188,7 @@ function chartTimePeriod(willpowerData: { date: string }[]) {
 
 export function WeeklyWillpowerChart() {
   const { data: session } = useSession() as { data: Session | null };
+  const [isLoading, setIsLoading] = useState(false);
   const [willpowerData, setWillpowerData] = useState<WillpowerData[]>([]);
 
   const totalWillpower = willpowerData.reduce(
@@ -213,6 +214,7 @@ export function WeeklyWillpowerChart() {
   useEffect(() => {
     const fetchWillpowerData = async () => {
       try {
+        setIsLoading(true);
         // const today = new Date();
         // const localDate = today.toISOString().split("T")[0];
         // ?date=${localDate}
@@ -231,6 +233,8 @@ export function WeeklyWillpowerChart() {
         setWillpowerData(updatedData);
       } catch (error) {
         console.error("Error fetching willpower data:", error);
+      } finally {
+        setIsLoading(false);
       }
     };
 
@@ -253,8 +257,10 @@ export function WeeklyWillpowerChart() {
           <CardTitle className="flex items-baseline justify-between">
             <span>{chartTimePeriod(willpowerData)}</span>
             <span className="flex items-center text-3xl font-bold">
-              {totalWillpower.generated}
-              <span className="text-green-500">+{totalWillpower.bonus}</span>
+              {isLoading ? "??" : totalWillpower.generated}
+              {!isLoading && totalWillpower.bonus > 0 && (
+                <span className="text-green-500">+{totalWillpower.bonus}</span>
+              )}
               <FaBoltLightning className="ml-1" />
             </span>
           </CardTitle>

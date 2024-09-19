@@ -14,7 +14,7 @@ export function Routine() {
         <CardTitle className="scroll-m-20 text-2xl font-semibold tracking-tight">
           {"Daily Routine"}
         </CardTitle>
-        <CardDescription>{"Your daily routine."}</CardDescription>
+        <CardDescription>{"Configure your daily routine."}</CardDescription>
       </div>
 
       <Card>

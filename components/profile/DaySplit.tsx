@@ -15,7 +15,7 @@ export function DaySplit() {
         <CardTitle className="scroll-m-20 text-2xl font-semibold tracking-tight">
           {"Day Split"}
         </CardTitle>
-        <CardDescription>{"Set your daily journaling hours"}</CardDescription>
+        <CardDescription>{"Set your daily journaling hours."}</CardDescription>
       </div>
       <Card>
         <div className="p-4 flex flex-col w-full">
