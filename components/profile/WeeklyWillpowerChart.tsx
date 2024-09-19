@@ -24,7 +24,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@components/ui/chart";
-import { Skeleton } from "./ui/skeleton";
+import { Skeleton } from "@components/ui/skeleton";
 import { FaBoltLightning } from "react-icons/fa6";
 import { Session } from "@app/types/types";
 
