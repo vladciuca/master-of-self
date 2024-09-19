@@ -1,19 +1,14 @@
-import { PageLogo } from "@components/PageLogo";
+"use client";
+
+import { useSession } from "next-auth/react";
+import { WeeklyWillpowerChart } from "@/components/WeeklyWillpowerChart";
+import { Session } from "@/app/types/types";
 
 export default function Home() {
+  const { data: session } = useSession() as { data: Session | null };
   return (
-    <section className="flex flex-col h-full items-center justify-center">
-      <div className="text-center mt-10">
-        <span className="italic">
-          <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight">
-            {"In this moment I have"}
-          </h3>
-          <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight">
-            {"everything I need"}
-          </h3>
-        </span>
-      </div>
-      <PageLogo />
-    </section>
+    <>
+      <WeeklyWillpowerChart userId={session?.user.id} />
+    </>
   );
 }

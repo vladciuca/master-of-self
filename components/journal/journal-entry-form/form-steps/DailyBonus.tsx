@@ -64,9 +64,9 @@ export function DailyBonus({ bonusWillpower }: DailyBonusProps) {
                 </span>
                 <FaBoltLightning />
               </div>
-              <p className="font-semibold text-muted-foreground">
+              <div className="font-semibold text-muted-foreground">
                 Empowered from yesterday's highlights!
-              </p>
+              </div>
             </div>
 
             <div className="h-full flex items-center">
