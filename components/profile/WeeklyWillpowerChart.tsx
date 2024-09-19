@@ -162,7 +162,7 @@ function chartTimePeriod(willpowerData: { date: string }[]) {
 
   if (startMonth === endMonth) {
     return (
-      <div className="text-3xl font-bold">
+      <div className="text-2xl font-bold">
         {`${startDay} - ${endDay}`}
         <span className="ml-2 text-lg font-extrabold tracking-wide">
           {startMonth}
@@ -189,6 +189,15 @@ function chartTimePeriod(willpowerData: { date: string }[]) {
 export function WeeklyWillpowerChart() {
   const { data: session } = useSession() as { data: Session | null };
   const [willpowerData, setWillpowerData] = useState<WillpowerData[]>([]);
+
+  const totalWillpower = willpowerData.reduce(
+    (acc, curr) => {
+      acc.generated += curr.generatedWillpower;
+      acc.bonus += curr.bonusWillpower;
+      return acc;
+    },
+    { generated: 0, bonus: 0 }
+  );
 
   const chartConfig = {
     generatedWillpower: {
@@ -241,9 +250,13 @@ export function WeeklyWillpowerChart() {
 
       <Card>
         <CardHeader className="p-4 pb-0">
-          <CardTitle className="flex items-center">
-            <FaBoltLightning className="mr-2" />
-            {chartTimePeriod(willpowerData)}
+          <CardTitle className="flex items-baseline justify-between">
+            <span>{chartTimePeriod(willpowerData)}</span>
+            <span className="flex items-center text-3xl font-bold">
+              {totalWillpower.generated}
+              <span className="text-green-500">+{totalWillpower.bonus}</span>
+              <FaBoltLightning className="ml-1" />
+            </span>
           </CardTitle>
         </CardHeader>
         <CardContent className="p-2">

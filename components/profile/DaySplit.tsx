@@ -27,7 +27,7 @@ export function DaySplit() {
               <Input
                 type="time"
                 id="morning-start"
-                className="max-w-fit ml-2"
+                className="max-w-fit mr-4"
                 value={userSettings.journalStartTime.morning}
                 onChange={(e) => handleTimeChange("morning", e.target.value)}
                 disabled={isLoading}
@@ -42,7 +42,7 @@ export function DaySplit() {
               <Input
                 type="time"
                 id="evening-start"
-                className="max-w-fit ml-2"
+                className="max-w-fit mr-4"
                 value={userSettings.journalStartTime.evening}
                 onChange={(e) => handleTimeChange("evening", e.target.value)}
                 disabled={isLoading}
