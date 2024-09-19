@@ -50,7 +50,7 @@ export function UserHabits() {
     if (session?.user.id) {
       fetchHabits();
     }
-  }, []);
+  }, [session]);
 
   // To take a second look for consistency (handleEdit function can be replaced by Link or DELETE button can be moved to the /update-habit page)
   const handleEdit = (habit: Habit) => {
