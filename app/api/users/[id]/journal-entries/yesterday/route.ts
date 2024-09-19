@@ -16,7 +16,7 @@ export const GET = async (
     }
 
     // Set up the date range for yesterday (00:00:00 to 23:59:59)
-    const yesterday = new Date(dateParam);
+    const yesterday = new Date();
     yesterday.setDate(yesterday.getDate() - 1);
     yesterday.setHours(0, 0, 0, 0);
 

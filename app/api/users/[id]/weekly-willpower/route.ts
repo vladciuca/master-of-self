@@ -11,21 +11,19 @@ export const GET = async (
 
     // Get the date from query parameters
     const dateParam = req.nextUrl.searchParams.get("date");
-    console.log("====", dateParam);
     if (!dateParam) {
       return new Response("Date parameter is required", { status: 400 });
     }
 
     // Parse the date parameter
-    const clientDate = new Date(dateParam);
-    console.log("====client", clientDate);
+    const clientDate = new Date();
 
     if (isNaN(clientDate.getTime())) {
       return new Response("Invalid date provided", { status: 400 });
     }
 
     // Calculate the start of the week (Monday) based on the client date
-    const startOfWeek = new Date(dateParam);
+    const startOfWeek = new Date(clientDate);
     startOfWeek.setDate(clientDate.getDate() - ((clientDate.getDay() + 6) % 7));
     startOfWeek.setHours(0, 0, 0, 0);
 
@@ -33,9 +31,6 @@ export const GET = async (
     const endOfWeek = new Date(startOfWeek);
     endOfWeek.setDate(endOfWeek.getDate() + 6);
     endOfWeek.setHours(23, 59, 59, 999);
-
-    console.log("===startOfWeek", startOfWeek);
-    console.log("===endOfWeek", endOfWeek);
 
     const journalEntries = await JournalEntry.find({
       creator: params.id,
