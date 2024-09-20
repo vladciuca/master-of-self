@@ -1,5 +1,5 @@
 import "@styles/global.css";
-import Provider from "@components/Provider";
+import { Provider } from "@context/provider";
 import { ThemeProvider } from "@context/theme-provider";
 import { Poppins } from "next/font/google";
 import { Layout } from "@app/types/types";
@@ -16,9 +16,9 @@ export const metadata = {
 
 export default function RootLayout({ children }: Layout) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body className={`relative ${font.className}`}>
-        <Provider>
+    <Provider>
+      <html lang="en" suppressHydrationWarning>
+        <body className={`relative ${font.className}`}>
           <ThemeProvider
             attribute="class"
             defaultTheme="system"
@@ -29,8 +29,8 @@ export default function RootLayout({ children }: Layout) {
               {children}
             </div>
           </ThemeProvider>
-        </Provider>
-      </body>
-    </html>
+        </body>
+      </html>
+    </Provider>
   );
 }

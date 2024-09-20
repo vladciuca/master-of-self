@@ -9,6 +9,7 @@ export type User = {
   id: string;
   name?: string;
   email?: string;
+  image?: string;
 };
 
 export type UserSettings = {
@@ -21,6 +22,7 @@ export type UserSettings = {
     evening: string;
   };
 };
+export type UserMetadata = User & UserSettings;
 
 export type Session = NextAuthSession & {
   user: User;

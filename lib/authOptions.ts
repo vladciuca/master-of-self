@@ -1,13 +1,14 @@
-import NextAuth from "next-auth";
+import { NextAuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
-import User from "@models/user";
+import User, { UserInterface } from "@models/user";
 import { connectToDB } from "@lib/database";
+import { Session, User as UserType } from "@app/types/types";
 
-const handler = NextAuth({
+export const authOptions: NextAuthOptions = {
   providers: [
     GoogleProvider({
-      clientId: process.env.GOOGLE_ID,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      clientId: process.env.GOOGLE_ID as string,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
     }),
   ],
   callbacks: {
@@ -16,24 +17,30 @@ const handler = NextAuth({
       else if (new URL(url).origin === baseUrl) return url;
       return baseUrl;
     },
-    async session({ session }) {
-      const sessionUser = await User.findOne({ email: session.user.email });
-
-      session.user.id = sessionUser._id.toString();
-
-      return session;
+    async session({ session }): Promise<Session> {
+      if (session.user && session.user.email) {
+        const sessionUser = await User.findOne({ email: session.user.email });
+        if (sessionUser) {
+          (session.user as UserType).id = sessionUser._id.toString();
+        }
+      }
+      return session as Session;
     },
     async signIn({ profile }) {
+      if (!profile) {
+        console.error("Invalid profile data:", profile);
+        return false;
+      }
       try {
         await connectToDB();
         // check if a user already exists
         const userExists = await User.findOne({ email: profile.email });
         //if not, create a new user
-        if (!userExists) {
+        if (!userExists && profile.email) {
           await User.create({
             email: profile.email,
             username: profile.name,
-            image: profile.picture,
+            image: profile.image,
             settings: {
               steps: {
                 gratefulStep: false,
@@ -44,7 +51,7 @@ const handler = NextAuth({
                 evening: "18:00",
               },
             },
-          });
+          } as UserInterface);
         }
         return true;
       } catch (error) {
@@ -53,6 +60,4 @@ const handler = NextAuth({
       }
     },
   },
-});
-
-export { handler as GET, handler as POST };
+};
