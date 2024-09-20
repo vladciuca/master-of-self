@@ -1,6 +1,6 @@
 import React, { useCallback } from "react";
 import { FormStepTemplate } from "@components/journal/journal-entry-form/form-steps/FormStepTemplate";
-import { TextAreaList } from "@components/ui/textarealist";
+import { TextAreaList } from "@components/ui/TextAreaList";
 import { FaBoltLightning } from "react-icons/fa6";
 
 type GratefulForProps = {
