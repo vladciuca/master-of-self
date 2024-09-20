@@ -1,7 +1,7 @@
 "use client";
 
 import { CircularProgress } from "@components/ui/circular-progress";
-import { calculateLevel, xpForLevel } from "@utils/level";
+import { calculateLevel, xpForLevel } from "@lib/level";
 import { FaBoltLightning } from "react-icons/fa6";
 
 type LevelBarXpGainProps = {

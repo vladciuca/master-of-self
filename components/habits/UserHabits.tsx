@@ -1,13 +1,11 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { useSession } from "next-auth/react";
-import { useRouter, usePathname } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { NewEntry } from "@components/NewEntry";
 import { HabitList } from "@components/habits/HabitList";
-import { SkeletonHabitCard } from "@components/skeletons/SkeletonHabitCard";
 import { Shell } from "lucide-react";
-import { Session, Habit } from "@app/types/types";
+import { Habit } from "@app/types/types";
+// import { Suspense } from "react";
 
 const NEW_HABIT_CARD_DETAILS = {
   symbol: <Shell className="mr-2" size={"2rem"} />,
@@ -22,38 +20,17 @@ const NEW_HABIT_CARD_DETAILS = {
   linkTo: "/create-habit",
 };
 
-const skeletonCards = Array.from({ length: 3 }, (_, index) => (
-  <SkeletonHabitCard key={index} />
-));
+// const skeletonCards = Array.from({ length: 3 }, (_, index) => (
+//   <SkeletonHabitCard key={index} />
+// ));
 
-export function UserHabits() {
-  const [habits, setHabits] = useState([]);
-  const [habitsLoading, setHabitsLoading] = useState(false);
+type UserHabitsProps = {
+  habits: Habit[];
+};
+
+export function UserHabits({ habits }: UserHabitsProps) {
   const router = useRouter();
-  const pathname = usePathname();
-  const { data: session } = useSession() as { data: Session | null };
-  const numberOfEntries = habitsLoading ? "??" : habits.length;
 
-  useEffect(() => {
-    const fetchHabits = async () => {
-      setHabitsLoading(true);
-      try {
-        const response = await fetch(`/api/users/${session?.user.id}/habits`);
-        const data = await response.json();
-        setHabits(data.reverse());
-      } catch (error) {
-        console.error("Failed to fetch habits", error);
-      } finally {
-        setHabitsLoading(false);
-      }
-    };
-
-    if (session?.user.id) {
-      fetchHabits();
-    }
-  }, []);
-
-  // To take a second look for consistency (handleEdit function can be replaced by Link or DELETE button can be moved to the /update-habit page)
   const handleEdit = (habit: Habit) => {
     router.push(`/update-habit/${habit._id}`);
   };
@@ -64,12 +41,6 @@ export function UserHabits() {
     if (hasConfirmed) {
       try {
         await fetch(`/api/habit/${habit._id.toString()}`, { method: "DELETE" });
-
-        const filteredHabits = habits.filter(
-          (myHabit: Habit) => myHabit._id !== habit._id
-        );
-
-        setHabits(filteredHabits);
 
         router.push("/habits");
       } catch (error) {
@@ -86,16 +57,15 @@ export function UserHabits() {
         description={NEW_HABIT_CARD_DETAILS.description}
         buttonText={NEW_HABIT_CARD_DETAILS.buttonText}
         linkTo={NEW_HABIT_CARD_DETAILS.linkTo}
-        numberOfEntries={numberOfEntries}
+        numberOfEntries={habits.length}
       />
-      {habitsLoading && <>{skeletonCards}</>}
-      {!habitsLoading && (
-        <HabitList
-          habits={habits}
-          handleEdit={handleEdit}
-          handleDelete={handleDelete}
-        />
-      )}
+      {/* <Suspense fallback={skeletonCards()> */}
+      <HabitList
+        habits={habits}
+        handleEdit={handleEdit}
+        handleDelete={handleDelete}
+      />
+      {/* </Suspense> */}
     </div>
   );
 }

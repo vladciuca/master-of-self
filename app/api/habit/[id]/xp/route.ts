@@ -1,7 +1,7 @@
 // currently not in Use, opted for updating multiple habits at once @user/[id]/habits/updateXp
 // might use for something else later
 import { NextRequest, NextResponse } from "next/server";
-import { connectToDB } from "@utils/database";
+import { connectToDB } from "@lib/database";
 import Habit from "@models/habit";
 
 export const PATCH = async (

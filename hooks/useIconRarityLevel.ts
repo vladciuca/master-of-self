@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { calculateLevel, getRarityColor } from "@utils/level";
+import { calculateLevel, getRarityColor } from "@lib/level";
 
 export function useIconRarityLevel(xp: number | undefined) {
   return useMemo(() => {
