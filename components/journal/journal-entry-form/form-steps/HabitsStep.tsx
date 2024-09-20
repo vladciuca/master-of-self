@@ -28,24 +28,24 @@ export function HabitsStep({
   const [remainingWillpower, setRemainingWillpower] = useState(dailyWillpower);
   const { data: session } = useSession() as { data: Session | null };
 
-  // useEffect(() => {
-  //   const fetchHabits = async () => {
-  //     setHabitsLoaded(false);
-  //     try {
-  //       const response = await fetch(`/api/users/${session?.user.id}/habits`);
-  //       const data = await response.json();
-  //       setHabits(data.reverse());
-  //     } catch (error) {
-  //       console.error("Failed to fetch habits", error);
-  //     } finally {
-  //       setHabitsLoaded(true);
-  //     }
-  //   };
+  useEffect(() => {
+    const fetchHabits = async () => {
+      setHabitsLoaded(false);
+      try {
+        const response = await fetch(`/api/users/${session?.user.id}/habits`);
+        const data = await response.json();
+        setHabits(data.reverse());
+      } catch (error) {
+        console.error("Failed to fetch habits", error);
+      } finally {
+        setHabitsLoaded(true);
+      }
+    };
 
-  //   if (session?.user.id) {
-  //     fetchHabits();
-  //   }
-  // }, []);
+    if (session?.user.id) {
+      fetchHabits();
+    }
+  }, []);
 
   useEffect(() => {
     // Calculate remaining willpower based on existing habit XP

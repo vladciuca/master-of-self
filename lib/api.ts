@@ -1,4 +1,4 @@
-const endpoint = "http://localhost:3000";
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 // Helper function to handle API responses
 async function handleResponse(response: Response) {
@@ -9,13 +9,20 @@ async function handleResponse(response: Response) {
   return response.json();
 }
 
+// Helper function to get the full API URL
+function getApiUrl(path: string): string {
+  // Check if we're on the client side
+  if (typeof window !== "undefined") {
+    return `/api${path}`; // Use relative URL for client-side requests
+  }
+  // We're on the server side
+  return `${API_BASE_URL}/api${path}`; // Use full URL for server-side requests
+}
+
 export async function fetchHabits(userId: string) {
   try {
-    const response = await fetch(`${endpoint}/api/users/${userId}/habits`, {
+    const response = await fetch(getApiUrl(`/users/${userId}/habits`), {
       method: "GET",
-      // next: {
-      //   revalidate: 5000,
-      // },
     });
     const data = await handleResponse(response);
     return data.reverse();
@@ -28,7 +35,10 @@ export async function fetchHabits(userId: string) {
 export async function fetchJournalEntries(userId: string) {
   try {
     const response = await fetch(
-      `${endpoint}/api/users/${userId}/journal-entries`
+      getApiUrl(`/users/${userId}/journal-entries`),
+      {
+        method: "GET",
+      }
     );
     const data = await handleResponse(response);
     return data.reverse();
@@ -40,7 +50,9 @@ export async function fetchJournalEntries(userId: string) {
 
 export async function fetchUserSettings(userId: string) {
   try {
-    const response = await fetch(`${endpoint}/api/users/${userId}/settings`);
+    const response = await fetch(getApiUrl(`/users/${userId}/settings`), {
+      method: "GET",
+    });
     const data = await handleResponse(response);
     return data;
   } catch (error) {

@@ -8,29 +8,29 @@ export function useFetchUserHabits() {
   const [habitsError, setHabitsError] = useState<string | null>(null);
   const { data: session } = useSession() as { data: Session | null };
 
-  // useEffect(() => {
-  //   const fetchHabits = async () => {
-  //     setHabitsLoading(true);
-  //     try {
-  //       const response = await fetch(`/api/users/${session?.user.id}/habits`);
-  //       const data = await response.json();
+  useEffect(() => {
+    const fetchHabits = async () => {
+      setHabitsLoading(true);
+      try {
+        const response = await fetch(`/api/users/${session?.user.id}/habits`);
+        const data = await response.json();
 
-  //       setHabits(data.reverse());
-  //     } catch (error) {
-  //       console.error("Failed to fetch habits", error);
+        setHabits(data.reverse());
+      } catch (error) {
+        console.error("Failed to fetch habits", error);
 
-  //       setHabitsLoading(false);
-  //       setHabitsError("Failed to fetch habits");
-  //     } finally {
-  //       setHabitsLoading(false);
-  //       setHabitsError(null);
-  //     }
-  //   };
+        setHabitsLoading(false);
+        setHabitsError("Failed to fetch habits");
+      } finally {
+        setHabitsLoading(false);
+        setHabitsError(null);
+      }
+    };
 
-  //   if (session?.user.id) {
-  //     fetchHabits();
-  //   }
-  // }, [session]);
+    if (session?.user.id) {
+      fetchHabits();
+    }
+  }, [session]);
 
   const hasHabits = habits?.length > 0;
 
