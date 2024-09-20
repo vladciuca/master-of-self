@@ -37,7 +37,7 @@ export function UserJournal() {
     if (session?.user?.id) {
       fetchJournalEntries();
     }
-  }, [session, pathname]);
+  }, []);
 
   const handleDelete = async (journalEntry: JournalEntryMetadata) => {
     const hasConfirmed = confirm("Are you sure you want to delete this habit?");
