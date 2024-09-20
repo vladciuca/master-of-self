@@ -1,4 +1,4 @@
-const API_BASE_URL = "http://localhost:3000" || "";
+// const API_BASE_URL = "http://localhost:3000" || "";
 
 // Helper function to handle API responses
 async function handleResponse(response: Response) {
@@ -23,7 +23,7 @@ async function handleResponse(response: Response) {
 
 export async function fetchHabits(userId: string) {
   try {
-    const response = await fetch(`${API_BASE_URL}/api/users/${userId}/habits`, {
+    const response = await fetch(`/api/users/${userId}/habits`, {
       method: "GET",
     });
     const data = await handleResponse(response);
@@ -36,12 +36,9 @@ export async function fetchHabits(userId: string) {
 
 export async function fetchJournalEntries(userId: string) {
   try {
-    const response = await fetch(
-      `${API_BASE_URL}/api/users/${userId}/journal-entries`,
-      {
-        method: "GET",
-      }
-    );
+    const response = await fetch(`/api/users/${userId}/journal-entries`, {
+      method: "GET",
+    });
     const data = await handleResponse(response);
     return data.reverse();
   } catch (error) {
@@ -52,12 +49,9 @@ export async function fetchJournalEntries(userId: string) {
 
 export async function fetchUserSettings(userId: string) {
   try {
-    const response = await fetch(
-      `${API_BASE_URL}/api/users/${userId}/settings`,
-      {
-        method: "GET",
-      }
-    );
+    const response = await fetch(`/api/users/${userId}/settings`, {
+      method: "GET",
+    });
     const data = await handleResponse(response);
     return data;
   } catch (error) {
