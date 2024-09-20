@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { NewEntry } from "@components/NewEntry";
 import { HabitList } from "@components/habits/HabitList";
 import { SkeletonHabitCard } from "@components/skeletons/SkeletonHabitCard";
@@ -30,6 +30,7 @@ export function UserHabits() {
   const [habits, setHabits] = useState([]);
   const [habitsLoading, setHabitsLoading] = useState(false);
   const router = useRouter();
+  const pathname = usePathname();
   const { data: session } = useSession() as { data: Session | null };
   const numberOfEntries = habitsLoading ? "??" : habits.length;
 
@@ -50,7 +51,7 @@ export function UserHabits() {
     if (session?.user.id) {
       fetchHabits();
     }
-  }, [session]);
+  }, [session, pathname]);
 
   // To take a second look for consistency (handleEdit function can be replaced by Link or DELETE button can be moved to the /update-habit page)
   const handleEdit = (habit: Habit) => {
