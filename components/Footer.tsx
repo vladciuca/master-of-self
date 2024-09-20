@@ -30,13 +30,13 @@ export function Footer() {
   const createSignInHandler = (providerId: string) => () =>
     signIn(providerId, { callbackUrl: "/journal" });
 
-  // if (status === "loading" || !providers) {
-  //   return (
-  //     <div className="w-full h-full flex justify-center items-center">
-  //       <div className="loader" />
-  //     </div>
-  //   );
-  // }
+  if (status === "loading" || !providers) {
+    return (
+      <div className="w-full h-full flex justify-center items-center">
+        <div className="loader" />
+      </div>
+    );
+  }
 
   return (
     <div className="w-full h-full flex justify-center items-center">
@@ -50,7 +50,7 @@ export function Footer() {
             type="button"
             key={provider.name}
             onClick={createSignInHandler(provider.id)}
-            disabled={status === "loading"}
+            // disabled={status === "loading"}
           >
             Sign In
           </Button>
@@ -58,19 +58,4 @@ export function Footer() {
       )}
     </div>
   );
-  // return (
-  //   <div className="w-full h-full flex justify-center items-center">
-  //     {session ? (
-  //       <BottomNav />
-  //     ) : (
-  //       <Button
-  //         className="w-1/2"
-  //         type="button"
-  //         onClick={() => signIn("google")}
-  //       >
-  //         Sign in
-  //       </Button>
-  //     )}
-  //   </div>
-  // );
 }
