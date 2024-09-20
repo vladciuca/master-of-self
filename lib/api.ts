@@ -13,9 +13,11 @@ async function handleResponse(response: Response) {
 function getApiUrl(path: string): string {
   // Check if we're on the client side
   if (typeof window !== "undefined") {
+    console.log("===ON CLIENT:", `/api${path}`);
     return `/api${path}`; // Use relative URL for client-side requests
   }
   // We're on the server side
+  console.log("===ON SERVER:", `${API_BASE_URL}/api${path}`);
   return `${API_BASE_URL}/api${path}`; // Use full URL for server-side requests
 }
 

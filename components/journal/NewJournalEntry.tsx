@@ -31,39 +31,39 @@ export function NewJournalEntry() {
     .toLocaleString("default", { weekday: "short" })
     .toUpperCase();
 
-  useEffect(() => {
-    const checkYesterdayEntry = async () => {
-      if (session?.user?.id) {
-        try {
-          // const today = new Date();
-          // const localDate = today.toISOString().split("T")[0];
-          // ?date=${localDate}
+  // useEffect(() => {
+  //   const checkYesterdayEntry = async () => {
+  //     if (session?.user?.id) {
+  //       try {
+  //         // const today = new Date();
+  //         // const localDate = today.toISOString().split("T")[0];
+  //         // ?date=${localDate}
 
-          const yesterdayEntryResponse = await fetch(
-            `/api/users/${session.user.id}/journal-entries/yesterday`
-          );
-          const yesterdayEntry: JournalEntryHighlights =
-            await yesterdayEntryResponse.json();
+  //         const yesterdayEntryResponse = await fetch(
+  //           `/api/users/${session.user.id}/journal-entries/yesterday`
+  //         );
+  //         const yesterdayEntry: JournalEntryHighlights =
+  //           await yesterdayEntryResponse.json();
 
-          if (yesterdayEntry?.nightEntry?.dailyHighlights?.length) {
-            const calculatedBonus = calculateBonusWillpower(
-              yesterdayEntry.nightEntry.dailyHighlights
-            );
-            setBonusWillpower(calculatedBonus);
-          }
+  //         if (yesterdayEntry?.nightEntry?.dailyHighlights?.length) {
+  //           const calculatedBonus = calculateBonusWillpower(
+  //             yesterdayEntry.nightEntry.dailyHighlights
+  //           );
+  //           setBonusWillpower(calculatedBonus);
+  //         }
 
-          // Handle habit XP updates
-          if (yesterdayEntry?.nightEntry?.habits) {
-            setHabitXp(yesterdayEntry?.nightEntry?.habits);
-          }
-        } catch (error) {
-          console.error("Failed to fetch yesterday's entry:", error);
-        }
-      }
-    };
+  //         // Handle habit XP updates
+  //         if (yesterdayEntry?.nightEntry?.habits) {
+  //           setHabitXp(yesterdayEntry?.nightEntry?.habits);
+  //         }
+  //       } catch (error) {
+  //         console.error("Failed to fetch yesterday's entry:", error);
+  //       }
+  //     }
+  //   };
 
-    checkYesterdayEntry();
-  }, [session]);
+  //   checkYesterdayEntry();
+  // }, [session]);
 
   const calculateBonusWillpower = (highlights: string[]) => {
     const totalEntries = highlights.length;
