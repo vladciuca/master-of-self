@@ -1,3 +1,5 @@
+const endpoint = "http://localhost:3000";
+
 // Helper function to handle API responses
 async function handleResponse(response: Response) {
   if (!response.ok) {
@@ -9,7 +11,12 @@ async function handleResponse(response: Response) {
 
 export async function fetchHabits(userId: string) {
   try {
-    const response = await fetch(`/api/users/${userId}/habits`);
+    const response = await fetch(`${endpoint}/api/users/${userId}/habits`, {
+      method: "GET",
+      // next: {
+      //   revalidate: 5000,
+      // },
+    });
     const data = await handleResponse(response);
     return data.reverse();
   } catch (error) {
@@ -20,7 +27,9 @@ export async function fetchHabits(userId: string) {
 
 export async function fetchJournalEntries(userId: string) {
   try {
-    const response = await fetch(`/api/users/${userId}/journal-entries`);
+    const response = await fetch(
+      `${endpoint}/api/users/${userId}/journal-entries`
+    );
     const data = await handleResponse(response);
     return data.reverse();
   } catch (error) {
@@ -31,7 +40,7 @@ export async function fetchJournalEntries(userId: string) {
 
 export async function fetchUserSettings(userId: string) {
   try {
-    const response = await fetch(`/api/users/${userId}/settings`);
+    const response = await fetch(`${endpoint}/api/users/${userId}/settings`);
     const data = await handleResponse(response);
     return data;
   } catch (error) {

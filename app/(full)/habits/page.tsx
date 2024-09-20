@@ -1,11 +1,11 @@
 import { getServerSession } from "next-auth/next";
+import { UserHabits } from "@components/habits/UserHabits";
 import { authOptions } from "@lib/authOptions";
 import { fetchHabits } from "@lib/api";
 import { Session } from "@app/types/types";
 
 export default async function Habits() {
   const session: Session | null = await getServerSession(authOptions);
-  console.log("=============", session);
   let habits = [];
   let error = null;
 
@@ -20,17 +20,5 @@ export default async function Habits() {
     error = "Please log in to view your habits.";
   }
 
-  return (
-    <div>
-      {error ? (
-        <p>{error}</p>
-      ) : (
-        <ul>
-          {habits.map((habit: any) => (
-            <li key={habit.id}>{habit.name}</li> // Adjust based on your habit object structure
-          ))}
-        </ul>
-      )}
-    </div>
-  );
+  return <div>{error ? <p>{error}</p> : <UserHabits habits={habits} />}</div>;
 }
