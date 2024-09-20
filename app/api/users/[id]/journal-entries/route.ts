@@ -1,5 +1,5 @@
 import { NextRequest } from "next/server";
-import { connectToDB } from "@utils/database";
+import { connectToDB } from "@lib/database";
 import JournalEntry from "@models/journalEntry";
 
 export const GET = async (

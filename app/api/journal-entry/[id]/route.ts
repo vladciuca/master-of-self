@@ -1,4 +1,4 @@
-import { connectToDB } from "@utils/database";
+import { connectToDB } from "@lib/database";
 import { NextResponse, NextRequest } from "next/server";
 import JournalEntry from "@models/journalEntry";
 
