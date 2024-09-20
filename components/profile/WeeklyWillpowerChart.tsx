@@ -255,7 +255,9 @@ export function WeeklyWillpowerChart() {
       <Card>
         <CardHeader className="p-4 pb-0">
           <CardTitle className="flex items-baseline justify-between">
-            <span>{chartTimePeriod(willpowerData)}</span>
+            <span className="text-muted-foreground">
+              {chartTimePeriod(willpowerData)}
+            </span>
             <span className="flex items-center text-3xl font-bold">
               {isLoading ? "??" : totalWillpower.generated}
               {!isLoading && totalWillpower.bonus > 0 && (
