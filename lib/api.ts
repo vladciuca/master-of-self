@@ -1,4 +1,5 @@
-const API_BASE_URL = process.env.API_BASE_URL;
+const API_BASE_URL =
+  process.env.NEXT_PUBLIC_VERCEL_URL || "http://localhost:3000";
 
 // Helper function to handle API responses
 async function handleResponse(response: Response) {
@@ -22,6 +23,7 @@ function getApiUrl(path: string): string {
 }
 
 export async function fetchHabits(userId: string) {
+  console.log("===API URL / HABITS", getApiUrl(`/users/${userId}/habits`));
   try {
     const response = await fetch(getApiUrl(`/users/${userId}/habits`), {
       method: "GET",
