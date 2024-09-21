@@ -1,5 +1,5 @@
 import { FormStepTemplate } from "@components/journal/journal-entry-form/form-steps/FormStepTemplate";
-import { TextAreaList } from "@components/ui/TextAreaList";
+import { TextAreaList } from "@components/ui/textarea-list";
 
 type DailyHighlightsProps = {
   entryList: string[];

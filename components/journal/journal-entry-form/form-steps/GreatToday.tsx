@@ -1,6 +1,6 @@
 import React, { useCallback } from "react";
 import { FormStepTemplate } from "@components/journal/journal-entry-form/form-steps/FormStepTemplate";
-import { TextAreaList } from "@components/ui/TextAreaList";
+import { TextAreaList } from "@components/ui/textarea-list";
 import { FaBoltLightning } from "react-icons/fa6";
 
 type GreatTodayProps = {
