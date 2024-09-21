@@ -16,9 +16,9 @@ export const metadata = {
 
 export default function RootLayout({ children }: Layout) {
   return (
-    <Provider>
-      <html lang="en" suppressHydrationWarning>
-        <body className={`relative ${font.className}`}>
+    <html lang="en" suppressHydrationWarning>
+      <body className={`relative ${font.className}`}>
+        <Provider>
           <ThemeProvider
             attribute="class"
             defaultTheme="system"
@@ -29,8 +29,8 @@ export default function RootLayout({ children }: Layout) {
               {children}
             </div>
           </ThemeProvider>
-        </body>
-      </html>
-    </Provider>
+        </Provider>
+      </body>
+    </html>
   );
 }

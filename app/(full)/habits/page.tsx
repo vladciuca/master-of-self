@@ -9,7 +9,13 @@ export default async function Habits() {
   let habits = [];
   let error = null;
 
-  if (session?.user.id) {
+  if (!session) {
+    error = "No session found. Please log in to view your habits.";
+  } else if (!session.user) {
+    error = "No user found in session. Please log in again.";
+  } else if (!session.user.id) {
+    error = "User ID not found. Please log in again.";
+  } else {
     try {
       console.log("API URL:", process.env.NEXT_PUBLIC_API_URL);
 
@@ -19,8 +25,6 @@ export default async function Habits() {
       console.error("Failed to fetch habits:", error);
       error = "Failed to load habits. Please try again later.";
     }
-  } else {
-    error = "Please log in to view your habits.";
   }
 
   if (error) {
@@ -34,11 +38,13 @@ export default async function Habits() {
 
   // return <UserHabits habits={habits} />;
   return (
-    <>
-      {/* {habits.map((habit: any) => (
-        <div key={habit.id}>habit.name</div>
-      ))} */}
-      HABITS PAGE
-    </>
+    <div>
+      <h1>Habits Page</h1>
+      {habits.length > 0 ? (
+        <UserHabits habits={habits} />
+      ) : (
+        <p>No habits found.</p>
+      )}
+    </div>
   );
 }

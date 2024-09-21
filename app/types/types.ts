@@ -7,9 +7,9 @@ export type Layout = {
 
 export type User = {
   id: string;
-  name?: string;
-  email?: string;
-  image?: string;
+  name?: string | null;
+  email?: string | null;
+  image?: string | null;
 };
 
 export type UserSettings = {
@@ -24,9 +24,9 @@ export type UserSettings = {
 };
 export type UserMetadata = User & UserSettings;
 
-export type Session = NextAuthSession & {
+export interface Session extends NextAuthSession {
   user: User;
-};
+}
 
 export type JournalEntry = {
   dailyWillpower: number;
