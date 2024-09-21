@@ -42,8 +42,17 @@ export function NewJournalEntry() {
           const yesterdayEntryResponse = await fetch(
             `/api/users/${session.user.id}/journal-entries/yesterday`
           );
-          const yesterdayEntry: JournalEntryHighlights =
-            await yesterdayEntryResponse.json();
+          // Check if the response is OK (status code 200-299)
+          if (!yesterdayEntryResponse.ok) {
+            // Handle error response (e.g., log the status and message)
+            const errorText = await yesterdayEntryResponse.text();
+            console.error(
+              `Error fetching yesterday's entry: ${yesterdayEntryResponse.status} - ${errorText}`
+            );
+            return;
+          }
+
+          const yesterdayEntry = await yesterdayEntryResponse.json();
 
           if (yesterdayEntry?.nightEntry?.dailyHighlights?.length) {
             const calculatedBonus = calculateBonusWillpower(
@@ -54,8 +63,22 @@ export function NewJournalEntry() {
 
           // Handle habit XP updates
           if (yesterdayEntry?.nightEntry?.habits) {
-            setHabitXp(yesterdayEntry?.nightEntry?.habits);
+            setHabitXp(yesterdayEntry.nightEntry.habits);
           }
+          // const yesterdayEntry: JournalEntryHighlights =
+          //   await yesterdayEntryResponse.json();
+
+          // if (yesterdayEntry?.nightEntry?.dailyHighlights?.length) {
+          //   const calculatedBonus = calculateBonusWillpower(
+          //     yesterdayEntry.nightEntry.dailyHighlights
+          //   );
+          //   setBonusWillpower(calculatedBonus);
+          // }
+
+          // // Handle habit XP updates
+          // if (yesterdayEntry?.nightEntry?.habits) {
+          //   setHabitXp(yesterdayEntry?.nightEntry?.habits);
+          // }
         } catch (error) {
           console.error("Failed to fetch yesterday's entry:", error);
         }
