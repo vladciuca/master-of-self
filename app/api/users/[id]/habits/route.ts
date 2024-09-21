@@ -22,19 +22,16 @@
 import { NextRequest, NextResponse } from "next/server";
 import { connectToDB } from "@lib/database";
 import Habit from "@models/habit";
-import corsMiddleware from "@lib/cors-middleware";
+import { corsMiddleware } from "@lib/cors-middleware";
 
 export const GET = async (
   req: NextRequest,
   { params }: { params: { id: string } }
 ) => {
-  // Create a NextResponse object to pass to the CORS middleware
-  const res = NextResponse.next();
+  // Apply CORS middleware
+  const corsHeaders = corsMiddleware(req);
 
   try {
-    // Apply CORS middleware
-    await corsMiddleware(req as any, res as any);
-
     // Connect to the database
     await connectToDB();
 
@@ -43,11 +40,17 @@ export const GET = async (
       creator: params.id,
     }).populate("creator");
 
-    // Return the response
-    return NextResponse.json(habits, { status: 200 });
+    // Return the response with CORS headers
+    return new NextResponse(JSON.stringify(habits), {
+      status: 200,
+      headers: corsHeaders,
+    });
   } catch (error) {
-    // In case of an error, still apply CORS headers
-    await corsMiddleware(req as any, res as any);
-    return NextResponse.json("Failed to fetch all habits", { status: 500 });
+    console.error("Failed to fetch habits:", error);
+    // Return error response with CORS headers
+    return new NextResponse("Failed to fetch all habits", {
+      status: 500,
+      headers: corsHeaders,
+    });
   }
 };
