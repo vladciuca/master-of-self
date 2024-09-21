@@ -243,30 +243,29 @@ export function WeeklyWillpowerChart() {
 
   return (
     <div>
-      <div className="mx-1 mb-4">
-        <CardTitle className="scroll-m-20 text-2xl font-semibold tracking-tight">
-          {"Weekly Willpower"}
+      <div className="mx-1">
+        <CardTitle className="scroll-m-20 text-2xl font-semibold tracking-tight flex items-center">
+          <span>{"Weekly Willpower"}</span>
         </CardTitle>
+
         <CardDescription>
           {"Your daily and bonus Willpower generated for the current week."}
         </CardDescription>
+        <CardTitle className="flex items-baseline justify-between my-1 mt-2">
+          <span className="text-muted-foreground">
+            {chartTimePeriod(willpowerData)}
+          </span>
+          <span className="flex items-center text-3xl font-bold">
+            {isLoading ? "??" : totalWillpower.generated}
+            {!isLoading && totalWillpower.bonus > 0 && (
+              <span className="text-green-500">+{totalWillpower.bonus}</span>
+            )}
+            <FaBoltLightning className="ml-1" />
+          </span>
+        </CardTitle>
       </div>
 
       <Card>
-        <CardHeader className="p-4 pb-0">
-          <CardTitle className="flex items-baseline justify-between">
-            <span className="text-muted-foreground">
-              {chartTimePeriod(willpowerData)}
-            </span>
-            <span className="flex items-center text-3xl font-bold">
-              {isLoading ? "??" : totalWillpower.generated}
-              {!isLoading && totalWillpower.bonus > 0 && (
-                <span className="text-green-500">+{totalWillpower.bonus}</span>
-              )}
-              <FaBoltLightning className="ml-1" />
-            </span>
-          </CardTitle>
-        </CardHeader>
         <CardContent className="p-2">
           <ChartContainer config={chartConfig}>
             <ResponsiveContainer width="100%" height={300}>
