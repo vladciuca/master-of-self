@@ -11,14 +11,26 @@ export default async function Habits() {
 
   if (session?.user.id) {
     try {
+      console.log("API URL:", process.env.NEXT_PUBLIC_API_URL);
+
       habits = await fetchHabits(session.user.id);
-    } catch (e) {
-      console.error("Failed to fetch habits:", e);
+      console.log("Fetched habits:", habits);
+    } catch (error) {
+      console.error("Failed to fetch habits:", error);
       error = "Failed to load habits. Please try again later.";
     }
   } else {
     error = "Please log in to view your habits.";
   }
 
-  return <div>{error ? <p>{error}</p> : <UserHabits habits={habits} />}</div>;
+  if (error) {
+    return (
+      <div>
+        <h1>Error</h1>
+        <p>{error}</p>
+      </div>
+    );
+  }
+
+  return <UserHabits habits={habits} />;
 }

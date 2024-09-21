@@ -24,8 +24,17 @@ export async function fetchHabits(userId: string) {
   try {
     const response = await fetch(`${baseUrl}/api/users/${userId}/habits`, {
       method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
     });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
     const data = await handleResponse(response);
+    console.log("Fetched data:", data);
     return data.reverse();
   } catch (error) {
     console.error("Failed to fetch habits", error);
