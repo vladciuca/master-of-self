@@ -17,7 +17,14 @@ export const metadata = {
 };
 
 export default async function RootLayout({ children }: Layout) {
-  const session = await getServerSession(authOptions);
+  let session;
+
+  try {
+    session = await getServerSession(authOptions);
+  } catch (error) {
+    console.error("Error fetching session:", error);
+    session = null; // Fallback in case of error
+  }
 
   return (
     <html lang="en" suppressHydrationWarning>
