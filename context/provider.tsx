@@ -2,8 +2,12 @@
 
 import React from "react";
 import { SessionProvider } from "next-auth/react";
-import { Layout } from "@app/types/types";
+import { Session, Layout } from "@app/types/types";
 
-export function Provider({ children }: Layout) {
-  return <SessionProvider>{children}</SessionProvider>;
+type ProviderProps = Layout & {
+  session: any;
+};
+
+export function Provider({ children, session }: ProviderProps) {
+  return <SessionProvider session={session}>{children}</SessionProvider>;
 }

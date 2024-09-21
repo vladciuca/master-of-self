@@ -1,4 +1,6 @@
 import "@styles/global.css";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@lib/authOptions";
 import { Provider } from "@context/provider";
 import { ThemeProvider } from "@context/theme-provider";
 import { Poppins } from "next/font/google";
@@ -14,11 +16,13 @@ export const metadata = {
   description: "Take control of your life",
 };
 
-export default function RootLayout({ children }: Layout) {
+export default async function RootLayout({ children }: Layout) {
+  const session = await getServerSession(authOptions);
+
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`relative ${font.className}`}>
-        <Provider>
+        <Provider session={session}>
           <ThemeProvider
             attribute="class"
             defaultTheme="system"
