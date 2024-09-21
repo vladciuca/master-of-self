@@ -15,11 +15,14 @@ import { Session, Habit } from "@app/types/types";
 
 type HabitCardProps = {
   habit: Habit;
-  handleEdit: (habit: Habit) => void;
-  handleDelete: (habit: Habit) => Promise<void>;
+  // handleEdit: (habit: Habit) => void;
+  // handleDelete: (habit: Habit) => Promise<void>;
 };
 
-export function HabitCard({ habit, handleEdit, handleDelete }: HabitCardProps) {
+export function HabitCard({
+  habit,
+}: // handleEdit, handleDelete
+HabitCardProps) {
   const { _id = "", name = "", icon = "", description = "", xp = 0 } = habit;
   const { data: session } = useSession() as { data: Session | null };
   const pathName = usePathname();
@@ -81,7 +84,7 @@ export function HabitCard({ habit, handleEdit, handleDelete }: HabitCardProps) {
             pathName === "/habits" && (
               <div>
                 <Button
-                  onClick={() => handleEdit(habit)}
+                  // onClick={() => handleEdit(habit)}
                   className="mr-3"
                   size="sm"
                 >

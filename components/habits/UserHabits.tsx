@@ -31,23 +31,23 @@ type UserHabitsProps = {
 export function UserHabits({ habits }: UserHabitsProps) {
   const router = useRouter();
 
-  const handleEdit = (habit: Habit) => {
-    router.push(`/update-habit/${habit._id}`);
-  };
+  // const handleEdit = (habit: Habit) => {
+  //   router.push(`/update-habit/${habit._id}`);
+  // };
 
-  const handleDelete = async (habit: Habit) => {
-    const hasConfirmed = confirm("Are you sure you want to delete this habit?");
+  // const handleDelete = async (habit: Habit) => {
+  //   const hasConfirmed = confirm("Are you sure you want to delete this habit?");
 
-    if (hasConfirmed) {
-      try {
-        await fetch(`/api/habit/${habit._id.toString()}`, { method: "DELETE" });
+  //   if (hasConfirmed) {
+  //     try {
+  //       await fetch(`/api/habit/${habit._id.toString()}`, { method: "DELETE" });
 
-        router.push("/habits");
-      } catch (error) {
-        console.log(error);
-      }
-    }
-  };
+  //       router.push("/habits");
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   }
+  // };
 
   return (
     <div className="w-full">
@@ -62,8 +62,8 @@ export function UserHabits({ habits }: UserHabitsProps) {
       {/* <Suspense fallback={skeletonCards()> */}
       <HabitList
         habits={habits}
-        handleEdit={handleEdit}
-        handleDelete={handleDelete}
+        // handleEdit={handleEdit}
+        // handleDelete={handleDelete}
       />
       {/* </Suspense> */}
     </div>
