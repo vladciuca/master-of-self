@@ -9,7 +9,7 @@ type HabitListProps = {
 };
 
 export function HabitList({
-  habits,
+  habits = [],
 }: // handleEdit,
 // handleDelete,
 HabitListProps) {
