@@ -22,8 +22,10 @@ export const connectToDB = async () => {
       dbName: "master_of_self",
     });
 
+    isConnected = true;
     console.log("===DB", "MongoDB is already connected");
   } catch (error) {
     console.log("===DB", error);
+    throw error;
   }
 };

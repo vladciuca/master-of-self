@@ -33,8 +33,8 @@ export const authOptions: NextAuthOptions = {
       return session as Session;
     },
     async signIn({ profile }) {
-      if (!profile) {
-        console.error("Invalid profile data:", profile);
+      if (!profile || !profile.email) {
+        console.error("Invalid or missing profile data:", profile);
         return false;
       }
       try {
