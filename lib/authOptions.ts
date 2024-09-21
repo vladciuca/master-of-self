@@ -17,15 +17,6 @@ export const authOptions: NextAuthOptions = {
       else if (new URL(url).origin === baseUrl) return url;
       return baseUrl;
     },
-    // async session({ session }): Promise<Session> {
-    //   if (session.user && session.user.email) {
-    //     const sessionUser = await User.findOne({ email: session.user.email });
-    //     if (sessionUser) {
-    //       (session.user as UserType).id = sessionUser._id.toString();
-    //     }
-    //   }
-    //   return session as Session;
-    // },
     async session({ session }): Promise<Session> {
       if (session.user && session.user.email) {
         const sessionUser = await User.findOne({ email: session.user.email });
