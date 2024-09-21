@@ -32,5 +32,12 @@ export default async function Habits() {
     );
   }
 
-  return <UserHabits habits={habits} />;
+  // return <UserHabits habits={habits} />;
+  return (
+    <>
+      {habits.map((habit: any) => (
+        <div key={habit.id}>habit.name</div>
+      ))}
+    </>
+  );
 }
