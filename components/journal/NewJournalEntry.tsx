@@ -10,18 +10,8 @@ import { FaBoltLightning } from "react-icons/fa6";
 import { useFetchYesterdayJournalEntry } from "@hooks/useFetchYesterdayJournalEntry";
 import { Session } from "@app/types/types";
 
-// type JournalEntryHighlights = {
-//   _id: string;
-//   nightEntry?: {
-//     dailyHighlights?: string[];
-//     habits?: { [key: string]: number };
-//   };
-// };
-
 export function NewJournalEntry() {
   const [submitting, setSubmitting] = useState<boolean>(false);
-  // const [bonusWillpower, setBonusWillpower] = useState<number>(0);
-  // const [habitXp, setHabitXp] = useState<{ [key: string]: number }>({});
   const { data: session } = useSession() as { data: Session | null };
   const router = useRouter();
   const { bonusWillpower, habitXp } = useFetchYesterdayJournalEntry();
@@ -31,55 +21,6 @@ export function NewJournalEntry() {
   const dayOfWeek = date
     .toLocaleString("default", { weekday: "short" })
     .toUpperCase();
-
-  // useEffect(() => {
-  //   const checkYesterdayEntry = async () => {
-  //     if (session?.user?.id) {
-  //       try {
-  //         // const today = new Date();
-  //         // const localDate = today.toISOString().split("T")[0];
-  //         // ?date=${localDate}
-
-  //         const yesterdayEntryResponse = await fetch(
-  //           `/api/users/${session.user.id}/journal-entries/yesterday`
-  //         );
-  //         // Check if the response is OK (status code 200-299)
-  //         if (!yesterdayEntryResponse.ok) {
-  //           // Handle error response (e.g., log the status and message)
-  //           const errorText = await yesterdayEntryResponse.text();
-  //           console.error(
-  //             `Error fetching yesterday's entry: ${yesterdayEntryResponse.status} - ${errorText}`
-  //           );
-  //           return;
-  //         }
-
-  //         const yesterdayEntry = await yesterdayEntryResponse.json();
-
-  //         if (yesterdayEntry?.nightEntry?.dailyHighlights?.length) {
-  //           const calculatedBonus = calculateBonusWillpower(
-  //             yesterdayEntry.nightEntry.dailyHighlights
-  //           );
-  //           setBonusWillpower(calculatedBonus);
-  //         }
-
-  //         // Handle habit XP updates
-  //         if (yesterdayEntry?.nightEntry?.habits) {
-  //           setHabitXp(yesterdayEntry.nightEntry.habits);
-  //         }
-  //       } catch (error) {
-  //         console.error("Failed to fetch yesterday's entry:", error);
-  //       }
-  //     }
-  //   };
-
-  //   checkYesterdayEntry();
-  // }, [session]);
-
-  // const calculateBonusWillpower = (highlights: string[]) => {
-  //   const totalEntries = highlights.length;
-  //   const totalLength = highlights.join("").length;
-  //   return Math.floor((totalEntries * 5 + totalLength) / 10);
-  // };
 
   const createJournalEntry = async () => {
     setSubmitting(true);
@@ -140,9 +81,6 @@ export function NewJournalEntry() {
       if (!response.ok) {
         throw new Error("Failed to update habits");
       }
-
-      // const updatedHabits = await response.json();
-      // console.log("Updated habits:", updatedHabits);
     } catch (error) {
       console.error("Error updating habits:", error);
     }

@@ -7,17 +7,11 @@ import { GratefulFor } from "@components/journal/journal-entry-form/form-steps/G
 import { DailyHighlights } from "@components/journal/journal-entry-form/form-steps/DailyHighlights";
 import { LearnedToday } from "@components/journal/journal-entry-form/form-steps/LearnedToday";
 import { HabitsStep } from "@components/journal/journal-entry-form/form-steps/HabitsStep";
+import { isEvening } from "@lib/journaling-hours";
 import { JournalEntry } from "@app/types/types";
 
 // TEST_FLAG: used for enabling all forms steps
 const SHOW_ALL_TEST = false;
-
-function isEvening(startHour: string | undefined): boolean {
-  if (!startHour) return false;
-  const currentHour = new Date().getHours();
-  const eveningStartHour = parseInt(startHour.split(":")[0]);
-  return currentHour >= eveningStartHour;
-}
 
 type FormStepControllerProps = {
   submitting: boolean;
@@ -130,13 +124,11 @@ function FormStepController({
 
   const formSteps = [
     {
-      name: "Bonus Willpower",
       type: "reward",
       component: <DailyBonus bonusWillpower={formData.bonusWillpower} />,
       isAvailable: formData.bonusWillpower > 0,
     },
     {
-      // name: "What am I feeling grateful for?",
       type: "gratitude",
       component: (
         <GratefulFor
@@ -149,7 +141,6 @@ function FormStepController({
         SHOW_ALL_TEST || (!isEvening(userEveningTime) && hasGratitude),
     },
     {
-      // name: "What will I do to make today great?",
       type: "day",
       component: (
         <GreatToday
@@ -162,7 +153,6 @@ function FormStepController({
     },
 
     {
-      // name: "What are today's highlights?",
       type: "night",
       component: (
         <DailyHighlights
@@ -173,7 +163,6 @@ function FormStepController({
       isAvailable: SHOW_ALL_TEST || isEvening(userEveningTime),
     },
     {
-      name: "What have I learned today?",
       type: "reflection",
       component: (
         <LearnedToday
@@ -185,7 +174,6 @@ function FormStepController({
         SHOW_ALL_TEST || (isEvening(userEveningTime) && hasReflection),
     },
     {
-      name: "How did I manage my Willpower?",
       type: "habits",
       component: (
         <HabitsStep

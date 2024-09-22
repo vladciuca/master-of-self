@@ -94,16 +94,8 @@ export async function updateJournalEntry(
     if (!journalEntries) await init();
 
     const query = { _id: new ObjectId(id) };
-    // let update = {};
 
-    // maybe remove type?!
-    // if (type === "day") {
-    //   update = { $set: { dayEntry } };
-    // } else if (type === "night") {
-    //   update = { $set: { nightEntry } };
-    // } else {
     const update = { $set: { dailyWillpower, dayEntry, nightEntry } };
-    // }
 
     const journalEntry = await journalEntries.findOneAndUpdate(query, update, {
       returnDocument: "after",

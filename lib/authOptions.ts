@@ -2,8 +2,9 @@ import { NextAuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import { MongoDBAdapter } from "@auth/mongodb-adapter";
 import { Adapter } from "next-auth/adapters";
+import { ObjectId } from "mongodb";
 import clientPromise from "@lib/mongo/mongodb";
-import { Session, User } from "@app/types/types";
+import { Session } from "@app/types/types";
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -19,6 +20,28 @@ export const authOptions: NextAuthOptions = {
         session.user.id = user.id;
       }
       return session as Session;
+    },
+  },
+  events: {
+    createUser: async ({ user }) => {
+      const db = (await clientPromise).db();
+      await db.collection("users").updateOne(
+        { _id: new ObjectId(user.id) },
+        {
+          $set: {
+            settings: {
+              steps: {
+                gratefulStep: false,
+                reflectionStep: false,
+              },
+              journalStartTime: {
+                morning: "08:00",
+                evening: "18:00",
+              },
+            },
+          },
+        }
+      );
     },
   },
   // callbacks: {

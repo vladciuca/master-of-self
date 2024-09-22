@@ -1,25 +1,22 @@
 import { NextRequest, NextResponse } from "next/server";
-// import { connectToDB } from "@lib/mongoose";
-import User from "@models/user";
+import { getUser, updateUserSettings } from "@lib/mongo/users";
 
 export const GET = async (
   req: NextRequest,
   { params }: { params: { id: string } }
 ) => {
   try {
-    // await connectToDB();
+    const id = params.id;
 
-    const user = await User.findById(params.id);
+    const { user, error } = await getUser(id);
 
-    if (!user) {
-      return new NextResponse(JSON.stringify({ message: "User not found" }), {
-        status: 404,
-      });
+    if (error) {
+      return NextResponse.json({ error }, { status: 500 });
     }
 
-    return new NextResponse(JSON.stringify({ settings: user.settings }), {
-      status: 200,
-    });
+    if (!user) return new NextResponse("User not found", { status: 404 });
+
+    return new NextResponse(JSON.stringify(user), { status: 200 });
   } catch (error) {
     console.error("Failed to fetch user settings:", error);
     return new NextResponse(
@@ -34,31 +31,22 @@ export const PATCH = async (
   { params }: { params: { id: string } }
 ) => {
   try {
-    // await connectToDB();
-
     const userId = params.id;
     const updateData = await req.json();
 
-    const user = await User.findById(userId);
+    const { user, error } = await updateUserSettings(userId, updateData);
+
+    if (error) {
+      return new NextResponse(JSON.stringify({ message: error }), {
+        status: 500,
+      });
+    }
 
     if (!user) {
       return new NextResponse(JSON.stringify({ message: "User not found" }), {
         status: 404,
       });
     }
-
-    // Update the user settings
-    if (updateData.steps) {
-      user.settings.steps = { ...user.settings.steps, ...updateData.steps };
-    }
-    if (updateData.journalStartTime) {
-      user.settings.journalStartTime = {
-        ...user.settings.journalStartTime,
-        ...updateData.journalStartTime,
-      };
-    }
-
-    await user.save();
 
     return new NextResponse(JSON.stringify({ settings: user.settings }), {
       status: 200,
