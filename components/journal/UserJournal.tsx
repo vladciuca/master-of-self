@@ -1,77 +1,52 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
-import { useSession } from "next-auth/react";
 import { JournalEntryList } from "@components/journal/JournalEntryList";
 import { SkeletonJournalEntryCard } from "@components/skeletons/SkeletonJournalEntryCard";
-import { Session, JournalEntryMetadata } from "@app/types/types";
+import { useFetchUserJournal } from "@hooks/useFetchUserJournal";
 
 const skeletonCards = Array.from({ length: 3 }, (_, index) => (
   <SkeletonJournalEntryCard key={index} />
 ));
 
 export function UserJournal() {
-  const [journalEntries, setJournalEntries] = useState([]);
-  const [journalEntriesLoaded, setJournalEntriesLoaded] = useState(false);
-  const router = useRouter();
-  const { data: session } = useSession() as { data: Session | null };
+  const { journalEntries, journalEntriesLoading, journalEntriesError } =
+    useFetchUserJournal();
 
-  useEffect(() => {
-    const fetchJournalEntries = async () => {
-      setJournalEntriesLoaded(false);
-      try {
-        const response = await fetch(
-          `/api/users/${session?.user?.id}/journal-entries`
-        );
-        const data = await response.json();
-        setJournalEntries(data.reverse());
-      } catch (error) {
-        console.error("Failed to fetch habits", error);
-      } finally {
-        setJournalEntriesLoaded(true);
-      }
-    };
+  // const handleDelete = async (journalEntry: JournalEntryMetadata) => {
+  //   const hasConfirmed = confirm("Are you sure you want to delete this habit?");
 
-    if (session?.user?.id) {
-      fetchJournalEntries();
-    }
-  }, [session]);
+  //   if (hasConfirmed) {
+  //     try {
+  //       await fetch(`/api/journal-entry/${journalEntry._id.toString()}`, {
+  //         method: "DELETE",
+  //       });
 
-  const handleDelete = async (journalEntry: JournalEntryMetadata) => {
-    const hasConfirmed = confirm("Are you sure you want to delete this habit?");
+  //       const filteredJournalEntries = journalEntries.filter(
+  //         (myJournalEntry: JournalEntryMetadata) =>
+  //           myJournalEntry._id !== journalEntry._id
+  //       );
 
-    if (hasConfirmed) {
-      try {
-        await fetch(`/api/journal-entry/${journalEntry._id.toString()}`, {
-          method: "DELETE",
-        });
+  //       setJournalEntries(filteredJournalEntries);
 
-        const filteredJournalEntries = journalEntries.filter(
-          (myJournalEntry: JournalEntryMetadata) =>
-            myJournalEntry._id !== journalEntry._id
-        );
-
-        setJournalEntries(filteredJournalEntries);
-
-        router.push("/journal");
-      } catch (error) {
-        console.log(error);
-      }
-    }
-  };
+  //       router.push("/journal");
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   }
+  // };
 
   return (
     <div>
-      {!journalEntriesLoaded && <>{skeletonCards}</>}
-      {journalEntriesLoaded && (
+      {journalEntriesLoading && <>{skeletonCards}</>}
+      {!journalEntriesLoading && !journalEntriesError && (
         <div>
           <JournalEntryList
             journalEntries={journalEntries}
-            handleDelete={handleDelete}
+            // handleDelete={handleDelete}
           />
         </div>
       )}
+      {journalEntriesError && <p>Error: {journalEntriesError}</p>}
     </div>
   );
 }

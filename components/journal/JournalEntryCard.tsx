@@ -16,13 +16,13 @@ import { Session, JournalEntryMetadata } from "@app/types/types";
 
 type JournalEntryCardProps = {
   journalEntry: JournalEntryMetadata;
-  handleDelete: (journalEntry: JournalEntryMetadata) => Promise<void>;
+  // handleDelete: (journalEntry: JournalEntryMetadata) => Promise<void>;
 };
 
 export function JournalEntryCard({
   journalEntry,
-  handleDelete,
-}: JournalEntryCardProps) {
+}: // handleDelete,
+JournalEntryCardProps) {
   const { data: session } = useSession() as { data: Session | null };
   const pathName = usePathname();
   const {

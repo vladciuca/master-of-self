@@ -28,5 +28,3 @@ export type JournalEntry = {
 };
 
 export type NewJournalEntry = Omit<JournalEntry, "_id">; // Lets mongo db assign the _id
-
-export type JournalEntryUpdate = []; // [habitId, xpChange]

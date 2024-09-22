@@ -1,86 +1,68 @@
-// import { connectToDB } from "@lib/mongoose";
 import { NextResponse, NextRequest } from "next/server";
-import JournalEntry from "@models/journalEntry";
+import {
+  getJournalEntry,
+  updateJournalEntry,
+} from "@lib/mongo/journal-entries";
 
-export const GET = async (
-  _: NextRequest,
-  { params }: { params: { id: string } }
-) => {
-  try {
-    // await connectToDB();
-    const updatedJournalEntry = await JournalEntry.findById(params.id);
-
-    if (!updatedJournalEntry) {
-      return new NextResponse("Journal entry not found", { status: 404 });
-    }
-
-    return new NextResponse(JSON.stringify(updatedJournalEntry), {
-      status: 200,
-    });
-  } catch (error) {
-    return new NextResponse("Failed to get journal entry", { status: 500 });
-  }
-};
-
-export const PATCH = async (
+export async function GET(
   req: NextRequest,
   { params }: { params: { id: string } }
-) => {
-  const { dailyWillpower, dayEntry, nightEntry, type } = await req.json();
+) {
+  try {
+    const { journalEntry, error } = await getJournalEntry(params.id);
+
+    if (error) {
+      return NextResponse.json({ error }, { status: 500 });
+    }
+
+    if (!journalEntry)
+      return new NextResponse("Journal entry not found", { status: 404 });
+
+    return new NextResponse(JSON.stringify(journalEntry), { status: 200 });
+  } catch (error) {
+    return new NextResponse("Failed to fetch habit", { status: 500 });
+  }
+}
+
+export async function PATCH(
+  req: NextRequest,
+  { params }: { params: { id: string } }
+) {
+  const { dailyWillpower, dayEntry, nightEntry } = await req.json();
 
   try {
-    // await connectToDB();
-    let updatedJournalEntry;
+    const { journalEntry, error } = await updateJournalEntry(
+      params.id,
+      dailyWillpower,
+      dayEntry,
+      nightEntry
+    );
 
-    //DO WE STILL NEED THIS?
-    // refactor logic when implementing separate Day / Night Forms
-    if (type === "day") {
-      updatedJournalEntry = await JournalEntry.findByIdAndUpdate(
-        params.id,
-        { $set: { dayEntry } },
-        { new: true }
-      );
-    } else if (type === "night") {
-      updatedJournalEntry = await JournalEntry.findByIdAndUpdate(
-        params.id,
-        { $set: { nightEntry } },
-        { new: true }
-      );
-    } else {
-      updatedJournalEntry = await JournalEntry.findByIdAndUpdate(
-        params.id,
-        { $set: { dailyWillpower, dayEntry, nightEntry } },
-        { new: true }
-      );
+    if (error) {
+      return new NextResponse(error, { status: 404 });
     }
 
-    if (!updatedJournalEntry) {
-      return new NextResponse("Journal entry not found", { status: 404 });
-    }
-
-    return new NextResponse(JSON.stringify(updatedJournalEntry), {
-      status: 200,
-    });
+    return new NextResponse(JSON.stringify(journalEntry), { status: 200 });
   } catch (error) {
     return new NextResponse("Failed to update journal entry", { status: 500 });
   }
-};
+}
 
-// test purposes
-export const DELETE = async (
-  req: NextRequest,
-  { params }: { params: { id: string } }
-) => {
-  try {
-    // await connectToDB();
+// // test purposes
+// export const DELETE = async (
+//   req: NextRequest,
+//   { params }: { params: { id: string } }
+// ) => {
+//   try {
+//     // await connectToDB();
 
-    await JournalEntry.findByIdAndDelete(params.id);
+//     await JournalEntry.findByIdAndDelete(params.id);
 
-    return new NextResponse("Journal Entry was deleted successfully", {
-      status: 200,
-    });
-  } catch (error) {
-    console.log(error);
-    return new NextResponse("Failed to delete Journal Entry", { status: 500 });
-  }
-};
+//     return new NextResponse("Journal Entry was deleted successfully", {
+//       status: 200,
+//     });
+//   } catch (error) {
+//     console.log(error);
+//     return new NextResponse("Failed to delete Journal Entry", { status: 500 });
+//   }
+// };

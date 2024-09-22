@@ -10,8 +10,6 @@ import { useFetchUserHabits } from "@hooks/useFetchUserHabits";
 import { JournalEntry } from "@app/types/types";
 
 export default function UpdateJournalEntry() {
-  const params = useParams<{ id: string }>();
-  const { id } = params;
   const [submitting, setSubmitting] = useState(false);
   const [journalEntryData, setJournalEntryData] = useState<JournalEntry | null>(
     null
@@ -20,6 +18,9 @@ export default function UpdateJournalEntry() {
   const [journalEntryError, setJournalEntryError] = useState<string | null>(
     null
   );
+
+  const params = useParams<{ id: string }>();
+  const { id } = params;
 
   const { hasGratitude, hasReflection, userEveningTime, settingsLoading } =
     useFetchUserSettings();

@@ -5,13 +5,13 @@ import { JournalEntryMetadata } from "@app/types/types";
 
 type JournalEntryListProps = {
   journalEntries: JournalEntryMetadata[];
-  handleDelete: (journalEntry: JournalEntryMetadata) => Promise<void>;
+  // handleDelete: (journalEntry: JournalEntryMetadata) => Promise<void>;
 };
 
 export function JournalEntryList({
   journalEntries,
-  handleDelete,
-}: JournalEntryListProps) {
+}: // handleDelete,
+JournalEntryListProps) {
   const hasTodayEntry = journalEntries.some((entry) => {
     const entryDate = new Date(entry.createDate);
     const currentDate = new Date();
@@ -27,7 +27,7 @@ export function JournalEntryList({
             <JournalEntryCard
               key={index}
               journalEntry={journalEntry}
-              handleDelete={handleDelete}
+              // handleDelete={handleDelete}
             />
           );
         })}

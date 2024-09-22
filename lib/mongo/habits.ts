@@ -78,7 +78,7 @@ export async function updateHabit(
 
     return { habit };
   } catch (error) {
-    return { habit: null, error: "Failed to fetch habits" };
+    return { habit: null, error: "Failed to update habit" };
   }
 }
 
@@ -120,7 +120,7 @@ export async function getHabit(id: string): Promise<{
 
     return { habit };
   } catch (error) {
-    return { habit: null, error: "Failed to fetch habits" };
+    return { habit: null, error: "Failed to fetch habit" };
   }
 }
 
