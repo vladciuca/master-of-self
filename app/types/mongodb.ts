@@ -1,7 +1,7 @@
 import { ObjectId } from "mongodb";
 
 export type Habit = {
-  _id: ObjectId;
+  _id?: ObjectId;
   name: string;
   icon: string;
   description: string;
@@ -9,7 +9,8 @@ export type Habit = {
   creator: {
     _id: ObjectId;
   };
-  // userId: string; // Add this if you're associating habits with users - maybe replace creator with this
 };
+
+export type NewHabit = Omit<Habit, "_id">; // Lets mongo db assign the _id
 
 export type HabitUpdate = [string, number]; // [habitId, xpChange]

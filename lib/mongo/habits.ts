@@ -1,6 +1,6 @@
 import { MongoClient, Db, Collection, ObjectId } from "mongodb";
 import clientPromise from "./mongodb";
-import { Habit, HabitUpdate } from "@/app/types/mongodb";
+import { Habit, NewHabit, HabitUpdate } from "@/app/types/mongodb";
 
 let client: MongoClient;
 let db: Db;
@@ -21,6 +21,37 @@ async function init() {
   await init();
 })();
 
+// CREATE NEW HABIT
+export async function createHabit(
+  userId: string,
+  name: string,
+  icon: string,
+  description: string
+): Promise<{ newHabit: Habit; error?: string }> {
+  try {
+    if (!habits) await init();
+
+    const newHabit: NewHabit = {
+      creator: new ObjectId(userId),
+      name,
+      icon,
+      description,
+      xp: 0, // initialize XP to 0
+    };
+
+    const result = await habits.insertOne(newHabit);
+
+    if (!result.insertedId) {
+      throw new Error("Failed to insert new habit");
+    }
+
+    return { newHabit: { ...newHabit, _id: result.insertedId } };
+  } catch (error) {
+    console.error("Failed to create new habit", error);
+    return { newHabit: {} as Habit, error: "Failed to create new habit" };
+  }
+}
+
 // GET USER HABITS
 export async function getHabits(userId: string): Promise<{
   habits: Habit[];
@@ -39,7 +70,7 @@ export async function getHabits(userId: string): Promise<{
   }
 }
 
-//UPDATE_HABIT_XP - [received an array and modified an object with the array]
+// UPDATE HABIT XP - [received an array and modified an object with the array]
 export async function updateHabitsXp(
   habitUpdates: HabitUpdate[]
 ): Promise<{ updatedHabits: Habit[]; error?: string }> {
@@ -67,6 +98,7 @@ export async function updateHabitsXp(
 
     return { updatedHabits };
 
+    // !!! For moving the conversion from object to array here
     // const updateObject: { [key: string]: any } = {};
     // for (const [habitId, xpChange] of Object.entries(habitUpdates)) {
     //   updateObject[`habits.${habitId}`] = xpChange;
