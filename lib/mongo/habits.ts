@@ -21,13 +21,13 @@ async function init() {
   await init();
 })();
 
-// CREATE NEW HABIT
+// CREATE NEW HABIT =============================================================================
 export async function createHabit(
   userId: string,
   name: string,
   icon: string,
   description: string
-): Promise<{ newHabit: Habit; error?: string }> {
+): Promise<{ newHabit: Habit | null; error?: string }> {
   try {
     if (!habits) await init();
 
@@ -47,12 +47,11 @@ export async function createHabit(
 
     return { newHabit: { ...newHabit, _id: result.insertedId } };
   } catch (error) {
-    console.error("Failed to create new habit", error);
-    return { newHabit: {} as Habit, error: "Failed to create new habit" };
+    return { newHabit: null, error: "Failed to create new habit" };
   }
 }
 
-// UPDATE HABIT
+// UPDATE HABIT =================================================================================
 export async function updateHabit(
   id: string,
   name: string,
@@ -79,12 +78,11 @@ export async function updateHabit(
 
     return { habit };
   } catch (error) {
-    console.error("Failed to fetch habits", error);
     return { habit: null, error: "Failed to fetch habits" };
   }
 }
 
-// DELETE HABIT
+// DELETE HABIT =================================================================================
 export async function deleteHabit(
   id: string
 ): Promise<{ success?: string; error?: string }> {
@@ -101,12 +99,11 @@ export async function deleteHabit(
 
     return { success: "Habit deleted successfully" };
   } catch (error) {
-    console.error("Failed to fetch habits", error); // test
     return { error: "Failed to fetch habits" };
   }
 }
 
-// GET HABIT
+// GET HABIT ====================================================================================
 export async function getHabit(id: string): Promise<{
   habit: Habit | null;
   error?: string;
@@ -123,12 +120,11 @@ export async function getHabit(id: string): Promise<{
 
     return { habit };
   } catch (error) {
-    console.error("Failed to fetch habits", error);
     return { habit: null, error: "Failed to fetch habits" };
   }
 }
 
-// GET USER HABITS
+// GET USER HABITS ==============================================================================
 export async function getHabits(userId: string): Promise<{
   habits: Habit[] | null;
   error?: string;
@@ -141,12 +137,11 @@ export async function getHabits(userId: string): Promise<{
 
     return { habits: result };
   } catch (error) {
-    console.error("Failed to fetch habits", error);
     return { habits: null, error: "Failed to fetch habits" };
   }
 }
 
-// UPDATE HABIT XP - [received an array and modified an object with the array]
+// UPDATE HABIT XP - [received an array and modified an object with the array] ==================
 export async function updateHabitsXp(
   habitUpdates: HabitUpdate[]
 ): Promise<{ updatedHabits: Habit[]; error?: string }> {
@@ -192,7 +187,7 @@ export async function updateHabitsXp(
 
     // return { updatedDocument: result.value };
   } catch (error) {
-    console.error("Failed to update habits XP", error);
+    console.error("Failed to update habits XP", error); // test
     return { updatedHabits: [], error: "Failed to update habits XP" };
   }
 }

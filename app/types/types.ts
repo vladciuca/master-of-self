@@ -45,9 +45,7 @@ export type JournalEntry = {
 export type JournalEntryMetadata = JournalEntry & {
   _id: string;
   createDate: Date;
-  creator: {
-    _id: string;
-  };
+  creatorId: string;
 };
 
 export type Habit = {

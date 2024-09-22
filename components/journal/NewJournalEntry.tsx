@@ -9,14 +9,13 @@ import { Button } from "@components/ui/button";
 import { FaBoltLightning } from "react-icons/fa6";
 import { Session } from "@app/types/types";
 
-// could find a better way of doing this(added XP over highlights)
-type JournalEntryHighlights = {
-  _id: string;
-  nightEntry?: {
-    dailyHighlights?: string[];
-    habits?: { [key: string]: number };
-  };
-};
+// type JournalEntryHighlights = {
+//   _id: string;
+//   nightEntry?: {
+//     dailyHighlights?: string[];
+//     habits?: { [key: string]: number };
+//   };
+// };
 
 export function NewJournalEntry() {
   const [submitting, setSubmitting] = useState<boolean>(false);
@@ -65,20 +64,6 @@ export function NewJournalEntry() {
           if (yesterdayEntry?.nightEntry?.habits) {
             setHabitXp(yesterdayEntry.nightEntry.habits);
           }
-          // const yesterdayEntry: JournalEntryHighlights =
-          //   await yesterdayEntryResponse.json();
-
-          // if (yesterdayEntry?.nightEntry?.dailyHighlights?.length) {
-          //   const calculatedBonus = calculateBonusWillpower(
-          //     yesterdayEntry.nightEntry.dailyHighlights
-          //   );
-          //   setBonusWillpower(calculatedBonus);
-          // }
-
-          // // Handle habit XP updates
-          // if (yesterdayEntry?.nightEntry?.habits) {
-          //   setHabitXp(yesterdayEntry?.nightEntry?.habits);
-          // }
         } catch (error) {
           console.error("Failed to fetch yesterday's entry:", error);
         }
@@ -102,8 +87,7 @@ export function NewJournalEntry() {
         method: "POST",
         body: JSON.stringify({
           userId: session?.user?.id,
-          // if dailyWillpower is not set initially to bonusWillpower when the form is created the bonus will power will not be granted, it then resets when the score recalculates
-          dailyWillpower: bonusWillpower,
+          dailyWillpower: bonusWillpower, // add bonus Willpower to dailyWillpower
           bonusWillpower: bonusWillpower,
         }),
       });

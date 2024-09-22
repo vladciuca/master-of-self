@@ -1,20 +1,35 @@
-import { NextRequest } from "next/server";
-// import { connectToDB } from "@lib/mongoose";
-import JournalEntry from "@models/journalEntry";
+import { NextRequest, NextResponse } from "next/server";
+import { getJournalEntries } from "lib/mongo/journal-entries";
 
-export const GET = async (
-  req: NextRequest,
+export async function GET(
+  request: NextRequest,
   { params }: { params: { id: string } }
-) => {
+) {
+  const userId = params.id;
+
   try {
-    // await connectToDB();
+    const { journalEntries, error } = await getJournalEntries(userId);
 
-    const journalEntries = await JournalEntry.find({
-      creator: params.id,
-    }).populate("creator");
+    if (error) {
+      return NextResponse.json({ error }, { status: 500 });
+    }
 
-    return new Response(JSON.stringify(journalEntries), { status: 200 });
+    if (!journalEntries) {
+      return NextResponse.json(
+        { error: "No journal entries found" },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json(
+      { journalEntries: journalEntries },
+      { status: 200 }
+    );
   } catch (error) {
-    return new Response("Failed to fetch all habits", { status: 500 });
+    console.error("Error fetching journal entries:", error);
+    return NextResponse.json(
+      { error: "Internal Server Error" },
+      { status: 500 }
+    );
   }
-};
+}

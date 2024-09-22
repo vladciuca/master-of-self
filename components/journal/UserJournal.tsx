@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useRouter, usePathname } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { JournalEntryList } from "@components/journal/JournalEntryList";
 import { SkeletonJournalEntryCard } from "@components/skeletons/SkeletonJournalEntryCard";
@@ -14,7 +14,6 @@ const skeletonCards = Array.from({ length: 3 }, (_, index) => (
 export function UserJournal() {
   const [journalEntries, setJournalEntries] = useState([]);
   const [journalEntriesLoaded, setJournalEntriesLoaded] = useState(false);
-  const pathname = usePathname();
   const router = useRouter();
   const { data: session } = useSession() as { data: Session | null };
 

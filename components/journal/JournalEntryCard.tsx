@@ -27,12 +27,12 @@ export function JournalEntryCard({
   const pathName = usePathname();
   const {
     _id,
+    creatorId,
     createDate,
     dailyWillpower,
     bonusWillpower,
     dayEntry,
     nightEntry,
-    creator,
   } = journalEntry;
 
   const entryDate = new Date(createDate);
@@ -109,7 +109,7 @@ export function JournalEntryCard({
 
         {isToday && (
           <div className="w-full flex mt-4">
-            {session?.user?.id === creator?._id && pathName === "/journal" && (
+            {session?.user?.id === creatorId && pathName === "/journal" && (
               <div>
                 <Button className="mr-3 mt-1" size="sm">
                   <Link href={`/update-journal-entry/${_id}`}>
