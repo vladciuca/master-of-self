@@ -8,7 +8,6 @@ export async function GET(
   const userId = params.id;
 
   try {
-    // Fetch habits from the database
     const { habits, error } = await getHabits(userId);
 
     if (error) {

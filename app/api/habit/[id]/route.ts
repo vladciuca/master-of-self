@@ -1,12 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
-// import { connectToDB } from "@lib/mongoose";
-import Habit from "@models/habit";
 import { getHabit, updateHabit, deleteHabit } from "@lib/mongo/habits";
 
-export const GET = async (
+export async function GET(
   req: NextRequest,
   { params }: { params: { id: string } }
-) => {
+) {
   try {
     const { habit, error } = await getHabit(params.id);
 
@@ -20,23 +18,15 @@ export const GET = async (
   } catch (error) {
     return new NextResponse("Failed to fetch habit", { status: 500 });
   }
-};
+}
 
-export const PATCH = async (
+export async function PATCH(
   req: NextRequest,
   { params }: { params: { id: string } }
-) => {
+) {
   const { name, icon, description } = await req.json();
 
   try {
-    // await connectToDB();
-
-    // const updatedHabit = await Habit.findByIdAndUpdate(
-    //   params.id,
-    //   { $set: { name: name, icon: icon, description: description } },
-    //   { new: true }
-    // );
-
     const { habit, error } = await updateHabit(
       params.id,
       name,
@@ -44,11 +34,6 @@ export const PATCH = async (
       description
     );
 
-    // if (!updatedHabit) {
-    //   return new NextResponse("Habit not found", { status: 404 });
-    // }
-
-    // return new NextResponse(JSON.stringify(updatedHabit), { status: 200 });
     if (error) {
       return new NextResponse(error, { status: 404 });
     }
@@ -57,12 +42,12 @@ export const PATCH = async (
   } catch (error) {
     return new NextResponse("Failed to update habit", { status: 500 });
   }
-};
+}
 
-export const DELETE = async (
+export async function DELETE(
   req: NextRequest,
   { params }: { params: { id: string } }
-) => {
+) {
   try {
     const { success, error } = await deleteHabit(params.id);
 
@@ -74,4 +59,4 @@ export const DELETE = async (
   } catch (error) {
     return new NextResponse("Failed to delete habit", { status: 500 });
   }
-};
+}

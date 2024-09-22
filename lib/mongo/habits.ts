@@ -92,7 +92,6 @@ export async function deleteHabit(
     if (!habits) await init();
     const query = { _id: new ObjectId(id) };
 
-    // Use deleteOne to delete the habit directly
     const result = await habits.deleteOne(query);
 
     // Check if the habit was deleted (i.e., if the deletion was successful)
