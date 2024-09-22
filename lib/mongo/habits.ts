@@ -141,6 +141,31 @@ export async function getHabits(userId: string): Promise<{
   }
 }
 
+// GET HABITS ICONS =============================================================================
+export async function getHabitsIcons(ids: string[]): Promise<{
+  iconMap: Record<string, { icon: string; xp: number }>;
+  error?: string;
+}> {
+  try {
+    if (!habits) await init();
+
+    const habitIds = ids.map((id) => new ObjectId(id));
+    const result = await habits.find({ _id: { $in: habitIds } }).toArray();
+
+    const iconMap = result.reduce((acc, habit) => {
+      acc[habit._id.toString()] = {
+        icon: habit.icon,
+        xp: habit.xp,
+      };
+      return acc;
+    }, {} as Record<string, { icon: string; xp: number }>);
+
+    return { iconMap };
+  } catch (error) {
+    console.error("Failed to fetch habit icons:", error);
+    return { iconMap: {}, error: "Failed to fetch habit icons" };
+  }
+}
 // UPDATE HABIT XP - [received an array and modified an object with the array] ==================
 export async function updateHabitsXp(
   habitUpdates: HabitUpdate[]
