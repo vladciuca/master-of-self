@@ -6,9 +6,7 @@ export type Habit = {
   icon: string;
   description: string;
   xp: number;
-  creator: {
-    _id: ObjectId;
-  };
+  creatorId: ObjectId;
 };
 
 export type NewHabit = Omit<Habit, "_id">; // Lets mongo db assign the _id

@@ -32,7 +32,7 @@ export async function createHabit(
     if (!habits) await init();
 
     const newHabit: NewHabit = {
-      creator: new ObjectId(userId),
+      creatorId: new ObjectId(userId),
       name,
       icon,
       description,
@@ -52,21 +52,98 @@ export async function createHabit(
   }
 }
 
-// GET USER HABITS
-export async function getHabits(userId: string): Promise<{
-  habits: Habit[];
+// UPDATE HABIT
+export async function updateHabit(
+  id: string,
+  name: string,
+  icon: string,
+  description: string
+): Promise<{
+  habit: Habit | null;
   error?: string;
 }> {
   try {
     if (!habits) await init();
-    const query = { creator: new ObjectId(userId) };
+    const query = { _id: new ObjectId(id) };
+    const update = {
+      $set: { name: name, icon: icon, description: description },
+    };
+
+    const habit = await habits.findOneAndUpdate(query, update, {
+      returnDocument: "after",
+    });
+
+    if (!habit) {
+      throw new Error("Habit not found");
+    }
+
+    return { habit };
+  } catch (error) {
+    console.error("Failed to fetch habits", error);
+    return { habit: null, error: "Failed to fetch habits" };
+  }
+}
+
+// DELETE HABIT
+export async function deleteHabit(
+  id: string
+): Promise<{ success?: string; error?: string }> {
+  try {
+    if (!habits) await init();
+    const query = { _id: new ObjectId(id) };
+
+    // Use deleteOne to delete the habit directly
+    const result = await habits.deleteOne(query);
+
+    // Check if the habit was deleted (i.e., if the deletion was successful)
+    if (result.deletedCount === 0) {
+      throw new Error("Habit not found or could not be deleted");
+    }
+
+    return { success: "Habit deleted successfully" };
+  } catch (error) {
+    console.error("Failed to fetch habits", error); // test
+    return { error: "Failed to fetch habits" };
+  }
+}
+
+// GET HABIT
+export async function getHabit(id: string): Promise<{
+  habit: Habit | null;
+  error?: string;
+}> {
+  try {
+    if (!habits) await init();
+    const query = { _id: new ObjectId(id) };
+
+    const habit = await habits.findOne(query);
+
+    if (!habit) {
+      throw new Error("Habit not found");
+    }
+
+    return { habit };
+  } catch (error) {
+    console.error("Failed to fetch habits", error);
+    return { habit: null, error: "Failed to fetch habits" };
+  }
+}
+
+// GET USER HABITS
+export async function getHabits(userId: string): Promise<{
+  habits: Habit[] | null;
+  error?: string;
+}> {
+  try {
+    if (!habits) await init();
+    const query = { creatorId: new ObjectId(userId) };
 
     const result = await habits.find(query).toArray();
 
     return { habits: result };
   } catch (error) {
     console.error("Failed to fetch habits", error);
-    return { habits: [], error: "Failed to fetch habits" };
+    return { habits: null, error: "Failed to fetch habits" };
   }
 }
 

@@ -56,7 +56,5 @@ export type Habit = {
   icon: string;
   description: string;
   xp: number;
-  creator: {
-    _id: string;
-  };
+  creatorId: string;
 };
