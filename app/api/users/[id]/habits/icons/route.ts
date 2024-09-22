@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { connectToDB } from "@lib/database";
+// import { connectToDB } from "@lib/mongoose";
 import Habit from "@models/habit";
 
 export async function GET(req: NextRequest) {
@@ -11,7 +11,7 @@ export async function GET(req: NextRequest) {
   }
 
   try {
-    await connectToDB();
+    // await connectToDB();
 
     const habitIds = ids.split(",");
     const habits = await Habit.find({ _id: { $in: habitIds } }).select(

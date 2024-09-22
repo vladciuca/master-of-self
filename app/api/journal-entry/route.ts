@@ -1,10 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
-import { connectToDB } from "@lib/database";
+// import { connectToDB } from "@lib/mongoose";
 import JournalEntry, { JournalEntryInterface } from "@models/journalEntry";
 
 export const GET = async (req: NextRequest) => {
   try {
-    await connectToDB();
+    // await connectToDB();
 
     const journalEntries: JournalEntryInterface[] = await JournalEntry.find(
       {}

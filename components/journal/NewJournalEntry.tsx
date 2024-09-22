@@ -136,6 +136,9 @@ export function NewJournalEntry() {
 
   const updateHabitXP = async (habits: { [key: string]: number }) => {
     try {
+      // TURN THEM INTO AN ARRAY BEFORE PASSING THEM TO UPDATE ROUTE FOR BULK
+      // !!! can move this in mongo/habits.ts update function and just send an object from here
+      // THIS WILL BE MOVED IN A SCHEDULED NEXTJS CALL
       const habitUpdates = Object.entries(habits);
       const response = await fetch(
         `/api/users/${session?.user.id}/habits/updateXp`,

@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { connectToDB } from "@lib/database";
+// import { connectToDB } from "@lib/mongoose";
 import User from "@models/user";
 
 export const GET = async (
@@ -7,7 +7,7 @@ export const GET = async (
   { params }: { params: { id: string } }
 ) => {
   try {
-    await connectToDB();
+    // await connectToDB();
 
     const user = await User.findById(params.id);
 
@@ -34,7 +34,7 @@ export const PATCH = async (
   { params }: { params: { id: string } }
 ) => {
   try {
-    await connectToDB();
+    // await connectToDB();
 
     const userId = params.id;
     const updateData = await req.json();

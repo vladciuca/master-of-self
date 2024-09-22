@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { connectToDB } from "@lib/database";
+// import { connectToDB } from "@lib/mongoose";
 import Habit from "@models/habit";
 
 export const GET = async (
@@ -7,7 +7,7 @@ export const GET = async (
   { params }: { params: { id: string } }
 ) => {
   try {
-    await connectToDB();
+    // await connectToDB();
 
     const habit = await Habit.findById(params.id).populate("creator");
 
@@ -26,7 +26,7 @@ export const PATCH = async (
   const { name, icon, description } = await req.json();
 
   try {
-    await connectToDB();
+    // await connectToDB();
 
     const updatedHabit = await Habit.findByIdAndUpdate(
       params.id,
@@ -49,7 +49,7 @@ export const DELETE = async (
   { params }: { params: { id: string } }
 ) => {
   try {
-    await connectToDB();
+    // await connectToDB();
 
     await Habit.findByIdAndDelete(params.id);
 

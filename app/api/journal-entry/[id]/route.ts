@@ -1,4 +1,4 @@
-import { connectToDB } from "@lib/database";
+// import { connectToDB } from "@lib/mongoose";
 import { NextResponse, NextRequest } from "next/server";
 import JournalEntry from "@models/journalEntry";
 
@@ -7,7 +7,7 @@ export const GET = async (
   { params }: { params: { id: string } }
 ) => {
   try {
-    await connectToDB();
+    // await connectToDB();
     const updatedJournalEntry = await JournalEntry.findById(params.id);
 
     if (!updatedJournalEntry) {
@@ -29,7 +29,7 @@ export const PATCH = async (
   const { dailyWillpower, dayEntry, nightEntry, type } = await req.json();
 
   try {
-    await connectToDB();
+    // await connectToDB();
     let updatedJournalEntry;
 
     //DO WE STILL NEED THIS?
@@ -72,7 +72,7 @@ export const DELETE = async (
   { params }: { params: { id: string } }
 ) => {
   try {
-    await connectToDB();
+    // await connectToDB();
 
     await JournalEntry.findByIdAndDelete(params.id);
 

@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { connectToDB } from "@lib/database";
+// import { connectToDB } from "@lib/mongoose";
 import JournalEntry, { JournalEntryInterface } from "@models/journalEntry";
 
 export const POST = async (req: NextRequest) => {
@@ -7,7 +7,7 @@ export const POST = async (req: NextRequest) => {
     await req.json();
 
   try {
-    await connectToDB();
+    // await connectToDB();
 
     // Check if an entry for today already exists
     const today = new Date();

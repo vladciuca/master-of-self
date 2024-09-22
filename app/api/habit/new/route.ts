@@ -1,12 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
-import { connectToDB } from "@lib/database";
+// import { connectToDB } from "@lib/mongoose";
 import Habit from "@models/habit";
 
 export const POST = async (req: NextRequest) => {
   const { userId, name, icon, description } = await req.json();
 
   try {
-    await connectToDB();
     const newHabit = new Habit({
       creator: userId,
       name,

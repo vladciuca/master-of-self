@@ -1,5 +1,5 @@
 import { NextRequest } from "next/server";
-import { connectToDB } from "@lib/database";
+// import { connectToDB } from "@lib/mongoose";
 import JournalEntry from "@models/journalEntry";
 
 export const GET = async (
@@ -7,8 +7,7 @@ export const GET = async (
   { params }: { params: { id: string } }
 ) => {
   try {
-    await connectToDB();
-
+    // await connectToDB();
     // Get the date from query parameters
     // const dateParam = req.nextUrl.searchParams.get("date");
     // if (!dateParam) {

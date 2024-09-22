@@ -1,7 +1,7 @@
 // currently not in Use, opted for updating multiple habits at once @user/[id]/habits/updateXp
 // might use for something else later
 import { NextRequest, NextResponse } from "next/server";
-import { connectToDB } from "@lib/database";
+// import { connectToDB } from "@lib/mongoose";
 import Habit from "@models/habit";
 
 export const PATCH = async (
@@ -11,7 +11,7 @@ export const PATCH = async (
   const { xp: newXpValue } = await req.json();
 
   try {
-    await connectToDB();
+    // await connectToDB();
 
     const habit = await Habit.findById(params.id);
 
