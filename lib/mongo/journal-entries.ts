@@ -1,6 +1,7 @@
 import { MongoClient, Db, Collection, ObjectId } from "mongodb";
 import clientPromise from "./mongodb";
 import { JournalEntry, NewJournalEntry } from "@/app/types/mongodb";
+import { WeeklyWillpowerData } from "@app/types/types";
 
 let client: MongoClient;
 let db: Db;
@@ -27,14 +28,14 @@ export async function createJournalEntry(
   dailyWillpower: number,
   bonusWillpower: number,
   dayEntry: object,
-  nightEntry: object
+  nightEntry: object,
+  clientDate: string
 ): Promise<{ newJournalEntry: JournalEntry | null; error?: string }> {
   try {
     if (!journalEntries) await init();
 
     // Check if an entry for today already exists
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
+    const today = new Date(clientDate);
     const tomorrow = new Date(today);
     tomorrow.setDate(tomorrow.getDate() + 1);
 
@@ -56,7 +57,7 @@ export async function createJournalEntry(
     // If no entry exists, create a new one
     const newJournalEntry: NewJournalEntry = {
       creatorId: new ObjectId(userId),
-      createDate: new Date(),
+      createDate: today,
       dailyWillpower,
       bonusWillpower,
       dayEntry,
@@ -85,7 +86,6 @@ export async function updateJournalEntry(
   dailyWillpower: number,
   dayEntry: object,
   nightEntry: object
-  //   type: string
 ): Promise<{
   journalEntry: JournalEntry | null;
   error?: string;
@@ -152,6 +152,7 @@ export async function getJournalEntries(userId: string): Promise<{
 }
 
 // GET TODAY'S USER JOURNAL ENTRY ===============================================================
+// ADD USER LOCAL TIME PASSED AS PARAM
 export async function getTodaysJournalEntry(userId: string): Promise<{
   todaysJournalEntry: JournalEntry | null;
   error?: string;
@@ -190,6 +191,7 @@ export async function getTodaysJournalEntry(userId: string): Promise<{
 }
 
 // GET YESTERDAYS'S USER JOURNAL ENTRY ==========================================================
+// ADD USER LOCAL TIME PASSED AS PARAM
 export async function getYesterdaysJournalEntry(userId: string): Promise<{
   yesterdaysJournalEntry: JournalEntry | null;
   error?: string;
@@ -221,3 +223,77 @@ export async function getYesterdaysJournalEntry(userId: string): Promise<{
     };
   }
 }
+
+// GET WEEKLY WILLPOWER DATA ====================================================================
+export async function getWeeklyWillpowerData(
+  userId: string,
+  clientStartOfWeek: string,
+  clientEndOfWeek: string
+): Promise<{
+  weeklyWillpower: WeeklyWillpowerData[] | null;
+  error?: string;
+}> {
+  try {
+    if (!journalEntries) await init();
+
+    const startOfWeek = new Date(clientStartOfWeek);
+    const endOfWeek = new Date(clientEndOfWeek);
+
+    if (isNaN(startOfWeek.getTime()) || isNaN(endOfWeek.getTime())) {
+      throw new Error("Invalid date provided");
+    }
+
+    const journalEntriesData = await journalEntries
+      .find({
+        creatorId: new ObjectId(userId),
+        createDate: {
+          $gte: startOfWeek,
+          $lte: endOfWeek,
+        },
+      })
+      .sort({ createDate: 1 })
+      .toArray();
+
+    // Create an array of all days in the week (Monday to Sunday)
+    const allDays = Array.from({ length: 7 }, (_, i) => {
+      const day = new Date(startOfWeek);
+      day.setDate(startOfWeek.getDate() + i);
+      return day.toISOString().split("T")[0];
+    });
+
+    // Create a map of existing entries
+    const entriesMap = new Map(
+      journalEntriesData.map((entry) => [
+        entry.createDate.toISOString().split("T")[0],
+        {
+          generatedWillpower:
+            (entry.dailyWillpower as number) - (entry.bonusWillpower as number),
+          bonusWillpower: Number(entry.bonusWillpower),
+        },
+      ])
+    );
+
+    // Process the data for the chart, including all days
+    const weeklyWillpower: WeeklyWillpowerData[] = allDays.map((dateString) => {
+      const entry = entriesMap.get(dateString) || {
+        generatedWillpower: 0,
+        bonusWillpower: 0,
+      };
+      return {
+        date: dateString,
+        generatedWillpower: entry.generatedWillpower,
+        bonusWillpower: entry.bonusWillpower,
+      };
+    });
+
+    return { weeklyWillpower };
+  } catch (error) {
+    console.error("Failed to fetch weekly willpower data", error);
+    return {
+      weeklyWillpower: null,
+      error: "Failed to fetch weekly willpower data",
+    };
+  }
+}
+
+// GET TOTAL WILLPOWER ==========================================================================

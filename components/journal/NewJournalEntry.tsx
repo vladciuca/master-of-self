@@ -26,14 +26,18 @@ export function NewJournalEntry() {
     setSubmitting(true);
 
     try {
-      const createNewEntryResponse = await fetch("/api/journal-entry/new", {
-        method: "POST",
-        body: JSON.stringify({
-          userId: session?.user?.id,
-          dailyWillpower: bonusWillpower, // add bonus Willpower to dailyWillpower
-          bonusWillpower: bonusWillpower,
-        }),
-      });
+      const localDate = new Date().toISOString().split("T")[0]; // send with split at T to get 00:00 time
+      const createNewEntryResponse = await fetch(
+        `/api/journal-entry/new?date=${localDate}`,
+        {
+          method: "POST",
+          body: JSON.stringify({
+            userId: session?.user?.id,
+            dailyWillpower: bonusWillpower, // add bonus Willpower to dailyWillpower
+            bonusWillpower: bonusWillpower,
+          }),
+        }
+      );
 
       if (createNewEntryResponse.ok) {
         if (Object.keys(habitXp).length > 0) {

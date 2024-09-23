@@ -56,3 +56,10 @@ export type Habit = {
   xp: number;
   creatorId: string;
 };
+
+export type WeeklyWillpowerData = {
+  date: string;
+  generatedWillpower: number;
+  bonusWillpower: number;
+  willpowerLabelValue?: string;
+};
