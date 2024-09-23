@@ -10,12 +10,12 @@ export function useFetchUserHabits() {
 
   useEffect(() => {
     const fetchHabits = async () => {
+      setHabitsError(null);
       setHabitsLoading(true);
       try {
         const response = await fetch(`/api/users/${session?.user.id}/habits`);
-        const data = await response.json();
-
-        setHabits(data.reverse());
+        const { habits } = await response.json();
+        setHabits(habits.reverse());
       } catch (error) {
         console.error("Failed to fetch habits", error);
 
@@ -23,7 +23,6 @@ export function useFetchUserHabits() {
         setHabitsError("Failed to fetch habits");
       } finally {
         setHabitsLoading(false);
-        setHabitsError(null);
       }
     };
 
@@ -32,7 +31,7 @@ export function useFetchUserHabits() {
     }
   }, [session]);
 
-  const hasHabits = habits?.length > 0;
+  const hasHabits = habits.length > 0;
 
   return {
     habits,

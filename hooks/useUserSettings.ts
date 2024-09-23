@@ -2,19 +2,9 @@
 
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
-import { Session } from "@app/types/types";
+import { Session, UserSettings } from "@app/types/types";
 
-type UserSettings = {
-  steps: {
-    gratefulStep: boolean;
-    reflectionStep: boolean;
-  };
-  journalStartTime: {
-    morning: string;
-    evening: string;
-  };
-};
-
+// TO DO: check if these default values break anything
 export function useUserSettings() {
   const [userSettings, setUserSettings] = useState<UserSettings>({
     steps: {

@@ -10,8 +10,6 @@ import { useFetchUserHabits } from "@hooks/useFetchUserHabits";
 import { JournalEntry } from "@app/types/types";
 
 export default function UpdateJournalEntry() {
-  const params = useParams<{ id: string }>();
-  const { id } = params;
   const [submitting, setSubmitting] = useState(false);
   const [journalEntryData, setJournalEntryData] = useState<JournalEntry | null>(
     null
@@ -20,6 +18,9 @@ export default function UpdateJournalEntry() {
   const [journalEntryError, setJournalEntryError] = useState<string | null>(
     null
   );
+
+  const params = useParams<{ id: string }>();
+  const { id } = params;
 
   const { hasGratitude, hasReflection, userEveningTime, settingsLoading } =
     useFetchUserSettings();
@@ -71,29 +72,27 @@ export default function UpdateJournalEntry() {
       setJournalEntryData(updatedData);
     } catch (error) {
       console.error("Error updating journal entry:", error);
-      // setError("Failed to update journal entry. Please try again.");
     } finally {
       setSubmitting(false);
     }
   };
 
+  const isLoading = journalEntryLoading && settingsLoading && habitsLoading;
+
   return (
     <>
-      {!journalEntryLoading &&
-        !settingsLoading &&
-        !habitsLoading &&
-        journalEntryData && (
-          <FormStepController
-            journalEntryData={journalEntryData}
-            submitting={submitting}
-            onSubmit={updateJournalEntry}
-            userEveningTime={userEveningTime}
-            hasGratitude={hasGratitude}
-            hasReflection={hasReflection}
-            hasHabits={hasHabits}
-          />
-        )}
-      {(journalEntryLoading || settingsLoading || habitsLoading) && (
+      {!isLoading && journalEntryData && (
+        <FormStepController
+          journalEntryData={journalEntryData}
+          submitting={submitting}
+          onSubmit={updateJournalEntry}
+          userEveningTime={userEveningTime}
+          hasGratitude={hasGratitude}
+          hasReflection={hasReflection}
+          hasHabits={hasHabits}
+        />
+      )}
+      {isLoading && (
         <div className="phone_container fixed sm:border-2 sm:rounded-3xl top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 mx-auto flex flex-col items-center justify-center w-full max-w-[450px] sm:max-h-[800px] h-screen overflow-hidden">
           <div className="fixed top-0 w-full h-20">
             <HeaderTitle />

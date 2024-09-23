@@ -81,25 +81,24 @@ HabitCardProps) {
           <p className="text-muted-foreground">{description}</p>
         </div>
         <div className="mt-12">
-          {session?.user?.id === habit.creator._id &&
-            pathName === "/habits" && (
-              <div>
-                <Button
-                  onClick={() => handleEdit(habit)}
-                  className="mr-3"
-                  size="sm"
-                >
-                  Update
-                </Button>
-                {/* <Button
+          {session?.user?.id === habit.creatorId && pathName === "/habits" && (
+            <div>
+              <Button
+                onClick={() => handleEdit(habit)}
+                className="mr-3"
+                size="sm"
+              >
+                Update
+              </Button>
+              {/* <Button
                   variant="ghost"
                   onClick={() => handleDelete(habit)}
                   size="sm"
                 >
                   Delete(TEST)
                 </Button> */}
-              </div>
-            )}
+            </div>
+          )}
         </div>
       </AccordionContent>
     </AccordionItem>

@@ -16,24 +16,13 @@ import {
   Card,
   CardContent,
   CardDescription,
-  CardHeader,
   CardTitle,
 } from "@components/ui/card";
-import {
-  ChartContainer,
-  // ChartTooltip,
-  // ChartTooltipContent,
-} from "@components/ui/chart";
+import { ChartContainer } from "@components/ui/chart";
 import { Skeleton } from "@components/ui/skeleton";
 import { FaBoltLightning } from "react-icons/fa6";
 import { Session } from "@app/types/types";
-
-type WillpowerData = {
-  date: string;
-  generatedWillpower: number;
-  bonusWillpower: number;
-  willpowerLabelValue?: string;
-};
+import { WeeklyWillpowerData } from "@app/types/types";
 
 type WillpowerChartBaseProps = {
   x?: number;
@@ -48,7 +37,7 @@ type WillpowerLabelProps = LabelProps & WillpowerChartBaseProps;
 type WillpowerBarProps = RectangleProps &
   WillpowerChartBaseProps & {
     type: "bonus" | "generated";
-    payload?: WillpowerData;
+    payload?: WeeklyWillpowerData;
   };
 
 function WillpowerLabel(props: WillpowerLabelProps) {
@@ -189,7 +178,7 @@ function chartTimePeriod(willpowerData: { date: string }[]) {
 export function WeeklyWillpowerChart() {
   const { data: session } = useSession() as { data: Session | null };
   const [isLoading, setIsLoading] = useState(false);
-  const [willpowerData, setWillpowerData] = useState<WillpowerData[]>([]);
+  const [willpowerData, setWillpowerData] = useState<WeeklyWillpowerData[]>([]);
 
   const totalWillpower = willpowerData.reduce(
     (acc, curr) => {
@@ -215,17 +204,23 @@ export function WeeklyWillpowerChart() {
     const fetchWillpowerData = async () => {
       try {
         setIsLoading(true);
-        // const today = new Date();
-        // const localDate = today.toISOString().split("T")[0];
-        // ?date=${localDate}
+        const today = new Date();
+
+        const startOfWeek = new Date(today);
+        startOfWeek.setDate(today.getDate() - ((today.getDay() + 6) % 7));
+        startOfWeek.setHours(0, 0, 0, 0);
+
+        const endOfWeek = new Date(startOfWeek);
+        endOfWeek.setDate(endOfWeek.getDate() + 6);
+        endOfWeek.setHours(23, 59, 59, 999);
 
         const response = await fetch(
-          `/api/users/${session?.user.id}/weekly-willpower`
+          `/api/users/${session?.user.id}/weekly-willpower?startOfWeek=${startOfWeek}&endOfWeek=${endOfWeek}`
         );
         if (!response.ok) throw new Error("Failed to fetch willpower data");
         const data = await response.json();
 
-        const updatedData = data.map((item: WillpowerData) => ({
+        const updatedData = data.map((item: WeeklyWillpowerData) => ({
           ...item,
           willpowerLabelValue: `${item.generatedWillpower},${item.bonusWillpower}`,
         }));
@@ -240,6 +235,19 @@ export function WeeklyWillpowerChart() {
 
     fetchWillpowerData();
   }, [session]);
+
+  const sortWeekData = (data: WeeklyWillpowerData[]) => {
+    const dayOrder = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+    return data.sort((a, b) => {
+      const dayA = new Date(a.date).toLocaleString("en-US", {
+        weekday: "short",
+      });
+      const dayB = new Date(b.date).toLocaleString("en-US", {
+        weekday: "short",
+      });
+      return dayOrder.indexOf(dayA) - dayOrder.indexOf(dayB);
+    });
+  };
 
   return (
     <div>
@@ -299,10 +307,6 @@ export function WeeklyWillpowerChart() {
                     position="top"
                   />
                 </Bar>
-                {/* <ChartTooltip
-                  content={<ChartTooltipContent />}
-                  cursor={false}
-                /> */}
               </BarChart>
             </ResponsiveContainer>
           </ChartContainer>

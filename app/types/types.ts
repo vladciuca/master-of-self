@@ -1,16 +1,16 @@
 import { ReactNode } from "react";
-import { Session as NextAuthSession } from "next-auth";
+import { Session as NextAuthSession, User as NextAuthUser } from "next-auth";
 
 export type Layout = {
   children: ReactNode;
 };
 
-export type User = {
+export interface User extends NextAuthUser {
   id: string;
   name?: string | null;
   email?: string | null;
   image?: string | null;
-};
+}
 
 export type UserSettings = {
   steps: {
@@ -45,9 +45,7 @@ export type JournalEntry = {
 export type JournalEntryMetadata = JournalEntry & {
   _id: string;
   createDate: Date;
-  creator: {
-    _id: string;
-  };
+  creatorId: string;
 };
 
 export type Habit = {
@@ -56,7 +54,12 @@ export type Habit = {
   icon: string;
   description: string;
   xp: number;
-  creator: {
-    _id: string;
-  };
+  creatorId: string;
+};
+
+export type WeeklyWillpowerData = {
+  date: string;
+  generatedWillpower: number;
+  bonusWillpower: number;
+  willpowerLabelValue?: string;
 };

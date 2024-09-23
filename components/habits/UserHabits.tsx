@@ -60,13 +60,14 @@ export function UserHabits() {
         numberOfEntries={numberOfEntries}
       />
       {habitsLoading && skeletonCards}
-      {!habitsLoading && (
+      {!habitsLoading && !habitsError && (
         <HabitList
           habits={habits}
           handleEdit={handleEdit}
           // handleDelete={handleDelete}
         />
       )}
+      {habitsError && <p>Error: {habitsError}</p>}
     </div>
   );
 }

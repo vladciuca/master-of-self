@@ -1,15 +1,16 @@
 import { NextRequest, NextResponse } from "next/server";
-import { connectToDB } from "@lib/database";
-import Habit from "@models/habit";
+import { getHabit, updateHabit, deleteHabit } from "@lib/mongo/habits";
 
-export const GET = async (
+export async function GET(
   req: NextRequest,
   { params }: { params: { id: string } }
-) => {
+) {
   try {
-    await connectToDB();
+    const { habit, error } = await getHabit(params.id);
 
-    const habit = await Habit.findById(params.id).populate("creator");
+    if (error) {
+      return NextResponse.json({ error }, { status: 500 });
+    }
 
     if (!habit) return new NextResponse("Habit not found", { status: 404 });
 
@@ -17,45 +18,45 @@ export const GET = async (
   } catch (error) {
     return new NextResponse("Failed to fetch habit", { status: 500 });
   }
-};
+}
 
-export const PATCH = async (
+export async function PATCH(
   req: NextRequest,
   { params }: { params: { id: string } }
-) => {
+) {
   const { name, icon, description } = await req.json();
 
   try {
-    await connectToDB();
-
-    const updatedHabit = await Habit.findByIdAndUpdate(
+    const { habit, error } = await updateHabit(
       params.id,
-      { $set: { name: name, icon: icon, description: description } },
-      { new: true }
+      name,
+      icon,
+      description
     );
 
-    if (!updatedHabit) {
-      return new NextResponse("Habit not found", { status: 404 });
+    if (error) {
+      return new NextResponse(error, { status: 404 });
     }
 
-    return new NextResponse(JSON.stringify(updatedHabit), { status: 200 });
+    return new NextResponse(JSON.stringify(habit), { status: 200 });
   } catch (error) {
     return new NextResponse("Failed to update habit", { status: 500 });
   }
-};
+}
 
-export const DELETE = async (
+export async function DELETE(
   req: NextRequest,
   { params }: { params: { id: string } }
-) => {
+) {
   try {
-    await connectToDB();
+    const { success, error } = await deleteHabit(params.id);
 
-    await Habit.findByIdAndDelete(params.id);
+    if (error) {
+      return NextResponse.json({ error }, { status: 500 });
+    }
 
-    return new NextResponse("Habit was deleted successfully", { status: 200 });
+    return NextResponse.json({ success }, { status: 200 });
   } catch (error) {
-    console.log(error);
     return new NextResponse("Failed to delete habit", { status: 500 });
   }
-};
+}

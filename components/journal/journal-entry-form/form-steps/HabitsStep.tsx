@@ -1,5 +1,4 @@
 import { useState, useEffect, useCallback } from "react";
-import { useSession } from "next-auth/react";
 import { FormStepTemplate } from "@components/journal/journal-entry-form/form-steps/FormStepTemplate";
 import { XpGainLevelBar } from "@components/XpGainLevelBar";
 import { IconRenderer } from "@components/IconRenderer";
@@ -7,7 +6,7 @@ import { Button } from "@components/ui/button";
 import { SkeletonHabitLevel } from "@components/skeletons/SkeletonHabitLevel";
 import { Minus, Plus, RotateCcw } from "lucide-react";
 import { FaBoltLightning } from "react-icons/fa6";
-import { Session, Habit } from "@app/types/types";
+import { useFetchUserHabits } from "@hooks/useFetchUserHabits";
 
 type HabitsStepProps = {
   dailyWillpower: number;
@@ -20,32 +19,11 @@ export function HabitsStep({
   onChange,
   habitXpChanges = {},
 }: HabitsStepProps) {
-  const [habits, setHabits] = useState<Habit[]>([]);
-  const [habitsLoaded, setHabitsLoaded] = useState(false);
   const [habitXp, setHabitXp] = useState<{ [key: string]: number }>(
     habitXpChanges
   );
   const [remainingWillpower, setRemainingWillpower] = useState(dailyWillpower);
-  const { data: session } = useSession() as { data: Session | null };
-
-  useEffect(() => {
-    const fetchHabits = async () => {
-      setHabitsLoaded(false);
-      try {
-        const response = await fetch(`/api/users/${session?.user.id}/habits`);
-        const data = await response.json();
-        setHabits(data.reverse());
-      } catch (error) {
-        console.error("Failed to fetch habits", error);
-      } finally {
-        setHabitsLoaded(true);
-      }
-    };
-
-    if (session?.user.id) {
-      fetchHabits();
-    }
-  }, []);
+  const { habits, habitsLoading, habitsError } = useFetchUserHabits();
 
   useEffect(() => {
     // Calculate remaining willpower based on existing habit XP
@@ -108,8 +86,8 @@ export function HabitsStep({
       }
     >
       <div className="w-full flex flex-col h-full mt-2">
-        {!habitsLoaded && <SkeletonHabitLevel />}
-        {habitsLoaded && (
+        {habitsLoading && <SkeletonHabitLevel />}
+        {!habitsLoading && habits && (
           <div>
             {habits?.map((habit) => {
               const { _id, name, icon, xp } = habit;

@@ -1,56 +1,29 @@
-// import { NextRequest } from "next/server";
-// import { connectToDB } from "@lib/database";
-// import Habit from "@models/habit";
-
-// export const GET = async (
-//   req: NextRequest,
-//   { params }: { params: { id: string } }
-// ) => {
-//   try {
-//     await connectToDB();
-
-//     const habits = await Habit.find({
-//       creator: params.id,
-//     }).populate("creator");
-
-//     return new Response(JSON.stringify(habits), { status: 200 });
-//   } catch (error) {
-//     return new Response("Failed to fetch all habits", { status: 500 });
-//   }
-// };
-
 import { NextRequest, NextResponse } from "next/server";
-import { connectToDB } from "@lib/database";
-import Habit from "@models/habit";
-import { corsMiddleware } from "@lib/cors-middleware";
+import { getHabits } from "lib/mongo/habits";
 
-export const GET = async (
-  req: NextRequest,
+export async function GET(
+  request: NextRequest,
   { params }: { params: { id: string } }
-) => {
-  // Apply CORS middleware
-  const corsHeaders = corsMiddleware(req);
+) {
+  const userId = params.id;
 
   try {
-    // Connect to the database
-    await connectToDB();
+    const { habits, error } = await getHabits(userId);
 
-    // Fetch habits
-    const habits = await Habit.find({
-      creator: params.id,
-    }).populate("creator");
+    if (error) {
+      return NextResponse.json({ error }, { status: 500 });
+    }
 
-    // Return the response with CORS headers
-    return new NextResponse(JSON.stringify(habits), {
-      status: 200,
-      headers: corsHeaders,
-    });
+    if (!habits) {
+      return NextResponse.json({ error: "No habits found" }, { status: 404 });
+    }
+
+    return NextResponse.json({ habits: habits }, { status: 200 });
   } catch (error) {
-    console.error("Failed to fetch habits:", error);
-    // Return error response with CORS headers
-    return new NextResponse("Failed to fetch all habits", {
-      status: 500,
-      headers: corsHeaders,
-    });
+    console.error("Error fetching habits:", error);
+    return NextResponse.json(
+      { error: "Internal Server Error" },
+      { status: 500 }
+    );
   }
-};
+}
