@@ -2,7 +2,7 @@ import { useState, useMemo, useEffect, useCallback } from "react";
 import * as GiIcons from "react-icons/gi";
 import { useDebounce } from "./useDebounce";
 
-export function useIconSearch(initialIcon?: string) {
+export function useIconPickerSearch(initialIcon?: string) {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedIconName, setSelectedIconName] = useState<string | null>(
     initialIcon || null

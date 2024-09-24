@@ -6,7 +6,8 @@ import { GiPrayer, GiBackup } from "react-icons/gi";
 import { useUserSettings } from "@hooks/useUserSettings";
 
 export function Routine() {
-  const { userSettings, isLoading, handleCheckboxChange } = useUserSettings();
+  const { userSettings, userSettingsLoading, handleRoutineChange } =
+    useUserSettings();
 
   return (
     <div>
@@ -30,8 +31,8 @@ export function Routine() {
             <Switch
               className="ml-2 mr-6"
               checked={userSettings.steps.gratefulStep}
-              onCheckedChange={() => handleCheckboxChange("gratefulStep")}
-              disabled={isLoading}
+              onCheckedChange={() => handleRoutineChange("gratefulStep")}
+              disabled={userSettingsLoading}
             />
           </div>
           <div className="my-4 flex justify-between items-center">
@@ -45,8 +46,8 @@ export function Routine() {
             <Switch
               className="ml-2 mr-6"
               checked={userSettings.steps.reflectionStep}
-              onCheckedChange={() => handleCheckboxChange("reflectionStep")}
-              disabled={isLoading}
+              onCheckedChange={() => handleRoutineChange("reflectionStep")}
+              disabled={userSettingsLoading}
             />
           </div>
         </div>

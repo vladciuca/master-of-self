@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { Session, JournalEntryMetadata } from "@app/types/types";
 
-export function useFetchUserJournal() {
+export function useUserJournal() {
   const [journalEntries, setJournalEntries] = useState<JournalEntryMetadata[]>(
     []
   );

@@ -7,14 +7,14 @@ import { JournalEntryHabits } from "@components/journal/JournalEntryHabits";
 import { Card } from "@components/ui/card";
 import { Button } from "@components/ui/button";
 import { FaBoltLightning } from "react-icons/fa6";
-import { useFetchYesterdayJournalEntry } from "@hooks/useFetchYesterdayJournalEntry";
+import { useYesterdayJournalEntry } from "@hooks/useYesterdayJournalEntry";
 import { Session } from "@app/types/types";
 
 export function NewJournalEntry() {
   const [submitting, setSubmitting] = useState<boolean>(false);
   const { data: session } = useSession() as { data: Session | null };
   const router = useRouter();
-  const { bonusWillpower, habitXp } = useFetchYesterdayJournalEntry();
+  const { bonusWillpower, habitXp } = useYesterdayJournalEntry();
 
   const date = new Date();
   const day = date.getDate();

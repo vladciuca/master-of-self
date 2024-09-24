@@ -6,7 +6,7 @@ import { Button } from "@components/ui/button";
 import { SkeletonHabitLevel } from "@components/skeletons/SkeletonHabitLevel";
 import { Minus, Plus, RotateCcw } from "lucide-react";
 import { FaBoltLightning } from "react-icons/fa6";
-import { useFetchUserHabits } from "@hooks/useFetchUserHabits";
+import { useUserHabits } from "@hooks/useUserHabits";
 
 type HabitsStepProps = {
   dailyWillpower: number;
@@ -23,7 +23,7 @@ export function HabitsStep({
     habitXpChanges
   );
   const [remainingWillpower, setRemainingWillpower] = useState(dailyWillpower);
-  const { habits, habitsLoading, habitsError } = useFetchUserHabits();
+  const { habits, habitsLoading, habitsError } = useUserHabits();
 
   useEffect(() => {
     // Calculate remaining willpower based on existing habit XP

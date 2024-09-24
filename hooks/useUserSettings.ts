@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { Session, UserSettings } from "@app/types/types";
 
-// TO DO: check if these default values break anything
 export function useUserSettings() {
   const [userSettings, setUserSettings] = useState<UserSettings>({
     steps: {
@@ -16,28 +15,56 @@ export function useUserSettings() {
       evening: "18:00",
     },
   });
-  const [isLoading, setIsLoading] = useState(true);
+  const [userSettingsLoading, setUserSettingsLoading] = useState(true);
+  const [userSettingsError, setUserSettingsError] = useState<string | null>(
+    null
+  );
   const { data: session } = useSession() as { data: Session | null };
 
   useEffect(() => {
     const fetchUserSettings = async () => {
-      if (session?.user.id) {
-        setIsLoading(true);
-        try {
-          const response = await fetch(
-            `/api/users/${session.user.id}/settings`
-          );
-          if (!response.ok) {
-            throw new Error("Failed to fetch user settings");
-          }
-          const data = await response.json();
-          setUserSettings(data.settings);
-        } catch (error) {
-          console.error("Failed to fetch user settings", error);
-        } finally {
-          setIsLoading(false);
-        }
+      if (!session?.user.id) {
+        setUserSettingsError("User not logged in");
+        return;
       }
+
+      setUserSettingsError(null);
+      setUserSettingsLoading(true);
+
+      try {
+        const response = await fetch(`/api/users/${session.user.id}/settings`);
+        if (!response.ok) {
+          throw new Error("Failed to fetch user settings");
+        }
+        const { settings } = await response.json();
+        setUserSettings(settings);
+      } catch (error) {
+        console.error("Failed to fetch user settings", error);
+        setUserSettingsError("Failed to fetch user settings");
+      } finally {
+        setUserSettingsLoading(false);
+      }
+      // setUserSettingsError(null);
+      // setUserSettingsLoading(true);
+      // if (session?.user.id) {
+      //   try {
+      //     const response = await fetch(
+      //       `/api/users/${session.user.id}/settings`
+      //     );
+      //     if (!response.ok) {
+      //       throw new Error("Failed to fetch user settings");
+      //     }
+      //     const { settings } = await response.json();
+
+      //     setUserSettings(settings);
+      //   } catch (error) {
+      //     console.error("Failed to fetch user settings", error);
+      //     setUserSettingsLoading(false);
+      //     setUserSettingsError("Failed to fetch habits");
+      //   } finally {
+      //     setUserSettingsLoading(false);
+      //   }
+      // }
     };
 
     fetchUserSettings();
@@ -65,7 +92,7 @@ export function useUserSettings() {
     }
   };
 
-  const handleCheckboxChange = (step: "gratefulStep" | "reflectionStep") => {
+  const handleRoutineChange = (step: "gratefulStep" | "reflectionStep") => {
     const newValue = !userSettings.steps[step];
     setUserSettings((prev) => ({
       ...prev,
@@ -86,8 +113,9 @@ export function useUserSettings() {
 
   return {
     userSettings,
-    isLoading,
-    handleCheckboxChange,
+    userSettingsLoading,
+    userSettingsError,
+    handleRoutineChange,
     handleTimeChange,
   };
 }

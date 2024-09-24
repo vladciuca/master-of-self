@@ -7,7 +7,8 @@ import { FaSun, FaMoon } from "react-icons/fa6";
 import { useUserSettings } from "@hooks/useUserSettings";
 
 export function DaySplit() {
-  const { userSettings, isLoading, handleTimeChange } = useUserSettings();
+  const { userSettings, userSettingsLoading, handleTimeChange } =
+    useUserSettings();
 
   return (
     <div>
@@ -30,7 +31,7 @@ export function DaySplit() {
                 className="max-w-fit mr-4"
                 value={userSettings.journalStartTime.morning}
                 onChange={(e) => handleTimeChange("morning", e.target.value)}
-                disabled={isLoading}
+                disabled={userSettingsLoading}
               />
             </div>
           </div>
@@ -45,7 +46,7 @@ export function DaySplit() {
                 className="max-w-fit mr-4"
                 value={userSettings.journalStartTime.evening}
                 onChange={(e) => handleTimeChange("evening", e.target.value)}
-                disabled={isLoading}
+                disabled={userSettingsLoading}
               />
             </div>
           </div>

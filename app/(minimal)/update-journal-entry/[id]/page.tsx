@@ -5,8 +5,8 @@ import { useParams } from "next/navigation";
 import { FormStepController } from "@components/journal/journal-entry-form/FormStepController";
 import { PageLogo } from "@components/PageLogo";
 import { HeaderTitle } from "@components/HeaderTitle";
-import { useFetchUserSettings } from "@hooks/useFetchUserSettings";
-import { useFetchUserHabits } from "@hooks/useFetchUserHabits";
+import { useUserSettings } from "@hooks/useUserSettings";
+import { useUserHabits } from "@hooks/useUserHabits";
 import { JournalEntry } from "@app/types/types";
 
 export default function UpdateJournalEntry() {
@@ -22,9 +22,16 @@ export default function UpdateJournalEntry() {
   const params = useParams<{ id: string }>();
   const { id } = params;
 
-  const { hasGratitude, hasReflection, userEveningTime, settingsLoading } =
-    useFetchUserSettings();
-  const { hasHabits, habitsLoading } = useFetchUserHabits();
+  const { userSettings, userSettingsLoading } = useUserSettings();
+  const { hasHabits, habitsLoading } = useUserHabits();
+
+  const userSteps = userSettings?.steps;
+
+  const hasGratitude = userSteps?.gratefulStep;
+  const hasReflection = userSteps?.reflectionStep;
+
+  // const userMorningTime = userSettings?.journalStartTime.morning;
+  const userEveningTime = userSettings?.journalStartTime.evening;
 
   useEffect(() => {
     const getJournalEntryData = async () => {
@@ -77,7 +84,7 @@ export default function UpdateJournalEntry() {
     }
   };
 
-  const isLoading = journalEntryLoading && settingsLoading && habitsLoading;
+  const isLoading = journalEntryLoading && userSettingsLoading && habitsLoading;
 
   return (
     <>

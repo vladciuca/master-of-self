@@ -4,7 +4,7 @@ import { Session } from "@app/types/types";
 
 type HabitXp = { [key: string]: number };
 
-export function useFetchYesterdayJournalEntry() {
+export function useYesterdayJournalEntry() {
   const [bonusWillpower, setBonusWillpower] = useState<number>(0);
   const [habitXp, setHabitXp] = useState<HabitXp>({});
   const { data: session } = useSession() as { data: Session | null };

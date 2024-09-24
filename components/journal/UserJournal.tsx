@@ -2,7 +2,7 @@
 
 import { JournalEntryList } from "@components/journal/JournalEntryList";
 import { SkeletonJournalEntryCard } from "@components/skeletons/SkeletonJournalEntryCard";
-import { useFetchUserJournal } from "@hooks/useFetchUserJournal";
+import { useUserJournal } from "@hooks/useUserJournal";
 
 const skeletonCards = Array.from({ length: 3 }, (_, index) => (
   <SkeletonJournalEntryCard key={index} />
@@ -10,7 +10,7 @@ const skeletonCards = Array.from({ length: 3 }, (_, index) => (
 
 export function UserJournal() {
   const { journalEntries, journalEntriesLoading, journalEntriesError } =
-    useFetchUserJournal();
+    useUserJournal();
 
   // const handleDelete = async (journalEntry: JournalEntryMetadata) => {
   //   const hasConfirmed = confirm("Are you sure you want to delete this habit?");

@@ -15,7 +15,7 @@ import { ScrollArea } from "@components/ui/scroll-area";
 import { Skeleton } from "@components/ui/skeleton";
 import { CircleHelp } from "lucide-react";
 import * as GiIcons from "react-icons/gi";
-import { useIconSearch } from "@hooks/useIconSearch";
+import { useIconPickerSearch } from "@hooks/useIconPickerSearch";
 
 type IconPickerProps = {
   value?: string;
@@ -37,7 +37,7 @@ export function IconPicker({
     setSelectedIconName,
     filteredIcons,
     isSearching,
-  } = useIconSearch(value);
+  } = useIconPickerSearch(value);
 
   const [isLoading, setIsLoading] = useState(true);
   const [isOpen, setIsOpen] = useState(false);

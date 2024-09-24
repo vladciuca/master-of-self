@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { Session, Habit } from "@app/types/types";
 
-export function useFetchUserHabits() {
+export function useUserHabits() {
   const [habits, setHabits] = useState<Habit[]>([]);
   const [habitsLoading, setHabitsLoading] = useState(false);
   const [habitsError, setHabitsError] = useState<string | null>(null);

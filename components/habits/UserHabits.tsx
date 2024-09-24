@@ -5,7 +5,7 @@ import { NewEntry } from "@components/NewEntry";
 import { HabitList } from "@components/habits/HabitList";
 import { SkeletonHabitCard } from "@components/skeletons/SkeletonHabitCard";
 import { Shell } from "lucide-react";
-import { useFetchUserHabits } from "@hooks/useFetchUserHabits";
+import { useUserHabits } from "@hooks/useUserHabits";
 import { Habit } from "@app/types/types";
 
 const NEW_HABIT_CARD_DETAILS = {
@@ -26,7 +26,7 @@ const skeletonCards = Array.from({ length: 3 }, (_, index) => (
 ));
 
 export function UserHabits() {
-  const { habits, habitsLoading, habitsError } = useFetchUserHabits();
+  const { habits, habitsLoading, habitsError } = useUserHabits();
   const router = useRouter();
 
   const numberOfEntries = habitsLoading ? "??" : habits.length;
