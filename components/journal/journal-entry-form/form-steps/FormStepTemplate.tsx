@@ -19,7 +19,9 @@ export function FormStepTemplate({
       <div className="space-y-4 text-center">
         <h2 className="text-xl font-semibold tracking-tight">{title}</h2>
         {description && (
-          <Label className="text-sm text-muted-foreground">{description}</Label>
+          <Label className="text-sm text-muted-foreground mx-2">
+            {description}
+          </Label>
         )}
         {scoreSection}
       </div>

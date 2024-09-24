@@ -56,7 +56,7 @@ export function FormStepNavigation({
     <div className="flex justify-around items-center my-4">
       <Button
         className="w-1/3"
-        variant={isFirstStep ? "secondary" : "default"}
+        variant={isFirstStep ? "default" : "secondary"}
         type="button"
         onClick={isFirstStep ? handleCloseForm : handlePrevForm}
       >
@@ -66,7 +66,7 @@ export function FormStepNavigation({
 
       <Button
         className="w-1/3"
-        variant={isLastStep ? "secondary" : "default"}
+        variant={isLastStep ? "default" : "secondary"}
         type="button"
         onClick={handleNextForm}
         disabled={isSubmitting}
