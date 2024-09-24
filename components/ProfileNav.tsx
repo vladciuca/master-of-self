@@ -33,7 +33,7 @@ export function ProfileNav({ session }: ProfileBarProps) {
 
       <div className="flex flex-col flex-grow ml-6">
         <div>
-          <div className="flex justify-between items-baseline">
+          {/* <div className="flex justify-between items-baseline">
             <span className="text-sm font-medium">Journal Streak</span>
             <div className="flex items-center text-xl font-bold">
               {1}
@@ -41,9 +41,9 @@ export function ProfileNav({ session }: ProfileBarProps) {
                 <FaSun className="ml-2 text-xl" />
               </div>
             </div>
-          </div>
+          </div> */}
           <div className="flex justify-between items-baseline">
-            <span className="text-sm font-medium">Willpower Generated</span>
+            <span className="text-sm font-medium">Total Willpower</span>
             <div className="flex items-center text-xl font-bold">
               {totalWillpowerLoading ? "??" : totalWillpower}
               <div className="text-sm">
