@@ -6,7 +6,7 @@ import { SignOut } from "@components/profile/SignOut";
 
 export default function Profile() {
   return (
-    <div className="flex flex-col space-y-10 pb-4">
+    <div className="flex flex-col space-y-10 pb-4 mt-4">
       <WeeklyWillpowerChart />
       <Routine />
       <DaySplit />
