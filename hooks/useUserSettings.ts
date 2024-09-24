@@ -23,16 +23,11 @@ export function useUserSettings() {
 
   useEffect(() => {
     const fetchUserSettings = async () => {
-      if (!session?.user.id) {
-        setUserSettingsError("User not logged in");
-        return;
-      }
-
       setUserSettingsError(null);
       setUserSettingsLoading(true);
 
       try {
-        const response = await fetch(`/api/users/${session.user.id}/settings`);
+        const response = await fetch(`/api/users/${session?.user.id}/settings`);
         if (!response.ok) {
           throw new Error("Failed to fetch user settings");
         }
@@ -44,30 +39,11 @@ export function useUserSettings() {
       } finally {
         setUserSettingsLoading(false);
       }
-      // setUserSettingsError(null);
-      // setUserSettingsLoading(true);
-      // if (session?.user.id) {
-      //   try {
-      //     const response = await fetch(
-      //       `/api/users/${session.user.id}/settings`
-      //     );
-      //     if (!response.ok) {
-      //       throw new Error("Failed to fetch user settings");
-      //     }
-      //     const { settings } = await response.json();
-
-      //     setUserSettings(settings);
-      //   } catch (error) {
-      //     console.error("Failed to fetch user settings", error);
-      //     setUserSettingsLoading(false);
-      //     setUserSettingsError("Failed to fetch habits");
-      //   } finally {
-      //     setUserSettingsLoading(false);
-      //   }
-      // }
     };
 
-    fetchUserSettings();
+    if (session?.user?.id) {
+      fetchUserSettings();
+    }
   }, [session]);
 
   const updateSetting = async (key: keyof UserSettings, value: any) => {

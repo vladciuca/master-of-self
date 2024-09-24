@@ -14,6 +14,7 @@ export function useTotalWillpower() {
     const fetchTotalWillpower = async () => {
       setTotalWillpowerError(null);
       setTotalWillpowerLoading(true);
+
       try {
         const response = await fetch(
           `/api/users/${session?.user?.id}/total-willpower`

@@ -8,7 +8,6 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@components/ui/accordion";
-import { Button } from "@components/ui/button";
 import { FaBoltLightning, FaSun, FaMoon, FaStar } from "react-icons/fa6";
 import { Shell } from "lucide-react";
 import { GiPrayer, GiBackup } from "react-icons/gi";
@@ -108,7 +107,7 @@ JournalEntryCardProps) {
         )}
 
         {isToday && (
-          <div className="w-full flex mt-4">
+          <div className="w-full flex mt-2">
             {session?.user?.id === creatorId && pathName === "/journal" && (
               <div className="my-4">
                 <Link

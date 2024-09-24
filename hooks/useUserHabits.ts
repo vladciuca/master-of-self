@@ -12,6 +12,7 @@ export function useUserHabits() {
     const fetchHabits = async () => {
       setHabitsError(null);
       setHabitsLoading(true);
+
       try {
         const response = await fetch(`/api/users/${session?.user.id}/habits`);
         const { habits } = await response.json();

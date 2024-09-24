@@ -16,6 +16,7 @@ export function useUserJournal() {
     const fetchJournalEntries = async () => {
       setJournalEntriesError(null);
       setJournalEntriesLoading(true);
+
       try {
         const response = await fetch(
           `/api/users/${session?.user?.id}/journal-entries`

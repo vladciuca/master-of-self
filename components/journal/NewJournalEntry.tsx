@@ -16,9 +16,6 @@ export function NewJournalEntry() {
   const router = useRouter();
   const { bonusWillpower, habitXp } = useYesterdayJournalEntry();
 
-  console.log("===============IN_NEW_CARD bonusWillpower", bonusWillpower);
-  console.log("===============IN_NEW_CARD habitXp", habitXp);
-
   const date = new Date();
   const day = date.getDate();
   const dayOfWeek = date
@@ -48,7 +45,7 @@ export function NewJournalEntry() {
         }
 
         const todayEntryResponse = await fetch(
-          `/api/users/${session?.user?.id}/journal-entries/today`
+          `/api/users/${session?.user?.id}/journal-entries/today?date=${localDate}`
         );
 
         const todayEntry = await todayEntryResponse.json();

@@ -164,8 +164,7 @@ export async function getTodaysJournalEntry(
     if (!journalEntries) await init();
 
     // Set up the date range for today (00:00:00 to 23:59:59)
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
+    const today = new Date(clientDate);
     const tomorrow = new Date(today);
     tomorrow.setDate(tomorrow.getDate() + 1);
 
