@@ -2,8 +2,7 @@
 
 import Link from "next/link";
 import { useTotalWillpower } from "@hooks/useTotalWillpower";
-import { FaBoltLightning, FaLink, FaSun } from "react-icons/fa6";
-// import { Progress } from "@components/ui/progress";
+import { FaBoltLightning } from "react-icons/fa6";
 import { Session } from "@app/types/types";
 
 type ProfileBarProps = {
@@ -11,8 +10,7 @@ type ProfileBarProps = {
 };
 
 export function ProfileNav({ session }: ProfileBarProps) {
-  const { totalWillpower, totalWillpowerLoading, totalWillpowerError } =
-    useTotalWillpower();
+  const { totalWillpower, totalWillpowerLoading } = useTotalWillpower();
   const name = session.user?.name || "";
   const nameInitials = name
     ? name
@@ -31,31 +29,18 @@ export function ProfileNav({ session }: ProfileBarProps) {
         </Link>
       </div>
 
-      <div className="flex flex-col flex-grow ml-6">
-        <div>
-          {/* <div className="flex justify-between items-baseline">
-            <span className="text-sm font-medium">Journal Streak</span>
-            <div className="flex items-center text-xl font-bold">
-              {1}
-              <div className="text-sm">
-                <FaSun className="ml-2 text-xl" />
-              </div>
-            </div>
-          </div> */}
-          <div className="flex justify-between items-baseline">
-            <span className="text-sm font-medium">Total Willpower</span>
-            <div className="flex items-center text-xl font-bold">
+      <div className="flex flex-col mr-1 justify-end">
+        <div className="flex items-center text-xl font-bold">
+          <div className="flex flex-col items-end">
+            <div className="text-xs uppercase text-muted-foreground">Total</div>
+            <span className="text-4xl">
               {totalWillpowerLoading ? "??" : totalWillpower}
-              <div className="text-sm">
-                <FaBoltLightning className="ml-2 text-xl" />
-              </div>
-            </div>
+            </span>
           </div>
-          {/* <Progress value={10} max={30} className="h-2 mt-1 mb-2" />
-          <div className="flex justify-between">
-            <span className="text-xs font-medium">Milestone 1 (7 days)</span>
-            <span className="text-xs font-medium">Evening 00:00</span>
-          </div> */}
+
+          <div>
+            <FaBoltLightning className="ml-1" size={"2.5rem"} />
+          </div>
         </div>
       </div>
     </div>
