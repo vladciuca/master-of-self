@@ -297,3 +297,39 @@ export async function getWeeklyWillpowerData(
 }
 
 // GET TOTAL WILLPOWER ==========================================================================
+export async function getTotalWillpower(userId: string): Promise<{
+  totalWillpower: number;
+  error?: string;
+}> {
+  try {
+    if (!journalEntries) await init();
+
+    const pipeline = [
+      {
+        $match: {
+          creatorId: new ObjectId(userId),
+        },
+      },
+      {
+        $group: {
+          _id: null,
+          totalWillpower: { $sum: "$dailyWillpower" },
+        },
+      },
+    ];
+
+    const result = await journalEntries.aggregate(pipeline).toArray();
+
+    if (result.length === 0) {
+      return { totalWillpower: 0 };
+    }
+
+    return { totalWillpower: result[0].totalWillpower };
+  } catch (error) {
+    console.error("Failed to calculate total willpower", error);
+    return {
+      totalWillpower: 0,
+      error: "Failed to calculate total willpower",
+    };
+  }
+}

@@ -35,16 +35,3 @@ export function isEvening(startTime: string | undefined): boolean {
     );
   }
 }
-
-// Test cases
-//   console.log("Current time:", new Date().toLocaleTimeString());
-//   console.log("Is evening (18:00):", isEvening("18:00"));
-//   console.log("Is evening (23:40):", isEvening("23:40"));
-//   console.log("Is evening (00:20):", isEvening("00:20"));
-//   console.log("Is evening (current time + 1 minute):", isEvening(getOneMinuteFromNow()));
-
-//   function getOneMinuteFromNow() {
-//     const date = new Date();
-//     date.setMinutes(date.getMinutes() + 1);
-//     return `${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}`;
-//   }

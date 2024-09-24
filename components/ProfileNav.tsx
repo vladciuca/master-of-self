@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useTotalWillpower } from "@hooks/useTotalWillpower";
 import { Session } from "@app/types/types";
 
 type ProfileBarProps = {
@@ -8,9 +9,10 @@ type ProfileBarProps = {
 };
 
 export function ProfileNav({ session }: ProfileBarProps) {
+  const { totalWillpower, totalWillpowerLoading, totalWillpowerError } =
+    useTotalWillpower();
   const name = session.user?.name || "";
   // const email = session.user?.email || "";
-
   const nameInitials = name
     ? name
         .split(" ")
@@ -27,7 +29,9 @@ export function ProfileNav({ session }: ProfileBarProps) {
           </div>
         </Link>
       </div>
-      {/* <div className="flex grow">{email}</div> */}
+      <div className="flex grow">
+        {totalWillpowerLoading ? "??" : totalWillpower}
+      </div>
     </div>
   );
 }
