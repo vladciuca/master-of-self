@@ -13,8 +13,9 @@ export function useYesterdayJournalEntry() {
     const getYesterdayEntryRewards = async () => {
       if (session?.user?.id) {
         try {
+          const localDate = new Date().toISOString().split("T")[0];
           const yesterdayEntryResponse = await fetch(
-            `/api/users/${session.user.id}/journal-entries/yesterday`
+            `/api/users/${session.user.id}/journal-entries/yesterday?date=${localDate}`
           );
 
           if (!yesterdayEntryResponse.ok) {
@@ -24,32 +25,23 @@ export function useYesterdayJournalEntry() {
             return;
           }
 
-          // TO DO: deconstruct data here
-          const data = await yesterdayEntryResponse.json();
+          const yesterdayEntry = await yesterdayEntryResponse.json();
 
-          if (!data) return;
+          if (!yesterdayEntry) return;
 
-          // if (yesterdayEntry?.nightEntry?.dailyHighlights?.length) {
-          //   const calculatedBonus = calculateBonusWillpower(
-          //     yesterdayEntry.nightEntry.dailyHighlights
-          //   );
-          //   setBonusWillpower(calculatedBonus);
-          // }
+          if (yesterdayEntry.nightEntry.dailyHighlights.length > 0) {
+            const calculatedBonus = calculateBonusWillpower(
+              yesterdayEntry.nightEntry.dailyHighlights
+            );
+            setBonusWillpower(calculatedBonus);
+          }
 
-          // if (yesterdayEntry?.nightEntry?.habits) {
-          //   setHabitXp(yesterdayEntry.nightEntry.habits);
-          // }
-          if (data.entry) {
-            if (data.entry.nightEntry?.dailyHighlights?.length) {
-              const calculatedBonus = calculateBonusWillpower(
-                data.entry.nightEntry.dailyHighlights
-              );
-              setBonusWillpower(calculatedBonus);
-            }
-
-            if (data.entry.nightEntry?.habits) {
-              setHabitXp(data.entry.nightEntry.habits);
-            }
+          if (
+            yesterdayEntry.nightEntry.habits &&
+            typeof yesterdayEntry.nightEntry.habits === "object" &&
+            Object.keys(yesterdayEntry.nightEntry.habits).length > 0
+          ) {
+            setHabitXp(yesterdayEntry.nightEntry.habits);
           }
         } catch (error) {
           console.error("Failed to fetch yesterday's entry:", error);

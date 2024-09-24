@@ -16,6 +16,9 @@ export function NewJournalEntry() {
   const router = useRouter();
   const { bonusWillpower, habitXp } = useYesterdayJournalEntry();
 
+  console.log("===============IN_NEW_CARD bonusWillpower", bonusWillpower);
+  console.log("===============IN_NEW_CARD habitXp", habitXp);
+
   const date = new Date();
   const day = date.getDate();
   const dayOfWeek = date

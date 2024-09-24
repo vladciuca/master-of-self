@@ -60,8 +60,8 @@ export async function createJournalEntry(
       createDate: today,
       dailyWillpower,
       bonusWillpower,
-      dayEntry,
-      nightEntry,
+      dayEntry: {},
+      nightEntry: {},
     };
 
     const result = await journalEntries.insertOne(newJournalEntry);
@@ -153,7 +153,10 @@ export async function getJournalEntries(userId: string): Promise<{
 
 // GET TODAY'S USER JOURNAL ENTRY ===============================================================
 // ADD USER LOCAL TIME PASSED AS PARAM
-export async function getTodaysJournalEntry(userId: string): Promise<{
+export async function getTodaysJournalEntry(
+  userId: string,
+  clientDate: string
+): Promise<{
   todaysJournalEntry: JournalEntry | null;
   error?: string;
 }> {
@@ -192,7 +195,10 @@ export async function getTodaysJournalEntry(userId: string): Promise<{
 
 // GET YESTERDAYS'S USER JOURNAL ENTRY ==========================================================
 // ADD USER LOCAL TIME PASSED AS PARAM
-export async function getYesterdaysJournalEntry(userId: string): Promise<{
+export async function getYesterdaysJournalEntry(
+  userId: string,
+  clientDate: string
+): Promise<{
   yesterdaysJournalEntry: JournalEntry | null;
   error?: string;
 }> {
@@ -200,9 +206,8 @@ export async function getYesterdaysJournalEntry(userId: string): Promise<{
     if (!journalEntries) await init();
 
     // Set up the date range for yesterday (00:00:00 to 23:59:59)
-    const yesterday = new Date();
+    const yesterday = new Date(clientDate);
     yesterday.setDate(yesterday.getDate() - 1);
-    yesterday.setHours(0, 0, 0, 0);
 
     const today = new Date(yesterday);
     today.setDate(today.getDate() + 1);

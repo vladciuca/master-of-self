@@ -27,7 +27,7 @@ export default async function RootLayout({ children }: Layout) {
   // }
 
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en">
       <body className={`relative ${font.className}`}>
         <Provider>
           <ThemeProvider

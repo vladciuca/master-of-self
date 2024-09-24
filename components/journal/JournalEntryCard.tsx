@@ -93,7 +93,7 @@ JournalEntryCardProps) {
         {/*a BUG here resulting in this being displayed after the habit has been deleted*/}
         {/* Should remove after the fix not to post 0 values for habits in id: xp */}
         {nightEntry?.habits && Object.keys(nightEntry.habits).length > 0 && (
-          <div className="mt-4 flex w-full">
+          <div className="mt-2 flex w-full">
             <div className="flex-shrink-0 flex items-start mr-4">
               <h2 className="flex items-center text-muted-foreground mt-1">
                 <Shell className="mr-2 text-muted-foreground" size={"1rem"} />
@@ -110,19 +110,18 @@ JournalEntryCardProps) {
         {isToday && (
           <div className="w-full flex mt-4">
             {session?.user?.id === creatorId && pathName === "/journal" && (
-              <div>
-                <Button className="mr-3 mt-1" size="sm">
-                  <Link href={`/update-journal-entry/${_id}`}>
-                    Continue today's journal
-                  </Link>
-                </Button>
-                {/* <Button
-                  variant="ghost"
+              <div className="my-4">
+                <Link
+                  className="mr-3 mt-1 bg-primary text-primary-foreground text-sm rounded-md py-2 px-4"
+                  href={`/update-journal-entry/${_id}`}
+                >
+                  Continue today's journal
+                </Link>
+                {/* <div
                   onClick={() => handleDelete(journalEntry)}
-                  size="sm"
                 >
                   Delete(TEST)
-                </Button> */}
+                </div> */}
               </div>
             )}
           </div>
