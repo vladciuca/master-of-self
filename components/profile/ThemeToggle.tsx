@@ -20,7 +20,7 @@ export function ThemeToggle() {
         ) : (
           <Lightbulb className="h-8 w-8" />
         )}
-        <span className="text-sm font-medium pl-1">Change theme</span>
+        <span className="text-sm font-medium pl-1">Change mode</span>
       </div>
       <Switch
         checked={theme === "dark"}

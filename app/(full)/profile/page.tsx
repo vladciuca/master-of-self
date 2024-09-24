@@ -1,4 +1,4 @@
-import { WeeklyWillpowerChart } from "@components/profile/WeeklyWillpowerChart";
+import { WeeklyWillpowerChart } from "@components/profile/weekly-willpower-chart/WeeklyWillpowerChart";
 import { Routine } from "@components/profile/Routine";
 import { DaySplit } from "@components/profile/DaySplit";
 import { ThemeToggle } from "@components/profile/ThemeToggle";
