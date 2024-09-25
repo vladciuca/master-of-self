@@ -1,5 +1,6 @@
 import { ReactNode } from "react";
 import { Session as NextAuthSession, User as NextAuthUser } from "next-auth";
+import { XpData } from "./mongodb";
 
 export type Layout = {
   children: ReactNode;
@@ -54,6 +55,7 @@ export type Habit = {
   icon: string;
   description: string;
   xp: number;
+  xpData: XpData[];
   creatorId: string;
 };
 
@@ -61,5 +63,4 @@ export type WeeklyWillpowerData = {
   date: string;
   generatedWillpower: number;
   bonusWillpower: number;
-  willpowerLabelValue?: string;
 };

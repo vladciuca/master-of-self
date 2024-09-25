@@ -35,9 +35,12 @@ export type Habit = {
   icon: string;
   description: string;
   xp: number;
+  xpData: XpData[];
   creatorId: ObjectId;
 };
 
 export type NewHabit = Omit<Habit, "_id">; // Lets mongo db assign the _id
 
 export type HabitUpdate = [string, number]; // [habitId, xpChange]
+
+export type XpData = [string, number]; // [date, xp]

@@ -1,6 +1,6 @@
 import { MongoClient, Db, Collection, ObjectId } from "mongodb";
 import clientPromise from "./mongodb";
-import { Habit, NewHabit, HabitUpdate } from "@/app/types/mongodb";
+import { Habit, NewHabit, HabitUpdate, XpData } from "@/app/types/mongodb";
 
 let client: MongoClient;
 let db: Db;
@@ -37,6 +37,7 @@ export async function createHabit(
       icon,
       description,
       xp: 0, // initialize XP to 0
+      xpData: [], // initialize XP chart data to empty array
     };
 
     const result = await habits.insertOne(newHabit);
@@ -173,13 +174,21 @@ export async function updateHabitsXp(
   try {
     if (!habits) await init();
 
-    const bulkOps = habitUpdates.map(([id, xp]) => ({
-      updateOne: {
-        filter: { _id: new ObjectId(id) },
-        update: { $inc: { xp: xp } },
-        upsert: false,
-      },
-    }));
+    const date = new Date().toISOString().slice(0, 10);
+
+    const bulkOps = habitUpdates.map(([id, xp]) => {
+      const xpData: XpData = [date, xp];
+      return {
+        updateOne: {
+          filter: { _id: new ObjectId(id) },
+          update: {
+            $inc: { xp: xp },
+            $push: { xpData },
+          },
+          upsert: false,
+        },
+      };
+    });
 
     const result = await habits.bulkWrite(bulkOps);
 
@@ -191,6 +200,8 @@ export async function updateHabitsXp(
     const updatedHabits = await habits
       .find({ _id: { $in: updatedHabitsIds } })
       .toArray();
+
+    console.log("===============IN_DB_OPERATIONS updatedHabits", updatedHabits);
 
     return { updatedHabits };
 

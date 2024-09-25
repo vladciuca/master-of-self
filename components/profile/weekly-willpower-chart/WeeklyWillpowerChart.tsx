@@ -2,9 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
-import { WillpowerLabel } from "@components/profile/weekly-willpower-chart/WillpowerLabel";
 import { WillpowerBar } from "@components/profile/weekly-willpower-chart/WillpowerBar";
-import { Bar, BarChart, XAxis, ResponsiveContainer, LabelList } from "recharts";
+import { Bar, BarChart, XAxis, ResponsiveContainer } from "recharts";
 import {
   Card,
   CardContent,
@@ -116,12 +115,7 @@ export function WeeklyWillpowerChart() {
         if (!response.ok) throw new Error("Failed to fetch willpower data");
         const data = await response.json();
 
-        const updatedData = data.map((item: WeeklyWillpowerData) => ({
-          ...item,
-          willpowerLabelValue: `${item.generatedWillpower},${item.bonusWillpower}`,
-        }));
-
-        setWillpowerData(updatedData);
+        setWillpowerData(data);
       } catch (error) {
         console.error("Error fetching willpower data:", error);
       } finally {
@@ -183,16 +177,34 @@ export function WeeklyWillpowerChart() {
                   stackId="a"
                   fill="var(--color-bonusWillpower)"
                   shape={<WillpowerBar type="bonus" />}
-                >
-                  <LabelList
-                    dataKey="willpowerLabelValue"
-                    content={<WillpowerLabel />}
-                    position="top"
-                  />
-                </Bar>
+                />
               </BarChart>
             </ResponsiveContainer>
           </ChartContainer>
+          <div className="w-full grid grid-cols-7 gap-2 px-2">
+            {willpowerData.map(
+              ({ generatedWillpower, bonusWillpower }, index) => {
+                return (
+                  <div
+                    key={index}
+                    className="flex flex-col items-center justify-center p-2"
+                    aria-label={`Day ${index + 1} willpower`}
+                  >
+                    {generatedWillpower === 0 && bonusWillpower === 0 ? (
+                      <></>
+                    ) : (
+                      <div className="text-center font-semibold text-xs">
+                        {generatedWillpower}
+                        <span className="text-green-500">
+                          +{bonusWillpower}
+                        </span>
+                      </div>
+                    )}
+                  </div>
+                );
+              }
+            )}
+          </div>
         </CardContent>
       </Card>
     </div>

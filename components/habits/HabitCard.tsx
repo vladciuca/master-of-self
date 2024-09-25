@@ -3,6 +3,7 @@
 import { useSession } from "next-auth/react";
 import { usePathname } from "next/navigation";
 import { IconRenderer } from "@components/IconRenderer";
+import { HabitXpChart } from "./HabitXpChart";
 import { CircularProgress } from "@components/ui/circular-progress";
 import {
   AccordionContent,
@@ -77,6 +78,7 @@ HabitCardProps) {
         </div>
       </AccordionTrigger>
       <AccordionContent className="px-4">
+        <HabitXpChart habit={habit} />
         <div className="my-4">
           <p className="text-muted-foreground">{description}</p>
         </div>

@@ -9,8 +9,7 @@ type WillpowerBarProps = RectangleProps &
   };
 
 export function WillpowerBar(props: WillpowerBarProps) {
-  const { payload, type, height, y, ...rest } = props;
-  const adjustedY = y ? y + (height ? height * 0.2 : 0) : 0; // Move the bar down by 20% of the height
+  const { payload, type, ...rest } = props;
   const defaultRadius: [number, number, number, number] = [4, 4, 4, 4];
 
   const radius: [number, number, number, number] = (() => {
@@ -25,22 +24,5 @@ export function WillpowerBar(props: WillpowerBarProps) {
     return defaultRadius;
   })();
 
-  const adjustedHeight: number = (() => {
-    if (typeof height !== "number") {
-      return 0; // Handle the case where height is undefined
-    }
-    if (type === "generated") {
-      return height * 0.8;
-    }
-    return height;
-  })();
-
-  return (
-    <Rectangle
-      {...rest}
-      y={adjustedY}
-      height={adjustedHeight}
-      radius={radius}
-    />
-  );
+  return <Rectangle {...rest} radius={radius} />;
 }
