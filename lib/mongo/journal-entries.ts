@@ -36,6 +36,7 @@ export async function createJournalEntry(
 
     // Check if an entry for today already exists
     const today = new Date(clientDate);
+    // here it breaks - need to move on client did it some where,
     const tomorrow = new Date(today);
     tomorrow.setDate(tomorrow.getDate() + 1);
 

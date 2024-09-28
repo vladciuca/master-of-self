@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Button } from "@components/ui/button";
-import { Target, Shell } from "lucide-react";
+import { Target, Shell, Atom } from "lucide-react";
 import { GiSpellBook } from "react-icons/gi";
 
 export function BottomNav() {

@@ -28,7 +28,7 @@ function GratefulFor({
       scoreSection={
         <div className="text-4xl mt-3 flex items-center justify-center font-semibold">
           {dailyWillpower}
-          <FaBoltLightning className="ml-2" />
+          <FaBoltLightning className="ml-2 text-3xl" />
         </div>
       }
     >

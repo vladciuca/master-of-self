@@ -78,7 +78,13 @@ HabitCardProps) {
         </div>
       </AccordionTrigger>
       <AccordionContent className="px-4">
-        <HabitXpChart habit={habit} />
+        {/* <div className="flex items-center my-2">
+          <div className="text-lg font-semibold">Activity</div>
+          <Button variant="secondary" className="rounded-full text-xs ml-3">
+            This month
+          </Button>
+        </div>
+        <HabitXpChart habit={habit} /> */}
         <div className="my-4">
           <p className="text-muted-foreground">{description}</p>
         </div>

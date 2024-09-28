@@ -101,11 +101,9 @@ export function NewJournalEntry() {
       <div className="w-full">
         <div className="flex w-full justify-between">
           <div className="flex items-center">
-            <div className="bg-primary text-primary-foreground h-16 w-16 rounded-sm flex flex-col justify-center items-center">
-              <div className="uppercase text-base font-semibold">
-                {dayOfWeek}
-              </div>
-              <div className="text-4xl font-bold">{day}</div>
+            <div className="bg-muted text-foreground h-16 w-16 rounded-sm flex flex-col justify-center items-center">
+              <div className="uppercase text-md font-semibold">{dayOfWeek}</div>
+              <div className="text-3xl font-semibold">{day}</div>
             </div>
           </div>
           <div className="ml-6">
@@ -116,13 +114,13 @@ export function NewJournalEntry() {
                     +{bonusWillpower}
                   </span>
                 ) : (
-                  <span>0</span>
+                  <span className="font-semibold">0</span>
                 )}
-                <FaBoltLightning className="ml-2" />
+                <FaBoltLightning className="ml-1 text-2xl" />
               </div>
             </div>
             <div className="flex justify-end">
-              <div className="text-sm mt-2 text-muted-foreground">
+              <div className="text-xs mt-1 text-muted-foreground">
                 {"Willpower"}
               </div>
             </div>

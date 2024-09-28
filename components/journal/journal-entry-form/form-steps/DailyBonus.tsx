@@ -63,12 +63,12 @@ export function DailyBonus({ bonusWillpower }: DailyBonusProps) {
             <div className="flex flex-col items-center">
               <GiEmbrassedEnergy size={200} />
               <div className="text-4xl my-4 flex items-center">
-                <span className="text-green-500 font-semibold mr-2">
+                <span className="text-green-500 font-semibold">
                   +{bonusWillpower}
                 </span>
-                <FaBoltLightning />
+                <FaBoltLightning className="ml-2 text-3xl" />
               </div>
-              <div className="font-semibold text-muted-foreground">
+              <div className="text-muted-foreground">
                 Empowered from yesterday's highlights!
               </div>
             </div>

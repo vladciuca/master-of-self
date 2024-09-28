@@ -72,7 +72,7 @@ export function HabitsStep({
       scoreSection={
         <div className="text-4xl my-3 pb-4 flex items-center justify-center font-semibold">
           {remainingWillpower}
-          <FaBoltLightning className="ml-2" />
+          <FaBoltLightning className="ml-2 text-3xl" />
           {Object.values(habitXp).some((xp) => xp > 0) && (
             <Button
               variant={"outline"}

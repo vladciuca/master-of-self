@@ -46,25 +46,23 @@ function chartTimePeriod(willpowerData: { date: string }[]) {
 
   if (startMonth === endMonth) {
     return (
-      <div className="text-2xl font-bold">
-        {`${startDay} - ${endDay}`}
-        <span className="ml-2 text-lg font-extrabold tracking-wide">
+      <div className="text-2xl font-semibold">
+        {`${startDay}-${endDay}`}
+        <span className="ml-2 text-lg font-bold tracking-wide">
           {startMonth}
         </span>
       </div>
     );
   } else {
     return (
-      <div className="text-2xl font-bold">
-        <span className="text-2xl font-bold">{startDay}</span>
-        <span className="text-lg font-extrabold tracking-wide ml-1">
+      <div className="text-2xl font-semibold">
+        <span className="text-2xl font-semibold">{startDay}</span>
+        <span className="text-lg font-bold tracking-wide ml-1">
           {startMonth}
         </span>
         <span className="mx-2">-</span>
-        <span className="text-2xl font-bold">{endDay}</span>
-        <span className="text-lg font-extrabold tracking-wide ml-1">
-          {endMonth}
-        </span>
+        <span className="text-2xl font-semibold">{endDay}</span>
+        <span className="text-lg font-bold tracking-wide ml-1">{endMonth}</span>
       </div>
     );
   }
@@ -145,7 +143,7 @@ export function WeeklyWillpowerChart() {
             {!isLoading && totalWillpower.bonus > 0 && (
               <span className="text-green-500">+{totalWillpower.bonus}</span>
             )}
-            <FaBoltLightning className="ml-1" />
+            <FaBoltLightning className="ml-1 text-2xl" />
           </span>
         </CardTitle>
       </div>
