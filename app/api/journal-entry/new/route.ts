@@ -2,19 +2,15 @@ import { NextRequest, NextResponse } from "next/server";
 import { createJournalEntry } from "@lib/mongo/journal-entries";
 
 export async function POST(req: NextRequest) {
-  const { userId, dailyWillpower, bonusWillpower, dayEntry, nightEntry } =
-    await req.json();
-  // Get the date from query parameters
-  const today = req.nextUrl.searchParams.get("today");
-  const tomorrow = req.nextUrl.searchParams.get("tomorrow");
+  const { userId, dailyWillpower, bonusWillpower } = await req.json();
 
-  // If no date is provided, use the current date
-  const userToday = today ? new Date(today) : new Date();
-  const userTomorrow = tomorrow ? new Date(tomorrow) : new Date();
-  // Validate the date
-  if (isNaN(userToday.getTime()) || isNaN(userTomorrow.getTime())) {
+  const userToday = req.nextUrl.searchParams.get("today");
+  const userTomorrow = req.nextUrl.searchParams.get("tomorrow");
+
+  // Check if both parameters are provided
+  if (!userToday || !userTomorrow) {
     return NextResponse.json(
-      { error: "Invalid date provided" },
+      { error: "Both 'today' and 'tomorrow' parameters are required" },
       { status: 400 }
     );
   }
@@ -24,8 +20,8 @@ export async function POST(req: NextRequest) {
       userId,
       dailyWillpower,
       bonusWillpower,
-      userToday.toISOString().split("T")[0],
-      userTomorrow.toISOString().split("T")[0]
+      userToday,
+      userTomorrow
     );
 
     if (error) {

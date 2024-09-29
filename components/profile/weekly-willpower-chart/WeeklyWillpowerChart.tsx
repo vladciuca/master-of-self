@@ -13,6 +13,7 @@ import {
 import { ChartContainer } from "@components/ui/chart";
 import { Skeleton } from "@components/ui/skeleton";
 import { FaBoltLightning } from "react-icons/fa6";
+import { getStartOfCurrentWeek, getEndOfCurrentWeek } from "@lib/time";
 import { Session } from "@app/types/types";
 import { WeeklyWillpowerData } from "@app/types/types";
 
@@ -97,15 +98,9 @@ export function WeeklyWillpowerChart() {
     const fetchWillpowerData = async () => {
       try {
         setIsLoading(true);
-        const today = new Date();
 
-        const startOfWeek = new Date(today);
-        startOfWeek.setDate(today.getDate() - ((today.getDay() + 6) % 7));
-        startOfWeek.setHours(0, 0, 0, 0);
-
-        const endOfWeek = new Date(startOfWeek);
-        endOfWeek.setDate(endOfWeek.getDate() + 6);
-        endOfWeek.setHours(23, 59, 59, 999);
+        const startOfWeek = getStartOfCurrentWeek();
+        const endOfWeek = getEndOfCurrentWeek();
 
         const response = await fetch(
           `/api/users/${session?.user.id}/weekly-willpower?startOfWeek=${startOfWeek}&endOfWeek=${endOfWeek}`

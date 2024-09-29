@@ -7,6 +7,7 @@ import { JournalEntryHabits } from "@components/journal/JournalEntryHabits";
 import { Card } from "@components/ui/card";
 import { Button } from "@components/ui/button";
 import { FaBoltLightning } from "react-icons/fa6";
+import { getToday, getTomorrow } from "@lib/time";
 import { useYesterdayJournalEntry } from "@hooks/useYesterdayJournalEntry";
 import { Session } from "@app/types/types";
 
@@ -26,10 +27,8 @@ export function NewJournalEntry() {
     setSubmitting(true);
 
     try {
-      const today = new Date().toISOString().split("T")[0]; // send with split at T to get 00:00 time
-      const tomorrow = new Date(today);
-      tomorrow.setDate(tomorrow.getDate() + 1);
-      tomorrow.toISOString().split("T")[0];
+      const today = getToday();
+      const tomorrow = getTomorrow();
 
       const createNewEntryResponse = await fetch(
         `/api/journal-entry/new?today=${today}&tomorrow=${tomorrow}`,

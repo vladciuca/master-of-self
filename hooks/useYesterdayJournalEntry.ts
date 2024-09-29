@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
+import { getToday, getYesterday } from "@lib/time";
 import { Session } from "@app/types/types";
 
 type HabitXp = { [key: string]: number };
@@ -20,9 +21,8 @@ export function useYesterdayJournalEntry() {
       setYesterdayEntryError(null);
       setYesterdayEntryLoading(true);
       try {
-        const today = new Date().toISOString().split("T")[0]; // send with split at T to get 00:00 time
-        const yesterday = new Date(today);
-        yesterday.setDate(yesterday.getDate() - 1);
+        const today = getToday();
+        const yesterday = getYesterday();
 
         const yesterdayEntryResponse = await fetch(
           `/api/users/${session?.user.id}/journal-entries/yesterday?today=${today}&yesterday=${yesterday}`

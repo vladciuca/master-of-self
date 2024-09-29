@@ -29,15 +29,15 @@ export async function createJournalEntry(
   bonusWillpower: number,
   // dayEntry: object,
   // nightEntry: object,
-  clientToday: string,
-  clientTomorrow: string
+  userToday: string,
+  userTomorrow: string
 ): Promise<{ newJournalEntry: JournalEntry | null; error?: string }> {
   try {
     if (!journalEntries) await init();
 
     // Check if an entry for today already exists
-    const today = new Date(clientToday);
-    const tomorrow = new Date(clientTomorrow);
+    const today = new Date(userToday);
+    const tomorrow = new Date(userTomorrow);
 
     const existingEntry = await journalEntries.findOne({
       creatorId: new ObjectId(userId),
@@ -155,8 +155,8 @@ export async function getJournalEntries(userId: string): Promise<{
 // ADD USER LOCAL TIME PASSED AS PARAM
 export async function getTodaysJournalEntry(
   userId: string,
-  clientToday: string,
-  clientTomorrow: string
+  userToday: string,
+  userTomorrow: string
 ): Promise<{
   todaysJournalEntry: JournalEntry | null;
   error?: string;
@@ -165,8 +165,8 @@ export async function getTodaysJournalEntry(
     if (!journalEntries) await init();
 
     // Set up the date range for today (00:00:00 to 23:59:59)
-    const today = new Date(clientToday);
-    const tomorrow = new Date(clientTomorrow);
+    const today = new Date(userToday);
+    const tomorrow = new Date(userTomorrow);
 
     const todaysJournalEntry = await journalEntries.findOne({
       creatorId: new ObjectId(userId),
@@ -195,8 +195,8 @@ export async function getTodaysJournalEntry(
 // GET YESTERDAYS'S USER JOURNAL ENTRY ==========================================================
 export async function getYesterdaysJournalEntry(
   userId: string,
-  clientToday: string,
-  clientYesterday: string
+  userToday: string,
+  userYesterday: string
 ): Promise<{
   yesterdaysJournalEntry: JournalEntry | null;
   error?: string;
@@ -205,8 +205,8 @@ export async function getYesterdaysJournalEntry(
     if (!journalEntries) await init();
 
     // Set up the date range for yesterday (00:00:00 to 23:59:59)
-    const yesterday = new Date(clientYesterday);
-    const today = new Date(clientToday);
+    const yesterday = new Date(userToday);
+    const today = new Date(userYesterday);
 
     const yesterdaysJournalEntry = await journalEntries.findOne({
       creatorId: new ObjectId(userId),
@@ -228,8 +228,8 @@ export async function getYesterdaysJournalEntry(
 // GET WEEKLY WILLPOWER DATA ====================================================================
 export async function getWeeklyWillpowerData(
   userId: string,
-  clientStartOfWeek: string,
-  clientEndOfWeek: string
+  userStartOfWeek: string,
+  userEndOfWeek: string
 ): Promise<{
   weeklyWillpower: WeeklyWillpowerData[] | null;
   error?: string;
@@ -237,12 +237,8 @@ export async function getWeeklyWillpowerData(
   try {
     if (!journalEntries) await init();
 
-    const startOfWeek = new Date(clientStartOfWeek);
-    const endOfWeek = new Date(clientEndOfWeek);
-
-    if (isNaN(startOfWeek.getTime()) || isNaN(endOfWeek.getTime())) {
-      throw new Error("Invalid date provided");
-    }
+    const startOfWeek = new Date(userStartOfWeek);
+    const endOfWeek = new Date(userEndOfWeek);
 
     const journalEntriesData = await journalEntries
       .find({

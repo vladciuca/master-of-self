@@ -35,3 +35,35 @@ export function isEvening(startTime: string | undefined): boolean {
     );
   }
 }
+
+export const getToday = (): string => {
+  return new Date().toISOString().split("T")[0];
+};
+
+export const getTomorrow = (): string => {
+  const tomorrow = new Date();
+  tomorrow.setDate(tomorrow.getDate() + 1);
+  return tomorrow.toISOString().split("T")[0];
+};
+
+export const getYesterday = (): string => {
+  const yesterday = new Date();
+  yesterday.setDate(yesterday.getDate() - 1);
+  return yesterday.toISOString().split("T")[0];
+};
+
+export const getStartOfCurrentWeek = (): Date => {
+  const today = new Date();
+  const startOfWeek = new Date(today);
+  startOfWeek.setDate(today.getDate() - ((today.getDay() + 6) % 7));
+  startOfWeek.setHours(0, 0, 0, 0);
+  return startOfWeek;
+};
+
+export const getEndOfCurrentWeek = (): Date => {
+  const startOfWeek = getStartOfCurrentWeek();
+  const endOfWeek = new Date(startOfWeek);
+  endOfWeek.setDate(endOfWeek.getDate() + 6);
+  endOfWeek.setHours(23, 59, 59, 999);
+  return endOfWeek;
+};

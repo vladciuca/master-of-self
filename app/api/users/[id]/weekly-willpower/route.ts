@@ -5,27 +5,21 @@ export async function GET(
   { params }: { params: { id: string } }
 ) {
   try {
-    const startOfWeek = req.nextUrl.searchParams.get("startOfWeek");
-    const endOfWeek = req.nextUrl.searchParams.get("endOfWeek");
+    const userId = params.id;
+    const userStartOfWeek = req.nextUrl.searchParams.get("startOfWeek");
+    const userEndOfWeek = req.nextUrl.searchParams.get("endOfWeek");
 
-    if (!startOfWeek || !endOfWeek) {
-      return NextResponse.json({ error: "No date provided" }, { status: 400 });
-    }
-
-    const startOfWeekDate = startOfWeek ? new Date(startOfWeek) : new Date();
-    const endOfWeekDate = endOfWeek ? new Date(endOfWeek) : new Date();
-
-    if (isNaN(startOfWeekDate.getTime())) {
+    if (!userStartOfWeek || !userEndOfWeek) {
       return NextResponse.json(
-        { error: "Invalid date provided" },
+        { error: "Both 'startOfWeek' and 'endOfWeek' parameters are required" },
         { status: 400 }
       );
     }
 
     const { weeklyWillpower, error } = await getWeeklyWillpowerData(
-      params.id,
-      startOfWeekDate.toISOString(),
-      endOfWeekDate.toISOString()
+      userId,
+      userStartOfWeek,
+      userEndOfWeek
     );
 
     if (error) {
