@@ -36,7 +36,7 @@ export function NewJournalEntry() {
         {
           method: "POST",
           body: JSON.stringify({
-            userId: session?.user?.id,
+            userId: session?.user.id,
             dailyWillpower: bonusWillpower, // add bonus Willpower to dailyWillpower
             bonusWillpower: bonusWillpower,
           }),
@@ -49,7 +49,7 @@ export function NewJournalEntry() {
         }
 
         const todayEntryResponse = await fetch(
-          `/api/users/${session?.user?.id}/journal-entries/today?date=${today}`
+          `/api/users/${session?.user.id}/journal-entries/today=${today}&tomorrow=${tomorrow}`
         );
 
         const todayEntry = await todayEntryResponse.json();

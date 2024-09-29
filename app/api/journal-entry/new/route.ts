@@ -10,10 +10,7 @@ export async function POST(req: NextRequest) {
 
   // If no date is provided, use the current date
   const userToday = today ? new Date(today) : new Date();
-  // userToday;
   const userTomorrow = tomorrow ? new Date(tomorrow) : new Date();
-  // userTomorrow.toISOString().split("T")[0];
-
   // Validate the date
   if (isNaN(userToday.getTime()) || isNaN(userTomorrow.getTime())) {
     return NextResponse.json(
@@ -27,8 +24,6 @@ export async function POST(req: NextRequest) {
       userId,
       dailyWillpower,
       bonusWillpower,
-      dayEntry,
-      nightEntry,
       userToday.toISOString().split("T")[0],
       userTomorrow.toISOString().split("T")[0]
     );

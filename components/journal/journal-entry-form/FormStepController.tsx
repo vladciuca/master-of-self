@@ -7,7 +7,7 @@ import { GratefulFor } from "@components/journal/journal-entry-form/form-steps/G
 import { DailyHighlights } from "@components/journal/journal-entry-form/form-steps/DailyHighlights";
 import { LearnedToday } from "@components/journal/journal-entry-form/form-steps/LearnedToday";
 import { HabitsStep } from "@components/journal/journal-entry-form/form-steps/HabitsStep";
-import { isEvening } from "@lib/journaling-hours";
+import { isEvening } from "@lib/time";
 import { JournalEntry } from "@app/types/types";
 
 // TEST_FLAG: used for enabling all forms steps

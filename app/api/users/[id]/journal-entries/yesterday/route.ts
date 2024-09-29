@@ -6,14 +6,15 @@ export async function GET(
   { params }: { params: { id: string } }
 ) {
   const userId = params.id;
-  const date = req.nextUrl.searchParams.get("date");
+  const today = req.nextUrl.searchParams.get("today");
+  const yesterday = req.nextUrl.searchParams.get("tomorrow");
 
   // If no date is provided, use the current date
-  const userDate = date ? new Date(date) : new Date();
-  const isoDate = userDate.toISOString().split("T")[0];
+  const userToday = today ? new Date(today) : new Date();
+  const userYesterday = yesterday ? new Date(yesterday) : new Date();
 
   // Validate the date
-  if (isNaN(userDate.getTime())) {
+  if (isNaN(userToday.getTime()) || isNaN(userYesterday.getTime())) {
     return NextResponse.json(
       { error: "Invalid date provided" },
       { status: 400 }
@@ -23,7 +24,8 @@ export async function GET(
   try {
     const { yesterdaysJournalEntry, error } = await getYesterdaysJournalEntry(
       userId,
-      isoDate
+      userToday.toISOString().split("T")[0],
+      userYesterday.toISOString().split("T")[0]
     );
 
     if (error) {

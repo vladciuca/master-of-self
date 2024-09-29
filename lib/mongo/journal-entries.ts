@@ -27,8 +27,8 @@ export async function createJournalEntry(
   userId: string,
   dailyWillpower: number,
   bonusWillpower: number,
-  dayEntry: object,
-  nightEntry: object,
+  // dayEntry: object,
+  // nightEntry: object,
   clientToday: string,
   clientTomorrow: string
 ): Promise<{ newJournalEntry: JournalEntry | null; error?: string }> {
@@ -155,7 +155,8 @@ export async function getJournalEntries(userId: string): Promise<{
 // ADD USER LOCAL TIME PASSED AS PARAM
 export async function getTodaysJournalEntry(
   userId: string,
-  clientDate: string
+  clientToday: string,
+  clientTomorrow: string
 ): Promise<{
   todaysJournalEntry: JournalEntry | null;
   error?: string;
@@ -164,10 +165,8 @@ export async function getTodaysJournalEntry(
     if (!journalEntries) await init();
 
     // Set up the date range for today (00:00:00 to 23:59:59)
-    const today = new Date(clientDate);
-    const tomorrow = new Date(today);
-    /// REPAIR HERE TOO
-    tomorrow.setDate(tomorrow.getDate() + 1);
+    const today = new Date(clientToday);
+    const tomorrow = new Date(clientTomorrow);
 
     const todaysJournalEntry = await journalEntries.findOne({
       creatorId: new ObjectId(userId),
@@ -194,10 +193,10 @@ export async function getTodaysJournalEntry(
 }
 
 // GET YESTERDAYS'S USER JOURNAL ENTRY ==========================================================
-// ADD USER LOCAL TIME PASSED AS PARAM
 export async function getYesterdaysJournalEntry(
   userId: string,
-  clientDate: string
+  clientToday: string,
+  clientYesterday: string
 ): Promise<{
   yesterdaysJournalEntry: JournalEntry | null;
   error?: string;
@@ -206,11 +205,8 @@ export async function getYesterdaysJournalEntry(
     if (!journalEntries) await init();
 
     // Set up the date range for yesterday (00:00:00 to 23:59:59)
-    const yesterday = new Date(clientDate);
-    yesterday.setDate(yesterday.getDate() - 1);
-
-    const today = new Date(yesterday);
-    today.setDate(today.getDate() + 1);
+    const yesterday = new Date(clientYesterday);
+    const today = new Date(clientToday);
 
     const yesterdaysJournalEntry = await journalEntries.findOne({
       creatorId: new ObjectId(userId),

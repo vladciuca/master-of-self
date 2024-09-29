@@ -20,9 +20,12 @@ export function useYesterdayJournalEntry() {
       setYesterdayEntryError(null);
       setYesterdayEntryLoading(true);
       try {
-        const localDate = new Date().toISOString().split("T")[0];
+        const today = new Date().toISOString().split("T")[0]; // send with split at T to get 00:00 time
+        const yesterday = new Date(today);
+        yesterday.setDate(yesterday.getDate() - 1);
+
         const yesterdayEntryResponse = await fetch(
-          `/api/users/${session?.user.id}/journal-entries/yesterday?date=${localDate}`
+          `/api/users/${session?.user.id}/journal-entries/yesterday?today=${today}&yesterday=${yesterday}`
         );
 
         if (!yesterdayEntryResponse.ok) {
