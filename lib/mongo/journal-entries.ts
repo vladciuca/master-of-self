@@ -27,8 +27,6 @@ export async function createJournalEntry(
   userId: string,
   dailyWillpower: number,
   bonusWillpower: number,
-  // dayEntry: object,
-  // nightEntry: object,
   userToday: string,
   userTomorrow: string
 ): Promise<{ newJournalEntry: JournalEntry | null; error?: string }> {
@@ -205,14 +203,14 @@ export async function getYesterdaysJournalEntry(
     if (!journalEntries) await init();
 
     // Set up the date range for yesterday (00:00:00 to 23:59:59)
-    const yesterday = new Date(userToday);
-    const today = new Date(userYesterday);
+    const yesterday = new Date(userYesterday);
+    const today = new Date(userToday);
 
     const yesterdaysJournalEntry = await journalEntries.findOne({
       creatorId: new ObjectId(userId),
       createDate: {
         $gte: yesterday,
-        $lt: today,
+        $lte: today,
       },
     });
 

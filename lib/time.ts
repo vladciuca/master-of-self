@@ -36,20 +36,27 @@ export function isEvening(startTime: string | undefined): boolean {
   }
 }
 
-export const getToday = (): string => {
-  return new Date().toISOString().split("T")[0];
+export const getToday = (): Date => {
+  // return new Date().toISOString().split("T")[0];
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  return today;
 };
 
-export const getTomorrow = (): string => {
+export const getTomorrow = (): Date => {
   const tomorrow = new Date();
   tomorrow.setDate(tomorrow.getDate() + 1);
-  return tomorrow.toISOString().split("T")[0];
+  tomorrow.setHours(0, 0, 0, 0);
+  // return tomorrow.toISOString().split("T")[0];
+  return tomorrow;
 };
 
-export const getYesterday = (): string => {
+export const getYesterday = (): Date => {
   const yesterday = new Date();
   yesterday.setDate(yesterday.getDate() - 1);
-  return yesterday.toISOString().split("T")[0];
+  yesterday.setHours(0, 0, 0, 0);
+  // return yesterday.toISOString().split("T")[0];
+  return yesterday;
 };
 
 export const getStartOfCurrentWeek = (): Date => {

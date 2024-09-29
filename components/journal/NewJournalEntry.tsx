@@ -48,7 +48,7 @@ export function NewJournalEntry() {
         }
 
         const todayEntryResponse = await fetch(
-          `/api/users/${session?.user.id}/journal-entries/today=${today}&tomorrow=${tomorrow}`
+          `/api/users/${session?.user.id}/journal-entries/today?today=${today}&tomorrow=${tomorrow}`
         );
 
         const todayEntry = await todayEntryResponse.json();
