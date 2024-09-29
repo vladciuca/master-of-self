@@ -5,14 +5,17 @@ export async function POST(req: NextRequest) {
   const { userId, dailyWillpower, bonusWillpower, dayEntry, nightEntry } =
     await req.json();
   // Get the date from query parameters
-  const date = req.nextUrl.searchParams.get("date");
+  const today = req.nextUrl.searchParams.get("today");
+  const tomorrow = req.nextUrl.searchParams.get("tomorrow");
 
   // If no date is provided, use the current date
-  const userDate = date ? new Date(date) : new Date();
-  const isoDate = userDate.toISOString().split("T")[0];
+  const userToday = today ? new Date(today) : new Date();
+  userToday.toISOString().split("T")[0];
+  const userTomorrow = tomorrow ? new Date(tomorrow) : new Date();
+  userTomorrow.toISOString().split("T")[0];
 
   // Validate the date
-  if (isNaN(userDate.getTime())) {
+  if (isNaN(userToday.getTime()) || isNaN(userTomorrow.getTime())) {
     return NextResponse.json(
       { error: "Invalid date provided" },
       { status: 400 }
@@ -26,7 +29,8 @@ export async function POST(req: NextRequest) {
       bonusWillpower,
       dayEntry,
       nightEntry,
-      isoDate
+      userToday,
+      userTomorrow
     );
 
     if (error) {

@@ -29,16 +29,15 @@ export async function createJournalEntry(
   bonusWillpower: number,
   dayEntry: object,
   nightEntry: object,
-  clientDate: string
+  clientToday: string,
+  clientTomorrow: string
 ): Promise<{ newJournalEntry: JournalEntry | null; error?: string }> {
   try {
     if (!journalEntries) await init();
 
     // Check if an entry for today already exists
-    const today = new Date(clientDate);
-    // here it breaks - need to move on client did it some where,
-    const tomorrow = new Date(today);
-    tomorrow.setDate(tomorrow.getDate() + 1);
+    const today = new Date(clientToday);
+    const tomorrow = new Date(clientTomorrow);
 
     const existingEntry = await journalEntries.findOne({
       creatorId: new ObjectId(userId),
@@ -167,6 +166,7 @@ export async function getTodaysJournalEntry(
     // Set up the date range for today (00:00:00 to 23:59:59)
     const today = new Date(clientDate);
     const tomorrow = new Date(today);
+    /// REPAIR HERE TOO
     tomorrow.setDate(tomorrow.getDate() + 1);
 
     const todaysJournalEntry = await journalEntries.findOne({

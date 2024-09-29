@@ -26,9 +26,13 @@ export function NewJournalEntry() {
     setSubmitting(true);
 
     try {
-      const localDate = new Date().toISOString().split("T")[0]; // send with split at T to get 00:00 time
+      const today = new Date().toISOString().split("T")[0]; // send with split at T to get 00:00 time
+      const tomorrow = new Date(today);
+      tomorrow.setDate(tomorrow.getDate() + 1);
+      tomorrow.toISOString().split("T")[0];
+
       const createNewEntryResponse = await fetch(
-        `/api/journal-entry/new?date=${localDate}`,
+        `/api/journal-entry/new?today=${today}&tomorrow=${tomorrow}`,
         {
           method: "POST",
           body: JSON.stringify({
@@ -45,7 +49,7 @@ export function NewJournalEntry() {
         }
 
         const todayEntryResponse = await fetch(
-          `/api/users/${session?.user?.id}/journal-entries/today?date=${localDate}`
+          `/api/users/${session?.user?.id}/journal-entries/today?date=${today}`
         );
 
         const todayEntry = await todayEntryResponse.json();
@@ -110,7 +114,7 @@ export function NewJournalEntry() {
             <div className="flex items-center">
               <div className="w-full flex items-center justify-center text-3xl">
                 {bonusWillpower > 0 ? (
-                  <span className="text-green-500 font-semibold">
+                  <span className="text-green-500 font-bold">
                     +{bonusWillpower}
                   </span>
                 ) : (
