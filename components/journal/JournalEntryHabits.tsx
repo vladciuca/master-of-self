@@ -29,7 +29,7 @@ export function JournalEntryHabits({ habits }: JournalEntryHabitsProp) {
           </div>
           <div className="flex items-center text-primary">
             <span className="ml-1 font-semibold">{value}</span>
-            <FaBoltLightning className="ml-1" />
+            {/* <FaBoltLightning className="ml-1" /> */}
           </div>
         </div>
       ))}
