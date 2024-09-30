@@ -40,7 +40,7 @@ export function LevelBar({
       <div className="h-6 bg-muted rounded-full overflow-hidden">
         <div className="h-full flex relative">
           <div
-            className="h-full bg-white"
+            className="h-full bg-primary"
             style={{ width: `${currentPercentage}%` }}
             role="progressbar"
             aria-valuenow={currentPercentage}
@@ -102,7 +102,7 @@ export function LevelBar({
         </div>
       </div>
       <div className="mt-2 flex text-xs  justify-between sm:justify-start space-x-4 mx-1">
-        <span className="text-white">
+        <span className="text-primary">
           <span className="mr-1 font-normal">Previous:</span>
           {currentXP}
         </span>
