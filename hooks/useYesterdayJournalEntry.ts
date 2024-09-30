@@ -1,12 +1,14 @@
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { getToday, getYesterday } from "@lib/time";
-import { Session } from "@app/types/types";
+import { Session, JournalEntry } from "@app/types/types";
 
 type HabitXp = { [key: string]: number };
 
 export function useYesterdayJournalEntry() {
-  const [yesterdayEntry, setYesterdayEntry] = useState([]);
+  const [yesterdayEntry, setYesterdayEntry] = useState<JournalEntry | null>(
+    null
+  );
   const [yesterdayEntryLoading, setYesterdayEntryLoading] = useState(false);
   const [yesterdayEntryError, setYesterdayEntryError] = useState<string | null>(
     null

@@ -328,3 +328,49 @@ export async function getTotalWillpower(userId: string): Promise<{
     };
   }
 }
+
+// GET CURRENT WILLPOWER ========================================================================
+export async function getCurrentWillpower(
+  userId: string,
+  userToday: string
+): Promise<{
+  currentWillpower: number;
+  error?: string;
+}> {
+  try {
+    if (!journalEntries) await init();
+
+    // Set up the date for the start of today
+    const today = new Date(userToday);
+    // today.setHours(0, 0, 0, 0);
+
+    const pipeline = [
+      {
+        $match: {
+          creatorId: new ObjectId(userId),
+          createDate: { $lt: today },
+        },
+      },
+      {
+        $group: {
+          _id: null,
+          currentWillpower: { $sum: "$dailyWillpower" },
+        },
+      },
+    ];
+
+    const result = await journalEntries.aggregate(pipeline).toArray();
+
+    if (result.length === 0) {
+      return { currentWillpower: 0 };
+    }
+
+    return { currentWillpower: result[0].currentWillpower };
+  } catch (error) {
+    console.error("Failed to calculate current willpower", error);
+    return {
+      currentWillpower: 0,
+      error: "Failed to calculate current willpower",
+    };
+  }
+}

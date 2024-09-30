@@ -1,10 +1,10 @@
 export function xpForLevel(level: number) {
   let baseXP = 0;
-  let xpRequired = 10;
+  let xpRequired = 50;
 
   for (let i = 1; i < level; i++) {
     baseXP += xpRequired;
-    xpRequired += 5;
+    xpRequired += 50;
   }
 
   return { baseXP, nextLevelXP: baseXP + xpRequired };
