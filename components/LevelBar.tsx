@@ -101,7 +101,7 @@ export function LevelBar({
           )}
         </div>
       </div>
-      <div className="mt-2 flex text-xs  justify-between sm:justify-start space-x-4 mx-1">
+      <div className="mt-1 flex text-xs  justify-between sm:justify-start space-x-4 mx-1">
         <span className="text-primary">
           <span className="mr-1 font-normal">Previous:</span>
           {currentXP}
