@@ -34,7 +34,7 @@ export function ProfileNav({ session }: ProfileBarProps) {
   const { nextLevelXP } = xpForLevel(level);
 
   return (
-    <div className="flex items-center h-full mx-5">
+    <div className="flex items-center h-full mx-6">
       <div className="flex justify-center">
         <Link href="/profile">
           <div className="avatar text-xl font-semibold bg-muted text-primary rounded-full h-14 w-14 flex justify-center items-center">
@@ -43,7 +43,7 @@ export function ProfileNav({ session }: ProfileBarProps) {
         </Link>
       </div>
 
-      <div className="flex flex-grow flex-col ml-4 justify-end">
+      <div className="flex flex-grow flex-col justify-end ml-4">
         <div className="flex items-center text-xl font-bold">
           {/* <div className="flex flex-col items-end">
             <div className="text-xs uppercase text-muted-foreground">Total</div>

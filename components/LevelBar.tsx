@@ -33,7 +33,7 @@ export function LevelBar({
 
   return (
     <div className="w-full max-w-md mx-auto">
-      <div className="mb-2 flex justify-between text-xs font-semibold text-muted-foreground">
+      <div className="mb-2 flex justify-between text-xs font-semibold text-muted-foreground mx-1">
         <span>Level {level}</span>
         <span>{displayTotalPercentage.toFixed()}%</span>
       </div>
@@ -101,14 +101,20 @@ export function LevelBar({
           )}
         </div>
       </div>
-      {/* <div className="mt-2 flex justify-between text-xs text-gray-500">
-        <span>Current XP: {currentXP}</span>
-        <span>Bonus XP: {bonusXP}</span>
+      <div className="mt-2 flex text-xs  justify-between sm:justify-start space-x-4 mx-1">
+        <span className="text-white">
+          <span className="mr-1 font-normal">Previous:</span>
+          {currentXP}
+        </span>
+        <span className="text-green-500">
+          <span className="mr-1 font-normal">Bonus:</span>
+          {bonusXP}
+        </span>
         <span className={projectedXP < 0 ? "text-red-500" : "text-purple-500"}>
-          Projected XP: {projectedXP > 0 ? "+" : ""}
+          <span className="mr-1 font-normal">Today:</span>
           {projectedXP}
         </span>
-      </div> */}
+      </div>
     </div>
   );
 }
