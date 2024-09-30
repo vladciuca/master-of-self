@@ -7,6 +7,7 @@ import { GratefulFor } from "@components/journal/journal-entry-form/form-steps/G
 import { DailyHighlights } from "@components/journal/journal-entry-form/form-steps/DailyHighlights";
 import { LearnedToday } from "@components/journal/journal-entry-form/form-steps/LearnedToday";
 import { HabitsStep } from "@components/journal/journal-entry-form/form-steps/HabitsStep";
+import { HabitActions } from "@components/journal/journal-entry-form/form-steps/HabitActions";
 import { isEvening } from "@lib/time";
 import { JournalEntry } from "@app/types/types";
 
@@ -181,6 +182,17 @@ function FormStepController({
           dailyWillpower={formData.dailyWillpower}
           onChange={(value) => handleChange("habits", value)}
           habitXpChanges={formData.nightEntry?.habits || {}}
+        />
+      ),
+      isAvailable: SHOW_ALL_TEST || (isEvening(userEveningTime) && hasHabits),
+    },
+    {
+      type: "habits",
+      component: (
+        <HabitActions
+        // dailyWillpower={formData.dailyWillpower}
+        // onChange={(value) => handleChange("habits", value)}
+        // habitXpChanges={formData.nightEntry?.habits || {}}
         />
       ),
       isAvailable: SHOW_ALL_TEST || (isEvening(userEveningTime) && hasHabits),
