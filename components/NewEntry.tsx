@@ -41,7 +41,7 @@ export function NewEntry({
           <span className="mx-1 font-light text-foreground">
             {numberOfEntries}
           </span>
-          active {title}. {description}
+          active {title.toLowerCase()}. {description}
         </CardDescription>
       </CardHeader>
       <CardFooter className="p-4">
