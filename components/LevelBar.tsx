@@ -1,14 +1,10 @@
 import React from "react";
+import { motion } from "framer-motion";
 import { useCurrentWillpower } from "@hooks/useCurrentWillpower";
 import { useTodayJournalEntry } from "@hooks/useTodayJournalEntry";
-import { motion } from "framer-motion";
+import { calculateLevel, xpForLevel } from "@lib/level";
 
-interface LevelBarProps {
-  level: number;
-  maxXP: number;
-}
-
-export function LevelBar({ level, maxXP }: LevelBarProps) {
+export function LevelBar() {
   const { currentWillpower, currentWillpowerLoading } = useCurrentWillpower();
   const { todayEntry, todayEntryLoading, todayEntryError } =
     useTodayJournalEntry();
@@ -20,15 +16,18 @@ export function LevelBar({ level, maxXP }: LevelBarProps) {
   const bonusXP = bonusWillpower;
   const projectedXP = dailyWillpower - bonusWillpower;
 
+  const level = calculateLevel(currentWillpower);
+  const { nextLevelXP } = xpForLevel(level);
+
   const isLoading = currentWillpowerLoading || todayEntryLoading;
 
   const currentPercentage = isLoading
     ? 0
-    : Math.max(0, Math.min(100, (currentXP / maxXP) * 100));
+    : Math.max(0, Math.min(100, (currentXP / nextLevelXP) * 100));
   const bonusPercentage = isLoading
     ? 0
-    : Math.max(0, Math.min(100, (bonusXP / maxXP) * 100));
-  const projectedPercentage = isLoading ? 0 : (projectedXP / maxXP) * 100;
+    : Math.max(0, Math.min(100, (bonusXP / nextLevelXP) * 100));
+  const projectedPercentage = isLoading ? 0 : (projectedXP / nextLevelXP) * 100;
 
   const totalPositivePercentage =
     currentPercentage + bonusPercentage + Math.max(0, projectedPercentage);
@@ -44,7 +43,9 @@ export function LevelBar({ level, maxXP }: LevelBarProps) {
       <div className="flex items-baseline justify-between text-primary text-xl mr-1 font-bold tracking-wide mx-1">
         <div className="text-sm">
           Level
-          <span className="text-primary text-xl ml-1 font-bold">{level}</span>
+          <span className="text-primary text-xl ml-1 font-bold">
+            {currentWillpowerLoading ? "??" : level}
+          </span>
         </div>
 
         {!isLoading && (
@@ -126,6 +127,7 @@ export function LevelBar({ level, maxXP }: LevelBarProps) {
           )}
         </div>
       </div>
+      {isLoading && <div className="mx-1 mt-1 text-xs">??</div>}
       {!isLoading && (
         <div className="mt-1 flex text-xs justify-between space-x-4 mx-1">
           <div className="space-x-2">
@@ -149,7 +151,7 @@ export function LevelBar({ level, maxXP }: LevelBarProps) {
             <span className="text-muted-foreground">
               {currentXP + bonusXP + projectedXP}
               <span className="font-normal">/</span>
-              {maxXP}
+              {nextLevelXP}
             </span>
           </div>
         </div>

@@ -4,10 +4,7 @@ import Link from "next/link";
 import { LevelBar } from "@components/LevelBar";
 // import { FaBoltLightning } from "react-icons/fa6";
 // import { useTotalWillpower } from "@hooks/useTotalWillpower";
-import { useCurrentWillpower } from "@hooks/useCurrentWillpower";
-import { useTodayJournalEntry } from "@hooks/useTodayJournalEntry";
 import { Session } from "@app/types/types";
-import { calculateLevel, xpForLevel } from "@lib/level";
 
 type ProfileBarProps = {
   session: Session;
@@ -15,9 +12,6 @@ type ProfileBarProps = {
 
 export function ProfileNav({ session }: ProfileBarProps) {
   // const { totalWillpower, totalWillpowerLoading } = useTotalWillpower();
-  const { currentWillpower, currentWillpowerLoading } = useCurrentWillpower();
-  const { todayEntry, todayEntryLoading, todayEntryError } =
-    useTodayJournalEntry();
 
   const name = session.user?.name || "";
   const nameInitials = name
@@ -26,12 +20,6 @@ export function ProfileNav({ session }: ProfileBarProps) {
         .map((word: string) => word[0])
         .join("")
     : "";
-
-  // const bonusWillpower = todayEntry?.bonusWillpower ?? 0;
-  // const dailyWillpower = todayEntry?.dailyWillpower ?? 0;
-
-  const level = calculateLevel(currentWillpower);
-  const { nextLevelXP } = xpForLevel(level);
 
   return (
     <div className="flex items-center h-full mx-4">
@@ -55,16 +43,7 @@ export function ProfileNav({ session }: ProfileBarProps) {
           <div>
             <FaBoltLightning className="ml-1" size={"2.5rem"} />
           </div> */}
-          <LevelBar
-            level={level}
-            // // can use memo here for this value, as it will not change
-            // currentXP={currentWillpower}
-            //also can be static since it does not change
-            // bonusXP={bonusWillpower}
-            // // while this can change
-            // projectedXP={dailyWillpower - bonusWillpower}
-            maxXP={nextLevelXP}
-          />
+          <LevelBar />
         </div>
       </div>
     </div>
