@@ -15,7 +15,8 @@ export function NewJournalEntry() {
   const [submitting, setSubmitting] = useState<boolean>(false);
   const { data: session } = useSession() as { data: Session | null };
   const router = useRouter();
-  const { bonusWillpower, habitXp } = useYesterdayJournalEntry();
+  const { yesterdayEntryLoading, bonusWillpower, habitXp } =
+    useYesterdayJournalEntry();
 
   const date = new Date();
   const day = date.getDate();
@@ -117,7 +118,9 @@ export function NewJournalEntry() {
                     +{bonusWillpower}
                   </span>
                 ) : (
-                  <span className="font-semibold">0</span>
+                  <span className="font-semibold">
+                    {yesterdayEntryLoading ? "??" : 0}
+                  </span>
                 )}
                 <FaBoltLightning className="ml-1 text-2xl" />
               </div>
