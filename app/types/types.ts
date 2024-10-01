@@ -57,6 +57,7 @@ export type Habit = {
   xp: number;
   xpData: XpData[];
   creatorId: string;
+  actions: string[];
 };
 
 export type WeeklyWillpowerData = {

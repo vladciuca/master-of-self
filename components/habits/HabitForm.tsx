@@ -1,6 +1,7 @@
 "use client";
 
 import * as z from "zod";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
@@ -26,6 +27,7 @@ const formSchema = z.object({
   icon: z.string().min(1, "Please select an icon"),
   description: z.string().min(3, "Please add a habit description"),
   xp: z.number().optional(),
+  actions: z.array(z.string()).min(1, "Please add a habit action"),
 });
 
 export type HabitZodType = z.infer<typeof formSchema>;
@@ -43,6 +45,8 @@ export function HabitForm({
   onSubmit,
   habit,
 }: HabitFormProps) {
+  const [newAction, setNewAction] = useState("");
+
   const form = useForm<HabitZodType>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -50,10 +54,24 @@ export function HabitForm({
       icon: type === "Update" ? habit?.icon : "",
       description: type === "Update" ? habit?.description : "",
       xp: type === "Update" ? habit?.xp : 0,
+      actions: type === "Update" ? habit?.actions || [] : [],
     },
   });
 
   const { iconColorClass, bgColorClass } = useIconRarityLevel(form.watch("xp"));
+
+  const addAction = () => {
+    if (newAction !== "") {
+      const currentActions = form.watch("actions");
+      form.setValue("actions", [...currentActions, newAction]);
+      setNewAction("");
+    }
+  };
+
+  const removeAction = (index: number) => {
+    const updatedActions = form.watch("actions").filter((_, i) => i !== index);
+    form.setValue("actions", updatedActions);
+  };
 
   return (
     <Form {...form}>
@@ -122,6 +140,52 @@ export function HabitForm({
               </FormItem>
             );
           }}
+        />
+
+        <FormField
+          control={form.control}
+          name="actions"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Actions</FormLabel>
+              <FormControl>
+                <div>
+                  <Input
+                    value={newAction}
+                    onChange={(e) => setNewAction(e.target.value)}
+                    placeholder="Add a action"
+                    onKeyPress={(e) => {
+                      if (e.key === "Enter") {
+                        e.preventDefault();
+                        addAction();
+                      }
+                    }}
+                  />
+                  <Button type="button" onClick={addAction}>
+                    Add Action
+                  </Button>
+                </div>
+              </FormControl>
+              <div className="flex flex-wrap gap-2 mt-2">
+                {field.value.map((action, index) => (
+                  <div
+                    key={index}
+                    className="bg-gray-200 rounded-full px-3 py-1 text-sm flex items-center"
+                  >
+                    {action}
+                    <button
+                      type="button"
+                      onClick={() => removeAction(index)}
+                      className="ml-2 text-red-500"
+                    >
+                      &times;
+                    </button>
+                  </div>
+                ))}
+              </div>
+              <FormMessage />
+            </FormItem>
+          )}
         />
 
         <div className="flex flex-col justify-center items-center flex-grow">

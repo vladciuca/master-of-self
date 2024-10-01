@@ -26,7 +26,8 @@ export async function createHabit(
   userId: string,
   name: string,
   icon: string,
-  description: string
+  description: string,
+  actions: string[]
 ): Promise<{ newHabit: Habit | null; error?: string }> {
   try {
     if (!habits) await init();
@@ -38,6 +39,7 @@ export async function createHabit(
       description,
       xp: 0, // initialize XP to 0
       xpData: [], // initialize XP chart data to empty array
+      actions,
     };
 
     const result = await habits.insertOne(newHabit);
@@ -57,7 +59,8 @@ export async function updateHabit(
   id: string,
   name: string,
   icon: string,
-  description: string
+  description: string,
+  actions: string[]
 ): Promise<{
   habit: Habit | null;
   error?: string;
@@ -66,7 +69,12 @@ export async function updateHabit(
     if (!habits) await init();
     const query = { _id: new ObjectId(id) };
     const update = {
-      $set: { name: name, icon: icon, description: description },
+      $set: {
+        name: name,
+        icon: icon,
+        description: description,
+        actions: actions,
+      },
     };
 
     const habit = await habits.findOneAndUpdate(query, update, {

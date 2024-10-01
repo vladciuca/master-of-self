@@ -20,6 +20,7 @@ export default function UpdateHabit() {
         name: data.name,
         icon: data.icon,
         description: data.description,
+        actions: data.actions,
         xp: data.xp,
       });
     };
@@ -27,7 +28,7 @@ export default function UpdateHabit() {
   }, [id]);
 
   const updateHabit = async (habit: HabitZodType) => {
-    const { name, icon, description } = habit;
+    const { name, icon, description, actions } = habit;
 
     setSubmitting(true);
 
@@ -40,6 +41,7 @@ export default function UpdateHabit() {
           name: name,
           icon: icon,
           description: description,
+          actions: actions,
         }),
       });
 

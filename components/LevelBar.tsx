@@ -54,7 +54,7 @@ export function LevelBar() {
           </span>
         )}
       </div>
-      <div className="h-6 bg-muted rounded-full overflow-hidden">
+      <div className="h-4 bg-muted rounded-full overflow-hidden">
         <div className="h-full flex relative">
           <motion.div
             className="h-full bg-primary relative"
