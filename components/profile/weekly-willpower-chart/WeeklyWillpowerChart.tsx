@@ -48,7 +48,9 @@ function chartTimePeriod(willpowerData: { date: string }[]) {
   if (startMonth === endMonth) {
     return (
       <div className="text-2xl font-semibold">
-        {`${startDay}-${endDay}`}
+        {startDay}
+        <span className="mx-1 text-sm">-</span>
+        {endDay}
         <span className="ml-2 text-lg font-bold tracking-wide">
           {startMonth}
         </span>
@@ -61,7 +63,7 @@ function chartTimePeriod(willpowerData: { date: string }[]) {
         <span className="text-lg font-bold tracking-wide ml-1">
           {startMonth}
         </span>
-        <span className="mx-2">-</span>
+        <span className="mx-1 text-sm">-</span>
         <span className="text-2xl font-semibold">{endDay}</span>
         <span className="text-lg font-bold tracking-wide ml-1">{endMonth}</span>
       </div>
