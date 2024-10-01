@@ -174,19 +174,23 @@ export async function getTodaysJournalEntry(
       },
     });
 
-    if (!todaysJournalEntry) {
-      return {
-        todaysJournalEntry: null,
-        error: "An entry for today already exists",
-      };
-    }
+    // if (!todaysJournalEntry) {
+    //   return {
+    //     todaysJournalEntry: null,
+    //     error: "An entry for today already exists",
+    //   };
+    // }
 
-    return { todaysJournalEntry: todaysJournalEntry };
+    // return { todaysJournalEntry: todaysJournalEntry };
+    return { todaysJournalEntry: todaysJournalEntry || null };
   } catch (error) {
-    return {
-      todaysJournalEntry: null,
-      error: "Failed to fetch today's journal entry",
-    };
+    // return {
+    //   todaysJournalEntry: null,
+    //   error: "Failed to fetch today's journal entry",
+    // };
+    console.error("Error fetching today's journal entry:", error);
+    // Change: Return null instead of an error
+    return { todaysJournalEntry: null };
   }
 }
 
@@ -214,12 +218,11 @@ export async function getYesterdaysJournalEntry(
       },
     });
 
-    return { yesterdaysJournalEntry };
+    return { yesterdaysJournalEntry: yesterdaysJournalEntry || null };
   } catch (error) {
-    return {
-      yesterdaysJournalEntry: null,
-      error: "Failed to fetch yesterdays's journal entry",
-    };
+    console.error("Error fetching yesterday's journal entry:", error);
+    // Change: Return null instead of an error
+    return { yesterdaysJournalEntry: null };
   }
 }
 

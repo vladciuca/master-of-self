@@ -9,14 +9,20 @@ import { Button } from "@components/ui/button";
 import { FaBoltLightning } from "react-icons/fa6";
 import { getToday, getTomorrow } from "@lib/time";
 import { useYesterdayJournalEntry } from "@hooks/useYesterdayJournalEntry";
+import { useTodayJournalEntry } from "@hooks/useTodayJournalEntry";
 import { Session } from "@app/types/types";
 
 export function NewJournalEntry() {
   const [submitting, setSubmitting] = useState<boolean>(false);
   const { data: session } = useSession() as { data: Session | null };
   const router = useRouter();
-  const { yesterdayEntryLoading, bonusWillpower, habitXp } =
-    useYesterdayJournalEntry();
+  const {
+    yesterdayEntryLoading,
+    bonusWillpower = 0,
+    habitXp = {},
+  } = useYesterdayJournalEntry();
+  const { todayEntry, todayEntryLoading, refetchTodayEntry } =
+    useTodayJournalEntry();
 
   const date = new Date();
   const day = date.getDate();
@@ -48,24 +54,38 @@ export function NewJournalEntry() {
           await updateHabitXP(habitXp);
         }
 
-        const todayEntryResponse = await fetch(
-          `/api/users/${session?.user.id}/journal-entries/today?today=${today}&tomorrow=${tomorrow}`
-        );
+        // const todayEntryResponse = await fetch(
+        //   `/api/users/${session?.user.id}/journal-entries/today?today=${today}&tomorrow=${tomorrow}`
+        // );
 
-        const todayEntry = await todayEntryResponse.json();
+        // const todayEntry = await todayEntryResponse.json();
 
+        // if (todayEntry?._id) {
+        //   router.push(`/update-journal-entry/${todayEntry._id}`);
+        // } else {
+        //   setSubmitting(false);
+        //   console.error("Failed to find today's entry after creation");
+        // }
+        // Remove the fetch call for today's entry and use the hook's data instead
+        // Refetch the today's entry after creation
+        await refetchTodayEntry();
+
+        // Check if the entry is now available
         if (todayEntry?._id) {
           router.push(`/update-journal-entry/${todayEntry._id}`);
         } else {
-          setSubmitting(false);
-          console.error("Failed to find today's entry after creation");
+          console.error(
+            "Failed to find today's entry after creation and refetch"
+          );
+          // Implement additional error handling or user feedback here
         }
       } else {
         console.error("Failed to create new entry");
-        setSubmitting(false); // Reset submitting state if there's an error
       }
     } catch (error) {
-      console.log(error);
+      console.error("Error creating new entry:", error);
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -94,11 +114,13 @@ export function NewJournalEntry() {
     }
   };
 
-  useEffect(() => {
-    return () => {
-      setSubmitting(false);
-    };
-  }, []);
+  // useEffect(() => {
+  //   return () => {
+  //     setSubmitting(false);
+  //   };
+  // }, []);
+
+  const isEntryExisting = !!todayEntry;
 
   return (
     <Card className="p-4 mb-4">
@@ -148,7 +170,7 @@ export function NewJournalEntry() {
           )}
         </div>
       </div>
-      <div className="w-full flex mt-4">
+      {/* <div className="w-full flex mt-4">
         <Button
           size="sm"
           className="py-3"
@@ -156,6 +178,20 @@ export function NewJournalEntry() {
           disabled={submitting}
         >
           {submitting ? "Creating..." : "Start today's journal"}
+        </Button>
+      </div> */}
+      <div className="w-full flex mt-4">
+        <Button
+          size="sm"
+          className="py-3"
+          onClick={createJournalEntry}
+          disabled={submitting || isEntryExisting || todayEntryLoading}
+        >
+          {submitting
+            ? "Creating..."
+            : isEntryExisting
+            ? "Entry already exists"
+            : "Start today's journal"}
         </Button>
       </div>
     </Card>

@@ -135,16 +135,23 @@ export function LevelBar() {
               <span className="mr-1 font-normal">Previous:</span>
               {currentXP}
             </span>
-            <span className="text-green-500">
-              <span className="mr-1 font-normal">Bonus:</span>
-              {bonusXP}
-            </span>
-            <span
-              className={projectedXP < 0 ? "text-pink-500" : "text-purple-500"}
-            >
-              <span className="mr-1 font-normal">Today:</span>
-              {projectedXP}
-            </span>
+            {bonusXP > 0 && (
+              <span className="text-green-500">
+                <span className="mr-1 font-normal">Bonus:</span>
+                {bonusXP}
+              </span>
+            )}
+
+            {projectedXP !== 0 && (
+              <span
+                className={
+                  projectedXP < 0 ? "text-pink-500" : "text-purple-500"
+                }
+              >
+                <span className="mr-1 font-normal">Today:</span>
+                {projectedXP}
+              </span>
+            )}
           </div>
 
           <div className="flex flex-end">

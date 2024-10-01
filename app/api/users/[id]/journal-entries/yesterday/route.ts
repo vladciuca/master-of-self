@@ -18,23 +18,13 @@ export async function GET(
   }
 
   try {
-    const { yesterdaysJournalEntry, error } = await getYesterdaysJournalEntry(
+    const { yesterdaysJournalEntry } = await getYesterdaysJournalEntry(
       userId,
       userToday,
       userYesterday
     );
 
-    if (error) {
-      console.error("Database error:", error);
-      return NextResponse.json(
-        { error: "Internal Server Error" },
-        { status: 500 }
-      );
-    }
-
-    return new NextResponse(JSON.stringify(yesterdaysJournalEntry), {
-      status: 200,
-    });
+    return NextResponse.json({ yesterdaysJournalEntry }, { status: 200 });
   } catch (error) {
     console.error("Unexpected error:", error);
     return NextResponse.json(

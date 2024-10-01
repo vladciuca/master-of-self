@@ -18,7 +18,7 @@ export function DailyBonus({ bonusWillpower }: DailyBonusProps) {
   // const [isLoading, setIsLoading] = useState(true);
 
   const { data: session } = useSession() as { data: Session | null };
-  const { yesterdayHighlights, yesterdayEntryLoading } =
+  const { yesterdayHighlights = [], yesterdayEntryLoading } =
     useYesterdayJournalEntry();
   const highlightsRef = useRef<HTMLDivElement>(null);
 
@@ -88,7 +88,7 @@ export function DailyBonus({ bonusWillpower }: DailyBonusProps) {
                 {"Yesterday's highlights!"}
               </div>
             </Label>
-            {yesterdayEntryLoading ? (
+            {yesterdayEntryLoading && yesterdayHighlights.length > 0 ? (
               <SkeletonList />
             ) : (
               <ol className="list-decimal pl-5">
