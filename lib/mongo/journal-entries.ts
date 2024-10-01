@@ -174,22 +174,9 @@ export async function getTodaysJournalEntry(
       },
     });
 
-    // if (!todaysJournalEntry) {
-    //   return {
-    //     todaysJournalEntry: null,
-    //     error: "An entry for today already exists",
-    //   };
-    // }
-
-    // return { todaysJournalEntry: todaysJournalEntry };
     return { todaysJournalEntry: todaysJournalEntry || null };
   } catch (error) {
-    // return {
-    //   todaysJournalEntry: null,
-    //   error: "Failed to fetch today's journal entry",
-    // };
     console.error("Error fetching today's journal entry:", error);
-    // Change: Return null instead of an error
     return { todaysJournalEntry: null };
   }
 }
@@ -345,7 +332,6 @@ export async function getCurrentWillpower(
 
     // Set up the date for the start of today
     const today = new Date(userToday);
-    // today.setHours(0, 0, 0, 0);
 
     const pipeline = [
       {

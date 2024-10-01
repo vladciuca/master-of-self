@@ -24,15 +24,6 @@ export async function GET(
       userTomorrow
     );
 
-    // if (error) {
-    //   return new NextResponse(error, { status: 500 });
-    // }
-
-    // return new NextResponse(JSON.stringify(todaysJournalEntry), {
-    //   status: 200,
-    // });
-
-    // Change: Always return a 200 status, with null if no entry found
     return NextResponse.json({ todaysJournalEntry }, { status: 200 });
   } catch (error) {
     return new Response("Failed to fetch today's journal entry", {

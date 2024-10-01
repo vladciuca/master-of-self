@@ -7,7 +7,6 @@ export async function POST(req: NextRequest) {
   const userToday = req.nextUrl.searchParams.get("today");
   const userTomorrow = req.nextUrl.searchParams.get("tomorrow");
 
-  // Check if both parameters are provided
   if (!userToday || !userTomorrow) {
     return NextResponse.json(
       { error: "Both 'today' and 'tomorrow' parameters are required" },
@@ -25,14 +24,15 @@ export async function POST(req: NextRequest) {
     );
 
     if (error) {
-      return new NextResponse(error, { status: 500 });
+      return NextResponse.json({ error }, { status: 500 });
     }
 
-    return new NextResponse(JSON.stringify(newJournalEntry), { status: 200 });
+    return NextResponse.json(newJournalEntry, { status: 201 });
   } catch (error) {
     console.error("Error creating new journal entry:", error);
-    return new NextResponse("Failed to create new journal entry", {
-      status: 500,
-    });
+    return NextResponse.json(
+      { error: "Failed to create new journal entry" },
+      { status: 500 }
+    );
   }
 }

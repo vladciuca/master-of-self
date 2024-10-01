@@ -1,6 +1,4 @@
-"use client";
-
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { JournalEntryHabits } from "@components/journal/JournalEntryHabits";
@@ -21,8 +19,7 @@ export function NewJournalEntry() {
     bonusWillpower = 0,
     habitXp = {},
   } = useYesterdayJournalEntry();
-  const { todayEntry, todayEntryLoading, refetchTodayEntry } =
-    useTodayJournalEntry();
+  const { todayEntry, todayEntryLoading } = useTodayJournalEntry();
 
   const date = new Date();
   const day = date.getDate();
@@ -31,9 +28,10 @@ export function NewJournalEntry() {
     .toUpperCase();
 
   const createJournalEntry = async () => {
-    setSubmitting(true);
+    setSubmitting(false);
 
     try {
+      setSubmitting(true);
       const today = getToday();
       const tomorrow = getTomorrow();
 
@@ -41,59 +39,40 @@ export function NewJournalEntry() {
         `/api/journal-entry/new?today=${today}&tomorrow=${tomorrow}`,
         {
           method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
           body: JSON.stringify({
             userId: session?.user.id,
-            dailyWillpower: bonusWillpower, // add bonus Willpower to dailyWillpower
+            dailyWillpower: bonusWillpower,
             bonusWillpower: bonusWillpower,
           }),
         }
       );
 
       if (createNewEntryResponse.ok) {
+        const newEntry = await createNewEntryResponse.json();
+
         if (Object.keys(habitXp).length > 0) {
           await updateHabitXP(habitXp);
         }
 
-        // const todayEntryResponse = await fetch(
-        //   `/api/users/${session?.user.id}/journal-entries/today?today=${today}&tomorrow=${tomorrow}`
-        // );
-
-        // const todayEntry = await todayEntryResponse.json();
-
-        // if (todayEntry?._id) {
-        //   router.push(`/update-journal-entry/${todayEntry._id}`);
-        // } else {
-        //   setSubmitting(false);
-        //   console.error("Failed to find today's entry after creation");
-        // }
-        // Remove the fetch call for today's entry and use the hook's data instead
-        // Refetch the today's entry after creation
-        await refetchTodayEntry();
-
-        // Check if the entry is now available
-        if (todayEntry?._id) {
-          router.push(`/update-journal-entry/${todayEntry._id}`);
+        if (newEntry?._id) {
+          router.push(`/update-journal-entry/${newEntry._id}`);
         } else {
-          console.error(
-            "Failed to find today's entry after creation and refetch"
-          );
-          // Implement additional error handling or user feedback here
+          console.error("Failed to create new entry: No _id returned");
         }
       } else {
-        console.error("Failed to create new entry");
+        const errorData = await createNewEntryResponse.json();
+        console.error("Failed to create new entry:", errorData.error);
       }
     } catch (error) {
       console.error("Error creating new entry:", error);
-    } finally {
-      setSubmitting(false);
     }
   };
 
   const updateHabitXP = async (habits: { [key: string]: number }) => {
     try {
-      // TURN THEM INTO AN ARRAY BEFORE PASSING THEM TO UPDATE ROUTE FOR BULK
-      // !!! can move this in mongo/habits.ts update function and just send an object from here
-      // THIS WILL BE MOVED IN A SCHEDULED NEXTJS CALL
       const habitUpdates = Object.entries(habits);
       const response = await fetch(
         `/api/users/${session?.user.id}/habits/updateXp`,
@@ -113,12 +92,6 @@ export function NewJournalEntry() {
       console.error("Error updating habits:", error);
     }
   };
-
-  // useEffect(() => {
-  //   return () => {
-  //     setSubmitting(false);
-  //   };
-  // }, []);
 
   const isEntryExisting = !!todayEntry;
 
@@ -155,6 +128,7 @@ export function NewJournalEntry() {
           </div>
         </div>
       </div>
+
       <div className="w-full text-muted-foreground mt-4">
         <div className="flex items-center flex-col">
           <div className="flex items-center">
@@ -170,16 +144,7 @@ export function NewJournalEntry() {
           )}
         </div>
       </div>
-      {/* <div className="w-full flex mt-4">
-        <Button
-          size="sm"
-          className="py-3"
-          onClick={createJournalEntry}
-          disabled={submitting}
-        >
-          {submitting ? "Creating..." : "Start today's journal"}
-        </Button>
-      </div> */}
+
       <div className="w-full flex mt-4">
         <Button
           size="sm"
