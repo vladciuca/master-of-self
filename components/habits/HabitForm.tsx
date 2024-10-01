@@ -18,7 +18,7 @@ import { Input } from "@components/ui/input";
 import { Button } from "@components/ui/button";
 import { Textarea } from "@components/ui/textarea";
 import { useIconRarityLevel } from "@hooks/useIconRarityLevel";
-import { CircleAlert, SquareX } from "lucide-react";
+import { CircleAlert, CircleX } from "lucide-react";
 
 const formSchema = z.object({
   name: z
@@ -149,17 +149,23 @@ export function HabitForm({
           render={({ field }) => (
             <FormItem>
               <FormLabel>Actions</FormLabel>
-              <div className="flex flex-col gap-2 mt-2">
+              <div className="flex flex-col gap-2">
                 {field.value.map((action, index) => (
-                  <div key={index} className="text flex items-center">
-                    <CircleAlert size={20} className="mr-2" />
-                    {action}
+                  <div
+                    key={index}
+                    className="text flex justify-between items-center border-b pb-1 mb-2"
+                  >
+                    <div className="flex items-center">
+                      <CircleAlert size={20} className="mr-2" />
+                      {action}
+                    </div>
+
                     <button
                       type="button"
                       onClick={() => removeAction(index)}
                       className="ml-2 text-red-500"
                     >
-                      <SquareX size={18} />
+                      <CircleX size={20} />
                     </button>
                   </div>
                 ))}

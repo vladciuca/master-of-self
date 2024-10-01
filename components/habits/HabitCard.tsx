@@ -3,7 +3,7 @@
 import { useSession } from "next-auth/react";
 import { usePathname } from "next/navigation";
 import { IconRenderer } from "@components/IconRenderer";
-import { HabitXpChart } from "./HabitXpChart";
+// import { HabitXpChart } from "./HabitXpChart";
 import { CircularProgress } from "@components/ui/circular-progress";
 import {
   AccordionContent,
@@ -13,6 +13,7 @@ import {
 import { Button } from "@components/ui/button";
 import { calculateLevel, xpForLevel } from "@lib/level";
 import { Session, Habit } from "@app/types/types";
+import { CircleAlert } from "lucide-react";
 
 type HabitCardProps = {
   habit: Habit;
@@ -25,7 +26,14 @@ export function HabitCard({
   handleEdit,
 }: //  handleDelete
 HabitCardProps) {
-  const { _id = "", name = "", icon = "", description = "", xp = 0 } = habit;
+  const {
+    _id = "",
+    name = "",
+    icon = "",
+    description = "",
+    actions = [],
+    xp = 0,
+  } = habit;
   const { data: session } = useSession() as { data: Session | null };
   const pathName = usePathname();
 
@@ -87,6 +95,14 @@ HabitCardProps) {
         <HabitXpChart habit={habit} /> */}
         <div className="my-4">
           <p className="text-muted-foreground">{description}</p>
+        </div>
+        <div>
+          {actions.map((action) => (
+            <div className="flex">
+              <CircleAlert size={20} className="mr-2 mb-2" />
+              {action}
+            </div>
+          ))}
         </div>
         <div className="mt-12">
           {session?.user?.id === habit.creatorId && pathName === "/habits" && (
