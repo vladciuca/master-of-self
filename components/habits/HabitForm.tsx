@@ -18,6 +18,7 @@ import { Input } from "@components/ui/input";
 import { Button } from "@components/ui/button";
 import { Textarea } from "@components/ui/textarea";
 import { useIconRarityLevel } from "@hooks/useIconRarityLevel";
+import { CircleAlert, SquareX } from "lucide-react";
 
 const formSchema = z.object({
   name: z
@@ -148,8 +149,23 @@ export function HabitForm({
           render={({ field }) => (
             <FormItem>
               <FormLabel>Actions</FormLabel>
+              <div className="flex flex-col gap-2 mt-2">
+                {field.value.map((action, index) => (
+                  <div key={index} className="text flex items-center">
+                    <CircleAlert size={20} className="mr-2" />
+                    {action}
+                    <button
+                      type="button"
+                      onClick={() => removeAction(index)}
+                      className="ml-2 text-red-500"
+                    >
+                      <SquareX size={18} />
+                    </button>
+                  </div>
+                ))}
+              </div>
               <FormControl>
-                <div>
+                <div className="flex">
                   <Input
                     value={newAction}
                     onChange={(e) => setNewAction(e.target.value)}
@@ -161,28 +177,16 @@ export function HabitForm({
                       }
                     }}
                   />
-                  <Button type="button" onClick={addAction}>
+                  <Button
+                    type="button"
+                    onClick={addAction}
+                    className="ml-4 text-sm"
+                  >
                     Add Action
                   </Button>
                 </div>
               </FormControl>
-              <div className="flex flex-wrap gap-2 mt-2">
-                {field.value.map((action, index) => (
-                  <div
-                    key={index}
-                    className="bg-gray-200 rounded-full px-3 py-1 text-sm flex items-center"
-                  >
-                    {action}
-                    <button
-                      type="button"
-                      onClick={() => removeAction(index)}
-                      className="ml-2 text-red-500"
-                    >
-                      &times;
-                    </button>
-                  </div>
-                ))}
-              </div>
+
               <FormMessage />
             </FormItem>
           )}
