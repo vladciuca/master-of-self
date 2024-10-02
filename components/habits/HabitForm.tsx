@@ -43,6 +43,7 @@ import {
   Hash,
   Clock,
 } from "lucide-react";
+import { Label } from "@components/ui/label";
 
 const formSchema = z.object({
   name: z
@@ -257,16 +258,66 @@ export function HabitForm({
                 <DrawerContent className="max-w-md mx-auto left-0 right-0">
                   <DrawerHeader>
                     <DrawerTitle>Add New Action</DrawerTitle>
+                    <div className="w-full flex justify-center mt-2">
+                      {newAction.type === "offensive" ? (
+                        <TriangleAlert className="text-blue-500" size={40} />
+                      ) : newAction.type === "defensive" ? (
+                        <OctagonAlert className="text-blue-500" size={40} />
+                      ) : (
+                        <CircleAlert className="text-blue-500" size={40} />
+                      )}
+                    </div>
+                    <div className="w-full flex justify-center mt-1">
+                      <Badge variant="secondary" className="text-sm">
+                        {newAction.type === "defensive"
+                          ? "I won't"
+                          : newAction.type === "offensive"
+                          ? "I want"
+                          : "I will"}
+                      </Badge>
+                    </div>
                   </DrawerHeader>
 
                   <div className="p-4 pb-0">
+                    <FormControl>
+                      <Input
+                        value={newAction.action}
+                        onChange={(e) =>
+                          setNewAction({ ...newAction, action: e.target.value })
+                        }
+                        placeholder="Enter new action"
+                        className="mb-8 text-base"
+                      />
+                    </FormControl>
+
+                    <Label className="flex items-center space-x-2">
+                      <span>Action type</span>
+                      <span>
+                        {newAction.type === "offensive" ? (
+                          <TriangleAlert className="text-blue-500" size={20} />
+                        ) : newAction.type === "defensive" ? (
+                          <OctagonAlert className="text-blue-500" size={20} />
+                        ) : (
+                          <CircleAlert className="text-blue-500" size={20} />
+                        )}
+                      </span>
+                      <span>
+                        <Badge variant="secondary" className="text-xs">
+                          {newAction.type === "defensive"
+                            ? "I won't"
+                            : newAction.type === "offensive"
+                            ? "I want"
+                            : "I will"}
+                        </Badge>
+                      </span>
+                    </Label>
                     <Select
                       value={newAction.type}
                       onValueChange={(
                         value: "offensive" | "defensive" | "balanced"
                       ) => setNewAction({ ...newAction, type: value })}
                     >
-                      <SelectTrigger className="mb-4">
+                      <SelectTrigger className="my-4 mb-8">
                         <SelectValue placeholder="Select action type" />
                       </SelectTrigger>
                       <SelectContent>
@@ -275,24 +326,25 @@ export function HabitForm({
                         <SelectItem value="defensive">Defensive</SelectItem>
                       </SelectContent>
                     </Select>
-                    <FormControl>
-                      <Input
-                        value={newAction.action}
-                        onChange={(e) =>
-                          setNewAction({ ...newAction, action: e.target.value })
-                        }
-                        placeholder="Enter new action"
-                        className="mb-4 text-base"
-                      />
-                    </FormControl>
 
+                    <Label className="flex items-center space-x-2">
+                      <span>Action tracking metric</span>
+                      <Badge variant="outline" className="capitalize">
+                        {newAction.metric === "count" ? (
+                          <Hash size={18} className="mr-2" />
+                        ) : (
+                          <Clock size={18} className="mr-2" />
+                        )}
+                        {newAction.metric}
+                      </Badge>
+                    </Label>
                     <Select
                       value={newAction.metric}
                       onValueChange={(value: "count" | "time") =>
                         setNewAction({ ...newAction, metric: value })
                       }
                     >
-                      <SelectTrigger className="mb-4">
+                      <SelectTrigger className="mt-4 mb-24">
                         <SelectValue placeholder="Select metric" />
                       </SelectTrigger>
                       <SelectContent>
