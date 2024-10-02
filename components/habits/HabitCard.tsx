@@ -11,9 +11,19 @@ import {
   AccordionTrigger,
 } from "@components/ui/accordion";
 import { Button } from "@components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Progress } from "@/components/ui/progress";
 import { calculateLevel, xpForLevel } from "@lib/level";
 import { Session, Habit } from "@app/types/types";
-import { CircleAlert } from "lucide-react";
+import {
+  CircleAlert,
+  TriangleAlert,
+  OctagonAlert,
+  Clock,
+  Hash,
+  Star,
+  ShieldAlert,
+} from "lucide-react";
 
 type HabitCardProps = {
   habit: Habit;
@@ -97,10 +107,63 @@ HabitCardProps) {
           <p className="text-muted-foreground">{description}</p>
         </div>
         <div>
-          {actions.map((action) => (
-            <div className="flex">
-              <CircleAlert size={20} className="mr-2 mb-2" />
-              {action}
+          {/* {actions.map((action, index) => (
+            <div key={index} className="flex items-center mb-2">
+              <CircleAlert size={20} className="mr-2" />
+              <span className="mr-2">{action.action}</span>
+              {action.metric === "count" ? (
+                <Hash size={16} className="mr-1" />
+              ) : (
+                <Clock size={16} className="mr-1" />
+              )}
+              <span className="text-sm text-muted-foreground">
+                {action.metric === "count" ? "Count" : "Time"}
+              </span>
+            </div>
+          ))} */}
+          {actions.map((action, index) => (
+            <div key={index} className="mb-6">
+              <div className="flex items-center justify-between pb-2 mb-2 border-b">
+                <div className="flex items-center">
+                  {/* CHANGE: Updated icon based on action type */}
+                  {action.type === "offensive" ? (
+                    <TriangleAlert className="mr-2 text-blue-500" size={20} />
+                  ) : action.type === "defensive" ? (
+                    <OctagonAlert className="mr-2 text-blue-500" size={20} />
+                  ) : (
+                    <CircleAlert className="mr-2 text-blue-500" size={20} />
+                  )}
+                  <span className=" text-lg">{action.action}</span>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <div className="text-lg flex items-center">
+                    {action.metric === "count" ? (
+                      <Hash size={18} className="mr-2" />
+                    ) : (
+                      <Clock size={18} className="mr-2" />
+                    )}
+                    <span className="font-bold">
+                      {action.value}
+                      {action.metric === "count" ? "" : " h"}
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div className="flex items-center justify-between text-sm text-muted-foreground mb-2">
+                <span className="space-x-1">
+                  <Badge variant="secondary" className="capitalize">
+                    {action.type}
+                  </Badge>
+                  <Badge variant="secondary">
+                    {action.type === "defensive"
+                      ? "I won't"
+                      : action.type === "offensive"
+                      ? "I want"
+                      : "I will"}
+                  </Badge>
+                </span>
+                <span>+10 XP</span>
+              </div>
             </div>
           ))}
         </div>

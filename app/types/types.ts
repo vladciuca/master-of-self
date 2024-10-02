@@ -49,6 +49,14 @@ export type JournalEntryMetadata = JournalEntry & {
   creatorId: string;
 };
 
+export type Action = {
+  action: string;
+  metric: "count" | "time";
+  type: "offensive" | "defensive" | "balanced";
+  value: number;
+  // actionData: [Date, string | number][];
+};
+
 export type Habit = {
   _id: string;
   name: string;
@@ -57,7 +65,7 @@ export type Habit = {
   xp: number;
   xpData: XpData[];
   creatorId: string;
-  actions: string[];
+  actions: Action[];
 };
 
 export type WeeklyWillpowerData = {
