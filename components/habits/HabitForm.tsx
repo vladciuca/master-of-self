@@ -57,7 +57,7 @@ const formSchema = z.object({
     .array(
       z.object({
         action: z.string(),
-        type: z.enum(["offensive", "defensive", "balanced"]),
+        type: z.enum(["offensive", "defensive"]),
         metric: z.enum(["count", "time"]),
         value: z.number().default(0),
       })
@@ -83,11 +83,11 @@ export function HabitForm({
   const [newAction, setNewAction] = useState<{
     action: string;
     metric: "count" | "time";
-    type: "offensive" | "defensive" | "balanced";
+    type: "offensive" | "defensive";
   }>({
     action: "",
     metric: "count",
-    type: "balanced",
+    type: "offensive",
   });
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
@@ -108,7 +108,7 @@ export function HabitForm({
     if (newAction.action !== "") {
       const currentActions = form.watch("actions");
       form.setValue("actions", [...currentActions, { ...newAction, value: 0 }]);
-      setNewAction({ action: "", metric: "count", type: "balanced" });
+      setNewAction({ action: "", metric: "count", type: "offensive" });
       setIsDrawerOpen(false);
     }
   };
@@ -196,17 +196,12 @@ export function HabitForm({
                     <div className="text flex justify-between items-center border-b pb-1 mb-2">
                       <div className="flex items-center">
                         {action.type === "offensive" ? (
-                          <TriangleAlert
-                            className="mr-2 text-blue-500"
-                            size={20}
-                          />
-                        ) : action.type === "defensive" ? (
-                          <OctagonAlert
+                          <CircleAlert
                             className="mr-2 text-blue-500"
                             size={20}
                           />
                         ) : (
-                          <CircleAlert
+                          <OctagonAlert
                             className="mr-2 text-blue-500"
                             size={20}
                           />
@@ -223,13 +218,6 @@ export function HabitForm({
                       </button>
                     </div>
                     <div className="flex items-center space-x-1">
-                      <Badge variant="secondary">
-                        {action.type === "defensive"
-                          ? "I won't"
-                          : action.type === "offensive"
-                          ? "I want"
-                          : "I will"}
-                      </Badge>
                       <Badge variant="secondary" className="capitalize">
                         {action.type}
                       </Badge>
@@ -257,28 +245,17 @@ export function HabitForm({
                 </DrawerTrigger>
                 <DrawerContent className="max-w-md mx-auto left-0 right-0">
                   <DrawerHeader>
-                    <DrawerTitle>Add New Action</DrawerTitle>
-                    <div className="w-full flex justify-center mt-2">
-                      {newAction.type === "offensive" ? (
-                        <TriangleAlert className="text-blue-500" size={40} />
-                      ) : newAction.type === "defensive" ? (
-                        <OctagonAlert className="text-blue-500" size={40} />
-                      ) : (
-                        <CircleAlert className="text-blue-500" size={40} />
-                      )}
-                    </div>
-                    <div className="w-full flex justify-center mt-1">
-                      <Badge variant="secondary" className="text-sm">
-                        {newAction.type === "defensive"
-                          ? "I won't"
-                          : newAction.type === "offensive"
-                          ? "I want"
-                          : "I will"}
-                      </Badge>
-                    </div>
+                    <DrawerTitle className="text-center mb-8">
+                      Add New Action
+                    </DrawerTitle>
                   </DrawerHeader>
 
                   <div className="p-4 pb-0">
+                    <span>
+                      <Badge variant="secondary" className="text-sm">
+                        {newAction.type === "offensive" ? "I will" : "I won't"}
+                      </Badge>
+                    </span>
                     <FormControl>
                       <Input
                         value={newAction.action}
@@ -286,58 +263,43 @@ export function HabitForm({
                           setNewAction({ ...newAction, action: e.target.value })
                         }
                         placeholder="Enter new action"
-                        className="mb-8 text-base"
+                        className="mt-2 mb-8 text-base"
                       />
                     </FormControl>
 
-                    <Label className="flex items-center space-x-2">
-                      <span>Action type</span>
-                      <span>
-                        {newAction.type === "offensive" ? (
-                          <TriangleAlert className="text-blue-500" size={20} />
-                        ) : newAction.type === "defensive" ? (
-                          <OctagonAlert className="text-blue-500" size={20} />
-                        ) : (
-                          <CircleAlert className="text-blue-500" size={20} />
-                        )}
-                      </span>
-                      <span>
-                        <Badge variant="secondary" className="text-xs">
-                          {newAction.type === "defensive"
-                            ? "I won't"
-                            : newAction.type === "offensive"
-                            ? "I want"
-                            : "I will"}
-                        </Badge>
-                      </span>
-                    </Label>
+                    <Label>Action type</Label>
                     <Select
                       value={newAction.type}
-                      onValueChange={(
-                        value: "offensive" | "defensive" | "balanced"
-                      ) => setNewAction({ ...newAction, type: value })}
+                      onValueChange={(value: "offensive" | "defensive") =>
+                        setNewAction({ ...newAction, type: value })
+                      }
                     >
                       <SelectTrigger className="my-4 mb-8">
                         <SelectValue placeholder="Select action type" />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="balanced">Balanced</SelectItem>
-                        <SelectItem value="offensive">Offensive</SelectItem>
-                        <SelectItem value="defensive">Defensive</SelectItem>
+                        <SelectItem value="offensive">
+                          <span className="flex items-center">
+                            <CircleAlert
+                              className="text-blue-500 mr-2"
+                              size={20}
+                            />
+                            Offensive
+                          </span>
+                        </SelectItem>
+                        <SelectItem value="defensive">
+                          <span className="flex items-center">
+                            <OctagonAlert
+                              className="text-blue-500 mr-2"
+                              size={20}
+                            />
+                            Defensive
+                          </span>
+                        </SelectItem>
                       </SelectContent>
                     </Select>
 
-                    <Label className="flex items-center space-x-2">
-                      <span>Action tracking metric</span>
-                      <Badge variant="outline" className="capitalize">
-                        {newAction.metric === "count" ? (
-                          <Hash size={18} className="mr-2" />
-                        ) : (
-                          <Clock size={18} className="mr-2" />
-                        )}
-                        {newAction.metric}
-                      </Badge>
-                    </Label>
+                    <Label>Action tracking metric</Label>
                     <Select
                       value={newAction.metric}
                       onValueChange={(value: "count" | "time") =>
@@ -348,8 +310,18 @@ export function HabitForm({
                         <SelectValue placeholder="Select metric" />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="count">Count</SelectItem>
-                        <SelectItem value="time">Time</SelectItem>
+                        <SelectItem value="count">
+                          <span className="flex items-center">
+                            <Hash size={18} className="mr-2" />
+                            Count
+                          </span>
+                        </SelectItem>
+                        <SelectItem value="time">
+                          <span className="flex items-center">
+                            <Clock size={18} className="mr-2" />
+                            Time
+                          </span>
+                        </SelectItem>
                       </SelectContent>
                     </Select>
 

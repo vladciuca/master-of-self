@@ -102,14 +102,16 @@ HabitCardProps) {
             <div key={index} className="mb-6">
               <div className="flex items-center justify-between pb-2 mb-2 border-b">
                 <div className="flex items-center">
-                  {/* CHANGE: Updated icon based on action type */}
-                  {action.type === "offensive" ? (
-                    <TriangleAlert className="mr-2 text-blue-500" size={20} />
-                  ) : action.type === "defensive" ? (
-                    <OctagonAlert className="mr-2 text-blue-500" size={20} />
-                  ) : (
-                    <CircleAlert className="mr-2 text-blue-500" size={20} />
-                  )}
+                  <span className="flex items-center">
+                    {action.type === "offensive" ? (
+                      <CircleAlert className="mr-2 text-blue-500" size={20} />
+                    ) : (
+                      <OctagonAlert className="mr-2 text-blue-500" size={20} />
+                    )}
+                    <Badge variant="secondary" className="mr-2">
+                      {action.type === "offensive" ? "I will" : "I won't"}
+                    </Badge>
+                  </span>
                   <span className=" text-lg">{action.action}</span>
                 </div>
                 <div className="flex items-center space-x-2">
@@ -127,18 +129,9 @@ HabitCardProps) {
                 </div>
               </div>
               <div className="flex items-center justify-between text-sm text-muted-foreground mb-2">
-                <span className="space-x-1">
-                  <Badge variant="secondary">
-                    {action.type === "defensive"
-                      ? "I won't"
-                      : action.type === "offensive"
-                      ? "I want"
-                      : "I will"}
-                  </Badge>
-                  <Badge variant="secondary" className="capitalize">
-                    {action.type}
-                  </Badge>
-                </span>
+                <Badge variant="secondary" className="capitalize">
+                  {action.type}
+                </Badge>
                 <span>+10 XP</span>
               </div>
             </div>

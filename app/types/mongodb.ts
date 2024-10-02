@@ -32,7 +32,7 @@ export type NewJournalEntry = Omit<JournalEntry, "_id">; // Lets mongo db assign
 export type Action = {
   action: string;
   metric: "count" | "time";
-  type: "offensive" | "defensive" | "balanced";
+  type: "offensive" | "defensive";
   value: number;
   // actionData: [Date, string | number][];
 };
