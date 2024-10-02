@@ -81,12 +81,14 @@ HabitCardProps) {
                 }}
               >
                 <div
-                  className="text-center text-xs"
+                  className="flex flex-col items-center justify-center text-xs"
                   style={{
                     pointerEvents: "none", // Ensure text does not block interactions
                   }}
                 >
-                  {xpForCurrentLevel} / {xpToLevelUp}
+                  <div>{xpForCurrentLevel}</div>
+                  <hr className="border-primary my-1 w-6" />
+                  <div>{xpToLevelUp}</div>
                 </div>
               </div>
             </div>
