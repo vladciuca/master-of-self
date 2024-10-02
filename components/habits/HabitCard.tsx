@@ -21,8 +21,6 @@ import {
   OctagonAlert,
   Clock,
   Hash,
-  Star,
-  ShieldAlert,
 } from "lucide-react";
 
 type HabitCardProps = {
@@ -96,31 +94,10 @@ HabitCardProps) {
         </div>
       </AccordionTrigger>
       <AccordionContent className="px-4">
-        {/* <div className="flex items-center my-2">
-          <div className="text-lg font-semibold">Activity</div>
-          <Button variant="secondary" className="rounded-full text-xs ml-3">
-            This month
-          </Button>
-        </div>
-        <HabitXpChart habit={habit} /> */}
         <div className="my-4">
           <p className="text-muted-foreground">{description}</p>
         </div>
         <div>
-          {/* {actions.map((action, index) => (
-            <div key={index} className="flex items-center mb-2">
-              <CircleAlert size={20} className="mr-2" />
-              <span className="mr-2">{action.action}</span>
-              {action.metric === "count" ? (
-                <Hash size={16} className="mr-1" />
-              ) : (
-                <Clock size={16} className="mr-1" />
-              )}
-              <span className="text-sm text-muted-foreground">
-                {action.metric === "count" ? "Count" : "Time"}
-              </span>
-            </div>
-          ))} */}
           {actions.map((action, index) => (
             <div key={index} className="mb-6">
               <div className="flex items-center justify-between pb-2 mb-2 border-b">
@@ -136,30 +113,30 @@ HabitCardProps) {
                   <span className=" text-lg">{action.action}</span>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <div className="text-lg flex items-center">
-                    {action.metric === "count" ? (
-                      <Hash size={18} className="mr-2" />
-                    ) : (
-                      <Clock size={18} className="mr-2" />
-                    )}
-                    <span className="font-bold">
+                  <div className="text-xl flex items-center">
+                    <span className="font-bold flex items-center">
                       {action.value}
                       {action.metric === "count" ? "" : " h"}
                     </span>
+                    {action.metric === "count" ? (
+                      <Hash size={18} className="ml-1" />
+                    ) : (
+                      <Clock size={18} className="ml-1" />
+                    )}
                   </div>
                 </div>
               </div>
               <div className="flex items-center justify-between text-sm text-muted-foreground mb-2">
                 <span className="space-x-1">
-                  <Badge variant="secondary" className="capitalize">
-                    {action.type}
-                  </Badge>
                   <Badge variant="secondary">
                     {action.type === "defensive"
                       ? "I won't"
                       : action.type === "offensive"
                       ? "I want"
                       : "I will"}
+                  </Badge>
+                  <Badge variant="secondary" className="capitalize">
+                    {action.type}
                   </Badge>
                 </span>
                 <span>+10 XP</span>
