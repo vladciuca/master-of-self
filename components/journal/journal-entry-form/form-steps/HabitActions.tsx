@@ -1,11 +1,15 @@
 import { FormStepTemplate } from "@components/journal/journal-entry-form/form-steps/FormStepTemplate";
-import { IconRenderer } from "@components/IconRenderer";
+import { HabitCardHeader } from "@components/habits/habit-card/HabitCardHeader";
+import { Checkbox } from "@components/ui/checkbox";
 import { useUserHabits } from "@hooks/useUserHabits";
-import { CircleAlert } from "lucide-react";
-
-// type HabitActionsProps = {
-//   habits: string[];
-// };
+import {
+  CircleX,
+  Plus,
+  CircleAlert,
+  OctagonAlert,
+  Hash,
+  Clock,
+} from "lucide-react";
 
 export function HabitActions() {
   const { habits, habitsLoading, habitsError } = useUserHabits();
@@ -14,36 +18,54 @@ export function HabitActions() {
       <div>
         <ol>
           {habits.map((habit) => {
-            const { _id, name, description, icon, xp } = habit;
             return (
-              <li key={_id} className="mb-8">
-                <div className="flex items-center">
-                  <IconRenderer iconName={icon} xp={xp} className="text-6xl" />
-                  <div className="ml-2">
-                    <span className="text-2xl">{name}</span>
-                    <div className="text-sm">{description}</div>
-                  </div>
-                </div>
-
-                <div className="mt-4 space-y-2">
-                  <div className="flex items-center">
-                    <span>
-                      <CircleAlert />
-                    </span>
-                    action 1
-                  </div>
-                  <div className="flex items-center">
-                    <span>
-                      <CircleAlert />
-                    </span>
-                    action 2
-                  </div>
-                  <div className="flex items-center">
-                    <span>
-                      <CircleAlert />
-                    </span>
-                    action 3
-                  </div>
+              <li key={habit._id} className="mb-8">
+                <HabitCardHeader habit={habit} />
+                <div>
+                  {habit.actions.map((action) => {
+                    return (
+                      <div className="px-4 my-4">
+                        <div className="text flex justify-between items-center border-b pb-1 mb-2">
+                          <div className="flex items-center">
+                            {action.type === "offensive" ? (
+                              <CircleAlert
+                                className="mr-2 text-blue-500"
+                                size={20}
+                              />
+                            ) : (
+                              <OctagonAlert
+                                className="mr-2 text-blue-500"
+                                size={20}
+                              />
+                            )}
+                            {action.action}
+                          </div>
+                          {/* <button
+                            type="button"
+                            // onClick={() => removeAction(index)}
+                            className="ml-2 text-red-500"
+                            aria-label={`Remove action ${action.action}`}
+                          >
+                            <CircleX size={20} />
+                          </button> */}
+                          <Checkbox className="h-8 w-8" />
+                        </div>
+                        {/* <div className="flex items-center space-x-1">
+                          <Badge variant="secondary" className="capitalize">
+                            {action.type}
+                          </Badge>
+                          <Badge variant="outline" className="capitalize">
+                            {action.metric === "count" ? (
+                              <Hash size={18} className="mr-2" />
+                            ) : (
+                              <Clock size={18} className="mr-2" />
+                            )}
+                            {action.metric}
+                          </Badge>
+                        </div> */}
+                      </div>
+                    );
+                  })}
                 </div>
               </li>
             );

@@ -83,13 +83,8 @@ export function ActionsField({ control }: ActionsFieldProps) {
           <FormLabel>Actions</FormLabel>
           <div className="flex flex-col gap-2">
             {fields.map((field, index) => {
-              //   const action = actions[index] || {
-              //     type: "offensive",
-              //     action: "",
-              //     metric: "count",
-              //   };
               const action = actions[index];
-              if (!action) return null; // Skip rendering if action is undefined
+              if (!action) return null;
               return (
                 <div key={field.id} className="border p-4 rounded-md">
                   <div className="text flex justify-between items-center border-b pb-1 mb-2">
