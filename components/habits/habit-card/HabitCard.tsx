@@ -2,10 +2,10 @@
 
 import { useSession } from "next-auth/react";
 import { usePathname } from "next/navigation";
-import { HabitCardHeader } from "@components/habits/HabitCardHeader";
-import { HabitCardDescription } from "@components/habits/HabitCardDescription";
-import { HabitCardActions } from "@components/habits/HabitCardActions";
-import { HabitCardFooter } from "./HabitCardFooter";
+import { HabitCardHeader } from "@components/habits/habit-card/HabitCardHeader";
+import { HabitCardDescription } from "@components/habits/habit-card/HabitCardDescription";
+import { HabitCardActions } from "@components/habits/habit-card/HabitCardActions";
+import { HabitCardFooter } from "@components/habits/habit-card/HabitCardFooter";
 import {
   AccordionContent,
   AccordionItem,

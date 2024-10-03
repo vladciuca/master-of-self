@@ -1,4 +1,4 @@
-import { HabitCard } from "@components/habits/HabitCard";
+import { HabitCard } from "@components/habits/habit-card/HabitCard";
 import { Accordion } from "@components/ui/accordion";
 import { Habit } from "@app/types/types";
 
