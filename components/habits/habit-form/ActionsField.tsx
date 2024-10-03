@@ -31,6 +31,7 @@ import {
   OctagonAlert,
   Hash,
   Clock,
+  Edit2,
 } from "lucide-react";
 import { Control, useFieldArray, useWatch } from "react-hook-form";
 import { HabitZodType } from "@components/habits/habit-form/habitFormSchema";
@@ -40,7 +41,7 @@ type ActionsFieldProps = {
 };
 
 export function ActionsField({ control }: ActionsFieldProps) {
-  const [newAction, setNewAction] = useState<{
+  const [actionForm, setActionForm] = useState<{
     action: string;
     metric: "count" | "time";
     type: "offensive" | "defensive";
@@ -50,8 +51,9 @@ export function ActionsField({ control }: ActionsFieldProps) {
     type: "offensive",
   });
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [editIndex, setEditIndex] = useState<number | null>(null);
 
-  const { fields, append, remove } = useFieldArray({
+  const { fields, append, remove, update } = useFieldArray({
     control,
     name: "actions",
   });
@@ -62,16 +64,27 @@ export function ActionsField({ control }: ActionsFieldProps) {
     defaultValue: [],
   });
 
-  const addAction = () => {
-    if (newAction.action !== "") {
-      append({ ...newAction, value: 0 });
-      setNewAction({ action: "", metric: "count", type: "offensive" });
+  const handleActionSubmit = () => {
+    if (actionForm.action !== "") {
+      if (editIndex !== null) {
+        update(editIndex, { ...actionForm, value: actions[editIndex].value });
+        setEditIndex(null);
+      } else {
+        append({ ...actionForm, value: 0 });
+      }
+      setActionForm({ action: "", metric: "count", type: "offensive" });
       setIsDrawerOpen(false);
     }
   };
 
   const removeAction = (index: number) => {
     remove(index);
+  };
+
+  const editAction = (index: number) => {
+    setActionForm(actions[index]);
+    setEditIndex(index);
+    setIsDrawerOpen(true);
   };
 
   return (
@@ -99,27 +112,40 @@ export function ActionsField({ control }: ActionsFieldProps) {
                       )}
                       {action.action}
                     </div>
+                    <div>
+                      <button
+                        type="button"
+                        onClick={() => removeAction(index)}
+                        className="text-red-500"
+                        aria-label={`Remove action ${action.action}`}
+                      >
+                        <CircleX size={20} />
+                      </button>
+                    </div>
+                  </div>
+                  <div className="flex items-center justify-between space-x-1">
+                    <div className="flex items-center">
+                      <Badge variant="secondary" className="capitalize">
+                        {action.type}
+                      </Badge>
+                      <Badge variant="outline" className="capitalize">
+                        {action.metric === "count" ? (
+                          <Hash size={18} className="mr-2" />
+                        ) : (
+                          <Clock size={18} className="mr-2" />
+                        )}
+                        {action.metric}
+                      </Badge>
+                    </div>
+
                     <button
                       type="button"
-                      onClick={() => removeAction(index)}
-                      className="ml-2 text-red-500"
-                      aria-label={`Remove action ${action.action}`}
+                      onClick={() => editAction(index)}
+                      aria-label={`Edit action ${action.action}`}
+                      className="flex items-center mr-2 text-blue-500"
                     >
-                      <CircleX size={20} />
+                      <Edit2 size={20} />
                     </button>
-                  </div>
-                  <div className="flex items-center space-x-1">
-                    <Badge variant="secondary" className="capitalize">
-                      {action.type}
-                    </Badge>
-                    <Badge variant="outline" className="capitalize">
-                      {action.metric === "count" ? (
-                        <Hash size={18} className="mr-2" />
-                      ) : (
-                        <Clock size={18} className="mr-2" />
-                      )}
-                      {action.metric}
-                    </Badge>
                   </div>
                 </div>
               );
@@ -134,32 +160,32 @@ export function ActionsField({ control }: ActionsFieldProps) {
             <DrawerContent className="max-w-md mx-auto left-0 right-0">
               <DrawerHeader>
                 <DrawerTitle className="text-center mb-8">
-                  Add New Action
+                  {editIndex !== null ? "Edit Action" : "Add New Action"}
                 </DrawerTitle>
               </DrawerHeader>
 
               <div className="p-4 pb-0">
                 <span>
                   <Badge variant="secondary" className="text-sm">
-                    {newAction.type === "offensive" ? "I will" : "I won't"}
+                    {actionForm.type === "offensive" ? "I will" : "I won't"}
                   </Badge>
                 </span>
                 <FormControl>
                   <Input
-                    value={newAction.action}
+                    value={actionForm.action}
                     onChange={(e) =>
-                      setNewAction({ ...newAction, action: e.target.value })
+                      setActionForm({ ...actionForm, action: e.target.value })
                     }
-                    placeholder="Enter new action"
+                    placeholder="Enter action"
                     className="mt-2 mb-8 text-base"
                   />
                 </FormControl>
 
                 <Label>Action type</Label>
                 <Select
-                  value={newAction.type}
+                  value={actionForm.type}
                   onValueChange={(value: "offensive" | "defensive") =>
-                    setNewAction({ ...newAction, type: value })
+                    setActionForm({ ...actionForm, type: value })
                   }
                 >
                   <SelectTrigger className="my-4 mb-8">
@@ -186,9 +212,9 @@ export function ActionsField({ control }: ActionsFieldProps) {
 
                 <Label>Action tracking metric</Label>
                 <Select
-                  value={newAction.metric}
+                  value={actionForm.metric}
                   onValueChange={(value: "count" | "time") =>
-                    setNewAction({ ...newAction, metric: value })
+                    setActionForm({ ...actionForm, metric: value })
                   }
                 >
                   <SelectTrigger className="mt-4 mb-24">
@@ -210,8 +236,8 @@ export function ActionsField({ control }: ActionsFieldProps) {
                   </SelectContent>
                 </Select>
 
-                <Button onClick={addAction} className="w-full mb-4">
-                  Add Action
+                <Button onClick={handleActionSubmit} className="w-full mb-4">
+                  {editIndex !== null ? "Update Action" : "Add Action"}
                 </Button>
               </div>
             </DrawerContent>

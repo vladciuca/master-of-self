@@ -30,11 +30,11 @@ export type NewJournalEntry = Omit<JournalEntry, "_id">; // Lets mongo db assign
 // HABITS =============================================================================
 
 export type Action = {
+  id: string;
   action: string;
   metric: "count" | "time";
   type: "offensive" | "defensive";
   value: number;
-  // actionData: [Date, string | number][];
 };
 
 export type Habit = {

@@ -38,6 +38,11 @@ export async function createHabit(
   try {
     if (!habits) await init();
 
+    const actionsWithIds = actions.map((action) => ({
+      ...action,
+      id: crypto.randomUUID(),
+    }));
+
     const newHabit: NewHabit = {
       creatorId: new ObjectId(userId),
       name,
@@ -45,7 +50,7 @@ export async function createHabit(
       description,
       xp: 0, // initialize XP to 0
       xpData: [], // initialize XP chart data to empty array
-      actions,
+      actions: actionsWithIds,
     };
 
     const result = await habits.insertOne(newHabit);
@@ -74,12 +79,18 @@ export async function updateHabit(
   try {
     if (!habits) await init();
     const query = { _id: new ObjectId(id) };
+
+    const actionsWithIds = actions.map((action) => ({
+      ...action,
+      id: crypto.randomUUID(),
+    }));
+
     const update = {
       $set: {
         name: name,
         icon: icon,
         description: description,
-        actions: actions,
+        actions: actionsWithIds,
       },
     };
 
