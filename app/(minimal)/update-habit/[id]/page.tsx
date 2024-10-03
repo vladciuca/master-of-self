@@ -2,10 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { useRouter, useParams } from "next/navigation";
-import {
-  HabitForm,
-  HabitZodType,
-} from "@components/habits/habit-form/HabitForm";
+import { HabitForm } from "@components/habits/habit-form/HabitForm";
+import { HabitZodType } from "@components/habits/habit-form/habitFormSchema";
 import { SkeletonForm } from "@components/skeletons/SkeletonForm";
 
 export default function UpdateHabit() {

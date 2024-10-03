@@ -3,10 +3,8 @@
 import { useState } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import {
-  HabitForm,
-  HabitZodType,
-} from "@components/habits/habit-form/HabitForm";
+import { HabitForm } from "@components/habits/habit-form/HabitForm";
+import { HabitZodType } from "@components/habits/habit-form/habitFormSchema";
 import { Session } from "@app/types/types";
 
 export default function CreateHabit() {
