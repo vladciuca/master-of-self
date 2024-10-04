@@ -182,17 +182,17 @@ function FormStepController({
       isAvailable:
         SHOW_ALL_TEST || (isEvening(userEveningTime) && hasReflection),
     },
-    {
-      type: "habits",
-      component: (
-        <HabitsStep
-          dailyWillpower={formData.dailyWillpower}
-          onChange={(value) => handleChange("habits", value)}
-          habitXpChanges={formData.nightEntry?.habits || {}}
-        />
-      ),
-      isAvailable: SHOW_ALL_TEST || (isEvening(userEveningTime) && hasHabits),
-    },
+    // {
+    //   type: "habits",
+    //   component: (
+    //     <HabitsStep
+    //       dailyWillpower={formData.dailyWillpower}
+    //       onChange={(value) => handleChange("habits", value)}
+    //       habitXpChanges={formData.nightEntry?.habits || {}}
+    //     />
+    //   ),
+    //   isAvailable: SHOW_ALL_TEST || (isEvening(userEveningTime) && hasHabits),
+    // },
     {
       type: "habits",
       component: (
@@ -201,7 +201,7 @@ function FormStepController({
           actionChanges={formData.nightEntry?.actions || {}}
         />
       ),
-      isAvailable: SHOW_ALL_TEST || (isEvening(userEveningTime) && hasHabits),
+      isAvailable: SHOW_ALL_TEST || hasHabits,
     },
   ];
 

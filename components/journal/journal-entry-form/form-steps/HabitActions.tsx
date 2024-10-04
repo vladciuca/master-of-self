@@ -38,19 +38,12 @@ export function HabitAction({
 
   const handleCheckboxChange = (checked: boolean) => {
     setIsChecked(checked);
-    // Set the value to 1 when checked, 0 when unchecked
-    // onActionChange(habitId, action.id, checked ? 1 : 0);
   };
 
   return (
     <div className="px-4 my-6">
       <div className="text flex justify-between items-center border-b pb-1 mb-4">
         <div className="flex items-center">
-          {/* {action.type === "offensive" ? (
-            <CircleAlert className="mr-2 text-blue-500" size={24} />
-          ) : (
-            <OctagonAlert className="mr-2 text-blue-500" size={24} />
-          )} */}
           <ActionIcon type={action.type} />
           {action.action}
         </div>

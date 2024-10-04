@@ -3,7 +3,7 @@ import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { JournalEntrySection } from "@components/journal/JournalEntrySection";
 import { JournalEntryHabits } from "@components/journal/JournalEntryHabits";
-import { JournalEntryActions } from "@components/journal/JournalEntryActions";
+// import { JournalEntryActions } from "@components/journal/JournalEntryActions";
 import {
   AccordionContent,
   AccordionItem,
@@ -17,6 +17,18 @@ import { Session, JournalEntryMetadata } from "@app/types/types";
 type JournalEntryCardProps = {
   journalEntry: JournalEntryMetadata;
   // handleDelete: (journalEntry: JournalEntryMetadata) => Promise<void>;
+};
+
+const calculateHabitActionSums = (
+  actions: Record<string, Record<string, number>>
+) => {
+  return Object.entries(actions).reduce((acc, [habitId, habitActions]) => {
+    acc[habitId] = Object.values(habitActions).reduce(
+      (sum, value) => sum + value,
+      0
+    );
+    return acc;
+  }, {} as Record<string, number>);
 };
 
 export function JournalEntryCard({
@@ -43,6 +55,11 @@ JournalEntryCardProps) {
   const dayOfWeek = entryDate
     .toLocaleString("default", { weekday: "short" })
     .toUpperCase();
+
+  // Calculate habit action sums
+  const habitActionSums = nightEntry?.actions
+    ? calculateHabitActionSums(nightEntry.actions)
+    : {};
 
   return (
     <AccordionItem key={_id} value={_id} className="p-4">
@@ -93,7 +110,7 @@ JournalEntryCardProps) {
         {/*Habits*/}
         {/*a BUG here resulting in this being displayed after the habit has been deleted*/}
         {/* Should remove after the fix not to post 0 values for habits in id: xp */}
-        {nightEntry?.habits && Object.keys(nightEntry.habits).length > 0 && (
+        {/* {nightEntry?.habits && Object.keys(nightEntry.habits).length > 0 && (
           <div className="mt-4 flex w-full">
             <div className="flex-shrink-0 flex items-start mr-4">
               <h2 className="flex items-center text-muted-foreground mt-1">
@@ -106,15 +123,25 @@ JournalEntryCardProps) {
               <JournalEntryHabits habits={nightEntry?.habits} />
             </div>
           </div>
-        )}
+        )} */}
 
         {/*Actions*/}
-        <div className="flex-grow flex flex-col items-start mt-4">
+        <div className="flex-grow flex flex-col items-start">
           {nightEntry?.actions &&
             Object.keys(nightEntry.actions).length > 0 && (
               <div className="mt-2 flex w-full">
+                <div className="flex-shrink-0 flex items-start mr-4">
+                  <h2 className="flex items-center text-muted-foreground mt-1">
+                    <Shell
+                      className="mr-2 text-muted-foreground"
+                      size={"1rem"}
+                    />
+                    Habits:
+                  </h2>
+                </div>
                 <div className="flex-grow flex flex-wrap items-start">
-                  <JournalEntryActions actions={nightEntry?.actions} />
+                  {/* <JournalEntryActions actions={nightEntry?.actions} /> */}
+                  <JournalEntryHabits habits={habitActionSums} />
                 </div>
               </div>
             )}
