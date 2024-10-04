@@ -3,13 +3,14 @@ import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { JournalEntrySection } from "@components/journal/JournalEntrySection";
 import { JournalEntryHabits } from "@components/journal/JournalEntryHabits";
+import { JournalEntryActions } from "@components/journal/JournalEntryActions";
 import {
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "@components/ui/accordion";
 import { FaBoltLightning, FaSun, FaMoon, FaStar } from "react-icons/fa6";
-import { Shell } from "lucide-react";
+import { Shell, Clock, Hash } from "lucide-react";
 import { GiPrayer, GiBackup } from "react-icons/gi";
 import { Session, JournalEntryMetadata } from "@app/types/types";
 
@@ -89,6 +90,7 @@ JournalEntryCardProps) {
           </div>
         )}
 
+        {/*Habits*/}
         {/*a BUG here resulting in this being displayed after the habit has been deleted*/}
         {/* Should remove after the fix not to post 0 values for habits in id: xp */}
         {nightEntry?.habits && Object.keys(nightEntry.habits).length > 0 && (
@@ -105,6 +107,40 @@ JournalEntryCardProps) {
             </div>
           </div>
         )}
+
+        {/*Actions*/}
+        <div className="flex-grow flex flex-col items-start mt-4">
+          {nightEntry?.actions &&
+            Object.keys(nightEntry.actions).length > 0 && (
+              <div className="mt-2 flex w-full">
+                <div className="flex-grow flex flex-wrap items-start">
+                  <JournalEntryActions actions={nightEntry?.actions} />
+                </div>
+              </div>
+            )}
+        </div>
+        {/* {nightEntry?.actions &&
+          Object.entries(nightEntry.actions).map(([habitId, actions]) => (
+            <div key={habitId} className="w-full mb-2">
+              <div className="flex justify-between items-center mb-1">
+                <span className="font-semibold">{habitId}</span>
+              </div>
+              <ul className="list-none pl-4">
+                {Object.entries(actions).map(([actionId, value]) => (
+                  <li key={actionId} className="flex items-center mb-1">
+                    {actionId.includes("count") ? (
+                      <Hash className="mr-2 text-blue-500" size={16} />
+                    ) : (
+                      <Clock className="mr-2 text-green-500" size={16} />
+                    )}
+                    <span className="text-sm">
+                      {actionId}: {value}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))} */}
 
         {isToday && (
           <div className="w-full flex mt-2">
