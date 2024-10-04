@@ -40,6 +40,7 @@ export type JournalEntry = {
     dailyHighlights?: string[];
     learnedToday?: string;
     habits?: { [key: string]: number };
+    actions?: { [key: string]: { [key: string]: number } };
   };
 };
 

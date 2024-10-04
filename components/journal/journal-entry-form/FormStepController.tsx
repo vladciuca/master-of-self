@@ -45,6 +45,7 @@ function FormStepController({
       dailyHighlights: journalEntryData?.nightEntry?.dailyHighlights || [],
       learnedToday: journalEntryData?.nightEntry?.learnedToday || "",
       habits: journalEntryData?.nightEntry?.habits || {},
+      actions: journalEntryData?.nightEntry?.actions || {},
     },
   }));
 
@@ -98,7 +99,8 @@ function FormStepController({
         | "gratefulFor"
         | "dailyHighlights"
         | "learnedToday"
-        | "habits",
+        | "habits"
+        | "actions",
       value: string[] | string | { [key: string]: number }
     ) => {
       setFormData((prev) => {
@@ -111,7 +113,8 @@ function FormStepController({
         } else if (
           field === "dailyHighlights" ||
           field === "learnedToday" ||
-          field === "habits"
+          field === "habits" ||
+          field === "actions"
         ) {
           newData.nightEntry = {
             ...prev.nightEntry,
@@ -190,9 +193,8 @@ function FormStepController({
       type: "habits",
       component: (
         <HabitActions
-        // dailyWillpower={formData.dailyWillpower}
-        // onChange={(value) => handleChange("habits", value)}
-        // habitXpChanges={formData.nightEntry?.habits || {}}
+        // onChange={(value) => handleChange("actions", value)}
+        // actionChanges={formData.nightEntry?.actions || {}}
         />
       ),
       isAvailable: SHOW_ALL_TEST || (isEvening(userEveningTime) && hasHabits),
