@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { FormStepTemplate } from "@/components/journal/journal-entry-form/form-steps/FormStepTemplate";
 import { HabitCardHeader } from "@/components/habits/habit-card/HabitCardHeader";
+import { HabitActionsHeader } from "@components/journal/journal-entry-form/form-steps/habit-actions/HabitActionsHeader";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -13,7 +14,7 @@ import {
   Hash,
   Clock,
 } from "lucide-react";
-import { Action } from "@/app/types/types";
+import { Action, Habit } from "@/app/types/types";
 
 type HabitActionProps = {
   action: Action;
@@ -127,6 +128,14 @@ export function HabitActions({
     setActionValues(actionChanges);
   }, [actionChanges]);
 
+  const calculateProjectedXP = useCallback(
+    (habit: Habit) => {
+      const habitActions = actionValues[habit._id] || {};
+      return Object.values(habitActions).reduce((sum, value) => sum + value, 0);
+    },
+    [actionValues]
+  );
+
   const handleActionChange = useCallback(
     (habitId: string, actionId: string, newValue: number) => {
       setActionValues((prev) => {
@@ -167,7 +176,11 @@ export function HabitActions({
         <ol>
           {habits.map((habit) => (
             <li key={habit._id} className="mb-8">
-              <HabitCardHeader habit={habit} />
+              <HabitActionsHeader
+                habit={habit}
+                projectedHabitXp={calculateProjectedXP(habit)}
+              />
+
               <div>
                 {habit.actions.map((action) => (
                   <HabitAction
