@@ -197,17 +197,17 @@ export function ActionsField({ control }: ActionsFieldProps) {
             </DrawerTrigger>
             <DrawerContent className="max-w-md mx-auto left-0 right-0">
               <DrawerHeader>
-                <DrawerTitle className="text-center mb-8">
+                <DrawerTitle className="text-center mb-6 flex flex-col">
                   {editId !== null ? "Edit Action" : "Add New Action"}
+                  <span>
+                    <Badge variant="secondary" className="text-base mt-2">
+                      {actionForm.type === "offensive" ? "I will" : "I won't"}
+                    </Badge>
+                  </span>
                 </DrawerTitle>
               </DrawerHeader>
 
               <div className="p-4 pb-0">
-                <span>
-                  <Badge variant="secondary" className="text-sm">
-                    {actionForm.type === "offensive" ? "I will" : "I won't"}
-                  </Badge>
-                </span>
                 <FormControl>
                   <Input
                     value={actionForm.action}
