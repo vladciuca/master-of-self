@@ -30,12 +30,7 @@ export function HabitAction({
   onActionChange,
 }: HabitActionProps) {
   // Use local state to manage checkbox
-  const [isChecked, setIsChecked] = useState(false);
-
-  // Update local checkbox state when actionValue changes
-  useEffect(() => {
-    setIsChecked(actionValue >= 0);
-  }, [actionValue]);
+  const [isChecked, setIsChecked] = useState(actionValue >= 1);
 
   const handleIncrease = () => {
     // Call onActionChange with the new value instead of the change amount
