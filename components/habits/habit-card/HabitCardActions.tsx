@@ -1,6 +1,6 @@
+import { ActionIcon } from "@components/habits/HabitActionFragments";
 import { Badge } from "@/components/ui/badge";
-import { CircleAlert, OctagonAlert, Hash, Clock } from "lucide-react";
-import { GiPointySword, GiSlashedShield } from "react-icons/gi";
+import { Hash, Clock } from "lucide-react";
 import { Action } from "@app/types/types";
 
 type HabitCardActionsProps = {
@@ -15,11 +15,7 @@ export function HabitCardActions({ actions }: HabitCardActionsProps) {
           <div className="flex items-center justify-between pb-2 mb-2 border-b">
             <div className="flex items-center">
               <span className="flex items-center">
-                {action.type === "offensive" ? (
-                  <GiPointySword className="mr-2 text-blue-500" size={20} />
-                ) : (
-                  <GiSlashedShield className="mr-2 text-blue-500" size={20} />
-                )}
+                <ActionIcon type={action.type} />
                 <Badge variant="secondary" className="mr-2">
                   {action.type === "offensive" ? "I will" : "I won't"}
                 </Badge>

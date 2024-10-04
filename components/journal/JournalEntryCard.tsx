@@ -119,28 +119,6 @@ JournalEntryCardProps) {
               </div>
             )}
         </div>
-        {/* {nightEntry?.actions &&
-          Object.entries(nightEntry.actions).map(([habitId, actions]) => (
-            <div key={habitId} className="w-full mb-2">
-              <div className="flex justify-between items-center mb-1">
-                <span className="font-semibold">{habitId}</span>
-              </div>
-              <ul className="list-none pl-4">
-                {Object.entries(actions).map(([actionId, value]) => (
-                  <li key={actionId} className="flex items-center mb-1">
-                    {actionId.includes("count") ? (
-                      <Hash className="mr-2 text-blue-500" size={16} />
-                    ) : (
-                      <Clock className="mr-2 text-green-500" size={16} />
-                    )}
-                    <span className="text-sm">
-                      {actionId}: {value}
-                    </span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))} */}
 
         {isToday && (
           <div className="w-full flex mt-2">

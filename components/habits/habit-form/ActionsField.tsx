@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { ActionIcon } from "@components/habits/HabitActionFragments";
 import {
   FormField,
   FormItem,
@@ -135,14 +136,7 @@ export function ActionsField({ control }: ActionsFieldProps) {
                 <div key={action.id} className="border p-4 rounded-md">
                   <div className="text flex justify-between items-center border-b pb-1 mb-2">
                     <div className="flex items-center">
-                      {action.type === "offensive" ? (
-                        <CircleAlert className="mr-2 text-blue-500" size={20} />
-                      ) : (
-                        <OctagonAlert
-                          className="mr-2 text-blue-500"
-                          size={20}
-                        />
-                      )}
+                      <ActionIcon type={action.type} />
                       {action.action}
                     </div>
                     <div>

@@ -1,19 +1,12 @@
 import { useState, useEffect, useCallback } from "react";
 import { FormStepTemplate } from "@/components/journal/journal-entry-form/form-steps/FormStepTemplate";
-import { HabitCardHeader } from "@/components/habits/habit-card/HabitCardHeader";
 import { HabitActionsHeader } from "@components/journal/journal-entry-form/form-steps/habit-actions/HabitActionsHeader";
+import { ActionIcon } from "@components/habits/HabitActionFragments";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useUserHabits } from "@/hooks/useUserHabits";
-import {
-  Minus,
-  Plus,
-  CircleAlert,
-  OctagonAlert,
-  Hash,
-  Clock,
-} from "lucide-react";
+import { Minus, Plus, Hash, Clock } from "lucide-react";
 import { Action, Habit } from "@/app/types/types";
 
 type HabitActionProps = {
@@ -53,11 +46,12 @@ export function HabitAction({
     <div className="px-4 my-6">
       <div className="text flex justify-between items-center border-b pb-1 mb-4">
         <div className="flex items-center">
-          {action.type === "offensive" ? (
+          {/* {action.type === "offensive" ? (
             <CircleAlert className="mr-2 text-blue-500" size={24} />
           ) : (
             <OctagonAlert className="mr-2 text-blue-500" size={24} />
-          )}
+          )} */}
+          <ActionIcon type={action.type} />
           {action.action}
         </div>
 

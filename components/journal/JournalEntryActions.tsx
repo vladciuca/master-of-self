@@ -1,9 +1,9 @@
 "use client";
 
 import { IconRenderer } from "@/components/IconRenderer";
-import { Skeleton } from "@/components/ui/skeleton";
+import { ActionIcon } from "@components/habits/HabitActionFragments";
 import { Badge } from "@components/ui/badge";
-import { Hash, Clock, CircleAlert, OctagonAlert } from "lucide-react";
+import { Hash, Clock } from "lucide-react";
 import { useUserHabits } from "@hooks/useUserHabits";
 import { Habit, Action } from "@app/types/types";
 
@@ -43,11 +43,7 @@ export function JournalEntryActions({ actions }: JournalEntryActionsProp) {
 
                 return (
                   <div key={actionId} className="flex items-center">
-                    {action.type === "offensive" ? (
-                      <CircleAlert className="mr-2 text-blue-500" size={20} />
-                    ) : (
-                      <OctagonAlert className="mr-2 text-blue-500" size={20} />
-                    )}
+                    <ActionIcon type={action.type} size={18} />
                     <Badge variant="outline" className="capitalize">
                       {action.metric === "count" ? (
                         <Hash size={18} className="mr-2" />
@@ -56,10 +52,6 @@ export function JournalEntryActions({ actions }: JournalEntryActionsProp) {
                       )}
                       {value}
                     </Badge>
-                    {/* <span className="text-sm text-gray-500 mr-2">
-                      {action.metric}
-                    </span>
-                    <span className="text-sm text-gray-500">{action.type}</span> */}
                   </div>
                 );
               })}
