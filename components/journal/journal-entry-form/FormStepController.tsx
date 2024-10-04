@@ -101,7 +101,11 @@ function FormStepController({
         | "learnedToday"
         | "habits"
         | "actions",
-      value: string[] | string | { [key: string]: number }
+      value:
+        | string[]
+        | string
+        | { [key: string]: number }
+        | { [key: string]: { [key: string]: number } }
     ) => {
       setFormData((prev) => {
         const newData = { ...prev };
@@ -193,8 +197,8 @@ function FormStepController({
       type: "habits",
       component: (
         <HabitActions
-        // onChange={(value) => handleChange("actions", value)}
-        // actionChanges={formData.nightEntry?.actions || {}}
+          onChange={(value) => handleChange("actions", value)}
+          actionChanges={formData.nightEntry?.actions || {}}
         />
       ),
       isAvailable: SHOW_ALL_TEST || (isEvening(userEveningTime) && hasHabits),

@@ -1,10 +1,10 @@
-import { useState } from "react";
-import { FormStepTemplate } from "@components/journal/journal-entry-form/form-steps/FormStepTemplate";
-import { HabitCardHeader } from "@components/habits/habit-card/HabitCardHeader";
-import { Checkbox } from "@components/ui/checkbox";
-import { Badge } from "@components/ui/badge";
-import { Button } from "@components/ui/button";
-import { useUserHabits } from "@hooks/useUserHabits";
+import { useState, useEffect, useCallback } from "react";
+import { FormStepTemplate } from "@/components/journal/journal-entry-form/form-steps/FormStepTemplate";
+import { HabitCardHeader } from "@/components/habits/habit-card/HabitCardHeader";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { useUserHabits } from "@/hooks/useUserHabits";
 import {
   Minus,
   Plus,
@@ -13,14 +13,45 @@ import {
   Hash,
   Clock,
 } from "lucide-react";
-import { Action } from "@app/types/types";
+import { Action } from "@/app/types/types";
 
 type HabitActionProps = {
   action: Action;
+  habitId: string;
+  actionValue: number;
+  onActionChange: (habitId: string, actionId: string, newValue: number) => void;
 };
 
-export function HabitAction({ action }: HabitActionProps) {
+// Modified HabitAction component
+export function HabitAction({
+  action,
+  habitId,
+  actionValue,
+  onActionChange,
+}: HabitActionProps) {
+  // Use local state to manage checkbox
   const [isChecked, setIsChecked] = useState(false);
+
+  // Update local checkbox state when actionValue changes
+  useEffect(() => {
+    setIsChecked(actionValue >= 0);
+  }, [actionValue]);
+
+  const handleIncrease = () => {
+    // Call onActionChange with the new value instead of the change amount
+    onActionChange(habitId, action.id, actionValue + 1);
+  };
+
+  const handleDecrease = () => {
+    // Call onActionChange with the new value instead of the change amount
+    onActionChange(habitId, action.id, Math.max(0, actionValue - 1));
+  };
+
+  const handleCheckboxChange = (checked: boolean) => {
+    setIsChecked(checked);
+    // Set the value to 1 when checked, 0 when unchecked
+    // onActionChange(habitId, action.id, checked ? 1 : 0);
+  };
 
   return (
     <div className="px-4 my-6">
@@ -37,7 +68,8 @@ export function HabitAction({ action }: HabitActionProps) {
         <Checkbox
           className="h-8 w-8 mr-4"
           checked={isChecked}
-          onClick={() => setIsChecked(!isChecked)}
+          onCheckedChange={handleCheckboxChange}
+          disabled={actionValue > 0}
         />
       </div>
 
@@ -48,8 +80,8 @@ export function HabitAction({ action }: HabitActionProps) {
               variant="outline"
               size="icon"
               className="h-8 w-8 shrink-0 rounded-full"
-              // disabled={}
-              // onClick={}
+              disabled={actionValue <= 0}
+              onClick={handleDecrease}
             >
               <Minus className="h-4 w-4" />
               <span className="sr-only">Decrease</span>
@@ -61,15 +93,14 @@ export function HabitAction({ action }: HabitActionProps) {
                 ) : (
                   <Clock size={18} className="mr-2" />
                 )}
-                <span className="text-xl">{action.value}</span>
+                <span className="text-xl">{actionValue}</span>
               </Badge>
             </div>
             <Button
               variant="outline"
               size="icon"
               className="h-8 w-8 shrink-0 rounded-full"
-              // onClick={}
-              // disabled={}
+              onClick={handleIncrease}
             >
               <Plus className="h-4 w-4" />
               <span className="sr-only">Increase</span>
@@ -81,24 +112,80 @@ export function HabitAction({ action }: HabitActionProps) {
   );
 }
 
-export function HabitActions() {
+type HabitActionsProps = {
+  onChange: (value: { [key: string]: { [key: string]: number } }) => void;
+  actionChanges?: { [key: string]: { [key: string]: number } };
+};
+
+// Modified HabitActions component
+export function HabitActions({
+  onChange,
+  actionChanges = {},
+}: HabitActionsProps) {
   const { habits, habitsLoading, habitsError } = useUserHabits();
+  const [actionValues, setActionValues] = useState<{
+    [key: string]: { [key: string]: number };
+  }>(actionChanges);
+
+  // Update local state when actionChanges prop changes
+  useEffect(() => {
+    setActionValues(actionChanges);
+  }, [actionChanges]);
+
+  const handleActionChange = useCallback(
+    (habitId: string, actionId: string, newValue: number) => {
+      setActionValues((prev) => {
+        const newValues = { ...prev };
+        if (!newValues[habitId]) {
+          newValues[habitId] = {};
+        }
+        newValues[habitId][actionId] = newValue;
+
+        if (newValues[habitId][actionId] === 0) {
+          delete newValues[habitId][actionId];
+        }
+        if (Object.keys(newValues[habitId]).length === 0) {
+          delete newValues[habitId];
+        }
+
+        onChange(newValues);
+        return newValues;
+      });
+    },
+    [onChange]
+  );
+
+  if (habitsLoading) {
+    return <div>Loading habits...</div>;
+  }
+
+  if (habitsError) {
+    return <div>Error loading habits: {habitsError}</div>;
+  }
+
   return (
-    <FormStepTemplate title="Habit Actions" description="??">
+    <FormStepTemplate
+      title="Habit Actions"
+      description="Track your progress on habit actions"
+    >
       <div>
         <ol>
-          {habits.map((habit) => {
-            return (
-              <li key={habit._id} className="mb-8">
-                <HabitCardHeader habit={habit} />
-                <div>
-                  {habit.actions.map((action) => {
-                    return <HabitAction action={action} />;
-                  })}
-                </div>
-              </li>
-            );
-          })}
+          {habits.map((habit) => (
+            <li key={habit._id} className="mb-8">
+              <HabitCardHeader habit={habit} />
+              <div>
+                {habit.actions.map((action) => (
+                  <HabitAction
+                    key={action.id}
+                    action={action}
+                    habitId={habit._id}
+                    actionValue={actionValues[habit._id]?.[action.id] || 0}
+                    onActionChange={handleActionChange}
+                  />
+                ))}
+              </div>
+            </li>
+          ))}
         </ol>
       </div>
     </FormStepTemplate>
