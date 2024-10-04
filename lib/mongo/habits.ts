@@ -38,11 +38,6 @@ export async function createHabit(
   try {
     if (!habits) await init();
 
-    // const actionsWithIds = actions.map((action) => ({
-    //   ...action,
-    //   id: crypto.randomUUID(),
-    // }));
-
     const newHabit: NewHabit = {
       creatorId: new ObjectId(userId),
       name,
@@ -79,11 +74,6 @@ export async function updateHabit(
   try {
     if (!habits) await init();
     const query = { _id: new ObjectId(id) };
-
-    // const actionsWithIds = actions.map((action) => ({
-    //   ...action,
-    //   id: crypto.randomUUID(),
-    // }));
 
     const update = {
       $set: {

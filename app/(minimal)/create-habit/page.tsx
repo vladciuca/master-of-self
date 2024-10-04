@@ -13,7 +13,7 @@ export default function CreateHabit() {
   const [submitting, setSubmitting] = useState<boolean>(false);
 
   const createHabit = async (habit: HabitZodType) => {
-    const { name, icon, description } = habit;
+    const { name, icon, description, actions } = habit;
     setSubmitting(true);
 
     try {
@@ -25,6 +25,7 @@ export default function CreateHabit() {
           icon: icon,
           description: description,
           xp: 0,
+          actions: actions,
         }),
       });
 
