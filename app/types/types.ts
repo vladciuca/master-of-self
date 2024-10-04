@@ -50,6 +50,7 @@ export type JournalEntryMetadata = JournalEntry & {
 };
 
 export type Action = {
+  id: string;
   action: string;
   metric: "count" | "time";
   type: "offensive" | "defensive";

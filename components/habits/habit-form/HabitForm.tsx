@@ -31,6 +31,7 @@ export function HabitForm({
   const form = useForm<HabitZodType>({
     resolver: zodResolver(habitFormSchema),
     defaultValues: {
+      id: type === "Update" ? habit?.id : undefined,
       name: type === "Update" ? habit?.name : "",
       icon: type === "Update" ? habit?.icon : "",
       description: type === "Update" ? habit?.description : "",

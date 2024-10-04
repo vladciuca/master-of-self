@@ -22,6 +22,8 @@ type HabitActionProps = {
 export function HabitAction({ action }: HabitActionProps) {
   const [isChecked, setIsChecked] = useState(false);
 
+  // id: {actions: [{ value: 0}, { }]}
+
   return (
     <div className="px-4 my-6">
       <div className="text flex justify-between items-center border-b pb-1 mb-4">

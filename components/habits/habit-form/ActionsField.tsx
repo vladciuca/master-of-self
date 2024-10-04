@@ -35,23 +35,26 @@ import {
 } from "lucide-react";
 import { Control, useFieldArray, useWatch } from "react-hook-form";
 import { HabitZodType } from "@components/habits/habit-form/habitFormSchema";
+import { Action } from "@app/types/types";
 
 type ActionsFieldProps = {
   control: Control<HabitZodType>;
 };
 
+const initialActionForm = {
+  action: "",
+  metric: "count" as const,
+  type: "offensive" as const,
+};
+
 export function ActionsField({ control }: ActionsFieldProps) {
-  const [actionForm, setActionForm] = useState<{
-    action: string;
-    metric: "count" | "time";
-    type: "offensive" | "defensive";
-  }>({
+  const [actionForm, setActionForm] = useState<Omit<Action, "id" | "value">>({
     action: "",
     metric: "count",
     type: "offensive",
   });
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-  const [editIndex, setEditIndex] = useState<number | null>(null);
+  const [editId, setEditId] = useState<string | null>(null);
 
   const { fields, append, remove, update } = useFieldArray({
     control,
@@ -62,28 +65,58 @@ export function ActionsField({ control }: ActionsFieldProps) {
     control,
     name: "actions",
     defaultValue: [],
-  });
+  }) as Action[];
 
   const handleActionSubmit = () => {
     if (actionForm.action !== "") {
-      if (editIndex !== null) {
-        update(editIndex, { ...actionForm, value: actions[editIndex].value });
-        setEditIndex(null);
+      if (editId !== null) {
+        // Find the index of the action with the matching id
+        const editIndex = actions.findIndex((action) => action.id === editId);
+        if (editIndex !== -1) {
+          update(editIndex, {
+            ...actionForm,
+            id: editId,
+            value: actions[editIndex].value,
+          });
+        }
+        setEditId(null);
       } else {
-        append({ ...actionForm, value: 0 });
+        // Add a new action with a unique id
+        append({ ...actionForm, id: crypto.randomUUID(), value: 0 });
       }
-      setActionForm({ action: "", metric: "count", type: "offensive" });
+      resetActionForm();
       setIsDrawerOpen(false);
     }
   };
 
-  const removeAction = (index: number) => {
-    remove(index);
+  const removeAction = (id: string) => {
+    // Find the index of the action with the matching id
+    const removeIndex = actions.findIndex((action) => action.id === id);
+    if (removeIndex !== -1) {
+      remove(removeIndex);
+    }
   };
 
-  const editAction = (index: number) => {
-    setActionForm(actions[index]);
-    setEditIndex(index);
+  const editAction = (id: string) => {
+    const actionToEdit = actions.find((action) => action.id === id);
+    if (actionToEdit) {
+      setActionForm({
+        action: actionToEdit.action,
+        metric: actionToEdit.metric,
+        type: actionToEdit.type,
+      });
+      setEditId(id);
+      setIsDrawerOpen(true);
+    }
+  };
+
+  const resetActionForm = () => {
+    setActionForm(initialActionForm);
+    setEditId(null);
+  };
+
+  const handleAddActionClick = () => {
+    resetActionForm();
     setIsDrawerOpen(true);
   };
 
@@ -96,10 +129,10 @@ export function ActionsField({ control }: ActionsFieldProps) {
           <FormLabel>Actions</FormLabel>
           <div className="flex flex-col gap-2">
             {fields.map((field, index) => {
-              const action = actions[index];
+              const action = actions[index] as Action;
               if (!action) return null;
               return (
-                <div key={field.id} className="border p-4 rounded-md">
+                <div key={action.id} className="border p-4 rounded-md">
                   <div className="text flex justify-between items-center border-b pb-1 mb-2">
                     <div className="flex items-center">
                       {action.type === "offensive" ? (
@@ -115,7 +148,7 @@ export function ActionsField({ control }: ActionsFieldProps) {
                     <div>
                       <button
                         type="button"
-                        onClick={() => removeAction(index)}
+                        onClick={() => removeAction(action.id)}
                         className="text-red-500"
                         aria-label={`Remove action ${action.action}`}
                       >
@@ -140,7 +173,7 @@ export function ActionsField({ control }: ActionsFieldProps) {
 
                     <button
                       type="button"
-                      onClick={() => editAction(index)}
+                      onClick={() => editAction(action.id)}
                       aria-label={`Edit action ${action.action}`}
                       className="flex items-center mr-2 text-blue-500"
                     >
@@ -153,14 +186,19 @@ export function ActionsField({ control }: ActionsFieldProps) {
           </div>
           <Drawer open={isDrawerOpen} onOpenChange={setIsDrawerOpen}>
             <DrawerTrigger asChild>
-              <Button type="button" variant="outline" className="w-full mt-2">
+              <Button
+                type="button"
+                variant="outline"
+                className="w-full mt-2"
+                onClick={handleAddActionClick}
+              >
                 <Plus className="mr-2 h-4 w-4" /> Add Action
               </Button>
             </DrawerTrigger>
             <DrawerContent className="max-w-md mx-auto left-0 right-0">
               <DrawerHeader>
                 <DrawerTitle className="text-center mb-8">
-                  {editIndex !== null ? "Edit Action" : "Add New Action"}
+                  {editId !== null ? "Edit Action" : "Add New Action"}
                 </DrawerTitle>
               </DrawerHeader>
 
@@ -237,7 +275,7 @@ export function ActionsField({ control }: ActionsFieldProps) {
                 </Select>
 
                 <Button onClick={handleActionSubmit} className="w-full mb-4">
-                  {editIndex !== null ? "Update Action" : "Add Action"}
+                  {editId !== null ? "Update Action" : "Add Action"}
                 </Button>
               </div>
             </DrawerContent>

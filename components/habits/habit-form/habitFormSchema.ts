@@ -1,6 +1,7 @@
 import * as z from "zod";
 
 export const habitFormSchema = z.object({
+  id: z.string().optional(),
   name: z
     .string()
     .min(3, "Habit name must contain at least 3 characters")
@@ -11,6 +12,7 @@ export const habitFormSchema = z.object({
   actions: z
     .array(
       z.object({
+        id: z.string().optional(),
         action: z.string(),
         type: z.enum(["offensive", "defensive"]),
         metric: z.enum(["count", "time"]),
