@@ -21,6 +21,8 @@ export function NewJournalEntry() {
   } = useYesterdayJournalEntry();
   const { todayEntry, todayEntryLoading } = useTodayJournalEntry();
 
+  console.log("==================IN_COMPONENT, habitXp", habitXp);
+
   const date = new Date();
   const day = date.getDate();
   const dayOfWeek = date
@@ -74,6 +76,7 @@ export function NewJournalEntry() {
   const updateHabitXP = async (habits: { [key: string]: number }) => {
     try {
       const habitUpdates = Object.entries(habits);
+
       const response = await fetch(
         `/api/users/${session?.user.id}/habits/updateXp`,
         {

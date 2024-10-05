@@ -29,3 +29,15 @@ export const getRarityColor = (level: number): { bg: string; icon: string } => {
   if (level >= 10) return { bg: "bg-green-200", icon: "text-green-500" }; // Uncommon
   return { bg: "bg-gray-200", icon: "text-gray-500" }; // Common
 };
+
+export const calculateHabitXpSumsFromActions = (
+  actions: Record<string, Record<string, number>>
+) => {
+  return Object.entries(actions).reduce((acc, [habitId, habitActions]) => {
+    acc[habitId] = Object.values(habitActions).reduce(
+      (sum, value) => sum + value,
+      0
+    );
+    return acc;
+  }, {} as Record<string, number>);
+};

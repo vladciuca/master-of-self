@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { getToday, getYesterday } from "@lib/time";
+import { calculateHabitXpSumsFromActions } from "@lib/level";
 import { Session, JournalEntry } from "@app/types/types";
 
 type HabitXp = { [key: string]: number };
@@ -17,6 +18,8 @@ export function useYesterdayJournalEntry() {
   const [bonusWillpower, setBonusWillpower] = useState<number>(0);
   const [habitXp, setHabitXp] = useState<HabitXp>({});
   const { data: session } = useSession() as { data: Session | null };
+
+  console.log("==================IN_HOOK, habitXp", habitXp);
 
   useEffect(() => {
     const getYesterdayEntry = async () => {
@@ -46,7 +49,7 @@ export function useYesterdayJournalEntry() {
         // Handle the case where entry or nightEntry might be null
         const nightEntry = entry?.nightEntry || {
           dailyHighlights: [],
-          habits: {},
+          actions: {},
         };
 
         if (
@@ -64,11 +67,18 @@ export function useYesterdayJournalEntry() {
         }
 
         if (
-          nightEntry.habits &&
-          typeof nightEntry.habits === "object" &&
-          Object.keys(nightEntry.habits).length > 0
+          nightEntry.actions &&
+          typeof nightEntry.actions === "object" &&
+          Object.keys(nightEntry.actions).length > 0
         ) {
-          setHabitXp(nightEntry.habits);
+          const habitXpFromActions = calculateHabitXpSumsFromActions(
+            nightEntry.actions
+          );
+          console.log(
+            "===================habitXpFromActions",
+            habitXpFromActions
+          );
+          setHabitXp(habitXpFromActions);
         } else {
           setHabitXp({});
         }

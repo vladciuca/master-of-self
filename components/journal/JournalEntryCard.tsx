@@ -12,6 +12,7 @@ import {
 import { FaBoltLightning, FaSun, FaMoon, FaStar } from "react-icons/fa6";
 import { Shell, Clock, Hash } from "lucide-react";
 import { GiPrayer, GiBackup } from "react-icons/gi";
+import { calculateHabitXpSumsFromActions } from "@lib/level";
 import { Session, JournalEntryMetadata } from "@app/types/types";
 
 type JournalEntryCardProps = {
@@ -19,17 +20,17 @@ type JournalEntryCardProps = {
   // handleDelete: (journalEntry: JournalEntryMetadata) => Promise<void>;
 };
 
-const calculateHabitActionSums = (
-  actions: Record<string, Record<string, number>>
-) => {
-  return Object.entries(actions).reduce((acc, [habitId, habitActions]) => {
-    acc[habitId] = Object.values(habitActions).reduce(
-      (sum, value) => sum + value,
-      0
-    );
-    return acc;
-  }, {} as Record<string, number>);
-};
+// const calculateHabitActionXpSums = (
+//   actions: Record<string, Record<string, number>>
+// ) => {
+//   return Object.entries(actions).reduce((acc, [habitId, habitActions]) => {
+//     acc[habitId] = Object.values(habitActions).reduce(
+//       (sum, value) => sum + value,
+//       0
+//     );
+//     return acc;
+//   }, {} as Record<string, number>);
+// };
 
 export function JournalEntryCard({
   journalEntry,
@@ -58,7 +59,7 @@ JournalEntryCardProps) {
 
   // Calculate habit action sums
   const habitActionSums = nightEntry?.actions
-    ? calculateHabitActionSums(nightEntry.actions)
+    ? calculateHabitXpSumsFromActions(nightEntry.actions)
     : {};
 
   return (
@@ -99,7 +100,7 @@ JournalEntryCardProps) {
                 <span className="ml-1 text-green-500 font-semibold">
                   +{bonusWillpower}
                 </span>
-                <span className="text-primary text-sm">
+                <span className="text-primary text-xs">
                   <FaBoltLightning className="ml-1" />
                 </span>
               </div>
