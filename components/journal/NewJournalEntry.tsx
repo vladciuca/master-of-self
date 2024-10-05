@@ -17,11 +17,9 @@ export function NewJournalEntry() {
   const {
     yesterdayEntryLoading,
     bonusWillpower = 0,
-    habitXp = {},
+    habitsXp = {},
   } = useYesterdayJournalEntry();
   const { todayEntry, todayEntryLoading } = useTodayJournalEntry();
-
-  console.log("==================IN_COMPONENT, habitXp", habitXp);
 
   const date = new Date();
   const day = date.getDate();
@@ -55,8 +53,8 @@ export function NewJournalEntry() {
       if (createNewEntryResponse.ok) {
         const newEntry = await createNewEntryResponse.json();
 
-        if (Object.keys(habitXp).length > 0) {
-          await updateHabitXP(habitXp);
+        if (Object.keys(habitsXp).length > 0) {
+          await updateHabitXP(habitsXp);
         }
 
         if (newEntry?._id) {
@@ -139,10 +137,10 @@ export function NewJournalEntry() {
               "Generate Willpower to channel into your goals through your habits!"
             }
           </div>
-          {Object.keys(habitXp).length > 0 && (
+          {Object.keys(habitsXp).length > 0 && (
             <div className="w-full text-muted-foreground my-4">
               {"Claim XP for yesterday's habits:"}
-              <JournalEntryHabits habits={habitXp} />
+              <JournalEntryHabits habitsXp={habitsXp} />
             </div>
           )}
         </div>

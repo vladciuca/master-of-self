@@ -30,7 +30,7 @@ export const getRarityColor = (level: number): { bg: string; icon: string } => {
   return { bg: "bg-gray-200", icon: "text-gray-500" }; // Common
 };
 
-export const calculateHabitXpSumsFromActions = (
+export const calculateHabitsXpSumsFromActions = (
   actions: Record<string, Record<string, number>>
 ) => {
   return Object.entries(actions).reduce((acc, [habitId, habitActions]) => {

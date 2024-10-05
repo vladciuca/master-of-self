@@ -12,25 +12,13 @@ import {
 import { FaBoltLightning, FaSun, FaMoon, FaStar } from "react-icons/fa6";
 import { Shell, Clock, Hash } from "lucide-react";
 import { GiPrayer, GiBackup } from "react-icons/gi";
-import { calculateHabitXpSumsFromActions } from "@lib/level";
+import { calculateHabitsXpSumsFromActions } from "@lib/level";
 import { Session, JournalEntryMetadata } from "@app/types/types";
 
 type JournalEntryCardProps = {
   journalEntry: JournalEntryMetadata;
   // handleDelete: (journalEntry: JournalEntryMetadata) => Promise<void>;
 };
-
-// const calculateHabitActionXpSums = (
-//   actions: Record<string, Record<string, number>>
-// ) => {
-//   return Object.entries(actions).reduce((acc, [habitId, habitActions]) => {
-//     acc[habitId] = Object.values(habitActions).reduce(
-//       (sum, value) => sum + value,
-//       0
-//     );
-//     return acc;
-//   }, {} as Record<string, number>);
-// };
 
 export function JournalEntryCard({
   journalEntry,
@@ -57,9 +45,8 @@ JournalEntryCardProps) {
     .toLocaleString("default", { weekday: "short" })
     .toUpperCase();
 
-  // Calculate habit action sums
-  const habitActionSums = nightEntry?.actions
-    ? calculateHabitXpSumsFromActions(nightEntry.actions)
+  const habitsXpFromActions = nightEntry?.actions
+    ? calculateHabitsXpSumsFromActions(nightEntry.actions)
     : {};
 
   return (
@@ -142,7 +129,7 @@ JournalEntryCardProps) {
                 </div>
                 <div className="flex-grow flex flex-wrap items-start">
                   {/* <JournalEntryActions actions={nightEntry?.actions} /> */}
-                  <JournalEntryHabits habits={habitActionSums} />
+                  <JournalEntryHabits habitsXp={habitsXpFromActions} />
                 </div>
               </div>
             )}

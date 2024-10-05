@@ -2,15 +2,14 @@
 
 import { IconRenderer } from "@components/IconRenderer";
 import { Skeleton } from "@components/ui/skeleton";
-import { FaBoltLightning } from "react-icons/fa6";
 import { useHabitsIcons } from "@hooks/useHabitsIcons";
 
 type JournalEntryHabitsProp = {
-  habits: { [key: string]: number };
+  habitsXp: { [key: string]: number };
 };
 
-export function JournalEntryHabits({ habits }: JournalEntryHabitsProp) {
-  const { journalHabits, habitData } = useHabitsIcons(habits);
+export function JournalEntryHabits({ habitsXp }: JournalEntryHabitsProp) {
+  const { journalHabits, habitData } = useHabitsIcons(habitsXp);
 
   return (
     <div className="flex items-center flex-wrap">
