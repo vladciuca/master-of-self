@@ -8,8 +8,6 @@ export async function PATCH(req: NextRequest) {
   try {
     const { updatedHabits, error } = await updateHabitsXp(habitUpdates);
 
-    console.log("===============IN_HANDLE updatedHabits", updatedHabits);
-
     if (error) {
       return NextResponse.json({ error }, { status: 500 });
     }
