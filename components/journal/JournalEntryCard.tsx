@@ -99,7 +99,7 @@ JournalEntryCardProps) {
                 <span className="ml-1 text-green-500 font-semibold">
                   +{bonusWillpower}
                 </span>
-                <span className="text-primary">
+                <span className="text-primary text-sm">
                   <FaBoltLightning className="ml-1" />
                 </span>
               </div>
