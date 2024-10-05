@@ -9,12 +9,14 @@ import { getToday, getTomorrow } from "@lib/time";
 import { useYesterdayJournalEntry } from "@hooks/useYesterdayJournalEntry";
 import { useTodayJournalEntry } from "@hooks/useTodayJournalEntry";
 import { Session } from "@app/types/types";
+import { HabitActionUpdate } from "@app/types/mongodb";
 
 export function NewJournalEntry() {
   const [submitting, setSubmitting] = useState<boolean>(false);
   const { data: session } = useSession() as { data: Session | null };
   const router = useRouter();
   const {
+    yesterdayEntry,
     yesterdayEntryLoading,
     bonusWillpower = 0,
     habitsXp = {},
@@ -53,8 +55,16 @@ export function NewJournalEntry() {
       if (createNewEntryResponse.ok) {
         const newEntry = await createNewEntryResponse.json();
 
+        //UPDATE HABIT XP
         if (Object.keys(habitsXp).length > 0) {
           await updateHabitXP(habitsXp);
+        }
+
+        //UPDATE ACTION VALUES
+        const nightEntryActions = yesterdayEntry?.nightEntry?.actions;
+
+        if (nightEntryActions && Object.keys(nightEntryActions).length > 0) {
+          await updateHabitActions(nightEntryActions);
         }
 
         if (newEntry?._id) {
@@ -91,6 +101,31 @@ export function NewJournalEntry() {
       }
     } catch (error) {
       console.error("Error updating habits:", error);
+    }
+  };
+
+  const updateHabitActions = async (habitActionUpdates: HabitActionUpdate) => {
+    try {
+      const response = await fetch(
+        `/api/users/${session?.user.id}/habits/updateActions`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(habitActionUpdates),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to update habit actions");
+      }
+
+      const data = await response.json();
+      return data.habits;
+    } catch (error) {
+      console.error("Error updating habit actions:", error);
+      throw error;
     }
   };
 

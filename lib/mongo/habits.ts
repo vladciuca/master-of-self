@@ -5,6 +5,7 @@ import {
   Action,
   NewHabit,
   HabitUpdate,
+  HabitActionUpdate,
   XpData,
 } from "@/app/types/mongodb";
 
@@ -216,7 +217,7 @@ export async function updateHabitsXp(
       .find({ _id: { $in: updatedHabitsIds } })
       .toArray();
 
-    console.log("===============IN_DB_OPERATIONS updatedHabits", updatedHabits);
+    // console.log("===============IN_DB_OPERATIONS updatedHabits", updatedHabits);
 
     return { updatedHabits };
 
@@ -240,5 +241,54 @@ export async function updateHabitsXp(
   } catch (error) {
     console.error("Failed to update habits XP", error); // test
     return { updatedHabits: [], error: "Failed to update habits XP" };
+  }
+}
+
+// UPDATE HABIT ACTION VALUES ===================================================================
+export async function updateHabitsActions(
+  habitActionUpdates: HabitActionUpdate
+): Promise<{ updatedHabits: Habit[]; error?: string }> {
+  try {
+    if (!habits) await init();
+
+    const bulkOps = Object.entries(habitActionUpdates).flatMap(
+      ([habitId, actionUpdates]) =>
+        Object.entries(actionUpdates).map(([actionId, value]) => ({
+          updateOne: {
+            filter: {
+              _id: new ObjectId(habitId),
+              "actions.id": actionId,
+            },
+            update: {
+              $inc: { "actions.$.value": value },
+            },
+          },
+        }))
+    );
+
+    const result = await habits.bulkWrite(bulkOps);
+
+    const totalActionsToUpdate = Object.values(habitActionUpdates).reduce(
+      (acc, actions) => acc + Object.keys(actions).length,
+      0
+    );
+
+    if (result.modifiedCount !== totalActionsToUpdate) {
+      console.warn(
+        `Expected to update ${totalActionsToUpdate} actions, but only ${result.modifiedCount} were modified.`
+      );
+    }
+
+    const updatedHabitsIds = Object.keys(habitActionUpdates).map(
+      (id) => new ObjectId(id)
+    );
+    const updatedHabits = await habits
+      .find({ _id: { $in: updatedHabitsIds } })
+      .toArray();
+
+    return { updatedHabits };
+  } catch (error) {
+    console.error("Failed to update habits actions", error);
+    return { updatedHabits: [], error: "Failed to update habits actions" };
   }
 }
