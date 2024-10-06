@@ -20,7 +20,7 @@ export function DescriptionField({ control }: DescriptionFieldProps) {
       name="description"
       render={({ field }) => (
         <FormItem>
-          <FormLabel>Mastery description</FormLabel>
+          <FormLabel>Habit description</FormLabel>
           <FormControl>
             <Textarea
               className="text-base"

@@ -25,7 +25,7 @@ export function IconPickerField({ control }: IconPickerFieldProps) {
       name="icon"
       render={({ field }) => (
         <FormItem>
-          <FormLabel>Mastery Icon</FormLabel>
+          <FormLabel>Habit Icon</FormLabel>
           <FormControl>
             <IconPicker
               value={field.value}
