@@ -20,13 +20,19 @@ export function HabitCardFooter({
   }
 
   return (
-    <div className="mt-12">
-      <Button onClick={() => handleEdit(habit)} className="mr-3" size="sm">
-        Update
+    <div className="mt-12 flex justify-between">
+      <Button
+        variant="secondary"
+        onClick={() => handleEdit(habit)}
+        className="mr-3"
+        size="sm"
+      >
+        Edit
       </Button>
       {/* <Button variant="ghost" onClick={() => handleDelete(habit)} size="sm">
         Delete(TEST)
       </Button> */}
+      <Button size="sm">Take Action!</Button>
     </div>
   );
 }

@@ -53,7 +53,7 @@ export function HabitForm({
         className="flex flex-col space-y-8 h-full justify-between"
       >
         <h1 className="scroll-m-20 text-4xl font-bold tracking-tight mb-4">
-          {type} Habit
+          {type} Mastery
         </h1>
         <IconPickerField control={form.control} />
         <NameField control={form.control} />
@@ -62,7 +62,7 @@ export function HabitForm({
 
         <div className="flex flex-col justify-center items-center flex-grow">
           <Button type="submit" disabled={submitting} className="w-1/2 mt-3">
-            {type} Habit
+            {type} Mastery
           </Button>
           <Link href="/habits" className="w-full flex justify-center my-8">
             <Button variant="secondary" className="w-1/2">

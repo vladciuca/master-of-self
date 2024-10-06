@@ -10,14 +10,14 @@ import { Habit } from "@app/types/types";
 
 const NEW_HABIT_CARD_DETAILS = {
   symbol: <Shell className="mr-2" size={"2rem"} />,
-  title: "Habits",
+  title: "Masteries",
   description: (
     <>
       These represent <span className="text-foreground">actions</span> that you
       can take daily to progress on your goals.
     </>
   ),
-  buttonText: "Create New Habit",
+  buttonText: "Create New Mastery",
   linkTo: "/create-habit",
 };
 

@@ -31,7 +31,7 @@ export function BottomNav() {
           className="flex flex-col items-center hover: rounded-full h-16 px-10"
         >
           <Shell size={"2.4rem"} />
-          <div className="text-xs mt-1">Habits</div>
+          <div className="text-xs mt-1">Masteries</div>
         </Button>
       </Link>
     </nav>

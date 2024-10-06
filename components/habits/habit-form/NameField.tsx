@@ -20,7 +20,7 @@ export function NameField({ control }: NameFieldProps) {
       name="name"
       render={({ field }) => (
         <FormItem>
-          <FormLabel>Habit name</FormLabel>
+          <FormLabel>Mastery name</FormLabel>
           <FormControl>
             <Input
               className="text-base"

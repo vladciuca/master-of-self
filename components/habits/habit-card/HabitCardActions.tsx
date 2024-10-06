@@ -40,7 +40,10 @@ export function HabitCardActions({ actions }: HabitCardActionsProps) {
             <Badge variant="secondary" className="capitalize">
               {action.type}
             </Badge>
-            <span>+10 XP</span>
+            <span className="text-green-500">
+              +{action.value}
+              <span className="text-primary mx-1">XP</span>
+            </span>
           </div>
         </div>
       ))}
