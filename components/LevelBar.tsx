@@ -40,8 +40,8 @@ export function LevelBar() {
 
   return (
     <div className="w-full max-w-md mx-auto">
-      <div className="flex items-baseline justify-between text-primary text-xl mr-1 font-bold tracking-wide mx-1">
-        <div className="text-sm tracking-normal">
+      <div className="flex items-baseline justify-between text-primary text-xl mr-1 font-bold mx-1">
+        <div className="text-sm">
           Level
           <span className="text-primary text-xl ml-1 font-bold">
             {currentWillpowerLoading ? "??" : level}
