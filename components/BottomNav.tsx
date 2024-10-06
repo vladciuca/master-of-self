@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Button } from "@components/ui/button";
-import { Target, Shell } from "lucide-react";
+import { Target, Shell, Atom } from "lucide-react";
 import { GiSpellBook } from "react-icons/gi";
 
 export function BottomNav() {
@@ -11,8 +11,8 @@ export function BottomNav() {
           variant="ghost"
           className="flex flex-col items-center hover: rounded-full h-16 px-10"
         >
-          <Target size={"2.4rem"} />
-          <div className="text-xs mt-1">Goals</div>
+          <Target size={"2rem"} />
+          {/* <div className="text-xs mt-1">Achievements</div> */}
         </Button>
       </Link>
 
@@ -30,8 +30,18 @@ export function BottomNav() {
           variant="ghost"
           className="flex flex-col items-center hover: rounded-full h-16 px-10"
         >
-          <Shell size={"2.4rem"} />
-          <div className="text-xs mt-1">Habits</div>
+          <Atom size={"2rem"} />
+          {/* <div className="text-xs mt-1">Habits</div> */}
+        </Button>
+      </Link>
+
+      <Link href="/masteries">
+        <Button
+          variant="ghost"
+          className="flex flex-col items-center hover: rounded-full h-16 px-10"
+        >
+          <Shell size={"2rem"} />
+          {/* <div className="text-xs mt-1">Masteries</div> */}
         </Button>
       </Link>
     </nav>

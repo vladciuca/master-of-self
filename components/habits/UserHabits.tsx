@@ -9,7 +9,7 @@ import { useUserHabits } from "@hooks/useUserHabits";
 import { Habit } from "@app/types/types";
 
 const NEW_HABIT_CARD_DETAILS = {
-  symbol: <Shell className="mr-2" size={"2rem"} />,
+  symbol: <Shell size={"2.4rem"} />,
   title: "Habits",
   description: (
     <>
