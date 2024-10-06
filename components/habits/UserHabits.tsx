@@ -1,15 +1,15 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { NewEntry } from "@components/NewEntry";
+import { SectionHeader } from "@components/SectionHeader";
 import { HabitList } from "@components/habits/HabitList";
 import { SkeletonHabitCard } from "@components/skeletons/SkeletonHabitCard";
-import { Shell } from "lucide-react";
+import { Atom, Shell } from "lucide-react";
 import { useUserHabits } from "@hooks/useUserHabits";
 import { Habit } from "@app/types/types";
 
 const NEW_HABIT_CARD_DETAILS = {
-  symbol: <Shell size={"2.4rem"} />,
+  symbol: <Atom size={"2.6rem"} />,
   title: "Habits",
   description: (
     <>
@@ -29,7 +29,7 @@ export function UserHabits() {
   const { habits, habitsLoading, habitsError } = useUserHabits();
   const router = useRouter();
 
-  const numberOfEntries = habitsLoading ? "??" : habits.length;
+  const numberOfEntries = habitsLoading ? "?" : habits.length;
 
   const handleEdit = (habit: Habit) => {
     router.push(`/update-habit/${habit._id}`);
@@ -51,14 +51,15 @@ export function UserHabits() {
 
   return (
     <div className="w-full">
-      <NewEntry
+      <SectionHeader
         symbol={NEW_HABIT_CARD_DETAILS.symbol}
         title={NEW_HABIT_CARD_DETAILS.title}
-        description={NEW_HABIT_CARD_DETAILS.description}
-        buttonText={NEW_HABIT_CARD_DETAILS.buttonText}
+        // description={NEW_HABIT_CARD_DETAILS.description}
+        // buttonText={NEW_HABIT_CARD_DETAILS.buttonText}
         linkTo={NEW_HABIT_CARD_DETAILS.linkTo}
         numberOfEntries={numberOfEntries}
       />
+
       {habitsLoading && skeletonCards}
       {!habitsLoading && !habitsError && (
         <HabitList

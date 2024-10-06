@@ -9,7 +9,7 @@ export default function FullLayout({ children }: Layout) {
       <div className="fixed top-0 w-full h-20">
         <Header />
       </div>
-      <div className="my-20 p-4 h-full w-full overflow-scroll border rounded-3xl">
+      <div className="my-20 px-4 h-full w-full overflow-scroll border rounded-3xl">
         <SectionContent children={children} />
       </div>
       <div className="fixed bottom-0 w-full h-20">
