@@ -41,7 +41,7 @@ export function HabitCardHeader({ habit }: HabitCardHeaderProps) {
             style={{ pointerEvents: "none" }}
           >
             <div
-              className="flex flex-col items-center justify-center text-xs"
+              className="flex flex-col items-center justify-center text-xs text-muted-foreground"
               style={{ pointerEvents: "none" }}
             >
               <div>{xpForCurrentLevel}</div>

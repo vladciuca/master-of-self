@@ -80,9 +80,9 @@ export function HabitActions({
             {name}
           </h4>
           <div className="text-sm text-muted-foreground flex items-center">
-            Level {level}
+            <span className="font-semibold">Level {level}</span>
             <span className="mx-2 text-primary font-extralight text-xl">|</span>
-            {xpForCurrentLevel}/{xpToLevelUp}
+            {xpForCurrentLevel} / {xpToLevelUp}
           </div>
           <div>
             <span className="text-2xl text-green-500 font-bold">
