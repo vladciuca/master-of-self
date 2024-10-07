@@ -121,7 +121,7 @@ export function HabitActions({
               />
               <DrawerTitle className="mt-4">{name} Actions</DrawerTitle>
             </DrawerHeader>
-            <ScrollArea className="h-[60vh] p-4">
+            <ScrollArea className="h-[40vh] p-4">
               {habit.actions.map((action) => (
                 <HabitAction
                   key={action.id}
