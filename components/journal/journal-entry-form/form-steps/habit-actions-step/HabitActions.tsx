@@ -80,16 +80,22 @@ export function HabitActions({
             {name}
           </h4>
           <div className="text-sm text-muted-foreground flex items-center">
-            <span className="font-semibold">Level {level}</span>
+            <span className="font-semibold">
+              Level<span className="text-primary ml-1">{level}</span>
+            </span>
             <span className="mx-2 text-primary font-extralight text-xl">|</span>
             {xpForCurrentLevel} / {xpToLevelUp}
           </div>
-          <div>
-            <span className="text-2xl text-green-500 font-bold">
-              +{projectedHabitXp}
-            </span>
-            <span className="text-primary ml-1">XP</span>
-          </div>
+          {projectedHabitXp > 0 ? (
+            <div>
+              <span className="text-2xl text-green-500 font-bold">
+                +{projectedHabitXp}
+              </span>
+              <span className="text-primary ml-1">XP</span>
+            </div>
+          ) : (
+            <></>
+          )}
         </div>
       </div>
       <div className="flex items-center">
@@ -122,12 +128,15 @@ export function HabitActions({
                 />
               </div>
               <div className="flex items-center justify-center text-xl">
-                <span className="text-green-500 font-bold mr-1">
-                  +{projectedHabitXp}
-                </span>
+                {projectedHabitXp > 0 ? (
+                  <span className="text-green-500 font-bold mr-1">
+                    +{projectedHabitXp}
+                  </span>
+                ) : (
+                  <span className="font-bold mr-1">{projectedHabitXp}</span>
+                )}
                 XP
               </div>
-
               <DrawerTitle className="text-center">{name} Actions</DrawerTitle>
             </DrawerHeader>
             <ScrollArea className="h-[50vh] p-4">
