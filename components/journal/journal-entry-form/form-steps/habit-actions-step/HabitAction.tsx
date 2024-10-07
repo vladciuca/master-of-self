@@ -57,7 +57,7 @@ export function HabitAction({
             value={[value]}
             max={10}
             step={1}
-            disabled={value > 0}
+            disabled={value > 10}
             onValueChange={(newValue) => handleActionChange(newValue[0])}
             className="w-full"
           />
