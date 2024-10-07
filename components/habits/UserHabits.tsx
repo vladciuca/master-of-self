@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { SectionHeader } from "@components/SectionHeader";
+import { PageHeader } from "@components/PageHeader";
 import { HabitList } from "@components/habits/HabitList";
 import { SkeletonHabitCard } from "@components/skeletons/SkeletonHabitCard";
 import { Atom, Shell } from "lucide-react";
@@ -9,7 +9,7 @@ import { useUserHabits } from "@hooks/useUserHabits";
 import { Habit } from "@app/types/types";
 
 const NEW_HABIT_CARD_DETAILS = {
-  symbol: <Atom size={"2.6rem"} />,
+  symbol: <Atom size={"2rem"} />,
   title: "Habits",
   description: (
     <>
@@ -51,7 +51,7 @@ export function UserHabits() {
 
   return (
     <div className="w-full">
-      <SectionHeader
+      <PageHeader
         symbol={NEW_HABIT_CARD_DETAILS.symbol}
         title={NEW_HABIT_CARD_DETAILS.title}
         // description={NEW_HABIT_CARD_DETAILS.description}

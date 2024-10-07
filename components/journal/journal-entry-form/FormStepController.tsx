@@ -6,8 +6,8 @@ import { GreatToday } from "@components/journal/journal-entry-form/form-steps/Gr
 import { GratefulFor } from "@components/journal/journal-entry-form/form-steps/GratefulFor";
 import { DailyHighlights } from "@components/journal/journal-entry-form/form-steps/DailyHighlights";
 import { LearnedToday } from "@components/journal/journal-entry-form/form-steps/LearnedToday";
-import { HabitsStep } from "@components/journal/journal-entry-form/form-steps/HabitsStep";
-import { HabitActions } from "@components/journal/journal-entry-form/form-steps/HabitActions";
+// import { HabitsStep } from "@components/journal/journal-entry-form/form-steps/HabitsStep";
+import { HabitActionsStep } from "@components/journal/journal-entry-form/form-steps/habit-actions-step/HabitActionsStep";
 import { isEvening } from "@lib/time";
 import { JournalEntry } from "@app/types/types";
 
@@ -196,7 +196,7 @@ function FormStepController({
     {
       type: "habits",
       component: (
-        <HabitActions
+        <HabitActionsStep
           onChange={(value) => handleChange("actions", value)}
           actionChanges={formData.nightEntry?.actions || {}}
         />

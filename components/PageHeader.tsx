@@ -2,24 +2,24 @@ import Link from "next/link";
 import { Button } from "@components/ui/button";
 import { Plus } from "lucide-react";
 
-type SectionHeaderProps = {
+type PageHeaderProps = {
   symbol: JSX.Element;
   title: string;
   linkTo: string;
   numberOfEntries: number | string;
 };
 
-export function SectionHeader({
+export function PageHeader({
   symbol,
   title,
   linkTo,
   numberOfEntries,
-}: SectionHeaderProps) {
+}: PageHeaderProps) {
   return (
     <div className="sticky top-0 z-10 bg-background px-2 py-4">
       <div className="flex items-center justify-between">
         <div className="flex items-center">
-          <h1 className="scroll-m-20 text-4xl font-semibold tracking-tight flex items-center">
+          <h1 className="scroll-m-20 text-3xl font-semibold tracking-tight flex items-center">
             {title}
           </h1>
           <Link href={`${linkTo}`}>
@@ -33,8 +33,8 @@ export function SectionHeader({
             </Button>
           </Link>
         </div>
-        <div className="text-5xl flex items-center font-bold mr-2">
-          <span className="mr-2">{symbol}</span>
+        <div className="text-4xl flex items-center font-bold">
+          <span className="mr-1">{symbol}</span>
           {numberOfEntries}
         </div>
       </div>

@@ -29,7 +29,7 @@ export type NewJournalEntry = Omit<JournalEntry, "_id">; // Lets mongo db assign
 
 // HABITS =============================================================================
 
-export type Action = {
+export type HabitAction = {
   id: string;
   action: string;
   metric: "count" | "time";
@@ -45,7 +45,7 @@ export type Habit = {
   xp: number;
   xpData: XpData[];
   creatorId: ObjectId;
-  actions: Action[];
+  actions: HabitAction[];
 };
 
 export type NewHabit = Omit<Habit, "_id">; // Lets mongo db assign the _id

@@ -22,7 +22,7 @@ export function IconRenderer({
   }
 
   const combinedClassName =
-    `${className} ${iconColorClass} ${bgColorClass} rounded-md`.trim();
+    `rounded-md ${bgColorClass} ${iconColorClass} ${className}`.trim();
 
   return <Icon className={combinedClassName} />;
 }

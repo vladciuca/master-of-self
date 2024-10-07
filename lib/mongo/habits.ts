@@ -2,7 +2,7 @@ import { MongoClient, Db, Collection, ObjectId } from "mongodb";
 import clientPromise from "./mongodb";
 import {
   Habit,
-  Action,
+  HabitAction,
   NewHabit,
   HabitUpdate,
   HabitActionUpdate,
@@ -34,7 +34,7 @@ export async function createHabit(
   name: string,
   icon: string,
   description: string,
-  actions: Action[]
+  actions: HabitAction[]
 ): Promise<{ newHabit: Habit | null; error?: string }> {
   try {
     if (!habits) await init();
@@ -67,7 +67,7 @@ export async function updateHabit(
   name: string,
   icon: string,
   description: string,
-  actions: Action[]
+  actions: HabitAction[]
 ): Promise<{
   habit: Habit | null;
   error?: string;

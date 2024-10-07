@@ -36,7 +36,7 @@ import {
 } from "lucide-react";
 import { Control, useFieldArray, useWatch } from "react-hook-form";
 import { HabitZodType } from "@components/habits/habit-form/habitFormSchema";
-import { Action } from "@app/types/types";
+import { HabitAction } from "@app/types/types";
 
 type ActionsFieldProps = {
   control: Control<HabitZodType>;
@@ -49,7 +49,9 @@ const initialActionForm = {
 };
 
 export function ActionsField({ control }: ActionsFieldProps) {
-  const [actionForm, setActionForm] = useState<Omit<Action, "id" | "value">>({
+  const [actionForm, setActionForm] = useState<
+    Omit<HabitAction, "id" | "value">
+  >({
     action: "",
     metric: "count",
     type: "offensive",
@@ -66,7 +68,7 @@ export function ActionsField({ control }: ActionsFieldProps) {
     control,
     name: "actions",
     defaultValue: [],
-  }) as Action[];
+  }) as HabitAction[];
 
   const handleActionSubmit = () => {
     if (actionForm.action !== "") {
@@ -130,7 +132,7 @@ export function ActionsField({ control }: ActionsFieldProps) {
           <FormLabel>Actions</FormLabel>
           <div className="flex flex-col gap-2">
             {fields.map((field, index) => {
-              const action = actions[index] as Action;
+              const action = actions[index] as HabitAction;
               if (!action) return null;
               return (
                 <div key={action.id} className="border p-4 rounded-md">
