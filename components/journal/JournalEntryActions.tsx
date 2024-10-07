@@ -5,7 +5,7 @@ import { ActionIcon } from "@components/habits/HabitActionFragments";
 import { Badge } from "@components/ui/badge";
 import { Hash, Clock } from "lucide-react";
 import { useUserHabits } from "@hooks/useUserHabits";
-import { Habit, Action } from "@app/types/types";
+import { Habit, HabitAction } from "@app/types/types";
 
 type JournalEntryActionsProp = {
   actions: { [key: string]: { [key: string]: number } };
@@ -36,7 +36,7 @@ export function JournalEntryActions({ actions }: JournalEntryActionsProp) {
               {Object.entries(habitActions).map(([actionId, value]) => {
                 const habit = habits.find((h: Habit) => h._id === habitId);
                 const action = habit?.actions.find(
-                  (a: Action) => a.id === actionId
+                  (a: HabitAction) => a.id === actionId
                 );
 
                 if (!action) return null;

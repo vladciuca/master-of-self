@@ -1,10 +1,10 @@
 import { ActionIcon } from "@components/habits/HabitActionFragments";
 import { Badge } from "@/components/ui/badge";
 import { Hash, Clock } from "lucide-react";
-import { Action } from "@app/types/types";
+import { HabitAction } from "@app/types/types";
 
 type HabitCardActionsProps = {
-  actions: Action[];
+  actions: HabitAction[];
 };
 
 export function HabitCardActions({ actions }: HabitCardActionsProps) {

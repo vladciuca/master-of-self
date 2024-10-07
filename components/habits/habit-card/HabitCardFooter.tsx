@@ -95,9 +95,9 @@ export function HabitCardFooter({
         >
           Edit
         </Button>
-        {/* <Button size="sm" onClick={() => setIsActionDrawerOpen(true)}>
+        <Button size="sm" onClick={() => setIsActionDrawerOpen(true)}>
           Take Action!
-        </Button> */}
+        </Button>
       </div>
       <ActionUpdates
         isOpen={isActionDrawerOpen}

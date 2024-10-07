@@ -124,7 +124,7 @@ JournalEntryCardProps) {
                       className="mr-2 text-muted-foreground"
                       size={"1rem"}
                     />
-                    Masteries:
+                    Habits:
                   </h2>
                 </div>
                 <div className="flex-grow flex flex-wrap items-start">
