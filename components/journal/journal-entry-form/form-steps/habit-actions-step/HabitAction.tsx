@@ -31,7 +31,7 @@ export function HabitAction({
         <div className="w-full flex items-center justify-between pb-2 mb-2 border-b">
           <div className="flex items-center">
             <span className="flex items-center">
-              <ActionIcon type={action.type} />
+              <ActionIcon type={action.type} size={28} />
               {/* <Badge variant="secondary" className="mr-2">
                 {action.type === "offensive" ? "I will" : "I won't"}
               </Badge> */}

@@ -121,8 +121,8 @@ export function HabitActions({
                   xpGainProgressPercentage={xpGainProgressPercentage}
                 />
               </div>
-              <div>
-                <span className="text-2xl text-green-500 font-bold">
+              <div className="flex items-center justify-center text-xl">
+                <span className="text-green-500 font-bold mr-1">
                   +{projectedHabitXp}
                 </span>
                 XP
@@ -142,7 +142,7 @@ export function HabitActions({
             </ScrollArea>
             <DrawerFooter>
               <DrawerClose asChild>
-                <Button variant="outline">Close</Button>
+                <Button variant="default">Done</Button>
               </DrawerClose>
             </DrawerFooter>
           </DrawerContent>
