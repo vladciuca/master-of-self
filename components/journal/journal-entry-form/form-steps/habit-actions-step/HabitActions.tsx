@@ -121,10 +121,16 @@ export function HabitActions({
                   xpGainProgressPercentage={xpGainProgressPercentage}
                 />
               </div>
+              <div>
+                <span className="text-2xl text-green-500 font-bold">
+                  +{projectedHabitXp}
+                </span>
+                XP
+              </div>
 
-              <DrawerTitle className="mt-4">{name} Actions</DrawerTitle>
+              <DrawerTitle className="text-center">{name} Actions</DrawerTitle>
             </DrawerHeader>
-            <ScrollArea className="h-[40vh] p-4">
+            <ScrollArea className="h-[50vh] p-4">
               {habit.actions.map((action) => (
                 <HabitAction
                   key={action.id}
