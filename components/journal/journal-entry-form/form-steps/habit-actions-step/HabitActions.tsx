@@ -113,12 +113,15 @@ export function HabitActions({
           </DrawerTrigger>
           <DrawerContent className="max-w-md mx-auto left-0 right-0">
             <DrawerHeader>
-              <HabitProgressBar
-                icon={icon}
-                xp={xp}
-                currentProgressPercentage={currentProgressPercentage}
-                xpGainProgressPercentage={xpGainProgressPercentage}
-              />
+              <div>
+                <HabitProgressBar
+                  icon={icon}
+                  xp={xp}
+                  currentProgressPercentage={currentProgressPercentage}
+                  xpGainProgressPercentage={xpGainProgressPercentage}
+                />
+              </div>
+
               <DrawerTitle className="mt-4">{name} Actions</DrawerTitle>
             </DrawerHeader>
             <ScrollArea className="h-[40vh] p-4">
