@@ -5,12 +5,16 @@ import { Habit } from "@app/types/types";
 type HabitListProps = {
   habits: Habit[];
   handleEdit: (habit: Habit) => void;
+  getActionUpdateValues: (habitId: string) => any;
+  todayEntryLoading: boolean;
   // handleDelete: (habit: Habit) => Promise<void>;
 };
 
 export function HabitList({
   habits = [],
   handleEdit,
+  getActionUpdateValues,
+  todayEntryLoading,
 }: // handleDelete,
 HabitListProps) {
   return (
@@ -19,8 +23,10 @@ HabitListProps) {
         <HabitCard
           key={habit._id}
           habit={habit}
+          actionUpdateValues={getActionUpdateValues(habit._id)}
           handleEdit={handleEdit}
           // handleDelete={handleDelete}
+          todayEntryLoading={todayEntryLoading}
         />
       ))}
     </Accordion>

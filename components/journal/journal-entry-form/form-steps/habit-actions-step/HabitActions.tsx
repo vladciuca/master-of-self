@@ -1,6 +1,6 @@
 import { useState, useCallback } from "react";
-import { HabitProgressBar } from "./HabitProgressBar";
-import { HabitAction } from "./HabitAction";
+import { HabitIconProgressBar } from "@components/habits/habit-actions/HabitIconProgressBar";
+import { HabitAction } from "../../../../habits/habit-actions/HabitAction";
 import {
   Drawer,
   DrawerContent,
@@ -41,14 +41,14 @@ export function HabitActions({
   const xpGain = xp + projectedHabitXp;
   const level = calculateLevel(xpGain);
   const { baseXP, nextLevelXP } = xpForLevel(level);
-  const currentProgressPercentage = Math.min(
-    ((xp - baseXP) / (nextLevelXP - baseXP)) * 100,
-    100
-  );
-  const xpGainProgressPercentage = Math.min(
-    ((xpGain - baseXP) / (nextLevelXP - baseXP)) * 100,
-    100
-  );
+  // const currentProgressPercentage = Math.min(
+  //   ((xp - baseXP) / (nextLevelXP - baseXP)) * 100,
+  //   100
+  // );
+  // const xpGainProgressPercentage = Math.min(
+  //   ((xpGain - baseXP) / (nextLevelXP - baseXP)) * 100,
+  //   100
+  // );
   const xpForCurrentLevel = xpGain - baseXP;
   const xpToLevelUp = nextLevelXP - baseXP;
 
@@ -68,11 +68,10 @@ export function HabitActions({
     <div className="p-2 px-4 flex justify-between text-start w-full">
       <div className="flex flex-grow">
         <div className="flex items-center justify-center">
-          <HabitProgressBar
+          <HabitIconProgressBar
             icon={icon}
             xp={xp}
-            currentProgressPercentage={currentProgressPercentage}
-            xpGainProgressPercentage={xpGainProgressPercentage}
+            projectedXp={projectedHabitXp}
           />
         </div>
         <div className="px-4 flex flex-col justify-center">
@@ -84,7 +83,8 @@ export function HabitActions({
               Level<span className="text-primary ml-1">{level}</span>
             </span>
             <span className="mx-2 text-primary font-extralight text-xl">|</span>
-            {xpForCurrentLevel} / {xpToLevelUp}
+            {xpForCurrentLevel}/{xpToLevelUp}
+            <span className="text-primary ml-1">XP</span>
           </div>
           {projectedHabitXp > 0 ? (
             <div>
@@ -119,23 +119,13 @@ export function HabitActions({
           </DrawerTrigger>
           <DrawerContent className="max-w-md mx-auto left-0 right-0">
             <DrawerHeader>
-              <div>
-                <HabitProgressBar
+              <div className="flex justify-center mb-4">
+                <HabitIconProgressBar
                   icon={icon}
                   xp={xp}
-                  currentProgressPercentage={currentProgressPercentage}
-                  xpGainProgressPercentage={xpGainProgressPercentage}
+                  projectedXp={projectedHabitXp}
+                  displayXpValues
                 />
-              </div>
-              <div className="flex items-center justify-center text-xl">
-                {projectedHabitXp > 0 ? (
-                  <span className="text-green-500 font-bold mr-1">
-                    +{projectedHabitXp}
-                  </span>
-                ) : (
-                  <span className="font-bold mr-1">{projectedHabitXp}</span>
-                )}
-                XP
               </div>
               <DrawerTitle className="text-center">{name} Actions</DrawerTitle>
             </DrawerHeader>
