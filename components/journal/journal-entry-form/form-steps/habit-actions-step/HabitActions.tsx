@@ -15,6 +15,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 import { calculateLevel, xpForLevel } from "@lib/level";
+import { formatNumberSuffixes } from "@lib/utils";
 import { Habit } from "@app/types/types";
 
 type HabitActionsProps = {
@@ -83,7 +84,8 @@ export function HabitActions({
               Level<span className="text-primary ml-1">{level}</span>
             </span>
             <span className="mx-2 text-primary font-extralight text-xl">|</span>
-            {xpForCurrentLevel}/{xpToLevelUp}
+            {formatNumberSuffixes(xpForCurrentLevel)}/
+            {formatNumberSuffixes(xpToLevelUp)}
             <span className="text-primary ml-1">XP</span>
           </div>
           {projectedHabitXp > 0 ? (
