@@ -6,14 +6,14 @@ import { calculateLevel, xpForLevel } from "@lib/level";
 interface HabitProgressBarProps {
   icon: string;
   xp: number;
-  projectedXp: number;
+  projectedXp?: number; //temp
   displayXpValues?: boolean;
 }
 
 export function HabitActionProgressBar({
   icon,
   xp,
-  projectedXp,
+  projectedXp = 0, //temp
   displayXpValues = false,
 }: HabitProgressBarProps) {
   // Calculate XP and level

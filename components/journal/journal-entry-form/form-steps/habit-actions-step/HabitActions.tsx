@@ -1,6 +1,6 @@
 import { useState, useCallback } from "react";
-import { HabitActionProgressBar } from "./HabitActionProgressBar";
-import { HabitAction } from "./HabitAction";
+import { HabitActionProgressBar } from "@components/habits/habit-actions/HabitActionProgressBar";
+import { HabitAction } from "../../../../habits/habit-actions/HabitAction";
 import {
   Drawer,
   DrawerContent,
