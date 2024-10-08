@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState, useCallback } from "react";
-import { HabitActionProgressBar } from "@components/habits/habit-actions/HabitActionProgressBar";
+import { HabitIconProgressBar } from "@components/habits/habit-actions/HabitIconProgressBar";
 import { HabitAction } from "@components/habits/habit-actions/HabitAction";
 import { Button } from "@/components/ui/button";
 import {
@@ -17,20 +17,20 @@ import { ScrollArea } from "@components/ui/scroll-area";
 import { useTodayJournalEntry } from "@hooks/useTodayJournalEntry";
 import { Habit } from "@app/types/types";
 
-type ActionUpdatesProps = {
+type HabitActionsUpdateModalProps = {
   isOpen: boolean;
   onOpenChange: (open: boolean) => void;
   habit: Habit;
   actionChanges?: { [key: string]: { [key: string]: number } }; //FORM FORM STEP!?
 };
 
-export function UpdateHabitActionsModal({
+export function HabitActionsUpdateModal({
   isOpen,
   onOpenChange,
   habit,
   actionChanges, //FORM FORM STEP!? to pass down to habit action,
 }: //this should be removed and handled in the submit of the component
-ActionUpdatesProps) {
+HabitActionsUpdateModalProps) {
   const { name, icon, xp, _id: habitId } = habit;
   // Initialize actionValues state
   const [actionValues, setActionValues] = useState<{ [key: string]: number }>(
@@ -75,8 +75,8 @@ ActionUpdatesProps) {
     <Drawer open={isOpen} onOpenChange={onOpenChange}>
       <DrawerContent className="max-w-md mx-auto left-0 right-0">
         <DrawerHeader>
-          <div className="flex justify-center mb-2">
-            <HabitActionProgressBar
+          <div className="flex justify-center mb-4">
+            <HabitIconProgressBar
               icon={icon}
               xp={xp}
               projectedXp={projectedHabitXp}

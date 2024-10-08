@@ -6,6 +6,7 @@ import { HabitList } from "@components/habits/HabitList";
 import { SkeletonHabitCard } from "@components/skeletons/SkeletonHabitCard";
 import { Shell } from "lucide-react";
 import { useUserHabits } from "@hooks/useUserHabits";
+import { useTodayJournalEntry } from "@hooks/useTodayJournalEntry";
 import { Habit } from "@app/types/types";
 
 const NEW_HABIT_CARD_DETAILS = {
@@ -27,6 +28,8 @@ const skeletonCards = Array.from({ length: 3 }, (_, index) => (
 
 export function UserHabits() {
   const { habits, habitsLoading, habitsError } = useUserHabits();
+  const { todayEntry, todayEntryLoading } = useTodayJournalEntry();
+
   const router = useRouter();
 
   const numberOfEntries = habitsLoading ? "?" : habits.length;
@@ -49,23 +52,28 @@ export function UserHabits() {
   //   }
   // };
 
+  const getActionUpdateValues = (habitId: string) => {
+    if (todayEntryLoading) return {};
+    return todayEntry?.nightEntry?.actions?.[habitId] || {};
+  };
+
   return (
     <div className="w-full">
       <PageHeader
         symbol={NEW_HABIT_CARD_DETAILS.symbol}
         title={NEW_HABIT_CARD_DETAILS.title}
-        // description={NEW_HABIT_CARD_DETAILS.description}
-        // buttonText={NEW_HABIT_CARD_DETAILS.buttonText}
         linkTo={NEW_HABIT_CARD_DETAILS.linkTo}
         numberOfEntries={numberOfEntries}
       />
 
       {habitsLoading && skeletonCards}
-      {!habitsLoading && !habitsError && (
+      {!habitsLoading && (
         <HabitList
           habits={habits}
           handleEdit={handleEdit}
           // handleDelete={handleDelete}
+          getActionUpdateValues={getActionUpdateValues}
+          todayEntryLoading={todayEntryLoading}
         />
       )}
       {habitsError && <p>Error: {habitsError}</p>}

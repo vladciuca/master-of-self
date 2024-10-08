@@ -1,33 +1,29 @@
-import { useState, useEffect } from "react";
 import { IconRenderer } from "@components/IconRenderer";
 import { CircularProgress } from "@components/ui/circular-progress";
 import { calculateLevel, xpForLevel } from "@lib/level";
-import { useTodayJournalEntry } from "@hooks/useTodayJournalEntry";
 import { Habit } from "@app/types/types";
 import { Plus } from "lucide-react";
 
 type HabitCardHeaderProps = {
   habit: Habit;
   handleOpenHabitActions: (e: React.MouseEvent) => void;
+  actionUpdateValues: { [key: string]: number };
+  todayEntryLoading: boolean;
 };
 
 export function HabitCardHeader({
   habit,
   handleOpenHabitActions,
+  actionUpdateValues,
+  todayEntryLoading,
 }: HabitCardHeaderProps) {
-  const { name, icon, xp, _id: habitId } = habit;
+  const { name, icon, xp } = habit;
 
-  // Initialize actionValues state
-  const [actionValues, setActionValues] = useState<{ [key: string]: number }>(
-    {}
-  );
-  const { todayEntry, todayEntryLoading } = useTodayJournalEntry();
-
-  // Calculate projected XP gain
-  const projectedXp = Object.values(actionValues).reduce(
+  const projectedXp = Object.values(actionUpdateValues).reduce(
     (sum, value) => sum + value,
     0
   );
+
   // Calculate XP and level
   const xpGain = xp + projectedXp;
   const level = calculateLevel(xpGain);
@@ -43,15 +39,6 @@ export function HabitCardHeader({
   );
   const xpForCurrentLevel = xpGain - baseXP;
   const xpToLevelUp = nextLevelXP - baseXP;
-
-  // Update actionValues when todayEntry changes
-  useEffect(() => {
-    if (!todayEntryLoading && todayEntry?.nightEntry?.actions) {
-      // Initialize actionValues with values from todayEntry
-      const initialValues = todayEntry.nightEntry.actions[habitId] || {};
-      setActionValues(initialValues);
-    }
-  }, [todayEntry, todayEntryLoading, habitId]);
 
   return (
     <div className="p-2 px-4 flex justify-between text-start w-full">
@@ -80,7 +67,10 @@ export function HabitCardHeader({
         </div>
       </div>
       <div className="flex items-center justify-center">
-        <div className="relative flex items-center justify-center h-full w-full">
+        <div
+          className="relative flex items-center justify-center h-full w-full"
+          onClick={handleOpenHabitActions}
+        >
           <CircularProgress
             className="ml-4"
             value={currentProgressPercentage}
@@ -88,21 +78,22 @@ export function HabitCardHeader({
             strokeWidth={8}
             circleSize={80}
           />
-          <div className="absolute w-full flex flex-col">
-            <div
-              // onClick={() => handleOpenChange(true)}
-              onClick={handleOpenHabitActions}
-              className="flex flex-col items-center justify-center text-xs text-muted-foreground"
-            >
-              {projectedXp > 0 ? (
+          <div className="absolute w-full flex flex-col justify-center items-center">
+            <div className="flex flex-col items-center justify-center text-xs">
+              {todayEntryLoading ? (
+                <div>
+                  <span className="text-base font-bold">??</span>
+                  <span className="text-primary ml-1">XP</span>
+                </div>
+              ) : projectedXp > 0 ? (
                 <div>
                   <span className="text-base text-green-500 font-bold">
                     +{projectedXp}
                   </span>
-                  <span className="text-primary ml-1">XP</span>
+                  <span className="ml-1">XP</span>
                 </div>
               ) : (
-                <Plus size={36} />
+                <Plus size={36} className="text-muted-foreground" />
               )}
             </div>
           </div>

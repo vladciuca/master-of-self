@@ -5,9 +5,13 @@ import { HabitAction } from "@app/types/types";
 
 type HabitCardActionsProps = {
   actions: HabitAction[];
+  actionUpdateValues: { [key: string]: number };
 };
 
-export function HabitCardActions({ actions }: HabitCardActionsProps) {
+export function HabitCardActions({
+  actions,
+  actionUpdateValues,
+}: HabitCardActionsProps) {
   return (
     <div>
       {actions.map((action, index) => (
@@ -22,26 +26,36 @@ export function HabitCardActions({ actions }: HabitCardActionsProps) {
               </span>
               <span className=" text-lg">{action.action}</span>
             </div>
-            <div className="flex items-center space-x-2">
-              <div className="text-xl flex items-center">
-                <span className="font-bold flex items-center">
-                  {action.value}
-                  {action.metric === "count" ? "" : " h"}
-                </span>
-                {action.metric === "count" ? (
-                  <Hash size={18} className="ml-1" />
-                ) : (
-                  <Clock size={18} className="ml-1" />
-                )}
-              </div>
-            </div>
           </div>
           <div className="flex items-center justify-between text-sm text-muted-foreground mb-2">
-            <Badge variant="secondary" className="capitalize">
+            {/* <Badge variant="secondary" className="capitalize">
               {action.type}
-            </Badge>
+            </Badge> */}
+            <div className="flex items-center space-x-2">
+              <div className="text-xl flex items-center">
+                {action.metric === "count" ? (
+                  <Hash size={18} className="mr-1 text-primary" />
+                ) : (
+                  <Clock size={18} className="mr-1 text-primary" />
+                )}
+                <span className="font-bold flex items-center text-primary">
+                  {action.value}
+                  {actionUpdateValues[action.id] ? (
+                    <span className="text-green-500 ml-1">
+                      +{actionUpdateValues[action.id]}
+                    </span>
+                  ) : (
+                    <></>
+                  )}
+                  {action.metric === "count" ? "" : " h"}
+                </span>
+              </div>
+            </div>
             <span className="text-green-500">
-              +{action.value}
+              +
+              {actionUpdateValues[action.id]
+                ? action.value + actionUpdateValues[action.id]
+                : action.value}
               <span className="text-primary mx-1">XP</span>
             </span>
           </div>

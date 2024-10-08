@@ -3,19 +3,19 @@ import { CircularProgress } from "@components/ui/circular-progress";
 import { Badge } from "@components/ui/badge";
 import { calculateLevel, xpForLevel } from "@lib/level";
 
-interface HabitProgressBarProps {
+interface HabitIconProgressBarProps {
   icon: string;
   xp: number;
   projectedXp?: number; //temp
   displayXpValues?: boolean;
 }
 
-export function HabitActionProgressBar({
+export function HabitIconProgressBar({
   icon,
   xp,
   projectedXp = 0, //temp
   displayXpValues = false,
-}: HabitProgressBarProps) {
+}: HabitIconProgressBarProps) {
   // Calculate XP and level
   const xpGain = xp + projectedXp;
   const level = calculateLevel(xpGain);
