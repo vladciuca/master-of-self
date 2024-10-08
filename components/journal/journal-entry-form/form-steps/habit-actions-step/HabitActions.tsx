@@ -1,5 +1,5 @@
 import { useState, useCallback } from "react";
-import { HabitProgressBar } from "./HabitProgressBar";
+import { HabitActionProgressBar } from "./HabitActionProgressBar";
 import { HabitAction } from "./HabitAction";
 import {
   Drawer,
@@ -68,7 +68,7 @@ export function HabitActions({
     <div className="p-2 px-4 flex justify-between text-start w-full">
       <div className="flex flex-grow">
         <div className="flex items-center justify-center">
-          <HabitProgressBar
+          <HabitActionProgressBar
             icon={icon}
             xp={xp}
             projectedXp={projectedHabitXp}
@@ -120,7 +120,7 @@ export function HabitActions({
           <DrawerContent className="max-w-md mx-auto left-0 right-0">
             <DrawerHeader>
               <div className="flex justify-center mb-2">
-                <HabitProgressBar
+                <HabitActionProgressBar
                   icon={icon}
                   xp={xp}
                   projectedXp={projectedHabitXp}

@@ -8,18 +8,14 @@ interface HabitProgressBarProps {
   xp: number;
   projectedXp: number;
   displayXpValues?: boolean;
-  // currentProgressPercentage?: number;
-  // xpGainProgressPercentage?: number;
 }
 
-export function HabitProgressBar({
+export function HabitActionProgressBar({
   icon,
   xp,
   projectedXp,
   displayXpValues = false,
-}: // currentProgressPercentage,
-// xpGainProgressPercentage,
-HabitProgressBarProps) {
+}: HabitProgressBarProps) {
   // Calculate XP and level
   const xpGain = xp + projectedXp;
   const level = calculateLevel(xpGain);
