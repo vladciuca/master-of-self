@@ -2,14 +2,15 @@ import { IconRenderer } from "@components/IconRenderer";
 import { CircularProgress } from "@components/ui/circular-progress";
 import { calculateLevel, xpForLevel } from "@lib/level";
 import { Habit } from "@app/types/types";
-import { Plus } from "lucide-react";
+import { Plus, Star } from "lucide-react";
+import { Skeleton } from "@components/ui/skeleton";
 
 type HabitCardHeaderProps = {
   habit: Habit;
   // handleOpenHabitActions: (e: React.MouseEvent) => void;
   actionUpdateValues: { [key: string]: number };
   todayEntryLoading: boolean;
-  handleActionUpdate: (e: React.MouseEvent) => void;
+  // handleActionUpdate: (e: React.MouseEvent) => void;
 };
 
 export function HabitCardHeader({
@@ -17,8 +18,8 @@ export function HabitCardHeader({
   // handleOpenHabitActions,
   actionUpdateValues,
   todayEntryLoading,
-  handleActionUpdate,
-}: HabitCardHeaderProps) {
+}: // handleActionUpdate,
+HabitCardHeaderProps) {
   const { name, icon, xp } = habit;
 
   const projectedXp = Object.values(actionUpdateValues).reduce(
@@ -81,15 +82,12 @@ export function HabitCardHeader({
             circleSize={80}
           />
           <div
-            onClick={handleActionUpdate}
+            // onClick={handleActionUpdate}
             className="absolute w-full flex flex-col justify-center items-center"
           >
             <div className="flex flex-col items-center justify-center text-xs">
               {todayEntryLoading ? (
-                <div>
-                  <span className="text-base font-bold">??</span>
-                  <span className="text-primary ml-1">XP</span>
-                </div>
+                <Skeleton className="h-6 w-6 rounded-full" />
               ) : projectedXp > 0 ? (
                 <div>
                   <span className="text-base text-green-500 font-bold">
@@ -98,7 +96,10 @@ export function HabitCardHeader({
                   <span className="ml-1">XP</span>
                 </div>
               ) : (
-                <Plus size={36} className="text-muted-foreground" />
+                <div>
+                  <span className="text-base">??</span>
+                  <span className="ml-1">XP</span>
+                </div>
               )}
             </div>
           </div>

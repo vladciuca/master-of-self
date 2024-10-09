@@ -3,11 +3,11 @@ import { Target } from "lucide-react";
 
 const PAGE_HEADER_DETAILS = {
   symbol: <Target size={"2rem"} />,
-  title: "Achievements",
+  title: "Goals",
   linkTo: "/create-goal",
 };
 
-export default function Achievements() {
+export default function Goals() {
   return (
     <div>
       <PageHeader

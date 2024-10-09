@@ -11,8 +11,8 @@ type HabitCardFooterProps = {
   habit: Habit;
   pathName: string;
   handleEdit: (habit: Habit) => void;
-  // handleActionUpdate: () => void;
-  // todayEntryLoading: boolean;
+  handleActionUpdate: () => void;
+  todayEntryLoading: boolean;
 };
 
 export function HabitCardFooter({
@@ -20,9 +20,9 @@ export function HabitCardFooter({
   habit,
   pathName,
   handleEdit,
-}: // handleActionUpdate,
-// todayEntryLoading,
-HabitCardFooterProps) {
+  handleActionUpdate,
+  todayEntryLoading,
+}: HabitCardFooterProps) {
   // const { todayEntry, todayEntryLoading } = useTodayJournalEntry();
 
   if (session?.user?.id !== habit.creatorId || pathName !== "/habits") {
@@ -43,9 +43,9 @@ HabitCardFooterProps) {
         href={`/update-journal-entry/${todayEntry?._id}`}
         aria-disabled={todayEntryLoading}
       > */}
-      {/* <Button disabled={todayEntryLoading} onClick={handleActionUpdate}>
+      <Button disabled={todayEntryLoading} onClick={handleActionUpdate}>
         Take Action!
-      </Button> */}
+      </Button>
       {/* </Link> */}
     </div>
   );

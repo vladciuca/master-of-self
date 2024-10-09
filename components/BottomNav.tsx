@@ -6,13 +6,13 @@ import { GiSpellBook } from "react-icons/gi";
 export function BottomNav() {
   return (
     <nav className="flex h-full justify-around items-center w-full">
-      <Link href="/achievements">
+      <Link href="/goals">
         <Button
           variant="ghost"
           className="flex flex-col items-center hover: rounded-full h-16 px-10"
         >
           <Target size={"2rem"} />
-          {/* <div className="text-xs mt-1">Achievements</div> */}
+          <div className="text-xs mt-1">Goals</div>
         </Button>
       </Link>
 
@@ -31,7 +31,7 @@ export function BottomNav() {
           className="flex flex-col items-center hover: rounded-full h-16 px-10"
         >
           <Shell size={"2rem"} />
-          {/* <div className="text-xs mt-1">Habits</div> */}
+          <div className="text-xs mt-1">Habits</div>
         </Button>
       </Link>
     </nav>

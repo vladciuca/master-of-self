@@ -84,9 +84,7 @@ JournalEntryCardProps) {
               <FaStar className="mr-2 text-muted-foreground" />
               <div className="flex items-center">
                 Willpower Bonus:
-                <span className="ml-1 text-green-500 font-semibold">
-                  +{bonusWillpower}
-                </span>
+                <span className="ml-1 text-green-500">+{bonusWillpower}</span>
                 <span className="text-primary text-xs">
                   <FaBoltLightning className="ml-1" />
                 </span>

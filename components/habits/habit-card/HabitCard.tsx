@@ -24,7 +24,7 @@ type HabitCardProps = {
     [key: string]: number;
   };
   todayEntryLoading: boolean;
-  handleActionUpdate: (e: React.MouseEvent) => void;
+  handleActionUpdate: () => void;
 };
 
 export function HabitCard({
@@ -60,7 +60,7 @@ HabitCardProps) {
             // handleOpenHabitActions={handleOpenHabitActions}
             actionUpdateValues={actionUpdateValues}
             todayEntryLoading={todayEntryLoading}
-            handleActionUpdate={handleActionUpdate}
+            // handleActionUpdate={handleActionUpdate}
           />
         </AccordionTrigger>
         <AccordionContent className="px-4">
@@ -74,8 +74,8 @@ HabitCardProps) {
             habit={habit}
             pathName={pathName}
             handleEdit={handleEdit}
-            // handleActionUpdate={handleActionUpdate}
-            // todayEntryLoading={todayEntryLoading}
+            handleActionUpdate={handleActionUpdate}
+            todayEntryLoading={todayEntryLoading}
             // handleDelete={handleDelete}
           />
         </AccordionContent>

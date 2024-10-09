@@ -7,7 +7,7 @@ type HabitListProps = {
   handleEdit: (habit: Habit) => void;
   getActionUpdateValues: (habitId: string) => any;
   todayEntryLoading: boolean;
-  handleActionUpdate: (e: React.MouseEvent) => void;
+  handleActionUpdate: () => void;
   // handleDelete: (habit: Habit) => Promise<void>;
 };
 
