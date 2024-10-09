@@ -33,28 +33,28 @@ export function HabitActionsStep({
     [actionValues]
   );
 
-  // const handleActionChange = useCallback(
-  //   (habitId: string, actionId: string, newValue: number) => {
-  //     setActionValues((prev) => {
-  //       const newValues = { ...prev };
-  //       if (!newValues[habitId]) {
-  //         newValues[habitId] = {};
-  //       }
-  //       newValues[habitId][actionId] = newValue;
+  const handleActionChange = useCallback(
+    (habitId: string, actionId: string, newValue: number) => {
+      setActionValues((prev) => {
+        const newValues = { ...prev };
+        if (!newValues[habitId]) {
+          newValues[habitId] = {};
+        }
+        newValues[habitId][actionId] = newValue;
 
-  //       if (newValues[habitId][actionId] === 0) {
-  //         delete newValues[habitId][actionId];
-  //       }
-  //       if (Object.keys(newValues[habitId]).length === 0) {
-  //         delete newValues[habitId];
-  //       }
+        if (newValues[habitId][actionId] === 0) {
+          delete newValues[habitId][actionId];
+        }
+        if (Object.keys(newValues[habitId]).length === 0) {
+          delete newValues[habitId];
+        }
 
-  //       onChange(newValues);
-  //       return newValues;
-  //     });
-  //   },
-  //   [onChange]
-  // );
+        onChange(newValues);
+        return newValues;
+      });
+    },
+    [onChange]
+  );
 
   if (habitsLoading) {
     return <div>Loading habits...</div>;
@@ -74,6 +74,8 @@ export function HabitActionsStep({
           <HabitActionHeader
             habit={habit}
             projectedXp={calculateProjectedXP(habit)}
+            onChange={handleActionChange}
+            actionChanges={actionChanges}
           />
         ))}
       </>

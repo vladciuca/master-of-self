@@ -84,7 +84,6 @@ function FormStepController({
     }
   }, [journalEntryData]);
 
-  //what is this exactly doing
   useEffect(() => {
     const willpower = calculateWillpower(formData) + formData.bonusWillpower;
     if (willpower !== formData.dailyWillpower) {

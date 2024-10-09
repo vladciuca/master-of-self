@@ -11,6 +11,8 @@ import { Habit } from "@app/types/types";
 type HabitActionHeaderProps = {
   habit: Habit;
   projectedXp: number;
+  onChange: (habitId: string, actionId: string, newValue: number) => void;
+  actionChanges: { [key: string]: { [key: string]: number } };
 };
 
 export function HabitActionHeader({
