@@ -1,8 +1,11 @@
 "use client";
 
+import Link from "next/link";
+import { Button } from "@components/ui/button";
 import { useRouter } from "next/navigation";
 import { PageHeader } from "@components/PageHeader";
 import { HabitList } from "@components/habits/HabitList";
+import { Card } from "@components/ui/card";
 import { SkeletonHabitCard } from "@components/skeletons/SkeletonHabitCard";
 import { Shell } from "lucide-react";
 import { useUserHabits } from "@hooks/useUserHabits";
@@ -59,12 +62,23 @@ export function UserHabits() {
 
   return (
     <div className="w-full">
-      <PageHeader
-        symbol={NEW_HABIT_CARD_DETAILS.symbol}
-        title={NEW_HABIT_CARD_DETAILS.title}
-        linkTo={NEW_HABIT_CARD_DETAILS.linkTo}
-        numberOfEntries={numberOfEntries}
-      />
+      <Card className="sticky top-0 z-10 bg-background my-4 p-4">
+        <PageHeader
+          symbol={NEW_HABIT_CARD_DETAILS.symbol}
+          title={NEW_HABIT_CARD_DETAILS.title}
+          linkTo={NEW_HABIT_CARD_DETAILS.linkTo}
+          numberOfEntries={numberOfEntries}
+        />
+
+        <Link
+          href={`/update-journal-entry/${todayEntry?._id}`}
+          aria-disabled={todayEntryLoading}
+        >
+          <Button className="mt-4" disabled={todayEntryLoading}>
+            Take Action!
+          </Button>
+        </Link>
+      </Card>
 
       {habitsLoading && skeletonCards}
       {!habitsLoading && (

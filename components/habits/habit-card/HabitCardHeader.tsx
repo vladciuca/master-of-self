@@ -6,14 +6,14 @@ import { Plus } from "lucide-react";
 
 type HabitCardHeaderProps = {
   habit: Habit;
-  handleOpenHabitActions: (e: React.MouseEvent) => void;
+  // handleOpenHabitActions: (e: React.MouseEvent) => void;
   actionUpdateValues: { [key: string]: number };
   todayEntryLoading: boolean;
 };
 
 export function HabitCardHeader({
   habit,
-  handleOpenHabitActions,
+  // handleOpenHabitActions,
   actionUpdateValues,
   todayEntryLoading,
 }: HabitCardHeaderProps) {
@@ -69,7 +69,7 @@ export function HabitCardHeader({
       <div className="flex items-center justify-center">
         <div
           className="relative flex items-center justify-center h-full w-full"
-          onClick={handleOpenHabitActions}
+          // onClick={handleOpenHabitActions}
         >
           <CircularProgress
             className="ml-4"

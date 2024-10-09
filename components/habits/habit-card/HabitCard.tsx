@@ -1,13 +1,13 @@
 "use client";
 
-import { useState } from "react";
+// import { useState } from "react";
 import { useSession } from "next-auth/react";
 import { usePathname } from "next/navigation";
 import { HabitCardHeader } from "@components/habits/habit-card/HabitCardHeader";
 import { HabitCardDescription } from "@components/habits/habit-card/HabitCardDescription";
 import { HabitCardActions } from "@components/habits/habit-card/HabitCardActions";
 import { HabitCardFooter } from "./HabitCardFooter";
-import { HabitActionsUpdateModal } from "@components/habits/habit-actions/HabitActionsUpdateModal";
+// import { HabitActionsUpdateModal } from "@components/habits/habit-actions/HabitActionsUpdateModal";
 import {
   AccordionContent,
   AccordionItem,
@@ -35,19 +35,19 @@ export function HabitCard({
 HabitCardProps) {
   const { description, actions, _id: habitId } = habit;
 
-  const [isActionDrawerOpen, setIsActionDrawerOpen] = useState(false);
+  // const [isActionDrawerOpen, setIsActionDrawerOpen] = useState(false);
 
   const { data: session } = useSession() as { data: Session | null };
   const pathName = usePathname();
 
-  const handleOpenChange = (open: boolean) => {
-    setIsActionDrawerOpen(open);
-  };
+  // const handleOpenChange = (open: boolean) => {
+  //   setIsActionDrawerOpen(open);
+  // };
 
-  const handleOpenHabitActions = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    handleOpenChange(true);
-  };
+  // const handleOpenHabitActions = (e: React.MouseEvent) => {
+  //   e.stopPropagation();
+  //   handleOpenChange(true);
+  // };
 
   return (
     <>
@@ -55,7 +55,7 @@ HabitCardProps) {
         <AccordionTrigger className="p-0 m-0 rounded-md flex flex-col">
           <HabitCardHeader
             habit={habit}
-            handleOpenHabitActions={handleOpenHabitActions}
+            // handleOpenHabitActions={handleOpenHabitActions}
             actionUpdateValues={actionUpdateValues}
             todayEntryLoading={todayEntryLoading}
           />
@@ -75,11 +75,11 @@ HabitCardProps) {
           />
         </AccordionContent>
       </AccordionItem>
-      <HabitActionsUpdateModal
+      {/* <HabitActionsUpdateModal
         isOpen={isActionDrawerOpen}
         onOpenChange={handleOpenChange}
         habit={habit}
-      />
+      /> */}
     </>
   );
 }
