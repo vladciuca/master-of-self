@@ -4,13 +4,15 @@ import Link from "next/link";
 import { Button } from "@components/ui/button";
 import { GiPencilRuler } from "react-icons/gi";
 import { Session, Habit } from "@app/types/types";
-import { useTodayJournalEntry } from "@hooks/useTodayJournalEntry";
+// import { useTodayJournalEntry } from "@hooks/useTodayJournalEntry";
 
 type HabitCardFooterProps = {
   session: Session | null;
   habit: Habit;
   pathName: string;
   handleEdit: (habit: Habit) => void;
+  handleActionUpdate: () => void;
+  todayEntryLoading: boolean;
 };
 
 export function HabitCardFooter({
@@ -18,8 +20,10 @@ export function HabitCardFooter({
   habit,
   pathName,
   handleEdit,
+  handleActionUpdate,
+  todayEntryLoading,
 }: HabitCardFooterProps) {
-  const { todayEntry, todayEntryLoading } = useTodayJournalEntry();
+  // const { todayEntry, todayEntryLoading } = useTodayJournalEntry();
 
   if (session?.user?.id !== habit.creatorId || pathName !== "/habits") {
     return null;
@@ -38,9 +42,11 @@ export function HabitCardFooter({
       {/* <Link
         href={`/update-journal-entry/${todayEntry?._id}`}
         aria-disabled={todayEntryLoading}
-      >
-        <Button disabled={todayEntryLoading}>Take Action!</Button>
-      </Link> */}
+      > */}
+      <Button disabled={todayEntryLoading} onClick={handleActionUpdate}>
+        Take Action!
+      </Button>
+      {/* </Link> */}
     </div>
   );
 }

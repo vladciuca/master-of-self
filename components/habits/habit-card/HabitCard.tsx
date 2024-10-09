@@ -24,6 +24,7 @@ type HabitCardProps = {
     [key: string]: number;
   };
   todayEntryLoading: boolean;
+  handleActionUpdate: () => void;
 };
 
 export function HabitCard({
@@ -31,6 +32,7 @@ export function HabitCard({
   handleEdit,
   actionUpdateValues,
   todayEntryLoading,
+  handleActionUpdate,
 }: //  handleDelete
 HabitCardProps) {
   const { description, actions, _id: habitId } = habit;
@@ -71,6 +73,8 @@ HabitCardProps) {
             habit={habit}
             pathName={pathName}
             handleEdit={handleEdit}
+            handleActionUpdate={handleActionUpdate}
+            todayEntryLoading={todayEntryLoading}
             // handleDelete={handleDelete}
           />
         </AccordionContent>

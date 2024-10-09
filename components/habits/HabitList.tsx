@@ -7,6 +7,7 @@ type HabitListProps = {
   handleEdit: (habit: Habit) => void;
   getActionUpdateValues: (habitId: string) => any;
   todayEntryLoading: boolean;
+  handleActionUpdate: () => void;
   // handleDelete: (habit: Habit) => Promise<void>;
 };
 
@@ -15,6 +16,7 @@ export function HabitList({
   handleEdit,
   getActionUpdateValues,
   todayEntryLoading,
+  handleActionUpdate,
 }: // handleDelete,
 HabitListProps) {
   return (
@@ -27,6 +29,7 @@ HabitListProps) {
           handleEdit={handleEdit}
           // handleDelete={handleDelete}
           todayEntryLoading={todayEntryLoading}
+          handleActionUpdate={handleActionUpdate}
         />
       ))}
     </Accordion>
