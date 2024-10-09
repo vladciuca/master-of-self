@@ -1,8 +1,9 @@
 import { useState, useEffect, useCallback } from "react";
 import { FormStepTemplate } from "@/components/journal/journal-entry-form/form-steps/FormStepTemplate";
-import { HabitActions } from "./HabitActions";
 import { useUserHabits } from "@/hooks/useUserHabits";
 import { Habit } from "@app/types/types";
+
+import { HabitActionHeader } from "./HabitActionHeader";
 
 type HabitActionsProps = {
   onChange: (value: { [key: string]: { [key: string]: number } }) => void;
@@ -14,6 +15,7 @@ export function HabitActionsStep({
   actionChanges = {},
 }: HabitActionsProps) {
   const { habits, habitsLoading, habitsError } = useUserHabits();
+
   const [actionValues, setActionValues] = useState<{
     [key: string]: { [key: string]: number };
   }>(actionChanges);
@@ -31,28 +33,28 @@ export function HabitActionsStep({
     [actionValues]
   );
 
-  const handleActionChange = useCallback(
-    (habitId: string, actionId: string, newValue: number) => {
-      setActionValues((prev) => {
-        const newValues = { ...prev };
-        if (!newValues[habitId]) {
-          newValues[habitId] = {};
-        }
-        newValues[habitId][actionId] = newValue;
+  // const handleActionChange = useCallback(
+  //   (habitId: string, actionId: string, newValue: number) => {
+  //     setActionValues((prev) => {
+  //       const newValues = { ...prev };
+  //       if (!newValues[habitId]) {
+  //         newValues[habitId] = {};
+  //       }
+  //       newValues[habitId][actionId] = newValue;
 
-        if (newValues[habitId][actionId] === 0) {
-          delete newValues[habitId][actionId];
-        }
-        if (Object.keys(newValues[habitId]).length === 0) {
-          delete newValues[habitId];
-        }
+  //       if (newValues[habitId][actionId] === 0) {
+  //         delete newValues[habitId][actionId];
+  //       }
+  //       if (Object.keys(newValues[habitId]).length === 0) {
+  //         delete newValues[habitId];
+  //       }
 
-        onChange(newValues);
-        return newValues;
-      });
-    },
-    [onChange]
-  );
+  //       onChange(newValues);
+  //       return newValues;
+  //     });
+  //   },
+  //   [onChange]
+  // );
 
   if (habitsLoading) {
     return <div>Loading habits...</div>;
@@ -67,20 +69,23 @@ export function HabitActionsStep({
       title="Habit Actions"
       description="Track your progress on habit actions"
     >
-      <div>
-        <ol>
-          {habits.map((habit) => (
-            <li key={habit._id} className="mb-8">
-              <HabitActions
-                habit={habit}
-                projectedHabitXp={calculateProjectedXP(habit)}
-                onChange={handleActionChange}
-                actionChanges={actionChanges}
-              />
-            </li>
-          ))}
-        </ol>
-      </div>
+      <>
+        {habits.map((habit) => (
+          <HabitActionHeader
+            habit={habit}
+            projectedXp={calculateProjectedXP(habit)}
+          />
+        ))}
+      </>
     </FormStepTemplate>
   );
+}
+
+{
+  /* <HabitActions
+        habit={habit}
+        projectedHabitXp={calculateProjectedXP(habit)}
+        onChange={handleActionChange}
+        actionChanges={actionChanges}
+      /> */
 }
