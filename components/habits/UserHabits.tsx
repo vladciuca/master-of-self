@@ -38,7 +38,8 @@ export function UserHabits() {
     router.push(`/update-habit/${habit._id}`);
   };
 
-  const handleActionUpdate = () => {
+  const handleActionUpdate = (e: React.MouseEvent) => {
+    e.stopPropagation();
     router.push(`/update-journal-entry/${todayEntry?._id}`);
   };
 

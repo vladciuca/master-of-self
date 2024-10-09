@@ -9,6 +9,7 @@ type HabitCardHeaderProps = {
   // handleOpenHabitActions: (e: React.MouseEvent) => void;
   actionUpdateValues: { [key: string]: number };
   todayEntryLoading: boolean;
+  handleActionUpdate: (e: React.MouseEvent) => void;
 };
 
 export function HabitCardHeader({
@@ -16,6 +17,7 @@ export function HabitCardHeader({
   // handleOpenHabitActions,
   actionUpdateValues,
   todayEntryLoading,
+  handleActionUpdate,
 }: HabitCardHeaderProps) {
   const { name, icon, xp } = habit;
 
@@ -78,7 +80,10 @@ export function HabitCardHeader({
             strokeWidth={8}
             circleSize={80}
           />
-          <div className="absolute w-full flex flex-col justify-center items-center">
+          <div
+            onClick={handleActionUpdate}
+            className="absolute w-full flex flex-col justify-center items-center"
+          >
             <div className="flex flex-col items-center justify-center text-xs">
               {todayEntryLoading ? (
                 <div>

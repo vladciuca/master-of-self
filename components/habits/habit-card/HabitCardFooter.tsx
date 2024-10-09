@@ -1,8 +1,8 @@
 "use client";
 
-import Link from "next/link";
+// import Link from "next/link";
 import { Button } from "@components/ui/button";
-import { GiPencilRuler } from "react-icons/gi";
+// import { GiPencilRuler } from "react-icons/gi";
 import { Session, Habit } from "@app/types/types";
 // import { useTodayJournalEntry } from "@hooks/useTodayJournalEntry";
 
@@ -11,8 +11,8 @@ type HabitCardFooterProps = {
   habit: Habit;
   pathName: string;
   handleEdit: (habit: Habit) => void;
-  handleActionUpdate: () => void;
-  todayEntryLoading: boolean;
+  // handleActionUpdate: () => void;
+  // todayEntryLoading: boolean;
 };
 
 export function HabitCardFooter({
@@ -20,9 +20,9 @@ export function HabitCardFooter({
   habit,
   pathName,
   handleEdit,
-  handleActionUpdate,
-  todayEntryLoading,
-}: HabitCardFooterProps) {
+}: // handleActionUpdate,
+// todayEntryLoading,
+HabitCardFooterProps) {
   // const { todayEntry, todayEntryLoading } = useTodayJournalEntry();
 
   if (session?.user?.id !== habit.creatorId || pathName !== "/habits") {
@@ -43,9 +43,9 @@ export function HabitCardFooter({
         href={`/update-journal-entry/${todayEntry?._id}`}
         aria-disabled={todayEntryLoading}
       > */}
-      <Button disabled={todayEntryLoading} onClick={handleActionUpdate}>
+      {/* <Button disabled={todayEntryLoading} onClick={handleActionUpdate}>
         Take Action!
-      </Button>
+      </Button> */}
       {/* </Link> */}
     </div>
   );
