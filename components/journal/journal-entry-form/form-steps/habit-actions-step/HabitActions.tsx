@@ -38,7 +38,8 @@ export function HabitActions({
   const searchParams = useSearchParams();
   const { name, icon, xp, _id: habitId } = habit;
   const habitIdParam = searchParams.get("habitId");
-  const [isDrawerOpen, setIsDrawerOpen] = useState(habitIdParam === habitId);
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
 
   const [actionValues, setActionValues] = useState<{ [key: string]: number }>(
     actionChanges[habitId] || {}
@@ -54,7 +55,6 @@ export function HabitActions({
 
   const updateURL = useCallback(
     (open: boolean) => {
-      // remove the habitId parameter when closing the drawer
       if (!open) {
         const currentParams = new URLSearchParams(searchParams.toString());
         currentParams.delete("habitId");
@@ -63,30 +63,38 @@ export function HabitActions({
           : "/";
         router.push(newURL, { scroll: false });
       }
-      // NOTE: We don't add a new habitId when opening a drawer
     },
     [router, searchParams]
   );
 
-  // Sync local state with URL parameter
   useEffect(() => {
     if (habitIdParam === habitId && !habitsLoading) {
-      setIsDrawerOpen(true);
+      handleDrawerOpenChange(true);
     }
-  }, [habitIdParam, habitId]);
+  }, [habitIdParam, habitId, habitsLoading]);
+
+  const scrollToHabit = () => {
+    if (habitContainerRef.current) {
+      habitContainerRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "nearest",
+      });
+    }
+    setIsScrolled(true);
+  };
 
   const handleDrawerOpenChange = (open: boolean) => {
     if (habitsLoading) return;
-    setTimeout(() => {
-      if (habitContainerRef.current) {
-        habitContainerRef.current.scrollIntoView({
-          behavior: "smooth",
-          block: "nearest",
-        });
-      }
-    }, 100);
-    setIsDrawerOpen(open);
-    if (!open) {
+
+    if (open) {
+      scrollToHabit();
+      // Delay opening the drawer until after the scroll animation
+      setTimeout(() => {
+        setIsDrawerOpen(true);
+      }, 400); // Adjust this delay as needed
+    } else {
+      setIsDrawerOpen(false);
+      setIsScrolled(false);
       updateURL(false);
     }
   };
@@ -144,19 +152,23 @@ export function HabitActions({
         <Drawer open={isDrawerOpen} onOpenChange={handleDrawerOpenChange}>
           <DrawerTrigger asChild>
             {projectedHabitXp > 0 ? (
-              <Button size="icon" className="h-8 w-8 shrink-0 rounded-md">
+              <Button
+                size="icon"
+                className="h-8 w-8 shrink-0 rounded-md"
+                onClick={() => !isScrolled && scrollToHabit()}
+              >
                 <Plus className="h-4 w-4" />
                 <span className="sr-only">Take Action Button</span>
               </Button>
             ) : (
               <Checkbox
-                // ref={habitContainerRef}
                 checked={isDrawerOpen}
                 className={`h-8 w-8 rounded-md border-primary ${
                   isDrawerOpen
                     ? "bg-primary text-primary-foreground"
                     : "bg-background"
                 }`}
+                onClick={() => !isScrolled && scrollToHabit()}
               />
             )}
           </DrawerTrigger>
