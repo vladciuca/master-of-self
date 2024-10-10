@@ -130,6 +130,7 @@ export function HabitActions({
   // };
 
   const handleDrawerOpenChange = (open: boolean) => {
+    if (habitsLoading) return;
     setTimeout(() => {
       if (triggerRef.current) {
         triggerRef.current.scrollIntoView({
