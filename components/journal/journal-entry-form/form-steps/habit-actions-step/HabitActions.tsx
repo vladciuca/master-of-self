@@ -45,8 +45,8 @@ export function HabitActions({
   const [actionValues, setActionValues] = useState<{ [key: string]: number }>(
     actionChanges[habitId] || {}
   );
-  const triggerRef = useRef<HTMLButtonElement>(null);
-  const drawerRef = useRef<HTMLDivElement>(null);
+  const triggerRef = useRef<HTMLDivElement>(null);
+  // const drawerRef = useRef<HTMLDivElement>(null);
 
   // Calculate XP and level
   const xpGain = xp + projectedHabitXp;
@@ -159,7 +159,10 @@ export function HabitActions({
   );
 
   return (
-    <div className="p-2 px-4 flex justify-between text-start w-full">
+    <div
+      ref={triggerRef}
+      className="p-2 px-4 flex justify-between text-start w-full"
+    >
       <div className="flex flex-grow">
         <div className="flex items-center justify-center">
           <HabitIconProgressBar
@@ -197,17 +200,13 @@ export function HabitActions({
         <Drawer open={isDrawerOpen} onOpenChange={handleDrawerOpenChange}>
           <DrawerTrigger asChild>
             {projectedHabitXp > 0 ? (
-              <Button
-                ref={triggerRef}
-                size="icon"
-                className="h-8 w-8 shrink-0 rounded-md"
-              >
+              <Button size="icon" className="h-8 w-8 shrink-0 rounded-md">
                 <Plus className="h-4 w-4" />
                 <span className="sr-only">Take Action Button</span>
               </Button>
             ) : (
               <Checkbox
-                ref={triggerRef}
+                // ref={triggerRef}
                 checked={isDrawerOpen}
                 className={`h-8 w-8 rounded-md border-primary ${
                   isDrawerOpen
