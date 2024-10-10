@@ -8,6 +8,7 @@ import { Habit } from "@app/types/types";
 type HabitActionsProps = {
   onChange: (value: { [key: string]: { [key: string]: number } }) => void;
   actionChanges?: { [key: string]: { [key: string]: number } };
+  // habitIdParam: string | null;
 };
 
 const skeletonCards = Array.from({ length: 3 }, (_, index) => (
@@ -17,11 +18,14 @@ const skeletonCards = Array.from({ length: 3 }, (_, index) => (
 export function HabitActionsStep({
   onChange,
   actionChanges = {},
-}: HabitActionsProps) {
+}: // habitIdParam,
+HabitActionsProps) {
   const { habits, habitsLoading, habitsError } = useUserHabits();
   const [actionValues, setActionValues] = useState<{
     [key: string]: { [key: string]: number };
   }>(actionChanges);
+
+  // console.log("=======IN STEP", habitIdParam);
 
   // Update local state when actionChanges prop changes
   useEffect(() => {

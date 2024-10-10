@@ -1,4 +1,5 @@
-import { useState, useCallback } from "react";
+import { useState, useEffect, useCallback } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { HabitIconProgressBar } from "@components/habits/habit-actions/HabitIconProgressBar";
 import { HabitAction } from "../../../../habits/habit-actions/HabitAction";
 import {
@@ -31,8 +32,13 @@ export function HabitActions({
   onChange,
   actionChanges,
 }: HabitActionsProps) {
+  const router = useRouter();
+  const searchParams = useSearchParams();
   const { name, icon, xp, _id: habitId } = habit;
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const habitIdParam = searchParams.get("habitId");
+  // const isHabitDrawerOpen = habitIdParam === habitId;
+  // console.log("===============", habitIdParam);
+  const [isDrawerOpen, setIsDrawerOpen] = useState(habitIdParam === habitId);
 
   const [actionValues, setActionValues] = useState<{ [key: string]: number }>(
     actionChanges[habitId] || {}
@@ -42,16 +48,82 @@ export function HabitActions({
   const xpGain = xp + projectedHabitXp;
   const level = calculateLevel(xpGain);
   const { baseXP, nextLevelXP } = xpForLevel(level);
-  // const currentProgressPercentage = Math.min(
-  //   ((xp - baseXP) / (nextLevelXP - baseXP)) * 100,
-  //   100
-  // );
-  // const xpGainProgressPercentage = Math.min(
-  //   ((xpGain - baseXP) / (nextLevelXP - baseXP)) * 100,
-  //   100
-  // );
   const xpForCurrentLevel = xpGain - baseXP;
   const xpToLevelUp = nextLevelXP - baseXP;
+
+  // Update URL when drawer opens/closes
+  // useEffect(() => {
+  //   if (isDrawerOpen) {
+  //     router.push(`?habitId=${habitId}`, { scroll: false });
+  //   } else {
+  //     return;
+  //   }
+  // }, [isDrawerOpen, habitId, router]);
+
+  // Function to update URL
+  // const updateURL = useCallback(
+  //   (open: boolean) => {
+  //     if (!habitIdParam) return;
+  //     const currentParams = new URLSearchParams(searchParams.toString());
+  //     if (open) {
+  //       currentParams.delete("habitId");
+  //     }
+  //     const newURL = currentParams.toString()
+  //       ? `?${currentParams.toString()}`
+  //       : "/";
+
+  //     router.push(newURL, { scroll: false });
+  //   },
+  //   [habitIdParam, router, searchParams]
+  // );
+  const updateURL = useCallback(
+    (open: boolean) => {
+      // CHANGE: Only remove the habitId parameter when closing the drawer
+      if (!open) {
+        const currentParams = new URLSearchParams(searchParams.toString());
+        currentParams.delete("habitId");
+        const newURL = currentParams.toString()
+          ? `?${currentParams.toString()}`
+          : "/";
+        router.push(newURL, { scroll: false });
+      }
+      // NOTE: We don't add a new habitId when opening a drawer
+    },
+    [router, searchParams]
+  );
+
+  // Update URL when drawer opens/closes
+  // useEffect(() => {
+  //   updateURL(isDrawerOpen);
+  // }, [isDrawerOpen, updateURL]);
+  useEffect(() => {
+    // CHANGE: Only call updateURL when the drawer is closing
+    if (!isDrawerOpen) {
+      updateURL(false);
+    }
+  }, [isDrawerOpen, updateURL]);
+
+  // Handle drawer open/close
+  // const handleDrawerOpenChange = (open: boolean) => {
+  //   setIsDrawerOpen(open);
+  // };
+
+  // Sync local state with URL parameter
+  useEffect(() => {
+    // CHANGE: Set drawer open if habitIdParam matches this habit's id
+    if (habitIdParam === habitId) {
+      setIsDrawerOpen(true);
+    }
+  }, [habitIdParam, habitId]);
+
+  // Handle drawer open/close
+  const handleDrawerOpenChange = (open: boolean) => {
+    setIsDrawerOpen(open);
+    // CHANGE: Only update URL when closing the drawer
+    if (!open) {
+      updateURL(false);
+    }
+  };
 
   // Add a function to handle action changes
   const handleActionChange = useCallback(
@@ -101,7 +173,7 @@ export function HabitActions({
         </div>
       </div>
       <div className="flex items-center">
-        <Drawer open={isDrawerOpen} onOpenChange={setIsDrawerOpen}>
+        <Drawer open={isDrawerOpen} onOpenChange={handleDrawerOpenChange}>
           <DrawerTrigger asChild>
             {projectedHabitXp > 0 ? (
               <Button size="icon" className="h-8 w-8 shrink-0 rounded-md">
