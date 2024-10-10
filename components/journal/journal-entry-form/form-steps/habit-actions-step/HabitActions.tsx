@@ -130,18 +130,19 @@ export function HabitActions({
   // };
 
   const handleDrawerOpenChange = (open: boolean) => {
+    setTimeout(() => {
+      if (triggerRef.current) {
+        triggerRef.current.scrollIntoView({
+          behavior: "smooth",
+          block: "nearest",
+        });
+      }
+    }, 100);
     setIsDrawerOpen(open);
     if (!open) {
       updateURL(false);
       // Smooth scroll to the trigger element when drawer closes
-      setTimeout(() => {
-        if (triggerRef.current) {
-          triggerRef.current.scrollIntoView({
-            behavior: "smooth",
-            block: "nearest",
-          });
-        }
-      }, 100); // Small delay to ensure drawer closing animation has started
+      // Small delay to ensure drawer closing animation has started
     }
   };
   // Add a function to handle action changes
