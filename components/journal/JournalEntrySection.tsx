@@ -14,7 +14,7 @@ export function JournalEntrySection({ icon, title, items }: EntrySectionProps) {
         <div className="text-sm text-muted-foreground">{title}</div>
       </div>
       {items && items.length > 0 && (
-        <ol className="mt-2 ml-4 list-disc">
+        <ol className="mt-2 mx-5 list-disc">
           {items.map((item, index) => (
             <li key={index}>{item}</li>
           ))}
