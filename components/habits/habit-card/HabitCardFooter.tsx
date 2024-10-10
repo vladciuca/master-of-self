@@ -2,7 +2,7 @@
 
 // import Link from "next/link";
 import { Button } from "@components/ui/button";
-// import { GiPencilRuler } from "react-icons/gi";
+import { GiPencilRuler } from "react-icons/gi";
 import { Session, Habit } from "@app/types/types";
 // import { useTodayJournalEntry } from "@hooks/useTodayJournalEntry";
 
@@ -47,7 +47,8 @@ export function HabitCardFooter({
         disabled={todayEntryLoading}
         onClick={() => handleActionUpdate(habit._id)}
       >
-        Take Action!
+        Take Action
+        <GiPencilRuler className="ml-2" size={"1.2rem"} />
       </Button>
       {/* </Link> */}
     </div>
