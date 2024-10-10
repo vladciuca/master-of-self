@@ -91,7 +91,6 @@ type FormStepNavigationProps = {
   setCurrentStep: React.Dispatch<React.SetStateAction<number>>;
   isSubmitting: boolean;
   stepTypes: string[];
-  initialHabitId: string | null;
 };
 
 export function FormStepNavigation({
@@ -102,7 +101,6 @@ export function FormStepNavigation({
   setCurrentStep,
   isSubmitting,
   stepTypes,
-  initialHabitId,
 }: FormStepNavigationProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -117,14 +115,9 @@ export function FormStepNavigation({
     (step: number) => {
       const params = new URLSearchParams(searchParams);
       params.set("step", stepTypes[step]);
-      if (stepTypes[step] === "habits" && initialHabitId) {
-        params.set("habitId", initialHabitId);
-      } else {
-        params.delete("habitId");
-      }
       router.push(`?${params.toString()}`, { scroll: false });
     },
-    [router, searchParams, stepTypes, initialHabitId]
+    [router, searchParams, stepTypes]
   );
 
   const handleNextForm = useCallback(async () => {
