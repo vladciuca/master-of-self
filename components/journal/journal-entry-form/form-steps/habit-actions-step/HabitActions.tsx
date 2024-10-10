@@ -43,8 +43,8 @@ export function HabitActions({
   const [actionValues, setActionValues] = useState<{ [key: string]: number }>(
     actionChanges[habitId] || {}
   );
-
   const triggerRef = useRef<HTMLButtonElement>(null);
+  const drawerRef = useRef<HTMLDivElement>(null);
 
   // Calculate XP and level
   const xpGain = xp + projectedHabitXp;
@@ -98,12 +98,12 @@ export function HabitActions({
   // useEffect(() => {
   //   updateURL(isDrawerOpen);
   // }, [isDrawerOpen, updateURL]);
-  useEffect(() => {
-    // CHANGE: Only call updateURL when the drawer is closing
-    if (!isDrawerOpen) {
-      updateURL(false);
-    }
-  }, [isDrawerOpen, updateURL]);
+  // useEffect(() => {
+  //   // CHANGE: Only call updateURL when the drawer is closing
+  //   if (!isDrawerOpen) {
+  //     updateURL(false);
+  //   }
+  // }, [isDrawerOpen, updateURL]);
 
   // Handle drawer open/close
   // const handleDrawerOpenChange = (open: boolean) => {
