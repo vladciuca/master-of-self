@@ -88,10 +88,8 @@ export function HabitActions({
 
     if (open) {
       scrollToHabit();
-      // Delay opening the drawer until after the scroll animation
-      setTimeout(() => {
-        setIsDrawerOpen(true);
-      }, 400); // Adjust this delay as needed
+      const delay = habitIdParam ? 400 : 0;
+      setTimeout(() => setIsDrawerOpen(true), delay);
     } else {
       setIsDrawerOpen(false);
       setIsScrolled(false);
