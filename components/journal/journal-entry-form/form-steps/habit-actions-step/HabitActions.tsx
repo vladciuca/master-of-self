@@ -38,15 +38,12 @@ export function HabitActions({
   const searchParams = useSearchParams();
   const { name, icon, xp, _id: habitId } = habit;
   const habitIdParam = searchParams.get("habitId");
-  // const isHabitDrawerOpen = habitIdParam === habitId;
-  // console.log("===============", habitIdParam);
   const [isDrawerOpen, setIsDrawerOpen] = useState(habitIdParam === habitId);
 
   const [actionValues, setActionValues] = useState<{ [key: string]: number }>(
     actionChanges[habitId] || {}
   );
-  const triggerRef = useRef<HTMLDivElement>(null);
-  // const drawerRef = useRef<HTMLDivElement>(null);
+  const habitContainerRef = useRef<HTMLDivElement>(null);
 
   // Calculate XP and level
   const xpGain = xp + projectedHabitXp;
@@ -55,34 +52,9 @@ export function HabitActions({
   const xpForCurrentLevel = xpGain - baseXP;
   const xpToLevelUp = nextLevelXP - baseXP;
 
-  // Update URL when drawer opens/closes
-  // useEffect(() => {
-  //   if (isDrawerOpen) {
-  //     router.push(`?habitId=${habitId}`, { scroll: false });
-  //   } else {
-  //     return;
-  //   }
-  // }, [isDrawerOpen, habitId, router]);
-
-  // Function to update URL
-  // const updateURL = useCallback(
-  //   (open: boolean) => {
-  //     if (!habitIdParam) return;
-  //     const currentParams = new URLSearchParams(searchParams.toString());
-  //     if (open) {
-  //       currentParams.delete("habitId");
-  //     }
-  //     const newURL = currentParams.toString()
-  //       ? `?${currentParams.toString()}`
-  //       : "/";
-
-  //     router.push(newURL, { scroll: false });
-  //   },
-  //   [habitIdParam, router, searchParams]
-  // );
   const updateURL = useCallback(
     (open: boolean) => {
-      // CHANGE: Only remove the habitId parameter when closing the drawer
+      // remove the habitId parameter when closing the drawer
       if (!open) {
         const currentParams = new URLSearchParams(searchParams.toString());
         currentParams.delete("habitId");
@@ -96,44 +68,18 @@ export function HabitActions({
     [router, searchParams]
   );
 
-  // Update URL when drawer opens/closes
-  // useEffect(() => {
-  //   updateURL(isDrawerOpen);
-  // }, [isDrawerOpen, updateURL]);
-  // useEffect(() => {
-  //   // CHANGE: Only call updateURL when the drawer is closing
-  //   if (!isDrawerOpen) {
-  //     updateURL(false);
-  //   }
-  // }, [isDrawerOpen, updateURL]);
-
-  // Handle drawer open/close
-  // const handleDrawerOpenChange = (open: boolean) => {
-  //   setIsDrawerOpen(open);
-  // };
-
   // Sync local state with URL parameter
   useEffect(() => {
-    // CHANGE: Set drawer open if habitIdParam matches this habit's id
     if (habitIdParam === habitId && !habitsLoading) {
       setIsDrawerOpen(true);
     }
   }, [habitIdParam, habitId]);
 
-  // // Handle drawer open/close
-  // const handleDrawerOpenChange = (open: boolean) => {
-  //   setIsDrawerOpen(open);
-  //   // CHANGE: Only update URL when closing the drawer
-  //   if (!open) {
-  //     updateURL(false);
-  //   }
-  // };
-
   const handleDrawerOpenChange = (open: boolean) => {
     if (habitsLoading) return;
     setTimeout(() => {
-      if (triggerRef.current) {
-        triggerRef.current.scrollIntoView({
+      if (habitContainerRef.current) {
+        habitContainerRef.current.scrollIntoView({
           behavior: "smooth",
           block: "nearest",
         });
@@ -142,11 +88,9 @@ export function HabitActions({
     setIsDrawerOpen(open);
     if (!open) {
       updateURL(false);
-      // Smooth scroll to the trigger element when drawer closes
-      // Small delay to ensure drawer closing animation has started
     }
   };
-  // Add a function to handle action changes
+
   const handleActionChange = useCallback(
     (actionId: string, newValue: number) => {
       setActionValues((prev) => {
@@ -160,7 +104,7 @@ export function HabitActions({
 
   return (
     <div
-      ref={triggerRef}
+      ref={habitContainerRef}
       className="p-2 px-4 flex justify-between text-start w-full"
     >
       <div className="flex flex-grow">
@@ -206,7 +150,7 @@ export function HabitActions({
               </Button>
             ) : (
               <Checkbox
-                // ref={triggerRef}
+                // ref={habitContainerRef}
                 checked={isDrawerOpen}
                 className={`h-8 w-8 rounded-md border-primary ${
                   isDrawerOpen

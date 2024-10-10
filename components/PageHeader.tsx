@@ -34,7 +34,7 @@ export function PageHeader({
           </Link>
         </div>
         <div className="text-4xl flex items-center font-bold">
-          <span className="mr-1">{symbol}</span>
+          <span className="mr-2">{symbol}</span>
           {numberOfEntries}
         </div>
       </div>
