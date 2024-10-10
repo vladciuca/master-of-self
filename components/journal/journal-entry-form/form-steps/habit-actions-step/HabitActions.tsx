@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { HabitIconProgressBar } from "@components/habits/habit-actions/HabitIconProgressBar";
 import { HabitAction } from "../../../../habits/habit-actions/HabitAction";
@@ -43,6 +43,8 @@ export function HabitActions({
   const [actionValues, setActionValues] = useState<{ [key: string]: number }>(
     actionChanges[habitId] || {}
   );
+
+  const triggerRef = useRef<HTMLButtonElement>(null);
 
   // Calculate XP and level
   const xpGain = xp + projectedHabitXp;
@@ -116,15 +118,30 @@ export function HabitActions({
     }
   }, [habitIdParam, habitId]);
 
-  // Handle drawer open/close
+  // // Handle drawer open/close
+  // const handleDrawerOpenChange = (open: boolean) => {
+  //   setIsDrawerOpen(open);
+  //   // CHANGE: Only update URL when closing the drawer
+  //   if (!open) {
+  //     updateURL(false);
+  //   }
+  // };
+
   const handleDrawerOpenChange = (open: boolean) => {
     setIsDrawerOpen(open);
-    // CHANGE: Only update URL when closing the drawer
     if (!open) {
       updateURL(false);
+      // Smooth scroll to the trigger element when drawer closes
+      setTimeout(() => {
+        if (triggerRef.current) {
+          triggerRef.current.scrollIntoView({
+            behavior: "smooth",
+            block: "nearest",
+          });
+        }
+      }, 100); // Small delay to ensure drawer closing animation has started
     }
   };
-
   // Add a function to handle action changes
   const handleActionChange = useCallback(
     (actionId: string, newValue: number) => {
@@ -176,12 +193,17 @@ export function HabitActions({
         <Drawer open={isDrawerOpen} onOpenChange={handleDrawerOpenChange}>
           <DrawerTrigger asChild>
             {projectedHabitXp > 0 ? (
-              <Button size="icon" className="h-8 w-8 shrink-0 rounded-md">
+              <Button
+                ref={triggerRef}
+                size="icon"
+                className="h-8 w-8 shrink-0 rounded-md"
+              >
                 <Plus className="h-4 w-4" />
                 <span className="sr-only">Take Action Button</span>
               </Button>
             ) : (
               <Checkbox
+                ref={triggerRef}
                 checked={isDrawerOpen}
                 className={`h-8 w-8 rounded-md border-primary ${
                   isDrawerOpen
