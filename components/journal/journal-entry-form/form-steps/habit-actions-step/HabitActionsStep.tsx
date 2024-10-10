@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { FormStepTemplate } from "@/components/journal/journal-entry-form/form-steps/FormStepTemplate";
 import { HabitActions } from "./HabitActions";
+import { SkeletonHabitAction } from "@components/skeletons/SkeletonHabitAction";
 import { useUserHabits } from "@/hooks/useUserHabits";
 import { Habit } from "@app/types/types";
 
@@ -8,6 +9,10 @@ type HabitActionsProps = {
   onChange: (value: { [key: string]: { [key: string]: number } }) => void;
   actionChanges?: { [key: string]: { [key: string]: number } };
 };
+
+const skeletonCards = Array.from({ length: 3 }, (_, index) => (
+  <SkeletonHabitAction key={index} />
+));
 
 export function HabitActionsStep({
   onChange,
@@ -54,32 +59,27 @@ export function HabitActionsStep({
     [onChange]
   );
 
-  if (habitsLoading) {
-    return <div>Loading habits...</div>;
-  }
-
-  if (habitsError) {
-    return <div>Error loading habits: {habitsError}</div>;
-  }
-
   return (
     <FormStepTemplate
       title="Habit Actions"
       description="Track your progress on habit actions"
     >
       <div>
-        <ol>
-          {habits.map((habit) => (
-            <li key={habit._id} className="mb-8">
-              <HabitActions
-                habit={habit}
-                projectedHabitXp={calculateProjectedXP(habit)}
-                onChange={handleActionChange}
-                actionChanges={actionChanges}
-              />
-            </li>
-          ))}
-        </ol>
+        {habitsLoading && <>{skeletonCards}</>}
+        {!habitsLoading && !habitsError && (
+          <ol>
+            {habits.map((habit) => (
+              <li key={habit._id} className="mb-8">
+                <HabitActions
+                  habit={habit}
+                  projectedHabitXp={calculateProjectedXP(habit)}
+                  onChange={handleActionChange}
+                  actionChanges={actionChanges}
+                />
+              </li>
+            ))}
+          </ol>
+        )}
       </div>
     </FormStepTemplate>
   );

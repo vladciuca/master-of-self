@@ -38,8 +38,11 @@ export function UserHabits() {
     router.push(`/update-habit/${habit._id}`);
   };
 
-  const handleActionUpdate = () => {
-    router.push(`/update-journal-entry/${todayEntry?._id}`);
+  const handleActionUpdate = (habitId: string) => {
+    router.push(
+      `/update-journal-entry/${todayEntry?._id}?step=habits&habitId=${habitId}`,
+      { scroll: false }
+    );
   };
 
   // const handleDelete = async (habit: Habit) => {

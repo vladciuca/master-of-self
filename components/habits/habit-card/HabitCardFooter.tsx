@@ -11,7 +11,7 @@ type HabitCardFooterProps = {
   habit: Habit;
   pathName: string;
   handleEdit: (habit: Habit) => void;
-  handleActionUpdate: () => void;
+  handleActionUpdate: (habitId: string) => void;
   todayEntryLoading: boolean;
 };
 
@@ -43,7 +43,10 @@ export function HabitCardFooter({
         href={`/update-journal-entry/${todayEntry?._id}`}
         aria-disabled={todayEntryLoading}
       > */}
-      <Button disabled={todayEntryLoading} onClick={handleActionUpdate}>
+      <Button
+        disabled={todayEntryLoading}
+        onClick={() => handleActionUpdate(habit._id)}
+      >
         Take Action!
       </Button>
       {/* </Link> */}

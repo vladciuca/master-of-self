@@ -1,4 +1,7 @@
+"use client";
+
 import React, { useState, useEffect, useCallback, useMemo } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { FormStepProgressBar } from "@components/journal/journal-entry-form/FormStepProgressBar";
 import { FormStepNavigation } from "@components/journal/journal-entry-form/FormStepNavigation";
 import { DailyBonus } from "@components/journal/journal-entry-form/form-steps/DailyBonus";
@@ -22,6 +25,7 @@ type FormStepControllerProps = {
   hasHabits?: boolean;
   hasGratitude?: boolean;
   hasReflection?: boolean;
+  initialStep?: { step: string | null; habitId: string | null };
 };
 
 function FormStepController({
@@ -32,7 +36,10 @@ function FormStepController({
   hasGratitude = false,
   hasReflection = false,
   hasHabits = false,
+  initialStep,
 }: FormStepControllerProps) {
+  const router = useRouter();
+  const searchParams = useSearchParams();
   const [currentStep, setCurrentStep] = useState(0);
   const [formData, setFormData] = useState<JournalEntry>(() => ({
     dailyWillpower: journalEntryData?.dailyWillpower || 0,
@@ -205,8 +212,33 @@ function FormStepController({
     },
   ];
 
+  useEffect(() => {
+    const stepParam = searchParams.get("step");
+    if (stepParam) {
+      console.log("======stepParam", stepParam);
+      const stepIndex = formSteps.findIndex((step) => step.type === stepParam);
+      console.log("======stepParam", stepIndex);
+
+      if (stepIndex !== -1) {
+        setCurrentStep(stepIndex);
+      }
+    }
+  }, [searchParams, formSteps]);
+
+  useEffect(() => {
+    if (initialStep && initialStep.step) {
+      const stepIndex = formSteps.findIndex(
+        (step) => step.type === initialStep.step
+      );
+      if (stepIndex !== -1) {
+        setCurrentStep(stepIndex);
+      }
+    }
+  }, [initialStep, formSteps]);
+
   const availableSteps = formSteps.filter((step) => step.isAvailable);
   const CurrentStepComponent = availableSteps[currentStep].component;
+  const stepTypes = availableSteps.map((step) => step.type);
 
   return (
     <div className="grid grid-rows-[auto,1fr,auto] h-full">
@@ -225,6 +257,8 @@ function FormStepController({
         formData={formData}
         setCurrentStep={setCurrentStep}
         isSubmitting={submitting}
+        stepTypes={stepTypes}
+        initialHabitId={initialStep?.habitId || null}
       />
     </div>
   );

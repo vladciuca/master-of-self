@@ -24,7 +24,7 @@ type HabitCardProps = {
     [key: string]: number;
   };
   todayEntryLoading: boolean;
-  handleActionUpdate: () => void;
+  handleActionUpdate: (habitId: string) => void;
 };
 
 export function HabitCard({

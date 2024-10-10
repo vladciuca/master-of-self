@@ -7,7 +7,7 @@ type HabitListProps = {
   handleEdit: (habit: Habit) => void;
   getActionUpdateValues: (habitId: string) => any;
   todayEntryLoading: boolean;
-  handleActionUpdate: () => void;
+  handleActionUpdate: (habitId: string) => void;
   // handleDelete: (habit: Habit) => Promise<void>;
 };
 
