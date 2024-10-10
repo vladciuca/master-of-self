@@ -21,6 +21,7 @@ import { Habit } from "@app/types/types";
 
 type HabitActionsProps = {
   habit: Habit;
+  habitsLoading: boolean;
   projectedHabitXp: number;
   onChange: (habitId: string, actionId: string, newValue: number) => void;
   actionChanges: { [key: string]: { [key: string]: number } };
@@ -28,6 +29,7 @@ type HabitActionsProps = {
 
 export function HabitActions({
   habit,
+  habitsLoading,
   projectedHabitXp,
   onChange,
   actionChanges,
@@ -113,7 +115,7 @@ export function HabitActions({
   // Sync local state with URL parameter
   useEffect(() => {
     // CHANGE: Set drawer open if habitIdParam matches this habit's id
-    if (habitIdParam === habitId) {
+    if (habitIdParam === habitId && !habitsLoading) {
       setIsDrawerOpen(true);
     }
   }, [habitIdParam, habitId]);

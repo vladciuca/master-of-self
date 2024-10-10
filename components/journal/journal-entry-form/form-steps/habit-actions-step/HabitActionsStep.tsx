@@ -79,6 +79,7 @@ HabitActionsProps) {
                   projectedHabitXp={calculateProjectedXP(habit)}
                   onChange={handleActionChange}
                   actionChanges={actionChanges}
+                  habitsLoading={habitsLoading}
                 />
               </li>
             ))}
