@@ -172,7 +172,7 @@ export function HabitActions({
           </DrawerTrigger>
           <DrawerContent className="max-w-md mx-auto left-0 right-0">
             <DrawerHeader>
-              <div className="flex justify-center mb-4">
+              <div className="flex justify-center">
                 <HabitIconProgressBar
                   icon={icon}
                   xp={xp}
@@ -180,7 +180,7 @@ export function HabitActions({
                   displayXpValues
                 />
               </div>
-              <DrawerTitle className="text-center">{name} Actions</DrawerTitle>
+              {/* <DrawerTitle className="text-center">{name} Actions</DrawerTitle> */}
             </DrawerHeader>
             <ScrollArea className="h-[50vh] p-4">
               {habit.actions.map((action) => (
