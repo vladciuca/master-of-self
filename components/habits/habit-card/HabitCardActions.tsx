@@ -48,7 +48,7 @@ export function HabitCardActions({
                     <span className="ml-1 text-xl font-bold flex items-baseline text-primary">
                       {action.value}
                       {actionUpdateValues[action.id] ? (
-                        <span className="text-green-500 ml-1">
+                        <span className="text-green-500 mx-1">
                           +{actionUpdateValues[action.id]}
                         </span>
                       ) : (

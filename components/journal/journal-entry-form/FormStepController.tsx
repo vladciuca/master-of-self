@@ -8,12 +8,12 @@ import { GratefulFor } from "@components/journal/journal-entry-form/form-steps/G
 import { DailyHighlights } from "@components/journal/journal-entry-form/form-steps/DailyHighlights";
 import { LearnedToday } from "@components/journal/journal-entry-form/form-steps/LearnedToday";
 // import { HabitsStep } from "@components/journal/journal-entry-form/form-steps/HabitsStep";
-import { HabitActionsStep } from "@components/journal/journal-entry-form/form-steps/habit-actions-step/HabitActionsStep";
+import { HabitActionsStep } from "@components/journal/journal-entry-form/form-steps/HabitActionsStep";
 import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
-import { Shell } from "lucide-react";
+// import { Shell } from "lucide-react";
 import { FaSun, FaMoon, FaStar } from "react-icons/fa6";
-import { GiPrayer, GiBackup } from "react-icons/gi";
+import { GiPrayer, GiBackup, GiPencilRuler } from "react-icons/gi";
 import { RxChevronLeft, RxChevronRight } from "react-icons/rx";
 import { IconType } from "react-icons";
 import { LucideProps } from "lucide-react";
@@ -39,7 +39,7 @@ const stepIconMap: StepIconMap = {
   night: FaMoon,
   gratitude: GiPrayer,
   reflection: GiBackup,
-  habits: Shell,
+  habits: GiPencilRuler,
   default: FaStar,
 };
 
@@ -263,7 +263,7 @@ export function FormStepController({
 
   const updateUrlStep = useCallback(
     (step: number) => {
-      const params = new URLSearchParams(searchParams);
+      const params = new URLSearchParams(searchParams.toString());
       params.set("step", stepTypes[step]);
       router.push(`?${params.toString()}`, { scroll: false });
     },

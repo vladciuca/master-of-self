@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { FormStepTemplate } from "@/components/journal/journal-entry-form/form-steps/FormStepTemplate";
-import { HabitActions } from "./HabitActions";
+import { HabitActions } from "../../../habits/habit-actions/HabitActions";
 import { SkeletonHabitAction } from "@components/skeletons/SkeletonHabitAction";
 import { useUserHabits } from "@/hooks/useUserHabits";
 import { Habit } from "@app/types/types";

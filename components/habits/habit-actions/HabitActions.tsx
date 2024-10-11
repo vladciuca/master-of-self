@@ -1,12 +1,11 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { HabitIconProgressBar } from "@components/habits/habit-actions/HabitIconProgressBar";
-import { HabitAction } from "../../../../habits/habit-actions/HabitAction";
+import { HabitAction } from "./HabitAction";
 import {
   Drawer,
   DrawerContent,
   DrawerHeader,
-  DrawerTitle,
   DrawerTrigger,
   DrawerFooter,
   DrawerClose,
@@ -180,7 +179,6 @@ export function HabitActions({
                   displayXpValues
                 />
               </div>
-              {/* <DrawerTitle className="text-center">{name} Actions</DrawerTitle> */}
             </DrawerHeader>
             <ScrollArea className="h-[50vh] p-4">
               {habit.actions.map((action) => (
