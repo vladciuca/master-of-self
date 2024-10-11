@@ -1,7 +1,8 @@
+import { ActionProgressSlider } from "@components/CustomSlider";
 import { ActionIcon } from "@components/habits/HabitActionFragments";
 // import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Slider } from "@/components/ui/slider";
+// import { Slider } from "@/components/ui/slider";
 import { Hash, Clock, Minus, Plus } from "lucide-react";
 import { Card } from "@components/ui/card";
 
@@ -80,13 +81,20 @@ export function HabitAction({
           <span className="sr-only">Decrease</span>
         </Button>
         <div className="w-full">
-          <Slider
+          {/* <Slider
             value={[value]}
             max={10}
             step={1}
             disabled={value > 10}
             onValueChange={(newValue) => handleActionChange(newValue[0])}
             className="w-full"
+          /> */}
+          <ActionProgressSlider
+            value={value}
+            max={10}
+            onChange={(newValue) => handleActionChange(newValue)}
+            startColor="#FFA500"
+            endColor="#22C55E"
           />
         </div>
         <Button
