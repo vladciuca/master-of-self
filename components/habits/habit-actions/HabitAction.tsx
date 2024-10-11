@@ -45,15 +45,7 @@ export function HabitAction({
             {/* <Badge variant="secondary" className="capitalize">
             {action.type}
           </Badge> */}
-            <span className="text-lg font-bold">
-              {value > 0 ? (
-                <span className="text-green-500"> +{value}</span>
-              ) : (
-                <span>{value}</span>
-              )}
 
-              <span className="text-primary font-normal mx-1">XP</span>
-            </span>
             <div className="flex items-baseline mx-2">
               Daily Target:
               <span className="text-primary ml-1">
@@ -76,6 +68,15 @@ export function HabitAction({
               </span>
               /10
             </div>
+            <span className="text-lg font-bold">
+              {value > 0 ? (
+                <span className="text-green-500"> +{value}</span>
+              ) : (
+                <span>{value}</span>
+              )}
+
+              <span className="text-primary font-normal mx-1">XP</span>
+            </span>
           </div>
         </div>
         <div className="flex justify-center items-center space-x-8 my-6 mx-8">
