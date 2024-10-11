@@ -1,5 +1,5 @@
 import { ActionProgressSlider } from "@components/habits/habit-actions/ActionProgressSlider";
-import { ActionIcon } from "@components/habits/HabitActionFragments";
+import { ActionIcon } from "@components/habits/habit-actions/HabitActionFragments";
 // import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 // import { Slider } from "@/components/ui/slider";

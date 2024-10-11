@@ -4,7 +4,7 @@ import { useSession } from "next-auth/react";
 import { PageLogo } from "@components/PageLogo";
 import { Layout } from "@app/types/types";
 
-export function SectionContent({ children }: Layout) {
+export function PageContent({ children }: Layout) {
   const { data: session } = useSession();
 
   return (

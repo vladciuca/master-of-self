@@ -2,24 +2,18 @@ import { IconRenderer } from "@components/IconRenderer";
 import { CircularProgress } from "@components/ui/circular-progress";
 import { calculateLevel, xpForLevel } from "@lib/level";
 import { Habit } from "@app/types/types";
-import { Plus, Star } from "lucide-react";
-import { Skeleton } from "@components/ui/skeleton";
 
 type HabitCardHeaderProps = {
   habit: Habit;
-  // handleOpenHabitActions: (e: React.MouseEvent) => void;
   actionUpdateValues: { [key: string]: number };
   todayEntryLoading: boolean;
-  // handleActionUpdate: (e: React.MouseEvent) => void;
 };
 
 export function HabitCardHeader({
   habit,
-  // handleOpenHabitActions,
   actionUpdateValues,
   todayEntryLoading,
-}: // handleActionUpdate,
-HabitCardHeaderProps) {
+}: HabitCardHeaderProps) {
   const { name, icon, xp } = habit;
 
   const projectedXp = Object.values(actionUpdateValues).reduce(
@@ -70,10 +64,7 @@ HabitCardHeaderProps) {
         </div>
       </div>
       <div className="flex items-center justify-center">
-        <div
-          className="relative flex items-center justify-center h-full w-full"
-          // onClick={handleOpenHabitActions}
-        >
+        <div className="relative flex items-center justify-center h-full w-full">
           <CircularProgress
             className="ml-4"
             value={currentProgressPercentage}
@@ -81,13 +72,13 @@ HabitCardHeaderProps) {
             strokeWidth={8}
             circleSize={80}
           />
-          <div
-            // onClick={handleActionUpdate}
-            className="absolute w-full flex flex-col justify-center items-center"
-          >
+          <div className="absolute w-full flex flex-col justify-center items-center">
             <div className="flex flex-col items-center justify-center text-xs">
               {todayEntryLoading ? (
-                <Skeleton className="h-6 w-6 rounded-full" />
+                <div className="text-muted">
+                  <span className="text-base">??</span>
+                  <span className="ml-1">XP</span>
+                </div>
               ) : projectedXp > 0 ? (
                 <div>
                   <span className="text-base text-green-500 font-bold">

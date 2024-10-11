@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ActionIcon } from "@components/habits/HabitActionFragments";
+import { ActionIcon } from "@components/habits/habit-actions/HabitActionFragments";
 import {
   FormField,
   FormItem,

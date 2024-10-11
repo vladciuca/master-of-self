@@ -1,10 +1,10 @@
 import {
   CircleAlert,
-  OctagonAlert,
-  BadgeAlert,
+  // OctagonAlert,
+  // BadgeAlert,
   ShieldAlert,
 } from "lucide-react";
-import { GiPointySword, GiSlashedShield } from "react-icons/gi";
+// import { GiPointySword, GiSlashedShield } from "react-icons/gi";
 
 type ActionIconProps = { type: "offensive" | "defensive"; size?: number };
 
