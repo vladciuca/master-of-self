@@ -122,28 +122,24 @@ export function IconPicker({ value, onChange, habitXp }: IconPickerProps) {
             Choose an icon that best resembles your action.
           </DrawerDescription>
         </DrawerHeader>
-        <div className="pb-4 pt-0 px-1">
-          <div className="px-1">
-            <Input
-              className="text-base rounded-md mb-2"
-              type="search"
-              placeholder="Search icons..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
-          </div>
+        <div className="p-4 pt-0">
+          <Input
+            className="text-base rounded-md mb-2"
+            type="search"
+            placeholder="Search icons..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
 
-          <ScrollArea className="h-[40vh] mb-4 px-1">
+          <ScrollArea className="h-[40vh] mb-4 px-2">
             <div className="grid grid-cols-6 gap-2 place-items-center">
               {renderContent()}
             </div>
           </ScrollArea>
           <DrawerClose asChild>
-            <div className="px-1">
-              <Button variant="default" className="w-full">
-                Done
-              </Button>
-            </div>
+            <Button variant="default" className="w-full">
+              Done
+            </Button>
           </DrawerClose>
         </div>
       </DrawerContent>
