@@ -18,6 +18,10 @@ export function ActionProgressSlider({
   // Generate colors once when the component mounts or when dependencies change
   const sliderColors = useMemo(() => {
     const generateColors = (start: string, end: string, steps: number) => {
+      if (steps === 1) {
+        return [end];
+      }
+
       const result = [];
       for (let i = 0; i < steps; i++) {
         const r = Math.round(

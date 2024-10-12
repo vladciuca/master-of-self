@@ -12,6 +12,7 @@ interface HabitActionProps {
     type: "offensive" | "defensive";
     action: string;
     metric: "count" | "time";
+    dailyTarget: number;
   };
   value: number;
   onValueChange: (actionId: string, newValue: number) => void;
@@ -66,7 +67,7 @@ export function HabitAction({
                   </div>
                 </div>
               </span>
-              /10
+              /{action.dailyTarget}
             </div>
             <span className="text-lg font-bold">
               {value > 0 ? (
@@ -101,7 +102,7 @@ export function HabitAction({
           /> */}
             <ActionProgressSlider
               value={value}
-              max={3}
+              max={action.dailyTarget}
               onChange={(newValue) => handleActionChange(newValue)}
               startColor="#F59E0B"
               endColor="#22C55E"
