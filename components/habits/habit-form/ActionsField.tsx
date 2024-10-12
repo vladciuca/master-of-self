@@ -279,7 +279,7 @@ export function ActionsField({ control }: ActionsFieldProps) {
                       })
                     }
                     type="number"
-                    className="w-20 mx-2 text-center"
+                    className="w-20 mx-2 text-center text-base"
                   />
                 </div>
 
