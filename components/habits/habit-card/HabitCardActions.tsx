@@ -21,9 +21,9 @@ export function HabitCardActions({
           <div className="flex items-center justify-between mb-1">
             <div className="flex items-center">
               <span className="flex items-center">
-                <ActionIcon type={action.type} />
+                <ActionIcon type={action.type} size={18} />
               </span>
-              <span className="text-lg">{action.action}</span>
+              <span className="text-base">{action.action}</span>
             </div>
           </div>
           <div className="flex flex-col text-sm text-muted-foreground mb-2">
