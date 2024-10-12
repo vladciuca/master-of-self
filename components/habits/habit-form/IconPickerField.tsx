@@ -6,7 +6,7 @@ import {
   FormMessage,
 } from "@components/ui/form";
 import { IconPicker } from "@components/IconPicker";
-import { useIconRarityLevel } from "@hooks/useIconRarityLevel";
+// import { useIconRarityLevel } from "@hooks/useIconRarityLevel";
 import { Control } from "react-hook-form";
 import { HabitZodType } from "@components/habits/habit-form/habitFormSchema";
 
@@ -15,9 +15,9 @@ type IconPickerFieldProps = {
 };
 
 export function IconPickerField({ control }: IconPickerFieldProps) {
-  const { iconColorClass, bgColorClass } = useIconRarityLevel(
-    control._formValues.xp
-  );
+  // const { iconColorClass, bgColorClass } = useIconRarityLevel(
+  //   control._formValues.xp
+  // );
 
   return (
     <FormField
@@ -25,13 +25,16 @@ export function IconPickerField({ control }: IconPickerFieldProps) {
       name="icon"
       render={({ field }) => (
         <FormItem>
-          <FormLabel>Habit Icon</FormLabel>
+          <FormLabel className="w-full flex justify-center">
+            Habit Icon
+          </FormLabel>
           <FormControl>
             <IconPicker
               value={field.value}
               onChange={(iconName) => field.onChange(iconName)}
-              iconColorClass={iconColorClass}
-              bgColorClass={bgColorClass}
+              // iconColorClass={iconColorClass}
+              // bgColorClass={bgColorClass}
+              habitXp={control._formValues.xp}
             />
           </FormControl>
           <FormMessage />
