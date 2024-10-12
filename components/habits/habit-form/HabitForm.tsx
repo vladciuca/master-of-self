@@ -61,11 +61,15 @@ export function HabitForm({
         <ActionsField control={form.control} />
 
         <div className="flex flex-col justify-center items-center flex-grow">
-          <Button type="submit" disabled={submitting} className="w-1/2 mt-3">
+          <Button
+            type="submit"
+            disabled={submitting}
+            className="w-full mt-3 mb-4"
+          >
             {type} Habit
           </Button>
-          <Link href="/habits" className="w-full flex justify-center my-8">
-            <Button variant="secondary" className="w-1/2">
+          <Link href="/habits" className="w-full flex justify-center mb-4">
+            <Button variant="secondary" className="w-full">
               Cancel
             </Button>
           </Link>

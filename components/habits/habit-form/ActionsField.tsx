@@ -26,6 +26,7 @@ import {
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
+  DrawerClose,
 } from "@/components/ui/drawer";
 import { Label } from "@components/ui/label";
 import { CircleX, Plus, Edit2 } from "lucide-react";
@@ -218,7 +219,7 @@ export function ActionsField({ control }: ActionsFieldProps) {
                     setActionForm({ ...actionForm, type: value })
                   }
                 >
-                  <SelectTrigger className="my-4 mb-8">
+                  <SelectTrigger className="my-2 mb-4">
                     <SelectValue placeholder="Select action type" />
                   </SelectTrigger>
                   <SelectContent>
@@ -244,7 +245,7 @@ export function ActionsField({ control }: ActionsFieldProps) {
                     setActionForm({ ...actionForm, metric: value })
                   }
                 >
-                  <SelectTrigger className="my-4 mb-8">
+                  <SelectTrigger className="my-2 mb-4">
                     <SelectValue placeholder="Select metric" />
                   </SelectTrigger>
                   <SelectContent>
@@ -267,7 +268,7 @@ export function ActionsField({ control }: ActionsFieldProps) {
                   </SelectContent>
                 </Select>
 
-                <div className="flex items-center mt-4 mb-8">
+                <div className="flex items-center mt-2 mb-4">
                   <Label className="mr-4">Daily target</Label>
 
                   <MetricIcon metric={actionForm.metric} size={20} />
@@ -290,6 +291,9 @@ export function ActionsField({ control }: ActionsFieldProps) {
                 <Button onClick={handleActionSubmit} className="w-full mb-4">
                   {editId !== null ? "Update Action" : "Add Action"}
                 </Button>
+                <DrawerClose asChild className="w-full mb-4">
+                  <Button variant="outline">Close</Button>
+                </DrawerClose>
               </div>
             </DrawerContent>
           </Drawer>
