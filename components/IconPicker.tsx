@@ -282,6 +282,7 @@ import { Skeleton } from "@components/ui/skeleton";
 import { CircleHelp, SearchX } from "lucide-react";
 import * as GiIcons from "react-icons/gi";
 import { useIconPickerSearch } from "@hooks/useIconPickerSearch";
+import { ScrollArea } from "./ui/scroll-area";
 
 type IconPickerProps = {
   value?: string;
@@ -377,7 +378,7 @@ export function IconPicker({
           )}
         </div>
       </DrawerTrigger>
-      <DrawerContent className="flex flex-col h-[85vh] max-w-md mx-auto left-0 right-0">
+      <DrawerContent className="max-w-md mx-auto left-0 right-0">
         <DrawerHeader>
           <DrawerTitle className="flex flex-col items-center">
             {selectedIconName ? "Icon Selected" : "Select Icon"}
@@ -391,29 +392,30 @@ export function IconPicker({
             Choose an icon that best resembles your action.
           </DrawerDescription>
         </DrawerHeader>
-        <div className="mx-4 pb-2">
+        <div className="p-4">
           <Input
-            className="text-base rounded-md"
+            className="text-base rounded-md mb-2"
             type="search"
             placeholder="Search icons..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
-        </div>
-        <div className="flex-grow overflow-y-auto p-4">
-          <div className="grid grid-cols-6 gap-2 place-items-center">
-            {renderContent()}
+          <ScrollArea className="h-[40vh] overflow-y-auto mb-4">
+            <div className="grid grid-cols-6 gap-2 place-items-center">
+              {renderContent()}
+            </div>
+          </ScrollArea>
+          <div className="">
+            <Button
+              variant="default"
+              className="w-full"
+              onClick={() => setIsOpen(false)}
+            >
+              Done
+            </Button>
           </div>
         </div>
-        <div>
-          <Button
-            variant="default"
-            className="m-4"
-            onClick={() => setIsOpen(false)}
-          >
-            Done
-          </Button>
-        </div>
+
         {/* <DrawerFooter> */}
         {/* <DrawerClose asChild> */}
         {/* <Button
