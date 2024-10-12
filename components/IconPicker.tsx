@@ -391,7 +391,7 @@ export function IconPicker({
             Choose an icon that best resembles your action.
           </DrawerDescription>
         </DrawerHeader>
-        <div className="mx-4 pb-0">
+        <div className="mx-4 pb-2">
           <Input
             className="text-base"
             type="search"
@@ -406,11 +406,15 @@ export function IconPicker({
           </div>
         </div>
         {/* <DrawerFooter> */}
-        <DrawerClose asChild>
-          <Button variant="default" className="m-4">
-            Done
-          </Button>
-        </DrawerClose>
+        {/* <DrawerClose asChild> */}
+        <Button
+          variant="default"
+          className="m-4"
+          onClick={() => setIsOpen(false)}
+        >
+          Done
+        </Button>
+        {/* </DrawerClose> */}
         {/* </DrawerFooter> */}
       </DrawerContent>
     </Drawer>
