@@ -1,6 +1,7 @@
 import { IconRenderer } from "@components/IconRenderer";
 import { CircularProgress } from "@components/ui/circular-progress";
 import { calculateLevel, xpForLevel } from "@lib/level";
+import { formatNumberSuffixes } from "@lib/utils";
 import { Habit } from "@app/types/types";
 
 type HabitCardHeaderProps = {
@@ -58,7 +59,8 @@ export function HabitCardHeader({
             </span>
           </div>
           <div className="text-xs text-muted-foreground mt-1">
-            {xpForCurrentLevel}/{xpToLevelUp}
+            {formatNumberSuffixes(xpForCurrentLevel)}/
+            {formatNumberSuffixes(xpToLevelUp)}
             <span className="text-primary ml-1">XP</span>
           </div>
         </div>
@@ -82,7 +84,7 @@ export function HabitCardHeader({
               ) : projectedXp > 0 ? (
                 <div>
                   <span className="text-base text-green-500 font-bold">
-                    +{projectedXp}
+                    +{formatNumberSuffixes(projectedXp)}
                   </span>
                   <span className="ml-1">XP</span>
                 </div>

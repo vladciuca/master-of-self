@@ -1,6 +1,7 @@
 import { ActionIcon } from "@components/habits/habit-actions/HabitActionIcon";
 // import { Badge } from "@/components/ui/badge";
 import { Hash, Clock } from "lucide-react";
+import { formatNumberSuffixes } from "@lib/utils";
 import { HabitAction } from "@app/types/types";
 
 type HabitCardActionsProps = {
@@ -27,10 +28,24 @@ export function HabitCardActions({
               <span className=" text-lg">{action.action}</span>
             </div>
           </div>
-          <div className="flex items-center justify-between text-sm text-muted-foreground mb-2">
+          <div className="flex flex-col text-sm text-muted-foreground mb-2">
             {/* <Badge variant="secondary" className="capitalize">
               {action.type}
             </Badge> */}
+
+            <div className="flex items-baseline mx-1 my-1">
+              Daily target:
+              <span className="ml-1 text-xl font-bold flex items-baseline text-primary">
+                {actionUpdateValues[action.id] ? (
+                  <span className="text-green-500">
+                    {actionUpdateValues[action.id]}
+                  </span>
+                ) : (
+                  <span>0</span>
+                )}
+                /{action.dailyTarget}
+              </span>
+            </div>
 
             <div className="flex items-baseline mx-1">
               Overall:
@@ -46,13 +61,8 @@ export function HabitCardActions({
                     </span>
 
                     <span className="ml-1 text-xl font-bold flex items-baseline text-primary">
-                      {action.value}
-                      {actionUpdateValues[action.id] ? (
-                        <span className="text-green-500 mx-1">
-                          +{actionUpdateValues[action.id]}
-                        </span>
-                      ) : (
-                        <></>
+                      {formatNumberSuffixes(
+                        action.value + (actionUpdateValues[action.id] || 0)
                       )}
                       {action.metric === "count" ? "" : " h"}
                     </span>
