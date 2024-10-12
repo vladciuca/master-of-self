@@ -132,7 +132,7 @@ export function IconPicker({ value, onChange, habitXp }: IconPickerProps) {
           />
 
           <ScrollArea className="h-[40vh] mb-4">
-            <div className="mx-1 grid grid-cols-6 gap-2 place-items-center">
+            <div className="px-2 grid grid-cols-6 gap-2 place-items-center">
               {renderContent()}
             </div>
           </ScrollArea>
