@@ -1,10 +1,8 @@
 "use client";
 
-// import Link from "next/link";
 import { Button } from "@components/ui/button";
 import { GiPencilRuler } from "react-icons/gi";
 import { Session, Habit } from "@app/types/types";
-// import { useTodayJournalEntry } from "@hooks/useTodayJournalEntry";
 
 type HabitCardFooterProps = {
   session: Session | null;
@@ -23,34 +21,29 @@ export function HabitCardFooter({
   handleActionUpdate,
   todayEntryLoading,
 }: HabitCardFooterProps) {
-  // const { todayEntry, todayEntryLoading } = useTodayJournalEntry();
-
   if (session?.user?.id !== habit.creatorId || pathName !== "/habits") {
     return null;
   }
 
   return (
-    <div className="mt-12 flex justify-between">
+    <div className="mt-12 flex space-x-4">
       <Button
-        variant="secondary"
+        variant="outline"
         onClick={() => handleEdit(habit)}
-        className="mr-3"
+        className="flex-1 w-full"
       >
         Update
-        {/* <GiPencilRuler className="ml-2" size={"1.2rem"} /> */}
       </Button>
-      {/* <Link
-        href={`/update-journal-entry/${todayEntry?._id}`}
-        aria-disabled={todayEntryLoading}
-      > */}
+
       <Button
+        variant="secondary"
         disabled={todayEntryLoading}
         onClick={() => handleActionUpdate(habit._id)}
+        className="flex-1 w-full"
       >
         Take Action
         <GiPencilRuler className="ml-2" size={"1.2rem"} />
       </Button>
-      {/* </Link> */}
     </div>
   );
 }
