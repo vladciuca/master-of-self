@@ -35,7 +35,7 @@ export function HabitCardActions({
 
             <div className="flex items-baseline mx-1 my-1">
               Daily target:
-              <span className="ml-1 text-xl font-bold flex items-baseline text-primary">
+              <span className="ml-1 text-lg font-bold flex items-baseline text-primary">
                 {actionUpdateValues[action.id] ? (
                   <span className="text-green-500">
                     {actionUpdateValues[action.id]}
@@ -60,7 +60,7 @@ export function HabitCardActions({
                       )}
                     </span>
 
-                    <span className="ml-1 text-xl font-bold flex items-baseline text-primary">
+                    <span className="ml-1 text-lg font-bold flex items-baseline text-primary">
                       {formatNumberSuffixes(
                         action.value + (actionUpdateValues[action.id] || 0)
                       )}
