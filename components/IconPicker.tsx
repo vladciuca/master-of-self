@@ -405,6 +405,15 @@ export function IconPicker({
             {renderContent()}
           </div>
         </div>
+        <div>
+          <Button
+            variant="default"
+            className="m-4"
+            onClick={() => setIsOpen(false)}
+          >
+            Done
+          </Button>
+        </div>
         {/* <DrawerFooter> */}
         {/* <DrawerClose asChild> */}
         {/* <Button
