@@ -7,6 +7,7 @@ type PageHeaderProps = {
   title: string;
   linkTo: string;
   numberOfEntries: number | string;
+  disabled?: boolean;
 };
 
 export function PageHeader({
@@ -14,6 +15,7 @@ export function PageHeader({
   title,
   linkTo,
   numberOfEntries,
+  disabled,
 }: PageHeaderProps) {
   return (
     <div className="sticky top-0 z-10 bg-background px-2 py-4">
@@ -24,6 +26,7 @@ export function PageHeader({
           </h1>
           <Link href={`${linkTo}`}>
             <Button
+              disabled={disabled}
               variant="secondary"
               size="icon"
               className="h-8 w-8 shrink-0 rounded-full mx-3"
