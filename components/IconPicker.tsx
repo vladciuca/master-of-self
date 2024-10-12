@@ -18,7 +18,6 @@ import { CircleHelp, SearchX } from "lucide-react";
 import * as GiIcons from "react-icons/gi";
 import { cn } from "@lib/utils";
 import { useIconPickerSearch } from "@hooks/useIconPickerSearch";
-import { ScrollArea } from "./ui/scroll-area";
 
 type IconPickerProps = {
   value?: string;
@@ -97,18 +96,21 @@ export function IconPicker({ value, onChange, habitXp }: IconPickerProps) {
         if (open) setIsLoading(true);
       }}
     >
-      <DrawerTrigger asChild>
-        <div className="flex justify-center cursor-pointer">
-          {SelectedIcon ? (
-            <HabitIconProgressBar
-              icon={selectedIconName || ""}
-              xp={habitXp || 0}
-            />
-          ) : (
-            <CircleHelp className="h-14 w-14 mx-5 text-muted-foreground" />
-          )}
-        </div>
-      </DrawerTrigger>
+      <div className="w-full flex justify-center items-center">
+        <DrawerTrigger asChild>
+          <div className="inline-flex cursor-pointer">
+            {SelectedIcon ? (
+              <HabitIconProgressBar
+                icon={selectedIconName || ""}
+                xp={habitXp || 0}
+              />
+            ) : (
+              <CircleHelp className="h-14 w-14 text-muted-foreground" />
+            )}
+          </div>
+        </DrawerTrigger>
+      </div>
+
       <DrawerContent className="max-w-md mx-auto left-0 right-0">
         <DrawerHeader>
           <DrawerTitle className="flex flex-col items-center">
@@ -136,7 +138,7 @@ export function IconPicker({ value, onChange, habitXp }: IconPickerProps) {
             onChange={(e) => setSearchTerm(e.target.value)}
           />
 
-          <div className="max-h-[40vh] mb-4 overflow-y-scroll">
+          <div className="h-[40vh] mb-4 overflow-y-scroll">
             <div className="grid grid-cols-6 gap-2 place-items-center">
               {renderContent()}
             </div>
