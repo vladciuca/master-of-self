@@ -26,7 +26,7 @@ export function IconPickerField({ control }: IconPickerFieldProps) {
       render={({ field }) => (
         <FormItem>
           <FormLabel className="w-full flex justify-center">
-            Habit Icon
+            Habit icon
           </FormLabel>
           <FormControl>
             <IconPicker

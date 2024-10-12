@@ -16,6 +16,7 @@ import {
 import { Skeleton } from "@components/ui/skeleton";
 import { CircleHelp, SearchX } from "lucide-react";
 import * as GiIcons from "react-icons/gi";
+import { cn } from "@lib/utils";
 import { useIconPickerSearch } from "@hooks/useIconPickerSearch";
 import { ScrollArea } from "./ui/scroll-area";
 
@@ -124,18 +125,22 @@ export function IconPicker({ value, onChange, habitXp }: IconPickerProps) {
         </DrawerHeader>
         <div className="p-4 pt-0">
           <Input
-            className="text-base rounded-md mb-2"
+            className={`text-base mb-2 ${cn(
+              "rounded-md focus:rounded-md active:rounded-md",
+              "appearance-none",
+              "safari-rounded-fix"
+            )}`}
             type="search"
             placeholder="Search icons..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
 
-          <ScrollArea className="h-[40vh] mb-4">
-            <div className="px-2 grid grid-cols-6 gap-2 place-items-center">
+          <div className="max-h-[40vh] mb-4 overflow-y-scroll">
+            <div className="grid grid-cols-6 gap-2 place-items-center">
               {renderContent()}
             </div>
-          </ScrollArea>
+          </div>
           <DrawerClose asChild>
             <Button variant="default" className="w-full">
               Done
