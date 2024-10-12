@@ -154,7 +154,7 @@ export function ActionsField({ control }: ActionsFieldProps) {
                   <div className="flex items-center justify-between space-x-1">
                     <div className="flex items-center">
                       <span className="text-sm text-muted-foreground">
-                        Target:
+                        Daily target:
                       </span>
 
                       <span className="mx-1">
@@ -268,7 +268,7 @@ export function ActionsField({ control }: ActionsFieldProps) {
                 </Select>
 
                 <div className="flex items-center mt-4 mb-8">
-                  <Label className="mr-4">Daily Target</Label>
+                  <Label className="mr-4">Daily target</Label>
 
                   <MetricIcon metric={actionForm.metric} size={20} />
                   <div className="ml-1">{actionForm.dailyTarget}</div>
