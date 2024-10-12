@@ -11,6 +11,7 @@ type HabitCardFooterProps = {
   handleEdit: (habit: Habit) => void;
   handleActionUpdate: (habitId: string) => void;
   todayEntryLoading: boolean;
+  submittingJournalEntry: boolean;
 };
 
 export function HabitCardFooter({
@@ -20,6 +21,7 @@ export function HabitCardFooter({
   handleEdit,
   handleActionUpdate,
   todayEntryLoading,
+  submittingJournalEntry,
 }: HabitCardFooterProps) {
   if (session?.user?.id !== habit.creatorId || pathName !== "/habits") {
     return null;
@@ -37,7 +39,7 @@ export function HabitCardFooter({
 
       <Button
         variant="secondary"
-        disabled={todayEntryLoading}
+        disabled={todayEntryLoading && submittingJournalEntry}
         onClick={() => handleActionUpdate(habit._id)}
         className="flex-1 w-full"
       >

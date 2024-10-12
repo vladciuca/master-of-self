@@ -1,19 +1,12 @@
-import { useState } from "react";
-import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { JournalEntryHabits } from "@components/journal/JournalEntryHabits";
 import { Card } from "@components/ui/card";
 import { Button } from "@components/ui/button";
 import { FaBoltLightning } from "react-icons/fa6";
-import { getToday, getTomorrow } from "@lib/time";
 import { useYesterdayJournalEntry } from "@hooks/useYesterdayJournalEntry";
 import { useTodayJournalEntry } from "@hooks/useTodayJournalEntry";
-import { Session } from "@app/types/types";
-import { HabitActionUpdate } from "@app/types/mongodb";
+import { useCreateJournalEntry } from "@hooks/useCreateJournalEntry";
 
 export function NewJournalEntry() {
-  const [submitting, setSubmitting] = useState<boolean>(false);
-  const { data: session } = useSession() as { data: Session | null };
   const router = useRouter();
   const {
     yesterdayEntry,
@@ -22,6 +15,7 @@ export function NewJournalEntry() {
     habitsXp = {},
   } = useYesterdayJournalEntry();
   const { todayEntry, todayEntryLoading } = useTodayJournalEntry();
+  const { createJournalEntry, submitting } = useCreateJournalEntry();
 
   const date = new Date();
   const day = date.getDate();
@@ -29,103 +23,16 @@ export function NewJournalEntry() {
     .toLocaleString("default", { weekday: "short" })
     .toUpperCase();
 
-  const createJournalEntry = async () => {
-    setSubmitting(false);
-
+  const handleCreateJournalEntry = async () => {
     try {
-      setSubmitting(true);
-      const today = getToday();
-      const tomorrow = getTomorrow();
-
-      const createNewEntryResponse = await fetch(
-        `/api/journal-entry/new?today=${today}&tomorrow=${tomorrow}`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            userId: session?.user.id,
-            dailyWillpower: bonusWillpower,
-            bonusWillpower: bonusWillpower,
-          }),
-        }
+      const newEntryId = await createJournalEntry(
+        bonusWillpower,
+        habitsXp,
+        yesterdayEntry?.nightEntry?.actions
       );
-
-      if (createNewEntryResponse.ok) {
-        const newEntry = await createNewEntryResponse.json();
-
-        //UPDATE HABIT XP
-        if (Object.keys(habitsXp).length > 0) {
-          await updateHabitXP(habitsXp);
-        }
-
-        //UPDATE ACTION VALUES
-        const nightEntryActions = yesterdayEntry?.nightEntry?.actions;
-
-        if (nightEntryActions && Object.keys(nightEntryActions).length > 0) {
-          await updateHabitActions(nightEntryActions);
-        }
-
-        if (newEntry?._id) {
-          router.push(`/update-journal-entry/${newEntry._id}`);
-        } else {
-          console.error("Failed to create new entry: No _id returned");
-        }
-      } else {
-        const errorData = await createNewEntryResponse.json();
-        console.error("Failed to create new entry:", errorData.error);
-      }
+      router.push(`/update-journal-entry/${newEntryId}`);
     } catch (error) {
-      console.error("Error creating new entry:", error);
-    }
-  };
-
-  const updateHabitXP = async (habits: { [key: string]: number }) => {
-    try {
-      const habitUpdates = Object.entries(habits);
-
-      const response = await fetch(
-        `/api/users/${session?.user.id}/habits/updateXp`,
-        {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(habitUpdates),
-        }
-      );
-
-      if (!response.ok) {
-        throw new Error("Failed to update habits");
-      }
-    } catch (error) {
-      console.error("Error updating habits:", error);
-    }
-  };
-
-  const updateHabitActions = async (habitActionUpdates: HabitActionUpdate) => {
-    try {
-      const response = await fetch(
-        `/api/users/${session?.user.id}/habits/updateActions`,
-        {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(habitActionUpdates),
-        }
-      );
-
-      if (!response.ok) {
-        throw new Error("Failed to update habit actions");
-      }
-
-      const data = await response.json();
-      return data.habits;
-    } catch (error) {
-      console.error("Error updating habit actions:", error);
-      throw error;
+      console.error("Failed to create new journal entry:", error);
     }
   };
 
@@ -172,12 +79,6 @@ export function NewJournalEntry() {
               "Generate Willpower to channel into your goals through your habits!"
             }
           </div>
-          {Object.keys(habitsXp).length > 0 && (
-            <div className="w-full text-muted-foreground my-4">
-              {"Claim XP for yesterday's habits:"}
-              <JournalEntryHabits habitsXp={habitsXp} />
-            </div>
-          )}
         </div>
       </div>
 
@@ -185,7 +86,7 @@ export function NewJournalEntry() {
         <Button
           size="sm"
           className="py-3"
-          onClick={createJournalEntry}
+          onClick={handleCreateJournalEntry}
           disabled={submitting || isEntryExisting || todayEntryLoading}
         >
           {submitting

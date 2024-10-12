@@ -7,6 +7,7 @@ import { SkeletonHabitCard } from "@components/skeletons/SkeletonHabitCard";
 import { Shell } from "lucide-react";
 import { useUserHabits } from "@hooks/useUserHabits";
 import { useTodayJournalEntry } from "@hooks/useTodayJournalEntry";
+import { useCreateJournalEntry } from "@hooks/useCreateJournalEntry";
 import { Habit } from "@app/types/types";
 
 const NEW_HABIT_CARD_DETAILS = {
@@ -29,6 +30,7 @@ const skeletonCards = Array.from({ length: 3 }, (_, index) => (
 export function UserHabits() {
   const { habits, habitsLoading, habitsError } = useUserHabits();
   const { todayEntry, todayEntryLoading } = useTodayJournalEntry();
+  const { createJournalEntry, submitting } = useCreateJournalEntry();
 
   const router = useRouter();
 
@@ -38,11 +40,23 @@ export function UserHabits() {
     router.push(`/update-habit/${habit._id}`);
   };
 
-  const handleActionUpdate = (habitId: string) => {
-    router.push(
-      `/update-journal-entry/${todayEntry?._id}?step=habits&habitId=${habitId}`,
-      { scroll: false }
-    );
+  const handleActionUpdate = async (habitId: string) => {
+    if (!todayEntry?._id) {
+      try {
+        const newEntryId = await createJournalEntry();
+        router.push(
+          `/update-journal-entry/${newEntryId}?step=habits&habitId=${habitId}`,
+          { scroll: false }
+        );
+      } catch (error) {
+        console.error("Failed to create new journal entry:", error);
+      }
+    } else {
+      router.push(
+        `/update-journal-entry/${todayEntry._id}?step=habits&habitId=${habitId}`,
+        { scroll: false }
+      );
+    }
   };
 
   // const handleDelete = async (habit: Habit) => {
@@ -81,6 +95,7 @@ export function UserHabits() {
           // handleDelete={handleDelete}
           getActionUpdateValues={getActionUpdateValues}
           todayEntryLoading={todayEntryLoading}
+          submittingJournalEntry={submitting}
           handleActionUpdate={handleActionUpdate}
         />
       )}
