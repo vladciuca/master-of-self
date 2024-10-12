@@ -29,6 +29,7 @@ import { CircleX, Plus, Hash, Clock, Edit2 } from "lucide-react";
 import { Control, useFieldArray, useWatch } from "react-hook-form";
 import { HabitZodType } from "@components/habits/habit-form/habitFormSchema";
 import { HabitAction } from "@app/types/types";
+import { Slider } from "@components/ui/slider";
 
 type ActionsFieldProps = {
   control: Control<HabitZodType>;
@@ -263,25 +264,28 @@ export function ActionsField({ control }: ActionsFieldProps) {
                   </SelectContent>
                 </Select>
 
-                <Label>Daily Target</Label>
-                <div className="flex items-center mt-4 mb-24">
+                <div className="flex items-center mt-4 mb-8">
+                  <Label className="mr-4">Daily Target</Label>
                   {actionForm.metric === "count" ? (
                     <Hash size={20} className="text-primary" />
                   ) : (
                     <Clock size={20} className="text-primary" />
                   )}
-                  <Input
-                    value={actionForm.dailyTarget}
-                    onChange={(e) =>
-                      setActionForm({
-                        ...actionForm,
-                        dailyTarget: Number(e.target.value) || 1,
-                      })
-                    }
-                    type="number"
-                    className="w-20 mx-2 text-center text-base"
-                  />
+                  <div className="ml-1">{actionForm.dailyTarget}</div>
                 </div>
+                <Slider
+                  value={[actionForm.dailyTarget]} // the value should be passed as an array
+                  max={10}
+                  onValueChange={(
+                    value // `value` will be an array, so we grab the first element
+                  ) =>
+                    setActionForm({
+                      ...actionForm,
+                      dailyTarget: Number(value[0]) || 1, // access the first item from the array
+                    })
+                  }
+                  className="w-full my-8 mb-16"
+                />
 
                 <Button onClick={handleActionSubmit} className="w-full mb-4">
                   {editId !== null ? "Update Action" : "Add Action"}
