@@ -393,7 +393,7 @@ export function IconPicker({
         </DrawerHeader>
         <div className="mx-4 pb-2">
           <Input
-            className="text-base"
+            className="text-base rounded-md"
             type="search"
             placeholder="Search icons..."
             value={searchTerm}
@@ -407,13 +407,13 @@ export function IconPicker({
         </div>
         {/* <DrawerFooter> */}
         {/* <DrawerClose asChild> */}
-        <Button
+        {/* <Button
           variant="default"
           className="m-4"
           onClick={() => setIsOpen(false)}
         >
           Done
-        </Button>
+        </Button> */}
         {/* </DrawerClose> */}
         {/* </DrawerFooter> */}
       </DrawerContent>
