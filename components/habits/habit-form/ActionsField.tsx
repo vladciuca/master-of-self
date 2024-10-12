@@ -153,18 +153,15 @@ export function ActionsField({ control }: ActionsFieldProps) {
                   </div>
                   <div className="flex items-center justify-between space-x-1">
                     <div className="flex items-center">
-                      <Badge variant="secondary" className="capitalize">
-                        {action.type}
-                      </Badge>
-                      <Badge variant="outline" className="capitalize">
-                        <span className="mr-2">
-                          <MetricIcon metric={action.metric} size={18} />
-                        </span>
+                      <span className="text-sm text-muted-foreground">
+                        Target:
+                      </span>
 
-                        {action.metric}
-                      </Badge>
+                      <span className="mx-1">
+                        <MetricIcon metric={action.metric} size={18} />
+                      </span>
+                      {action.dailyTarget}
                     </div>
-                    <div>Target:{action.dailyTarget}</div>
 
                     <button
                       type="button"
@@ -192,10 +189,10 @@ export function ActionsField({ control }: ActionsFieldProps) {
             </DrawerTrigger>
             <DrawerContent className="max-w-md mx-auto left-0 right-0">
               <DrawerHeader>
-                <DrawerTitle className="text-center mb-6 flex flex-col">
+                <DrawerTitle className="text-center flex flex-col">
                   {editId !== null ? "Edit Action" : "Add New Action"}
                   <span>
-                    <Badge variant="secondary" className="text-base mt-2">
+                    <Badge variant="secondary" className="text-base mt-4">
                       {actionForm.type === "offensive" ? "I will" : "I won't"}
                     </Badge>
                   </span>
