@@ -392,9 +392,9 @@ export function IconPicker({
             Choose an icon that best resembles your action.
           </DrawerDescription>
         </DrawerHeader>
-        <div className="p-4">
+        <div className="p-4 pt-0">
           <Input
-            className="text-base rounded-md mb-2"
+            className="text-base !rounded-md mb-2"
             type="search"
             placeholder="Search icons..."
             value={searchTerm}
@@ -405,28 +405,16 @@ export function IconPicker({
               {renderContent()}
             </div>
           </ScrollArea>
-          <div className="">
+          <DrawerClose className="w-full">
             <Button
               variant="default"
               className="w-full"
-              onClick={() => setIsOpen(false)}
+              // onClick={() => setIsOpen(false)}
             >
               Done
             </Button>
-          </div>
+          </DrawerClose>
         </div>
-
-        {/* <DrawerFooter> */}
-        {/* <DrawerClose asChild> */}
-        {/* <Button
-          variant="default"
-          className="m-4"
-          onClick={() => setIsOpen(false)}
-        >
-          Done
-        </Button> */}
-        {/* </DrawerClose> */}
-        {/* </DrawerFooter> */}
       </DrawerContent>
     </Drawer>
   );
