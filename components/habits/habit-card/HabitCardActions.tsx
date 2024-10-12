@@ -28,7 +28,8 @@ export function HabitCardActions({
           </div>
           <div className="flex flex-col text-sm text-muted-foreground mb-2">
             <div className="flex items-center justify-between border border-muted rounded-md p-2 my-1">
-              Daily target:
+              <span>Daily target</span>
+
               <span className="ml-2 font-bold flex items-center text-primary">
                 {actionUpdateValues[action.id] ? (
                   <span className="text-green-500">
