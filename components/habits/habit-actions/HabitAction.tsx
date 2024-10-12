@@ -1,9 +1,11 @@
 import { ActionProgressSlider } from "@components/habits/habit-actions/ActionProgressSlider";
-import { ActionIcon } from "@components/habits/habit-actions/HabitActionIcon";
-// import { Badge } from "@/components/ui/badge";
+import {
+  ActionIcon,
+  MetricIcon,
+} from "@components/habits/habit-actions/HabitActionIcons";
 import { Button } from "@/components/ui/button";
 // import { Slider } from "@/components/ui/slider";
-import { Hash, Clock, Minus, Plus } from "lucide-react";
+import { Minus, Plus } from "lucide-react";
 import { Card } from "@components/ui/card";
 
 interface HabitActionProps {
@@ -33,9 +35,6 @@ export function HabitAction({
         <div className="flex items-center">
           <span className="">
             <ActionIcon type={action.type} size={18} />
-            {/* <Badge variant="secondary" className="mr-2">
-                {action.type === "offensive" ? "I will" : "I won't"}
-              </Badge> */}
           </span>
           <span className="">{action.action}</span>
         </div>
@@ -43,21 +42,13 @@ export function HabitAction({
       <Card className="mt-2 mb-8 p-2">
         <div className="flex flex-col items-center">
           <div className="w-full flex items-center justify-between text-sm text-muted-foreground mb-2">
-            {/* <Badge variant="secondary" className="capitalize">
-            {action.type}
-          </Badge> */}
-
             <div className="flex items-baseline mx-2">
               Daily Target:
               <span className="text-primary ml-1">
                 <div className="flex items-baseline space-x-2">
                   <div className="flex items-baseline ml-2">
                     <span className="flex items-baseline">
-                      {action.metric === "count" ? (
-                        <Hash size={16} className="text-primary" />
-                      ) : (
-                        <Clock size={16} className="text-primary" />
-                      )}
+                      <MetricIcon metric={action.metric} size={16} />
                     </span>
 
                     <span className="ml-1 text-xl font-bold flex items-baseline text-primary">

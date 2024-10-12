@@ -1,6 +1,7 @@
-import { ActionIcon } from "@components/habits/habit-actions/HabitActionIcon";
-// import { Badge } from "@/components/ui/badge";
-import { Hash, Clock } from "lucide-react";
+import {
+  ActionIcon,
+  MetricIcon,
+} from "@components/habits/habit-actions/HabitActionIcons";
 import { formatNumberSuffixes } from "@lib/utils";
 import { HabitAction } from "@app/types/types";
 
@@ -21,18 +22,11 @@ export function HabitCardActions({
             <div className="flex items-center">
               <span className="flex items-center">
                 <ActionIcon type={action.type} />
-                {/* <Badge variant="secondary" className="mr-2">
-                  {action.type === "offensive" ? "I will" : "I won't"}
-                </Badge> */}
               </span>
               <span className=" text-lg">{action.action}</span>
             </div>
           </div>
           <div className="flex flex-col text-sm text-muted-foreground mb-2">
-            {/* <Badge variant="secondary" className="capitalize">
-              {action.type}
-            </Badge> */}
-
             <div className="flex items-baseline mx-1 my-1">
               Daily target:
               <span className="ml-1 text-lg font-bold flex items-baseline text-primary">
@@ -52,13 +46,7 @@ export function HabitCardActions({
               <span className="text-primary ml-1">
                 <div className="flex items-baseline space-x-2">
                   <div className="flex items-baseline ml-2">
-                    <span className="flex items-baseline">
-                      {action.metric === "count" ? (
-                        <Hash size={16} className="text-primary" />
-                      ) : (
-                        <Clock size={16} className="text-primary" />
-                      )}
-                    </span>
+                    <MetricIcon metric={action.metric} size={16} />
 
                     <span className="ml-1 text-lg font-bold flex items-baseline text-primary">
                       {formatNumberSuffixes(

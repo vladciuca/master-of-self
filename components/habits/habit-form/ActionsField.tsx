@@ -1,5 +1,8 @@
 import { useState } from "react";
-import { ActionIcon } from "@components/habits/habit-actions/HabitActionIcon";
+import {
+  ActionIcon,
+  MetricIcon,
+} from "@components/habits/habit-actions/HabitActionIcons";
 import {
   FormField,
   FormItem,
@@ -25,7 +28,7 @@ import {
   DrawerTrigger,
 } from "@/components/ui/drawer";
 import { Label } from "@components/ui/label";
-import { CircleX, Plus, Hash, Clock, Edit2 } from "lucide-react";
+import { CircleX, Plus, Edit2 } from "lucide-react";
 import { Control, useFieldArray, useWatch } from "react-hook-form";
 import { HabitZodType } from "@components/habits/habit-form/habitFormSchema";
 import { HabitAction } from "@app/types/types";
@@ -154,11 +157,10 @@ export function ActionsField({ control }: ActionsFieldProps) {
                         {action.type}
                       </Badge>
                       <Badge variant="outline" className="capitalize">
-                        {action.metric === "count" ? (
-                          <Hash size={18} className="mr-2" />
-                        ) : (
-                          <Clock size={18} className="mr-2" />
-                        )}
+                        <span className="mr-2">
+                          <MetricIcon metric={action.metric} size={18} />
+                        </span>
+
                         {action.metric}
                       </Badge>
                     </div>
@@ -251,13 +253,17 @@ export function ActionsField({ control }: ActionsFieldProps) {
                   <SelectContent>
                     <SelectItem value="count">
                       <span className="flex items-center">
-                        <Hash size={18} className="mr-2" />
+                        <span className="mr-2">
+                          <MetricIcon metric="count" size={18} />
+                        </span>
                         Count
                       </span>
                     </SelectItem>
                     <SelectItem value="time">
                       <span className="flex items-center">
-                        <Clock size={18} className="mr-2" />
+                        <span className="mr-2">
+                          <MetricIcon metric="time" size={18} />
+                        </span>
                         Time
                       </span>
                     </SelectItem>
@@ -266,11 +272,8 @@ export function ActionsField({ control }: ActionsFieldProps) {
 
                 <div className="flex items-center mt-4 mb-8">
                   <Label className="mr-4">Daily Target</Label>
-                  {actionForm.metric === "count" ? (
-                    <Hash size={20} className="text-primary" />
-                  ) : (
-                    <Clock size={20} className="text-primary" />
-                  )}
+
+                  <MetricIcon metric={actionForm.metric} size={20} />
                   <div className="ml-1">{actionForm.dailyTarget}</div>
                 </div>
                 <Slider
