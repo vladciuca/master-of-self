@@ -195,9 +195,10 @@ export function IconPicker({ value, onChange, habitXp }: IconPickerProps) {
 
   useLayoutEffect(() => {
     if (isOpen) {
-      const timer = setTimeout(() => {
-        setIsLoading(false);
-      }, 300); // Add a small delay to ensure content is ready
+      setIsLoading(false);
+      // const timer = setTimeout(() => {
+
+      // }, 300); // Add a small delay to ensure content is ready
       return () => clearTimeout(timer);
     }
   }, [isOpen]);
