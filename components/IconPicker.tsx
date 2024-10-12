@@ -94,11 +94,12 @@ export function IconPicker({
   // };
 
   const renderContent = () => {
-    if (isLoading) {
-      return Array.from({ length: 30 }).map((_, index) => (
-        <Skeleton key={index} className="h-12 w-12" />
-      ));
-    } else if (!isSearching && filteredIcons.length === 0) {
+    // if (isLoading) {
+    //   return Array.from({ length: 30 }).map((_, index) => (
+    //     <Skeleton key={index} className="h-12 w-12" />
+    //   ));
+    // } else
+    if (!isSearching && filteredIcons.length === 0) {
       return (
         <div className="col-span-6 flex flex-col items-center justify-center py-8">
           <SearchX className="h-12 w-12 text-muted-foreground mb-4" />
@@ -122,6 +123,10 @@ export function IconPicker({
       ));
     }
   };
+
+  const skeletalIcons = Array.from({ length: 30 }).map((_, index) => (
+    <Skeleton key={index} className="h-12 w-12" />
+  ));
 
   return (
     <Drawer
@@ -171,7 +176,8 @@ export function IconPicker({
           />
           <ScrollArea className="h-[40vh] overflow-y-auto mb-4">
             <div className="grid grid-cols-6 gap-2 place-items-center">
-              {renderContent()}
+              {isLoading && skeletalIcons}
+              {!isLoading && renderContent()}
             </div>
           </ScrollArea>
           <DrawerClose className="w-full">
