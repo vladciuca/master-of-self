@@ -122,8 +122,8 @@ export function IconPicker({ value, onChange, habitXp }: IconPickerProps) {
             Choose an icon that best resembles your action.
           </DrawerDescription>
         </DrawerHeader>
-        <div className="pb-4 pt-0">
-          <div className="px-4">
+        <div className="pb-4 pt-0 px-1">
+          <div className="px-1">
             <Input
               className="text-base rounded-md mb-2"
               type="search"
@@ -133,13 +133,13 @@ export function IconPicker({ value, onChange, habitXp }: IconPickerProps) {
             />
           </div>
 
-          <ScrollArea className="h-[40vh] mb-4 px-1 mx-1">
+          <ScrollArea className="h-[40vh] mb-4 px-1">
             <div className="grid grid-cols-6 gap-2 place-items-center">
               {renderContent()}
             </div>
           </ScrollArea>
           <DrawerClose asChild>
-            <div className="px-4">
+            <div className="px-1">
               <Button variant="default" className="w-full">
                 Done
               </Button>
