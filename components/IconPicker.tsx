@@ -192,7 +192,7 @@
 // }
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useLayoutEffect } from "react";
 import { HabitIconProgressBar } from "@components/habits/habit-actions/HabitIconProgressBar";
 import { Button } from "@components/ui/button";
 import { Input } from "@components/ui/input";
@@ -230,12 +230,20 @@ export function IconPicker({ value, onChange, habitXp }: IconPickerProps) {
   const [isLoading, setIsLoading] = useState(true);
   const [isOpen, setIsOpen] = useState(false);
 
-  useEffect(() => {
+  // useEffect(() => {
+  //   if (isOpen) {
+  //     const timer = setTimeout(() => {
+  //       setIsLoading(false);
+  //     }, 300);
+  //     return () => clearTimeout(timer);
+  //   }
+  // }, [isOpen]);
+
+  useLayoutEffect(() => {
     if (isOpen) {
-      const timer = setTimeout(() => {
+      requestAnimationFrame(() => {
         setIsLoading(false);
-      }, 300);
-      return () => clearTimeout(timer);
+      });
     }
   }, [isOpen]);
 
