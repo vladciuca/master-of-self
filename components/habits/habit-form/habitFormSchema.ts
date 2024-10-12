@@ -13,10 +13,13 @@ export const habitFormSchema = z.object({
     .array(
       z.object({
         id: z.string().optional(),
-        action: z.string(),
+        action: z
+          .string()
+          .min(3, "Action name must contain at least 3 characters"),
         type: z.enum(["offensive", "defensive"]),
         metric: z.enum(["count", "time"]),
         value: z.number().default(0),
+        dailyTarget: z.number().default(1),
       })
     )
     .min(1, "Please add a habit action"),

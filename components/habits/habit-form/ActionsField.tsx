@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ActionIcon } from "@components/habits/habit-actions/HabitActionFragments";
+import { ActionIcon } from "@components/habits/habit-actions/HabitActionIcon";
 import {
   FormField,
   FormItem,
@@ -25,15 +25,7 @@ import {
   DrawerTrigger,
 } from "@/components/ui/drawer";
 import { Label } from "@components/ui/label";
-import {
-  CircleX,
-  Plus,
-  CircleAlert,
-  OctagonAlert,
-  Hash,
-  Clock,
-  Edit2,
-} from "lucide-react";
+import { CircleX, Plus, Hash, Clock, Edit2 } from "lucide-react";
 import { Control, useFieldArray, useWatch } from "react-hook-form";
 import { HabitZodType } from "@components/habits/habit-form/habitFormSchema";
 import { HabitAction } from "@app/types/types";
@@ -46,6 +38,7 @@ const initialActionForm = {
   action: "",
   metric: "count" as const,
   type: "offensive" as const,
+  dailyTarget: 1,
 };
 
 export function ActionsField({ control }: ActionsFieldProps) {
@@ -55,6 +48,7 @@ export function ActionsField({ control }: ActionsFieldProps) {
     action: "",
     metric: "count",
     type: "offensive",
+    dailyTarget: 1,
   });
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [editId, setEditId] = useState<string | null>(null);
@@ -107,6 +101,7 @@ export function ActionsField({ control }: ActionsFieldProps) {
         action: actionToEdit.action,
         metric: actionToEdit.metric,
         type: actionToEdit.type,
+        dailyTarget: actionToEdit.dailyTarget,
       });
       setEditId(id);
       setIsDrawerOpen(true);
@@ -166,6 +161,7 @@ export function ActionsField({ control }: ActionsFieldProps) {
                         {action.metric}
                       </Badge>
                     </div>
+                    <div>Target:{action.dailyTarget}</div>
 
                     <button
                       type="button"
@@ -228,16 +224,13 @@ export function ActionsField({ control }: ActionsFieldProps) {
                   <SelectContent>
                     <SelectItem value="offensive">
                       <span className="flex items-center">
-                        <CircleAlert className="text-blue-500 mr-2" size={20} />
+                        <ActionIcon type={"offensive"} size={20} />
                         Offensive
                       </span>
                     </SelectItem>
                     <SelectItem value="defensive">
                       <span className="flex items-center">
-                        <OctagonAlert
-                          className="text-blue-500 mr-2"
-                          size={20}
-                        />
+                        <ActionIcon type={"defensive"} size={20} />
                         Defensive
                       </span>
                     </SelectItem>
@@ -251,7 +244,7 @@ export function ActionsField({ control }: ActionsFieldProps) {
                     setActionForm({ ...actionForm, metric: value })
                   }
                 >
-                  <SelectTrigger className="mt-4 mb-24">
+                  <SelectTrigger className="my-4 mb-8">
                     <SelectValue placeholder="Select metric" />
                   </SelectTrigger>
                   <SelectContent>
@@ -269,6 +262,26 @@ export function ActionsField({ control }: ActionsFieldProps) {
                     </SelectItem>
                   </SelectContent>
                 </Select>
+
+                <Label>Daily Target</Label>
+                <div className="flex items-center mt-4 mb-24">
+                  {actionForm.metric === "count" ? (
+                    <Hash size={20} className="text-primary" />
+                  ) : (
+                    <Clock size={20} className="text-primary" />
+                  )}
+                  <Input
+                    value={actionForm.dailyTarget}
+                    onChange={(e) =>
+                      setActionForm({
+                        ...actionForm,
+                        dailyTarget: Number(e.target.value) || 1,
+                      })
+                    }
+                    type="number"
+                    className="w-20 mx-2 text-center"
+                  />
+                </div>
 
                 <Button onClick={handleActionSubmit} className="w-full mb-4">
                   {editId !== null ? "Update Action" : "Add Action"}

@@ -1,4 +1,4 @@
-import { ActionIcon } from "@components/habits/habit-actions/HabitActionFragments";
+import { ActionIcon } from "@components/habits/habit-actions/HabitActionIcon";
 // import { Badge } from "@/components/ui/badge";
 import { Hash, Clock } from "lucide-react";
 import { HabitAction } from "@app/types/types";

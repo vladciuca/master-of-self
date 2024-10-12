@@ -56,6 +56,7 @@ export type HabitAction = {
   metric: "count" | "time";
   type: "offensive" | "defensive";
   value: number;
+  dailyTarget: number;
   // actionData: [Date, string | number][];
 };
 

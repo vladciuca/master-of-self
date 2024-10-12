@@ -1,5 +1,5 @@
 import { ActionProgressSlider } from "@components/habits/habit-actions/ActionProgressSlider";
-import { ActionIcon } from "@components/habits/habit-actions/HabitActionFragments";
+import { ActionIcon } from "@components/habits/habit-actions/HabitActionIcon";
 // import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 // import { Slider } from "@/components/ui/slider";
@@ -101,9 +101,9 @@ export function HabitAction({
           /> */}
             <ActionProgressSlider
               value={value}
-              max={5}
+              max={3}
               onChange={(newValue) => handleActionChange(newValue)}
-              startColor="#FFA500"
+              startColor="#F59E0B"
               endColor="#22C55E"
             />
           </div>
