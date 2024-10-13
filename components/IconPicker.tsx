@@ -23,9 +23,15 @@ type IconPickerProps = {
   value?: string;
   onChange?: (iconName: string) => void;
   habitXp?: number;
+  actionUpdateValues?: { [key: string]: number } | undefined;
 };
 
-export function IconPicker({ value, onChange, habitXp }: IconPickerProps) {
+export function IconPicker({
+  value,
+  onChange,
+  habitXp,
+  actionUpdateValues,
+}: IconPickerProps) {
   const {
     searchTerm,
     setSearchTerm,
@@ -46,6 +52,18 @@ export function IconPicker({ value, onChange, habitXp }: IconPickerProps) {
       return () => clearTimeout(timer);
     }
   }, [isOpen]);
+
+  const calculateProjectedXp = (
+    values: { [key: string]: number } | undefined
+  ): number => {
+    if (!values || Object.keys(values).length === 0) {
+      return 0;
+    }
+
+    return Object.values(values).reduce((sum, value) => sum + value, 0);
+  };
+
+  const projectedXp = calculateProjectedXp(actionUpdateValues);
 
   const handleSelectIcon = (iconName: string) => {
     setSelectedIconName(iconName);
@@ -103,6 +121,8 @@ export function IconPicker({ value, onChange, habitXp }: IconPickerProps) {
               <HabitIconProgressBar
                 icon={selectedIconName || ""}
                 xp={habitXp || 0}
+                projectedXp={projectedXp}
+                displayXpValues
               />
             ) : (
               <CircleHelp className="h-14 w-14 text-muted-foreground" />

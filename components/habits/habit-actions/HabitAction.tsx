@@ -36,7 +36,7 @@ export function HabitAction({
           <span className="">
             <ActionIcon type={action.type} size={18} />
           </span>
-          <span className="">{action.action}</span>
+          <span>{action.action}</span>
         </div>
       </div>
       <Card className="mt-2 mb-8 p-2">

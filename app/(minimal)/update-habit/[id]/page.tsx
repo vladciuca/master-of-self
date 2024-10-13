@@ -5,13 +5,20 @@ import { useRouter, useParams } from "next/navigation";
 import { HabitForm } from "@components/habits/habit-form/HabitForm";
 import { HabitZodType } from "@components/habits/habit-form/habitFormSchema";
 import { SkeletonForm } from "@components/skeletons/SkeletonForm";
+import { useTodayJournalEntry } from "@hooks/useTodayJournalEntry";
 
 export default function UpdateHabit() {
   const [submitting, setSubmitting] = useState(false);
   const [habitData, setHabitData] = useState<HabitZodType | null>(null);
+  const { todayEntry, todayEntryLoading } = useTodayJournalEntry();
   const router = useRouter();
   const params = useParams<{ id: string }>();
   const { id } = params;
+
+  const getActionUpdateValues = (habitId: string) => {
+    if (todayEntryLoading) return {};
+    return todayEntry?.nightEntry?.actions?.[habitId] || {};
+  };
 
   useEffect(() => {
     const getHabitData = async () => {
@@ -62,6 +69,7 @@ export default function UpdateHabit() {
         <HabitForm
           type="Update"
           habit={habitData}
+          actionUpdateValues={getActionUpdateValues(id)}
           submitting={submitting}
           onSubmit={updateHabit}
         />

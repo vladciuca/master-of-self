@@ -87,18 +87,16 @@ export function HabitIconProgressBar({
           {/*PROJECTED XP*/}
           <Badge
             variant="outline"
-            className="rounded-full bg-primary-foreground absolute bottom-0 left-24"
+            className="rounded-full bg-primary-foreground absolute bottom-0 left-24 flex items-center space-x-1 px-3 py-1"
           >
             {projectedXp > 0 ? (
-              <span className="text-green-500 font-bold mr-1">
-                +{projectedXp}
-              </span>
+              <span className="text-green-500 font-bold">+{projectedXp}</span>
             ) : (
-              <span className="text-muted-foreground font-bold mr-1">
+              <span className="text-muted-foreground font-bold">
                 {projectedXp}
               </span>
             )}
-            XP
+            <span className="whitespace-nowrap">XP Today</span>
           </Badge>
         </>
       )}

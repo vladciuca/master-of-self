@@ -71,27 +71,29 @@ export function HabitCardHeader({
             className="ml-4"
             value={currentProgressPercentage}
             xpGainValue={xpGainProgressPercentage}
-            strokeWidth={8}
-            circleSize={80}
+            // strokeWidth={8}
+            // circleSize={80}
+            strokeWidth={6}
+            circleSize={73}
           />
           <div className="absolute w-full flex flex-col justify-center items-center">
             <div className="flex flex-col items-center justify-center text-xs">
               {todayEntryLoading ? (
                 <div className="text-muted">
                   <span className="text-base">??</span>
-                  <span className="ml-1">XP</span>
+                  <span className="">XP</span>
                 </div>
               ) : projectedXp > 0 ? (
                 <div>
                   <span className="text-base text-green-500 font-bold">
                     +{formatNumberSuffixes(projectedXp)}
                   </span>
-                  <span className="ml-1">XP</span>
+                  <span className="">XP</span>
                 </div>
               ) : (
                 <div>
                   <span className="text-base">??</span>
-                  <span className="ml-1">XP</span>
+                  <span className="">XP</span>
                 </div>
               )}
             </div>
