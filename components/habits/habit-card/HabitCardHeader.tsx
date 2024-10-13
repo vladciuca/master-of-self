@@ -1,7 +1,7 @@
 import { IconRenderer } from "@components/IconRenderer";
 import { ActionIcon } from "@components/habits/habit-actions/HabitActionIcons";
+import { HabitLevelUpIndicator } from "@components/habits/HabitLevelUpIndicator";
 import { CircularProgress } from "@components/ui/circular-progress";
-import { PiArrowFatLinesUpFill } from "react-icons/pi";
 import { calculateLevel, xpForLevel } from "@lib/level";
 import { formatNumberSuffixes } from "@lib/utils";
 import { Habit } from "@app/types/types";
@@ -55,9 +55,10 @@ export function HabitCardHeader({
               Level
               <span className="ml-1 flex items-center text-primary">
                 {level}
-                {currentLevel < level && (
-                  <PiArrowFatLinesUpFill className="text-green-500 ml-1" />
-                )}
+                <HabitLevelUpIndicator
+                  currentLevel={currentLevel}
+                  level={level}
+                />
               </span>
             </div>
             <span className="mx-2 text-muted text-lg">|</span>

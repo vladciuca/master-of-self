@@ -1,7 +1,8 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { HabitIconProgressBar } from "@components/habits/habit-actions/HabitIconProgressBar";
-import { HabitAction } from "./HabitAction";
+import { HabitLevelUpIndicator } from "@components/habits/HabitLevelUpIndicator";
+import { HabitAction } from "@components/habits/habit-actions/HabitAction";
 import {
   Drawer,
   DrawerContent,
@@ -13,7 +14,6 @@ import {
 import { ScrollArea } from "@components/ui/scroll-area";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
-import { PiArrowFatLinesUpFill } from "react-icons/pi";
 import { Plus } from "lucide-react";
 import { calculateLevel, xpForLevel } from "@lib/level";
 import { formatNumberSuffixes } from "@lib/utils";
@@ -131,9 +131,10 @@ export function HabitActions({
               Level
               <span className="text-primary ml-1 flex items-center">
                 {level}
-                {currentLevel < level && (
-                  <PiArrowFatLinesUpFill className="text-green-500 ml-1" />
-                )}
+                <HabitLevelUpIndicator
+                  currentLevel={currentLevel}
+                  level={level}
+                />
               </span>
             </span>
             <span className="mx-2 text-muted text-lg">|</span>
