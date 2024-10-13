@@ -49,8 +49,8 @@ export function HabitCardHeader({
         <div className="px-4 flex flex-col justify-center">
           <span>{name}</span>
 
-          <div className="text-semibold text-muted-foreground flex items-center">
-            <div className="text-sm text-muted-foreground">
+          <div className="text-muted-foreground flex items-center">
+            <div className="font-semibold text-sm text-muted-foreground">
               Level
               <span
                 className={`ml-1 ${
@@ -60,14 +60,14 @@ export function HabitCardHeader({
                 {level}
               </span>
             </div>
-            <span className="mx-2 text-muted font- text-lg">|</span>
+            <span className="mx-2 text-muted text-lg">|</span>
             <div className="font-normal text-sm text-muted-foreground">
               {formatNumberSuffixes(xpForCurrentLevel)}/
               {formatNumberSuffixes(xpToLevelUp)}
               <span className="text-primary ml-1">XP</span>
             </div>
           </div>
-          <div className="flex items-center mt-1">
+          <div className="flex items-center my-1">
             {habit.actions.map((action) => (
               <div key={action.id}>
                 <ActionIcon

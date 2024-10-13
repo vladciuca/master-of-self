@@ -128,7 +128,7 @@ export function HabitActions({
             <span className="font-semibold">
               Level<span className="text-primary ml-1">{level}</span>
             </span>
-            <span className="mx-2 text-primary font-extralight text-xl">|</span>
+            <span className="mx-2 text-muted text-lg">|</span>
             {formatNumberSuffixes(xpForCurrentLevel)}/
             {formatNumberSuffixes(xpToLevelUp)}
             <span className="text-primary ml-1">XP</span>
