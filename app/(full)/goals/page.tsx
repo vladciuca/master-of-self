@@ -19,9 +19,9 @@ export default function Goals() {
         numberOfEntries={0}
         disabled={true}
       />
-      <div className="flex-grow flex items-center justify-center mb-44">
+      <div className="flex-grow flex items-center justify-center mb-64">
         <section className="text-center">
-          <h1 className="scroll-m-20 text-4xl font-bold">COMING SOON</h1>
+          <h1 className="scroll-m-20 text-4xl font-bold mb-24">COMING SOON</h1>
           <p className="leading-7 mt-6">
             Until then you can track your Habits!
           </p>
