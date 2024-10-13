@@ -1,9 +1,150 @@
 import { PageLogo } from "@components/PageLogo";
 
+import {
+  GiAngelWings,
+  GiAstronautHelmet,
+  GiBallerinaShoes,
+  GiBandit,
+  GiBarbarian,
+  GiBeard,
+  GiBrain,
+  // GiBuddha,
+  GiCaveman,
+  GiChestArmor,
+  GiCrownedHeart,
+  GiDeathSkull,
+  GiDuel,
+  GiEgyptianProfile,
+  GiFairyWand,
+  GiFemale,
+  // GiFencing,
+  // GiFirefighterHelmet,
+  GiGauntlet,
+  GiGrimReaper,
+  GiHeartWings,
+  GiHelmet,
+  GiKing,
+  // GiKnightHelmet,
+  GiMale,
+  GiMonkFace,
+  GiNinjaHead,
+  GiPirateCaptain,
+  GiSamuraiHelmet,
+  // GiShamanMask,
+  GiSkeleton,
+  GiSkullMask,
+  // GiSoldier,
+  GiSpartanHelmet,
+  GiSpy,
+  GiVikingHelmet,
+  GiWarlockHood,
+  GiWizardFace,
+  GiYinYang,
+  // GiBrain,
+  GiMeditation,
+  GiCrystalBall,
+  GiMagicSwirl,
+  GiEyeOfHorus,
+  // GiFairyWand,
+  GiWitchFlight,
+  GiPsychicWaves,
+  GiFloatingCrystal,
+  GiEvilBook,
+  GiFireSilhouette,
+  GiMagicGate,
+  GiLightningStorm,
+  GiAbstract067,
+  // GiChakra,
+  GiFountainPen,
+  GiMagicPalm,
+  GiTelepathy,
+  // GiDivineWing,
+  GiRuneStone,
+  GiTwirlyFlower,
+  // GiYinYang
+} from "react-icons/gi";
+
+export const HumanStencilIcons = () => {
+  const icons = [
+    GiAngelWings,
+    GiAstronautHelmet,
+    GiBallerinaShoes,
+    GiBandit,
+    GiBarbarian,
+    GiBeard,
+    GiBrain,
+    // GiBuddha,
+    GiCaveman,
+    GiChestArmor,
+    GiCrownedHeart,
+    GiDeathSkull,
+    GiDuel,
+    GiEgyptianProfile,
+    GiFairyWand,
+    GiFemale,
+    // GiFencing,
+    // GiFirefighterHelmet,
+    GiGauntlet,
+    GiGrimReaper,
+    GiHeartWings,
+    GiHelmet,
+    GiKing,
+    // GiKnightHelmet,
+    GiMale,
+    GiMonkFace,
+    GiNinjaHead,
+    GiPirateCaptain,
+    GiSamuraiHelmet,
+    // GiShamanMask,
+    GiSkeleton,
+    GiSkullMask,
+    // GiSoldier,
+    GiSpartanHelmet,
+    GiSpy,
+    GiVikingHelmet,
+    GiWarlockHood,
+    GiWizardFace,
+    GiYinYang,
+    GiBrain,
+    GiMeditation,
+    GiCrystalBall,
+    GiMagicSwirl,
+    GiEyeOfHorus,
+    GiFairyWand,
+    GiWitchFlight,
+    GiPsychicWaves,
+    GiFloatingCrystal,
+    GiEvilBook,
+    GiFireSilhouette,
+    GiMagicGate,
+    GiLightningStorm,
+    GiAbstract067,
+    // GiChakra,
+    GiFountainPen,
+    GiMagicPalm,
+    GiTelepathy,
+    // GiDivineWing,
+    GiRuneStone,
+    GiTwirlyFlower,
+    GiYinYang,
+  ];
+
+  return (
+    <div style={{ display: "flex", flexWrap: "wrap", gap: "10px" }}>
+      {icons.map((Icon, index) => (
+        <div key={index} style={{ fontSize: "2rem" }}>
+          <Icon />
+        </div>
+      ))}
+    </div>
+  );
+};
+
 export default function Home() {
   return (
     <div className="h-full flex flex-col justify-center space-y-10 pb-4">
-      <PageLogo />
+      {/* <PageLogo /> */}
+      <HumanStencilIcons />
     </div>
   );
 }

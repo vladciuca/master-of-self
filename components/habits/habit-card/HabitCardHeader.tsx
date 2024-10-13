@@ -61,7 +61,7 @@ export function HabitCardHeader({
                 />
               </span>
             </div>
-            <span className="mx-2 text-muted text-lg">|</span>
+            <span className="mx-1 text-muted text-lg">|</span>
             <div className="font-normal text-sm text-muted-foreground">
               {formatNumberSuffixes(xpForCurrentLevel)}/
               {formatNumberSuffixes(xpToLevelUp)}

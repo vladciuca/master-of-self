@@ -137,7 +137,7 @@ export function HabitActions({
                 />
               </span>
             </span>
-            <span className="mx-2 text-muted text-lg">|</span>
+            <span className="mx-1 text-muted text-lg">|</span>
             {formatNumberSuffixes(xpForCurrentLevel)}/
             {formatNumberSuffixes(xpToLevelUp)}
             <span className="text-primary ml-1">XP</span>
