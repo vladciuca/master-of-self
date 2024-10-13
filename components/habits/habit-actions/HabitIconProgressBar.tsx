@@ -1,13 +1,14 @@
 import { IconRenderer } from "@components/IconRenderer";
 import { CircularProgress } from "@components/ui/circular-progress";
 import { Badge } from "@components/ui/badge";
-import { calculateLevel, xpForLevel } from "@lib/level";
+import { calculateLevel, xpForLevel, getHabitRarity } from "@lib/level";
 
 interface HabitIconProgressBarProps {
   icon: string;
   xp: number;
   projectedXp?: number; //temp
   displayXpValues?: boolean;
+  displayLevelValues?: boolean;
 }
 
 export function HabitIconProgressBar({
@@ -15,6 +16,7 @@ export function HabitIconProgressBar({
   xp,
   projectedXp = 0, //temp
   displayXpValues = false,
+  displayLevelValues = false,
 }: HabitIconProgressBarProps) {
   // Calculate XP and level
   const xpGain = xp + projectedXp;
@@ -32,6 +34,10 @@ export function HabitIconProgressBar({
   const xpToLevelUp = nextLevelXP - baseXP;
 
   const progressBarWidth = displayXpValues ? "[100px]" : "[70px]";
+
+  const { bg: bgColor, icon: textColor, label } = getHabitRarity(level);
+
+  // console.log("====", habitRarityLevel);
 
   return (
     <div
@@ -63,27 +69,37 @@ export function HabitIconProgressBar({
           </div>
         </div>
       </div>
-      {displayXpValues && (
+      {displayLevelValues && (
         <>
           {/*LEVEL*/}
           <Badge
             variant="secondary"
             className="rounded-full absolute top-0 right-24"
           >
-            <span className="mr-1">Lvl</span>
+            <span className="mr-1">Level</span>
             {level}
           </Badge>
+          {/*HABIT RARITY*/}
+          <Badge className={`${bgColor} rounded-full absolute top-0 left-24`}>
+            <span className={`${textColor}`}>{label}</span>
+          </Badge>
+        </>
+      )}
+
+      {displayXpValues && (
+        <>
           {/*CURRENT XP VS NEXT LEVEL XP*/}
           <Badge
             variant="secondary"
             className="rounded-full absolute bottom-0 right-24"
           >
-            <span className="text-muted-foreground">
+            <span className="textColor">
               {xpForCurrentLevel}/{xpToLevelUp}
             </span>
 
             <span className="ml-1">XP</span>
           </Badge>
+
           {/*PROJECTED XP*/}
           <Badge
             variant="outline"

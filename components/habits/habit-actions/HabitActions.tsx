@@ -177,6 +177,7 @@ export function HabitActions({
                   xp={xp}
                   projectedXp={projectedHabitXp}
                   displayXpValues
+                  displayLevelValues
                 />
               </div>
             </DrawerHeader>
