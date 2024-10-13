@@ -21,8 +21,8 @@ export default function Goals() {
         disabled={true}
       />
       <div>
-        <section className="mt-20 flex flex-col items-center justify-center">
-          <h1 className="scroll-m-20 text-2xl font-extrabold tracking-widest">
+        <section className="mt-32 flex flex-col items-center justify-center">
+          <h1 className="scroll-m-20 text-4xl font-bold text-center">
             COMING SOON
           </h1>
           <p className="leading-7 [&:not(:first-child)]:mt-6">
