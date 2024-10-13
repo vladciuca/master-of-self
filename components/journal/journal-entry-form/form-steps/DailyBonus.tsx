@@ -4,7 +4,7 @@ import { Label } from "@components/ui/label";
 import { SkeletonList } from "@components/skeletons/SkeletonList";
 import { FaBoltLightning } from "react-icons/fa6";
 import { BsChevronCompactDown } from "react-icons/bs";
-import { GiEmbrassedEnergy } from "react-icons/gi";
+import { GiDeadlyStrike } from "react-icons/gi";
 import { useYesterdayJournalEntry } from "@hooks/useYesterdayJournalEntry";
 
 type DailyBonusProps = {
@@ -29,7 +29,7 @@ export function DailyBonus({ bonusWillpower }: DailyBonusProps) {
         <div className="h-full flex flex-col">
           <div className="flex-1 flex flex-col items-center justify-between min-h-full">
             <div className="flex flex-col items-center">
-              <GiEmbrassedEnergy size={200} />
+              <GiDeadlyStrike size={200} />
               <div className="text-4xl my-4 flex items-center">
                 <span className="text-green-500 font-semibold">
                   +{bonusWillpower}

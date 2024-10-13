@@ -41,13 +41,13 @@ export function HabitCardHeader({
   const xpToLevelUp = nextLevelXP - baseXP;
 
   return (
-    <div className="p-2 px-4 flex justify-between text-start w-full">
+    <div className="p-2 px-3 flex justify-between text-start w-full">
       <div className="flex flex-grow">
         <div className="flex items-center">
           <IconRenderer iconName={icon} className="h-16 w-16 p-1" xp={xp} />
         </div>
 
-        <div className="px-4 flex flex-col justify-center">
+        <div className="pl-4 flex flex-col justify-center">
           <span>{name}</span>
 
           <div className="text-muted-foreground flex items-center">
@@ -55,14 +55,14 @@ export function HabitCardHeader({
               Level
               <span className="ml-1 flex items-center text-primary">
                 {level}
-                <HabitLevelUpIndicator
-                  currentLevel={currentLevel}
-                  level={level}
-                />
               </span>
+              <HabitLevelUpIndicator
+                currentLevel={currentLevel}
+                level={level}
+              />
             </div>
             <span className="mx-1 text-muted text-lg">|</span>
-            <div className="font-normal text-sm text-muted-foreground">
+            <div className="font-normal text-xs text-muted-foreground">
               {formatNumberSuffixes(xpForCurrentLevel)}/
               {formatNumberSuffixes(xpToLevelUp)}
               <span className="text-primary ml-1">XP</span>
