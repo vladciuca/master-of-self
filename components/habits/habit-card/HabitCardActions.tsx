@@ -16,12 +16,18 @@ export function HabitCardActions({
 }: HabitCardActionsProps) {
   return (
     <div>
-      {actions.map((action, index) => (
-        <div key={index} className="mb-6">
+      {actions.map((action) => (
+        <div key={action.id} className="mb-6">
           <div className="flex items-center justify-between mb-1">
             <div className="flex items-center">
               <span className="flex items-center">
-                <ActionIcon type={action.type} size={18} />
+                <ActionIcon
+                  type={action.type}
+                  size={18}
+                  dailyTargetCompleted={
+                    actionUpdateValues[action.id] >= action.dailyTarget
+                  }
+                />
               </span>
               <span className="text-base">{action.action}</span>
             </div>

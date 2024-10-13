@@ -1,23 +1,47 @@
 import {
   CircleAlert,
+  CircleCheck,
   // OctagonAlert,
   // BadgeAlert,
   ShieldAlert,
+  ShieldCheck,
   Clock,
   Hash,
 } from "lucide-react";
 // import { GiPointySword, GiSlashedShield } from "react-icons/gi";
 
-type ActionIconProps = { type: "offensive" | "defensive"; size?: number };
+type ActionIconProps = {
+  type: "offensive" | "defensive";
+  dailyTargetCompleted?: boolean;
+  size?: number;
+};
 
-export function ActionIcon({ type, size }: ActionIconProps) {
+export function ActionIcon({
+  type,
+  dailyTargetCompleted = false,
+  size,
+}: ActionIconProps) {
   const iconSize = !size ? 22 : size;
+
   return (
     <>
-      {type === "offensive" ? (
-        <CircleAlert className="mr-2 text-blue-500" size={iconSize} />
-      ) : (
-        <ShieldAlert className="mr-2 text-blue-500" size={iconSize} />
+      {!dailyTargetCompleted && (
+        <>
+          {type === "offensive" ? (
+            <CircleAlert className="mr-2 text-blue-500" size={iconSize} />
+          ) : (
+            <ShieldAlert className="mr-2 text-blue-500" size={iconSize} />
+          )}
+        </>
+      )}
+      {dailyTargetCompleted && (
+        <>
+          {type === "offensive" ? (
+            <CircleCheck className="mr-2 text-green-500" size={iconSize} />
+          ) : (
+            <ShieldCheck className="mr-2 text-green-500" size={iconSize} />
+          )}
+        </>
       )}
     </>
   );

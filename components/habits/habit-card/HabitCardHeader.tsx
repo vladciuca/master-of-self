@@ -1,4 +1,5 @@
 import { IconRenderer } from "@components/IconRenderer";
+import { ActionIcon } from "@components/habits/habit-actions/HabitActionIcons";
 import { CircularProgress } from "@components/ui/circular-progress";
 import { calculateLevel, xpForLevel } from "@lib/level";
 import { formatNumberSuffixes } from "@lib/utils";
@@ -44,11 +45,42 @@ export function HabitCardHeader({
         <div className="flex items-center">
           <IconRenderer iconName={icon} className="h-16 w-16 p-1" xp={xp} />
         </div>
+
         <div className="px-4 flex flex-col justify-center">
-          <h4 className="scroll-m-20 text-xl font-semibold tracking-tight">
-            {name}
-          </h4>
-          <div className="text-sm text-muted-foreground">
+          <span>{name}</span>
+
+          <div className="text-semibold text-muted-foreground flex items-center">
+            <div className="text-sm text-muted-foreground">
+              Level
+              <span
+                className={`ml-1 ${
+                  currentLevel === level ? "text-primary" : "text-green-500"
+                }`}
+              >
+                {level}
+              </span>
+            </div>
+            <span className="mx-2 text-muted font- text-lg">|</span>
+            <div className="font-normal text-sm text-muted-foreground">
+              {formatNumberSuffixes(xpForCurrentLevel)}/
+              {formatNumberSuffixes(xpToLevelUp)}
+              <span className="text-primary ml-1">XP</span>
+            </div>
+          </div>
+          <div className="flex items-center mt-1">
+            {habit.actions.map((action) => (
+              <div key={action.id}>
+                <ActionIcon
+                  type={action.type}
+                  size={20}
+                  dailyTargetCompleted={
+                    actionUpdateValues[action.id] >= action.dailyTarget
+                  }
+                />
+              </div>
+            ))}
+          </div>
+          {/* <div className="text-sm text-muted-foreground">
             Level
             <span
               className={`ml-1 ${
@@ -62,7 +94,7 @@ export function HabitCardHeader({
             {formatNumberSuffixes(xpForCurrentLevel)}/
             {formatNumberSuffixes(xpToLevelUp)}
             <span className="text-primary ml-1">XP</span>
-          </div>
+          </div> */}
         </div>
       </div>
       <div className="flex items-center justify-center">
@@ -71,8 +103,6 @@ export function HabitCardHeader({
             className="ml-4"
             value={currentProgressPercentage}
             xpGainValue={xpGainProgressPercentage}
-            // strokeWidth={8}
-            // circleSize={80}
             strokeWidth={6}
             circleSize={73}
           />

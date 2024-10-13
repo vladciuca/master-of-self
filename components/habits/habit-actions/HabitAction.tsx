@@ -33,9 +33,11 @@ export function HabitAction({
     <>
       <div className="w-full flex items-center justify-between mb-2">
         <div className="flex items-center">
-          <span className="">
-            <ActionIcon type={action.type} size={18} />
-          </span>
+          <ActionIcon
+            type={action.type}
+            size={18}
+            dailyTargetCompleted={value >= action.dailyTarget}
+          />
           <span>{action.action}</span>
         </div>
       </div>
@@ -95,7 +97,9 @@ export function HabitAction({
               value={value}
               max={action.dailyTarget}
               onChange={(newValue) => handleActionChange(newValue)}
-              startColor="#F59E0B"
+              // startColor="#F59E0B"
+              startColor="#3B82F6"
+              // startColor="#8B5CF6"
               endColor="#22C55E"
             />
           </div>
