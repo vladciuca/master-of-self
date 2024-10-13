@@ -1,6 +1,7 @@
 import { IconRenderer } from "@components/IconRenderer";
 import { CircularProgress } from "@components/ui/circular-progress";
 import { Badge } from "@components/ui/badge";
+import { PiArrowFatLinesUpFill } from "react-icons/pi";
 import { calculateLevel, xpForLevel, getHabitRarity } from "@lib/level";
 
 interface HabitIconProgressBarProps {
@@ -21,6 +22,7 @@ export function HabitIconProgressBar({
   // Calculate XP and level
   const xpGain = xp + projectedXp;
   const level = calculateLevel(xpGain);
+  const currentLevel = calculateLevel(xp);
   const { baseXP, nextLevelXP } = xpForLevel(level);
   const currentProgressPercentage = Math.min(
     ((xp - baseXP) / (nextLevelXP - baseXP)) * 100,
@@ -78,6 +80,9 @@ export function HabitIconProgressBar({
           >
             <span className="mr-1">Level</span>
             {level}
+            {currentLevel < level && (
+              <PiArrowFatLinesUpFill className="text-green-500 ml-1" />
+            )}
           </Badge>
           {/*HABIT RARITY*/}
           <Badge className={`${bgColor} rounded-full absolute top-0 left-24`}>

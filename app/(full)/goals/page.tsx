@@ -21,7 +21,7 @@ export default function Goals() {
         disabled={true}
       />
       <div>
-        <section className="mt-32 flex flex-col items-center justify-center">
+        <section className="h-full flex flex-col items-center justify-center">
           <h1 className="scroll-m-20 text-4xl font-bold text-center">
             COMING SOON
           </h1>

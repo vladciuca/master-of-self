@@ -13,6 +13,7 @@ import {
 import { ScrollArea } from "@components/ui/scroll-area";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
+import { PiArrowFatLinesUpFill } from "react-icons/pi";
 import { Plus } from "lucide-react";
 import { calculateLevel, xpForLevel } from "@lib/level";
 import { formatNumberSuffixes } from "@lib/utils";
@@ -48,6 +49,7 @@ export function HabitActions({
   // Calculate XP and level
   const xpGain = xp + projectedHabitXp;
   const level = calculateLevel(xpGain);
+  const currentLevel = calculateLevel(xp);
   const { baseXP, nextLevelXP } = xpForLevel(level);
   const xpForCurrentLevel = xpGain - baseXP;
   const xpToLevelUp = nextLevelXP - baseXP;
@@ -125,8 +127,14 @@ export function HabitActions({
             {name}
           </h4>
           <div className="text-sm text-muted-foreground flex items-center">
-            <span className="font-semibold">
-              Level<span className="text-primary ml-1">{level}</span>
+            <span className="font-semibold flex items-center">
+              Level
+              <span className="text-primary ml-1 flex items-center">
+                {level}
+                {currentLevel < level && (
+                  <PiArrowFatLinesUpFill className="text-green-500 ml-1" />
+                )}
+              </span>
             </span>
             <span className="mx-2 text-muted text-lg">|</span>
             {formatNumberSuffixes(xpForCurrentLevel)}/

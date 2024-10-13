@@ -1,6 +1,7 @@
 import { IconRenderer } from "@components/IconRenderer";
 import { ActionIcon } from "@components/habits/habit-actions/HabitActionIcons";
 import { CircularProgress } from "@components/ui/circular-progress";
+import { PiArrowFatLinesUpFill } from "react-icons/pi";
 import { calculateLevel, xpForLevel } from "@lib/level";
 import { formatNumberSuffixes } from "@lib/utils";
 import { Habit } from "@app/types/types";
@@ -50,14 +51,13 @@ export function HabitCardHeader({
           <span>{name}</span>
 
           <div className="text-muted-foreground flex items-center">
-            <div className="font-semibold text-sm text-muted-foreground">
+            <div className="font-semibold text-sm text-muted-foreground flex items-center">
               Level
-              <span
-                className={`ml-1 ${
-                  currentLevel === level ? "text-primary" : "text-green-500"
-                }`}
-              >
+              <span className="ml-1 flex items-center text-primary">
                 {level}
+                {currentLevel < level && (
+                  <PiArrowFatLinesUpFill className="text-green-500 ml-1" />
+                )}
               </span>
             </div>
             <span className="mx-2 text-muted text-lg">|</span>
