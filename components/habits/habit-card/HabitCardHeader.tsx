@@ -72,7 +72,7 @@ export function HabitCardHeader({
               <div key={action.id}>
                 <ActionIcon
                   type={action.type}
-                  size={20}
+                  size={18}
                   dailyTargetCompleted={
                     actionUpdateValues[action.id] >= action.dailyTarget
                   }

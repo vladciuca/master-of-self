@@ -97,10 +97,11 @@ export function HabitAction({
               value={value}
               max={action.dailyTarget}
               onChange={(newValue) => handleActionChange(newValue)}
-              // startColor="#F59E0B"
               startColor="#3B82F6"
-              // startColor="#8B5CF6"
               endColor="#22C55E"
+              // startColor="#F59E0B"
+              // startColor="#EC4899"
+              // endColor="#8B5CF6"
             />
           </div>
           <Button
