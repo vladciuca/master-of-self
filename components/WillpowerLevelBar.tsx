@@ -4,10 +4,9 @@ import { useCurrentWillpower } from "@hooks/useCurrentWillpower";
 import { useTodayJournalEntry } from "@hooks/useTodayJournalEntry";
 import { calculateLevel, xpForLevel } from "@lib/level";
 
-export function LevelBar() {
+export function WillpowerLevelBar() {
   const { currentWillpower, currentWillpowerLoading } = useCurrentWillpower();
-  const { todayEntry, todayEntryLoading, todayEntryError } =
-    useTodayJournalEntry();
+  const { todayEntry, todayEntryLoading } = useTodayJournalEntry();
 
   const bonusWillpower = todayEntry?.bonusWillpower ?? 0;
   const dailyWillpower = todayEntry?.dailyWillpower ?? 0;
@@ -21,22 +20,40 @@ export function LevelBar() {
 
   const isLoading = currentWillpowerLoading || todayEntryLoading;
 
+  // Calculate percentages
   const currentPercentage = isLoading
     ? 0
     : Math.max(0, Math.min(100, (currentXP / nextLevelXP) * 100));
   const bonusPercentage = isLoading
     ? 0
     : Math.max(0, Math.min(100, (bonusXP / nextLevelXP) * 100));
-  const projectedPercentage = isLoading ? 0 : (projectedXP / nextLevelXP) * 100;
 
-  const totalPositivePercentage =
-    currentPercentage + bonusPercentage + Math.max(0, projectedPercentage);
-  const totalNegativePercentage = Math.abs(Math.min(0, projectedPercentage));
+  // Adjust projectedPercentage calculation
+  const projectedPercentage = isLoading
+    ? 0
+    : Math.max(
+        0,
+        Math.min(
+          100 - currentPercentage - bonusPercentage,
+          (projectedXP / nextLevelXP) * 100
+        )
+      );
 
-  const displayTotalPercentage = Math.max(
-    0,
-    Math.min(100, totalPositivePercentage - totalNegativePercentage)
+  // Remove totalPositivePercentage and totalNegativePercentage
+  // Instead, calculate displayTotalPercentage directly
+  const displayTotalPercentage = Math.min(
+    100,
+    currentPercentage + bonusPercentage + projectedPercentage
   );
+
+  // Calculate remaining percentage for negative projected XP
+  const negativeProjectedPercentage =
+    projectedXP < 0
+      ? Math.min(
+          currentPercentage + bonusPercentage,
+          Math.abs((projectedXP / nextLevelXP) * 100)
+        )
+      : 0;
 
   return (
     <div className="w-full max-w-md mx-auto">
@@ -73,20 +90,21 @@ export function LevelBar() {
             )}
           </motion.div>
 
+          {/* CHANGE: Move negative projected XP bar here */}
           {projectedXP < 0 && (
             <motion.div
               className="h-full bg-pink-500 absolute top-0"
               initial={{ width: 0 }}
-              animate={{ width: `${totalNegativePercentage}%` }}
+              animate={{ width: `${negativeProjectedPercentage}%` }}
               transition={{ duration: 0.5, ease: "easeInOut" }}
               role="progressbar"
-              aria-valuenow={totalNegativePercentage}
+              aria-valuenow={negativeProjectedPercentage}
               aria-valuemin={0}
               aria-valuemax={100}
             >
-              {totalNegativePercentage > 5 && (
+              {negativeProjectedPercentage > 5 && (
                 <span className="sr-only">
-                  Projected XP Loss: {totalNegativePercentage.toFixed(1)}%
+                  Projected XP Loss: {negativeProjectedPercentage.toFixed(1)}%
                 </span>
               )}
             </motion.div>
@@ -156,7 +174,8 @@ export function LevelBar() {
 
           <div className="flex flex-end">
             <span className="text-muted-foreground">
-              {currentXP + bonusXP + projectedXP}
+              {/* CHANGE: Ensure the total XP doesn't exceed nextLevelXP */}
+              {Math.min(currentXP + bonusXP + projectedXP, nextLevelXP)}
               <span className="font-normal">/</span>
               {nextLevelXP}
             </span>

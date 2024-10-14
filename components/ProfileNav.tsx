@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { LevelBar } from "@components/LevelBar";
+import { WillpowerLevelBar } from "@components/WillpowerLevelBar";
 // import { FaBoltLightning } from "react-icons/fa6";
 // import { useTotalWillpower } from "@hooks/useTotalWillpower";
 import { Session } from "@app/types/types";
@@ -43,7 +43,7 @@ export function ProfileNav({ session }: ProfileBarProps) {
           <div>
             <FaBoltLightning className="ml-1" size={"2.5rem"} />
           </div> */}
-          <LevelBar />
+          <WillpowerLevelBar />
         </div>
       </div>
     </div>
