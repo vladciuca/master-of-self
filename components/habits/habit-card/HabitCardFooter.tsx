@@ -35,7 +35,7 @@ export function HabitCardFooter({
         className="flex-1 w-full"
       >
         Update
-        <GiPencil className="ml-2" size={"1.2rem"} />
+        {/* <GiPencil className="ml-2" size={"1.2rem"} /> */}
       </Button>
 
       <Button

@@ -21,7 +21,10 @@ export function PageHeader({
     <div className="sticky top-0 z-10 bg-background px-2 py-4">
       <div className="flex items-center justify-between">
         <div className="flex items-center">
-          <h1 className="scroll-m-20 text-3xl font-semibold tracking-tight flex items-center">
+          {/* <h1 className="scroll-m-20 text-3xl font-semibold tracking-tight flex items-center">
+            {title}
+          </h1> */}
+          <h1 className="scroll-m-20 text-4xl font-bold tracking-tight text-center">
             {title}
           </h1>
           <Link href={`${linkTo}`}>
