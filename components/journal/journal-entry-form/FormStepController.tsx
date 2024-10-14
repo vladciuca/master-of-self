@@ -9,39 +9,10 @@ import { DailyHighlights } from "@components/journal/journal-entry-form/form-ste
 import { LearnedToday } from "@components/journal/journal-entry-form/form-steps/LearnedToday";
 // import { HabitsStep } from "@components/journal/journal-entry-form/form-steps/HabitsStep";
 import { HabitActionsStep } from "@components/journal/journal-entry-form/form-steps/HabitActionsStep";
-import { Progress } from "@/components/ui/progress";
-import { Button } from "@/components/ui/button";
-// import { Shell } from "lucide-react";
-import { FaSun, FaMoon, FaStar } from "react-icons/fa6";
-import { GiPrayer, GiBackup, GiPencilRuler } from "react-icons/gi";
-import { RxChevronLeft, RxChevronRight } from "react-icons/rx";
-import { IconType } from "react-icons";
-import { LucideProps } from "lucide-react";
+import { FormStepProgress } from "./FormStepProgress";
+import { FormStepNavigation } from "./FormStepNavigation";
 import { JournalEntry } from "@/app/types/types";
 import { isEvening } from "@lib/time";
-
-type Step = {
-  type: string;
-  component: React.ReactNode;
-  isAvailable: boolean;
-};
-
-type StepIconMap = {
-  [key: string]:
-    | IconType
-    | React.ForwardRefExoticComponent<
-        Omit<LucideProps, "ref"> & React.RefAttributes<SVGSVGElement>
-      >;
-};
-
-const stepIconMap: StepIconMap = {
-  day: FaSun,
-  night: FaMoon,
-  gratitude: GiPrayer,
-  reflection: GiBackup,
-  habits: GiPencilRuler,
-  default: FaStar,
-};
 
 // TEST_FLAG: used for enabling all forms steps
 const SHOW_ALL_TEST = true;
@@ -163,7 +134,7 @@ export function FormStepController({
     []
   );
 
-  const formSteps: Step[] = useMemo(
+  const formSteps = useMemo(
     () => [
       {
         type: "reward",
@@ -315,64 +286,22 @@ export function FormStepController({
 
   return (
     <div className="grid grid-rows-[auto,1fr,auto] h-full">
-      <div className="flex flex-col items-center w-full mb-4">
-        <div className="flex items-center justify-around w-full my-4 px-4">
-          {availableSteps.map((step, index) => {
-            const Icon = stepIconMap[step.type] || stepIconMap.default;
-            return (
-              <span
-                key={index}
-                className={`text-sm ${
-                  step.type === currentStepType ? "" : "text-muted-foreground"
-                } cursor-pointer`}
-                onClick={() => handleStepChange(step.type)}
-              >
-                <Icon
-                  size={step.type === currentStepType ? "1.4rem" : "1.3rem"}
-                />
-              </span>
-            );
-          })}
-        </div>
-        <div className="flex items-center justify-between w-full">
-          <div className="flex-grow mx-4">
-            <Progress value={progressPercentage} className="w-full h-2" />
-          </div>
-        </div>
-      </div>
+      <FormStepProgress
+        availableSteps={availableSteps}
+        currentStepType={currentStepType}
+        handleStepChange={handleStepChange}
+        progressPercentage={progressPercentage}
+      />
 
       <div className="h-full overflow-hidden">{currentStepComponent}</div>
 
-      <div className="flex justify-around items-center my-4">
-        <Button
-          className="w-1/3"
-          variant={currentStepIndex === 0 ? "default" : "secondary"}
-          type="button"
-          onClick={
-            currentStepIndex === 0
-              ? () => router.push("/journal")
-              : handlePrevForm
-          }
-        >
-          <RxChevronLeft />
-          {currentStepIndex === 0 ? "Cancel" : "Back"}
-        </Button>
-
-        <Button
-          className="w-1/3"
-          variant={
-            currentStepIndex === availableSteps.length - 1
-              ? "default"
-              : "secondary"
-          }
-          type="button"
-          onClick={handleNextForm}
-          disabled={submitting}
-        >
-          {currentStepIndex === availableSteps.length - 1 ? "Complete" : "Next"}
-          <RxChevronRight />
-        </Button>
-      </div>
+      <FormStepNavigation
+        availableStepsLength={availableSteps.length}
+        currentStepIndex={currentStepIndex}
+        submitting={submitting}
+        handlePrevForm={handlePrevForm}
+        handleNextForm={handleNextForm}
+      />
     </div>
   );
 }
