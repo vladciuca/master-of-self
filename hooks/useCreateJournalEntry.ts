@@ -68,6 +68,7 @@ export function useCreateJournalEntry() {
   const updateHabitXP = async (habits: { [key: string]: number }) => {
     try {
       const habitUpdates = Object.entries(habits);
+      console.log("IN_HOOK==================HABITS XP UPDATES", habitUpdates);
       const response = await fetch(
         `/api/users/${session?.user.id}/habits/updateXp`,
         {

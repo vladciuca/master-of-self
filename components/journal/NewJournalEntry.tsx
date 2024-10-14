@@ -24,6 +24,7 @@ export function NewJournalEntry() {
     .toUpperCase();
 
   const handleCreateJournalEntry = async () => {
+    console.log("IN_NEW_JE==================HABITS XP", habitsXp);
     try {
       const newEntryId = await createJournalEntry(
         bonusWillpower,

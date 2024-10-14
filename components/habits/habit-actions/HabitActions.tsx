@@ -10,6 +10,8 @@ import {
   DrawerTrigger,
   DrawerFooter,
   DrawerClose,
+  DrawerTitle,
+  DrawerDescription,
 } from "@/components/ui/drawer";
 import { ScrollArea } from "@components/ui/scroll-area";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -180,6 +182,10 @@ export function HabitActions({
           </DrawerTrigger>
           <DrawerContent className="max-w-md mx-auto left-0 right-0">
             <DrawerHeader>
+              <DrawerTitle className="sr-only">{`${name} Actions`}</DrawerTitle>
+              <DrawerDescription className="sr-only">
+                Manage actions for the habit: {name}
+              </DrawerDescription>
               <div className="flex justify-center">
                 <HabitIconProgressBar
                   icon={icon}
