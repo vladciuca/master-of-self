@@ -11,7 +11,7 @@ const PAGE_HEADER_DETAILS = {
 
 export default function Goals() {
   return (
-    <div className="flex flex-col h-screen">
+    <div className="flex flex-col">
       <PageHeader
         symbol={PAGE_HEADER_DETAILS.symbol}
         title={PAGE_HEADER_DETAILS.title}
@@ -19,11 +19,11 @@ export default function Goals() {
         numberOfEntries={0}
         disabled={true}
       />
-      <div className="flex-grow flex items-center justify-center mb-64">
-        <section className="text-center">
+      <div className="flex-grow flex items-center justify-center">
+        <section className="text-center mt-24">
           <h1 className="scroll-m-20 text-4xl font-bold mb-24">COMING SOON</h1>
           <p className="leading-7 mt-6">
-            Until then you can track your Habits!
+            Until then you can track your habits!
           </p>
           <Link href="/habits">
             <Button className="mt-5">

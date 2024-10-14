@@ -87,8 +87,9 @@ export function UserHabits() {
         numberOfEntries={numberOfEntries}
       />
 
-      {habitsLoading && skeletonCards}
-      {!habitsLoading && (
+      {habitsLoading ? (
+        skeletonCards
+      ) : habits.length > 0 ? (
         <HabitList
           habits={habits}
           handleEdit={handleEdit}
@@ -98,7 +99,14 @@ export function UserHabits() {
           submittingJournalEntry={submitting}
           handleActionUpdate={handleActionUpdate}
         />
+      ) : (
+        <div className="text-center mt-24">
+          <h1 className="scroll-m-20 text-4xl font-bold leading-loose mb-24">
+            Start by creating a new habit!
+          </h1>
+        </div>
       )}
+
       {habitsError && <p>Error: {habitsError}</p>}
     </div>
   );
