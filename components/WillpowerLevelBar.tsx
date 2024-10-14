@@ -149,10 +149,10 @@ export function WillpowerLevelBar() {
       {!isLoading && (
         <div className="mt-1 flex text-xs justify-between space-x-4 mx-1">
           <div className="space-x-2">
-            <span className="text-primary">
+            {/* <span className="text-primary">
               <span className="mr-1 font-normal">Previous:</span>
               {currentXP}
-            </span>
+            </span> */}
             {bonusXP > 0 && (
               <span className="text-green-500">
                 <span className="mr-1 font-normal">Bonus:</span>
