@@ -3,16 +3,15 @@ import { useSession } from "next-auth/react";
 import { getToday, getTomorrow } from "@lib/time";
 import { Session } from "@app/types/types";
 import { HabitActionUpdate } from "@app/types/mongodb";
+import { useYesterdayJournalEntry } from "./useYesterdayJournalEntry";
 
 export function useCreateJournalEntry() {
   const [submitting, setSubmitting] = useState<boolean>(false);
   const { data: session } = useSession() as { data: Session | null };
+  const { yesterdayEntry, bonusWillpower, habitsXp } =
+    useYesterdayJournalEntry();
 
-  const createJournalEntry = async (
-    bonusWillpower: number = 0,
-    habitsXp: { [key: string]: number } = {},
-    nightEntryActions: HabitActionUpdate = {}
-  ) => {
+  const createJournalEntry = async () => {
     setSubmitting(false);
 
     try {
@@ -42,8 +41,11 @@ export function useCreateJournalEntry() {
           await updateHabitXP(habitsXp);
         }
 
-        if (Object.keys(nightEntryActions).length > 0) {
-          await updateHabitActions(nightEntryActions);
+        if (
+          yesterdayEntry?.nightEntry?.actions &&
+          Object.keys(yesterdayEntry.nightEntry.actions).length > 0
+        ) {
+          await updateHabitActions(yesterdayEntry.nightEntry.actions);
         }
 
         if (newEntry?._id) {
@@ -59,16 +61,12 @@ export function useCreateJournalEntry() {
       console.error("Error creating new entry:", error);
       throw error;
     }
-    // finally {
-    //   setSubmitting(false);
-    // }
   };
 
   //To move to own hook and chron
   const updateHabitXP = async (habits: { [key: string]: number }) => {
     try {
       const habitUpdates = Object.entries(habits);
-      console.log("IN_HOOK==================HABITS XP UPDATES", habitUpdates);
       const response = await fetch(
         `/api/users/${session?.user.id}/habits/updateXp`,
         {

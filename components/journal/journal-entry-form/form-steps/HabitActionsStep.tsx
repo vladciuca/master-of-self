@@ -25,8 +25,6 @@ HabitActionsProps) {
     [key: string]: { [key: string]: number };
   }>(actionChanges);
 
-  // console.log("=======IN STEP", habitIdParam);
-
   // Update local state when actionChanges prop changes
   useEffect(() => {
     setActionValues(actionChanges);

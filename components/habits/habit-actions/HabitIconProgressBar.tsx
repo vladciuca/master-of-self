@@ -39,8 +39,6 @@ export function HabitIconProgressBar({
 
   const { bg: bgColor, icon: textColor, label } = getHabitRarity(level);
 
-  // console.log("====", habitRarityLevel);
-
   return (
     <div
       className={`relative flex items-center justify-center h-full w-${progressBarWidth}`}

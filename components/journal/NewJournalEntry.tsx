@@ -8,12 +8,8 @@ import { useCreateJournalEntry } from "@hooks/useCreateJournalEntry";
 
 export function NewJournalEntry() {
   const router = useRouter();
-  const {
-    yesterdayEntry,
-    yesterdayEntryLoading,
-    bonusWillpower = 0,
-    habitsXp = {},
-  } = useYesterdayJournalEntry();
+  const { yesterdayEntryLoading, bonusWillpower = 0 } =
+    useYesterdayJournalEntry();
   const { todayEntry, todayEntryLoading } = useTodayJournalEntry();
   const { createJournalEntry, submitting } = useCreateJournalEntry();
 
@@ -24,13 +20,9 @@ export function NewJournalEntry() {
     .toUpperCase();
 
   const handleCreateJournalEntry = async () => {
-    console.log("IN_NEW_JE==================HABITS XP", habitsXp);
     try {
-      const newEntryId = await createJournalEntry(
-        bonusWillpower,
-        habitsXp,
-        yesterdayEntry?.nightEntry?.actions
-      );
+      const newEntryId = await createJournalEntry();
+
       router.push(`/update-journal-entry/${newEntryId}`);
     } catch (error) {
       console.error("Failed to create new journal entry:", error);

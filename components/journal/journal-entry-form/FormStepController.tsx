@@ -82,8 +82,6 @@ export function FormStepController({
       actions: journalEntryData?.nightEntry?.actions || {},
     },
   }));
-  // const habitIdParam = searchParams.get("habitId");
-  // console.log("===============", habitIdParam);
 
   const calculateScore = useMemo(
     () => (entries: string[]) => {
