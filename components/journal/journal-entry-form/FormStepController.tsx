@@ -280,10 +280,12 @@ export function FormStepController({
 
   const handleStepChange = useCallback(
     (index: number) => {
-      setCurrentStep(index);
-      updateUrlStep(index);
+      if (!submitting) {
+        setCurrentStep(index);
+        updateUrlStep(index);
+      }
     },
-    [updateUrlStep]
+    [updateUrlStep, submitting]
   );
 
   const handleNextForm = useCallback(async () => {
