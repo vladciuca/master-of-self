@@ -67,7 +67,6 @@ export function FormStepController({
 }: FormStepControllerProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const [currentStep, setCurrentStep] = useState(0);
   const [formData, setFormData] = useState<JournalEntry>(() => ({
     dailyWillpower: journalEntryData?.dailyWillpower || 0,
     bonusWillpower: journalEntryData?.bonusWillpower || 0,
@@ -233,7 +232,6 @@ export function FormStepController({
           <HabitActionsStep
             onChange={(value) => handleChange("actions", value)}
             actionChanges={formData.nightEntry?.actions || {}}
-            // habitIdParam={habitIdParam}
           />
         ),
         isAvailable: SHOW_ALL_TEST || hasHabits,
@@ -259,59 +257,61 @@ export function FormStepController({
     [availableSteps]
   );
 
-  const updateUrlStep = useCallback(
-    (step: number) => {
-      const params = new URLSearchParams(searchParams.toString());
-      params.set("step", stepTypes[step]);
-      router.replace(`?${params.toString()}`, { scroll: false });
+  // Get the current step type from URL or use the first available step
+  const currentStepType = searchParams.get("step") || stepTypes[0];
+  const currentStepIndex = stepTypes.indexOf(currentStepType);
+
+  // This function updates the URL with the new step
+  const setStep = useCallback(
+    (stepType: string) => {
+      const newParams = new URLSearchParams(searchParams.toString());
+      newParams.set("step", stepType);
+      router.replace(`?${newParams.toString()}`, { scroll: false });
     },
-    [router, searchParams, stepTypes]
+    [router, searchParams]
   );
 
-  useEffect(() => {
-    const stepParam = searchParams.get("step");
-    if (stepParam) {
-      const stepIndex = stepTypes.indexOf(stepParam);
-      if (stepIndex !== -1) {
-        setCurrentStep(stepIndex);
-      }
-    }
-  }, [searchParams, stepTypes]);
-
+  // Use setStep instead of updateUrlStep
   const handleStepChange = useCallback(
-    (index: number) => {
+    (stepType: string) => {
       if (!submitting) {
-        setCurrentStep(index);
-        updateUrlStep(index);
+        setStep(stepType);
       }
     },
-    [updateUrlStep, submitting]
+    [setStep, submitting]
   );
 
+  // Updated handleNextForm to use stepTypes
   const handleNextForm = useCallback(async () => {
-    if (currentStep < availableSteps.length - 1) {
+    const nextIndex = currentStepIndex + 1;
+    if (nextIndex < availableSteps.length) {
       await onSubmit(formData);
-      handleStepChange(currentStep + 1);
+      handleStepChange(stepTypes[nextIndex]);
     } else {
       await onSubmit(formData);
       router.push("/journal");
     }
   }, [
-    currentStep,
+    currentStepIndex,
     availableSteps.length,
     formData,
     onSubmit,
     handleStepChange,
     router,
+    stepTypes,
   ]);
 
+  // Updated handlePrevForm to use stepTypes
   const handlePrevForm = useCallback(() => {
-    if (currentStep > 0) {
-      handleStepChange(currentStep - 1);
+    const prevIndex = currentStepIndex - 1;
+    if (prevIndex >= 0) {
+      handleStepChange(stepTypes[prevIndex]);
     }
-  }, [currentStep, handleStepChange]);
+  }, [currentStepIndex, handleStepChange, stepTypes]);
 
-  const progressPercentage = ((currentStep + 1) / availableSteps.length) * 100;
+  const progressPercentage =
+    ((currentStepIndex + 1) / availableSteps.length) * 100;
+  const currentStepComponent = availableSteps[currentStepIndex].component;
 
   return (
     <div className="grid grid-rows-[auto,1fr,auto] h-full">
@@ -323,11 +323,13 @@ export function FormStepController({
               <span
                 key={index}
                 className={`text-sm ${
-                  index === currentStep ? "" : "text-muted-foreground"
+                  step.type === currentStepType ? "" : "text-muted-foreground"
                 } cursor-pointer`}
-                onClick={() => handleStepChange(index)}
+                onClick={() => handleStepChange(step.type)}
               >
-                <Icon size={index === currentStep ? "1.4rem" : "1.3rem"} />
+                <Icon
+                  size={step.type === currentStepType ? "1.4rem" : "1.3rem"}
+                />
               </span>
             );
           })}
@@ -339,33 +341,35 @@ export function FormStepController({
         </div>
       </div>
 
-      <div className="h-full overflow-hidden">
-        {availableSteps[currentStep].component}
-      </div>
+      <div className="h-full overflow-hidden">{currentStepComponent}</div>
 
       <div className="flex justify-around items-center my-4">
         <Button
           className="w-1/3"
-          variant={currentStep === 0 ? "default" : "secondary"}
+          variant={currentStepIndex === 0 ? "default" : "secondary"}
           type="button"
           onClick={
-            currentStep === 0 ? () => router.push("/journal") : handlePrevForm
+            currentStepIndex === 0
+              ? () => router.push("/journal")
+              : handlePrevForm
           }
         >
           <RxChevronLeft />
-          {currentStep === 0 ? "Cancel" : "Back"}
+          {currentStepIndex === 0 ? "Cancel" : "Back"}
         </Button>
 
         <Button
           className="w-1/3"
           variant={
-            currentStep === availableSteps.length - 1 ? "default" : "secondary"
+            currentStepIndex === availableSteps.length - 1
+              ? "default"
+              : "secondary"
           }
           type="button"
           onClick={handleNextForm}
           disabled={submitting}
         >
-          {currentStep === availableSteps.length - 1 ? "Complete" : "Next"}
+          {currentStepIndex === availableSteps.length - 1 ? "Complete" : "Next"}
           <RxChevronRight />
         </Button>
       </div>
