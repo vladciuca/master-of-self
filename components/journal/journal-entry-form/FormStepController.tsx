@@ -263,7 +263,7 @@ export function FormStepController({
     (step: number) => {
       const params = new URLSearchParams(searchParams.toString());
       params.set("step", stepTypes[step]);
-      router.push(`?${params.toString()}`, { scroll: false });
+      router.replace(`?${params.toString()}`, { scroll: false });
     },
     [router, searchParams, stepTypes]
   );
