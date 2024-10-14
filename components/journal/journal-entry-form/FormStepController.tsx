@@ -291,6 +291,9 @@ export function FormStepController({
         currentStepType={currentStepType}
         handleStepChange={handleStepChange}
         progressPercentage={progressPercentage}
+        greatTodayCount={formData.dayEntry?.greatToday?.length || 0}
+        gratefulForCount={formData.dayEntry?.gratefulFor?.length || 0}
+        dailyHighlightsCount={formData.nightEntry?.dailyHighlights?.length || 0}
       />
 
       <div className="h-full overflow-hidden">{currentStepComponent}</div>
