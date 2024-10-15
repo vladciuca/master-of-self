@@ -71,6 +71,18 @@ export function FormStepController({
     [calculateScore]
   );
 
+  // const willpowerMultiplier = 1 + formData.dailyWillpower / 100;
+
+  // function calculateXpModifier(willpower) {
+  //   // Convert the base number to a percentage (divide by 100)
+  //   const percentageMultiplier = baseNumber / 100;
+
+  //   // Calculate the result by multiplying x with (1 + percentageMultiplier)
+  //   const result = x * (1 + percentageMultiplier);
+
+  //   return result;
+  // }
+
   useEffect(() => {
     if (journalEntryData) {
       setFormData((prev) => ({
@@ -203,6 +215,7 @@ export function FormStepController({
           <HabitActionsStep
             onChange={(value) => handleChange("actions", value)}
             actionChanges={formData.nightEntry?.actions || {}}
+            dailyWillpower={formData.dailyWillpower}
           />
         ),
         isAvailable: SHOW_ALL_TEST || hasHabits,

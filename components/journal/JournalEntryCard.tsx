@@ -10,7 +10,7 @@ import {
   AccordionTrigger,
 } from "@components/ui/accordion";
 import { FaBoltLightning, FaSun, FaMoon, FaStar } from "react-icons/fa6";
-import { Shell, Clock, Hash } from "lucide-react";
+import { Shell } from "lucide-react";
 import { GiPrayer, GiBackup } from "react-icons/gi";
 import { calculateHabitsXpSumsFromActions } from "@lib/level";
 import { Session, JournalEntryMetadata } from "@app/types/types";
@@ -46,7 +46,7 @@ JournalEntryCardProps) {
     .toUpperCase();
 
   const habitsXpFromActions = nightEntry?.actions
-    ? calculateHabitsXpSumsFromActions(nightEntry.actions)
+    ? calculateHabitsXpSumsFromActions(nightEntry.actions, dailyWillpower)
     : {};
 
   return (

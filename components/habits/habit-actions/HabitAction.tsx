@@ -18,12 +18,14 @@ interface HabitActionProps {
   };
   value: number;
   onValueChange: (actionId: string, newValue: number) => void;
+  willpowerMultiplier: number;
 }
 
 export function HabitAction({
   action,
   value,
   onValueChange,
+  willpowerMultiplier,
 }: HabitActionProps) {
   const handleActionChange = (newValue: number) => {
     onValueChange(action.id, newValue);
@@ -64,7 +66,9 @@ export function HabitAction({
             </div>
             <span className="text-lg font-bold">
               {value > 0 ? (
-                <span className="text-green-500"> +{value}</span>
+                <span className="text-green-500">
+                  +{Math.round(value * willpowerMultiplier)}
+                </span>
               ) : (
                 <span>{value}</span>
               )}

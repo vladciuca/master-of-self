@@ -37,13 +37,22 @@ export const getHabitRarity = (
 };
 
 export const calculateHabitsXpSumsFromActions = (
-  actions: Record<string, Record<string, number>>
+  actions: Record<string, Record<string, number>>,
+  dailyWillpower: number
 ) => {
+  // Calculate the willpower multiplier
+  const willpowerMultiplier = 1 + dailyWillpower / 100;
+
   return Object.entries(actions).reduce((acc, [habitId, habitActions]) => {
-    acc[habitId] = Object.values(habitActions).reduce(
+    // Calculate the base XP sum for the habit
+    const baseXp = Object.values(habitActions).reduce(
       (sum, value) => sum + value,
       0
     );
+
+    // Apply the willpower multiplier and round to the nearest integer
+    acc[habitId] = Math.round(baseXp * willpowerMultiplier);
+
     return acc;
   }, {} as Record<string, number>);
 };

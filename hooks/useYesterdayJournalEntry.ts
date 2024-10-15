@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { getToday, getYesterday } from "@lib/time";
+//TO DO: Move this in function in the actions update call and
+// use ONE CALL to update both Actions Values & Xp Value
 import { calculateHabitsXpSumsFromActions } from "@lib/level";
 import { Session, JournalEntry } from "@app/types/types";
 
@@ -50,6 +52,8 @@ export function useYesterdayJournalEntry() {
           actions: {},
         };
 
+        const dailyWillpower = entry?.dailyWillpower || 0;
+
         if (
           Array.isArray(nightEntry.dailyHighlights) &&
           nightEntry.dailyHighlights.length > 0
@@ -70,7 +74,8 @@ export function useYesterdayJournalEntry() {
           Object.keys(nightEntry.actions).length > 0
         ) {
           const habitXpFromActions = calculateHabitsXpSumsFromActions(
-            nightEntry.actions
+            nightEntry.actions,
+            dailyWillpower
           );
           setHabitsXp(habitXpFromActions);
         } else {

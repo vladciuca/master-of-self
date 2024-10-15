@@ -27,6 +27,7 @@ type HabitActionsProps = {
   projectedHabitXp: number;
   onChange: (habitId: string, actionId: string, newValue: number) => void;
   actionChanges: { [key: string]: { [key: string]: number } };
+  willpowerMultiplier: number;
 };
 
 export function HabitActions({
@@ -35,6 +36,7 @@ export function HabitActions({
   projectedHabitXp,
   onChange,
   actionChanges,
+  willpowerMultiplier,
 }: HabitActionsProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -203,6 +205,7 @@ export function HabitActions({
                   action={action}
                   value={actionValues[action.id] || 0}
                   onValueChange={handleActionChange}
+                  willpowerMultiplier={willpowerMultiplier}
                 />
               ))}
             </ScrollArea>
