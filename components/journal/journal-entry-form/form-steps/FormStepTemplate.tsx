@@ -29,7 +29,7 @@ export function FormStepTemplate({
           </div>
         )}
       </div>
-      <div className="flex-grow overflow-y-auto p-4">{children}</div>
+      <div className="flex-grow overflow-y-auto m-4">{children}</div>
     </div>
   );
 }
