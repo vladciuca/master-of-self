@@ -10,18 +10,21 @@ type HabitCardHeaderProps = {
   habit: Habit;
   actionUpdateValues: { [key: string]: number };
   todayEntryLoading: boolean;
+  willpowerMultiplier: number;
 };
 
 export function HabitCardHeader({
   habit,
   actionUpdateValues,
   todayEntryLoading,
+  willpowerMultiplier,
 }: HabitCardHeaderProps) {
   const { name, icon, xp } = habit;
 
-  const projectedXp = Object.values(actionUpdateValues).reduce(
-    (sum, value) => sum + value,
-    0
+  // Calculate projected XP with willpower multiplier
+  const projectedXp = Math.round(
+    Object.values(actionUpdateValues).reduce((sum, value) => sum + value, 0) *
+      willpowerMultiplier
   );
 
   // Calculate XP and level
@@ -81,21 +84,6 @@ export function HabitCardHeader({
               </div>
             ))}
           </div>
-          {/* <div className="text-sm text-muted-foreground">
-            Level
-            <span
-              className={`ml-1 ${
-                currentLevel === level ? "text-primary" : "text-green-500"
-              }`}
-            >
-              {level}
-            </span>
-          </div>
-          <div className="text-xs text-muted-foreground mt-1">
-            {formatNumberSuffixes(xpForCurrentLevel)}/
-            {formatNumberSuffixes(xpToLevelUp)}
-            <span className="text-primary ml-1">XP</span>
-          </div> */}
         </div>
       </div>
       <div className="flex items-center justify-center">

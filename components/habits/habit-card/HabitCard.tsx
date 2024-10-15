@@ -21,6 +21,7 @@ type HabitCardProps = {
     [key: string]: number;
   };
   todayEntryLoading: boolean;
+  willpowerMultiplier: number;
   submittingJournalEntry: boolean;
   handleActionUpdate: (habitId: string) => void;
 };
@@ -30,6 +31,7 @@ export function HabitCard({
   handleEdit,
   actionUpdateValues,
   todayEntryLoading,
+  willpowerMultiplier,
   handleActionUpdate,
   submittingJournalEntry,
 }: //  handleDelete
@@ -47,6 +49,7 @@ HabitCardProps) {
             habit={habit}
             actionUpdateValues={actionUpdateValues}
             todayEntryLoading={todayEntryLoading}
+            willpowerMultiplier={willpowerMultiplier}
           />
         </AccordionTrigger>
         <AccordionContent className="px-4">

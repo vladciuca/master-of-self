@@ -96,6 +96,7 @@ export function UserHabits() {
           // handleDelete={handleDelete}
           getActionUpdateValues={getActionUpdateValues}
           todayEntryLoading={todayEntryLoading}
+          willpowerMultiplier={1 + (todayEntry?.dailyWillpower || 0) / 100}
           submittingJournalEntry={submitting}
           handleActionUpdate={handleActionUpdate}
         />
