@@ -26,10 +26,10 @@ function GratefulFor({
       title="What am I feeling grateful for?"
       description="Use details to describe what you're feeling grateful for to generate Willpower."
       scoreSection={
-        <div className="text-4xl mt-3 flex items-center justify-center font-semibold">
+        <>
           {dailyWillpower}
           <FaBoltLightning className="ml-2 text-3xl" />
-        </div>
+        </>
       }
     >
       <TextAreaList entryList={entryList} onChange={handleTextAreaListChange} />

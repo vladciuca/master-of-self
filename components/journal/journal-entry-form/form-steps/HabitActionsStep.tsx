@@ -2,7 +2,6 @@ import { useState, useEffect, useCallback } from "react";
 import { FormStepTemplate } from "@/components/journal/journal-entry-form/form-steps/FormStepTemplate";
 import { HabitActions } from "../../../habits/habit-actions/HabitActions";
 import { SkeletonHabitAction } from "@components/skeletons/SkeletonHabitAction";
-import { FaBoltLightning } from "react-icons/fa6";
 import { useUserHabits } from "@/hooks/useUserHabits";
 import { Habit } from "@app/types/types";
 
@@ -10,7 +9,6 @@ type HabitActionsProps = {
   onChange: (value: { [key: string]: { [key: string]: number } }) => void;
   actionChanges?: { [key: string]: { [key: string]: number } };
   dailyWillpower: number;
-  // habitIdParam: string | null;
 };
 
 const skeletonCards = Array.from({ length: 3 }, (_, index) => (
@@ -21,8 +19,7 @@ export function HabitActionsStep({
   onChange,
   actionChanges = {},
   dailyWillpower,
-}: // habitIdParam,
-HabitActionsProps) {
+}: HabitActionsProps) {
   const { habits, habitsLoading, habitsError } = useUserHabits();
   const [actionValues, setActionValues] = useState<{
     [key: string]: { [key: string]: number };
@@ -38,7 +35,7 @@ HabitActionsProps) {
   const calculateProjectedXP = useCallback(
     (habit: Habit) => {
       const habitActions = actionValues[habit._id] || {};
-      // return Object.values(habitActions).reduce((sum, value) => sum + value, 0);
+
       // Calculate the base XP sum
       const baseXP = Object.values(habitActions).reduce(
         (sum, value) => sum + value,
@@ -79,10 +76,10 @@ HabitActionsProps) {
       description="Track your progress on habit actions. Get 1% bonus xp for each Willpower point"
       scoreSection={
         dailyWillpower > 0 && (
-          <div className="text-4xl mt-3 flex items-baseline justify-center font-semibold">
+          <>
             <span className="text-green-500">+{dailyWillpower}%</span>
             <span className="ml-2 text-2xl">XP</span>
-          </div>
+          </>
         )
       }
     >

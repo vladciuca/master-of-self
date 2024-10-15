@@ -23,7 +23,11 @@ export function FormStepTemplate({
             {description}
           </Label>
         )}
-        {scoreSection}
+        {scoreSection && (
+          <div className="text-4xl flex items-baseline justify-center font-semibold">
+            {scoreSection}
+          </div>
+        )}
       </div>
       <div className="flex-grow overflow-y-auto p-4">{children}</div>
     </div>

@@ -22,10 +22,10 @@ function GreatToday({ dailyWillpower, entryList, onChange }: GreatTodayProps) {
       title="What will I do to make today great?"
       description="Write down meaningful and achievable goals for the day to generate Willpower."
       scoreSection={
-        <div className="text-4xl mt-3 flex items-center justify-center font-semibold">
+        <>
           {dailyWillpower}
           <FaBoltLightning className="ml-2 text-3xl" />
-        </div>
+        </>
       }
     >
       <TextAreaList entryList={entryList} onChange={handleTextAreaListChange} />
