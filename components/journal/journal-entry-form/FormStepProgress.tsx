@@ -87,13 +87,13 @@ export function FormStepProgress({
       case "night":
         return {
           count: dailyHighlightsCount,
-          bgColor: "bg-green-500",
+          bgColor: "bg-purple-500",
           // textColor: "text-blue-900",
         };
       case "habits":
         return {
           count: habitActionsCount,
-          bgColor: "bg-blue-500",
+          bgColor: "bg-green-500",
           // textColor: "text-purple-900",
         };
       default:
