@@ -28,6 +28,12 @@ type Step = {
   isAvailable: boolean;
 };
 
+type CountAndColor = {
+  count: number;
+  bgColor: string;
+  // textColor: string;
+};
+
 type FormStepProgressProps = {
   availableSteps: Step[];
   currentStepType: string;
@@ -36,6 +42,7 @@ type FormStepProgressProps = {
   greatTodayCount: number;
   gratefulForCount: number;
   dailyHighlightsCount: number;
+  habitActionsCount: number;
 };
 
 export function FormStepProgress({
@@ -46,17 +53,55 @@ export function FormStepProgress({
   greatTodayCount,
   gratefulForCount,
   dailyHighlightsCount,
+  habitActionsCount,
 }: FormStepProgressProps) {
-  const getCount = (stepType: string) => {
+  // const getCount = (stepType: string) => {
+  //   switch (stepType) {
+  //     case "day":
+  //       return greatTodayCount;
+  //     case "gratitude":
+  //       return gratefulForCount;
+  //     case "night":
+  //       return dailyHighlightsCount;
+  //     case "habits":
+  //       return habitActionsCount;
+  //     default:
+  //       return 0;
+  //   }
+  // };
+
+  const getCountAndColor = (stepType: string): CountAndColor => {
     switch (stepType) {
       case "day":
-        return greatTodayCount;
+        return {
+          count: greatTodayCount,
+          bgColor: "bg-purple-500",
+          // textColor: "text-yellow-900",
+        };
       case "gratitude":
-        return gratefulForCount;
+        return {
+          count: gratefulForCount,
+          bgColor: "bg-purple-500",
+          // textColor: "text-green-900",
+        };
       case "night":
-        return dailyHighlightsCount;
+        return {
+          count: dailyHighlightsCount,
+          bgColor: "bg-green-500",
+          // textColor: "text-blue-900",
+        };
+      case "habits":
+        return {
+          count: habitActionsCount,
+          bgColor: "bg-blue-500",
+          // textColor: "text-purple-900",
+        };
       default:
-        return 0;
+        return {
+          count: 0,
+          bgColor: "bg-gray-500",
+          // textColor: "text-gray-900"
+        };
     }
   };
 
@@ -65,8 +110,7 @@ export function FormStepProgress({
       <div className="flex items-center justify-around w-full my-4 px-4 pt-2">
         {availableSteps.map((step: any, index: any) => {
           const Icon = stepIconMap[step.type] || stepIconMap.default;
-          const count = getCount(step.type);
-
+          const { count, bgColor } = getCountAndColor(step.type);
           return (
             <span
               key={index}
@@ -90,7 +134,7 @@ export function FormStepProgress({
               {count > 0 && (
                 <Badge
                   variant="outline"
-                  className="bg-purple-500 opacity-75 absolute -top-1 -right-1 text-[0.6rem] px-1 py-0 min-w-[1.2rem] h-[1.2rem] flex items-center justify-center"
+                  className={`${bgColor} opacity-75 absolute -top-1 -right-1 text-[0.6rem] px-1 py-0 min-w-[1.2rem] h-[1.2rem] flex items-center justify-center`}
                 >
                   {count}
                 </Badge>

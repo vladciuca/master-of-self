@@ -307,6 +307,9 @@ export function FormStepController({
         greatTodayCount={formData.dayEntry?.greatToday?.length || 0}
         gratefulForCount={formData.dayEntry?.gratefulFor?.length || 0}
         dailyHighlightsCount={formData.nightEntry?.dailyHighlights?.length || 0}
+        habitActionsCount={
+          Object.keys(formData.nightEntry?.actions || {}).length
+        }
       />
 
       <div className="h-full overflow-hidden">{currentStepComponent}</div>
