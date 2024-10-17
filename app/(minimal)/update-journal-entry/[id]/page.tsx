@@ -100,14 +100,16 @@ export default function UpdateJournalEntry() {
         />
       )}
       {isLoading && (
-        <div className="phone_container fixed sm:border-2 sm:rounded-3xl top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 mx-auto flex flex-col items-center justify-center w-full max-w-[450px] sm:max-h-[800px] h-screen overflow-hidden">
-          <div className="fixed top-0 w-full h-20">
+        <div className="flex flex-col w-full h-full relative sm:pt-2">
+          <div className="min-h-20 flex items-center justify-center py-2 sm:mt-1 sm:mb-2">
             <HeaderTitle />
           </div>
-          <div className="my-20 p-4 h-full w-full overflow-scroll border rounded-3xl">
-            <PageLogo />
+          <div className="flex-grow overflow-hidden border rounded-3xl">
+            <div className="h-full px-4 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent">
+              <PageLogo />
+            </div>
           </div>
-          <div className="fixed bottom-0 w-full h-20">
+          <div className="min-h-20">
             <div className="w-full h-full flex justify-center items-center">
               <div className="loader" />
             </div>
