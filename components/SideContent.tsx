@@ -10,7 +10,7 @@ export function SideContent() {
   return (
     <>
       <div
-        className={`shadow-sm shadow-gray-950 hidden md:block h-full bg-secondary rounded-tr-xl rounded-br-xl relative z-10 transition-all duration-300 ease-in-out ${
+        className={`hidden md:block h-full bg-secondary rounded-tr-xl rounded-br-xl relative z-10 transition-all duration-300 ease-in-out ${
           isDrawerOpen ? "w-[45%]" : "w-0 overflow-hidden"
         }`}
       >
