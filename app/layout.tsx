@@ -28,6 +28,10 @@ export default async function RootLayout({ children }: Layout) {
   //   session = null; // Fallback in case of error
   // }
 
+  // bg-gradient-to-br from-purple-600 via-pink-500 to-red-500
+  // bg-gradient-to-br from-[#a6d9ff] via-[#bcb4ff] to-pink-500
+  // bg-gradient-to-r from-[#bcb4ff] to-[#a6d9ff] via-[#a6d9ff] via-48%
+
   return (
     <html lang="en">
       <body className={`relative ${font.className}`}>
@@ -40,7 +44,7 @@ export default async function RootLayout({ children }: Layout) {
           >
             <SideContentProvider>
               <div className="w-full h-screen flex py-2 bg-background relative">
-                <div className="absolute inset-0 bg-gradient-to-br from-purple-600 via-pink-500 to-red-500 opacity-65"></div>
+                <div className="absolute inset-0 opacity-65 bg-gradient-to-br from-[#a6d9ff] via-[#bcb4ff] to-purple-300"></div>
 
                 {/* Side Content */}
                 <SideContent />
