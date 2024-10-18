@@ -4,6 +4,8 @@ import { ArrowUpRight, Book, Shield, Target, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardContent } from "@/components/ui/card";
 
+import { HeroSection } from "./HeroSection";
+
 const fadeIn = {
   hidden: { opacity: 0, y: 20 },
   visible: { opacity: 1, y: 0 },
@@ -25,69 +27,96 @@ export function LandingPage({ isDrawerOpen }: LandingPageProps) {
   return (
     <div className="min-h-screen">
       {/* NEW Hero Section */}
-      <section className="h-screen flex flex-col items-center justify-center text-center relative overflow-hidden">
-        <AnimatePresence>
-          {isDrawerOpen && (
-            <motion.div
-              initial="hidden"
-              animate="visible"
-              exit="hidden"
-              variants={fadeIn}
-              transition={{ duration: 0.5 }}
-              className="max-w-3xl px-4"
-            >
-              <motion.h1
-                className="mb-6 text-6xl font-bold tracking-tight"
-                initial="hidden"
-                animate="visible"
-                variants={fadeIn}
-                transition={{ duration: 1 }}
-              >
-                Craft your identity
-              </motion.h1>
-              <motion.h1
-                className="my-6 text-6xl font-bold tracking-tight"
-                initial="hidden"
-                animate="visible"
-                variants={fadeIn}
-                transition={{ duration: 1, delay: 0.5 }}
-              >
-                Master your actions
-              </motion.h1>
+      <HeroSection isDrawerOpen={isDrawerOpen} />
 
-              <motion.p
-                className="mb-8 text-xl text-muted-foreground"
-                initial="hidden"
-                animate="visible"
-                variants={fadeIn}
-                transition={{ duration: 1, delay: 1 }}
-              >
-                Track progress, align goals, and create lasting change.
-              </motion.p>
-              {/* <motion.div
-                initial="hidden"
-                animate="visible"
-                variants={fadeIn}
-                transition={{ duration: 1, delay: 1 }}
-              >
-                <Button className="px-6 py-3 text-lg">Get Early Access</Button>
-              </motion.div> */}
-            </motion.div>
-          )}
-        </AnimatePresence>
-        {/* <motion.div
-          className="absolute inset-0 z-0"
-          style={{
-            backgroundImage:
-              "url('https://images.unsplash.com/photo-1557672172-298e090bd0f1?q=80&w=2787&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D?text=Abstract+Background')",
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-            opacity: 0.09,
-            transform: `translateY(${scrollY * 0.5}px)`,
-          }}
-        /> */}
+      <section className="container mx-auto py-20 px-4">
+        <div className="flex justify-center mb-8">
+          <div className="relative">
+            <div className="w-96 h-96 rounded-full bg-pink-500 flex items-center justify-center">
+              <div className="w-52 h-52 rounded-full bg-purple-500 flex items-center justify-center">
+                <div className="w-24 h-24 rounded-full bg-blue-500 flex items-center justify-center"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="flex justify-end mb-4">
+          <div className="flex space-x-4">
+            <span className="flex items-center">
+              <span className="w-3 h-3 rounded-full bg-pink-500 mr-2"></span>{" "}
+              ACTIONS
+            </span>
+            <span className="flex items-center">
+              <span className="w-3 h-3 rounded-full bg-purple-500 mr-2"></span>{" "}
+              STORIES
+            </span>
+            <span className="flex items-center">
+              <span className="w-3 h-3 rounded-full bg-blue-500 mr-2"></span>{" "}
+              IDENTITY
+            </span>
+          </div>
+        </div>
+
+        <Card className="bg-gray-800 mb-6">
+          <CardContent className="p-4">
+            <p className="text-sm">
+              Most people approach change by taking some actions to change their
+              believes / stories and hopefully, if it lasts long enough, they
+              will change their identity.
+            </p>
+            <div className="flex items-center space-x-2 mt-4">
+              <span className="bg-pink-500 text-white rounded-full w-6 h-6 flex items-center justify-center">
+                3
+              </span>
+              <span className="text-pink-500">ACTIONS</span>
+              <span className="text-gray-500">→</span>
+              <span className="bg-purple-500 text-white rounded-full w-6 h-6 flex items-center justify-center">
+                2
+              </span>
+              <span className="text-purple-500">STORIES</span>
+              <span className="text-gray-500">→</span>
+              <span className="bg-blue-500 text-white rounded-full w-6 h-6 flex items-center justify-center">
+                1
+              </span>
+              <span className="text-blue-500">IDENTITY</span>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className="bg-gray-800 mb-6">
+          <CardContent className="p-4">
+            <p className="text-sm">
+              REAL CHANGE happens when you rewire yourself at the IDENTITY
+              level, adopting the new identity, creating it ahead of time, it
+              surpasses your stories and then your actions fall in alignment.
+            </p>
+            <div className="flex items-center space-x-2 mt-4">
+              <span className="bg-blue-500 text-white rounded-full w-6 h-6 flex items-center justify-center">
+                1
+              </span>
+              <span className="text-blue-500">IDENTITY</span>
+              <span className="text-gray-500">→</span>
+              <span className="bg-purple-500 text-white rounded-full w-6 h-6 flex items-center justify-center">
+                2
+              </span>
+              <span className="text-purple-500">STORIES</span>
+              <span className="text-gray-500">→</span>
+              <span className="bg-pink-500 text-white rounded-full w-6 h-6 flex items-center justify-center">
+                3
+              </span>
+              <span className="text-pink-500">ACTIONS</span>
+            </div>
+          </CardContent>
+        </Card>
+
+        <p className="text-sm italic">
+          In this way "your actions become a vote towards the person you want to
+          become".
+          <span className="block mt-2">
+            (source: Atomic Habits by James Clear)
+          </span>
+        </p>
       </section>
-
       {/* Category Cards */}
       <section className="container mx-auto py-20 px-4">
         <h2 className="text-4xl font-bold text-center mb-12">
@@ -134,7 +163,6 @@ export function LandingPage({ isDrawerOpen }: LandingPageProps) {
           ))}
         </div>
       </section>
-
       {/* Key Features */}
       <section className="bg-gray-900 py-20">
         <div className="container mx-auto px-4">
@@ -178,7 +206,6 @@ export function LandingPage({ isDrawerOpen }: LandingPageProps) {
           </div>
         </div>
       </section>
-
       {/* Call to Action */}
       <section className="py-20 text-center">
         <div className="container mx-auto px-4">

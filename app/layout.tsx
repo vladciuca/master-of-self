@@ -44,7 +44,7 @@ export default async function RootLayout({ children }: Layout) {
           >
             <SideContentProvider>
               <div className="w-full h-screen flex py-2 bg-background relative">
-                <div className="absolute inset-0 opacity-65 bg-gradient-to-br from-[#a6d9ff] via-[#bcb4ff] to-purple-300"></div>
+                <div className="absolute inset-0 opacity-35 bg-gradient-to-br from-[#a6d9ff] via-[#bcb4ff] to-purple-300"></div>
 
                 {/* Side Content */}
                 <SideContent />
