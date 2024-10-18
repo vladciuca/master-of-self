@@ -1,11 +1,12 @@
 "use client";
 
-import { useState } from "react";
+// import { useState } from "react";
 import { Button } from "@components/ui/button"; // New import
 import { ChevronLeft, ChevronRight } from "lucide-react"; // New import
+import { useSideContent } from "@context/SideContentContext";
 
 export function SideContent() {
-  const [isDrawerOpen, setIsDrawerOpen] = useState(true);
+  const { isDrawerOpen, setIsDrawerOpen } = useSideContent();
 
   return (
     <>
