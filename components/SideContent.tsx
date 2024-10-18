@@ -20,16 +20,20 @@ export function SideContent() {
     <>
       <ScrollArea
         className={`hidden md:block h-full bg-secondary rounded-tr-xl rounded-br-xl relative z-10 transition-all duration-300 ease-in-out ${
-          isDrawerOpen ? "w-[45%]" : "w-0 overflow-hidden"
+          isDrawerOpen ? "w-[65%]" : "w-0 overflow-hidden"
         }`}
       >
-        <div className="h-full p-8 space-y-12">
+        <div
+          className={`h-full p-24 px-16 space-y-12 transition-opacity duration-100 ease-in-out ${
+            isDrawerOpen ? "opacity-100" : "opacity-0"
+          }`}
+        >
           {/* Hero Section */}
-          <section className="text-center space-y-6">
-            <h1 className="text-4xl font-bold text-primary">
-              Craft your identity & become the best version of yourself
+          <section className="text-center flex flex-col items-center h-screen space-y-20 pt-14">
+            <h1 className="text-6xl font-bold text-primary">
+              Craft your identity <br />& become the best version of yourself
             </h1>
-            <p className="text-2xl text-muted-foreground">
+            <p className="text-4xl text-muted-foreground">
               Track progress, align goals, and create lasting change.
             </p>
             <Button className="text-lg">Start Your Journey</Button>
