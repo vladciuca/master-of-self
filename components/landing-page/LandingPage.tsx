@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { HeroSection } from "./HeroSection";
-import { CopySection } from "./CopySection";
+import { ProblemSection } from "./ProblemSection";
+import { SolutionSection } from "./SolutionSection";
 
 type LandingPageProps = {
   isDrawerOpen: boolean;
@@ -18,7 +19,8 @@ export function LandingPage({ isDrawerOpen }: LandingPageProps) {
   return (
     <div className="min-h-screen">
       <HeroSection isDrawerOpen={isDrawerOpen} />
-      <CopySection isDrawerOpen={isDrawerOpen} />
+      <ProblemSection isDrawerOpen={isDrawerOpen} />
+      <SolutionSection isDrawerOpen={isDrawerOpen} />
     </div>
   );
 }
