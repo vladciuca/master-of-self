@@ -6,21 +6,16 @@ const fadeInTransitionFromLeft = {
   visible: { opacity: 1, x: 0 },
 };
 
-// const fadeInTransitionFromRight = {
-//   hidden: { opacity: 0, x: 20 },
-//   visible: { opacity: 1, x: 0 },
-// };
-
 const fadeInTransitionFromBottom = {
   hidden: { opacity: 0, y: 20 },
   visible: { opacity: 1, y: 0 },
 };
 
-export function SolutionSection({ isDrawerOpen }: { isDrawerOpen: boolean }) {
+export function SolutionSection({ isActive = true }: { isActive?: boolean }) {
   return (
     <section className="h-screen flex flex-col items-center justify-center text-center relative overflow-hidden">
       <AnimatePresence>
-        {isDrawerOpen && (
+        {isActive && (
           <motion.div
             initial="hidden"
             animate="visible"

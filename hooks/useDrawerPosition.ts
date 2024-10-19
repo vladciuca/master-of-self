@@ -13,7 +13,7 @@ export function useDrawerPosition() {
         // NOTE: SideContent width is set to 45%
         // no clue, bit it doesn't break
         // need to make a calc here, somehow?
-        left: "39.5%",
+        left: "50%",
       });
     } else {
       setDrawerStyle({

@@ -10,31 +10,37 @@ const fadeIn = {
   visible: { opacity: 1 },
 };
 
-const ConcentricCircles = () => {
+const ConcentricCircles = ({ isActive = true }: { isActive?: boolean }) => {
   return (
     <div className="flex justify-center mb-24">
       <div className="relative w-56 h-56">
-        <motion.div
-          initial="hidden"
-          animate="visible"
-          variants={fadeIn}
-          transition={{ duration: 1, delay: 1 }}
-          className="absolute inset-0 rounded-full bg-pink-500"
-        />
-        <motion.div
-          initial="hidden"
-          animate="visible"
-          variants={fadeIn}
-          transition={{ duration: 1, delay: 0.5 }}
-          className="absolute inset-0 m-auto w-32 h-32 rounded-full bg-purple-500"
-        />
-        <motion.div
-          initial="hidden"
-          animate="visible"
-          variants={fadeIn}
-          transition={{ duration: 1 }}
-          className="absolute inset-0 m-auto w-14 h-14 rounded-full bg-blue-500"
-        />
+        <AnimatePresence>
+          {isActive && (
+            <>
+              <motion.div
+                initial="hidden"
+                animate="visible"
+                variants={fadeIn}
+                transition={{ duration: 1, delay: 1 }}
+                className="absolute inset-0 rounded-full bg-pink-500"
+              />
+              <motion.div
+                initial="hidden"
+                animate="visible"
+                variants={fadeIn}
+                transition={{ duration: 1, delay: 0.5 }}
+                className="absolute inset-0 m-auto w-32 h-32 rounded-full bg-purple-500"
+              />
+              <motion.div
+                initial="hidden"
+                animate="visible"
+                variants={fadeIn}
+                transition={{ duration: 1 }}
+                className="absolute inset-0 m-auto w-14 h-14 rounded-full bg-blue-500"
+              />
+            </>
+          )}
+        </AnimatePresence>
       </div>
     </div>
   );
@@ -42,11 +48,11 @@ const ConcentricCircles = () => {
 
 export default ConcentricCircles;
 
-export function HeroSection({ isDrawerOpen }: { isDrawerOpen: boolean }) {
+export function HeroSection({ isActive = true }: { isActive?: boolean }) {
   return (
     <section className="h-screen flex flex-col items-center justify-center text-center relative overflow-hidden">
       <AnimatePresence>
-        {isDrawerOpen && (
+        {isActive && (
           <motion.div
             initial="hidden"
             animate="visible"
@@ -55,7 +61,7 @@ export function HeroSection({ isDrawerOpen }: { isDrawerOpen: boolean }) {
             transition={{ duration: 0.5 }}
             className="max-w-3xl px-4"
           >
-            <ConcentricCircles />
+            <ConcentricCircles isActive={isActive} />
             <motion.h1
               className="mb-6 text-6xl font-bold tracking-tight"
               initial="hidden"
@@ -106,17 +112,6 @@ export function HeroSection({ isDrawerOpen }: { isDrawerOpen: boolean }) {
           </motion.div>
         )}
       </AnimatePresence>
-      {/* <motion.div
-       className="absolute inset-0 z-0"
-       style={{
-         backgroundImage:
-           "url('https://images.unsplash.com/photo-1557672172-298e090bd0f1?q=80&w=2787&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D?text=Abstract+Background')",
-         backgroundSize: "cover",
-         backgroundPosition: "center",
-         opacity: 0.09,
-         transform: `translateY(${scrollY * 0.5}px)`,
-       }}
-     /> */}
     </section>
   );
 }

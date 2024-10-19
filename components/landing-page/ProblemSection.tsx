@@ -1,10 +1,5 @@
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronLeft, ChevronRight } from "lucide-react";
-
-// const fadeInTransitionFromLeft = {
-//   hidden: { opacity: 0, x: -20 },
-//   visible: { opacity: 1, x: 0 },
-// };
+import { ChevronLeft } from "lucide-react";
 
 const fadeInTransitionFromRight = {
   hidden: { opacity: 0, x: 20 },
@@ -16,11 +11,11 @@ const fadeInTransitionFromBottom = {
   visible: { opacity: 1, y: 0 },
 };
 
-export function ProblemSection({ isDrawerOpen }: { isDrawerOpen: boolean }) {
+export function ProblemSection({ isActive = true }: { isActive?: boolean }) {
   return (
     <section className="h-screen flex flex-col items-center justify-center text-center relative overflow-hidden">
       <AnimatePresence>
-        {isDrawerOpen && (
+        {isActive && (
           <motion.div
             initial="hidden"
             animate="visible"
@@ -126,10 +121,9 @@ export function ProblemSection({ isDrawerOpen }: { isDrawerOpen: boolean }) {
               variants={fadeInTransitionFromBottom}
               transition={{ duration: 1, delay: 1.5 }}
             >
-              On the other hand, conventional approaches try to change your
-              identity by forcing new habits to create change. This often
-              creates resistance and makes it harder to achieve long-term
-              success.
+              Conventional approaches try to change your identity by forcing new
+              habits to create change. This often creates resistance and makes
+              it harder to achieve long-term success.
             </motion.p>
           </motion.div>
         )}
