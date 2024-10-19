@@ -2,15 +2,7 @@
 
 import { LandingPage } from "./landing-page/LandingPage";
 import { Button } from "@/components/ui/button";
-import {
-  ChevronLeft,
-  ChevronRight,
-  Target,
-  Zap,
-  Shield,
-  Book,
-  ArrowUpRight,
-} from "lucide-react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useSideContent } from "@/context/SideContentContext";
 import { ScrollArea } from "@/components/ui/scroll-area";
 

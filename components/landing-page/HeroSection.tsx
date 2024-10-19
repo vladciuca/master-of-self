@@ -10,10 +10,10 @@ const fadeIn = {
   visible: { opacity: 1 },
 };
 
-const UnnestedCircles = () => {
+const ConcentricCircles = () => {
   return (
     <div className="flex justify-center mb-24">
-      <div className="relative w-64 h-64">
+      <div className="relative w-56 h-56">
         <motion.div
           initial="hidden"
           animate="visible"
@@ -26,53 +26,25 @@ const UnnestedCircles = () => {
           animate="visible"
           variants={fadeIn}
           transition={{ duration: 1, delay: 0.5 }}
-          className="absolute inset-0 m-auto w-36 h-36 rounded-full bg-purple-500"
+          className="absolute inset-0 m-auto w-32 h-32 rounded-full bg-purple-500"
         />
         <motion.div
           initial="hidden"
           animate="visible"
           variants={fadeIn}
           transition={{ duration: 1 }}
-          className="absolute inset-0 m-auto w-16 h-16 rounded-full bg-blue-500"
+          className="absolute inset-0 m-auto w-14 h-14 rounded-full bg-blue-500"
         />
       </div>
     </div>
   );
 };
 
-export default UnnestedCircles;
+export default ConcentricCircles;
 
 export function HeroSection({ isDrawerOpen }: { isDrawerOpen: boolean }) {
   return (
     <section className="h-screen flex flex-col items-center justify-center text-center relative overflow-hidden">
-      {/* <div className="flex justify-center mb-8">
-        <div className="relative">
-          <motion.div
-            initial="hidden"
-            animate="visible"
-            variants={fadeInTransition}
-            transition={{ duration: 1, delay: 1 }}
-            className="w-96 h-96 rounded-full bg-pink-500 flex items-center justify-center"
-          >
-            <motion.div
-              initial="hidden"
-              animate="visible"
-              variants={fadeInTransition}
-              transition={{ duration: 1, delay: 0.5 }}
-              className="w-52 h-52 rounded-full bg-purple-500 flex items-center justify-center"
-            >
-              <motion.div
-                initial="hidden"
-                animate="visible"
-                variants={fadeInTransition}
-                transition={{ duration: 1 }}
-                className="w-24 h-24 rounded-full bg-blue-500 flex items-center justify-center"
-              ></motion.div>
-            </motion.div>
-          </motion.div>
-        </div>
-      </div> */}
-
       <AnimatePresence>
         {isDrawerOpen && (
           <motion.div
@@ -83,7 +55,7 @@ export function HeroSection({ isDrawerOpen }: { isDrawerOpen: boolean }) {
             transition={{ duration: 0.5 }}
             className="max-w-3xl px-4"
           >
-            <UnnestedCircles />
+            <ConcentricCircles />
             <motion.h1
               className="mb-6 text-6xl font-bold tracking-tight"
               initial="hidden"
@@ -91,8 +63,7 @@ export function HeroSection({ isDrawerOpen }: { isDrawerOpen: boolean }) {
               variants={fadeInTransition}
               transition={{ duration: 1 }}
             >
-              CHAR IDENTITY
-              {/* | Craft your identity */}
+              from IDENTITY
             </motion.h1>
             <motion.h1
               className="my-6 text-6xl font-bold tracking-tight"
@@ -101,8 +72,7 @@ export function HeroSection({ isDrawerOpen }: { isDrawerOpen: boolean }) {
               variants={fadeInTransition}
               transition={{ duration: 1, delay: 0.5 }}
             >
-              CHAR STORY
-              {/* | Set your goals */}
+              to BEHAVIOR
             </motion.h1>
 
             <motion.h1
@@ -112,8 +82,7 @@ export function HeroSection({ isDrawerOpen }: { isDrawerOpen: boolean }) {
               variants={fadeInTransition}
               transition={{ duration: 1, delay: 1 }}
             >
-              CHAR ACTIONS
-              {/* | Master your habits */}
+              and ACTIONS
             </motion.h1>
 
             <motion.p
@@ -123,7 +92,8 @@ export function HeroSection({ isDrawerOpen }: { isDrawerOpen: boolean }) {
               variants={fadeInTransition}
               transition={{ duration: 1, delay: 1.5 }}
             >
-              Track progress, align goals, and create lasting change.
+              {/* Track progress, align goals, and create lasting change. */}
+              build the best version of yourself.
             </motion.p>
             {/* <motion.div
              initial="hidden"
