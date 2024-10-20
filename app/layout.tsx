@@ -43,7 +43,7 @@ export default async function RootLayout({ children }: Layout) {
             disableTransitionOnChange
           >
             <SideContentProvider>
-              <div className="w-full h-screen flex py-2 bg-background relative">
+              <div className="w-full h-screen flex bg-background relative">
                 <div className="absolute inset-0 opacity-35 bg-gradient-to-br from-[#a6d9ff] via-[#bcb4ff] to-purple-300"></div>
 
                 {/* Side Content */}

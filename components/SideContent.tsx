@@ -30,14 +30,14 @@ export function SideContent() {
         <Button
           variant="secondary"
           size="icon"
-          className="z-50 absolute top-4 left-4 md:flex hidden"
+          className="z-50 absolute top-4 left-4 lg:flex hidden w-32 transition-all duration-300 ease-in-out"
           // className={`absolute top-4 ${
           //   isDrawerOpen ? "left-20" : "left-4"
           // } z-50 md:flex hidden`}
 
           onClick={() => setIsDrawerOpen(!isDrawerOpen)}
         >
-          {isDrawerOpen ? <ChevronLeft /> : <ChevronRight />}
+          {"Vision"} {isDrawerOpen ? <ChevronLeft /> : <ChevronRight />}
         </Button>
       )}
     </>

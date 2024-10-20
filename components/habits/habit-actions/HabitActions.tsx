@@ -41,7 +41,7 @@ export function HabitActions({
 }: HabitActionsProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const drawerStyle = useDrawerPosition();
+  const { drawerStyle } = useDrawerPosition();
   const { name, icon, xp, _id: habitId } = habit;
   const habitIdParam = searchParams.get("habitId");
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);

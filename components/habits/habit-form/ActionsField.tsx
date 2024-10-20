@@ -35,6 +35,7 @@ import { HabitZodType } from "@components/habits/habit-form/habitFormSchema";
 import { HabitAction } from "@app/types/types";
 import { Slider } from "@components/ui/slider";
 import { useDrawerPosition } from "@/hooks/useDrawerPosition";
+import { cn } from "@lib/utils";
 
 type ActionsFieldProps = {
   control: Control<HabitZodType>;
@@ -58,7 +59,7 @@ export function ActionsField({ control }: ActionsFieldProps) {
   });
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [editId, setEditId] = useState<string | null>(null);
-  const drawerStyle = useDrawerPosition();
+  const { drawerStyle } = useDrawerPosition();
 
   const { fields, append, remove, update } = useFieldArray({
     control,
@@ -191,7 +192,7 @@ export function ActionsField({ control }: ActionsFieldProps) {
               </Button>
             </DrawerTrigger>
             <DrawerContent
-              className="max-w-md mx-auto right-0"
+              className="max-w-md mx-auto right-0 left-0"
               style={drawerStyle}
             >
               <DrawerHeader>

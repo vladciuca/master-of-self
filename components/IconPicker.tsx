@@ -45,7 +45,7 @@ export function IconPicker({
   const [isLoading, setIsLoading] = useState(true);
   const [isOpen, setIsOpen] = useState(false);
 
-  const drawerStyle = useDrawerPosition();
+  const { drawerStyle } = useDrawerPosition();
 
   useEffect(() => {
     if (isOpen) {

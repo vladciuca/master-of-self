@@ -54,7 +54,7 @@ export function ProblemSection({ isActive = true }: { isActive?: boolean }) {
                 initial="hidden"
                 animate="visible"
                 variants={fadeInTransitionFromRight}
-                transition={{ duration: 1, delay: 0.5 }}
+                transition={{ duration: 1, delay: 1 }}
               >
                 <ChevronLeft size={50} />
               </motion.div>

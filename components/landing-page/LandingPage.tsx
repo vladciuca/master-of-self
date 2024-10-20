@@ -23,7 +23,9 @@ export function LandingPage({
       >
         <X />
       </div>
-      <VerticalCarousel>
+      <VerticalCarousel
+      //   isDrawerOpen={isDrawerOpen}
+      >
         <HeroSection />
         <ProblemSection />
         <SolutionSection />

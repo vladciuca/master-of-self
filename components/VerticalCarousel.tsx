@@ -12,10 +12,14 @@ interface CarouselItemProps {
 }
 
 interface VerticalCarouselProps {
+  //   isDrawerOpen: boolean;
   children: ReactElement<CarouselItemProps>[];
 }
 
-export function VerticalCarousel({ children }: VerticalCarouselProps) {
+export function VerticalCarousel({
+  //   isDrawerOpen,
+  children,
+}: VerticalCarouselProps) {
   const [activeIndex, setActiveIndex] = useState<number>(0);
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -62,11 +66,11 @@ export function VerticalCarousel({ children }: VerticalCarouselProps) {
         ))}
       </div>
 
-      <div className="absolute left-4 top-1/2 transform -translate-y-1/2 flex flex-col items-center space-y-6">
+      <div className="absolute left-1/2 bottom-6 transform -translate-x-1/2 flex justify-center items-center space-x-6">
         {React.Children.map(children, (_, index) => (
           <button
             key={index}
-            className={`w-4 h-4 rounded-full ${
+            className={`w-3 h-3 rounded-full ${
               index === activeIndex ? "bg-primary" : "bg-muted"
             }`}
             onClick={() => scrollToSection(index)}
