@@ -12,7 +12,7 @@ const SideContentContext = createContext<SideContentContextType | undefined>(
 );
 
 export function SideContentProvider({ children }: { children: ReactNode }) {
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [isDrawerOpen, setIsDrawerOpen] = useState(true);
 
   return (
     <SideContentContext.Provider value={{ isDrawerOpen, setIsDrawerOpen }}>
