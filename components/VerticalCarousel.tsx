@@ -12,12 +12,12 @@ interface CarouselItemProps {
 }
 
 interface VerticalCarouselProps {
-  //   isDrawerOpen: boolean;
+  isDrawerOpen: boolean;
   children: ReactElement<CarouselItemProps>[];
 }
 
 export function VerticalCarousel({
-  //   isDrawerOpen,
+  isDrawerOpen,
   children,
 }: VerticalCarouselProps) {
   const [activeIndex, setActiveIndex] = useState<number>(0);
@@ -60,7 +60,9 @@ export function VerticalCarousel({
         {React.Children.map(children, (child, index) => (
           <div key={index} className="h-screen snap-start">
             {React.isValidElement(child)
-              ? React.cloneElement(child, { isActive: index === activeIndex })
+              ? React.cloneElement(child, {
+                  isActive: isDrawerOpen && index === activeIndex,
+                })
               : child}
           </div>
         ))}
