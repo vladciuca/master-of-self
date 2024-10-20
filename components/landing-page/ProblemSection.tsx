@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronLeft } from "lucide-react";
+import { ChevronLeft, X } from "lucide-react";
 
 const fadeInTransitionFromRight = {
   hidden: { opacity: 0, x: 20 },
@@ -24,6 +24,15 @@ export function ProblemSection({ isActive = true }: { isActive?: boolean }) {
             transition={{ duration: 0.5 }}
             className="max-w-3xl px-4"
           >
+            <motion.div
+              className="w-full flex justify-center text-red-400 -mt-24 pb-24"
+              initial="hidden"
+              animate="visible"
+              variants={fadeInTransitionFromBottom}
+              transition={{ duration: 1, delay: 1.5 }}
+            >
+              <X size={80} />
+            </motion.div>
             {/* ACTIONS TO IDENTITY 3>2>1 */}
             <div className="mt-12 flex items-center justify-center space-x-4">
               {/* IDENTITY - 1 */}
