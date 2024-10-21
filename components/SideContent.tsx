@@ -35,7 +35,11 @@ export function SideContent() {
         onClick={() => setIsDrawerOpen(!isDrawerOpen)}
       >
         <FaEye className="text-4xl" />
-        {!isDrawerOpen ? <span className="mx-2">{"Vision"}</span> : <></>}
+        {!isDrawerOpen ? (
+          <span className="ml-4 text-lg">{"Vision"}</span>
+        ) : (
+          <></>
+        )}
       </Button>
     </>
   );
