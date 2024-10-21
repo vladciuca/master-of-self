@@ -2,18 +2,27 @@
 
 import { useState } from "react";
 import { Button } from "@components/ui/button";
-import { FaEye, FaCode, FaInfoCircle } from "react-icons/fa";
+import { FaEye, FaBookmark } from "react-icons/fa";
+import { GiBlackBook, GiWhiteBook, GiBookCover } from "react-icons/gi";
+import { Target, Shell } from "lucide-react";
 import { useSideContent } from "@context/SideContentContext";
 import { LandingPage } from "./landing-page/LandingPage";
 
-// Define your tab components here
-const CodeComponent = () => <div>Code Component</div>;
-const InfoComponent = () => <div>Info Component</div>;
+// TEMP: Define tab components
+const LoopComponent = () => <div>Journal Loop Component</div>;
+const HabitsComponent = () => <div>Habits Component</div>;
+const GoalsComponent = () => <div>Goals Component</div>;
 
 const tabs = [
   { id: "vision", icon: FaEye, label: "Vision", component: LandingPage },
-  { id: "code", icon: FaCode, label: "Code", component: CodeComponent },
-  { id: "info", icon: FaInfoCircle, label: "Info", component: InfoComponent },
+  {
+    id: "journal",
+    icon: GiBookCover,
+    label: "Journal",
+    component: LoopComponent,
+  },
+  { id: "habits", icon: Target, label: "Habits", component: HabitsComponent },
+  { id: "goals", icon: Shell, label: "Goals", component: GoalsComponent },
 ];
 
 export function SideContent() {
@@ -52,8 +61,8 @@ export function SideContent() {
       </div>
       <div
         className={`absolute ${
-          isDrawerOpen ? "left-[45%]" : "left-4"
-        } top-4 transition-all duration-300 ease-in-out z-50 lg:flex hidden flex-col space-y-2`}
+          isDrawerOpen ? "left-[45%] space-y-4" : "left-4 space-y-2"
+        } top-4 transition-all duration-300 ease-in-out z-50 lg:flex hidden flex-col`}
       >
         {tabs.map((tab) => (
           <Button
@@ -68,7 +77,7 @@ export function SideContent() {
             } flex items-center justify-start`}
             onClick={() => handleTabClick(tab.id)}
           >
-            <tab.icon className={`text-4xl ${!isDrawerOpen ? "mr-6" : ""}`} />
+            <tab.icon className={`${!isDrawerOpen ? "mr-6" : ""}`} size={34} />
             {!isDrawerOpen && <span className="ml-4 text-lg">{tab.label}</span>}
           </Button>
         ))}
