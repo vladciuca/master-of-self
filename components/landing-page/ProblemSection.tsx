@@ -130,8 +130,8 @@ export function ProblemSection({ isActive = true }: { isActive?: boolean }) {
               variants={fadeInTransitionFromBottom}
               transition={{ duration: 1, delay: 1.5 }}
             >
-              Conventional approaches try to change your identity by forcing new
-              habits to create change. This often creates resistance and makes
+              Conventional approaches attempt to change identity by forcing new
+              habits through repetition. This often creates resistance and makes
               it harder to achieve long-term success.
             </motion.p>
           </motion.div>

@@ -45,7 +45,7 @@ export function HabitIconProgressBar({
     >
       {/*LEVEL BAR*/}
       <CircularProgress
-        className="ml-4"
+        className="ml-4 overflow-hidden"
         value={currentProgressPercentage}
         xpGainValue={xpGainProgressPercentage}
         strokeWidth={6}
@@ -62,7 +62,7 @@ export function HabitIconProgressBar({
         >
           <IconRenderer
             iconName={icon}
-            className="text-4xl rounded-full bg-transparent"
+            className="text-4xl rounded-full p-3"
             xp={xp}
           />
         </div>
@@ -79,7 +79,9 @@ export function HabitIconProgressBar({
             <HabitLevelUpIndicator currentLevel={currentLevel} level={level} />
           </Badge>
           {/*HABIT RARITY*/}
-          <Badge className={`${bgColor} rounded-full absolute top-0 left-24`}>
+          <Badge
+            className={`${bgColor} bg-opacity-30 rounded-full absolute top-0 left-24`}
+          >
             <span className={`${textColor}`}>{label}</span>
           </Badge>
         </>

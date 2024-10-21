@@ -20,7 +20,7 @@ export function JournalEntryHabits({ habitsXp }: JournalEntryHabitsProp) {
               <IconRenderer
                 iconName={habitData[id].icon}
                 xp={habitData[id].xp}
-                className="h-6 w-6"
+                className="h-6 w-6 rounded-md"
               />
             ) : (
               <Skeleton className="h-6 w-6 rounded-md" />
