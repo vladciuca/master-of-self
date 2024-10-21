@@ -1,12 +1,36 @@
 "use client";
 
-import { LandingPage } from "./landing-page/LandingPage";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { FaEye } from "react-icons/fa";
+import { FaEye, FaCode, FaInfoCircle } from "react-icons/fa";
 import { useSideContent } from "@/context/SideContentContext";
+import { LandingPage } from "./landing-page/LandingPage";
+
+// Define your tab components here
+const CodeComponent = () => <div>Code Component</div>;
+const InfoComponent = () => <div>Info Component</div>;
+
+const tabs = [
+  { id: "vision", icon: FaEye, label: "Vision", component: LandingPage },
+  { id: "code", icon: FaCode, label: "Code", component: CodeComponent },
+  { id: "info", icon: FaInfoCircle, label: "Info", component: InfoComponent },
+];
 
 export function SideContent() {
   const { isDrawerOpen, setIsDrawerOpen } = useSideContent();
+  const [activeTab, setActiveTab] = useState(tabs[0].id);
+
+  const handleTabClick = (tabId: string) => {
+    if (tabId === activeTab && isDrawerOpen) {
+      setIsDrawerOpen(false);
+    } else {
+      setActiveTab(tabId);
+      setIsDrawerOpen(true);
+    }
+  };
+
+  const ActiveComponent =
+    tabs.find((tab) => tab.id === activeTab)?.component || LandingPage;
 
   return (
     <>
@@ -20,27 +44,34 @@ export function SideContent() {
             isDrawerOpen ? "opacity-100" : "opacity-0"
           }`}
         >
-          <LandingPage
+          <ActiveComponent
             isDrawerOpen={isDrawerOpen}
             handleCloseDrawer={() => setIsDrawerOpen(false)}
           />
         </div>
       </div>
-      <Button
-        variant={`${!isDrawerOpen ? "outline" : "default"}`}
-        size="lg"
-        className={`py-6 ${
-          isDrawerOpen ? "left-[45.5%] px-2" : "left-4 px-4"
-        } absolute top-4 z-50 lg:flex hidden transition-all duration-300 ease-in-out`}
-        onClick={() => setIsDrawerOpen(!isDrawerOpen)}
+      <div
+        className={`absolute ${
+          isDrawerOpen ? "left-[45%]" : "left-4"
+        } top-4 transition-all duration-300 ease-in-out z-50 lg:flex hidden flex-col space-y-2`}
       >
-        <FaEye className="text-4xl" />
-        {!isDrawerOpen ? (
-          <span className="ml-4 text-lg">{"Vision"}</span>
-        ) : (
-          <></>
-        )}
-      </Button>
+        {tabs.map((tab) => (
+          <Button
+            key={tab.id}
+            variant={
+              activeTab === tab.id && isDrawerOpen ? "default" : "outline"
+            }
+            size="lg"
+            className={`py-6 ${
+              isDrawerOpen ? "px-2" : "px-6"
+            } flex items-center justify-start`}
+            onClick={() => handleTabClick(tab.id)}
+          >
+            <tab.icon className="text-4xl" />
+            {!isDrawerOpen && <span className="ml-4 text-lg">{tab.label}</span>}
+          </Button>
+        ))}
+      </div>
     </>
   );
 }
