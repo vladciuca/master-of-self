@@ -59,8 +59,8 @@ export function SideContent() {
           <Button
             key={tab.id}
             size="lg"
-            className={`py-6 transition-all duration-300 ease-in-out ${
-              isDrawerOpen ? "px-2" : "px-4"
+            className={`transition-all duration-300 ease-in-out ${
+              isDrawerOpen ? "py-6 px-2" : "py-10 px-12"
             } ${
               activeTab === tab.id && isDrawerOpen
                 ? "bg-primary"
@@ -68,7 +68,7 @@ export function SideContent() {
             } flex items-center justify-start`}
             onClick={() => handleTabClick(tab.id)}
           >
-            <tab.icon className="text-4xl" />
+            <tab.icon className={`text-4xl ${!isDrawerOpen ? "mr-6" : ""}`} />
             {!isDrawerOpen && <span className="ml-4 text-lg">{tab.label}</span>}
           </Button>
         ))}
