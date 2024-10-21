@@ -1,9 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
+import { Button } from "@components/ui/button";
 import { FaEye, FaCode, FaInfoCircle } from "react-icons/fa";
-import { useSideContent } from "@/context/SideContentContext";
+import { useSideContent } from "@context/SideContentContext";
 import { LandingPage } from "./landing-page/LandingPage";
 
 // Define your tab components here
@@ -58,12 +58,13 @@ export function SideContent() {
         {tabs.map((tab) => (
           <Button
             key={tab.id}
-            variant={
-              activeTab === tab.id && isDrawerOpen ? "default" : "outline"
-            }
             size="lg"
-            className={`py-6 ${
-              isDrawerOpen ? "px-2" : "px-6"
+            className={`py-6 transition-all duration-300 ease-in-out ${
+              isDrawerOpen ? "px-2" : "px-4"
+            } ${
+              activeTab === tab.id && isDrawerOpen
+                ? "bg-primary"
+                : "bg-background hover:bg-primary text-primary hover:text-background"
             } flex items-center justify-start`}
             onClick={() => handleTabClick(tab.id)}
           >
