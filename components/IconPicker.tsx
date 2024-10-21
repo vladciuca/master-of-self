@@ -18,7 +18,7 @@ import { CircleHelp, SearchX } from "lucide-react";
 import * as GiIcons from "react-icons/gi";
 import { cn } from "@lib/utils";
 import { useIconPickerSearch } from "@hooks/useIconPickerSearch";
-import { useDrawerPosition } from "@/hooks/useDrawerPosition";
+import { useSideContentPosition } from "@hooks/useSideContentPosition";
 
 type IconPickerProps = {
   value?: string;
@@ -45,7 +45,7 @@ export function IconPicker({
   const [isLoading, setIsLoading] = useState(true);
   const [isOpen, setIsOpen] = useState(false);
 
-  const { drawerStyle } = useDrawerPosition();
+  const { drawerStyle } = useSideContentPosition();
 
   useEffect(() => {
     if (isOpen) {

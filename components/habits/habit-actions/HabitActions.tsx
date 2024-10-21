@@ -20,7 +20,7 @@ import { Plus } from "lucide-react";
 import { calculateLevel, xpForLevel } from "@lib/level";
 import { formatNumberSuffixes } from "@lib/utils";
 import { Habit } from "@app/types/types";
-import { useDrawerPosition } from "@/hooks/useDrawerPosition";
+import { useSideContentPosition } from "@hooks/useSideContentPosition";
 
 type HabitActionsProps = {
   habit: Habit;
@@ -41,7 +41,7 @@ export function HabitActions({
 }: HabitActionsProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const { drawerStyle } = useDrawerPosition();
+  const { drawerStyle } = useSideContentPosition();
   const { name, icon, xp, _id: habitId } = habit;
   const habitIdParam = searchParams.get("habitId");
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);

@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useSideContent } from "@context/SideContentContext";
 import { useScreenSize } from "@hooks/useScreenSize";
 
-export function useDrawerPosition() {
+export function useSideContentPosition() {
   const { isDrawerOpen } = useSideContent();
   const isLargeScreen = useScreenSize();
   const [drawerStyle, setDrawerStyle] = useState({});
@@ -12,7 +12,7 @@ export function useDrawerPosition() {
   useEffect(() => {
     if (isLargeScreen && isDrawerOpen) {
       setDrawerStyle({
-        left: "50%",
+        left: "44.5%",
       });
     } else {
       setDrawerStyle({});

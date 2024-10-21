@@ -2,7 +2,7 @@
 
 import { LandingPage } from "./landing-page/LandingPage";
 import { Button } from "@/components/ui/button";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { FaEye } from "react-icons/fa";
 import { useSideContent } from "@/context/SideContentContext";
 
 export function SideContent() {
@@ -11,8 +11,8 @@ export function SideContent() {
   return (
     <>
       <div
-        className={`hidden lg:block h-full bg-background rounded-tr-xl rounded-br-xl relative z-20 transition-all duration-300 ease-in-out ${
-          isDrawerOpen ? "w-[100%]" : "w-0 overflow-hidden"
+        className={`relative hidden lg:block h-full bg-background rounded-tr-xl rounded-br-xl transition-all duration-300 ease-in-out ${
+          isDrawerOpen ? "w-[80%]" : "w-0 overflow-hidden"
         }`}
       >
         <div
@@ -26,20 +26,17 @@ export function SideContent() {
           />
         </div>
       </div>
-      {!isDrawerOpen && (
-        <Button
-          variant="secondary"
-          size="icon"
-          className="z-50 absolute top-4 left-4 lg:flex hidden w-32 transition-all duration-300 ease-in-out"
-          // className={`absolute top-4 ${
-          //   isDrawerOpen ? "left-20" : "left-4"
-          // } z-50 md:flex hidden`}
-
-          onClick={() => setIsDrawerOpen(!isDrawerOpen)}
-        >
-          {"Vision"} {isDrawerOpen ? <ChevronLeft /> : <ChevronRight />}
-        </Button>
-      )}
+      <Button
+        variant={`${!isDrawerOpen ? "outline" : "default"}`}
+        size="lg"
+        className={`py-6 ${
+          isDrawerOpen ? "left-[45.5%] px-2" : "left-4 px-4"
+        } absolute top-4 z-50 lg:flex hidden transition-all duration-300 ease-in-out`}
+        onClick={() => setIsDrawerOpen(!isDrawerOpen)}
+      >
+        <FaEye className="text-4xl" />
+        {!isDrawerOpen ? <span className="mx-2">{"Vision"}</span> : <></>}
+      </Button>
     </>
   );
 }
