@@ -4,7 +4,12 @@ import { Label } from "@components/ui/label";
 import { SkeletonList } from "@components/skeletons/SkeletonList";
 import { FaBoltLightning } from "react-icons/fa6";
 import { BsChevronCompactDown } from "react-icons/bs";
-import { GiDeadlyStrike } from "react-icons/gi";
+import {
+  GiDeadlyStrike,
+  GiAura,
+  GiBeamsAura,
+  GiOpenTreasureChest,
+} from "react-icons/gi";
 import { useYesterdayJournalEntry } from "@hooks/useYesterdayJournalEntry";
 
 type DailyBonusProps = {

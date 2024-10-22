@@ -1,32 +1,46 @@
+import React from "react";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
-import { LucideProps } from "lucide-react";
-import { IconType } from "react-icons";
-import { FaSun, FaMoon, FaStar, FaBoltLightning } from "react-icons/fa6";
+// import { LucideProps } from "lucide-react";
+// import { IconType } from "react-icons";
+import { FaSun, FaMoon, FaStar } from "react-icons/fa6";
 import {
   GiPrayer,
   GiBackup,
   GiPencilRuler,
-  GiLightningTrio,
-  GiLightningDissipation,
+  GiEnlightenment,
 } from "react-icons/gi";
 
+// type StepIconMap = {
+//   [key: string]:
+//     | IconType
+//     | React.ForwardRefExoticComponent<
+//         Omit<LucideProps, "ref"> & React.RefAttributes<SVGSVGElement>
+//       >;
+// };
+
 type StepIconMap = {
-  [key: string]:
-    | IconType
-    | React.ForwardRefExoticComponent<
-        Omit<LucideProps, "ref"> & React.RefAttributes<SVGSVGElement>
-      >;
+  [key: string]: React.ReactNode;
 };
 
+// const stepIconMap: StepIconMap = {
+//   day: FaSun,
+//   night: FaMoon,
+//   highlights: FaStar,
+//   gratitude: GiPrayer,
+//   reflection: GiBackup,
+//   habits: GiPencilRuler,
+//   default: GiEnlightenment,
+// };
+
 const stepIconMap: StepIconMap = {
-  day: FaSun,
-  night: FaMoon,
-  highlights: FaStar,
-  gratitude: GiPrayer,
-  reflection: GiBackup,
-  habits: GiPencilRuler,
-  default: GiLightningDissipation,
+  day: <FaSun size={"1.3rem"} />,
+  night: <FaMoon size={"1.3rem"} />,
+  highlights: <FaStar size={"1.3rem"} />,
+  gratitude: <GiPrayer size={"1.4rem"} />,
+  reflection: <GiBackup size={"1.4rem"} />,
+  habits: <GiPencilRuler size={"1.3rem"} />,
+  default: <GiEnlightenment size={"1.8rem"} />,
 };
 
 type Step = {
@@ -110,7 +124,8 @@ export function FormStepProgress({
     <div className="flex flex-col items-center w-full mb-4">
       <div className="flex items-center justify-around w-full mt-4 mb-3 px-4 sm:pt-4">
         {availableSteps.map((step: Step, index: number) => {
-          const Icon = stepIconMap[step.type] || stepIconMap.default;
+          // const Icon = stepIconMap[step.type] || stepIconMap.default;
+          const IconElement = stepIconMap[step.type] || stepIconMap.default;
           const { count, bgColor } = getCountAndColor(step.type);
           return (
             <span
@@ -127,9 +142,15 @@ export function FormStepProgress({
                     : "text-primary"
                 } h-10 w-10 rounded-full  flex items-center justify-center`}
               >
-                <Icon
+                {/* <Icon
                   size={step.type === currentStepType ? "1.4rem" : "1.3rem"}
-                />
+                /> */}
+                {React.cloneElement(
+                  IconElement as React.ReactElement
+                  // {
+                  //   size: step.type === currentStepType ? "1.4rem" : "1.3rem",
+                  // }
+                )}
               </div>
 
               {count > 0 && (
