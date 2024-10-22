@@ -47,8 +47,10 @@ type FormStepProgressProps = {
   handleStepChange: (stepType: string) => void;
   progressPercentage: number;
   greatTodayCount: number;
+  dailyGoalsToHighlights: number;
   gratefulForCount: number;
   dailyHighlightsCount: number;
+  learnedTodayCount: number;
   habitActionsCount: number;
 };
 
@@ -58,8 +60,10 @@ export function FormStepProgress({
   handleStepChange,
   progressPercentage,
   greatTodayCount,
+  dailyGoalsToHighlights,
   gratefulForCount,
   dailyHighlightsCount,
+  learnedTodayCount,
   habitActionsCount,
 }: FormStepProgressProps) {
   const getCountAndColor = (stepType: string): CountAndColor => {
@@ -67,11 +71,21 @@ export function FormStepProgress({
       case "day":
         return {
           count: greatTodayCount,
-          bgColor: "bg-purple-500",
+          bgColor: "bg-yellow-500",
+        };
+      case "night":
+        return {
+          count: dailyGoalsToHighlights,
+          bgColor: "bg-pink-500",
         };
       case "gratitude":
         return {
           count: gratefulForCount,
+          bgColor: "bg-yellow-500",
+        };
+      case "reflection":
+        return {
+          count: learnedTodayCount,
           bgColor: "bg-purple-500",
         };
       case "highlights":

@@ -180,7 +180,13 @@ export function FormStepController({
       {
         type: "night",
         component: (
-          <HowGreatWasToday greatToday={formData.dayEntry?.greatToday || []} />
+          <HowGreatWasToday
+            greatToday={formData.dayEntry?.greatToday || []}
+            onHighlightsChange={(highlights) =>
+              handleChange("dailyHighlights", highlights)
+            }
+            initialHighlights={formData.nightEntry?.dailyHighlights || []}
+          />
         ),
         // also add if greatToday is empty in the check
         isAvailable:
@@ -308,6 +314,17 @@ export function FormStepController({
     ((currentStepIndex + 1) / availableSteps.length) * 100;
   const currentStepComponent = availableSteps[currentStepIndex].component;
 
+  // TEMP UTIL FUNCTION
+  function countMatchingElements(
+    arr1: string[] | undefined,
+    arr2: string[] | undefined
+  ) {
+    const safeArr1 = arr1 || [];
+    const safeArr2 = arr2 || [];
+    const set1 = new Set(safeArr1);
+    return safeArr2.filter((element) => set1.has(element)).length;
+  }
+
   return (
     <div className="grid grid-rows-[auto,1fr,auto] h-full">
       <FormStepProgress
@@ -316,11 +333,16 @@ export function FormStepController({
         handleStepChange={handleStepChange}
         progressPercentage={progressPercentage}
         greatTodayCount={formData.dayEntry?.greatToday?.length || 0}
+        dailyGoalsToHighlights={countMatchingElements(
+          formData.dayEntry?.greatToday,
+          formData.nightEntry?.dailyHighlights
+        )}
         gratefulForCount={formData.dayEntry?.gratefulFor?.length || 0}
         dailyHighlightsCount={formData.nightEntry?.dailyHighlights?.length || 0}
         habitActionsCount={
           Object.keys(formData.nightEntry?.actions || {}).length
         }
+        learnedTodayCount={formData.nightEntry?.learnedToday?.length || 0}
       />
 
       <div className="h-full overflow-hidden">{currentStepComponent}</div>
