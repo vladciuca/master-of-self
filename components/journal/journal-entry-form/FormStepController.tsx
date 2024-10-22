@@ -15,7 +15,7 @@ import { JournalEntry } from "@/app/types/types";
 import { isEvening } from "@lib/time";
 
 // TEST_FLAG: used for enabling all forms steps
-const SHOW_ALL_TEST = false;
+const SHOW_ALL_TEST = true;
 
 type FormStepControllerProps = {
   submitting: boolean;
@@ -162,8 +162,7 @@ export function FormStepController({
             onChange={(value) => handleChange("gratefulFor", value)}
           />
         ),
-        isAvailable:
-          SHOW_ALL_TEST || (!isEvening(userEveningTime) && hasGratitude),
+        isAvailable: !isEvening(userEveningTime) && hasGratitude,
       },
       {
         type: "day",
@@ -195,8 +194,7 @@ export function FormStepController({
             onChange={(value) => handleChange("learnedToday", value)}
           />
         ),
-        isAvailable:
-          SHOW_ALL_TEST || (isEvening(userEveningTime) && hasReflection),
+        isAvailable: isEvening(userEveningTime) && hasReflection,
       },
       // {
       //   type: "habits",
