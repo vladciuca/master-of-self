@@ -45,7 +45,7 @@ export function HabitIconProgressBar({
 
   return (
     <div
-      className={`relative flex items-center justify-center h-full w-${progressBarWidth}`}
+      className={`relative flex items-center justify-center w-${progressBarWidth}`}
     >
       {/*LEVEL BAR*/}
       <CircularProgress
