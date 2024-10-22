@@ -16,7 +16,7 @@ export function FormStepTemplate({
 }: FormStepTemplateProps) {
   return (
     <div className="flex flex-col h-full">
-      <div className="space-y-4 text-center">
+      <div className="space-y-4 text-center sm:mx-4">
         <h2 className="text-xl font-semibold tracking-tight">{title}</h2>
         {description && (
           <Label className="text-sm text-muted-foreground mx-2">
