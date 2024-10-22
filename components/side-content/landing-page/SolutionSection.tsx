@@ -35,7 +35,7 @@ export function SolutionSection({ isActive = true }: { isActive?: boolean }) {
             </motion.div>
 
             {/* IDENTITY TO ACTIONS 1>2>3 */}
-            <div className="mt-12 flex items-center justify-center space-x-4 relative w-full">
+            <div className="mt-12 flex items-center justify-center xl:space-x-4 relative w-full">
               {/* IDENTITY - 1 */}
               <div className="flex items-center">
                 <div className="flex flex-col items-center">
