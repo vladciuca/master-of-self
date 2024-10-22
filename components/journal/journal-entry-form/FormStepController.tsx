@@ -16,7 +16,7 @@ import { JournalEntry } from "@/app/types/types";
 import { isEvening } from "@lib/time";
 
 // TEST_FLAG: used for enabling all forms steps
-const SHOW_ALL_TEST = true;
+const SHOW_ALL_TEST = false;
 
 type FormStepControllerProps = {
   submitting: boolean;
@@ -71,18 +71,6 @@ export function FormStepController({
     },
     [calculateScore]
   );
-
-  // const willpowerMultiplier = 1 + formData.dailyWillpower / 100;
-
-  // function calculateXpModifier(willpower) {
-  //   // Convert the base number to a percentage (divide by 100)
-  //   const percentageMultiplier = baseNumber / 100;
-
-  //   // Calculate the result by multiplying x with (1 + percentageMultiplier)
-  //   const result = x * (1 + percentageMultiplier);
-
-  //   return result;
-  // }
 
   useEffect(() => {
     if (journalEntryData) {
@@ -191,7 +179,8 @@ export function FormStepController({
         // also add if greatToday is empty in the check
         isAvailable:
           SHOW_ALL_TEST ||
-          (formData.dayEntry?.greatToday && isEvening(userEveningTime)),
+          (formData.dayEntry?.greatToday?.length === 0 &&
+            isEvening(userEveningTime)),
       },
       {
         type: "highlights",
