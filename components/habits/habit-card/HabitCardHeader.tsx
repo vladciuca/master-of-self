@@ -50,7 +50,7 @@ export function HabitCardHeader({
           <IconRenderer
             iconName={icon}
             className="rounded-md h-16 w-16 p-1"
-            xp={xp}
+            xp={xpGain}
           />
         </div>
 

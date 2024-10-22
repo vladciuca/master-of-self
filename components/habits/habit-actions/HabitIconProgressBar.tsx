@@ -63,7 +63,7 @@ export function HabitIconProgressBar({
           <IconRenderer
             iconName={icon}
             className="text-4xl rounded-full p-3 bg-transparent"
-            xp={xp}
+            xp={xpGain}
           />
         </div>
       </div>

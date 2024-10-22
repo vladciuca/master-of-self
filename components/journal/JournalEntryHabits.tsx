@@ -19,7 +19,7 @@ export function JournalEntryHabits({ habitsXp }: JournalEntryHabitsProp) {
             {habitData[id] ? (
               <IconRenderer
                 iconName={habitData[id].icon}
-                xp={habitData[id].xp}
+                xp={habitData[id].xp + value}
                 className="h-[25px] w-[25px] p-[2px] rounded-md"
               />
             ) : (
