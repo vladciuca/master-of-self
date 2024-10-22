@@ -35,8 +35,8 @@ type StepIconMap = {
 
 const stepIconMap: StepIconMap = {
   day: <FaSun size={"1.3rem"} />,
-  night: <FaMoon size={"1.3rem"} />,
-  highlights: <FaStar size={"1.3rem"} />,
+  night: <FaMoon size={"1.4rem"} />,
+  highlights: <FaStar size={"1.4rem"} />,
   gratitude: <GiPrayer size={"1.4rem"} />,
   reflection: <GiBackup size={"1.4rem"} />,
   habits: <GiPencilRuler size={"1.3rem"} />,
