@@ -78,7 +78,7 @@ export function HeroSection({ isActive = true }: { isActive?: boolean }) {
               variants={fadeInTransition}
               transition={{ duration: 1, delay: 0.5 }}
             >
-              to BEHAVIOR
+              to BELIEVES
             </motion.h1>
 
             <motion.h1
@@ -88,7 +88,7 @@ export function HeroSection({ isActive = true }: { isActive?: boolean }) {
               variants={fadeInTransition}
               transition={{ duration: 1, delay: 1 }}
             >
-              and ACTIONS
+              and BEHAVIOR
             </motion.h1>
 
             <motion.p

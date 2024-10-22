@@ -2,27 +2,41 @@
 
 import { useState } from "react";
 import { Button } from "@components/ui/button";
-import { FaEye, FaBookmark } from "react-icons/fa";
-import { GiBlackBook, GiWhiteBook, GiBookCover } from "react-icons/gi";
+import { FaEye } from "react-icons/fa";
+import { GiBookCover, GiCharacter } from "react-icons/gi";
 import { Target, Shell } from "lucide-react";
 import { useSideContent } from "@context/SideContentContext";
 import { LandingPage } from "./landing-page/LandingPage";
+import { IdentityPage } from "./identity-page/IdentityPage";
 
 // TEMP: Define tab components
-const LoopComponent = () => <div>Journal Loop Component</div>;
-const HabitsComponent = () => <div>Habits Component</div>;
-const GoalsComponent = () => <div>Goals Component</div>;
+// const IdComponent = () => <div>Journal Loop Component</div>;
+// const HabitsComponent = () => <div>Habits Component</div>;
+// const GoalsComponent = () => <div>Goals Component</div>;
+const LoopComponent = () => (
+  <div>
+    <h1 className="text-6xl">
+      To bind your identity together, the game loop consists
+    </h1>
+  </div>
+);
 
 const tabs = [
   { id: "vision", icon: FaEye, label: "Vision", component: LandingPage },
+  {
+    id: "identity",
+    icon: GiCharacter,
+    label: "Identity",
+    component: IdentityPage,
+  },
+  // { id: "goals", icon: Target, label: "Goals", component: GoalsComponent },
+  // { id: "habits", icon: Shell, label: "Habits", component: HabitsComponent },
   {
     id: "journal",
     icon: GiBookCover,
     label: "Journal",
     component: LoopComponent,
   },
-  { id: "habits", icon: Target, label: "Habits", component: HabitsComponent },
-  { id: "goals", icon: Shell, label: "Goals", component: GoalsComponent },
 ];
 
 export function SideContent() {
@@ -69,7 +83,7 @@ export function SideContent() {
             key={tab.id}
             size="lg"
             className={`transition-all duration-300 ease-in-out ${
-              isDrawerOpen ? "py-6 px-2" : "py-10 px-12"
+              isDrawerOpen ? "py-6 px-2" : "py-10 px-10"
             } ${
               activeTab === tab.id && isDrawerOpen
                 ? "bg-primary"
@@ -77,8 +91,8 @@ export function SideContent() {
             } flex items-center justify-start`}
             onClick={() => handleTabClick(tab.id)}
           >
-            <tab.icon className={`${!isDrawerOpen ? "mr-6" : ""}`} size={34} />
-            {!isDrawerOpen && <span className="ml-4 text-lg">{tab.label}</span>}
+            <tab.icon size={34} />
+            {!isDrawerOpen && <span className="ml-6 text-lg">{tab.label}</span>}
           </Button>
         ))}
       </div>

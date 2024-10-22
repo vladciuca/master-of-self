@@ -84,7 +84,7 @@ export function ProblemSection({ isActive = true }: { isActive?: boolean }) {
                       variants={fadeInTransitionFromRight}
                       transition={{ duration: 1, delay: 0.5 }}
                     >
-                      BEHAVIOR
+                      BELIEVES
                     </motion.h1>
                   </motion.div>
                 </div>
@@ -116,7 +116,7 @@ export function ProblemSection({ isActive = true }: { isActive?: boolean }) {
                       variants={fadeInTransitionFromRight}
                       transition={{ duration: 1 }}
                     >
-                      ACTIONS
+                      BEHAVIOR
                     </motion.h1>
                   </motion.div>
                 </div>
