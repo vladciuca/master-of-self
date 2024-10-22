@@ -144,7 +144,7 @@ export function IconPicker({
             {SelectedIcon ? (
               <SelectedIcon className="h-16 w-16 my-4" />
             ) : (
-              <CircleHelp className="h-12 w-12 my-4" />
+              <CircleHelp className="h-16 w-16 my-4" />
             )}
           </DrawerTitle>
           <DrawerDescription className="w-full text-center">

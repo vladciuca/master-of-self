@@ -7,15 +7,15 @@ type HowGreatWasTodayProps = {
 export function HowGreatWasToday({ greatToday }: HowGreatWasTodayProps) {
   return (
     <FormStepTemplate
-      title="What will I do to make today great?"
-      description="Write down meaningful and achievable goals for the day to generate Willpower."
+      title="How great was today?"
+      description="Add any completed daily goals as highlights for today."
     >
-      <ol className="list-decimal py-2 mx-4 space-y-3">
+      <ol className="list-decimal py-2 mt-2 mx-4 space-y-3">
         {greatToday.map((item, index) => (
           <li className="flex items-top justify-between">
             <div className="flex items-top text-base">
               <div>{index + 1}.</div>
-              <span className="mx-1">{item}</span>
+              <span className="ml-1 mr-2">{item}</span>
             </div>
 
             <Checkbox className="h-8 w-8" />
