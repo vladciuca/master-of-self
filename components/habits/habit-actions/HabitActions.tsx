@@ -198,8 +198,8 @@ export function HabitActions({
                   icon={icon}
                   xp={xp}
                   projectedXp={projectedHabitXp}
-                  // displayXpValues
-                  // displayLevelValues
+                  displayXpValues
+                  displayLevelValues
                 />
               </div>
             </DrawerHeader>

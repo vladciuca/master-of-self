@@ -60,16 +60,16 @@ export function HabitIconProgressBar({
         className="absolute w-full flex flex-col"
         style={{ pointerEvents: "none" }}
       >
-        {/* <div
+        <div
           className="flex flex-col items-center justify-center text-xs"
           style={{ pointerEvents: "none" }}
-        > */}
-        <IconRenderer
-          iconName={icon}
-          className="text-4xl rounded-full p-4 bg-transparent"
-          xp={xpGain}
-        />
-        {/* </div> */}
+        >
+          <IconRenderer
+            iconName={icon}
+            className="h-18 w-18 text-4xl bg-transparent"
+            xp={xpGain}
+          />
+        </div>
       </div>
       {displayLevelValues && (
         <>

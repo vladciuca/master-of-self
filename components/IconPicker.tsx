@@ -125,8 +125,8 @@ export function IconPicker({
                 icon={selectedIconName || ""}
                 xp={habitXp || 0}
                 projectedXp={projectedXp}
-                // displayXpValues
-                // displayLevelValues
+                displayXpValues
+                displayLevelValues
               />
             ) : (
               <CircleHelp className="h-14 w-14 text-muted-foreground" />
