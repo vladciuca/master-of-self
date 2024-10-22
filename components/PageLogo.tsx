@@ -12,6 +12,7 @@ import {
   GiCrystalBall,
   GiMagicSwirl,
   GiEyeOfHorus,
+  GiLouvrePyramid,
 } from "react-icons/gi";
 
 export function PageLogo() {

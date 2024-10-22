@@ -20,6 +20,7 @@ import { Plus } from "lucide-react";
 import { calculateLevel, xpForLevel } from "@lib/level";
 import { formatNumberSuffixes } from "@lib/utils";
 import { Habit } from "@app/types/types";
+import { useSideContentPosition } from "@hooks/useSideContentPosition";
 
 type HabitActionsProps = {
   habit: Habit;
@@ -40,6 +41,7 @@ export function HabitActions({
 }: HabitActionsProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const { drawerStyle } = useSideContentPosition();
   const { name, icon, xp, _id: habitId } = habit;
   const habitIdParam = searchParams.get("habitId");
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -182,7 +184,10 @@ export function HabitActions({
               />
             )}
           </DrawerTrigger>
-          <DrawerContent className="max-w-md mx-auto left-0 right-0">
+          <DrawerContent
+            className="max-w-md mx-auto right-0"
+            style={drawerStyle}
+          >
             <DrawerHeader>
               <DrawerTitle className="sr-only">{`${name} Actions`}</DrawerTitle>
               <DrawerDescription className="sr-only">

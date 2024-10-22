@@ -107,7 +107,7 @@ export function FormStepProgress({
 
   return (
     <div className="flex flex-col items-center w-full mb-4">
-      <div className="flex items-center justify-around w-full my-4 px-4 pt-2">
+      <div className="flex items-center justify-around w-full mt-4 mb-3 px-4 sm:pt-4">
         {availableSteps.map((step: any, index: any) => {
           const Icon = stepIconMap[step.type] || stepIconMap.default;
           const { count, bgColor } = getCountAndColor(step.type);

@@ -47,7 +47,11 @@ export function HabitCardHeader({
     <div className="p-2 px-3 flex justify-between text-start w-full">
       <div className="flex flex-grow">
         <div className="flex items-center">
-          <IconRenderer iconName={icon} className="h-16 w-16 p-1" xp={xp} />
+          <IconRenderer
+            iconName={icon}
+            className="rounded-md h-16 w-16 p-1"
+            xp={xp}
+          />
         </div>
 
         <div className="pl-4 flex flex-col justify-center">

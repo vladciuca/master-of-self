@@ -5,16 +5,18 @@ import { Layout } from "@app/types/types";
 
 export default function FullLayout({ children }: Layout) {
   return (
-    <>
-      <div className="fixed top-0 w-full h-20">
+    <div className="flex flex-col w-full h-full relative sm:pt-2">
+      <div className="min-h-20 flex items-center justify-center py-2 sm:mt-1 sm:mb-2">
         <Header />
       </div>
-      <div className="my-20 px-4 h-full w-full overflow-scroll border rounded-3xl">
-        <PageContent children={children} />
+      <div className="flex-grow overflow-hidden border rounded-3xl">
+        <div className="h-full px-4 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent">
+          <PageContent>{children}</PageContent>
+        </div>
       </div>
-      <div className="fixed bottom-0 w-full h-20">
+      <div className="min-h-20">
         <Footer />
       </div>
-    </>
+    </div>
   );
 }

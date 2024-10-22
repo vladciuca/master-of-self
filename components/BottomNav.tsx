@@ -5,7 +5,7 @@ import { GiSpellBook } from "react-icons/gi";
 
 export function BottomNav() {
   return (
-    <nav className="flex h-full justify-around items-center w-full">
+    <nav className="h-full w-full flex justify-around items-center">
       <Link href="/goals">
         <Button
           variant="ghost"

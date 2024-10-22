@@ -52,7 +52,7 @@ export function HabitForm({
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="flex flex-col space-y-8 h-full justify-between"
+        className="flex flex-col space-y-8 h-full justify-between sm:py-4"
       >
         <h1 className="scroll-m-20 text-4xl font-bold tracking-tight text-center">
           {type} Habit

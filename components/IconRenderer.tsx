@@ -21,8 +21,11 @@ export function IconRenderer({
     return null;
   }
 
-  const combinedClassName =
-    `rounded-md ${bgColorClass} ${iconColorClass} ${className}`.trim();
+  const combinedClassName = `${bgColorClass} ${className}`.trim();
 
-  return <Icon className={combinedClassName} />;
+  return (
+    <div className={`${combinedClassName} bg-opacity-30`}>
+      <Icon className={`${iconColorClass} h-full w-full`} />
+    </div>
+  );
 }
