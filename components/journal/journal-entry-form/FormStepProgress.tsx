@@ -21,7 +21,8 @@ type StepIconMap = {
 
 const stepIconMap: StepIconMap = {
   day: FaSun,
-  night: FaStar,
+  night: FaMoon,
+  highlights: FaStar,
   gratitude: GiPrayer,
   reflection: GiBackup,
   habits: GiPencilRuler,
@@ -73,7 +74,7 @@ export function FormStepProgress({
           count: gratefulForCount,
           bgColor: "bg-purple-500",
         };
-      case "night":
+      case "highlights":
         return {
           count: dailyHighlightsCount,
           bgColor: "bg-purple-500",

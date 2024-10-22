@@ -4,6 +4,7 @@ import React, { useState, useEffect, useCallback, useMemo } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { DailyBonus } from "@components/journal/journal-entry-form/form-steps/DailyBonus";
 import { GreatToday } from "@components/journal/journal-entry-form/form-steps/GreatToday";
+import { HowGreatWasToday } from "@components/journal/journal-entry-form/form-steps/HowGreatWasToday";
 import { GratefulFor } from "@components/journal/journal-entry-form/form-steps/GratefulFor";
 import { DailyHighlights } from "@components/journal/journal-entry-form/form-steps/DailyHighlights";
 import { LearnedToday } from "@components/journal/journal-entry-form/form-steps/LearnedToday";
@@ -162,7 +163,8 @@ export function FormStepController({
             onChange={(value) => handleChange("gratefulFor", value)}
           />
         ),
-        isAvailable: !isEvening(userEveningTime) && hasGratitude,
+        isAvailable:
+          SHOW_ALL_TEST || (!isEvening(userEveningTime) && hasGratitude),
       },
       {
         type: "day",
@@ -175,9 +177,18 @@ export function FormStepController({
         ),
         isAvailable: SHOW_ALL_TEST || !isEvening(userEveningTime),
       },
-
       {
         type: "night",
+        component: (
+          <HowGreatWasToday greatToday={formData.dayEntry?.greatToday || []} />
+        ),
+        // also add if greatToday is empty in the check
+        isAvailable:
+          SHOW_ALL_TEST ||
+          (formData.dayEntry?.greatToday && isEvening(userEveningTime)),
+      },
+      {
+        type: "highlights",
         component: (
           <DailyHighlights
             entryList={formData.nightEntry?.dailyHighlights || []}
@@ -195,7 +206,8 @@ export function FormStepController({
             onChange={(value) => handleChange("learnedToday", value)}
           />
         ),
-        isAvailable: isEvening(userEveningTime) && hasReflection,
+        isAvailable:
+          SHOW_ALL_TEST || (isEvening(userEveningTime) && hasReflection),
       },
       // {
       //   type: "habits",
