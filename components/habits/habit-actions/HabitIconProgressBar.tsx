@@ -45,7 +45,7 @@ export function HabitIconProgressBar({
 
   return (
     <div
-      className={`relative flex items-center justify-center w-${progressBarWidth}`}
+      className={`relative h-full flex items-center justify-center w-${progressBarWidth}`}
     >
       {/*LEVEL BAR*/}
       <CircularProgress
@@ -56,10 +56,10 @@ export function HabitIconProgressBar({
         circleSize={70}
       />
       {/*ICON*/}
-      <div className="absolute" style={{ pointerEvents: "none" }}>
+      <div className="" style={{ pointerEvents: "none" }}>
         <IconRenderer
           iconName={icon}
-          className=" text-4xl bg-transparent"
+          className="text-4xl bg-transparent"
           xp={xpGain}
         />
       </div>
