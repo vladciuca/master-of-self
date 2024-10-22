@@ -56,7 +56,10 @@ export function HabitIconProgressBar({
         circleSize={70}
       />
       {/*ICON*/}
-      <div className="" style={{ pointerEvents: "none" }}>
+      <div
+        className="absolute top-1/2 left-1/2 transform -translate-y-1/2 -translate-x-1/2"
+        style={{ pointerEvents: "none" }}
+      >
         <IconRenderer
           iconName={icon}
           className="text-4xl bg-transparent"
