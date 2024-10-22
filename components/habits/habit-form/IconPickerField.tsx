@@ -12,12 +12,12 @@ import { HabitZodType } from "@components/habits/habit-form/habitFormSchema";
 
 type IconPickerFieldProps = {
   control: Control<HabitZodType>;
-  actionUpdateValues?: { [key: string]: number };
+  projectedXp?: number;
 };
 
 export function IconPickerField({
   control,
-  actionUpdateValues,
+  projectedXp,
 }: IconPickerFieldProps) {
   // const { iconColorClass, bgColorClass } = useIconRarityLevel(
   //   control._formValues.xp
@@ -39,7 +39,7 @@ export function IconPickerField({
               // iconColorClass={iconColorClass}
               // bgColorClass={bgColorClass}
               habitXp={control._formValues.xp}
-              actionUpdateValues={actionUpdateValues}
+              projectedXp={projectedXp}
             />
           </FormControl>
           <FormMessage />

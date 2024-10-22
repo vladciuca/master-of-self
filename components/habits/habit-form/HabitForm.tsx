@@ -20,7 +20,7 @@ type HabitFormProps = {
   submitting: boolean;
   onSubmit: (habit: HabitZodType) => Promise<void>;
   habit?: HabitZodType;
-  actionUpdateValues?: { [key: string]: number };
+  projectedXp?: number;
 };
 
 export function HabitForm({
@@ -28,7 +28,7 @@ export function HabitForm({
   submitting,
   onSubmit,
   habit,
-  actionUpdateValues,
+  projectedXp,
 }: HabitFormProps) {
   const form = useForm<HabitZodType>({
     resolver: zodResolver(habitFormSchema),
@@ -57,10 +57,7 @@ export function HabitForm({
         <h1 className="scroll-m-20 text-4xl font-bold tracking-tight text-center">
           {type} Habit
         </h1>
-        <IconPickerField
-          control={form.control}
-          actionUpdateValues={actionUpdateValues}
-        />
+        <IconPickerField control={form.control} projectedXp={projectedXp} />
         <NameField control={form.control} />
         <DescriptionField control={form.control} />
         <ActionsField control={form.control} />
