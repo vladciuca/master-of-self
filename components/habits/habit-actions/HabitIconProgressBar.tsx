@@ -47,25 +47,28 @@ export function HabitIconProgressBar({
     <div
       className={`relative h-full flex items-center justify-center w-${progressBarWidth}`}
     >
-      {/*LEVEL BAR*/}
-      <CircularProgress
-        className="ml-4 overflow-hidden"
-        value={currentProgressPercentage}
-        xpGainValue={xpGainProgressPercentage}
-        strokeWidth={6}
-        circleSize={70}
-      />
-      {/*ICON*/}
-      <div
-        className="absolute top-1/2 left-1/2 transform -translate-y-1/2 -translate-x-1/2"
-        style={{ pointerEvents: "none" }}
-      >
-        <IconRenderer
-          iconName={icon}
-          className="text-4xl bg-transparent"
-          xp={xpGain}
+      <div className="relative">
+        {/*LEVEL BAR*/}
+        <CircularProgress
+          className="ml-4 overflow-hidden"
+          value={currentProgressPercentage}
+          xpGainValue={xpGainProgressPercentage}
+          strokeWidth={6}
+          circleSize={70}
         />
+        {/*ICON*/}
+        <div
+          className="absolute top-1/2 left-1/2 transform -translate-y-1/2 -translate-x-1/2"
+          style={{ pointerEvents: "none" }}
+        >
+          <IconRenderer
+            iconName={icon}
+            className="text-4xl bg-transparent"
+            xp={xpGain}
+          />
+        </div>
       </div>
+
       {displayLevelValues && (
         <>
           {/*LEVEL*/}
