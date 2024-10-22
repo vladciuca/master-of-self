@@ -50,7 +50,7 @@ export default async function RootLayout({ children }: Layout) {
                 <SideContent />
 
                 <div className="w-full h-full flex items-center justify-center relative z-10">
-                  <div className="relative bg-background sm:border-8 sm:border-muted sm:rounded-[40px] sm:shadow-xl sm:shadow-gray-950 mx-auto flex flex-col items-center justify-center w-full max-w-[450px] sm:max-h-[800px] h-[90vh] overflow-hidden">
+                  <div className="relative bg-background sm:border-8 sm:border-muted sm:rounded-[40px] sm:shadow-xl sm:shadow-gray-950 mx-auto flex flex-col items-center justify-center w-full max-w-[450px] sm:max-h-[800px] phone_container overflow-hidden">
                     {/* Notch */}
                     <div className="hidden md:block bg-muted absolute left-1/2 top-0 h-4 w-40 -translate-x-1/2 rounded-b-3xl"></div>
                     {children}
