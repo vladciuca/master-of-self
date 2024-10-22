@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { HabitIconProgressBar } from "@components/habits/habit-actions/HabitIconProgressBar";
+import { HabitIconProgressBar } from "@components/habits/HabitIconProgressBar";
 import { HabitLevelUpIndicator } from "@components/habits/HabitLevelUpIndicator";
 import { HabitAction } from "@components/habits/habit-actions/HabitAction";
 import {

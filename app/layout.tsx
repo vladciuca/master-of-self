@@ -6,7 +6,7 @@ import { ThemeProvider } from "@context/theme-provider";
 import { SideContentProvider } from "@context/SideContentContext";
 import { Poppins } from "next/font/google";
 import { Layout } from "@app/types/types";
-import { SideContent } from "components/SideContent";
+import { SideContent } from "components/side-content/SideContent";
 
 const font = Poppins({
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],

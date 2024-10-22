@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Button } from "@components/ui/button";
 import { FaEye } from "react-icons/fa";
 import { GiBookCover, GiCharacter } from "react-icons/gi";
-import { Target, Shell } from "lucide-react";
+// import { Target, Shell } from "lucide-react";
 import { useSideContent } from "@context/SideContentContext";
 import { LandingPage } from "./landing-page/LandingPage";
 import { IdentityPage } from "./identity-page/IdentityPage";

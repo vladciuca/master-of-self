@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { HabitIconProgressBar } from "@components/habits/habit-actions/HabitIconProgressBar";
+import { HabitIconProgressBar } from "@components/habits/HabitIconProgressBar";
 import { Button } from "@components/ui/button";
 import { Input } from "@components/ui/input";
 import {
