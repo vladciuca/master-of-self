@@ -2,7 +2,7 @@ import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
 import { LucideProps } from "lucide-react";
 import { IconType } from "react-icons";
-import { FaSun, FaMoon, FaStar } from "react-icons/fa6";
+import { FaSun, FaMoon, FaStar, FaBoltLightning } from "react-icons/fa6";
 import { GiPrayer, GiBackup, GiPencilRuler } from "react-icons/gi";
 
 type StepIconMap = {
@@ -15,11 +15,11 @@ type StepIconMap = {
 
 const stepIconMap: StepIconMap = {
   day: FaSun,
-  night: FaMoon,
+  night: FaStar,
   gratitude: GiPrayer,
   reflection: GiBackup,
   habits: GiPencilRuler,
-  default: FaStar,
+  default: FaBoltLightning,
 };
 
 type Step = {
@@ -55,52 +55,32 @@ export function FormStepProgress({
   dailyHighlightsCount,
   habitActionsCount,
 }: FormStepProgressProps) {
-  // const getCount = (stepType: string) => {
-  //   switch (stepType) {
-  //     case "day":
-  //       return greatTodayCount;
-  //     case "gratitude":
-  //       return gratefulForCount;
-  //     case "night":
-  //       return dailyHighlightsCount;
-  //     case "habits":
-  //       return habitActionsCount;
-  //     default:
-  //       return 0;
-  //   }
-  // };
-
   const getCountAndColor = (stepType: string): CountAndColor => {
     switch (stepType) {
       case "day":
         return {
           count: greatTodayCount,
           bgColor: "bg-purple-500",
-          // textColor: "text-yellow-900",
         };
       case "gratitude":
         return {
           count: gratefulForCount,
           bgColor: "bg-purple-500",
-          // textColor: "text-green-900",
         };
       case "night":
         return {
           count: dailyHighlightsCount,
           bgColor: "bg-purple-500",
-          // textColor: "text-blue-900",
         };
       case "habits":
         return {
           count: habitActionsCount,
           bgColor: "bg-green-500",
-          // textColor: "text-purple-900",
         };
       default:
         return {
           count: 0,
           bgColor: "bg-gray-500",
-          // textColor: "text-gray-900"
         };
     }
   };
@@ -108,7 +88,7 @@ export function FormStepProgress({
   return (
     <div className="flex flex-col items-center w-full mb-4">
       <div className="flex items-center justify-around w-full mt-4 mb-3 px-4 sm:pt-4">
-        {availableSteps.map((step: any, index: any) => {
+        {availableSteps.map((step: Step, index: number) => {
           const Icon = stepIconMap[step.type] || stepIconMap.default;
           const { count, bgColor } = getCountAndColor(step.type);
           return (

@@ -59,10 +59,21 @@ export function useYesterdayJournalEntry() {
           nightEntry.dailyHighlights.length > 0
         ) {
           setYesterdayHighlights(nightEntry.dailyHighlights);
+
+          // FAST IMPLEMENTATION FOR ADDING BONUS FROM LEARNED_TODAY NIGHT_STEP
+          let extraBonus = 0;
+
+          if (
+            Array.isArray(nightEntry.learnedToday) &&
+            nightEntry.learnedToday.length > 0
+          ) {
+            extraBonus = calculateBonusWillpower(nightEntry.learnedToday);
+          }
+
           const calculatedBonus = calculateBonusWillpower(
             nightEntry.dailyHighlights
           );
-          setBonusWillpower(calculatedBonus);
+          setBonusWillpower(calculatedBonus + extraBonus);
         } else {
           setYesterdayHighlights([]);
           setBonusWillpower(0);
@@ -94,9 +105,9 @@ export function useYesterdayJournalEntry() {
     }
   }, [session]);
 
-  const calculateBonusWillpower = (highlights: string[]) => {
-    const totalEntries = highlights.length;
-    const totalLength = highlights.join("").length;
+  const calculateBonusWillpower = (stringArray: string[]) => {
+    const totalEntries = stringArray.length;
+    const totalLength = stringArray.join("").length;
     return Math.floor((totalEntries * 5 + totalLength) / 10);
   };
 

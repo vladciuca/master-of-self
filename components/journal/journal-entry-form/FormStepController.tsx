@@ -47,7 +47,7 @@ export function FormStepController({
     },
     nightEntry: {
       dailyHighlights: journalEntryData?.nightEntry?.dailyHighlights || [],
-      learnedToday: journalEntryData?.nightEntry?.learnedToday || "",
+      learnedToday: journalEntryData?.nightEntry?.learnedToday || [],
       habits: journalEntryData?.nightEntry?.habits || {},
       actions: journalEntryData?.nightEntry?.actions || {},
     },
@@ -118,7 +118,7 @@ export function FormStepController({
         | "actions",
       value:
         | string[]
-        | string
+        // | string
         | { [key: string]: number }
         | { [key: string]: { [key: string]: number } }
     ) => {
@@ -190,7 +190,8 @@ export function FormStepController({
         type: "reflection",
         component: (
           <LearnedToday
-            learnedToday={formData.nightEntry?.learnedToday || ""}
+            // learnedToday={formData.nightEntry?.learnedToday || ""}
+            entryList={formData.nightEntry?.learnedToday || []}
             onChange={(value) => handleChange("learnedToday", value)}
           />
         ),

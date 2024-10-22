@@ -38,7 +38,7 @@ export type JournalEntry = {
   };
   nightEntry?: {
     dailyHighlights?: string[];
-    learnedToday?: string;
+    learnedToday?: string[];
     habits?: { [key: string]: number };
     actions?: { [key: string]: { [key: string]: number } };
   };

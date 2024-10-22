@@ -81,7 +81,7 @@ JournalEntryCardProps) {
         {bonusWillpower > 0 && (
           <div className="w-full text-muted-foreground mt-4">
             <div className="flex items-center">
-              <FaStar className="mr-2 text-muted-foreground" />
+              {/* <FaStar className="mr-2 text-muted-foreground" /> */}
               <div className="flex items-center">
                 Willpower Bonus:
                 <span className="ml-1 text-green-500">+{bonusWillpower}</span>
@@ -169,12 +169,18 @@ JournalEntryCardProps) {
         />
 
         <JournalEntrySection
-          icon={<FaMoon />}
+          icon={<FaStar />}
           title="Today's highlights..."
           items={nightEntry?.dailyHighlights}
         />
 
-        <div className="mt-4">
+        <JournalEntrySection
+          icon={<GiBackup />}
+          title="What have I learned today..."
+          items={nightEntry?.learnedToday}
+        />
+
+        {/* <div className="mt-4">
           <div className="flex items-center mt-4">
             <GiBackup className="mr-2 text-muted-foreground" />
             <div className="text-sm text-muted-foreground">
@@ -183,7 +189,7 @@ JournalEntryCardProps) {
           </div>
 
           <div className="mt-2 ml-1">{nightEntry?.learnedToday}</div>
-        </div>
+        </div> */}
       </AccordionContent>
     </AccordionItem>
   );
