@@ -3,7 +3,13 @@ import { Badge } from "@/components/ui/badge";
 import { LucideProps } from "lucide-react";
 import { IconType } from "react-icons";
 import { FaSun, FaMoon, FaStar, FaBoltLightning } from "react-icons/fa6";
-import { GiPrayer, GiBackup, GiPencilRuler } from "react-icons/gi";
+import {
+  GiPrayer,
+  GiBackup,
+  GiPencilRuler,
+  GiLightningTrio,
+  GiLightningDissipation,
+} from "react-icons/gi";
 
 type StepIconMap = {
   [key: string]:
@@ -19,7 +25,7 @@ const stepIconMap: StepIconMap = {
   gratitude: GiPrayer,
   reflection: GiBackup,
   habits: GiPencilRuler,
-  default: FaBoltLightning,
+  default: GiLightningDissipation,
 };
 
 type Step = {
