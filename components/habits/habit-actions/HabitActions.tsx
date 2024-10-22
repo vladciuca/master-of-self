@@ -17,7 +17,7 @@ import { ScrollArea } from "@components/ui/scroll-area";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
-import { calculateLevel, xpForLevel } from "@lib/level";
+import { calculateHabitLevel, xpForHabitLevel } from "@lib/level";
 import { formatNumberSuffixes } from "@lib/utils";
 import { Habit } from "@app/types/types";
 import { useSideContentPosition } from "@hooks/useSideContentPosition";
@@ -54,9 +54,9 @@ export function HabitActions({
 
   // Calculate XP and level
   const xpGain = xp + projectedHabitXp;
-  const level = calculateLevel(xpGain);
-  const currentLevel = calculateLevel(xp);
-  const { baseXP, nextLevelXP } = xpForLevel(level);
+  const level = calculateHabitLevel(xpGain);
+  const currentLevel = calculateHabitLevel(xp);
+  const { baseXP, nextLevelXP } = xpForHabitLevel(level);
   const xpForCurrentLevel = xpGain - baseXP;
   const xpToLevelUp = nextLevelXP - baseXP;
 

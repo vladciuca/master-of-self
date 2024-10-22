@@ -123,7 +123,7 @@ export function IconPicker({
             {SelectedIcon ? (
               <HabitIconProgressBar
                 icon={selectedIconName || ""}
-                xp={(habitXp || 0) + projectedXp}
+                xp={habitXp || 0}
                 projectedXp={projectedXp}
                 displayXpValues
                 displayLevelValues

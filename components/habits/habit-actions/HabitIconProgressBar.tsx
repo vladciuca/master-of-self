@@ -2,7 +2,11 @@ import { IconRenderer } from "@components/IconRenderer";
 import { HabitLevelUpIndicator } from "@components/habits/HabitLevelUpIndicator";
 import { CircularProgress } from "@components/ui/circular-progress";
 import { Badge } from "@components/ui/badge";
-import { calculateLevel, xpForLevel, getHabitRarity } from "@lib/level";
+import {
+  calculateHabitLevel,
+  xpForHabitLevel,
+  getHabitRarity,
+} from "@lib/level";
 
 interface HabitIconProgressBarProps {
   icon: string;
@@ -21,9 +25,9 @@ export function HabitIconProgressBar({
 }: HabitIconProgressBarProps) {
   // Calculate XP and level
   const xpGain = xp + projectedXp;
-  const level = calculateLevel(xpGain);
-  const currentLevel = calculateLevel(xp);
-  const { baseXP, nextLevelXP } = xpForLevel(level);
+  const level = calculateHabitLevel(xpGain);
+  const currentLevel = calculateHabitLevel(xp);
+  const { baseXP, nextLevelXP } = xpForHabitLevel(level);
   const currentProgressPercentage = Math.min(
     ((xp - baseXP) / (nextLevelXP - baseXP)) * 100,
     100

@@ -2,7 +2,7 @@ import { IconRenderer } from "@components/IconRenderer";
 import { ActionIcon } from "@components/habits/habit-actions/HabitActionIcons";
 import { HabitLevelUpIndicator } from "@components/habits/HabitLevelUpIndicator";
 import { CircularProgress } from "@components/ui/circular-progress";
-import { calculateLevel, xpForLevel } from "@lib/level";
+import { calculateHabitLevel, xpForHabitLevel } from "@lib/level";
 import { formatNumberSuffixes } from "@lib/utils";
 import { Habit } from "@app/types/types";
 
@@ -29,9 +29,9 @@ export function HabitCardHeader({
 
   // Calculate XP and level
   const xpGain = xp + projectedXp;
-  const level = calculateLevel(xpGain);
-  const currentLevel = calculateLevel(xp);
-  const { baseXP, nextLevelXP } = xpForLevel(level);
+  const level = calculateHabitLevel(xpGain);
+  const currentLevel = calculateHabitLevel(xp);
+  const { baseXP, nextLevelXP } = xpForHabitLevel(level);
   const currentProgressPercentage = Math.min(
     ((xp - baseXP) / (nextLevelXP - baseXP)) * 100,
     100

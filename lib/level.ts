@@ -1,3 +1,4 @@
+// XP FOR CHAR
 export function xpForLevel(level: number) {
   let baseXP = 0;
   let xpRequired = 50;
@@ -15,6 +16,31 @@ export function calculateLevel(xp: number) {
 
   while (true) {
     const { nextLevelXP } = xpForLevel(level);
+    if (xp < nextLevelXP) {
+      return level;
+    }
+    level++;
+  }
+}
+
+// XP FOR HABITS
+export function xpForHabitLevel(level: number) {
+  let baseXP = 0;
+  let xpRequired = 10;
+
+  for (let i = 1; i < level; i++) {
+    baseXP += xpRequired;
+    xpRequired += 5;
+  }
+
+  return { baseXP, nextLevelXP: baseXP + xpRequired };
+}
+
+export function calculateHabitLevel(xp: number) {
+  let level = 1;
+
+  while (true) {
+    const { nextLevelXP } = xpForHabitLevel(level);
     if (xp < nextLevelXP) {
       return level;
     }

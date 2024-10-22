@@ -1,7 +1,7 @@
 "use client";
 
 import { CircularProgress } from "@components/ui/circular-progress";
-import { calculateLevel, xpForLevel } from "@lib/level";
+import { calculateHabitLevel, xpForHabitLevel } from "@lib/level";
 import { FaBoltLightning } from "react-icons/fa6";
 
 type LevelBarXpGainProps = {
@@ -18,8 +18,8 @@ export function XpGainLevelBar({
   name,
 }: LevelBarXpGainProps) {
   const xpGain = xp + xpChange;
-  const level = calculateLevel(xpGain);
-  const { baseXP, nextLevelXP } = xpForLevel(level);
+  const level = calculateHabitLevel(xpGain);
+  const { baseXP, nextLevelXP } = xpForHabitLevel(level);
   const currentProgressPercentage = Math.min(
     ((xp - baseXP) / (nextLevelXP - baseXP)) * 100,
     100
