@@ -187,7 +187,6 @@ JournalEntryCardProps) {
         <JournalEntrySection
           icon={<FaSun />}
           title={"What will make today great..."}
-          // items={dayEntry?.greatToday}
           items={filteredToDos()}
           dayPeriod="day"
         />
@@ -196,14 +195,13 @@ JournalEntryCardProps) {
           icon={<FaMoon />}
           title={"What made today great..."}
           items={completedDailyToDos()}
-          dayPeriod="night"
+          dayPeriod="day"
           checked
         />
 
         <JournalEntrySection
           icon={<FaStar />}
           title="Today's highlights..."
-          // items={nightEntry?.dailyHighlights}
           items={filteredHighlights()}
         />
 
@@ -212,17 +210,6 @@ JournalEntryCardProps) {
           title="What have I learned today..."
           items={nightEntry?.learnedToday}
         />
-
-        {/* <div className="mt-4">
-          <div className="flex items-center mt-4">
-            <GiBackup className="mr-2 text-muted-foreground" />
-            <div className="text-sm text-muted-foreground">
-              {"What have I learned today..."}
-            </div>
-          </div>
-
-          <div className="mt-2 ml-1">{nightEntry?.learnedToday}</div>
-        </div> */}
       </AccordionContent>
     </AccordionItem>
   );
