@@ -89,7 +89,7 @@ function AnimatedSection({
         <motion.section
           id={id}
           ref={ref}
-          className="py-20 bg-muted mx-12 my-5 rounded-3xl"
+          className="py-20 bg-muted mx-12 mb-12 rounded-3xl"
           initial={{ opacity: 0, y: 50 }}
           animate={inView && { opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: 50 }} // Optional exit animation when the section leaves the view
