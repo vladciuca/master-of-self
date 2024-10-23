@@ -17,8 +17,7 @@ export function JournalEntrySection({
   checked,
   dayPeriod,
 }: EntrySectionProps) {
-  const dayPeriodTextColor =
-    dayPeriod === "day" ? "text-yellow-500" : "text-purple-500";
+  const dayPeriodTextColor = dayPeriod === "day" ? "yellow-500" : "purple-500";
 
   return (
     <div className="mt-4">
@@ -32,17 +31,18 @@ export function JournalEntrySection({
             <li key={index} className="flex items-top">
               <span className="relative">
                 {checked ? (
-                  <FaCircle
-                    className={`${dayPeriodTextColor} opacity-75 mt-[3px]`}
+                  <div
+                    className={`rounded-full w-3 h-3 mt-[4px] bg-[linear-gradient(to_right,_#F59E0B_50%,_#8B5CF6_50%)] opacity-75`}
                   />
                 ) : (
-                  <GoDotFill
-                    className={`${dayPeriodTextColor} opacity-75 mt-[3px]`}
+                  <div
+                    className={`rounded-full w-3 h-3 mt-[4px] bg-${dayPeriodTextColor} opacity-75`}
                   />
                 )}
-                {checked && (
+
+                {/* {checked && (
                   <FaCheck className="absolute z-10 top-[4px] left-[1.5px] text-green-500 text-xs" />
-                )}
+                )} */}
               </span>
               <span className="ml-2">{item}</span>
             </li>

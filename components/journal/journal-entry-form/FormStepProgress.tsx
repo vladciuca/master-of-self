@@ -90,8 +90,7 @@ export function FormStepProgress({
       case "night":
         return {
           count: dailyGoalsToHighlights,
-          // bgColor: "bg-pink-500",
-          bgColor: "bg-green-500",
+          bgColor: "bg-[linear-gradient(to_right,_#F59E0B_50%,_#8B5CF6_50%)]",
         };
       case "gratitude":
         return {
