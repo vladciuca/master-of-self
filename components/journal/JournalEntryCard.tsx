@@ -49,6 +49,27 @@ JournalEntryCardProps) {
     ? calculateHabitsXpSumsFromActions(nightEntry.actions, dailyWillpower)
     : {};
 
+  const filteredHighlights = () => {
+    const dailyToDos = new Set(dayEntry?.greatToday);
+    const dailyHighlights = nightEntry?.dailyHighlights || [];
+
+    return dailyHighlights.filter((item) => !dailyToDos.has(item));
+  };
+
+  const completedDailyToDos = () => {
+    const dailyToDos = dayEntry?.greatToday || [];
+    const dailyHighlights = nightEntry?.dailyHighlights || [];
+
+    return dailyHighlights.filter((item) => dailyToDos.includes(item));
+  };
+
+  const filteredToDos = () => {
+    const dailyToDos = dayEntry?.greatToday || [];
+    const completedToDos = new Set(nightEntry?.dailyHighlights);
+
+    return dailyToDos.filter((item) => !completedToDos.has(item));
+  };
+
   return (
     <AccordionItem key={_id} value={_id} className="p-4">
       <AccordionTrigger className="p-0 block">
@@ -160,18 +181,30 @@ JournalEntryCardProps) {
           icon={<GiPrayer />}
           title="What I am grateful for today..."
           items={dayEntry?.gratefulFor}
+          dayPeriod="day"
         />
 
         <JournalEntrySection
           icon={<FaSun />}
           title={"What will make today great..."}
-          items={dayEntry?.greatToday}
+          // items={dayEntry?.greatToday}
+          items={filteredToDos()}
+          dayPeriod="day"
+        />
+
+        <JournalEntrySection
+          icon={<FaMoon />}
+          title={"What made today great..."}
+          items={completedDailyToDos()}
+          dayPeriod="night"
+          checked
         />
 
         <JournalEntrySection
           icon={<FaStar />}
           title="Today's highlights..."
-          items={nightEntry?.dailyHighlights}
+          // items={nightEntry?.dailyHighlights}
+          items={filteredHighlights()}
         />
 
         <JournalEntrySection
