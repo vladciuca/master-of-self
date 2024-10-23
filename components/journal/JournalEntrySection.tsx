@@ -35,7 +35,7 @@ export function JournalEntrySection({
                   className={` ${dayPeriodTextColor} opacity-75 mt-[3px]`}
                 />
                 {checked && (
-                  <FaCheck className="absolute z-10 top-[5.5px] left-[3.5px] text-green-500 text-[0.5rem]" />
+                  <FaCheck className="absolute z-10 top-[2px] left-[2px] text-green-500 text-xs" />
                 )}
               </span>
               <span className="ml-2">{item}</span>
