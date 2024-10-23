@@ -83,10 +83,10 @@ JournalEntryCardProps) {
                 <div className="text-3xl font-semibold">{day}</div>
               </div>
               <div className="h-full flex items-start ml-4 space-x-2">
-                <div className="w-6 h-6 rounded-full bg-yellow-500 opacity-75">
+                <div className="w-6 h-6 rounded-full bg-yellow-500 bg-opacity-75">
                   2
                 </div>
-                <div className="w-6 h-6 rounded-full bg-purple-500 opacity-75">
+                <div className="w-6 h-6 rounded-full bg-purple-500 bg-opacity-75">
                   2
                 </div>
               </div>

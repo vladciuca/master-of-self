@@ -157,7 +157,7 @@ export function FormStepProgress({
               {count > 0 && (
                 <Badge
                   variant="outline"
-                  className={`${bgColor} opacity-75 absolute -top-1 -right-1 text-[0.6rem] px-1 py-0 min-w-[1.2rem] h-[1.2rem] flex items-center justify-center`}
+                  className={`${bgColor} bg-opacity-75 absolute -top-1 -right-1 text-[0.6rem] px-1 py-0 min-w-[1.2rem] h-[1.2rem] flex items-center justify-center`}
                 >
                   {count}
                 </Badge>
