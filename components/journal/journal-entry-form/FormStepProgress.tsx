@@ -90,7 +90,9 @@ export function FormStepProgress({
       case "night":
         return {
           count: dailyGoalsToHighlights,
-          bgColor: "bg-[linear-gradient(to_right,_#F59E0B_50%,_#8B5CF6_50%)]",
+          bgColor:
+            // "bg-[linear-gradient(to_right,_rgba(234,179,8,0.75)_50%,_rgba(168,85,247, 0.75)_50%)]",
+            "bg-[linear-gradient(to_right,_#eab308_50%,_#a855f7_50%)]",
         };
       case "gratitude":
         return {
@@ -156,7 +158,7 @@ export function FormStepProgress({
               {count > 0 && (
                 <Badge
                   variant="outline"
-                  className={`${bgColor} bg-opacity-75 absolute -top-1 -right-1 text-[0.6rem] px-1 py-0 min-w-[1.2rem] h-[1.2rem] flex items-center justify-center`}
+                  className={`${bgColor} absolute -top-1 -right-1 text-[0.6rem] px-1 py-0 min-w-[1.2rem] h-[1.2rem] flex items-center justify-center`}
                 >
                   {count}
                 </Badge>

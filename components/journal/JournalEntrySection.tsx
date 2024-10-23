@@ -32,11 +32,11 @@ export function JournalEntrySection({
               <span className="relative">
                 {checked ? (
                   <div
-                    className={`rounded-full w-3 h-3 mt-[4px] bg-[linear-gradient(to_right,_#F59E0B_50%,_#8B5CF6_50%)] opacity-75`}
+                    className={`rounded-full w-2 h-2 mt-[6px] bg-[linear-gradient(to_right,_#eab308_50%,_#a855f7_50%)]`}
                   />
                 ) : (
                   <div
-                    className={`rounded-full w-3 h-3 mt-[4px] bg-${dayPeriodTextColor} opacity-75`}
+                    className={`rounded-full w-2 h-2 mt-[6px] bg-${dayPeriodTextColor}`}
                   />
                 )}
 
