@@ -82,6 +82,14 @@ JournalEntryCardProps) {
                 </div>
                 <div className="text-3xl font-semibold">{day}</div>
               </div>
+              <div className="h-full flex items-start ml-4 space-x-2">
+                <div className="w-6 h-6 rounded-full bg-yellow-500 opacity-75">
+                  2
+                </div>
+                <div className="w-6 h-6 rounded-full bg-purple-500 opacity-75">
+                  2
+                </div>
+              </div>
             </div>
             <div className="ml-6 flex flex-col justify-center">
               <div className="flex items-center">
