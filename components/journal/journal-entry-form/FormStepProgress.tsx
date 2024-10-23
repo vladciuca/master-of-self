@@ -127,7 +127,7 @@ export function FormStepProgress({
               {count > 0 && (
                 <Badge
                   variant="outline"
-                  className={`${bgColor} absolute -top-1 -right-1 text-[0.6rem] px-1 py-0 min-w-[1.2rem] h-[1.2rem] flex items-center justify-center`}
+                  className={`${bgColor} absolute -top-1 -right-1 text-[0.6rem] px-1 py-0 min-w-[1.2rem] h-[1.2rem] flex items-center justify-center text-white`}
                 >
                   {count}
                 </Badge>
@@ -135,7 +135,7 @@ export function FormStepProgress({
               {step.type === "reward" && (
                 <Badge
                   variant="outline"
-                  className={`${bgColor} absolute -top-1 -right-1 text-[0.6rem] px-1 py-0 min-w-[1.2rem] h-[1.2rem] flex items-center justify-center`}
+                  className={`${bgColor} absolute -top-1 -right-1 text-[0.6rem] px-1 py-0 min-w-[1.2rem] h-[1.2rem] flex items-center justify-center  text-white`}
                 >
                   <FaBoltLightning />
                 </Badge>

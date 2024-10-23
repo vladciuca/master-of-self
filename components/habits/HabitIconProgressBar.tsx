@@ -82,7 +82,7 @@ export function HabitIconProgressBar({
           </Badge>
           {/*HABIT RARITY*/}
           <Badge
-            className={`${bgColor} hover:bg-${bgColor} bg-opacity-30 rounded-full absolute top-0 left-24`}
+            className={`${bgColor} hover:bg-${bgColor} rounded-full absolute top-0 left-24`}
           >
             <span className={`${textColor}`}>{label}</span>
           </Badge>

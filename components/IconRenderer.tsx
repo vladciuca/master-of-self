@@ -24,7 +24,7 @@ export function IconRenderer({
   const combinedClassName = `${bgColorClass} ${className}`.trim();
 
   return (
-    <div className={`${combinedClassName} bg-opacity-30`}>
+    <div className={`${combinedClassName}`}>
       <Icon className={`${iconColorClass} h-full w-full`} />
     </div>
   );
