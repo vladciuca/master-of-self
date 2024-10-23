@@ -1,5 +1,5 @@
 import React, { ReactElement } from "react";
-import { FaCheck } from "react-icons/fa";
+import { FaCheck, FaCircle } from "react-icons/fa";
 import { GoDotFill } from "react-icons/go";
 
 type EntrySectionProps = {
@@ -31,11 +31,17 @@ export function JournalEntrySection({
           {items.map((item, index) => (
             <li key={index} className="flex items-top">
               <span className="relative">
-                <GoDotFill
-                  className={` ${dayPeriodTextColor} opacity-75 mt-[3px]`}
-                />
+                {checked ? (
+                  <FaCircle
+                    className={`${dayPeriodTextColor} opacity-75 mt-[3px]`}
+                  />
+                ) : (
+                  <GoDotFill
+                    className={`${dayPeriodTextColor} opacity-75 mt-[3px]`}
+                  />
+                )}
                 {checked && (
-                  <FaCheck className="absolute z-10 top-[2px] left-[2px] text-green-500 text-xs" />
+                  <FaCheck className="absolute z-10 top-[4px] left-[1.5px] text-green-500 text-xs" />
                 )}
               </span>
               <span className="ml-2">{item}</span>
