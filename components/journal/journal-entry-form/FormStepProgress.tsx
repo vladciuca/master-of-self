@@ -39,7 +39,7 @@ const stepIconMap: StepIconMap = {
   highlights: <FaStar size={"1.4rem"} />,
   gratitude: <GiPrayer size={"1.4rem"} />,
   reflection: <GiBackup size={"1.4rem"} />,
-  habits: <GiPencilRuler size={"1.3rem"} />,
+  habits: <GiPencilRuler size={"1.4rem"} />,
   default: <GiEnlightenment size={"1.8rem"} />,
 };
 
@@ -90,7 +90,8 @@ export function FormStepProgress({
       case "night":
         return {
           count: dailyGoalsToHighlights,
-          bgColor: "bg-pink-500",
+          // bgColor: "bg-pink-500",
+          bgColor: "bg-green-500",
         };
       case "gratitude":
         return {
@@ -110,7 +111,7 @@ export function FormStepProgress({
       case "habits":
         return {
           count: habitActionsCount,
-          bgColor: "bg-green-500",
+          bgColor: "bg-pink-500",
         };
       default:
         return {
