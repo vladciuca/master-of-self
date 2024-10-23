@@ -85,13 +85,13 @@ function AnimatedSection({
 
   return (
     <AnimatePresence>
-      {isDrawerOpen && (
+      {(isDrawerOpen || inView) && (
         <motion.section
           id={id}
           ref={ref}
           className="py-20 bg-muted mx-12 my-5 rounded-3xl"
           initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
+          animate={inView && { opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: 50 }} // Optional exit animation when the section leaves the view
           transition={{ duration: 0.8 }}
         >
