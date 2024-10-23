@@ -140,7 +140,7 @@ export function FormStepController({
       {
         type: "reward",
         component: <DailyBonus bonusWillpower={formData.bonusWillpower} />,
-        isAvailable: formData.bonusWillpower > 0,
+        isAvailable: !isEvening(userEveningTime) && formData.bonusWillpower > 0,
       },
       {
         type: "gratitude",
@@ -179,8 +179,8 @@ export function FormStepController({
         // also add if greatToday is empty in the check
         isAvailable:
           SHOW_ALL_TEST ||
-          (formData.dayEntry?.greatToday?.length === 0 &&
-            isEvening(userEveningTime)),
+          (isEvening(userEveningTime) &&
+            (formData.dayEntry?.greatToday?.length || 0) > 0),
       },
       {
         type: "highlights",

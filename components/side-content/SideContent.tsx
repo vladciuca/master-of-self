@@ -31,12 +31,12 @@ const tabs = [
   },
   // { id: "goals", icon: Target, label: "Goals", component: GoalsComponent },
   // { id: "habits", icon: Shell, label: "Habits", component: HabitsComponent },
-  {
-    id: "journal",
-    icon: GiBookCover,
-    label: "Journal",
-    component: LoopComponent,
-  },
+  // {
+  //   id: "journal",
+  //   icon: GiBookCover,
+  //   label: "Journal",
+  //   component: LoopComponent,
+  // },
 ];
 
 export function SideContent() {
