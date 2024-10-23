@@ -70,6 +70,13 @@ JournalEntryCardProps) {
     return dailyToDos.filter((item) => !completedToDos.has(item));
   };
 
+  const dayEntries =
+    (dayEntry?.gratefulFor?.length || 0) + (dayEntry?.greatToday?.length || 0);
+
+  const nightEntries =
+    (nightEntry?.dailyHighlights?.length || 0) +
+    (nightEntry?.learnedToday?.length || 0);
+
   return (
     <AccordionItem key={_id} value={_id} className="p-4">
       <AccordionTrigger className="p-0 block">
@@ -82,11 +89,32 @@ JournalEntryCardProps) {
                 </div>
                 <div className="text-3xl font-semibold">{day}</div>
               </div>
+
               <div className="h-full flex items-start ml-4 space-x-2">
-                <div className="w-6 h-6 rounded-full bg-yellow-500">2</div>
-                <div className="w-6 h-6 rounded-full bg-purple-500">2</div>
+                <>
+                  {dayEntries > 0 ? (
+                    <div className="w-6 h-6 rounded-full bg-yellow-500">
+                      {dayEntries}
+                    </div>
+                  ) : null}
+                </>
+                <>
+                  {completedDailyToDos().length > 0 ? (
+                    <div className="w-6 h-6 rounded-full bg-[linear-gradient(to_right,_#eab308_50%,_#a855f7_50%)]">
+                      {completedDailyToDos().length}
+                    </div>
+                  ) : null}
+                </>
+                <>
+                  {nightEntries > 0 ? (
+                    <div className="w-6 h-6 rounded-full bg-purple-500">
+                      {nightEntries}
+                    </div>
+                  ) : null}
+                </>
               </div>
             </div>
+
             <div className="ml-6 flex flex-col justify-center">
               <div className="flex items-center">
                 <div className="w-full flex items-center justify-center text-3xl font-bold">
