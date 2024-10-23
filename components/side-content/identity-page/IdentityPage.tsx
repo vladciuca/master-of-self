@@ -1,15 +1,19 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { X } from "lucide-react";
 
 type IdentityPageProps = {
+  isDrawerOpen: boolean;
   handleCloseDrawer: () => void;
 };
 
-export function IdentityPage({ handleCloseDrawer }: IdentityPageProps) {
+export function IdentityPage({
+  isDrawerOpen,
+  handleCloseDrawer,
+}: IdentityPageProps) {
   return (
     <div className="h-full flex flex-col">
       <div
@@ -20,35 +24,41 @@ export function IdentityPage({ handleCloseDrawer }: IdentityPageProps) {
       </div>
       <ScrollArea className="flex-grow">
         <main className="min-h-screen">
-          <HeroSection />
-          <IdentitySection />
-          <BelievesSection />
-          <BehaviorSection />
+          <HeroSection isDrawerOpen={isDrawerOpen} />
+          <IdentitySection isDrawerOpen={isDrawerOpen} />
+          <BelievesSection isDrawerOpen={isDrawerOpen} />
+          <BehaviorSection isDrawerOpen={isDrawerOpen} />
         </main>
       </ScrollArea>
     </div>
   );
 }
 
-function HeroSection() {
+function HeroSection({ isDrawerOpen }: { isDrawerOpen: boolean }) {
   return (
     <section className="py-20 text-center">
-      <motion.h1
-        className="text-6xl font-bold mb-4"
-        initial={{ opacity: 0, y: -50 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8 }}
-      >
-        Design Your
-      </motion.h1>
-      <motion.span
-        className="text-6xl font-bold text-green-500 block"
-        initial={{ scale: 0.5, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        transition={{ delay: 0.5, duration: 0.5 }}
-      >
-        2.0 Self
-      </motion.span>
+      <AnimatePresence>
+        {isDrawerOpen && (
+          <>
+            <motion.h1
+              className="text-6xl font-bold mb-4"
+              initial={{ opacity: 0, y: -50 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+            >
+              Design Your
+            </motion.h1>
+            <motion.span
+              className="text-6xl font-bold text-green-500 block"
+              initial={{ scale: 0.5, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ delay: 0.5, duration: 0.5 }}
+            >
+              2.0 Self
+            </motion.span>
+          </>
+        )}
+      </AnimatePresence>
     </section>
   );
 }
@@ -58,6 +68,7 @@ type AnimatedSectionProps = {
   subtitle: string;
   content: string;
   id: string;
+  isDrawerOpen: boolean;
 };
 
 function AnimatedSection({
@@ -65,6 +76,7 @@ function AnimatedSection({
   subtitle,
   content,
   id,
+  isDrawerOpen,
 }: AnimatedSectionProps) {
   const [ref, inView] = useInView({
     triggerOnce: true,
@@ -72,26 +84,34 @@ function AnimatedSection({
   });
 
   return (
-    <motion.section
-      id={id}
-      ref={ref}
-      className="py-20 bg-muted mx-12 my-5 rounded-3xl"
-      initial={{ opacity: 0, y: 50 }}
-      animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.8 }}
-    >
-      <div className="container mx-auto px-6">
-        <h2 className="text-2xl font-semibold text-green-500 mb-2">{title}</h2>
-        <h3 className="text-3xl font-bold mb-4">{subtitle}</h3>
-        <p className="text-lg leading-relaxed">{content}</p>
-      </div>
-    </motion.section>
+    <AnimatePresence>
+      {isDrawerOpen && (
+        <motion.section
+          id={id}
+          ref={ref}
+          className="py-20 bg-muted mx-12 my-5 rounded-3xl"
+          initial={{ opacity: 0, y: 50 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: 50 }} // Optional exit animation when the section leaves the view
+          transition={{ duration: 0.8 }}
+        >
+          <div className="container mx-auto px-6">
+            <h2 className="text-2xl font-semibold text-green-500 mb-2">
+              {title}
+            </h2>
+            <h3 className="text-3xl font-bold mb-4">{subtitle}</h3>
+            <p className="text-lg leading-relaxed">{content}</p>
+          </div>
+        </motion.section>
+      )}
+    </AnimatePresence>
   );
 }
 
-function IdentitySection() {
+function IdentitySection({ isDrawerOpen }: { isDrawerOpen: boolean }) {
   return (
     <AnimatedSection
+      isDrawerOpen={isDrawerOpen}
       id="identity"
       title="IDENTITY"
       subtitle="1. Visualize Your Ideal Self"
@@ -100,9 +120,10 @@ function IdentitySection() {
   );
 }
 
-function BelievesSection() {
+function BelievesSection({ isDrawerOpen }: { isDrawerOpen: boolean }) {
   return (
     <AnimatedSection
+      isDrawerOpen={isDrawerOpen}
       id="believes"
       title="BELIEVES"
       subtitle="2. Describe Your Ideal Self's Achievements"
@@ -111,9 +132,10 @@ function BelievesSection() {
   );
 }
 
-function BehaviorSection() {
+function BehaviorSection({ isDrawerOpen }: { isDrawerOpen: boolean }) {
   return (
     <AnimatedSection
+      isDrawerOpen={isDrawerOpen}
       id="behavior"
       title="BEHAVIOR"
       subtitle="3. Define Key Habits"
