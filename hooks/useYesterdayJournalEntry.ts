@@ -88,6 +88,7 @@ export function useYesterdayJournalEntry() {
             nightEntry.actions,
             dailyWillpower
           );
+
           setHabitsXp(habitXpFromActions);
         } else {
           setHabitsXp({});

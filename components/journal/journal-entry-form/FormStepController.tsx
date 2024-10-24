@@ -224,7 +224,7 @@ export function FormStepController({
             dailyWillpower={formData.dailyWillpower}
           />
         ),
-        isAvailable: SHOW_ALL_TEST || hasHabits,
+        isAvailable: hasHabits,
       },
     ],
     [
@@ -301,6 +301,7 @@ export function FormStepController({
 
   const progressPercentage =
     ((currentStepIndex + 1) / availableSteps.length) * 100;
+
   const currentStepComponent = availableSteps[currentStepIndex].component;
 
   // TEMP UTIL FUNCTION

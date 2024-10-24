@@ -37,7 +37,6 @@ export function isEvening(startTime: string | undefined): boolean {
 }
 
 export const getToday = (): Date => {
-  // return new Date().toISOString().split("T")[0];
   const today = new Date();
   today.setHours(0, 0, 0, 0);
   return today;
@@ -47,7 +46,6 @@ export const getTomorrow = (): Date => {
   const tomorrow = new Date();
   tomorrow.setDate(tomorrow.getDate() + 1);
   tomorrow.setHours(0, 0, 0, 0);
-  // return tomorrow.toISOString().split("T")[0];
   return tomorrow;
 };
 
@@ -55,7 +53,6 @@ export const getYesterday = (): Date => {
   const yesterday = new Date();
   yesterday.setDate(yesterday.getDate() - 1);
   yesterday.setHours(0, 0, 0, 0);
-  // return yesterday.toISOString().split("T")[0];
   return yesterday;
 };
 
