@@ -138,12 +138,15 @@ export function ActionsField({ control }: ActionsFieldProps) {
               const action = actions[index] as HabitAction;
               if (!action) return null;
               return (
-                <div key={action.id} className="border p-4 rounded-md">
-                  <div className="text flex justify-between items-center border-b pb-1 mb-2">
-                    <div className="flex items-center">
-                      <ActionIcon type={action.type} />
+                <div key={action.id} className="border p-2 rounded-md">
+                  {/* <div className="text flex justify-between items-center border-b pb-1 mb-2"> */}
+                  <div className="flex items-start max-w-full border-b pb-1 mb-2">
+                    <span className="flex flex-shrink-0 items-start mt-[3.2px]">
+                      <ActionIcon type={action.type} size={18} />
+                    </span>
+                    <span className="text-base break-words whitespace-normal w-0 flex-grow">
                       {action.action}
-                    </div>
+                    </span>
                     <div>
                       <button
                         type="button"
@@ -155,6 +158,17 @@ export function ActionsField({ control }: ActionsFieldProps) {
                       </button>
                     </div>
                   </div>
+                  {/* <div>
+                      <button
+                        type="button"
+                        onClick={() => removeAction(action.id)}
+                        className="text-red-500"
+                        aria-label={`Remove action ${action.action}`}
+                      >
+                        <CircleX size={20} />
+                      </button>
+                    </div> */}
+                  {/* </div> */}
                   <div className="flex items-center justify-between space-x-1">
                     <div className="flex items-center">
                       <span className="text-sm text-muted-foreground">

@@ -33,15 +33,17 @@ export function HabitAction({
 
   return (
     <>
-      <div className="w-full flex items-center justify-between mb-2">
-        <div className="flex items-center">
+      <div className="mb-1 flex items-start max-w-full">
+        <span className="flex flex-shrink-0 items-start mt-[3.2px]">
           <ActionIcon
             type={action.type}
             size={18}
             dailyTargetCompleted={value >= action.dailyTarget}
           />
-          <span>{action.action}</span>
-        </div>
+        </span>
+        <span className="text-base break-words whitespace-normal w-0 flex-grow">
+          {action.action}
+        </span>
       </div>
       <Card className="mt-2 mb-8 p-2">
         <div className="flex flex-col items-center">

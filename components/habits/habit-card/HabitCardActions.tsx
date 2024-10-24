@@ -18,19 +18,19 @@ export function HabitCardActions({
     <div>
       {actions.map((action) => (
         <div key={action.id} className="mb-6">
-          <div className="flex items-center justify-between mb-1">
-            <div className="flex items-center">
-              <span className="flex items-center">
-                <ActionIcon
-                  type={action.type}
-                  size={18}
-                  dailyTargetCompleted={
-                    actionUpdateValues[action.id] >= action.dailyTarget
-                  }
-                />
-              </span>
-              <span className="text-base">{action.action}</span>
-            </div>
+          <div className="mb-1 flex items-start max-w-full">
+            <span className="flex flex-shrink-0 items-start mt-[3.2px]">
+              <ActionIcon
+                type={action.type}
+                size={18}
+                dailyTargetCompleted={
+                  actionUpdateValues[action.id] >= action.dailyTarget
+                }
+              />
+            </span>
+            <span className="text-base break-words whitespace-normal w-0 flex-grow">
+              {action.action}
+            </span>
           </div>
           <div className="flex flex-col text-sm text-muted-foreground mb-2">
             <div className="flex items-center justify-between border border-muted rounded-md p-2 my-1">
