@@ -35,7 +35,6 @@ import { HabitZodType } from "@components/habits/habit-form/habitFormSchema";
 import { HabitAction } from "@app/types/types";
 import { Slider } from "@components/ui/slider";
 import { useSideContentPosition } from "@hooks/useSideContentPosition";
-import { cn } from "@lib/utils";
 
 type ActionsFieldProps = {
   control: Control<HabitZodType>;
@@ -139,7 +138,6 @@ export function ActionsField({ control }: ActionsFieldProps) {
               if (!action) return null;
               return (
                 <div key={action.id} className="border p-2 rounded-md">
-                  {/* <div className="text flex justify-between items-center border-b pb-1 mb-2"> */}
                   <div className="flex items-start max-w-full border-b pb-1 mb-2">
                     <span className="flex flex-shrink-0 items-start mt-[3.2px]">
                       <ActionIcon type={action.type} size={18} />
@@ -158,17 +156,7 @@ export function ActionsField({ control }: ActionsFieldProps) {
                       </button>
                     </div>
                   </div>
-                  {/* <div>
-                      <button
-                        type="button"
-                        onClick={() => removeAction(action.id)}
-                        className="text-red-500"
-                        aria-label={`Remove action ${action.action}`}
-                      >
-                        <CircleX size={20} />
-                      </button>
-                    </div> */}
-                  {/* </div> */}
+
                   <div className="flex items-center justify-between space-x-1">
                     <div className="flex items-center">
                       <span className="text-sm text-muted-foreground">
