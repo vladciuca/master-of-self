@@ -33,9 +33,9 @@ export function FormStepController({
   submitting,
   onSubmit,
   userEveningTime = "18:00",
-  hasGratitude = false,
-  hasReflection = false,
-  hasHabits = false,
+  hasGratitude = true,
+  hasReflection = true,
+  hasHabits = true,
 }: FormStepControllerProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -176,7 +176,6 @@ export function FormStepController({
             initialHighlights={formData.nightEntry?.dailyHighlights || []}
           />
         ),
-        // also add if greatToday is empty in the check
         isAvailable:
           SHOW_ALL_TEST ||
           (isEvening(userEveningTime) &&
@@ -196,7 +195,6 @@ export function FormStepController({
         type: "reflection",
         component: (
           <LearnedToday
-            // learnedToday={formData.nightEntry?.learnedToday || ""}
             entryList={formData.nightEntry?.learnedToday || []}
             onChange={(value) => handleChange("learnedToday", value)}
           />
@@ -224,7 +222,8 @@ export function FormStepController({
             dailyWillpower={formData.dailyWillpower}
           />
         ),
-        isAvailable: hasHabits,
+        //temp need to fix
+        isAvailable: SHOW_ALL_TEST || hasHabits,
       },
     ],
     [
@@ -260,6 +259,13 @@ export function FormStepController({
     },
     [router, searchParams]
   );
+
+  // Redirect to the first step if the current step doesn't exist
+  // useEffect(() => {
+  //   if (currentStepIndex === -1 && stepTypes.length > 0) {
+  //     setStep(stepTypes[0]);
+  //   }
+  // }, [currentStepIndex, setStep, stepTypes, hasHabits]);
 
   // Use setStep instead of updateUrlStep
   const handleStepChange = useCallback(
@@ -302,7 +308,39 @@ export function FormStepController({
   const progressPercentage =
     ((currentStepIndex + 1) / availableSteps.length) * 100;
 
-  const currentStepComponent = availableSteps[currentStepIndex].component;
+  // Check to handle cases when there are no available steps
+  // if (availableSteps.length === 0) {
+  //   return (
+  //     <div className="h-screen flex items-center justify-center">
+  //       <div>No steps are currently available.</div>
+  //     </div>
+  //   );
+  // }
+
+  // Ensure that currentStepIndex is within bounds
+  const safeCurrentStepIndex = Math.max(
+    0,
+    Math.min(currentStepIndex, availableSteps.length - 1)
+  );
+
+  const currentStepComponent = availableSteps[safeCurrentStepIndex]?.component;
+
+  // If there's no current step component, render a fallback UI
+  // if (!currentStepComponent) {
+  // return (
+  //   <div className="h-screen flex items-center justify-center">
+  //     <div>
+  //       Step not available.
+  //       <button
+  //         onClick={() => setStep(stepTypes[0])}
+  //         className="ml-2 px-4 py-2 bg-background text-primary rounded-md"
+  //       >
+  //         Go to first step
+  //       </button>
+  //     </div>
+  //   </div>
+  // );
+  // }
 
   // TEMP UTIL FUNCTION
   function countMatchingElements(

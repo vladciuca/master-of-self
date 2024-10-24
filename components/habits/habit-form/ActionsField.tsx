@@ -263,14 +263,14 @@ export function ActionsField({ control }: ActionsFieldProps) {
                         Count
                       </span>
                     </SelectItem>
-                    <SelectItem value="time">
+                    {/* <SelectItem value="time">
                       <span className="flex items-center">
                         <span className="mr-2">
                           <MetricIcon metric="time" size={18} />
                         </span>
                         Time
                       </span>
-                    </SelectItem>
+                    </SelectItem> */}
                   </SelectContent>
                 </Select>
 

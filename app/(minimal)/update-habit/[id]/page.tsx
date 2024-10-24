@@ -1,5 +1,4 @@
 "use client";
-
 import { useEffect, useState } from "react";
 import { useRouter, useParams } from "next/navigation";
 import { HabitForm } from "@components/habits/habit-form/HabitForm";
@@ -10,6 +9,7 @@ import { useTodayJournalEntry } from "@hooks/useTodayJournalEntry";
 export default function UpdateHabit() {
   const [submitting, setSubmitting] = useState(false);
   const [habitData, setHabitData] = useState<HabitZodType | null>(null);
+  const [habitDataLoading, setHabitDataLoading] = useState(true); // Default to true since we're loading by default
   const { todayEntry, todayEntryLoading } = useTodayJournalEntry();
   const router = useRouter();
   const params = useParams<{ id: string }>();
@@ -35,16 +35,24 @@ export default function UpdateHabit() {
 
   useEffect(() => {
     const getHabitData = async () => {
-      const response = await fetch(`/api/habit/${id}`);
-      const data = await response.json();
-      setHabitData({
-        name: data.name,
-        icon: data.icon,
-        description: data.description,
-        actions: data.actions,
-        xp: data.xp,
-      });
+      try {
+        setHabitDataLoading(true);
+        const response = await fetch(`/api/habit/${id}`);
+        const data = await response.json();
+        setHabitData({
+          name: data.name,
+          icon: data.icon,
+          description: data.description,
+          actions: data.actions,
+          xp: data.xp,
+        });
+      } catch (error) {
+        console.error("Error fetching habit data", error);
+      } finally {
+        setHabitDataLoading(false);
+      }
     };
+
     if (id) getHabitData();
   }, [id]);
 
@@ -76,9 +84,17 @@ export default function UpdateHabit() {
     }
   };
 
+  if (todayEntryLoading || habitDataLoading) {
+    return (
+      <div className="p-6 h-full">
+        <SkeletonForm />
+      </div>
+    );
+  }
+
   return (
     <div className="p-6 h-full">
-      {habitData ? (
+      {habitData && (
         <HabitForm
           type="Update"
           habit={habitData}
@@ -86,8 +102,6 @@ export default function UpdateHabit() {
           submitting={submitting}
           onSubmit={updateHabit}
         />
-      ) : (
-        <SkeletonForm />
       )}
     </div>
   );

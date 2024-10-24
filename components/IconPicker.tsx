@@ -56,20 +56,6 @@ export function IconPicker({
     }
   }, [isOpen]);
 
-  // move out of here
-  // here receive the values
-  // const calculateProjectedXp = (
-  //   values: { [key: string]: number } | undefined
-  // ): number => {
-  //   if (!values || Object.keys(values).length === 0) {
-  //     return 0;
-  //   }
-
-  //   return Object.values(values).reduce((sum, value) => sum + value, 0);
-  // };
-
-  // const projectedXp = calculateProjectedXp(actionUpdateValues);
-
   const handleSelectIcon = (iconName: string) => {
     setSelectedIconName(iconName);
     if (onChange) {

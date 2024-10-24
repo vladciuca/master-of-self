@@ -86,7 +86,7 @@ export function CircularProgress({
           />
           {/* XP Gain circle */}
           {xpGainValue !== undefined && xpGainValue > 0 && (
-            <circle
+            <motion.circle
               cx={size / 2}
               cy={size / 2}
               r={radius}
@@ -98,6 +98,14 @@ export function CircularProgress({
                 strokeDasharray: gainCircumference,
                 strokeDashoffset: gainOffset,
                 strokeLinecap: "round",
+              }}
+              initial={{
+                strokeDashoffset: circumference,
+                strokeDasharray: circumference,
+              }}
+              animate={{ strokeDashoffset: offset }}
+              transition={{
+                ease: "easeOut",
               }}
             />
           )}

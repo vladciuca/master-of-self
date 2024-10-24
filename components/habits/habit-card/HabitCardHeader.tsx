@@ -51,6 +51,7 @@ export function HabitCardHeader({
             iconName={icon}
             className="rounded-md h-16 w-16 p-1"
             xp={xpGain}
+            isXpLoading={todayEntryLoading}
           />
         </div>
 
