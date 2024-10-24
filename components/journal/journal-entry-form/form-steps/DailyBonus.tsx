@@ -1,7 +1,6 @@
 import React, { useRef } from "react";
 import { FormStepTemplate } from "@components/journal/journal-entry-form/form-steps/FormStepTemplate";
 import { Label } from "@components/ui/label";
-import { ScrollArea } from "@components/ui/scroll-area";
 import { SkeletonList } from "@components/skeletons/SkeletonList";
 import { FaBoltLightning } from "react-icons/fa6";
 import { BsChevronCompactDown } from "react-icons/bs";
@@ -57,7 +56,7 @@ export function DailyBonus({ bonusWillpower }: DailyBonusProps) {
                 {"Yesterday's highlights!"}
               </div>
             </Label>
-            <ScrollArea className="h-[85%]">
+            <div className="h-[85%] overflow-y-scroll">
               {yesterdayEntryLoading && yesterdayHighlights.length > 0 ? (
                 <SkeletonList />
               ) : (
@@ -69,7 +68,7 @@ export function DailyBonus({ bonusWillpower }: DailyBonusProps) {
                   ))}
                 </ol>
               )}
-            </ScrollArea>
+            </div>
           </div>
         </div>
       </div>

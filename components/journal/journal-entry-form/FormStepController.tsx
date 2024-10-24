@@ -16,7 +16,7 @@ import { JournalEntry } from "@/app/types/types";
 import { isEvening } from "@lib/time";
 
 // TEST_FLAG: used for enabling all forms steps
-const SHOW_ALL_TEST = false;
+const SHOW_ALL_TEST = true;
 
 type FormStepControllerProps = {
   submitting: boolean;
@@ -140,7 +140,9 @@ export function FormStepController({
       {
         type: "reward",
         component: <DailyBonus bonusWillpower={formData.bonusWillpower} />,
-        isAvailable: !isEvening(userEveningTime) && formData.bonusWillpower > 0,
+        isAvailable:
+          SHOW_ALL_TEST ||
+          (!isEvening(userEveningTime) && formData.bonusWillpower > 0),
       },
       {
         type: "gratitude",
