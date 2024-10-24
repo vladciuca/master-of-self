@@ -56,6 +56,7 @@ export function ActionsField({ control }: ActionsFieldProps) {
     type: "offensive",
     dailyTarget: 1,
   });
+  const [inputError, setInputError] = useState<boolean>(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [editId, setEditId] = useState<string | null>(null);
   const { drawerStyle } = useSideContentPosition();
@@ -73,6 +74,7 @@ export function ActionsField({ control }: ActionsFieldProps) {
 
   const handleActionSubmit = () => {
     if (actionForm.action !== "") {
+      setInputError(false);
       if (editId !== null) {
         // Find the index of the action with the matching id
         const editIndex = actions.findIndex((action) => action.id === editId);
@@ -91,6 +93,7 @@ export function ActionsField({ control }: ActionsFieldProps) {
       resetActionForm();
       setIsDrawerOpen(false);
     }
+    setInputError(true);
   };
 
   const removeAction = (id: string) => {
@@ -211,12 +214,15 @@ export function ActionsField({ control }: ActionsFieldProps) {
               <div className="p-4 pb-0">
                 <FormControl>
                   <Input
-                    value={actionForm.action}
-                    onChange={(e) =>
-                      setActionForm({ ...actionForm, action: e.target.value })
-                    }
                     placeholder="Enter action"
-                    className="mt-2 mb-8 text-base"
+                    value={actionForm.action}
+                    onChange={(e) => {
+                      setActionForm({ ...actionForm, action: e.target.value });
+                      setInputError(false);
+                    }}
+                    className={`mt-2 mb-8 text-base ${
+                      inputError ? "border-destructive" : ""
+                    }`}
                   />
                 </FormControl>
 
