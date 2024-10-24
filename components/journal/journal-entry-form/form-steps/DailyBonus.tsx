@@ -1,15 +1,11 @@
 import React, { useRef } from "react";
 import { FormStepTemplate } from "@components/journal/journal-entry-form/form-steps/FormStepTemplate";
 import { Label } from "@components/ui/label";
+import { ScrollArea } from "@components/ui/scroll-area";
 import { SkeletonList } from "@components/skeletons/SkeletonList";
 import { FaBoltLightning } from "react-icons/fa6";
 import { BsChevronCompactDown } from "react-icons/bs";
-import {
-  GiDeadlyStrike,
-  GiAura,
-  GiBeamsAura,
-  GiOpenTreasureChest,
-} from "react-icons/gi";
+import { GiDeadlyStrike } from "react-icons/gi";
 import { useYesterdayJournalEntry } from "@hooks/useYesterdayJournalEntry";
 
 type DailyBonusProps = {
@@ -32,7 +28,7 @@ export function DailyBonus({ bonusWillpower }: DailyBonusProps) {
     <FormStepTemplate title="Bonus Willpower">
       <div className="h-full overflow-hidden">
         <div className="h-full flex flex-col">
-          <div className="flex-1 flex flex-col items-center justify-between min-h-full">
+          <div className="flex-1 flex flex-col items-center justify-around min-h-full">
             <div className="flex flex-col items-center">
               <GiDeadlyStrike size={200} />
               <div className="text-4xl my-4 flex items-center">
@@ -46,7 +42,7 @@ export function DailyBonus({ bonusWillpower }: DailyBonusProps) {
               </div>
             </div>
 
-            <div className="h-full flex items-center">
+            <div className="h-[20%] flex items-center justify-center">
               <BsChevronCompactDown
                 className="text-muted-foreground cursor-pointer"
                 size={48}
@@ -56,22 +52,24 @@ export function DailyBonus({ bonusWillpower }: DailyBonusProps) {
           </div>
 
           <div ref={highlightsRef} className="flex-1 min-h-full px-4">
-            <Label className="w-full text-center">
+            <Label className="h-[15%] w-full text-center">
               <div className="leading-relaxed text-muted-foreground mx-4 mb-6">
                 {"Yesterday's highlights!"}
               </div>
             </Label>
-            {yesterdayEntryLoading && yesterdayHighlights.length > 0 ? (
-              <SkeletonList />
-            ) : (
-              <ol className="list-decimal pl-5">
-                {yesterdayHighlights.map((highlight, index) => (
-                  <li key={index} className="mb-2">
-                    {highlight}
-                  </li>
-                ))}
-              </ol>
-            )}
+            <ScrollArea className="h-[85%]">
+              {yesterdayEntryLoading && yesterdayHighlights.length > 0 ? (
+                <SkeletonList />
+              ) : (
+                <ol className="list-decimal pl-5">
+                  {yesterdayHighlights.map((highlight, index) => (
+                    <li key={index} className="mb-2">
+                      {highlight}
+                    </li>
+                  ))}
+                </ol>
+              )}
+            </ScrollArea>
           </div>
         </div>
       </div>
