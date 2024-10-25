@@ -57,7 +57,6 @@ export function DailyBonus({ bonusWillpower }: DailyBonusProps) {
               </div>
             </Label>
             <div className="h-[85%] overflow-y-scroll">
-              <SkeletonList />
               {yesterdayEntryLoading && yesterdayHighlights.length > 0 ? (
                 <SkeletonList />
               ) : (
