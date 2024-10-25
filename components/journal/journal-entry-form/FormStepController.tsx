@@ -53,6 +53,7 @@ export function FormStepController({
       actions: journalEntryData?.nightEntry?.actions || {},
     },
   }));
+  const [isInitialized, setIsInitialized] = useState(false);
 
   const calculateScore = useMemo(
     () => (entries: string[]) => {
@@ -249,8 +250,11 @@ export function FormStepController({
   );
 
   // Get the current step type from URL or use the first available step
-  const currentStepType = searchParams.get("step") || stepTypes[0];
-  const currentStepIndex = stepTypes.indexOf(currentStepType);
+  const currentStepType = searchParams.get("step");
+  const currentStepIndex = stepTypes.indexOf(currentStepType || "");
+
+  // Use a valid step index or default to 0
+  const safeCurrentStepIndex = currentStepIndex !== -1 ? currentStepIndex : 0;
 
   // This function updates the URL with the new step
   const setStep = useCallback(
@@ -262,12 +266,17 @@ export function FormStepController({
     [router, searchParams]
   );
 
-  // Redirect to the first step if the current step doesn't exist
-  // useEffect(() => {
-  //   if (currentStepIndex === -1 && stepTypes.length > 0) {
-  //     setStep(stepTypes[0]);
-  //   }
-  // }, [currentStepIndex, setStep, stepTypes, hasHabits]);
+  // Initialize the form with the correct step
+  useEffect(() => {
+    if (!isInitialized && availableSteps.length > 0) {
+      const initialStepType =
+        currentStepType && stepTypes.includes(currentStepType)
+          ? currentStepType
+          : stepTypes[0];
+      setStep(initialStepType);
+      setIsInitialized(true);
+    }
+  }, [isInitialized, availableSteps, currentStepType, stepTypes, setStep]);
 
   // Use setStep instead of updateUrlStep
   const handleStepChange = useCallback(
@@ -310,39 +319,10 @@ export function FormStepController({
   const progressPercentage =
     ((currentStepIndex + 1) / availableSteps.length) * 100;
 
-  // Check to handle cases when there are no available steps
-  // if (availableSteps.length === 0) {
-  //   return (
-  //     <div className="h-screen flex items-center justify-center">
-  //       <div>No steps are currently available.</div>
-  //     </div>
-  //   );
-  // }
+  const currentStep = stepTypes[currentStepIndex !== -1 ? currentStepIndex : 0];
 
-  // Ensure that currentStepIndex is within bounds
-  const safeCurrentStepIndex = Math.max(
-    0,
-    Math.min(currentStepIndex, availableSteps.length - 1)
-  );
-
-  const currentStepComponent = availableSteps[safeCurrentStepIndex]?.component;
-
-  // If there's no current step component, render a fallback UI
-  // if (!currentStepComponent) {
-  // return (
-  //   <div className="h-screen flex items-center justify-center">
-  //     <div>
-  //       Step not available.
-  //       <button
-  //         onClick={() => setStep(stepTypes[0])}
-  //         className="ml-2 px-4 py-2 bg-background text-primary rounded-md"
-  //       >
-  //         Go to first step
-  //       </button>
-  //     </div>
-  //   </div>
-  // );
-  // }
+  const currentStepComponent =
+    availableSteps[currentStepIndex !== -1 ? currentStepIndex : 0]?.component;
 
   // TEMP UTIL FUNCTION
   function countMatchingElements(
@@ -355,11 +335,15 @@ export function FormStepController({
     return safeArr2.filter((element) => set1.has(element)).length;
   }
 
+  if (!isInitialized) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <div className="grid grid-rows-[auto,1fr,auto] h-full">
       <FormStepProgress
         availableSteps={availableSteps}
-        currentStepType={currentStepType}
+        currentStepType={currentStep}
         handleStepChange={handleStepChange}
         progressPercentage={progressPercentage}
         greatTodayCount={formData.dayEntry?.greatToday?.length || 0}

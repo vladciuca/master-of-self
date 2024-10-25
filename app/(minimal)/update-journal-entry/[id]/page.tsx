@@ -18,6 +18,7 @@ export default function UpdateJournalEntry() {
   const [journalEntryError, setJournalEntryError] = useState<string | null>(
     null
   );
+  const [isLoading, setIsLoading] = useState(true);
 
   const params = useParams<{ id: string }>();
   const { id } = params;
@@ -59,6 +60,14 @@ export default function UpdateJournalEntry() {
     getJournalEntryData();
   }, [id]);
 
+  useEffect(() => {
+    if (!journalEntryLoading && !userSettingsLoading && !habitsLoading) {
+      // Small delay to ensure all state updates have propagated
+      const timer = setTimeout(() => setIsLoading(false), 0);
+      return () => clearTimeout(timer);
+    }
+  }, [journalEntryLoading, userSettingsLoading, habitsLoading]);
+
   const updateJournalEntry = async (journalEntry: JournalEntry) => {
     setSubmitting(true);
 
@@ -83,8 +92,6 @@ export default function UpdateJournalEntry() {
       setSubmitting(false);
     }
   };
-
-  const isLoading = journalEntryLoading && userSettingsLoading && habitsLoading;
 
   return (
     <>
