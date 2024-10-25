@@ -36,7 +36,7 @@ export function DailyBonus({ bonusWillpower }: DailyBonusProps) {
                 </span>
                 <FaBoltLightning className="ml-2 text-3xl" />
               </div>
-              <div className="text-muted-foreground">
+              <div className="text-muted-foreground text-center">
                 Empowered from yesterday's highlights!
               </div>
             </div>
@@ -50,7 +50,7 @@ export function DailyBonus({ bonusWillpower }: DailyBonusProps) {
             </div>
           </div>
 
-          <div ref={highlightsRef} className="flex-1 min-h-full px-4">
+          <div ref={highlightsRef} className="flex-1 min-h-full">
             <Label className="h-[15%] w-full text-center">
               <div className="leading-relaxed text-muted-foreground mx-4 mb-6">
                 {"Yesterday's highlights!"}
