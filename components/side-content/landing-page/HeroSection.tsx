@@ -94,15 +94,6 @@ export function HeroSection({ isActive = true }: { isActive?: boolean }) {
               and BEHAVIOR
             </motion.h1>
 
-            {/* <motion.p
-              className="mb-8 text-xl text-muted-foreground"
-              initial="hidden"
-              animate="visible"
-              variants={fadeInTransition}
-              transition={{ duration: 1, delay: 1.5 }}
-            >
-              build the best version of yourself.
-            </motion.p> */}
             {/* <motion.div
              initial="hidden"
              animate="visible"

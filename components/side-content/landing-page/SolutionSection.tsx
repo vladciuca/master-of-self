@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronRight, Check } from "lucide-react";
+import { ChevronRight } from "lucide-react";
 import { IoCheckmarkOutline } from "react-icons/io5";
 
 const fadeInTransitionFromLeft = {
@@ -26,13 +26,7 @@ export function SolutionSection({ isActive = true }: { isActive?: boolean }) {
             className="max-w-3xl px-4 flex flex-col space-y-24"
           >
             {/* DESCRIPTION */}
-            <p
-              className="mx-10 -mt-12 mb-12 text-xl text-muted-foreground"
-              // initial="hidden"
-              // animate="visible"
-              // variants={fadeInTransitionFromBottom}
-              // transition={{ duration: 1, delay: 1.5 }}
-            >
+            <p className="mx-10 -mt-12 mb-12 text-xl text-muted-foreground">
               True transformation begins by focusing on who you are. When you
               reshape your identity first, your goals and habits naturally fall
               into place, leading to lasting change.

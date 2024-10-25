@@ -15,22 +15,32 @@ export function IdentityPage({
   handleCloseDrawer,
 }: IdentityPageProps) {
   return (
-    <div className="h-full flex flex-col">
-      <div
-        className="absolute top-4 right-4 z-10 cursor-pointer"
-        onClick={handleCloseDrawer}
-      >
-        <X />
-      </div>
-      <ScrollArea className="flex-grow">
-        <main className="min-h-screen">
-          <HeroSection isDrawerOpen={isDrawerOpen} />
-          <IdentitySection isDrawerOpen={isDrawerOpen} />
-          <BelievesSection isDrawerOpen={isDrawerOpen} />
-          <BehaviorSection isDrawerOpen={isDrawerOpen} />
-        </main>
-      </ScrollArea>
-    </div>
+    <AnimatePresence>
+      {isDrawerOpen && (
+        <motion.div
+          className="h-full flex flex-col"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.3 }}
+        >
+          <div
+            className="absolute top-4 right-4 z-10 cursor-pointer"
+            onClick={handleCloseDrawer}
+          >
+            <X />
+          </div>
+          <ScrollArea className="flex-grow">
+            <main className="min-h-screen">
+              <HeroSection isDrawerOpen={isDrawerOpen} />
+              <IdentitySection isDrawerOpen={isDrawerOpen} />
+              <BelievesSection isDrawerOpen={isDrawerOpen} />
+              <BehaviorSection isDrawerOpen={isDrawerOpen} />
+            </main>
+          </ScrollArea>
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 }
 
@@ -44,21 +54,20 @@ function HeroSection({ isDrawerOpen }: { isDrawerOpen: boolean }) {
               className="text-6xl font-bold mb-4"
               initial={{ opacity: 0, y: -50 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
+              exit={{ opacity: 0, y: -50 }}
+              transition={{ duration: 0.5 }}
             >
               Design Your
             </motion.h1>
-            {/* <motion.span
-              className="text-6xl font-bold text-green-500 block"
-              initial={{ scale: 0.5, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{ delay: 0.5, duration: 0.5 }}
+            <motion.span
+              className="text-6xl font-bold mb-4"
+              initial={{ opacity: 0, scale: 0.5 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.5 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
             >
-              2.0
-            </motion.span> */}
-            <span className="text-6xl font-bold mb-4">
               <span className="text-green-500 mr-2">2.0</span>Self
-            </span>
+            </motion.span>
           </>
         )}
       </AnimatePresence>
@@ -92,9 +101,9 @@ function AnimatedSection({
           ref={ref}
           className="py-12 border mx-12 mb-12 rounded-3xl"
           initial={{ opacity: 0, y: 50 }}
-          animate={isDrawerOpen && { opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: 50 }} // Optional exit animation when the section leaves the view
-          transition={{ duration: 0.8 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: 50 }}
+          transition={{ duration: 0.5 }}
         >
           <div className="container mx-auto px-6">
             <h3 className="text-3xl font-bold text-center">{subtitle}</h3>
@@ -109,12 +118,9 @@ function AnimatedSection({
                     ? "bg-purple-500 rounded-3xl"
                     : "bg-gray-500 rounded-full"
                 }`}
-                initial="hidden"
-                animate="visible"
-                variants={{
-                  hidden: { opacity: 0, y: 20 },
-                  visible: { opacity: 1, y: 0 },
-                }}
+                initial={{ opacity: 0, scale: 0.5 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.5 }}
                 transition={{ duration: 0.5 }}
               />
             </div>

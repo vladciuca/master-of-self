@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronLeft, X } from "lucide-react";
+import { ChevronLeft } from "lucide-react";
 import { IoCloseOutline } from "react-icons/io5";
 
 const fadeInTransitionFromRight = {
@@ -26,13 +26,7 @@ export function ProblemSection({ isActive = true }: { isActive?: boolean }) {
             className="max-w-3xl px-4 flex flex-col space-y-24"
           >
             {/* DESCRIPTION */}
-            <p
-              className="mx-10 -mt-12 mb-12 text-xl text-muted-foreground"
-              // initial="hidden"
-              // animate="visible"
-              // variants={fadeInTransitionFromBottom}
-              // transition={{ duration: 1, delay: 1.5 }}
-            >
+            <p className="mx-10 -mt-12 mb-12 text-xl text-muted-foreground">
               Conventional approaches attempt to change identity by forcing new
               habits through repetition. This often creates resistance and makes
               it harder to achieve long-term success.
