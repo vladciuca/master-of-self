@@ -48,14 +48,17 @@ function HeroSection({ isDrawerOpen }: { isDrawerOpen: boolean }) {
             >
               Design Your
             </motion.h1>
-            <motion.span
+            {/* <motion.span
               className="text-6xl font-bold text-green-500 block"
               initial={{ scale: 0.5, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               transition={{ delay: 0.5, duration: 0.5 }}
             >
-              2.0 <span className="text-primary">Self</span>
-            </motion.span>
+              2.0
+            </motion.span> */}
+            <span className="text-6xl font-bold mb-4">
+              <span className="text-green-500 mr-2">2.0</span>Self
+            </span>
           </>
         )}
       </AnimatePresence>
@@ -87,7 +90,7 @@ function AnimatedSection({
         <motion.section
           id={id}
           ref={ref}
-          className="py-12 bg-muted mx-12 mb-12 rounded-3xl"
+          className="py-12 border mx-12 mb-12 rounded-3xl"
           initial={{ opacity: 0, y: 50 }}
           animate={isDrawerOpen && { opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: 50 }} // Optional exit animation when the section leaves the view
@@ -97,14 +100,14 @@ function AnimatedSection({
             <h3 className="text-3xl font-bold text-center">{subtitle}</h3>
             <div className="w-full flex justify-center my-12">
               <motion.div
-                className={`h-20 w-20 rounded-full ${
+                className={`h-20 w-20 ${
                   id === "identity"
-                    ? "bg-blue-500"
+                    ? "bg-blue-500 rounded-full"
                     : id === "behavior"
-                    ? "bg-pink-500"
+                    ? "bg-pink-500 rounded-xl"
                     : id === "believes"
-                    ? "bg-purple-500"
-                    : "bg-gray-500"
+                    ? "bg-purple-500 rounded-3xl"
+                    : "bg-gray-500 rounded-full"
                 }`}
                 initial="hidden"
                 animate="visible"
@@ -115,7 +118,9 @@ function AnimatedSection({
                 transition={{ duration: 0.5 }}
               />
             </div>
-            <p className="text-lg leading-relaxed text-center">{content}</p>
+            <p className="text-lg leading-relaxed text-center text-muted-foreground">
+              {content}
+            </p>
           </div>
         </motion.section>
       )}

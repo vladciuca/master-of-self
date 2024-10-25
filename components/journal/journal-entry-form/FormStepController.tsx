@@ -335,6 +335,7 @@ export function FormStepController({
     return safeArr2.filter((element) => set1.has(element)).length;
   }
 
+  //TEMP - will add Full page Loading screen
   if (!isInitialized) {
     return <div>Loading...</div>;
   }

@@ -1,5 +1,6 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronRight, Check } from "lucide-react";
+import { IoCheckmarkOutline } from "react-icons/io5";
 
 const fadeInTransitionFromLeft = {
   hidden: { opacity: 0, x: -20 },
@@ -13,7 +14,7 @@ const fadeInTransitionFromBottom = {
 
 export function SolutionSection({ isActive = true }: { isActive?: boolean }) {
   return (
-    <section className="h-screen flex flex-col items-center justify-center text-center relative overflow-hidden">
+    <section className="h-screen flex flex-col items-center justify-center text-center overflow-hidden">
       <AnimatePresence>
         {isActive && (
           <motion.div
@@ -22,17 +23,20 @@ export function SolutionSection({ isActive = true }: { isActive?: boolean }) {
             exit="hidden"
             variants={fadeInTransitionFromLeft}
             transition={{ duration: 0.5 }}
-            className="max-w-3xl px-4"
+            className="max-w-3xl px-4 flex flex-col space-y-24"
           >
-            <motion.div
-              className="w-full flex justify-center text-green-400 -mt-24 pb-24"
-              initial="hidden"
-              animate="visible"
-              variants={fadeInTransitionFromBottom}
-              transition={{ duration: 1, delay: 1.5 }}
+            {/* DESCRIPTION */}
+            <p
+              className="mx-10 -mt-12 mb-12 text-xl text-muted-foreground"
+              // initial="hidden"
+              // animate="visible"
+              // variants={fadeInTransitionFromBottom}
+              // transition={{ duration: 1, delay: 1.5 }}
             >
-              <Check size={80} />
-            </motion.div>
+              True transformation begins by focusing on who you are. When you
+              reshape your identity first, your goals and habits naturally fall
+              into place, leading to lasting change.
+            </p>
 
             {/* IDENTITY TO ACTIONS 1>2>3 */}
             <div className="mt-12 flex items-center justify-center xl:space-x-4 relative w-full">
@@ -72,7 +76,7 @@ export function SolutionSection({ isActive = true }: { isActive?: boolean }) {
               <div className="flex items-center">
                 <div className="flex flex-col items-center">
                   <motion.div
-                    className="relative text-6xl font-bold rounded-full h-24 w-24 bg-purple-500 flex items-center justify-center"
+                    className="relative text-6xl font-bold rounded-3xl h-24 w-24 bg-purple-500 flex items-center justify-center"
                     initial="hidden"
                     animate="visible"
                     variants={fadeInTransitionFromLeft}
@@ -104,7 +108,7 @@ export function SolutionSection({ isActive = true }: { isActive?: boolean }) {
               <div className="flex items-center">
                 <div className="flex flex-col items-center">
                   <motion.div
-                    className="relative text-6xl font-bold rounded-full h-24 w-24 bg-pink-500 flex items-center justify-center"
+                    className="relative text-6xl font-bold rounded-xl h-24 w-24 bg-pink-500 flex items-center justify-center"
                     initial="hidden"
                     animate="visible"
                     variants={fadeInTransitionFromLeft}
@@ -124,18 +128,17 @@ export function SolutionSection({ isActive = true }: { isActive?: boolean }) {
               </div>
             </div>
 
-            {/* DESCRIPTION */}
-            <motion.p
-              className="mx-10 mt-8 text-xl text-muted-foreground"
+            <motion.div
+              className="w-full flex justify-center text-green-400 -mt-12 pb-12"
               initial="hidden"
               animate="visible"
               variants={fadeInTransitionFromBottom}
               transition={{ duration: 1, delay: 1.5 }}
             >
-              True transformation begins by focusing on who you are. When you
-              reshape your identity first, your goals and habits naturally fall
-              into place, leading to lasting change.
-            </motion.p>
+              <div className="rounded-full p-2">
+                <IoCheckmarkOutline size={"8rem"} />
+              </div>
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>

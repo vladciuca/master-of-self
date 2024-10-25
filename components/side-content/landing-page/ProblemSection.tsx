@@ -1,5 +1,6 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft, X } from "lucide-react";
+import { IoCloseOutline } from "react-icons/io5";
 
 const fadeInTransitionFromRight = {
   hidden: { opacity: 0, x: 20 },
@@ -13,7 +14,7 @@ const fadeInTransitionFromBottom = {
 
 export function ProblemSection({ isActive = true }: { isActive?: boolean }) {
   return (
-    <section className="h-screen flex flex-col items-center justify-center text-center relative overflow-hidden">
+    <section className="h-screen flex flex-col items-center justify-center text-center overflow-hidden">
       <AnimatePresence>
         {isActive && (
           <motion.div
@@ -22,17 +23,21 @@ export function ProblemSection({ isActive = true }: { isActive?: boolean }) {
             exit="hidden"
             variants={fadeInTransitionFromRight}
             transition={{ duration: 0.5 }}
-            className="max-w-3xl px-4"
+            className="max-w-3xl px-4 flex flex-col space-y-24"
           >
-            <motion.div
-              className="w-full flex justify-center text-red-400 -mt-24 pb-24"
-              initial="hidden"
-              animate="visible"
-              variants={fadeInTransitionFromBottom}
-              transition={{ duration: 1, delay: 1.5 }}
+            {/* DESCRIPTION */}
+            <p
+              className="mx-10 -mt-12 mb-12 text-xl text-muted-foreground"
+              // initial="hidden"
+              // animate="visible"
+              // variants={fadeInTransitionFromBottom}
+              // transition={{ duration: 1, delay: 1.5 }}
             >
-              <X size={80} />
-            </motion.div>
+              Conventional approaches attempt to change identity by forcing new
+              habits through repetition. This often creates resistance and makes
+              it harder to achieve long-term success.
+            </p>
+
             {/* ACTIONS TO IDENTITY 3>2>1 */}
             <div className="mt-12 flex items-center justify-center xl:space-x-4">
               {/* IDENTITY - 1 */}
@@ -71,7 +76,7 @@ export function ProblemSection({ isActive = true }: { isActive?: boolean }) {
               <div className="flex items-center">
                 <div className="flex flex-col items-center">
                   <motion.div
-                    className="relative text-6xl font-bold rounded-full h-24 w-24 bg-purple-500 flex items-center justify-center"
+                    className="relative text-6xl font-bold rounded-3xl h-24 w-24 bg-purple-500 flex items-center justify-center"
                     initial="hidden"
                     animate="visible"
                     variants={fadeInTransitionFromRight}
@@ -103,7 +108,7 @@ export function ProblemSection({ isActive = true }: { isActive?: boolean }) {
               <div className="flex items-center">
                 <div className="flex flex-col items-center">
                   <motion.div
-                    className="relative text-6xl font-bold rounded-full h-24 w-24 bg-pink-500 flex items-center justify-center"
+                    className="relative text-6xl font-bold rounded-xl h-24 w-24 bg-pink-500 flex items-center justify-center"
                     initial="hidden"
                     animate="visible"
                     variants={fadeInTransitionFromRight}
@@ -122,18 +127,17 @@ export function ProblemSection({ isActive = true }: { isActive?: boolean }) {
                 </div>
               </div>
             </div>
-            {/* DESCRIPTION */}
-            <motion.p
-              className="mx-10 mt-8 text-xl text-muted-foreground"
+            <motion.div
+              className="w-full flex justify-center text-red-400"
               initial="hidden"
               animate="visible"
               variants={fadeInTransitionFromBottom}
               transition={{ duration: 1, delay: 1.5 }}
             >
-              Conventional approaches attempt to change identity by forcing new
-              habits through repetition. This often creates resistance and makes
-              it harder to achieve long-term success.
-            </motion.p>
+              <div className="rounded-full p-2">
+                <IoCloseOutline size={"8rem"} />
+              </div>
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>

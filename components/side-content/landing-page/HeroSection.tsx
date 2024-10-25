@@ -10,9 +10,9 @@ const fadeIn = {
   visible: { opacity: 1 },
 };
 
-const ConcentricCircles = ({ isActive = true }: { isActive?: boolean }) => {
+const ConcentricShapes = ({ isActive = true }: { isActive?: boolean }) => {
   return (
-    <div className="flex justify-center mb-24">
+    <div className="flex justify-center my-12 mb-20">
       <div className="relative w-56 h-56">
         <AnimatePresence>
           {isActive && (
@@ -21,21 +21,21 @@ const ConcentricCircles = ({ isActive = true }: { isActive?: boolean }) => {
                 initial="hidden"
                 animate="visible"
                 variants={fadeIn}
+                transition={{ duration: 1, delay: 1.5 }}
+                className="absolute inset-0 rounded-xl bg-pink-500"
+              />
+              <motion.div
+                initial="hidden"
+                animate="visible"
+                variants={fadeIn}
                 transition={{ duration: 1, delay: 1 }}
-                className="absolute inset-0 rounded-full bg-pink-500"
+                className="absolute inset-0 m-auto w-32 h-32 rounded-3xl bg-purple-500"
               />
               <motion.div
                 initial="hidden"
                 animate="visible"
                 variants={fadeIn}
                 transition={{ duration: 1, delay: 0.5 }}
-                className="absolute inset-0 m-auto w-32 h-32 rounded-full bg-purple-500"
-              />
-              <motion.div
-                initial="hidden"
-                animate="visible"
-                variants={fadeIn}
-                transition={{ duration: 1 }}
                 className="absolute inset-0 m-auto w-14 h-14 rounded-full bg-blue-500"
               />
             </>
@@ -46,7 +46,7 @@ const ConcentricCircles = ({ isActive = true }: { isActive?: boolean }) => {
   );
 };
 
-export default ConcentricCircles;
+export default ConcentricShapes;
 
 export function HeroSection({ isActive = true }: { isActive?: boolean }) {
   return (
@@ -61,13 +61,16 @@ export function HeroSection({ isActive = true }: { isActive?: boolean }) {
             transition={{ duration: 0.5 }}
             className="max-w-3xl px-4"
           >
-            <ConcentricCircles isActive={isActive} />
+            <div className="mb-6 text-2xl font-bold tracking-tight text-muted-foreground">
+              build the best version of yourself
+            </div>
+            <ConcentricShapes isActive={isActive} />
             <motion.h1
               className="mb-6 text-6xl font-bold tracking-tight"
               initial="hidden"
               animate="visible"
               variants={fadeInTransition}
-              transition={{ duration: 1 }}
+              transition={{ duration: 1, delay: 0.5 }}
             >
               from IDENTITY
             </motion.h1>
@@ -76,7 +79,7 @@ export function HeroSection({ isActive = true }: { isActive?: boolean }) {
               initial="hidden"
               animate="visible"
               variants={fadeInTransition}
-              transition={{ duration: 1, delay: 0.5 }}
+              transition={{ duration: 1, delay: 1 }}
             >
               to BELIEVES
             </motion.h1>
@@ -86,21 +89,20 @@ export function HeroSection({ isActive = true }: { isActive?: boolean }) {
               initial="hidden"
               animate="visible"
               variants={fadeInTransition}
-              transition={{ duration: 1, delay: 1 }}
+              transition={{ duration: 1, delay: 1.5 }}
             >
               and BEHAVIOR
             </motion.h1>
 
-            <motion.p
+            {/* <motion.p
               className="mb-8 text-xl text-muted-foreground"
               initial="hidden"
               animate="visible"
               variants={fadeInTransition}
               transition={{ duration: 1, delay: 1.5 }}
             >
-              {/* Track progress, align goals, and create lasting change. */}
               build the best version of yourself.
-            </motion.p>
+            </motion.p> */}
             {/* <motion.div
              initial="hidden"
              animate="visible"
