@@ -19,8 +19,14 @@ export function IdentityPage({
       {isDrawerOpen && (
         <motion.div
           className="h-full flex flex-col"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
+          // initial={{ opacity: 0 }}
+          // animate={{ opacity: 1 }}
+          initial="hidden"
+          animate="visible"
+          variants={{
+            hidden: { opacity: 0 },
+            visible: { opacity: 1 },
+          }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.3 }}
         >
@@ -50,24 +56,23 @@ function HeroSection({ isDrawerOpen }: { isDrawerOpen: boolean }) {
       <AnimatePresence>
         {isDrawerOpen && (
           <>
-            <motion.h1
+            {/* <motion.h1
               className="text-6xl font-bold mb-4"
               initial={{ opacity: 0, y: -50 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -50 }}
               transition={{ duration: 0.5 }}
+            ></motion.h1> */}
+            <motion.h1
+              className="text-6xl font-bold mb-4 leading-snug"
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.8 }}
+              transition={{ duration: 0.5 }}
             >
               Design Your
+              <br /> <span className="text-green-500 mr-2">2.0</span>Self
             </motion.h1>
-            <motion.span
-              className="text-6xl font-bold mb-4"
-              initial={{ opacity: 0, scale: 0.5 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.5 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-            >
-              <span className="text-green-500 mr-2">2.0</span>Self
-            </motion.span>
           </>
         )}
       </AnimatePresence>

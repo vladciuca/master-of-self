@@ -61,7 +61,7 @@ export function HeroSection({ isActive = true }: { isActive?: boolean }) {
             transition={{ duration: 0.5 }}
             className="max-w-3xl px-4"
           >
-            <div className="mb-6 text-2xl font-bold tracking-tight text-muted-foreground">
+            <div className="mb-6 text-2xl font-semibold tracking-normal text-muted-foreground">
               build the best version of yourself
             </div>
             <ConcentricShapes isActive={isActive} />
