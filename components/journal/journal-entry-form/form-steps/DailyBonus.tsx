@@ -57,10 +57,11 @@ export function DailyBonus({ bonusWillpower }: DailyBonusProps) {
               </div>
             </Label>
             <div className="h-[85%] overflow-y-scroll">
+              <SkeletonList />
               {yesterdayEntryLoading && yesterdayHighlights.length > 0 ? (
                 <SkeletonList />
               ) : (
-                <ol className="list-decimal pl-8">
+                <ol className="list-decimal pl-8 mx-1">
                   {yesterdayHighlights.map((highlight, index) => (
                     <li key={index} className="mb-2">
                       {highlight}

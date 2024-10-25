@@ -5,5 +5,5 @@ export function SkeletonList() {
     <Skeleton key={index} className="h-4 w-full rounded-sm mb-6" />
   ));
 
-  return <div className="mx-6">{skeletonListItem}</div>;
+  return <div className="mx-4">{skeletonListItem}</div>;
 }
