@@ -1,6 +1,5 @@
 import { MongoClient, Db, Collection, ObjectId } from "mongodb";
-import { User, NewUser } from "@/app/types/mongodb";
-import { UserMetadata } from "@/app/types/types";
+import { User } from "@/app/types/mongodb";
 
 import clientPromise from "./mongodb";
 import {} from "@/app/types/mongodb";
@@ -92,4 +91,29 @@ export async function updateUserSettings(
   } catch (error) {
     return { user: null, error: "Failed to update user settings" };
   }
+}
+
+// UPDATE USER HABITS CHECK ================================================================
+
+export async function getUserLastUpdateTime(userId: string) {
+  const client = await clientPromise;
+  const db = client.db();
+  const user = await db
+    .collection("users")
+    .findOne({ _id: new ObjectId(userId) });
+  return user?.lastHabitUpdateTime;
+}
+
+export async function updateUserLastUpdateTime(
+  userId: string,
+  updateTime: Date
+) {
+  const client = await clientPromise;
+  const db = client.db();
+  await db
+    .collection("users")
+    .updateOne(
+      { _id: new ObjectId(userId) },
+      { $set: { lastHabitUpdateTime: updateTime } }
+    );
 }

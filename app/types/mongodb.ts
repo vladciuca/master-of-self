@@ -11,7 +11,7 @@ export type User = {
   settings: UserSettings;
 };
 
-export type NewUser = Omit<User, "_id">; // Lets MongoDB assign the _id
+// export type NewUser = Omit<User, "_id">; // Lets MongoDB assign the _id
 
 // JOURNAL ENTRIES ====================================================================
 
