@@ -23,6 +23,8 @@ async function updateHabits(userId: string) {
     return { message: "Habits already updated today" };
   }
 
+  console.log("AM TRECUT DE CHECK");
+
   // Get yesterday's journal entry
   const { yesterdaysJournalEntry, error: journalError } =
     (await getYesterdaysJournalEntry(
@@ -44,6 +46,8 @@ async function updateHabits(userId: string) {
       yesterdaysJournalEntry.nightEntry?.actions &&
       Object.keys(yesterdaysJournalEntry.nightEntry?.actions).length > 0
     ) {
+      console.log("AM TRECUT DE CHECK SI SUNT IN YDAY ENTRY");
+
       const habitActionsValues: HabitActionUpdate =
         yesterdaysJournalEntry.nightEntry.actions;
 
