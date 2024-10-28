@@ -1,12 +1,12 @@
-// import { NextRequest, NextResponse } from "next/server";
-// import { getServerSession } from "next-auth/next";
-// import { authOptions } from "@lib/authOptions";
-// import { updateHabitsXp, updateHabitsActions } from "@lib/mongo/habits";
-// import { HabitUpdate, HabitActionUpdate } from "@app/types/mongodb";
-// import { getYesterdaysJournalEntry } from "@lib/mongo/journal-entries";
-// import { getToday, getYesterday } from "@lib/time";
-// import { calculateHabitsXpSumsFromActions } from "@lib/level";
-// import { Session, JournalEntry } from "@app/types/types";
+import { NextRequest, NextResponse } from "next/server";
+import { getServerSession } from "next-auth/next";
+import { authOptions } from "@lib/authOptions";
+import { updateHabitsXp, updateHabitsActions } from "@lib/mongo/habits";
+import { HabitUpdate, HabitActionUpdate } from "@app/types/mongodb";
+import { getYesterdaysJournalEntry } from "@lib/mongo/journal-entries";
+import { getToday, getYesterday } from "@lib/time";
+import { calculateHabitsXpSumsFromActions } from "@lib/level";
+import { Session, JournalEntry } from "@app/types/types";
 
 // export async function GET(req: NextRequest) {
 //   // Verify that this is a cron job request
@@ -101,3 +101,12 @@
 //     );
 //   }
 // }
+
+// {
+//     "crons": [
+//       {
+//         "path": "/api/cron/update-habits",
+//         "schedule": "0 0 * * *"
+//       }
+//     ]
+//   }
