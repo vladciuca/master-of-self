@@ -13,6 +13,8 @@ import {
 async function updateHabits(userId: string) {
   const today = getToday();
   const yesterday = getYesterday();
+  //NOT HERE-DONT GET DATES must be on client side i guess? this should not!
+  //, BUT SE FACE PE SERVER...
 
   // Check if habits have already been updated today
   const lastUpdateTime = await getUserLastUpdateTime(userId);

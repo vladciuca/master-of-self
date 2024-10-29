@@ -5,17 +5,18 @@ import { Adapter } from "next-auth/adapters";
 import { ObjectId } from "mongodb";
 import clientPromise from "@lib/mongo/mongodb";
 import { Session } from "@app/types/types";
+import { getToday } from "@lib/time";
 
-// We'll use this to prevent multiple calls in the same session
-let lastUpdateTime: { [userId: string]: number } = {};
+// TO_DO: MOVE TO UTILS FILE
+// Flag for preventing multiple calls in the same session
+let lastUpdateTime: { [userId: string]: string } = {};
 
 async function updateHabits(userId: string) {
-  const now = Date.now();
-  if (
-    lastUpdateTime[userId] &&
-    now - lastUpdateTime[userId] < 24 * 60 * 60 * 1000
-  ) {
-    // If last update was less than 24 hours ago, skip
+  const today = getToday();
+  const todayDate = today.toISOString().split("T")[0];
+
+  // Check if the last update date matches today's date
+  if (lastUpdateTime[userId] === todayDate) {
     return;
   }
 
@@ -34,7 +35,7 @@ async function updateHabits(userId: string) {
     if (!response.ok) {
       console.error("Failed to update habits on login");
     } else {
-      lastUpdateTime[userId] = now;
+      lastUpdateTime[userId] = todayDate;
     }
   } catch (error) {
     console.error("Error updating habits on login:", error);
