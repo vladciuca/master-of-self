@@ -106,7 +106,7 @@ export async function getUserLastUpdateTime(userId: string) {
 
 export async function updateUserLastUpdateTime(
   userId: string,
-  updateTime: Date
+  updateTime: string
 ) {
   const client = await clientPromise;
   const db = client.db();

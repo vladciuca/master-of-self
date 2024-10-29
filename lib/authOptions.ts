@@ -5,21 +5,8 @@ import { Adapter } from "next-auth/adapters";
 import { ObjectId } from "mongodb";
 import clientPromise from "@lib/mongo/mongodb";
 import { Session } from "@app/types/types";
-import { getToday } from "@lib/time";
-
-// TO_DO: MOVE TO UTILS FILE
-// Flag for preventing multiple calls in the same session
-let lastUpdateTime: { [userId: string]: string } = {};
 
 async function updateHabits(userId: string) {
-  const today = getToday();
-  const todayDate = today.toISOString().split("T")[0];
-
-  // Check if the last update date matches today's date
-  if (lastUpdateTime[userId] === todayDate) {
-    return;
-  }
-
   try {
     const response = await fetch(
       `${process.env.NEXTAUTH_URL}/api/update-habits`,
@@ -31,11 +18,13 @@ async function updateHabits(userId: string) {
         body: JSON.stringify({ userId }),
       }
     );
-
+    console.log("==== DUPA FETCH");
     if (!response.ok) {
+      console.log("==== EROARE");
       console.error("Failed to update habits on login");
     } else {
-      lastUpdateTime[userId] = todayDate;
+      console.log("==== UPDATE FLAG");
+      console.log("Habits updated successfully");
     }
   } catch (error) {
     console.error("Error updating habits on login:", error);
