@@ -86,7 +86,7 @@ export function UserHabits() {
         linkTo={NEW_HABIT_CARD_DETAILS.linkTo}
         numberOfEntries={numberOfEntries}
       />
-      {/* {skeletonCards} */}
+
       {habitsLoading ? (
         skeletonCards
       ) : habits.length > 0 ? (
