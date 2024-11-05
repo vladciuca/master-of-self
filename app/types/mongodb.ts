@@ -9,6 +9,7 @@ export type User = {
   email?: string | null;
   image?: string | null;
   settings: UserSettings;
+  lastUpdateTime: string | null;
 };
 
 // export type NewUser = Omit<User, "_id">; // Lets MongoDB assign the _id

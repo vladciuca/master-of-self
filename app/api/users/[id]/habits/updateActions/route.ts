@@ -1,13 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
 import { updateHabitsActions } from "@/lib/mongo/habits";
-import { HabitActionUpdate } from "@/app/types/mongodb";
 
 export async function PATCH(req: NextRequest) {
-  const habitActionUpdates: HabitActionUpdate = await req.json();
+  const { userId, habitActionUpdates, updateDate } = await req.json();
 
   try {
     const { updatedHabits, error } = await updateHabitsActions(
-      habitActionUpdates
+      userId,
+      habitActionUpdates,
+      updateDate
     );
 
     if (error) {

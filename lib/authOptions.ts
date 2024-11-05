@@ -6,31 +6,6 @@ import { ObjectId } from "mongodb";
 import clientPromise from "@lib/mongo/mongodb";
 import { Session } from "@app/types/types";
 
-// async function updateHabits(userId: string) {
-//   try {
-//     const response = await fetch(
-//       `${process.env.NEXTAUTH_URL}/api/update-habits`,
-//       {
-//         method: "POST",
-//         headers: {
-//           "Content-Type": "application/json",
-//         },
-//         body: JSON.stringify({ userId }),
-//       }
-//     );
-//     console.log("==== DUPA FETCH");
-//     if (!response.ok) {
-//       console.log("==== EROARE");
-//       console.error("Failed to update habits on login");
-//     } else {
-//       console.log("==== UPDATE FLAG");
-//       console.log("Habits updated successfully");
-//     }
-//   } catch (error) {
-//     console.error("Error updating habits on login:", error);
-//   }
-// }
-
 export const authOptions: NextAuthOptions = {
   providers: [
     GoogleProvider({
@@ -43,8 +18,6 @@ export const authOptions: NextAuthOptions = {
     session: async ({ session, user }: any) => {
       if (session?.user) {
         session.user.id = user.id;
-        // Trigger habit update here
-        // await updateHabits(user.id);
       }
       return session as Session;
     },
@@ -65,6 +38,7 @@ export const authOptions: NextAuthOptions = {
                 morning: "08:00",
                 evening: "18:00",
               },
+              lastUpdateTime: null,
             },
           },
         }

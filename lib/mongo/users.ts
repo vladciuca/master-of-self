@@ -101,7 +101,7 @@ export async function getUserLastUpdateTime(userId: string) {
   const user = await db
     .collection("users")
     .findOne({ _id: new ObjectId(userId) });
-  return user?.lastHabitUpdateTime;
+  return user?.lastUpdateTime;
 }
 
 export async function updateUserLastUpdateTime(
@@ -114,6 +114,6 @@ export async function updateUserLastUpdateTime(
     .collection("users")
     .updateOne(
       { _id: new ObjectId(userId) },
-      { $set: { lastHabitUpdateTime: updateTime } }
+      { $set: { lastUpdateTime: updateTime } }
     );
 }
