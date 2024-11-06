@@ -1,8 +1,6 @@
 import { MongoClient, Db, Collection, ObjectId } from "mongodb";
-import { User } from "@/app/types/mongodb";
-
 import clientPromise from "./mongodb";
-import {} from "@/app/types/mongodb";
+import { User } from "@/app/types/mongodb";
 
 let client: MongoClient;
 let db: Db;
@@ -23,8 +21,7 @@ async function init() {
   await init();
 })();
 
-// GET USER ====================================================================================
-
+// GET USER =====================================================================================
 export async function getUser(id: string): Promise<{
   user: User | null;
   error?: string;
@@ -93,15 +90,14 @@ export async function updateUserSettings(
   }
 }
 
-// UPDATE USER HABITS CHECK ================================================================
-
+// UPDATE USER HABITS CHECK =====================================================================
 export async function getUserLastUpdateTime(userId: string) {
   const client = await clientPromise;
   const db = client.db();
   const user = await db
     .collection("users")
     .findOne({ _id: new ObjectId(userId) });
-  return user?.lastHabitUpdateTime;
+  return user?.lastUpdateTime;
 }
 
 export async function updateUserLastUpdateTime(
@@ -114,6 +110,6 @@ export async function updateUserLastUpdateTime(
     .collection("users")
     .updateOne(
       { _id: new ObjectId(userId) },
-      { $set: { lastHabitUpdateTime: updateTime } }
+      { $set: { lastUpdateTime: updateTime } }
     );
 }

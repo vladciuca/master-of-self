@@ -7,6 +7,7 @@ import { SkeletonHabitCard } from "@components/skeletons/SkeletonHabitCard";
 import { Shell } from "lucide-react";
 import { useUserHabits } from "@hooks/useUserHabits";
 import { useTodayJournalEntry } from "@hooks/useTodayJournalEntry";
+import { useYesterdayJournalEntry } from "@hooks/useYesterdayJournalEntry";
 import { useCreateJournalEntry } from "@hooks/useCreateJournalEntry";
 import { Habit } from "@app/types/types";
 
@@ -31,7 +32,8 @@ export function UserHabits() {
   const { habits, habitsLoading, habitsError } = useUserHabits();
   const { todayEntry, todayEntryLoading } = useTodayJournalEntry();
   const { createJournalEntry, submitting } = useCreateJournalEntry();
-
+  const { yesterdayEntry, yesterdayEntryLoading, habitsXp } =
+    useYesterdayJournalEntry();
   const router = useRouter();
 
   const numberOfEntries = habitsLoading ? "?" : habits.length;
@@ -59,23 +61,22 @@ export function UserHabits() {
     }
   };
 
-  // const handleDelete = async (habit: Habit) => {
-  //   const hasConfirmed = confirm("Are you sure you want to delete this habit?");
-
-  //   if (hasConfirmed) {
-  //     try {
-  //       await fetch(`/api/habit/${habit._id.toString()}`, { method: "DELETE" });
-
-  //       router.push("/habits");
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   }
-  // };
-
   const getActionUpdateValues = (habitId: string) => {
-    if (todayEntryLoading) return {};
-    return todayEntry?.nightEntry?.actions?.[habitId] || {};
+    if (todayEntryLoading || yesterdayEntryLoading) return {};
+    if (!todayEntry) {
+      return yesterdayEntry?.nightEntry?.actions?.[habitId] || {};
+    } else {
+      return todayEntry?.nightEntry?.actions?.[habitId] || {};
+    }
+  };
+
+  const getWillpowerMultiplier = () => {
+    if (todayEntryLoading || yesterdayEntryLoading) return 0;
+    if (!todayEntry) {
+      return 1 + (yesterdayEntry?.dailyWillpower || 0) / 100;
+    } else {
+      return 1 + (todayEntry?.dailyWillpower || 0) / 100;
+    }
   };
 
   return (
@@ -93,10 +94,9 @@ export function UserHabits() {
         <HabitList
           habits={habits}
           handleEdit={handleEdit}
-          // handleDelete={handleDelete}
           getActionUpdateValues={getActionUpdateValues}
-          todayEntryLoading={todayEntryLoading}
-          willpowerMultiplier={1 + (todayEntry?.dailyWillpower || 0) / 100}
+          entryLoading={todayEntryLoading || yesterdayEntryLoading}
+          willpowerMultiplier={getWillpowerMultiplier()}
           submittingJournalEntry={submitting}
           handleActionUpdate={handleActionUpdate}
         />

@@ -1,6 +1,7 @@
 import { MongoClient, Db, Collection, ObjectId } from "mongodb";
 import clientPromise from "./mongodb";
 import {
+  User,
   Habit,
   HabitAction,
   NewHabit,
@@ -12,6 +13,7 @@ import {
 let client: MongoClient;
 let db: Db;
 let habits: Collection<Habit>;
+let users: Collection<User>;
 
 async function init() {
   if (db) return;
@@ -19,6 +21,7 @@ async function init() {
     client = await clientPromise;
     db = client.db("master_of_self");
     habits = db.collection<Habit>("habits");
+    users = db.collection<User>("users");
   } catch (error) {
     throw new Error("Failed to establish connection to database");
   }
@@ -184,15 +187,34 @@ export async function getHabitsIcons(ids: string[]): Promise<{
   }
 }
 // UPDATE HABIT XP - [received an array and modified an object with the array] ==================
-export async function updateHabitsXp(
-  habitUpdates: HabitUpdate[]
-): Promise<{ updatedHabits: Habit[]; error?: string }> {
+// UPDATE HABIT ACTION VALUES ===================================================================
+// COMBINED UPDATE HABIT XP AND ACTIONS =========================================================
+export async function updateHabitsXpAndActions(
+  userId: string,
+  habitXpUpdates: HabitUpdate[],
+  habitActionUpdates: HabitActionUpdate,
+  updateDate: string
+): Promise<{ updatedHabits: Habit[]; status: string }> {
   try {
     if (!habits) await init();
+    // if (!habits || !users) await init();
 
-    const date = new Date().toISOString().slice(0, 10);
+    // // Fetch the user's lastUpdateTime
+    // const user = await users.findOne({ _id: new ObjectId(userId) });
+    // const lastUpdateTime = user?.lastUpdateTime;
 
-    const bulkOps = habitUpdates.map(([id, xp]) => {
+    // // Check if the update should proceed
+    // if (lastUpdateTime && lastUpdateTime === updateDate) {
+    //   return {
+    //     updatedHabits: [],
+    //     status: "already_updated",
+    //   };
+    // }
+
+    const date = new Date(updateDate).toISOString().slice(0, 10);
+
+    // Prepare XP update operations
+    const xpBulkOps = habitXpUpdates.map(([id, xp]) => {
       const xpData: XpData = [date, xp];
       return {
         updateOne: {
@@ -206,52 +228,8 @@ export async function updateHabitsXp(
       };
     });
 
-    const result = await habits.bulkWrite(bulkOps);
-
-    if (result.modifiedCount !== habitUpdates.length) {
-      throw new Error("Some habits were not updated");
-    }
-
-    const updatedHabitsIds = habitUpdates.map(([id]) => new ObjectId(id));
-    const updatedHabits = await habits
-      .find({ _id: { $in: updatedHabitsIds } })
-      .toArray();
-
-    // console.log("===============IN_DB_OPERATIONS updatedHabits", updatedHabits);
-
-    return { updatedHabits };
-
-    // !!! For moving the conversion from object to array here
-    // const updateObject: { [key: string]: any } = {};
-    // for (const [habitId, xpChange] of Object.entries(habitUpdates)) {
-    //   updateObject[`habits.${habitId}`] = xpChange;
-    // }
-
-    // const result = await users.findOneAndUpdate(
-    //   { _id: new ObjectId(userId) },
-    //   { $inc: updateObject },
-    //   { returnDocument: 'after' }
-    // );
-
-    // if (!result.value) {
-    //   throw new Error("User not found or habits not updated");
-    // }
-
-    // return { updatedDocument: result.value };
-  } catch (error) {
-    console.error("Failed to update habits XP", error); // test
-    return { updatedHabits: [], error: "Failed to update habits XP" };
-  }
-}
-
-// UPDATE HABIT ACTION VALUES ===================================================================
-export async function updateHabitsActions(
-  habitActionUpdates: HabitActionUpdate
-): Promise<{ updatedHabits: Habit[]; error?: string }> {
-  try {
-    if (!habits) await init();
-
-    const bulkOps = Object.entries(habitActionUpdates).flatMap(
+    // Prepare action update operations
+    const actionBulkOps = Object.entries(habitActionUpdates).flatMap(
       ([habitId, actionUpdates]) =>
         Object.entries(actionUpdates).map(([actionId, value]) => ({
           updateOne: {
@@ -266,29 +244,62 @@ export async function updateHabitsActions(
         }))
     );
 
-    const result = await habits.bulkWrite(bulkOps);
+    // If there are no updates to perform, return early
+    if (xpBulkOps.length === 0 && actionBulkOps.length === 0) {
+      return {
+        updatedHabits: [],
+        status: "no_updates_needed",
+      };
+    }
 
-    const totalActionsToUpdate = Object.values(habitActionUpdates).reduce(
+    // Combine all operations
+    const allBulkOps = [...xpBulkOps, ...actionBulkOps];
+
+    // Execute all updates
+    const result = await habits.bulkWrite(allBulkOps);
+
+    // Verify all updates were successful
+    const expectedXpUpdates = habitXpUpdates.length;
+    const expectedActionUpdates = Object.values(habitActionUpdates).reduce(
       (acc, actions) => acc + Object.keys(actions).length,
       0
     );
+    const totalExpectedUpdates = expectedXpUpdates + expectedActionUpdates;
 
-    if (result.modifiedCount !== totalActionsToUpdate) {
+    if (result.modifiedCount !== totalExpectedUpdates) {
       console.warn(
-        `Expected to update ${totalActionsToUpdate} actions, but only ${result.modifiedCount} were modified.`
+        `Expected ${totalExpectedUpdates} updates, but ${result.modifiedCount} were modified.`
       );
     }
 
-    const updatedHabitsIds = Object.keys(habitActionUpdates).map(
-      (id) => new ObjectId(id)
-    );
+    // Update the user's lastUpdateTime
+    // await users.updateOne(
+    //   { _id: new ObjectId(userId) },
+    //   { $set: { lastUpdateTime: updateDate } }
+    // );
+
+    // Get all updated habits using a simple object to deduplicate IDs
+    const xpHabitIds = habitXpUpdates.map(([id]) => id);
+    const actionHabitIds = Object.keys(habitActionUpdates);
+    const uniqueHabitIds: { [key: string]: boolean } = {};
+
+    xpHabitIds.forEach((id) => (uniqueHabitIds[id] = true));
+    actionHabitIds.forEach((id) => (uniqueHabitIds[id] = true));
+
+    const allHabitIds = Object.keys(uniqueHabitIds);
+
     const updatedHabits = await habits
-      .find({ _id: { $in: updatedHabitsIds } })
+      .find({
+        _id: { $in: allHabitIds.map((id) => new ObjectId(id)) },
+      })
       .toArray();
 
-    return { updatedHabits };
+    return {
+      updatedHabits,
+      status: "success",
+    };
   } catch (error) {
-    console.error("Failed to update habits actions", error);
-    return { updatedHabits: [], error: "Failed to update habits actions" };
+    console.error("Failed to update habits", error);
+    throw new Error("Failed to update habits");
   }
 }

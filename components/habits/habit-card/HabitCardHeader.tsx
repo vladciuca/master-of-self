@@ -9,14 +9,14 @@ import { Habit } from "@app/types/types";
 type HabitCardHeaderProps = {
   habit: Habit;
   actionUpdateValues: { [key: string]: number };
-  todayEntryLoading: boolean;
+  entryLoading: boolean;
   willpowerMultiplier: number;
 };
 
 export function HabitCardHeader({
   habit,
   actionUpdateValues,
-  todayEntryLoading,
+  entryLoading,
   willpowerMultiplier,
 }: HabitCardHeaderProps) {
   const { name, icon, xp } = habit;
@@ -51,7 +51,7 @@ export function HabitCardHeader({
             iconName={icon}
             className="rounded-md h-16 w-16 p-1"
             xp={xpGain}
-            isXpLoading={todayEntryLoading}
+            isXpLoading={entryLoading}
           />
         </div>
 
@@ -102,7 +102,7 @@ export function HabitCardHeader({
           />
           <div className="absolute w-full flex flex-col justify-center items-center">
             <div className="flex flex-col items-center justify-center text-xs">
-              {todayEntryLoading ? (
+              {entryLoading ? (
                 <div className="text-muted">
                   <span className="text-base">??</span>
                   <span className="">XP</span>
