@@ -6,7 +6,7 @@ type HabitListProps = {
   habits: Habit[];
   handleEdit: (habit: Habit) => void;
   getActionUpdateValues: (habitId: string) => any;
-  todayEntryLoading: boolean;
+  entryLoading: boolean;
   willpowerMultiplier: number;
   submittingJournalEntry: boolean;
   handleActionUpdate: (habitId: string) => void;
@@ -17,7 +17,7 @@ export function HabitList({
   habits = [],
   handleEdit,
   getActionUpdateValues,
-  todayEntryLoading,
+  entryLoading,
   willpowerMultiplier,
   handleActionUpdate,
   submittingJournalEntry,
@@ -32,7 +32,7 @@ HabitListProps) {
           actionUpdateValues={getActionUpdateValues(habit._id)}
           handleEdit={handleEdit}
           // handleDelete={handleDelete}
-          todayEntryLoading={todayEntryLoading}
+          entryLoading={entryLoading}
           willpowerMultiplier={willpowerMultiplier}
           submittingJournalEntry={submittingJournalEntry}
           handleActionUpdate={handleActionUpdate}

@@ -3,8 +3,6 @@ import { useSession } from "next-auth/react";
 import { getToday, getYesterday } from "@/lib/time";
 import { calculateHabitsXpSumsFromActions } from "@/lib/level";
 import { Session, JournalEntry } from "@/app/types/types";
-// import { useUpdateHabits } from "./useUpdateHabits";
-// import { useLastUpdateTime } from "@hooks/useLastUpdateTime";
 
 type HabitsXp = { [key: string]: number };
 
@@ -20,8 +18,6 @@ export function useYesterdayJournalEntry() {
   const [bonusWillpower, setBonusWillpower] = useState<number>(0);
   const [habitsXp, setHabitsXp] = useState<HabitsXp>({});
   const { data: session } = useSession() as { data: Session | null };
-  // const { updateHabits } = useUpdateHabits();
-  // const { lastUpdateTime, isLoading } = useLastUpdateTime();
 
   const calculateBonusWillpower = (stringArray: string[]) => {
     const totalEntries = stringArray.length;
@@ -93,21 +89,6 @@ export function useYesterdayJournalEntry() {
           );
           setHabitsXp(currentHabitsXp);
         }
-
-        // const todayDate = getToday().toISOString().split("T")[0];
-
-        // if (isLoading && lastUpdateTime !== todayDate) return;
-
-        // if (
-        //   Object.keys(currentHabitsXp).length > 0 &&
-        //   nightEntry.actions &&
-        //   Object.keys(nightEntry.actions).length > 0
-        // ) {
-        //   await updateHabits({
-        //     habitsXpUpdates: currentHabitsXp,
-        //     habitActionsUpdates: nightEntry.actions,
-        //   });
-        // }
       } catch (error) {
         console.error("Failed to fetch yesterday's journal entry", error);
         setYesterdayEntryError("Failed to fetch yesterday's journal entry");
