@@ -2,14 +2,14 @@ import { useState } from "react";
 import { useSession } from "next-auth/react";
 import { getToday, getTomorrow } from "@lib/time";
 import { Session } from "@app/types/types";
-import { useYesterdayJournalEntry } from "./useYesterdayJournalEntry";
+import { useLastJournalEntry } from "./useLastJournalEntry";
 import { useUpdateHabits } from "./useUpdateHabits";
 
 export function useCreateJournalEntry() {
   const [submitting, setSubmitting] = useState<boolean>(false);
   const { data: session } = useSession() as { data: Session | null };
-  const { yesterdayEntry, bonusWillpower, habitsXp } =
-    useYesterdayJournalEntry();
+  const { lastEntry, lastEntryLoading, bonusWillpower, habitsXp } =
+    useLastJournalEntry();
   const { updateHabits, isLoading, error } = useUpdateHabits();
 
   const createJournalEntry = async () => {
@@ -42,13 +42,13 @@ export function useCreateJournalEntry() {
         const todayDate = getToday().toISOString().split("T")[0];
 
         if (
-          yesterdayEntry?.nightEntry?.actions &&
-          Object.keys(yesterdayEntry.nightEntry.actions).length > 0 &&
+          lastEntry?.nightEntry?.actions &&
+          Object.keys(lastEntry.nightEntry.actions).length > 0 &&
           Object.keys(habitsXp).length > 0
         ) {
           await updateHabits({
             habitsXpUpdates: habitsXp,
-            habitActionsUpdates: yesterdayEntry.nightEntry.actions,
+            habitActionsUpdates: lastEntry.nightEntry.actions,
             updateDate: todayDate,
           });
         }
