@@ -213,6 +213,30 @@ export async function getYesterdaysJournalEntry(
   }
 }
 
+// GET LAST USER JOURNAL ENTRY ==================================================================
+export async function getLastJournalEntry(userId: string): Promise<{
+  lastJournalEntry: JournalEntry | null;
+  error?: string;
+}> {
+  try {
+    if (!journalEntries) await init();
+
+    const lastJournalEntry = await journalEntries
+      .find({ creatorId: new ObjectId(userId) })
+      .sort({ createDate: -1 })
+      .limit(1)
+      .toArray();
+
+    return { lastJournalEntry: lastJournalEntry[0] || null };
+  } catch (error) {
+    console.error("Error fetching last journal entry:", error);
+    return {
+      lastJournalEntry: null,
+      error: "Failed to fetch last journal entry",
+    };
+  }
+}
+
 // GET WEEKLY WILLPOWER DATA ====================================================================
 export async function getWeeklyWillpowerData(
   userId: string,

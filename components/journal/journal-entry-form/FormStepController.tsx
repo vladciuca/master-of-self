@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useCallback, useMemo } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { DailyBonus } from "@components/journal/journal-entry-form/form-steps/DailyBonus";
+import { DailyBonus } from "@components/journal/journal-entry-form/form-steps/daily-bonus/DailyBonus";
 import { GreatToday } from "@components/journal/journal-entry-form/form-steps/GreatToday";
 import { HowGreatWasToday } from "@components/journal/journal-entry-form/form-steps/HowGreatWasToday";
 import { GratefulFor } from "@components/journal/journal-entry-form/form-steps/GratefulFor";

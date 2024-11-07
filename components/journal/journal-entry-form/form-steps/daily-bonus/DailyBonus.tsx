@@ -1,19 +1,25 @@
 import React, { useRef } from "react";
 import { FormStepTemplate } from "@components/journal/journal-entry-form/form-steps/FormStepTemplate";
+// import { JournalEntryHabits } from "@components/journal/JournalEntryHabits";
+// import { HabitsUsed } from "./HabitsUsed";
 import { Label } from "@components/ui/label";
 import { SkeletonList } from "@components/skeletons/SkeletonList";
 import { FaBoltLightning } from "react-icons/fa6";
 import { BsChevronCompactDown } from "react-icons/bs";
 import { GiDeadlyStrike } from "react-icons/gi";
 import { useYesterdayJournalEntry } from "@hooks/useYesterdayJournalEntry";
+// import { calculateHabitsXpSumsFromActions } from "@lib/level";
 
 type DailyBonusProps = {
   bonusWillpower: number;
 };
 
 export function DailyBonus({ bonusWillpower }: DailyBonusProps) {
-  const { yesterdayHighlights = [], yesterdayEntryLoading } =
-    useYesterdayJournalEntry();
+  const {
+    yesterdayEntry,
+    yesterdayHighlights = [],
+    yesterdayEntryLoading,
+  } = useYesterdayJournalEntry();
   const highlightsRef = useRef<HTMLDivElement>(null);
 
   const scrollToHighlights = () => {
@@ -23,13 +29,20 @@ export function DailyBonus({ bonusWillpower }: DailyBonusProps) {
     });
   };
 
+  // const habitsXpFromActions = yesterdayEntry?.nightEntry?.actions
+  //   ? calculateHabitsXpSumsFromActions(
+  //       yesterdayEntry.nightEntry.actions,
+  //       yesterdayEntry.dailyWillpower
+  //     )
+  //   : {};
+
   return (
-    <FormStepTemplate title="Bonus Willpower">
+    <FormStepTemplate title="Yesterday's rewards">
       <div className="h-full overflow-hidden">
         <div className="h-full flex flex-col">
           <div className="flex-1 flex flex-col items-center justify-around min-h-full">
             <div className="flex flex-col items-center">
-              <GiDeadlyStrike size={200} />
+              <GiDeadlyStrike size={100} />
               <div className="text-4xl my-4 flex items-center">
                 <span className="text-green-500 font-semibold">
                   +{bonusWillpower}
@@ -39,6 +52,17 @@ export function DailyBonus({ bonusWillpower }: DailyBonusProps) {
               <div className="text-muted-foreground text-center">
                 Empowered from yesterday's highlights!
               </div>
+              {/* Habits Used Yesterday */}
+              {/* <div className="flex-grow flex flex-col items-start">
+                {yesterdayEntry?.nightEntry?.actions &&
+                  Object.keys(yesterdayEntry.nightEntry.actions).length > 0 && (
+                    <div className="mt-2 flex w-full">
+                      <div className="flex-grow flex flex-wrap items-start">
+                        <HabitsUsed habitsXp={habitsXpFromActions} />
+                      </div>
+                    </div>
+                  )}
+              </div> */}
             </div>
 
             <div className="h-[20%] flex items-center justify-center">
