@@ -98,6 +98,7 @@ export function UserHabits() {
           willpowerMultiplier={getWillpowerMultiplier()}
           submittingJournalEntry={submitting}
           handleActionUpdate={handleActionUpdate}
+          isNotToday={!todayEntry}
         />
       ) : (
         <div className="text-center mt-24">

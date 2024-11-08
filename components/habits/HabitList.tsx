@@ -10,6 +10,7 @@ type HabitListProps = {
   willpowerMultiplier: number;
   submittingJournalEntry: boolean;
   handleActionUpdate: (habitId: string) => void;
+  isNotToday: boolean;
   // handleDelete: (habit: Habit) => Promise<void>;
 };
 
@@ -21,6 +22,7 @@ export function HabitList({
   willpowerMultiplier,
   handleActionUpdate,
   submittingJournalEntry,
+  isNotToday,
 }: // handleDelete,
 HabitListProps) {
   return (
@@ -36,6 +38,7 @@ HabitListProps) {
           willpowerMultiplier={willpowerMultiplier}
           submittingJournalEntry={submittingJournalEntry}
           handleActionUpdate={handleActionUpdate}
+          isNotToday={isNotToday}
         />
       ))}
     </Accordion>

@@ -11,6 +11,7 @@ type HabitCardHeaderProps = {
   actionUpdateValues: { [key: string]: number };
   entryLoading: boolean;
   willpowerMultiplier: number;
+  isNotToday: boolean;
 };
 
 export function HabitCardHeader({
@@ -18,6 +19,7 @@ export function HabitCardHeader({
   actionUpdateValues,
   entryLoading,
   willpowerMultiplier,
+  isNotToday,
 }: HabitCardHeaderProps) {
   const { name, icon, xp } = habit;
 
@@ -27,13 +29,22 @@ export function HabitCardHeader({
       willpowerMultiplier
   );
 
+  //XP from last entry will not be bonusXp(XpGain)
+  let lastEntryXp = xp;
+  let lastEntryProjectedXp = projectedXp;
+
+  if (isNotToday) {
+    lastEntryXp = xp + projectedXp;
+    lastEntryProjectedXp = 0;
+  }
+
   // Calculate XP and level
-  const xpGain = xp + projectedXp;
+  const xpGain = lastEntryXp + lastEntryProjectedXp;
   const level = calculateHabitLevel(xpGain);
-  const currentLevel = calculateHabitLevel(xp);
+  const currentLevel = calculateHabitLevel(lastEntryXp);
   const { baseXP, nextLevelXP } = xpForHabitLevel(level);
   const currentProgressPercentage = Math.min(
-    ((xp - baseXP) / (nextLevelXP - baseXP)) * 100,
+    ((lastEntryXp - baseXP) / (nextLevelXP - baseXP)) * 100,
     100
   );
   const xpGainProgressPercentage = Math.min(
@@ -107,12 +118,12 @@ export function HabitCardHeader({
                   <span className="text-base">??</span>
                   <span className="">XP</span>
                 </div>
-              ) : projectedXp > 0 ? (
+              ) : lastEntryProjectedXp > 0 ? (
                 <div>
                   <span className="text-base text-green-500 font-bold">
-                    +{formatNumberSuffixes(projectedXp)}
+                    +{formatNumberSuffixes(lastEntryProjectedXp)}
                   </span>
-                  <span className="">XP</span>
+                  <span>XP</span>
                 </div>
               ) : (
                 <div>

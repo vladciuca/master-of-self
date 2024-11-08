@@ -24,6 +24,7 @@ type HabitCardProps = {
   willpowerMultiplier: number;
   submittingJournalEntry: boolean;
   handleActionUpdate: (habitId: string) => void;
+  isNotToday: boolean;
 };
 
 export function HabitCard({
@@ -34,6 +35,7 @@ export function HabitCard({
   willpowerMultiplier,
   handleActionUpdate,
   submittingJournalEntry,
+  isNotToday,
 }: //  handleDelete
 HabitCardProps) {
   const { description, actions, _id: habitId } = habit;
@@ -50,6 +52,7 @@ HabitCardProps) {
             actionUpdateValues={actionUpdateValues}
             entryLoading={entryLoading}
             willpowerMultiplier={willpowerMultiplier}
+            isNotToday={isNotToday}
           />
         </AccordionTrigger>
         <AccordionContent className="px-4">
