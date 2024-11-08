@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useSession } from "next-auth/react";
 import { getToday, getTomorrow } from "@lib/time";
 import { Session } from "@app/types/types";
+import { useYesterdayJournalEntry } from "./useYesterdayJournalEntry";
 import { useLastJournalEntry } from "./useLastJournalEntry";
 import { useUpdateHabits } from "./useUpdateHabits";
 
@@ -10,6 +11,7 @@ export function useCreateJournalEntry() {
   const { data: session } = useSession() as { data: Session | null };
   const { lastEntry, lastEntryLoading, bonusWillpower, habitsXp } =
     useLastJournalEntry();
+  const { yesterdayEntry } = useYesterdayJournalEntry();
   const { updateHabits, isLoading, error } = useUpdateHabits();
 
   const createJournalEntry = async () => {
@@ -20,6 +22,10 @@ export function useCreateJournalEntry() {
       const today = getToday();
       const tomorrow = getTomorrow();
 
+      let bonusWillPowerFormYesterday = 0;
+
+      if (yesterdayEntry) bonusWillPowerFormYesterday = bonusWillpower;
+
       const createNewEntryResponse = await fetch(
         `/api/journal-entry/new?today=${today}&tomorrow=${tomorrow}`,
         {
@@ -29,8 +35,8 @@ export function useCreateJournalEntry() {
           },
           body: JSON.stringify({
             userId: session?.user.id,
-            dailyWillpower: bonusWillpower,
-            bonusWillpower: bonusWillpower,
+            dailyWillpower: bonusWillPowerFormYesterday,
+            bonusWillpower: bonusWillPowerFormYesterday,
           }),
         }
       );
