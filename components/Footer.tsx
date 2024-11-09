@@ -92,24 +92,40 @@ import { Button } from "@components/ui/button";
 import Link from "next/link";
 
 export function Footer() {
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
   const pathname = usePathname();
 
   const renderFooterComponent = () => {
     if (pathname === "/") {
       return (
         <Button className="w-1/2">
-          <Link href="/sign-in">Sign in</Link>
+          <Link href="/sign-in">Sign In</Link>
         </Button>
       );
     } else {
-      return (
-        <Button className="w-1/2" variant="secondary">
-          <Link href="/">Cancel</Link>
-        </Button>
-      );
+      if (status === "loading") {
+        return (
+          <div className="w-full h-full flex justify-center items-center">
+            <div className="loader" />
+          </div>
+        );
+      } else {
+        return (
+          <Button className="w-1/2" variant="secondary">
+            <Link href="/">Cancel</Link>
+          </Button>
+        );
+      }
     }
   };
+
+  //   if (status === "loading" || !providers) {
+  //     return (
+  //       <div className="w-full h-full flex justify-center items-center">
+  //         <div className="loader" />
+  //       </div>
+  //     );
+  //   }
 
   return (
     <div className="w-full h-full flex justify-center items-center">
