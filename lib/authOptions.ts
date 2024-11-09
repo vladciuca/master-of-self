@@ -16,10 +16,10 @@ export const authOptions: NextAuthOptions = {
       clientId: process.env.GOOGLE_ID as string,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
     }),
-    InstagramProvider({
-      clientId: process.env.INSTAGRAM_ID as string,
-      clientSecret: process.env.INSTAGRAM_CLIENT_SECRET as string,
-    }),
+    // InstagramProvider({
+    //   clientId: process.env.INSTAGRAM_ID as string,
+    //   clientSecret: process.env.INSTAGRAM_CLIENT_SECRET as string,
+    // }),
     // FacebookProvider({
     //   clientId: process.env.INSTAGRAM_ID as string,
     //   clientSecret: process.env.INSTAGRAM_CLIENT_SECRET as string,
