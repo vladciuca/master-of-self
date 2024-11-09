@@ -170,7 +170,7 @@ export function ProviderSignIn() {
           ))}
         </div>
         <p className="text-center text-sm text-gray-500 mt-6">
-          Access your account using any of the providers above.
+          Access your account using one of the providers above.
         </p>
       </div>
     </div>
