@@ -1,6 +1,6 @@
 import { NextAuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
-import InstagramProvider from "next-auth/providers/instagram";
+// import InstagramProvider from "next-auth/providers/instagram";
 // import FacebookProvider from "next-auth/providers/facebook";
 // import TwitterProvider from "next-auth/providers/twitter";
 import GitHubProvider from "next-auth/providers/github";
@@ -16,10 +16,10 @@ export const authOptions: NextAuthOptions = {
       clientId: process.env.GOOGLE_ID as string,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
     }),
-    InstagramProvider({
-      clientId: process.env.INSTAGRAM_ID as string,
-      clientSecret: process.env.INSTAGRAM_CLIENT_SECRET as string,
-    }),
+    // InstagramProvider({
+    //   clientId: process.env.INSTAGRAM_ID as string,
+    //   clientSecret: process.env.INSTAGRAM_CLIENT_SECRET as string,
+    // }),
     // FacebookProvider({
     //   clientId: process.env.INSTAGRAM_ID as string,
     //   clientSecret: process.env.INSTAGRAM_CLIENT_SECRET as string,
