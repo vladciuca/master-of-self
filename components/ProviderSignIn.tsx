@@ -145,7 +145,7 @@ export function ProviderSignIn() {
   return (
     <div className="w-full h-full flex flex-col justify-around p-6 space-y-4">
       <div className="w-full flex flex-col items-center justify-center">
-        <GiSecretBook size={140} />
+        <GiSecretBook size={120} />
         {/* <h2 className="mt-2 scroll-m-20 text-xl font-semibold transition-colors first:mt-0">
           Sign In
         </h2> */}
