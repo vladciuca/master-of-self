@@ -42,7 +42,7 @@ export function DailyBonus({ bonusWillpower }: DailyBonusProps) {
         <div className="h-full flex flex-col">
           <div className="flex-1 flex flex-col items-center justify-around min-h-full">
             <div className="flex flex-col items-center">
-              <GiDeadlyStrike size={100} />
+              <GiDeadlyStrike size={140} />
               <div className="text-4xl my-4 flex items-center">
                 <span className="text-green-500 font-semibold">
                   +{bonusWillpower}

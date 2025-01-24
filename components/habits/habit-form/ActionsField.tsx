@@ -134,7 +134,7 @@ export function ActionsField({ control }: ActionsFieldProps) {
       name="actions"
       render={() => (
         <FormItem>
-          <FormLabel>Actions</FormLabel>
+          <FormLabel>Habit Actions</FormLabel>
           <div className="flex flex-col gap-2">
             {fields.map((field, index) => {
               const action = actions[index] as HabitAction;

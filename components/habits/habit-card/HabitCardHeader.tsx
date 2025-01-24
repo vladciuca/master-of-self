@@ -127,7 +127,7 @@ export function HabitCardHeader({
                 </div>
               ) : (
                 <div>
-                  <span className="text-base">??</span>
+                  <span className="text-base">0</span>
                   <span className="">XP</span>
                 </div>
               )}
