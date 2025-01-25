@@ -22,6 +22,10 @@ export type UserSettings = {
     morning: string;
     evening: string;
   };
+  //TODO-V2
+  userXp: number;
+  habitSlots: number;
+  goalSlots: number;
 };
 export type UserMetadata = User & UserSettings;
 
