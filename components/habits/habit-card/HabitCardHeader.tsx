@@ -88,17 +88,21 @@ export function HabitCardHeader({
             </div>
           </div>
           <div className="flex items-center my-1">
-            {habit.actions.map((action) => (
-              <div key={action.id}>
-                <ActionIcon
-                  type={action.type}
-                  size={18}
-                  dailyTargetCompleted={
-                    actionUpdateValues[action.id] >= action.dailyTarget
-                  }
-                />
-              </div>
-            ))}
+            {habit.actions.map((action) => {
+              const isDailyTargetCompleted =
+                !isNotToday &&
+                actionUpdateValues[action.id] >= action.dailyTarget;
+
+              return (
+                <div key={action.id}>
+                  <ActionIcon
+                    type={action.type}
+                    size={18}
+                    dailyTargetCompleted={isDailyTargetCompleted}
+                  />
+                </div>
+              );
+            })}
           </div>
         </div>
       </div>

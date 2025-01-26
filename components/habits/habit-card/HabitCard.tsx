@@ -60,6 +60,7 @@ HabitCardProps) {
           <HabitCardActions
             actions={actions}
             actionUpdateValues={actionUpdateValues}
+            isNotToday={isNotToday}
           />
           <HabitCardFooter
             session={session}
