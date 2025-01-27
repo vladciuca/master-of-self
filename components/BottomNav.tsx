@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { Button } from "@components/ui/button";
+import { NavButton } from "@/components/ui/nav-button";
 import { Target, Shell } from "lucide-react";
 import { FaSun } from "react-icons/fa";
 import { IoMoonSharp } from "react-icons/io5";
@@ -97,42 +97,35 @@ export function BottomNav() {
     );
   }
 
+  const iconClass = "w-8 h-8";
+
   return (
-    <nav className="h-full w-full flex justify-around items-center">
-      <Link href="/goals">
-        <Button
-          variant="ghost"
-          className="flex flex-col items-center hover: rounded-full h-16 px-10"
-        >
-          <Target size={"2rem"} />
+    <nav className="h-full w-full flex justify-between items-center space-x-2 px-2">
+      <Link href="/goals" className="flex-1">
+        <NavButton>
+          <Target className={iconClass} />
           <div className="text-xs mt-1">Goals</div>
-        </Button>
+        </NavButton>
       </Link>
 
-      <Link href="/journal">
-        <Button
-          variant="ghost"
-          className="flex flex-col items-center hover: rounded-full px-10"
-        >
+      <Link href="/journal" className="flex-1">
+        <NavButton>
           {isNightMode ? (
-            <GiNightSleep size={"2rem"} className="text-blue-500" />
+            <GiNightSleep className={`${iconClass} text-blue-500`} />
           ) : !isEvening(userEveningTime) ? (
-            <FaSun size={"2rem"} className="text-yellow-500" />
+            <FaSun className={`${iconClass} text-yellow-500`} />
           ) : (
-            <IoMoonSharp size={"2rem"} className="text-purple-500" />
+            <IoMoonSharp className={`${iconClass} text-purple-500`} />
           )}
           <div className="text-xs mt-1">{timerDisplay}</div>
-        </Button>
+        </NavButton>
       </Link>
 
-      <Link href="/habits">
-        <Button
-          variant="ghost"
-          className="flex flex-col items-center hover: rounded-full h-16 px-10"
-        >
-          <Shell size={"2rem"} />
+      <Link href="/habits" className="flex-1">
+        <NavButton>
+          <Shell className={iconClass} />
           <div className="text-xs mt-1">Habits</div>
-        </Button>
+        </NavButton>
       </Link>
     </nav>
   );
