@@ -100,7 +100,7 @@ export function BottomNav() {
   const iconClass = "w-8 h-8";
 
   return (
-    <nav className="h-full w-full flex justify-between items-center space-x-2 px-2">
+    <nav className="h-full w-full flex justify-around items-center space-x-2 px-2">
       <Link href="/goals" className="flex-1">
         <NavButton>
           <Target className={iconClass} />
