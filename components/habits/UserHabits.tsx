@@ -101,10 +101,13 @@ export function UserHabits() {
           isNotToday={!todayEntry}
         />
       ) : (
-        <div className="text-center mt-24">
-          <h1 className="scroll-m-20 text-4xl font-bold leading-loose mb-24">
-            Start by creating a new habit!
-          </h1>
+        <div className="flex-grow flex items-center justify-center">
+          <section className="text-center mt-32">
+            <p className="leading-7 mt-6 mx-3">
+              Create habits that you can track daily and visualize your
+              progress.
+            </p>
+          </section>
         </div>
       )}
 

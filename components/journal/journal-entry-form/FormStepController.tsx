@@ -225,8 +225,7 @@ export function FormStepController({
             dailyWillpower={formData.dailyWillpower}
           />
         ),
-        //temp need to fix
-        isAvailable: SHOW_ALL_TEST || hasHabits,
+        isAvailable: hasHabits,
       },
     ],
     [
@@ -254,7 +253,7 @@ export function FormStepController({
   const currentStepIndex = stepTypes.indexOf(currentStepType || "");
 
   // Use a valid step index or default to 0
-  const safeCurrentStepIndex = currentStepIndex !== -1 ? currentStepIndex : 0;
+  // const safeCurrentStepIndex = currentStepIndex !== -1 ? currentStepIndex : 0;
 
   // This function updates the URL with the new step
   const setStep = useCallback(
