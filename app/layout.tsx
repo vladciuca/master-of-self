@@ -4,6 +4,7 @@ import "@styles/global.css";
 import { Provider } from "@context/provider";
 import { ThemeProvider } from "@context/theme-provider";
 import { SideContentProvider } from "@context/SideContentContext";
+import { UserSettingsProvider } from "@context/UserSettingsContext";
 import { Poppins } from "next/font/google";
 import { Layout } from "@app/types/types";
 import { SideContent } from "components/side-content/SideContent";
@@ -42,22 +43,24 @@ export default async function RootLayout({ children }: Layout) {
             enableSystem
             disableTransitionOnChange
           >
-            <SideContentProvider>
-              <div className="w-full phone_container sm:h-screen flex bg-background relative">
-                <div className="absolute inset-0 opacity-35 bg-gradient-to-br from-[#a6d9ff] via-[#bcb4ff] to-purple-300"></div>
+            <UserSettingsProvider>
+              <SideContentProvider>
+                <div className="w-full phone_container sm:h-screen flex bg-background relative">
+                  <div className="absolute inset-0 opacity-35 bg-gradient-to-br from-[#a6d9ff] via-[#bcb4ff] to-purple-300"></div>
 
-                {/* Side Content */}
-                <SideContent />
+                  {/* Side Content */}
+                  <SideContent />
 
-                <div className="w-full h-full flex items-center justify-center relative z-10">
-                  <div className="phone_container relative bg-background sm:border-8 sm:border-muted sm:rounded-[40px] sm:shadow-xl sm:shadow-gray-950 mx-auto flex flex-col items-center justify-center w-full max-w-[450px] sm:max-h-[800px] overflow-hidden">
-                    {/* Notch */}
-                    <div className="hidden md:block bg-muted absolute left-1/2 top-0 h-4 w-40 -translate-x-1/2 rounded-b-3xl"></div>
-                    {children}
+                  <div className="w-full h-full flex items-center justify-center relative z-10">
+                    <div className="phone_container relative bg-background sm:border-8 sm:border-muted sm:rounded-[40px] sm:shadow-xl sm:shadow-gray-950 mx-auto flex flex-col items-center justify-center w-full max-w-[450px] sm:max-h-[800px] overflow-hidden">
+                      {/* Notch */}
+                      <div className="hidden md:block bg-muted absolute left-1/2 top-0 h-4 w-40 -translate-x-1/2 rounded-b-3xl"></div>
+                      {children}
+                    </div>
                   </div>
                 </div>
-              </div>
-            </SideContentProvider>
+              </SideContentProvider>
+            </UserSettingsProvider>
           </ThemeProvider>
         </Provider>
       </body>

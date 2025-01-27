@@ -16,7 +16,7 @@ import { JournalEntry } from "@/app/types/types";
 import { isEvening } from "@lib/time";
 
 // TEST_FLAG: used for enabling all forms steps
-const SHOW_ALL_TEST = true;
+const SHOW_ALL_TEST = false;
 
 type FormStepControllerProps = {
   submitting: boolean;
