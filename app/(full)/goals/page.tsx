@@ -21,7 +21,6 @@ export default function Goals() {
       />
       <div className="flex-grow flex items-center justify-center">
         <section className="text-center mt-24">
-          {/* <h1 className="scroll-m-20 text-4xl font-bold mb-10">COMING SOON</h1> */}
           <p className="leading-7 text-lg mt-6 mx-3">Coming soon!</p>
           <p className="leading-7 mx-3">
             Until then you can track your habits.
