@@ -22,9 +22,6 @@ export function HabitCardActions({
         const isDailyTargetCompleted =
           !isNotToday && actionUpdateValues[action.id] >= action.dailyTarget;
 
-        console.log("===", action.action, actionUpdateValues[action.id]);
-
-        //fix here
         return (
           <div key={action.id} className="mb-6">
             <div className="mb-1 flex items-start max-w-full">
