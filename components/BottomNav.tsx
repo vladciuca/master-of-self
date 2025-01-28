@@ -19,7 +19,7 @@ export function BottomNav() {
   const userMorningTime = userSettings?.journalStartTime.morning;
   const userEveningTime = userSettings?.journalStartTime.evening;
 
-  console.log("BottomNav rendering with userSettings:", userSettings);
+  // console.log("BottomNav rendering with userSettings:", userSettings);
 
   // Update current time every 30 seconds
   useEffect(() => {

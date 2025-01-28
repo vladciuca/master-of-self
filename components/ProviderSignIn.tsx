@@ -4,10 +4,7 @@ import { useState, useEffect } from "react";
 import { signIn, getProviders, ClientSafeProvider } from "next-auth/react";
 import { Button } from "@/components/ui/button";
 import { Loader2 } from "lucide-react";
-import {
-  // GiSecretBook,
-  GiSpellBook,
-} from "react-icons/gi";
+import { GiSpellBook } from "react-icons/gi";
 
 type Providers = {
   [key: string]: ClientSafeProvider;
@@ -149,9 +146,6 @@ export function ProviderSignIn() {
     <div className="w-full h-full flex flex-col justify-around p-6 space-y-4">
       <div className="w-full flex flex-col items-center justify-center mt-8">
         <GiSpellBook size={85} />
-        {/* <h2 className="mt-2 scroll-m-20 text-xl font-semibold transition-colors first:mt-0">
-          Sign In
-        </h2> */}
       </div>
       <div>
         <div className="space-y-6">

@@ -8,6 +8,7 @@ import { HowGreatWasToday } from "@components/journal/journal-entry-form/form-st
 import { GratefulFor } from "@components/journal/journal-entry-form/form-steps/GratefulFor";
 import { DailyHighlights } from "@components/journal/journal-entry-form/form-steps/DailyHighlights";
 import { LearnedToday } from "@components/journal/journal-entry-form/form-steps/LearnedToday";
+// obsolete step - might use functionality for another use case
 // import { HabitsStep } from "@components/journal/journal-entry-form/form-steps/HabitsStep";
 import { HabitActionsStep } from "@components/journal/journal-entry-form/form-steps/HabitActionsStep";
 import { FormStepProgress } from "./FormStepProgress";

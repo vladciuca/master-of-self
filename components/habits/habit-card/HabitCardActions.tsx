@@ -21,6 +21,10 @@ export function HabitCardActions({
       {actions.map((action) => {
         const isDailyTargetCompleted =
           !isNotToday && actionUpdateValues[action.id] >= action.dailyTarget;
+
+        console.log("===", action.action, actionUpdateValues[action.id]);
+
+        //fix here
         return (
           <div key={action.id} className="mb-6">
             <div className="mb-1 flex items-start max-w-full">
@@ -40,12 +44,14 @@ export function HabitCardActions({
                 <span>Daily target</span>
 
                 <span className="ml-2 font-bold flex items-center text-primary">
-                  {isDailyTargetCompleted && actionUpdateValues[action.id] ? (
+                  {isNotToday || !actionUpdateValues[action.id] ? (
+                    <span>0</span>
+                  ) : actionUpdateValues[action.id] >= action.dailyTarget ? (
                     <span className="text-green-500">
                       {actionUpdateValues[action.id]}
                     </span>
                   ) : (
-                    <span>0</span>
+                    <span>{actionUpdateValues[action.id]}</span>
                   )}
                   /{action.dailyTarget}
                 </span>

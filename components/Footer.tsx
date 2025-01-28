@@ -12,7 +12,7 @@ export function Footer() {
   const pathname = usePathname();
   const { userSettings } = useUserSettings();
 
-  console.log("Footer rendering with userSettings:", userSettings);
+  // console.log("Footer rendering with userSettings:", userSettings);
 
   const renderFooterComponent = () => {
     if (pathname === "/") {
