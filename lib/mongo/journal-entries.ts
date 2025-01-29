@@ -1,7 +1,7 @@
 import { MongoClient, Db, Collection, ObjectId } from "mongodb";
 import clientPromise from "./mongodb";
 import { JournalEntry, NewJournalEntry } from "@/app/types/mongodb";
-import { WeeklyWillpowerData } from "@app/types/types";
+import { WeeklyWillpowerData, TodoItem } from "@app/types/types";
 
 let client: MongoClient;
 let db: Db;
@@ -82,8 +82,16 @@ export async function createJournalEntry(
 export async function updateJournalEntry(
   id: string,
   dailyWillpower: number,
-  dayEntry: object,
-  nightEntry: object
+  dayEntry: {
+    greatToday?: TodoItem[];
+    gratefulFor?: string[];
+  },
+  nightEntry: {
+    dailyHighlights?: TodoItem[];
+    learnedToday?: string[];
+    habits?: { [key: string]: number };
+    actions?: { [key: string]: { [key: string]: number } };
+  }
 ): Promise<{
   journalEntry: JournalEntry | null;
   error?: string;

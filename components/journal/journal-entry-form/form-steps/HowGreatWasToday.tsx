@@ -3,11 +3,12 @@
 import { FormStepTemplate } from "@components/journal/journal-entry-form/form-steps/FormStepTemplate";
 import { Checkbox } from "@components/ui/checkbox";
 import { useState, useEffect } from "react";
+import type { TodoItem } from "@/app/types/types";
 
 type HowGreatWasTodayProps = {
-  greatToday: string[];
-  onHighlightsChange: (highlights: string[]) => void;
-  initialHighlights?: string[];
+  greatToday: TodoItem[];
+  onHighlightsChange: (highlights: TodoItem[]) => void;
+  initialHighlights?: TodoItem[];
 };
 
 export function HowGreatWasToday({
@@ -15,35 +16,31 @@ export function HowGreatWasToday({
   onHighlightsChange,
   initialHighlights = [],
 }: HowGreatWasTodayProps) {
-  // State to track checked items
   const [checkedItems, setCheckedItems] = useState<{ [key: string]: boolean }>(
     {}
   );
 
-  // Initialize checkedItems based on initialHighlights
   useEffect(() => {
     const initialCheckedState = greatToday.reduce((acc, item) => {
-      acc[item] = initialHighlights.includes(item);
+      acc[item.id] = initialHighlights.some(
+        (highlight) => highlight.id === item.id
+      );
       return acc;
     }, {} as { [key: string]: boolean });
     setCheckedItems(initialCheckedState);
   }, [greatToday, initialHighlights]);
 
-  // Handle checkbox change
-  const handleCheckboxChange = (item: string) => {
+  const handleCheckboxChange = (item: TodoItem) => {
     setCheckedItems((prev) => {
-      const newCheckedItems = { ...prev, [item]: !prev[item] };
+      const newCheckedItems = { ...prev, [item.id]: !prev[item.id] };
 
-      // Update highlights based on the changed item
-      if (newCheckedItems[item]) {
-        // If the item is now checked, add it to highlights if it's not already there
-        if (!initialHighlights.includes(item)) {
+      if (newCheckedItems[item.id]) {
+        if (!initialHighlights.some((highlight) => highlight.id === item.id)) {
           onHighlightsChange([...initialHighlights, item]);
         }
       } else {
-        // If the item is now unchecked, remove it from highlights
         onHighlightsChange(
-          initialHighlights.filter((highlight) => highlight !== item)
+          initialHighlights.filter((highlight) => highlight.id !== item.id)
         );
       }
 
@@ -58,18 +55,26 @@ export function HowGreatWasToday({
     >
       <ol className="list-decimal py-2 mt-2 mx-4 space-y-3">
         {greatToday.map((item, index) => (
-          <li key={index} className="flex items-top justify-between">
+          <li key={item.id} className="flex items-top justify-between">
             <div className="flex items-top text-base">
-              <div className={`${checkedItems[item] ? "text-green-500" : ""}`}>
+              <div
+                className={`${checkedItems[item.id] ? "text-green-500" : ""}`}
+              >
                 {index + 1}.
               </div>
-              <span className="ml-1 mr-2">{item}</span>
+              <span
+                className={`ml-1 mr-2 ${
+                  checkedItems[item.id] ? "line-through" : ""
+                }`}
+              >
+                {item.text}
+              </span>
             </div>
 
             <Checkbox
-              id={`checkbox-${index}`}
+              id={`checkbox-${item.id}`}
               className="h-8 w-8"
-              checked={checkedItems[item] || false}
+              checked={checkedItems[item.id] || false}
               onCheckedChange={() => handleCheckboxChange(item)}
             />
           </li>

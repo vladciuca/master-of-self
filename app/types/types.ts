@@ -33,15 +33,20 @@ export interface Session extends NextAuthSession {
   user: User;
 }
 
+export type TodoItem = {
+  id: string;
+  text: string;
+};
+
 export type JournalEntry = {
   dailyWillpower: number;
   bonusWillpower: number;
   dayEntry?: {
-    greatToday?: string[];
+    greatToday?: TodoItem[];
     gratefulFor?: string[];
   };
   nightEntry?: {
-    dailyHighlights?: string[];
+    dailyHighlights?: TodoItem[];
     learnedToday?: string[];
     habits?: { [key: string]: number };
     actions?: { [key: string]: { [key: string]: number } };

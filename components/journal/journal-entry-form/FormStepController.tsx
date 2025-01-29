@@ -13,11 +13,11 @@ import { LearnedToday } from "@components/journal/journal-entry-form/form-steps/
 import { HabitActionsStep } from "@components/journal/journal-entry-form/form-steps/HabitActionsStep";
 import { FormStepProgress } from "./FormStepProgress";
 import { FormStepNavigation } from "./FormStepNavigation";
-import { JournalEntry } from "@/app/types/types";
+import { JournalEntry, TodoItem } from "@/app/types/types";
 import { isEvening } from "@lib/time";
 
 // TEST_FLAG: used for enabling all forms steps
-const SHOW_ALL_TEST = false;
+const SHOW_ALL_TEST = true;
 
 type FormStepControllerProps = {
   submitting: boolean;
@@ -67,7 +67,9 @@ export function FormStepController({
 
   const calculateWillpower = useMemo(
     () => (data: JournalEntry) => {
-      const greatTodayScore = calculateScore(data.dayEntry?.greatToday || []);
+      const greatTodayScore = calculateScore(
+        (data.dayEntry?.greatToday || []).map((item) => item.text)
+      );
       const gratefulForScore = calculateScore(data.dayEntry?.gratefulFor || []);
       return Math.floor((greatTodayScore + gratefulForScore) * 1.5);
     },
@@ -108,8 +110,8 @@ export function FormStepController({
         | "habits"
         | "actions",
       value:
+        | TodoItem[]
         | string[]
-        // | string
         | { [key: string]: number }
         | { [key: string]: { [key: string]: number } }
     ) => {
@@ -118,7 +120,7 @@ export function FormStepController({
         if (field === "greatToday" || field === "gratefulFor") {
           newData.dayEntry = {
             ...prev.dayEntry,
-            [field]: value as string[],
+            [field]: value,
           };
         } else if (
           field === "dailyHighlights" ||
@@ -326,13 +328,13 @@ export function FormStepController({
 
   // TEMP UTIL FUNCTION
   function countMatchingElements(
-    arr1: string[] | undefined,
-    arr2: string[] | undefined
+    arr1: TodoItem[] | undefined,
+    arr2: TodoItem[] | undefined
   ) {
     const safeArr1 = arr1 || [];
     const safeArr2 = arr2 || [];
-    const set1 = new Set(safeArr1);
-    return safeArr2.filter((element) => set1.has(element)).length;
+    const set1 = new Set(safeArr1.map((item) => item.id));
+    return safeArr2.filter((item) => set1.has(item.id)).length;
   }
 
   //TEMP - will add Full page Loading screen

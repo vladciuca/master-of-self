@@ -216,7 +216,7 @@ JournalEntryCardProps) {
           dayPeriod="day"
         />
 
-        <JournalEntrySection
+        {/* <JournalEntrySection
           icon={<FaSun />}
           title={"What will make today great..."}
           items={filteredToDos()}
@@ -235,7 +235,7 @@ JournalEntryCardProps) {
           icon={<FaStar />}
           title="Today's highlights..."
           items={filteredHighlights()}
-        />
+        /> */}
 
         <JournalEntrySection
           icon={<GiBackup />}

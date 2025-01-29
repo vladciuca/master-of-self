@@ -2,17 +2,22 @@ import React, { useCallback } from "react";
 import { FormStepTemplate } from "@components/journal/journal-entry-form/form-steps/FormStepTemplate";
 import { TextAreaList } from "@components/ui/textarea-list";
 import { FaBoltLightning } from "react-icons/fa6";
+import type { TodoItem } from "@/app/types/types";
 
 type GreatTodayProps = {
   dailyWillpower: number;
-  entryList: string[];
-  onChange: (value: string[]) => void;
+  entryList: TodoItem[];
+  onChange: (value: TodoItem[]) => void;
 };
 
 function GreatToday({ dailyWillpower, entryList, onChange }: GreatTodayProps) {
   const handleTextAreaListChange = useCallback(
     (newEntries: string[]) => {
-      onChange(newEntries);
+      const updatedEntries = newEntries.map((text) => ({
+        id: crypto.randomUUID(),
+        text,
+      }));
+      onChange(updatedEntries);
     },
     [onChange]
   );
@@ -28,7 +33,10 @@ function GreatToday({ dailyWillpower, entryList, onChange }: GreatTodayProps) {
         </>
       }
     >
-      <TextAreaList entryList={entryList} onChange={handleTextAreaListChange} />
+      <TextAreaList
+        entryList={entryList.map((item) => item.text)}
+        onChange={handleTextAreaListChange}
+      />
     </FormStepTemplate>
   );
 }
