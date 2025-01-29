@@ -49,23 +49,16 @@ JournalEntryCardProps) {
     ? calculateHabitsXpSumsFromActions(nightEntry.actions, dailyWillpower)
     : {};
 
-  const filteredHighlights = () => {
-    const dailyToDos = new Set(dayEntry?.greatToday);
-    const dailyHighlights = nightEntry?.dailyHighlights || [];
-
-    return dailyHighlights.filter((item) => !dailyToDos.has(item));
-  };
-
   const completedDailyToDos = () => {
     const dailyToDos = dayEntry?.greatToday || [];
-    const dailyHighlights = nightEntry?.dailyHighlights || [];
+    const completedToDos = nightEntry?.howGreatToday || [];
 
-    return dailyHighlights.filter((item) => dailyToDos.includes(item));
+    return completedToDos.filter((item) => dailyToDos.includes(item));
   };
 
-  const filteredToDos = () => {
+  const uncompletedDailyToDos = () => {
     const dailyToDos = dayEntry?.greatToday || [];
-    const completedToDos = new Set(nightEntry?.dailyHighlights);
+    const completedToDos = new Set(nightEntry?.howGreatToday);
 
     return dailyToDos.filter((item) => !completedToDos.has(item));
   };
@@ -76,6 +69,13 @@ JournalEntryCardProps) {
   const nightEntries =
     (nightEntry?.dailyHighlights?.length || 0) +
     (nightEntry?.learnedToday?.length || 0);
+
+  const hasContent =
+    (dayEntry?.gratefulFor?.length ?? 0) > 0 ||
+    uncompletedDailyToDos().length > 0 ||
+    completedDailyToDos().length > 0 ||
+    (nightEntry?.dailyHighlights?.length ?? 0) > 0 ||
+    (nightEntry?.learnedToday?.length ?? 0) > 0;
 
   return (
     <AccordionItem key={_id} value={_id} className="p-4">
@@ -209,39 +209,56 @@ JournalEntryCardProps) {
       <AccordionContent className="p-0">
         <hr className="mt-4" />
 
-        <JournalEntrySection
-          icon={<GiPrayer />}
-          title="What I am grateful for today..."
-          items={dayEntry?.gratefulFor}
-          dayPeriod="day"
-        />
+        {!hasContent && (
+          <p className="mt-4 w-full text-center">
+            You didn't write anything in your journal today.
+          </p>
+        )}
 
-        <JournalEntrySection
-          icon={<FaSun />}
-          title={"What will make today great..."}
-          items={filteredToDos()}
-          dayPeriod="day"
-        />
+        {dayEntry?.gratefulFor && dayEntry?.gratefulFor.length > 0 && (
+          <JournalEntrySection
+            icon={<GiPrayer />}
+            title="What I am grateful for today..."
+            items={dayEntry?.gratefulFor}
+            dayPeriod="day"
+          />
+        )}
 
-        <JournalEntrySection
-          icon={<FaMoon />}
-          title={"What made today great..."}
-          items={completedDailyToDos()}
-          dayPeriod="day"
-          checked
-        />
+        {uncompletedDailyToDos().length > 0 && (
+          <JournalEntrySection
+            icon={<FaSun />}
+            title={"What will make today great..."}
+            items={uncompletedDailyToDos()}
+            dayPeriod="day"
+          />
+        )}
 
-        <JournalEntrySection
-          icon={<FaStar />}
-          title="Today's highlights..."
-          items={filteredHighlights()}
-        />
+        {completedDailyToDos().length > 0 && (
+          <JournalEntrySection
+            icon={<FaMoon />}
+            title={"What made today great..."}
+            items={completedDailyToDos()}
+            dayPeriod="day"
+            checked
+          />
+        )}
 
-        <JournalEntrySection
-          icon={<GiBackup />}
-          title="What have I learned today..."
-          items={nightEntry?.learnedToday}
-        />
+        {nightEntry?.dailyHighlights &&
+          nightEntry?.dailyHighlights.length > 0 && (
+            <JournalEntrySection
+              icon={<FaStar />}
+              title="Today's highlights..."
+              items={nightEntry?.dailyHighlights}
+            />
+          )}
+
+        {nightEntry?.learnedToday && nightEntry?.learnedToday.length > 0 && (
+          <JournalEntrySection
+            icon={<GiBackup />}
+            title="What have I learned today..."
+            items={nightEntry?.learnedToday}
+          />
+        )}
       </AccordionContent>
     </AccordionItem>
   );

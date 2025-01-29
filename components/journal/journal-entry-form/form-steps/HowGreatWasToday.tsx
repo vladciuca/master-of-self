@@ -6,46 +6,35 @@ import { useState, useEffect } from "react";
 
 type HowGreatWasTodayProps = {
   greatToday: string[];
-  onHighlightsChange: (highlights: string[]) => void;
-  initialHighlights?: string[];
+  onHowGreatTodayChange: (howGreatToday: string[]) => void;
+  initialHowGreatToday?: string[];
 };
 
 export function HowGreatWasToday({
   greatToday,
-  onHighlightsChange,
-  initialHighlights = [],
+  onHowGreatTodayChange,
+  initialHowGreatToday = [],
 }: HowGreatWasTodayProps) {
-  // State to track checked items
   const [checkedItems, setCheckedItems] = useState<{ [key: string]: boolean }>(
     {}
   );
 
-  // Initialize checkedItems based on initialHighlights
   useEffect(() => {
     const initialCheckedState = greatToday.reduce((acc, item) => {
-      acc[item] = initialHighlights.includes(item);
+      acc[item] = initialHowGreatToday.includes(item);
       return acc;
     }, {} as { [key: string]: boolean });
     setCheckedItems(initialCheckedState);
-  }, [greatToday, initialHighlights]);
+  }, [greatToday, initialHowGreatToday]);
 
-  // Handle checkbox change
   const handleCheckboxChange = (item: string) => {
     setCheckedItems((prev) => {
       const newCheckedItems = { ...prev, [item]: !prev[item] };
 
-      // Update highlights based on the changed item
-      if (newCheckedItems[item]) {
-        // If the item is now checked, add it to highlights if it's not already there
-        if (!initialHighlights.includes(item)) {
-          onHighlightsChange([...initialHighlights, item]);
-        }
-      } else {
-        // If the item is now unchecked, remove it from highlights
-        onHighlightsChange(
-          initialHighlights.filter((highlight) => highlight !== item)
-        );
-      }
+      const newHowGreatToday = greatToday.filter(
+        (greatItem) => newCheckedItems[greatItem]
+      );
+      onHowGreatTodayChange(newHowGreatToday);
 
       return newCheckedItems;
     });
@@ -54,7 +43,7 @@ export function HowGreatWasToday({
   return (
     <FormStepTemplate
       title="How great was today?"
-      description="Add any completed daily goals as highlights for today."
+      description="Check off the goals you've accomplished today."
     >
       <ol className="list-decimal py-2 mt-2 mx-4 space-y-3">
         {greatToday.map((item, index) => (
@@ -63,7 +52,14 @@ export function HowGreatWasToday({
               <div className={`${checkedItems[item] ? "text-green-500" : ""}`}>
                 {index + 1}.
               </div>
-              <span className="ml-1 mr-2">{item}</span>
+              <span
+                // className={`ml-1 mr-2 ${
+                //   checkedItems[item] ? "line-through" : ""
+                // }`}
+                className="ml-1 mr-2"
+              >
+                {item}
+              </span>
             </div>
 
             <Checkbox

@@ -17,7 +17,7 @@ import { JournalEntry } from "@/app/types/types";
 import { isEvening } from "@lib/time";
 
 // TEST_FLAG: used for enabling all forms steps
-const SHOW_ALL_TEST = false;
+const SHOW_ALL_TEST = true;
 
 type FormStepControllerProps = {
   submitting: boolean;
@@ -48,6 +48,7 @@ export function FormStepController({
       gratefulFor: journalEntryData?.dayEntry?.gratefulFor || [],
     },
     nightEntry: {
+      howGreatToday: journalEntryData?.nightEntry?.howGreatToday || [],
       dailyHighlights: journalEntryData?.nightEntry?.dailyHighlights || [],
       learnedToday: journalEntryData?.nightEntry?.learnedToday || [],
       habits: journalEntryData?.nightEntry?.habits || {},
@@ -101,15 +102,15 @@ export function FormStepController({
   const handleChange = useCallback(
     (
       field:
-        | "greatToday"
         | "gratefulFor"
+        | "greatToday"
+        | "howGreatToday"
         | "dailyHighlights"
         | "learnedToday"
         | "habits"
         | "actions",
       value:
         | string[]
-        // | string
         | { [key: string]: number }
         | { [key: string]: { [key: string]: number } }
     ) => {
@@ -121,6 +122,7 @@ export function FormStepController({
             [field]: value as string[],
           };
         } else if (
+          field === "howGreatToday" ||
           field === "dailyHighlights" ||
           field === "learnedToday" ||
           field === "habits" ||
@@ -169,15 +171,31 @@ export function FormStepController({
         ),
         isAvailable: SHOW_ALL_TEST || !isEvening(userEveningTime),
       },
+      // {
+      //   type: "night",
+      //   component: (
+      //     <HowGreatWasToday
+      //       greatToday={formData.dayEntry?.greatToday || []}
+      //       onHighlightsChange={(highlights) =>
+      //         handleChange("dailyHighlights", highlights)
+      //       }
+      //       initialHighlights={formData.nightEntry?.dailyHighlights || []}
+      //     />
+      //   ),
+      //   isAvailable:
+      //     SHOW_ALL_TEST ||
+      //     (isEvening(userEveningTime) &&
+      //       (formData.dayEntry?.greatToday?.length || 0) > 0),
+      // },
       {
         type: "night",
         component: (
           <HowGreatWasToday
             greatToday={formData.dayEntry?.greatToday || []}
-            onHighlightsChange={(highlights) =>
-              handleChange("dailyHighlights", highlights)
+            onHowGreatTodayChange={(howGreatToday) =>
+              handleChange("howGreatToday", howGreatToday)
             }
-            initialHighlights={formData.nightEntry?.dailyHighlights || []}
+            initialHowGreatToday={formData.nightEntry?.howGreatToday || []}
           />
         ),
         isAvailable:
@@ -348,9 +366,9 @@ export function FormStepController({
         handleStepChange={handleStepChange}
         progressPercentage={progressPercentage}
         greatTodayCount={formData.dayEntry?.greatToday?.length || 0}
-        dailyGoalsToHighlights={countMatchingElements(
+        dailyGoalsCompleted={countMatchingElements(
           formData.dayEntry?.greatToday,
-          formData.nightEntry?.dailyHighlights
+          formData.nightEntry?.howGreatToday
         )}
         gratefulForCount={formData.dayEntry?.gratefulFor?.length || 0}
         dailyHighlightsCount={formData.nightEntry?.dailyHighlights?.length || 0}

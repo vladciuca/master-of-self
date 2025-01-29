@@ -41,6 +41,7 @@ export type JournalEntry = {
     gratefulFor?: string[];
   };
   nightEntry?: {
+    howGreatToday?: string[];
     dailyHighlights?: string[];
     learnedToday?: string[];
     habits?: { [key: string]: number };

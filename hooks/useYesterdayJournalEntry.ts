@@ -52,6 +52,7 @@ export function useYesterdayJournalEntry() {
 
         const nightEntry = entry?.nightEntry || {
           dailyHighlights: [],
+          howGreatToday: [],
           actions: {},
         };
         const dailyWillpower = entry?.dailyWillpower || 0;
@@ -62,12 +63,21 @@ export function useYesterdayJournalEntry() {
         ) {
           setYesterdayHighlights(nightEntry.dailyHighlights);
           let extraBonus = 0;
+
+          if (
+            Array.isArray(nightEntry.howGreatToday) &&
+            nightEntry.howGreatToday.length > 0
+          ) {
+            extraBonus += calculateBonusWillpower(nightEntry.howGreatToday);
+          }
+
           if (
             Array.isArray(nightEntry.learnedToday) &&
             nightEntry.learnedToday.length > 0
           ) {
-            extraBonus = calculateBonusWillpower(nightEntry.learnedToday);
+            extraBonus += calculateBonusWillpower(nightEntry.learnedToday);
           }
+
           const calculatedBonus = calculateBonusWillpower(
             nightEntry.dailyHighlights
           );
