@@ -145,7 +145,7 @@ export function ProviderSignIn() {
   return (
     <div className="w-full h-full flex flex-col justify-around p-6 space-y-4">
       <div className="w-full flex flex-col items-center justify-center mt-8">
-        <GiSpellBook size={85} />
+        <GiSpellBook size={120} />
       </div>
       <div>
         <div className="space-y-6">

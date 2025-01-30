@@ -180,6 +180,7 @@ JournalEntryCardProps) {
                 </div>
                 <div className="flex-grow flex flex-wrap items-start">
                   {/* <JournalEntryActions actions={nightEntry?.actions} /> */}
+                  {/* NEED TO SENT CURRENT HABIT XP at the time of the J entry */}
                   <JournalEntryHabits habitsXp={habitsXpFromActions} />
                 </div>
               </div>

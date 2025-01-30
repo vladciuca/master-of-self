@@ -107,6 +107,7 @@ export function FormStepController({
         | "howGreatToday"
         | "dailyHighlights"
         | "learnedToday"
+        //THINK HABITS IS DEAD KEY -moved them into actions
         | "habits"
         | "actions",
       value:
@@ -171,22 +172,6 @@ export function FormStepController({
         ),
         isAvailable: SHOW_ALL_TEST || !isEvening(userEveningTime),
       },
-      // {
-      //   type: "night",
-      //   component: (
-      //     <HowGreatWasToday
-      //       greatToday={formData.dayEntry?.greatToday || []}
-      //       onHighlightsChange={(highlights) =>
-      //         handleChange("dailyHighlights", highlights)
-      //       }
-      //       initialHighlights={formData.nightEntry?.dailyHighlights || []}
-      //     />
-      //   ),
-      //   isAvailable:
-      //     SHOW_ALL_TEST ||
-      //     (isEvening(userEveningTime) &&
-      //       (formData.dayEntry?.greatToday?.length || 0) > 0),
-      // },
       {
         type: "night",
         component: (
@@ -236,7 +221,7 @@ export function FormStepController({
       //   isAvailable: SHOW_ALL_TEST || (isEvening(userEveningTime) && hasHabits),
       // },
       {
-        type: "habits",
+        type: "actions",
         component: (
           <HabitActionsStep
             onChange={(value) => handleChange("actions", value)}

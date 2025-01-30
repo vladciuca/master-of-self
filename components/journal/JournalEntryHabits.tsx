@@ -11,6 +11,8 @@ type JournalEntryHabitsProp = {
 export function JournalEntryHabits({ habitsXp }: JournalEntryHabitsProp) {
   const { journalHabits, habitData } = useHabitsIcons(habitsXp);
 
+  //must take xp from DP from j entry
+
   return (
     <div className="flex items-center flex-wrap">
       {Object.entries(journalHabits).map(([id, value]) => (
@@ -19,7 +21,7 @@ export function JournalEntryHabits({ habitsXp }: JournalEntryHabitsProp) {
             {habitData[id] ? (
               <IconRenderer
                 iconName={habitData[id].icon}
-                xp={habitData[id].xp + value}
+                xp={10000 + value}
                 className="h-[25px] w-[25px] p-[2px] rounded-md"
               />
             ) : (
