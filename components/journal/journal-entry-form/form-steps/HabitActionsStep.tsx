@@ -4,6 +4,7 @@ import { HabitActions } from "../../../habits/habit-actions/HabitActions";
 import { SkeletonHabitAction } from "@components/skeletons/SkeletonHabitAction";
 import { useUserHabits } from "@/hooks/useUserHabits";
 import { Habit, Actions } from "@app/types/types";
+import { calculateHabitsXpSumsFromActions } from "@lib/level";
 
 type HabitActionsProps = {
   onChange: (value: Actions) => void;
@@ -50,15 +51,11 @@ export function HabitActionsStep({
 
   const calculateProjectedXP = useCallback(
     (habit: Habit) => {
-      const habitActions = actionValues[habit._id] || {};
-
-      // Calculate the base XP sum
-      const baseXP = Object.entries(habitActions).reduce(
-        (sum, [key, value]) => (key !== "currentXp" ? sum + value : sum),
-        0
+      const xpSums = calculateHabitsXpSumsFromActions(
+        actionValues,
+        dailyWillpower
       );
-      // Apply the willpower multiplier and round to the nearest integer
-      return Math.round(baseXP * willpowerMultiplier);
+      return xpSums[habit._id] || 0;
     },
     [actionValues, willpowerMultiplier]
   );

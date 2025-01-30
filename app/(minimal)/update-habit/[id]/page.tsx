@@ -5,6 +5,7 @@ import { HabitForm } from "@components/habits/habit-form/HabitForm";
 import { HabitZodType } from "@components/habits/habit-form/habitFormSchema";
 import { SkeletonForm } from "@components/skeletons/SkeletonForm";
 import { useTodayJournalEntry } from "@hooks/useTodayJournalEntry";
+import { calculateHabitsXpSumsFromActions } from "@lib/level";
 
 export default function UpdateHabit() {
   const [submitting, setSubmitting] = useState(false);
@@ -20,17 +21,14 @@ export default function UpdateHabit() {
     if (todayEntryLoading) return 0;
 
     const dailyWillpower = todayEntry?.dailyWillpower || 0;
-    const willpowerMultiplier = 1 + dailyWillpower / 100;
+    const habitActionsValue = todayEntry?.nightEntry?.actions || {};
 
-    const habitActionsValue = todayEntry?.nightEntry?.actions?.[habitId] || {};
-
-    // Calculate the base XP sum
-    const baseXP = Object.values(habitActionsValue).reduce(
-      (sum, value) => sum + value,
-      0
+    const xpSums = calculateHabitsXpSumsFromActions(
+      habitActionsValue,
+      dailyWillpower
     );
-    // Apply the willpower multiplier and round to the nearest integer
-    return Math.round(baseXP * willpowerMultiplier);
+
+    return xpSums[habitId] || 0;
   };
 
   useEffect(() => {
