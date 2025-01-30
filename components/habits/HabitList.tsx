@@ -1,11 +1,11 @@
 import { HabitCard } from "@components/habits/habit-card/HabitCard";
 import { Accordion } from "@components/ui/accordion";
-import { Habit } from "@app/types/types";
+import { Habit, ActionItem } from "@app/types/types";
 
 type HabitListProps = {
   habits: Habit[];
   handleEdit: (habit: Habit) => void;
-  getActionUpdateValues: (habitId: string) => any;
+  getActionUpdateValues: (habitId: string) => ActionItem;
   entryLoading: boolean;
   willpowerMultiplier: number;
   submittingJournalEntry: boolean;

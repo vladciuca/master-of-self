@@ -72,9 +72,9 @@ export const calculateHabitsXpSumsFromActions = (
   const willpowerMultiplier = 1 + dailyWillpower / 100;
 
   return Object.entries(actions).reduce((acc, [habitId, habitActions]) => {
-    // Calculate the base XP sum for the habit
-    const baseXp = Object.values(habitActions).reduce(
-      (sum, value) => sum + value,
+    // Calculate the base XP sum for the habit, excluding the 'currentXp' key
+    const baseXp = Object.entries(habitActions).reduce(
+      (sum, [key, value]) => (key !== "currentXp" ? sum + value : sum),
       0
     );
 

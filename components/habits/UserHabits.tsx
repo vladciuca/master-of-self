@@ -46,7 +46,7 @@ export function UserHabits() {
       try {
         const newEntryId = await createJournalEntry();
         router.push(
-          `/update-journal-entry/${newEntryId}?step=habits&habitId=${habitId}`,
+          `/update-journal-entry/${newEntryId}?step=actions&habitId=${habitId}`,
           { scroll: false }
         );
       } catch (error) {
@@ -54,7 +54,7 @@ export function UserHabits() {
       }
     } else {
       router.push(
-        `/update-journal-entry/${todayEntry._id}?step=habits&habitId=${habitId}`,
+        `/update-journal-entry/${todayEntry._id}?step=actions&habitId=${habitId}`,
         { scroll: false }
       );
     }
@@ -62,11 +62,15 @@ export function UserHabits() {
 
   const getActionUpdateValues = (habitId: string) => {
     if (todayEntryLoading || lastEntryLoading) return {};
-    if (!todayEntry) {
-      return lastEntry?.nightEntry?.actions?.[habitId] || {};
-    } else {
-      return todayEntry?.nightEntry?.actions?.[habitId] || {};
-    }
+    const actions = !todayEntry
+      ? lastEntry?.nightEntry?.actions?.[habitId]
+      : todayEntry?.nightEntry?.actions?.[habitId];
+
+    if (!actions) return {};
+
+    // Exclude the currentXp key
+    const { currentXp, ...actionValues } = actions;
+    return actionValues;
   };
 
   const getWillpowerMultiplier = () => {

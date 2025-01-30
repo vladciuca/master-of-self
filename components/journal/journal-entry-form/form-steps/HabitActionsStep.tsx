@@ -3,11 +3,11 @@ import { FormStepTemplate } from "@/components/journal/journal-entry-form/form-s
 import { HabitActions } from "../../../habits/habit-actions/HabitActions";
 import { SkeletonHabitAction } from "@components/skeletons/SkeletonHabitAction";
 import { useUserHabits } from "@/hooks/useUserHabits";
-import { Habit } from "@app/types/types";
+import { Habit, Actions } from "@app/types/types";
 
 type HabitActionsProps = {
-  onChange: (value: { [key: string]: { [key: string]: number } }) => void;
-  actionChanges?: { [key: string]: { [key: string]: number } };
+  onChange: (value: Actions) => void;
+  actionChanges?: Actions;
   dailyWillpower: number;
 };
 
@@ -21,9 +21,7 @@ export function HabitActionsStep({
   dailyWillpower,
 }: HabitActionsProps) {
   const { habits, habitsLoading, habitsError } = useUserHabits();
-  const [actionValues, setActionValues] = useState<{
-    [key: string]: { [key: string]: number };
-  }>(actionChanges);
+  const [actionValues, setActionValues] = useState<Actions>(actionChanges);
 
   const willpowerMultiplier = 1 + dailyWillpower / 100;
 
@@ -32,13 +30,31 @@ export function HabitActionsStep({
     setActionValues(actionChanges);
   }, [actionChanges]);
 
+  // Update currentXp when habits change
+  useEffect(() => {
+    if (habits) {
+      setActionValues((prev) => {
+        const newValues = { ...prev };
+        habits.forEach((habit) => {
+          if (
+            newValues[habit._id] &&
+            Object.keys(newValues[habit._id]).length > 1
+          ) {
+            newValues[habit._id].currentXp = habit.xp;
+          }
+        });
+        return newValues;
+      });
+    }
+  }, [habits]);
+
   const calculateProjectedXP = useCallback(
     (habit: Habit) => {
       const habitActions = actionValues[habit._id] || {};
 
       // Calculate the base XP sum
-      const baseXP = Object.values(habitActions).reduce(
-        (sum, value) => sum + value,
+      const baseXP = Object.entries(habitActions).reduce(
+        (sum, [key, value]) => (key !== "currentXp" ? sum + value : sum),
         0
       );
       // Apply the willpower multiplier and round to the nearest integer
@@ -52,14 +68,20 @@ export function HabitActionsStep({
       setActionValues((prev) => {
         const newValues = { ...prev };
         if (!newValues[habitId]) {
-          newValues[habitId] = {};
+          newValues[habitId] = {
+            currentXp: habits.find((h) => h._id === habitId)?.xp || 0,
+          };
         }
         newValues[habitId][actionId] = newValue;
 
         if (newValues[habitId][actionId] === 0) {
           delete newValues[habitId][actionId];
         }
-        if (Object.keys(newValues[habitId]).length === 0) {
+
+        if (
+          Object.keys(newValues[habitId]).length === 1 &&
+          "currentXp" in newValues[habitId]
+        ) {
           delete newValues[habitId];
         }
 
@@ -67,7 +89,7 @@ export function HabitActionsStep({
         return newValues;
       });
     },
-    [onChange]
+    [onChange, habits]
   );
 
   return (
@@ -93,7 +115,7 @@ export function HabitActionsStep({
                   habit={habit}
                   projectedHabitXp={calculateProjectedXP(habit)}
                   onChange={handleActionChange}
-                  actionChanges={actionChanges}
+                  actionChanges={actionChanges[habit._id] || {}}
                   habitsLoading={habitsLoading}
                   willpowerMultiplier={willpowerMultiplier}
                 />

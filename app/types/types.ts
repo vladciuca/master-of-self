@@ -22,7 +22,7 @@ export type UserSettings = {
     morning: string;
     evening: string;
   };
-  //TODO-V2
+  // TODO - for V2
   // userXp: number;
   // habitSlots: number;
   // goalSlots: number;
@@ -32,6 +32,14 @@ export type UserMetadata = User & UserSettings;
 export interface Session extends NextAuthSession {
   user: User;
 }
+
+export type ActionItem = {
+  [key: string]: number;
+};
+
+export type Actions = {
+  [key: string]: ActionItem & { currentXp: number };
+};
 
 export type JournalEntry = {
   dailyWillpower: number;
@@ -44,8 +52,9 @@ export type JournalEntry = {
     howGreatToday?: string[];
     dailyHighlights?: string[];
     learnedToday?: string[];
+    //obsolete key habits - moved into actions key
     habits?: { [key: string]: number };
-    actions?: { [key: string]: { [key: string]: number } };
+    actions?: Actions;
   };
 };
 

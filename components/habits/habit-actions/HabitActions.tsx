@@ -19,7 +19,7 @@ import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 import { calculateHabitLevel, xpForHabitLevel } from "@lib/level";
 import { formatNumberSuffixes } from "@lib/utils";
-import { Habit } from "@app/types/types";
+import { Habit, ActionItem } from "@app/types/types";
 import { useSideContentPosition } from "@hooks/useSideContentPosition";
 
 type HabitActionsProps = {
@@ -27,7 +27,7 @@ type HabitActionsProps = {
   habitsLoading: boolean;
   projectedHabitXp: number;
   onChange: (habitId: string, actionId: string, newValue: number) => void;
-  actionChanges: { [key: string]: { [key: string]: number } };
+  actionChanges: ActionItem & { currentXp?: number };
   willpowerMultiplier: number;
 };
 
@@ -47,8 +47,8 @@ export function HabitActions({
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
 
-  const [actionValues, setActionValues] = useState<{ [key: string]: number }>(
-    actionChanges[habitId] || {}
+  const [actionValues, setActionValues] = useState<ActionItem>(
+    actionChanges || {}
   );
   const habitContainerRef = useRef<HTMLDivElement>(null);
 

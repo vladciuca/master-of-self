@@ -11,15 +11,13 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@components/ui/accordion";
-import { Session, Habit } from "@app/types/types";
+import { Session, Habit, ActionItem } from "@app/types/types";
 
 type HabitCardProps = {
   habit: Habit;
   handleEdit: (habit: Habit) => void;
   // handleDelete: (habit: Habit) => Promise<void>;
-  actionUpdateValues: {
-    [key: string]: number;
-  };
+  actionUpdateValues: ActionItem;
   entryLoading: boolean;
   willpowerMultiplier: number;
   submittingJournalEntry: boolean;
