@@ -1,46 +1,58 @@
-import React, { ReactElement } from "react";
+import React from "react";
+import { SkeletonList } from "@components/skeletons/SkeletonList";
+import { getStepStyle, stepIconMap } from "@components/ui/constants";
 
 type EntrySectionProps = {
-  icon: ReactElement;
   title: string;
   items?: string[];
-  checked?: boolean;
-  dayPeriod?: "night" | "day";
+  stepType: string;
+  contentLoading?: boolean;
+  bonusList?: boolean;
 };
 
 export function JournalEntrySection({
-  icon,
   title,
   items,
-  checked,
-  dayPeriod,
+  stepType,
+  contentLoading,
+  bonusList,
 }: EntrySectionProps) {
-  const dayPeriodTextColor = dayPeriod === "day" ? "yellow-500" : "purple-500";
+  const { bgColor } = getStepStyle(stepType);
+  const bulletPointPosition = bonusList ? "mt-2" : "mt-[6px]";
+  const IconElement = stepIconMap[stepType] || stepIconMap.default;
 
   return (
-    <div className="mt-4">
-      <div className="flex items-center mt-4">
-        {React.cloneElement(icon, { className: "mr-2 text-muted-foreground" })}
+    <div>
+      <div
+        className={`mb-2 flex items-center ${
+          bonusList ? "justify-center" : ""
+        }`}
+      >
+        {!bonusList &&
+          IconElement &&
+          React.cloneElement(IconElement as React.ReactElement, {
+            className: "mr-2 text-muted-foreground",
+            size: "1rem",
+          })}
         <div className="text-sm text-muted-foreground">{title}</div>
       </div>
-      {items && items.length > 0 && (
-        <ol className="mt-2 mx-[3.5px]">
-          {items.map((item, index) => (
-            <li key={index} className="flex items-top">
-              <span className="relative">
-                {checked ? (
+
+      {contentLoading ? (
+        <SkeletonList />
+      ) : (
+        <ol className="mx-[3.5px]">
+          {items &&
+            items.length > 0 &&
+            items.map((item, index) => (
+              <li key={index} className="flex items-top">
+                <span className="relative">
                   <div
-                    className={`rounded-full w-2 h-2 mt-[6px] bg-[linear-gradient(to_right,_#eab308_50%,_#a855f7_50%)]`}
+                    className={`rounded-full w-2 h-2 ${bulletPointPosition} ${bgColor}`}
                   />
-                ) : (
-                  <div
-                    className={`rounded-full w-2 h-2 mt-[6px] bg-${dayPeriodTextColor}`}
-                  />
-                )}
-              </span>
-              <span className="ml-2">{item}</span>
-            </li>
-          ))}
+                </span>
+                <span className="ml-2">{item}</span>
+              </li>
+            ))}
         </ol>
       )}
     </div>

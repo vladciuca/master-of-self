@@ -3,15 +3,13 @@ import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { JournalEntrySection } from "@components/journal/JournalEntrySection";
 import { JournalEntryHabits } from "@components/journal/JournalEntryHabits";
-// import { JournalEntryActions } from "@components/journal/JournalEntryActions";
 import {
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "@components/ui/accordion";
-import { FaBoltLightning, FaSun, FaMoon, FaStar } from "react-icons/fa6";
+import { FaBoltLightning } from "react-icons/fa6";
 import { Shell } from "lucide-react";
-import { GiPrayer, GiBackup } from "react-icons/gi";
 import { calculateHabitsXpSumsFromActions } from "@lib/level";
 import { Session, JournalEntryMetadata } from "@app/types/types";
 
@@ -134,7 +132,6 @@ JournalEntryCardProps) {
         {bonusWillpower > 0 && (
           <div className="w-full text-muted-foreground mt-4">
             <div className="flex items-center">
-              {/* <FaStar className="mr-2 text-muted-foreground" /> */}
               <div className="flex items-center">
                 Willpower Bonus:
                 <span className="ml-1 text-green-500">+{bonusWillpower}</span>
@@ -208,7 +205,7 @@ JournalEntryCardProps) {
           </div>
         )}
       </AccordionTrigger>
-      <AccordionContent className="p-0">
+      <AccordionContent className="p-0 space-y-4">
         <hr className="mt-4" />
 
         {!hasContent && (
@@ -219,46 +216,42 @@ JournalEntryCardProps) {
 
         {dayEntry?.gratefulFor && dayEntry?.gratefulFor.length > 0 && (
           <JournalEntrySection
-            icon={<GiPrayer />}
             title="What I am grateful for today..."
             items={dayEntry?.gratefulFor}
-            dayPeriod="day"
+            stepType="gratitude"
           />
         )}
 
         {uncompletedDailyToDos().length > 0 && (
           <JournalEntrySection
-            icon={<FaSun />}
             title={"What will make today great..."}
             items={uncompletedDailyToDos()}
-            dayPeriod="day"
+            stepType="day"
           />
         )}
 
         {completedDailyToDos().length > 0 && (
           <JournalEntrySection
-            icon={<FaMoon />}
             title={"What made today great..."}
             items={completedDailyToDos()}
-            dayPeriod="day"
-            checked
+            stepType="night"
           />
         )}
 
         {nightEntry?.dailyHighlights &&
           nightEntry?.dailyHighlights.length > 0 && (
             <JournalEntrySection
-              icon={<FaStar />}
               title="Today's highlights..."
               items={nightEntry?.dailyHighlights}
+              stepType="highlights"
             />
           )}
 
         {nightEntry?.learnedToday && nightEntry?.learnedToday.length > 0 && (
           <JournalEntrySection
-            icon={<GiBackup />}
             title="What have I learned today..."
             items={nightEntry?.learnedToday}
+            stepType="reflection"
           />
         )}
       </AccordionContent>

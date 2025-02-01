@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { calculateHabitsXpSumsFromActions } from "@/lib/level";
-import { Session, JournalEntry } from "@/app/types/types";
+import { calculateWillpowerScore } from "@/lib/score";
+import type { Session, JournalEntry } from "@/app/types/types";
 
 type HabitsXp = { [key: string]: number };
 
@@ -9,16 +10,15 @@ export function useLastJournalEntry() {
   const [lastEntry, setLastEntry] = useState<JournalEntry | null>(null);
   const [lastEntryLoading, setLastEntryLoading] = useState(false);
   const [lastEntryError, setLastEntryError] = useState<string | null>(null);
-  const [lastHighlights, setLastHighlights] = useState<string[]>([]);
   const [bonusWillpower, setBonusWillpower] = useState<number>(0);
+  const [howGreatTodayBonusWillpower, setHowGreatTodayBonusWillpower] =
+    useState<number>(0);
+  const [dailyHighlightsBonusWillpower, setDailyHighlightsBonusWillpower] =
+    useState<number>(0);
+  const [learnedTodayBonusWillpower, setLearnedTodayBonusWillpower] =
+    useState<number>(0);
   const [habitsXp, setHabitsXp] = useState<HabitsXp>({});
   const { data: session } = useSession() as { data: Session | null };
-
-  const calculateBonusWillpower = (stringArray: string[]) => {
-    const totalEntries = stringArray.length;
-    const totalLength = stringArray.join("").length;
-    return Math.floor((totalEntries * 5 + totalLength) / 10);
-  };
 
   useEffect(() => {
     const getLastEntry = async () => {
@@ -44,38 +44,40 @@ export function useLastJournalEntry() {
 
         const nightEntry = entry?.nightEntry || {
           dailyHighlights: [],
+          howGreatToday: [],
+          learnedToday: [],
           actions: {},
         };
         const dailyWillpower = entry?.dailyWillpower || 0;
 
-        if (
-          Array.isArray(nightEntry.dailyHighlights) &&
-          nightEntry.dailyHighlights.length > 0
-        ) {
-          setLastHighlights(nightEntry.dailyHighlights);
-          let extraBonus = 0;
-          if (
-            Array.isArray(nightEntry.learnedToday) &&
-            nightEntry.learnedToday.length > 0
-          ) {
-            extraBonus = calculateBonusWillpower(nightEntry.learnedToday);
-          }
-          const calculatedBonus = calculateBonusWillpower(
-            nightEntry.dailyHighlights
-          );
-          setBonusWillpower(calculatedBonus + extraBonus);
-        } else {
-          setLastHighlights([]);
-          setBonusWillpower(0);
-        }
+        // Calculate individual bonus willpower scores
+        const howGreatTodayScore = calculateWillpowerScore(
+          nightEntry.howGreatToday || []
+        );
+        const dailyHighlightsScore = calculateWillpowerScore(
+          nightEntry.dailyHighlights || []
+        );
+        const learnedTodayScore = calculateWillpowerScore(
+          nightEntry.learnedToday || []
+        );
 
-        let currentHabitsXp = {};
+        // Set individual scores
+        setHowGreatTodayBonusWillpower(howGreatTodayScore);
+        setDailyHighlightsBonusWillpower(dailyHighlightsScore);
+        setLearnedTodayBonusWillpower(learnedTodayScore);
+
+        // Calculate and set total bonus willpower
+        const totalBonus =
+          howGreatTodayScore + dailyHighlightsScore + learnedTodayScore;
+        setBonusWillpower(totalBonus);
+
+        // Calculate and set habits XP
         if (
           nightEntry.actions &&
           typeof nightEntry.actions === "object" &&
           Object.keys(nightEntry.actions).length > 0
         ) {
-          currentHabitsXp = calculateHabitsXpSumsFromActions(
+          const currentHabitsXp = calculateHabitsXpSumsFromActions(
             nightEntry.actions,
             dailyWillpower
           );
@@ -96,8 +98,10 @@ export function useLastJournalEntry() {
     lastEntry,
     lastEntryLoading,
     lastEntryError,
-    lastHighlights,
     bonusWillpower,
+    howGreatTodayBonusWillpower,
+    dailyHighlightsBonusWillpower,
+    learnedTodayBonusWillpower,
     habitsXp,
   };
 }

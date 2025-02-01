@@ -1,14 +1,12 @@
-import React, { useRef } from "react";
+import { useState, useEffect, useMemo } from "react";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import { Card, CardContent } from "@/components/ui/card";
 import { FormStepTemplate } from "@components/journal/journal-entry-form/form-steps/FormStepTemplate";
-// import { JournalEntryHabits } from "@components/journal/JournalEntryHabits";
-// import { HabitsUsed } from "./HabitsUsed";
-import { Label } from "@components/ui/label";
-import { SkeletonList } from "@components/skeletons/SkeletonList";
+import { JournalEntrySection } from "@components/journal/JournalEntrySection";
 import { FaBoltLightning } from "react-icons/fa6";
-import { BsChevronCompactDown } from "react-icons/bs";
-import { GiDeadlyStrike } from "react-icons/gi";
 import { useYesterdayJournalEntry } from "@hooks/useYesterdayJournalEntry";
-// import { calculateHabitsXpSumsFromActions } from "@lib/level";
+import { stepIconMap } from "@components/ui/constants";
+import { BonusStepTabHeader } from "./BonusStepTabHeader";
 
 type DailyBonusProps = {
   bonusWillpower: number;
@@ -17,84 +15,109 @@ type DailyBonusProps = {
 export function DailyBonus({ bonusWillpower }: DailyBonusProps) {
   const {
     yesterdayEntry,
-    yesterdayHighlights = [],
     yesterdayEntryLoading,
+    // bonusWillpower,
+    howGreatTodayBonusWillpower,
+    dailyHighlightsBonusWillpower,
+    learnedTodayBonusWillpower,
   } = useYesterdayJournalEntry();
-  const highlightsRef = useRef<HTMLDivElement>(null);
 
-  const scrollToHighlights = () => {
-    highlightsRef.current?.scrollIntoView({
-      behavior: "smooth",
-      block: "start",
-    });
+  const tabData = useMemo(
+    () =>
+      [
+        {
+          icon: stepIconMap.night,
+          stepType: "night",
+          bonusWillpowerValue: howGreatTodayBonusWillpower,
+          title: "What made yesterday great",
+          items: yesterdayEntry?.nightEntry?.howGreatToday || [],
+        },
+        {
+          icon: stepIconMap.highlights,
+          stepType: "highlights",
+          bonusWillpowerValue: dailyHighlightsBonusWillpower,
+          title: "Yesterday's highlights",
+          items: yesterdayEntry?.nightEntry?.dailyHighlights || [],
+        },
+        {
+          icon: stepIconMap.reflection,
+          stepType: "reflection",
+          bonusWillpowerValue: learnedTodayBonusWillpower,
+          title: "What I learned yesterday",
+          items: yesterdayEntry?.nightEntry?.learnedToday || [],
+        },
+      ].filter((tab) => tab.items.length > 0),
+    [
+      yesterdayEntry,
+      howGreatTodayBonusWillpower,
+      dailyHighlightsBonusWillpower,
+      learnedTodayBonusWillpower,
+    ]
+  );
+
+  const [activeTab, setActiveTab] = useState<string>("");
+
+  useEffect(() => {
+    if (tabData.length > 0 && activeTab === "") {
+      setActiveTab(tabData[0].stepType);
+    }
+  }, [tabData, activeTab]);
+
+  const loadContent = (tab: string) => {
+    setActiveTab(tab);
   };
 
-  // const habitsXpFromActions = yesterdayEntry?.nightEntry?.actions
-  //   ? calculateHabitsXpSumsFromActions(
-  //       yesterdayEntry.nightEntry.actions,
-  //       yesterdayEntry.dailyWillpower
-  //     )
-  //   : {};
+  if (tabData.length === 0) {
+    return null; // Or return a message that there's no data to display
+  }
 
   return (
-    <FormStepTemplate title="Yesterday's rewards">
-      <div className="h-full overflow-hidden">
-        <div className="h-full flex flex-col">
-          <div className="flex-1 flex flex-col items-center justify-around min-h-full">
-            <div className="flex flex-col items-center">
-              <GiDeadlyStrike size={140} />
-              <div className="text-4xl my-4 flex items-center">
-                <span className="text-green-500 font-semibold">
-                  +{bonusWillpower}
-                </span>
-                <FaBoltLightning className="ml-2 text-3xl" />
-              </div>
-              <div className="text-muted-foreground text-center">
-                Empowered from yesterday's highlights!
-              </div>
-              {/* Habits Used Yesterday */}
-              {/* <div className="flex-grow flex flex-col items-start">
-                {yesterdayEntry?.nightEntry?.actions &&
-                  Object.keys(yesterdayEntry.nightEntry.actions).length > 0 && (
-                    <div className="mt-2 flex w-full">
-                      <div className="flex-grow flex flex-wrap items-start">
-                        <HabitsUsed habitsXp={habitsXpFromActions} />
-                      </div>
-                    </div>
-                  )}
-              </div> */}
-            </div>
-
-            <div className="h-[20%] flex items-center justify-center">
-              <BsChevronCompactDown
-                className="text-muted-foreground cursor-pointer"
-                size={48}
-                onClick={scrollToHighlights}
-              />
-            </div>
+    <FormStepTemplate
+      title={"Yesterday's rewards"}
+      scoreSection={
+        <>
+          <span className="text-green-500">+{bonusWillpower}</span>
+          <FaBoltLightning className="ml-2 text-3xl" />
+        </>
+      }
+    >
+      <div className="w-full max-w-md mx-auto p-4 pt-0">
+        <Tabs value={activeTab} className="w-full">
+          <div className="sticky top-0 z-10 bg-background shadow-md">
+            <TabsList className="flex justify-around h-24">
+              {tabData.map((tab) => (
+                <TabsTrigger
+                  key={tab.stepType}
+                  className="w-[75px] h-[65px] flex flex-col items-center justify-center"
+                  value={tab.stepType}
+                  onClick={() => loadContent(tab.stepType)}
+                >
+                  <BonusStepTabHeader
+                    icon={tab.icon}
+                    count={tab.items.length}
+                    stepType={tab.stepType}
+                    bonusWillpowerValue={tab.bonusWillpowerValue}
+                  />
+                </TabsTrigger>
+              ))}
+            </TabsList>
           </div>
-
-          <div ref={highlightsRef} className="flex-1 min-h-full">
-            <Label className="h-[15%] w-full text-center">
-              <div className="leading-relaxed text-muted-foreground mx-4 mb-6">
-                {"Yesterday's highlights!"}
-              </div>
-            </Label>
-            <div className="h-[85%] overflow-y-scroll">
-              {yesterdayEntryLoading && yesterdayHighlights.length > 0 ? (
-                <SkeletonList />
-              ) : (
-                <ol className="list-decimal pl-8 mx-1">
-                  {yesterdayHighlights.map((highlight, index) => (
-                    <li key={index} className="mb-2">
-                      {highlight}
-                    </li>
-                  ))}
-                </ol>
-              )}
-            </div>
-          </div>
-        </div>
+          {tabData.map((tab) => (
+            <TabsContent key={tab.stepType} value={tab.stepType}>
+              <Card>
+                <CardContent className="p-4">
+                  <JournalEntrySection
+                    title={tab.title}
+                    items={tab.items}
+                    stepType={tab.stepType}
+                    contentLoading={yesterdayEntryLoading}
+                    bonusList
+                  />
+                </CardContent>
+              </Card>
+            </TabsContent>
+          ))}
+        </Tabs>
       </div>
     </FormStepTemplate>
   );

@@ -15,9 +15,10 @@ import { FormStepProgress } from "./FormStepProgress";
 import { FormStepNavigation } from "./FormStepNavigation";
 import { JournalEntry } from "@/app/types/types";
 import { isEvening } from "@lib/time";
+import { calculateWillpowerScore } from "@/lib/score";
 
 // TEST_FLAG: used for enabling all forms steps
-const SHOW_ALL_TEST = false;
+const SHOW_ALL_TEST = true;
 
 type FormStepControllerProps = {
   submitting: boolean;
@@ -51,29 +52,21 @@ export function FormStepController({
       howGreatToday: journalEntryData?.nightEntry?.howGreatToday || [],
       dailyHighlights: journalEntryData?.nightEntry?.dailyHighlights || [],
       learnedToday: journalEntryData?.nightEntry?.learnedToday || [],
-      habits: journalEntryData?.nightEntry?.habits || {},
+      // habits: journalEntryData?.nightEntry?.habits || {},
       actions: journalEntryData?.nightEntry?.actions || {},
     },
   }));
   const [isInitialized, setIsInitialized] = useState(false);
 
-  const calculateScore = useMemo(
-    () => (entries: string[]) => {
-      const totalEntries = entries.length;
-      const totalLength = entries.join("").length;
-      return Math.floor((totalEntries * 5 + totalLength) / 10);
-    },
-    []
-  );
-
-  const calculateWillpower = useMemo(
-    () => (data: JournalEntry) => {
-      const greatTodayScore = calculateScore(data.dayEntry?.greatToday || []);
-      const gratefulForScore = calculateScore(data.dayEntry?.gratefulFor || []);
-      return Math.floor((greatTodayScore + gratefulForScore) * 1.5);
-    },
-    [calculateScore]
-  );
+  const calculateDailyWillpower = useCallback((data: JournalEntry) => {
+    const greatTodayScore = calculateWillpowerScore(
+      data.dayEntry?.greatToday || []
+    );
+    const gratefulForScore = calculateWillpowerScore(
+      data.dayEntry?.gratefulFor || []
+    );
+    return Math.floor((greatTodayScore + gratefulForScore) * 1.5);
+  }, []);
 
   useEffect(() => {
     if (journalEntryData) {
@@ -93,11 +86,12 @@ export function FormStepController({
   }, [journalEntryData]);
 
   useEffect(() => {
-    const willpower = calculateWillpower(formData) + formData.bonusWillpower;
+    const willpower =
+      calculateDailyWillpower(formData) + formData.bonusWillpower;
     if (willpower !== formData.dailyWillpower) {
       setFormData((prev) => ({ ...prev, dailyWillpower: willpower }));
     }
-  }, [formData, calculateWillpower]);
+  }, [formData, calculateDailyWillpower]);
 
   const handleChange = useCallback(
     (
@@ -107,8 +101,8 @@ export function FormStepController({
         | "howGreatToday"
         | "dailyHighlights"
         | "learnedToday"
-        //THINK HABITS IS DEAD KEY -moved them into actions
-        | "habits"
+        // HABITS IS DEAD KEY -moved them into actions
+        // | "habits"
         | "actions",
       value:
         | string[]
@@ -126,7 +120,7 @@ export function FormStepController({
           field === "howGreatToday" ||
           field === "dailyHighlights" ||
           field === "learnedToday" ||
-          field === "habits" ||
+          // field === "habits" ||
           field === "actions"
         ) {
           newData.nightEntry = {
@@ -144,6 +138,7 @@ export function FormStepController({
     () => [
       {
         type: "reward",
+        // component: <DailyBonus bonusWillpower={formData.bonusWillpower} />,
         component: <DailyBonus bonusWillpower={formData.bonusWillpower} />,
         isAvailable:
           SHOW_ALL_TEST ||

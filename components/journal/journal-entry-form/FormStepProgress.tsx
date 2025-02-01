@@ -1,38 +1,13 @@
 import React from "react";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
-import { FaSun, FaMoon, FaStar, FaBoltLightning } from "react-icons/fa6";
-import {
-  GiPrayer,
-  GiBackup,
-  GiPencilRuler,
-  GiEnlightenment,
-} from "react-icons/gi";
-
-type StepIconMap = {
-  [key: string]: React.ReactNode;
-};
-
-const stepIconMap: StepIconMap = {
-  day: <FaSun size={"1.3rem"} />,
-  night: <FaMoon size={"1.4rem"} />,
-  highlights: <FaStar size={"1.4rem"} />,
-  gratitude: <GiPrayer size={"1.4rem"} />,
-  reflection: <GiBackup size={"1.4rem"} />,
-  actions: <GiPencilRuler size={"1.4rem"} />,
-  default: <GiEnlightenment size={"1.8rem"} />,
-};
+import { FaBoltLightning } from "react-icons/fa6";
+import { stepIconMap, getStepStyle } from "@components/ui/constants";
 
 type Step = {
   type: string;
   component: React.ReactNode;
   isAvailable: boolean;
-};
-
-type CountAndColor = {
-  count: number;
-  bgColor: string;
-  // textColor: string;
 };
 
 type FormStepProgressProps = {
@@ -44,8 +19,8 @@ type FormStepProgressProps = {
   dailyGoalsCompleted: number;
   gratefulForCount: number;
   dailyHighlightsCount: number;
-  learnedTodayCount: number;
   habitActionsCount: number;
+  learnedTodayCount: number;
 };
 
 export function FormStepProgress({
@@ -57,46 +32,25 @@ export function FormStepProgress({
   dailyGoalsCompleted,
   gratefulForCount,
   dailyHighlightsCount,
-  learnedTodayCount,
   habitActionsCount,
+  learnedTodayCount,
 }: FormStepProgressProps) {
-  const getCountAndColor = (stepType: string): CountAndColor => {
+  const getCount = (stepType: string): number => {
     switch (stepType) {
       case "day":
-        return {
-          count: greatTodayCount,
-          bgColor: "bg-yellow-500",
-        };
+        return greatTodayCount;
       case "night":
-        return {
-          count: dailyGoalsCompleted,
-          bgColor: "bg-[linear-gradient(to_right,_#eab308_50%,_#a855f7_50%)]",
-        };
+        return dailyGoalsCompleted;
       case "gratitude":
-        return {
-          count: gratefulForCount,
-          bgColor: "bg-yellow-500",
-        };
-      case "reflection":
-        return {
-          count: learnedTodayCount,
-          bgColor: "bg-purple-500",
-        };
+        return gratefulForCount;
       case "highlights":
-        return {
-          count: dailyHighlightsCount,
-          bgColor: "bg-purple-500",
-        };
+        return dailyHighlightsCount;
       case "actions":
-        return {
-          count: habitActionsCount,
-          bgColor: "bg-pink-500",
-        };
+        return habitActionsCount;
+      case "reflection":
+        return learnedTodayCount;
       default:
-        return {
-          count: 0,
-          bgColor: "bg-yellow-500",
-        };
+        return 0;
     }
   };
 
@@ -105,7 +59,8 @@ export function FormStepProgress({
       <div className="flex items-center justify-around w-full mt-4 mb-3 px-4 sm:pt-4">
         {availableSteps.map((step: Step, index: number) => {
           const IconElement = stepIconMap[step.type] || stepIconMap.default;
-          const { count, bgColor } = getCountAndColor(step.type);
+          const { bgColor } = getStepStyle(step.type);
+          const count = getCount(step.type);
           return (
             <span
               key={index}
@@ -119,7 +74,7 @@ export function FormStepProgress({
                   step.type === currentStepType
                     ? "bg-secondary text-primary"
                     : "text-primary"
-                } h-10 w-10 rounded-full  flex items-center justify-center`}
+                } h-10 w-10 rounded-full flex items-center justify-center`}
               >
                 {React.cloneElement(IconElement as React.ReactElement)}
               </div>
@@ -135,7 +90,7 @@ export function FormStepProgress({
               {step.type === "reward" && (
                 <Badge
                   variant="outline"
-                  className={`${bgColor} absolute -top-1 -right-1 text-[0.6rem] px-1 py-0 min-w-[1.2rem] h-[1.2rem] flex items-center justify-center  text-white`}
+                  className={`${bgColor} absolute -top-1 -right-1 text-[0.6rem] px-1 py-0 min-w-[1.2rem] h-[1.2rem] flex items-center justify-center text-white`}
                 >
                   <FaBoltLightning />
                 </Badge>
