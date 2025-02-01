@@ -2,7 +2,7 @@ import { useState, useEffect, useMemo } from "react";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Card, CardContent } from "@/components/ui/card";
 import { FormStepTemplate } from "@components/journal/journal-entry-form/form-steps/FormStepTemplate";
-import { JournalEntrySection } from "@components/journal/JournalEntrySection";
+import { JournalEntrySection } from "@components/journal/journal-entry-card/JournalEntrySection";
 import { FaBoltLightning } from "react-icons/fa6";
 import { useYesterdayJournalEntry } from "@hooks/useYesterdayJournalEntry";
 import { stepIconMap } from "@components/ui/constants";

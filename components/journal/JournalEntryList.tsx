@@ -1,5 +1,5 @@
 import { NewJournalEntry } from "@components/journal/NewJournalEntry";
-import { JournalEntryCard } from "@components/journal/JournalEntryCard";
+import { JournalEntryCard } from "@components/journal/journal-entry-card/JournalEntryCard";
 import { Accordion } from "@components/ui/accordion";
 import { JournalEntryMetadata } from "@app/types/types";
 

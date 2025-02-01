@@ -1,17 +1,18 @@
 import { useSession } from "next-auth/react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
-import { JournalEntrySection } from "@components/journal/JournalEntrySection";
-import { JournalEntryHabits } from "@components/journal/JournalEntryHabits";
+import { JournalEntryIndicators } from "@/components/journal/journal-entry-card/JournalEntryIndicators";
+import { JournalEntryHabits } from "@/components/journal/journal-entry-card/JournalEntryHabits";
+import { JournalEntrySection } from "@/components/journal/journal-entry-card/JournalEntrySection";
 import {
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from "@components/ui/accordion";
+} from "@/components/ui/accordion";
 import { FaBoltLightning } from "react-icons/fa6";
 import { Shell } from "lucide-react";
-import { calculateHabitsXpSumsFromActions } from "@lib/level";
-import { Session, JournalEntryMetadata } from "@app/types/types";
+import { calculateHabitsXpSumsFromActions } from "@/lib/level";
+import { Session, JournalEntryMetadata } from "@/app/types/types";
 
 type JournalEntryCardProps = {
   journalEntry: JournalEntryMetadata;
@@ -88,29 +89,11 @@ JournalEntryCardProps) {
                 <div className="text-3xl font-semibold">{day}</div>
               </div>
 
-              <div className="h-full flex items-start ml-4 space-x-2 text-white">
-                <>
-                  {dayEntries > 0 ? (
-                    <div className="w-6 h-6 rounded-full bg-yellow-500">
-                      {dayEntries}
-                    </div>
-                  ) : null}
-                </>
-                <>
-                  {completedDailyToDos().length > 0 ? (
-                    <div className="w-6 h-6 rounded-full bg-[linear-gradient(to_right,_#eab308_50%,_#a855f7_50%)]">
-                      {completedDailyToDos().length}
-                    </div>
-                  ) : null}
-                </>
-                <>
-                  {nightEntries > 0 ? (
-                    <div className="w-6 h-6 rounded-full bg-purple-500">
-                      {nightEntries}
-                    </div>
-                  ) : null}
-                </>
-              </div>
+              <JournalEntryIndicators
+                dayEntries={dayEntries}
+                completedDailyToDos={completedDailyToDos().length}
+                nightEntries={nightEntries}
+              />
             </div>
 
             <div className="ml-6 flex flex-col justify-center">
@@ -161,7 +144,7 @@ JournalEntryCardProps) {
           </div>
         )} */}
 
-        {/*Actions*/}
+        {/* Habit Actions */}
         <div className="flex-grow flex flex-col items-start">
           {nightEntry?.actions &&
             Object.keys(nightEntry.actions).length > 0 && (
