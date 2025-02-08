@@ -16,6 +16,9 @@ export const habitFormSchema = z.object({
         action: z
           .string()
           .min(3, "Action name must contain at least 3 characters"),
+        actionUnit: z
+          .string()
+          .min(2, "Unit must contain at least 2 characters"),
         type: z.enum(["offensive", "defensive"]),
         metric: z.enum(["count", "time"]),
         value: z.number().default(0),

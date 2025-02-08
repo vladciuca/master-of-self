@@ -3,7 +3,13 @@ import {
   MetricIcon,
 } from "@components/habits/habit-actions/HabitActionIcons";
 import { formatNumberSuffixes } from "@lib/utils";
-import { HabitAction } from "@app/types/types";
+import {
+  displayActionValue,
+  isDailyTargetCompleted,
+  isActionOverCapped,
+  getValueColor,
+} from "@lib/score";
+import type { HabitAction } from "@app/types/types";
 
 type HabitCardActionsProps = {
   actions: HabitAction[];
@@ -19,8 +25,20 @@ export function HabitCardActions({
   return (
     <div>
       {actions.map((action) => {
-        const isDailyTargetCompleted =
-          !isNotToday && actionUpdateValues[action.id] >= action.dailyTarget;
+        const isDefensive = action.type === "defensive";
+        const { dailyTarget } = action;
+        const value = actionUpdateValues[action.id] || 0;
+        const actionParams = { value, dailyTarget, isDefensive };
+
+        // For defensive actions, displayValue shows remaining actions (dailyTarget - value)
+        // For offensive actions, displayValue shows completed actions (value)
+        const displayValue = displayActionValue(actionParams);
+
+        const dailyTargetCompleted =
+          !isNotToday && isDailyTargetCompleted(actionParams);
+
+        const isDailyOverCapped =
+          !isNotToday && isActionOverCapped(actionParams);
 
         return (
           <div key={action.id} className="mb-6">
@@ -29,7 +47,8 @@ export function HabitCardActions({
                 <ActionIcon
                   type={action.type}
                   size={18}
-                  dailyTargetCompleted={isDailyTargetCompleted}
+                  dailyTargetCompleted={dailyTargetCompleted}
+                  overCapped={isDailyOverCapped}
                 />
               </span>
               <span className="text-base break-words whitespace-normal w-0 flex-grow">
@@ -38,19 +57,17 @@ export function HabitCardActions({
             </div>
             <div className="flex flex-col text-sm text-muted-foreground mb-2">
               <div className="flex items-center justify-between border border-muted rounded-md p-2 my-1">
-                <span>Daily target</span>
-
+                Daily {isDefensive ? "Maximum" : "Target"}:
                 <span className="ml-2 font-bold flex items-center text-primary">
-                  {isNotToday || !actionUpdateValues[action.id] ? (
+                  {isNotToday ? (
                     <span>0</span>
-                  ) : actionUpdateValues[action.id] >= action.dailyTarget ? (
-                    <span className="text-green-500">
-                      {actionUpdateValues[action.id]}
-                    </span>
                   ) : (
-                    <span>{actionUpdateValues[action.id]}</span>
+                    <span className={getValueColor(actionParams)}>
+                      {displayValue}
+                    </span>
                   )}
                   /{action.dailyTarget}
+                  <span className="ml-2 font-normal">{action.actionUnit}</span>
                 </span>
               </div>
 
@@ -63,11 +80,9 @@ export function HabitCardActions({
                       <MetricIcon metric={action.metric} size={16} />
 
                       <span className="ml-1 font-bold flex items-baseline text-primary">
-                        {formatNumberSuffixes(
-                          action.value + (actionUpdateValues[action.id] || 0)
-                        )}
-                        {action.metric === "count" ? "" : " h"}
+                        {formatNumberSuffixes(action.value + displayValue)}
                       </span>
+                      <span className="ml-2">{action.actionUnit}</span>
                     </div>
                   </div>
                 </span>

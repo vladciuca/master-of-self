@@ -1,9 +1,11 @@
 import { IconRenderer } from "@components/IconRenderer";
 import { ActionIcon } from "@components/habits/habit-actions/HabitActionIcons";
-import { HabitLevelUpIndicator } from "@components/habits/HabitLevelUpIndicator";
+import { HabitLevelIndicator } from "@components/habits/HabitLevelIndicator";
 import { CircularProgress } from "@components/ui/circular-progress";
+import { XpDisplay } from "@components/ui/xp-display";
 import { calculateHabitLevel, xpForHabitLevel } from "@lib/level";
 import { formatNumberSuffixes } from "@lib/utils";
+import { isDailyTargetCompleted, isActionOverCapped } from "@lib/score";
 import { Habit } from "@app/types/types";
 
 type HabitCardHeaderProps = {
@@ -75,10 +77,7 @@ export function HabitCardHeader({
               <span className="ml-1 flex items-center text-primary">
                 {level}
               </span>
-              <HabitLevelUpIndicator
-                currentLevel={currentLevel}
-                level={level}
-              />
+              <HabitLevelIndicator currentLevel={currentLevel} level={level} />
             </div>
             <span className="mx-1 text-muted text-lg">|</span>
             <div className="font-normal text-xs text-muted-foreground">
@@ -89,16 +88,24 @@ export function HabitCardHeader({
           </div>
           <div className="flex items-center my-1">
             {habit.actions.map((action) => {
-              const isDailyTargetCompleted =
-                !isNotToday &&
-                actionUpdateValues[action.id] >= action.dailyTarget;
+              const isDefensive = action.type === "defensive";
+              const { dailyTarget } = action;
+              const value = actionUpdateValues[action.id] || 0;
+              const actionParams = { value, dailyTarget, isDefensive };
+
+              const dailyTargetCompleted =
+                !isNotToday && isDailyTargetCompleted(actionParams);
+
+              const isDailyOverCapped =
+                !isNotToday && isActionOverCapped(actionParams);
 
               return (
                 <div key={action.id}>
                   <ActionIcon
                     type={action.type}
                     size={18}
-                    dailyTargetCompleted={isDailyTargetCompleted}
+                    dailyTargetCompleted={dailyTargetCompleted}
+                    overCapped={isDailyOverCapped}
                   />
                 </div>
               );
@@ -114,6 +121,7 @@ export function HabitCardHeader({
             xpGainValue={xpGainProgressPercentage}
             strokeWidth={6}
             circleSize={73}
+            projectedXp={projectedXp}
           />
           <div className="absolute w-full flex flex-col justify-center items-center">
             <div className="flex flex-col items-center justify-center text-xs">
@@ -122,10 +130,11 @@ export function HabitCardHeader({
                   <span className="text-base">??</span>
                   <span className="">XP</span>
                 </div>
-              ) : lastEntryProjectedXp > 0 ? (
+              ) : lastEntryProjectedXp !== 0 ? (
                 <div>
-                  <span className="text-base text-green-500 font-bold">
-                    +{formatNumberSuffixes(lastEntryProjectedXp)}
+                  <span className="text-base font-bold">
+                    <XpDisplay xpValue={lastEntryProjectedXp} />
+                    {/* {formatNumberSuffixes(lastEntryProjectedXp)} */}
                   </span>
                   <span>XP</span>
                 </div>

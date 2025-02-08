@@ -1,6 +1,7 @@
 import { IconRenderer } from "@components/IconRenderer";
-import { HabitLevelUpIndicator } from "@components/habits/HabitLevelUpIndicator";
+import { HabitLevelIndicator } from "@components/habits/HabitLevelIndicator";
 import { CircularProgress } from "@components/ui/circular-progress";
+import { XpDisplay } from "@components/ui/xp-display";
 import { Badge } from "@components/ui/badge";
 import {
   calculateHabitLevel,
@@ -11,7 +12,7 @@ import {
 interface HabitIconProgressBarProps {
   icon: string;
   xp: number;
-  projectedXp?: number; //temp
+  projectedXp?: number;
   displayXpValues?: boolean;
   displayLevelValues?: boolean;
 }
@@ -19,7 +20,7 @@ interface HabitIconProgressBarProps {
 export function HabitIconProgressBar({
   icon,
   xp,
-  projectedXp = 0, //temp
+  projectedXp = 0,
   displayXpValues = false,
   displayLevelValues = false,
 }: HabitIconProgressBarProps) {
@@ -50,11 +51,12 @@ export function HabitIconProgressBar({
       <div className="relative">
         {/*LEVEL BAR*/}
         <CircularProgress
-          className="ml-4 overflow-hidden"
+          className="overflow-hidden"
           value={currentProgressPercentage}
           xpGainValue={xpGainProgressPercentage}
           strokeWidth={6}
           circleSize={70}
+          projectedXp={projectedXp}
         />
         {/*ICON*/}
         <div
@@ -78,7 +80,7 @@ export function HabitIconProgressBar({
           >
             <span className="mr-1">Level</span>
             {level}
-            <HabitLevelUpIndicator currentLevel={currentLevel} level={level} />
+            <HabitLevelIndicator currentLevel={currentLevel} level={level} />
           </Badge>
           {/*HABIT RARITY*/}
           <Badge
@@ -108,13 +110,7 @@ export function HabitIconProgressBar({
             variant="outline"
             className="rounded-full bg-primary-foreground absolute bottom-0 left-24 flex items-center space-x-1 px-3 py-1"
           >
-            {projectedXp > 0 ? (
-              <span className="text-green-500 font-bold">+{projectedXp}</span>
-            ) : (
-              <span className="text-muted-foreground font-bold">
-                {projectedXp}
-              </span>
-            )}
+            <XpDisplay xpValue={projectedXp} />
             <span className="whitespace-nowrap">XP Today</span>
           </Badge>
         </>

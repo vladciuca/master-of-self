@@ -67,6 +67,7 @@ export type JournalEntryMetadata = JournalEntry & {
 export type HabitAction = {
   id: string;
   action: string;
+  actionUnit: string;
   metric: "count" | "time";
   type: "offensive" | "defensive";
   value: number;

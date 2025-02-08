@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Badge } from "@components/ui/badge";
+// import { Badge } from "@components/ui/badge";
 import {
   Select,
   SelectContent,
@@ -42,6 +42,7 @@ type ActionsFieldProps = {
 
 const initialActionForm = {
   action: "",
+  actionUnit: "",
   metric: "count" as const,
   type: "offensive" as const,
   dailyTarget: 1,
@@ -53,6 +54,7 @@ export function ActionsField({ control }: ActionsFieldProps) {
   >({
     action: "",
     metric: "count",
+    actionUnit: "",
     type: "offensive",
     dailyTarget: 1,
   });
@@ -109,6 +111,7 @@ export function ActionsField({ control }: ActionsFieldProps) {
     if (actionToEdit) {
       setActionForm({
         action: actionToEdit.action,
+        actionUnit: actionToEdit.actionUnit,
         metric: actionToEdit.metric,
         type: actionToEdit.type,
         dailyTarget: actionToEdit.dailyTarget,
@@ -203,29 +206,15 @@ export function ActionsField({ control }: ActionsFieldProps) {
               <DrawerHeader>
                 <DrawerTitle className="text-center flex flex-col">
                   {editId !== null ? "Edit Action" : "Add New Action"}
-                  <span>
+                  {/* <span>
                     <Badge variant="secondary" className="text-base mt-4">
                       {actionForm.type === "offensive" ? "I will" : "I won't"}
                     </Badge>
-                  </span>
+                  </span> */}
                 </DrawerTitle>
               </DrawerHeader>
 
               <div className="p-4 pb-0">
-                <FormControl>
-                  <Input
-                    placeholder="Enter action"
-                    value={actionForm.action}
-                    onChange={(e) => {
-                      setActionForm({ ...actionForm, action: e.target.value });
-                      setInputError(false);
-                    }}
-                    className={`mt-2 mb-8 text-base ${
-                      inputError ? "border-destructive" : ""
-                    }`}
-                  />
-                </FormControl>
-
                 <Label>Action type</Label>
                 <Select
                   value={actionForm.type}
@@ -251,6 +240,23 @@ export function ActionsField({ control }: ActionsFieldProps) {
                     </SelectItem>
                   </SelectContent>
                 </Select>
+
+                <Label>
+                  {actionForm.type === "offensive" ? "I will..." : "I won't..."}
+                </Label>
+                <FormControl>
+                  <Input
+                    placeholder="Enter action"
+                    value={actionForm.action}
+                    onChange={(e) => {
+                      setActionForm({ ...actionForm, action: e.target.value });
+                      setInputError(false);
+                    }}
+                    className={`mt-2 mb-8 text-base ${
+                      inputError ? "border-destructive" : ""
+                    }`}
+                  />
+                </FormControl>
 
                 <Label>Action tracking metric</Label>
                 <Select
@@ -282,12 +288,31 @@ export function ActionsField({ control }: ActionsFieldProps) {
                   </SelectContent>
                 </Select>
 
+                <Label>Action unit of measurement</Label>
+                <FormControl>
+                  <Input
+                    placeholder="Enter an action unit"
+                    value={actionForm.actionUnit}
+                    onChange={(e) => {
+                      setActionForm({
+                        ...actionForm,
+                        actionUnit: e.target.value,
+                      });
+                      setInputError(false);
+                    }}
+                    className={`mt-2 mb-8 text-base ${
+                      inputError ? "border-destructive" : ""
+                    }`}
+                  />
+                </FormControl>
+
                 <div className="flex items-center mt-2 mb-4">
                   <Label className="mr-4">Daily target</Label>
 
                   <MetricIcon metric={actionForm.metric} size={20} />
                   <div className="ml-1">{actionForm.dailyTarget}</div>
                 </div>
+
                 <Slider
                   value={[actionForm.dailyTarget]} // the value should be passed as an array
                   max={10}

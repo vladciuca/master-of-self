@@ -2,10 +2,11 @@ import React, { useRef, useEffect, useState } from "react";
 import { motion } from "framer-motion";
 
 interface CircularProgressProps extends React.HTMLAttributes<HTMLDivElement> {
-  value: number; // Something between 1 and 100
+  value: number; // Between 1 and 100
   xpGainValue?: number;
   strokeWidth: number;
   circleSize: number;
+  projectedXp: number;
 }
 
 export function CircularProgress({
@@ -13,16 +14,14 @@ export function CircularProgress({
   xpGainValue,
   strokeWidth,
   circleSize,
+  projectedXp = 0,
   ...divProps
 }: CircularProgressProps) {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const [size, setSize] = useState(circleSize);
 
   useEffect(() => {
-    if (
-      containerRef.current &&
-      "getBoundingClientRect" in containerRef.current
-    ) {
+    if (containerRef.current) {
       const { width, height } = containerRef.current.getBoundingClientRect();
       setSize(Math.min(width, height));
     }
@@ -31,15 +30,16 @@ export function CircularProgress({
   const radius = (size - strokeWidth) / 2;
   const circumference = 2 * Math.PI * radius;
 
-  // Calculations for the default circle
+  // Compute offsets
   const percentage = Math.min(Math.max(value, 0), 100);
   const offset = circumference - (percentage / 100) * circumference;
 
-  // Calculations for the XP Gain
   const gainPercentage = Math.min(Math.max(xpGainValue ?? 0, 0), 100);
-  const gainCircumference = circumference; // The gain circle uses the same radius as the main circle
-  const gainOffset =
-    gainCircumference - (gainPercentage / 100) * gainCircumference;
+  const gainOffset = circumference - (gainPercentage / 100) * circumference;
+
+  // Derived state for readability
+  const isPositiveXp = projectedXp >= 0;
+  const isNegativeXp = projectedXp < 0;
 
   return (
     <div
@@ -62,6 +62,7 @@ export function CircularProgress({
               <stop offset="1" stopColor="currentColor" />
             </radialGradient>
           </defs>
+
           {/* Background circle */}
           <circle
             cx={size / 2}
@@ -71,7 +72,8 @@ export function CircularProgress({
             fill="none"
             className="stroke-secondary"
           />
-          {/* The static circle */}
+
+          {/* Static circle */}
           <circle
             cx={size / 2}
             cy={size / 2}
@@ -84,8 +86,9 @@ export function CircularProgress({
               strokeDashoffset: circumference,
             }}
           />
-          {/* XP Gain circle */}
-          {xpGainValue !== undefined && xpGainValue > 0 && (
+
+          {/* Positive XP Gain circle */}
+          {isPositiveXp && (
             <circle
               cx={size / 2}
               cy={size / 2}
@@ -95,29 +98,48 @@ export function CircularProgress({
               fill="none"
               className="stroke-green-500"
               style={{
-                strokeDasharray: gainCircumference,
+                strokeDasharray: circumference,
                 strokeDashoffset: gainOffset,
                 strokeLinecap: "round",
               }}
             />
           )}
-          {/* The animated circle */}
+
+          {/* Animated progress circle */}
           <motion.circle
             cx={size / 2}
             cy={size / 2}
             r={radius}
             strokeLinecap="round"
             className="fill-none"
-            style={{ stroke: "url(#circle-progress)", strokeWidth }}
+            strokeWidth={strokeWidth}
+            animate={{
+              strokeDashoffset: offset,
+              stroke: isNegativeXp ? "#EF4444" : "url(#circle-progress)",
+            }}
             initial={{
               strokeDashoffset: circumference,
               strokeDasharray: circumference,
             }}
-            animate={{ strokeDashoffset: offset }}
-            transition={{
-              ease: "easeOut",
-            }}
+            transition={{ ease: "easeOut" }}
           />
+
+          {/* Negative XP Gain circle */}
+          {isNegativeXp && (
+            <circle
+              cx={size / 2}
+              cy={size / 2}
+              r={radius}
+              strokeWidth={strokeWidth}
+              fill="none"
+              style={{
+                stroke: "currentColor", // Inherits theme color dynamically
+                strokeDasharray: circumference,
+                strokeDashoffset: gainOffset,
+                strokeLinecap: "round",
+              }}
+            />
+          )}
         </svg>
       )}
     </div>

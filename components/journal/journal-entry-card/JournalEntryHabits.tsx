@@ -2,6 +2,7 @@
 
 import { IconRenderer } from "@components/IconRenderer";
 import { Skeleton } from "@components/ui/skeleton";
+import { XpDisplay } from "@components/ui/xp-display";
 import { useHabitsIcons } from "@hooks/useHabitsIcons";
 import type { ActionItem, Actions } from "@app/types/types";
 
@@ -34,8 +35,8 @@ export function JournalEntryHabits({
               )}
             </div>
             <div className="flex items-center text-primary">
-              <span className="text-green-500 text-sm ml-2">
-                +{value}
+              <span className="text-sm ml-2">
+                <XpDisplay xpValue={value} />
                 <span className="text-primary ml-1">XP</span>
               </span>
             </div>

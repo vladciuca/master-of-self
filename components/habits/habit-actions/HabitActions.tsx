@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { HabitIconProgressBar } from "@components/habits/HabitIconProgressBar";
-import { HabitLevelUpIndicator } from "@components/habits/HabitLevelUpIndicator";
+import { HabitLevelIndicator } from "@components/habits/HabitLevelIndicator";
 import { HabitAction } from "@components/habits/habit-actions/HabitAction";
 import {
   Drawer,
@@ -16,6 +16,7 @@ import {
 import { ScrollArea } from "@components/ui/scroll-area";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
+import { XpDisplay } from "@components/ui/xp-display";
 import { Plus } from "lucide-react";
 import { calculateHabitLevel, xpForHabitLevel } from "@lib/level";
 import { formatNumberSuffixes } from "@lib/utils";
@@ -137,7 +138,7 @@ export function HabitActions({
               Level
               <span className="text-primary ml-1 flex items-center">
                 {level}
-                <HabitLevelUpIndicator
+                <HabitLevelIndicator
                   currentLevel={currentLevel}
                   level={level}
                 />
@@ -148,10 +149,10 @@ export function HabitActions({
             {formatNumberSuffixes(xpToLevelUp)}
             <span className="text-primary ml-1">XP</span>
           </div>
-          {projectedHabitXp > 0 ? (
+          {projectedHabitXp !== 0 ? (
             <div>
-              <span className="text-2xl text-green-500 font-bold">
-                +{projectedHabitXp}
+              <span className="text-2xl font-bold">
+                <XpDisplay xpValue={projectedHabitXp} />
               </span>
               <span className="text-primary ml-1">XP</span>
             </div>
@@ -211,6 +212,8 @@ export function HabitActions({
                   value={actionValues[action.id] || 0}
                   onValueChange={handleActionChange}
                   willpowerMultiplier={willpowerMultiplier}
+                  currentXp={xp}
+                  projectedHabitXp={projectedHabitXp}
                 />
               ))}
             </ScrollArea>
