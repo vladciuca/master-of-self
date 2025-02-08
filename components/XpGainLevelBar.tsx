@@ -41,6 +41,7 @@ export function XpGainLevelBar({
             xpGainValue={xpGainProgressPercentage}
             strokeWidth={10}
             circleSize={150}
+            projectedXp={xpChange}
           />
           <div
             className="absolute w-full flex flex-col"
