@@ -5,7 +5,11 @@ import { CircularProgress } from "@components/ui/circular-progress";
 import { XpDisplay } from "@components/ui/xp-display";
 import { calculateHabitLevel, xpForHabitLevel } from "@lib/level";
 import { formatNumberSuffixes } from "@lib/utils";
-import { isDailyTargetCompleted, isActionOverCapped } from "@lib/score";
+import {
+  getActionValueWithFallback,
+  isDailyTargetCompleted,
+  isActionOverCapped,
+} from "@lib/score";
 import { Habit } from "@app/types/types";
 
 type HabitCardHeaderProps = {
@@ -88,10 +92,14 @@ export function HabitCardHeader({
           </div>
           <div className="flex items-center my-1">
             {habit.actions.map((action) => {
-              const isDefensive = action.type === "defensive";
+              const isDefensiveAction = action.type === "defensive";
               const { dailyTarget } = action;
-              const value = actionUpdateValues[action.id] || 0;
-              const actionParams = { value, dailyTarget, isDefensive };
+              // const value =
+              //   actionUpdateValues[action.id] ??
+              //   (isDefensiveAction ? action.dailyTarget : 0);
+              const actionValueParams = { action, actionUpdateValues };
+              const value = getActionValueWithFallback(actionValueParams);
+              const actionParams = { value, dailyTarget, isDefensiveAction };
 
               const dailyTargetCompleted =
                 !isNotToday && isDailyTargetCompleted(actionParams);

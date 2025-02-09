@@ -6,81 +6,65 @@ export function calculateWillpowerScore(stringArray: string[]): number {
 }
 
 // HABITS ACTION VALUES
+import type { HabitAction, ActionItem } from "@app/types/types";
 
-// export function displayActionValue(
-//   value: number,
-//   dailyTarget: number,
-//   isDefensive: boolean
-// ): number {
-//   return isDefensive ? dailyTarget - value : value;
-// }
-
-// export function isDailyTargetCompleted(
-//   value: number,
-//   dailyTarget: number,
-//   isDefensive: boolean
-// ): boolean {
-//   return isDefensive ? value === dailyTarget : value >= dailyTarget;
-// }
-
-// export function isActionOverCapped(
-//   value: number,
-//   dailyTarget: number,
-//   isDefensive: boolean
-// ): boolean {
-//   return isDefensive ? value < 0 : value > 1.5 * dailyTarget;
-// }
-
-// export function getValueColor(
-//   value: number,
-//   dailyTarget: number,
-//   isDefensive: boolean
-// ): string {
-//   if (isActionOverCapped(value, dailyTarget, isDefensive)) {
-//     return isDefensive ? "text-red-500" : "text-orange-500";
-//   }
-//   if (isDailyTargetCompleted(value, dailyTarget, isDefensive)) {
-//     return "text-green-500";
-//   }
-//   return "";
-// }
-
-type HabitActionValue = {
+type HabitActionValueParams = {
   value: number;
   dailyTarget: number;
-  isDefensive: boolean;
+  isDefensiveAction: boolean;
 };
+
+type HabitActionValueFallbackParams = {
+  action: HabitAction;
+  actionUpdateValues: ActionItem;
+};
+
+export function getActionValueWithFallback({
+  action,
+  actionUpdateValues,
+}: HabitActionValueFallbackParams) {
+  const isDefensiveAction = action.type === "defensive";
+  return (
+    actionUpdateValues[action.id] ??
+    (isDefensiveAction ? action.dailyTarget : 0)
+  );
+}
 
 export function displayActionValue({
   value,
   dailyTarget,
-  isDefensive,
-}: HabitActionValue): number {
-  return isDefensive ? dailyTarget - value : value;
+  isDefensiveAction,
+}: HabitActionValueParams): number {
+  return isDefensiveAction ? dailyTarget - value : value;
 }
 
 export function isDailyTargetCompleted({
   value,
   dailyTarget,
-  isDefensive,
-}: HabitActionValue): boolean {
-  return isDefensive ? value === dailyTarget : value >= dailyTarget;
+}: HabitActionValueParams): boolean {
+  return value >= dailyTarget;
 }
+
+const BURN_OUT_MULTIPLIER = 1.5;
 
 export function isActionOverCapped({
   value,
   dailyTarget,
-  isDefensive,
-}: HabitActionValue): boolean {
-  return isDefensive ? value < 0 : value > 1.5 * dailyTarget;
+  isDefensiveAction,
+}: HabitActionValueParams): boolean {
+  return isDefensiveAction
+    ? value < 0
+    : value > BURN_OUT_MULTIPLIER * dailyTarget;
 }
 
-export function getValueColor(params: HabitActionValue): string {
+export function getValueColor(params: HabitActionValueParams): string {
   if (isActionOverCapped(params)) {
-    return params.isDefensive ? "text-red-500" : "text-orange-500";
+    return params.isDefensiveAction ? "text-red-500" : "text-orange-500";
   }
+
   if (isDailyTargetCompleted(params)) {
     return "text-green-500";
   }
-  return "";
+
+  return "text-primary";
 }

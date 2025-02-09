@@ -4,16 +4,17 @@ import {
 } from "@components/habits/habit-actions/HabitActionIcons";
 import { formatNumberSuffixes } from "@lib/utils";
 import {
+  getActionValueWithFallback,
   displayActionValue,
   isDailyTargetCompleted,
   isActionOverCapped,
   getValueColor,
 } from "@lib/score";
-import type { HabitAction } from "@app/types/types";
+import type { HabitAction, ActionItem } from "@app/types/types";
 
 type HabitCardActionsProps = {
   actions: HabitAction[];
-  actionUpdateValues: { [key: string]: number };
+  actionUpdateValues: ActionItem;
   isNotToday: boolean;
 };
 
@@ -25,10 +26,14 @@ export function HabitCardActions({
   return (
     <div>
       {actions.map((action) => {
-        const isDefensive = action.type === "defensive";
+        const isDefensiveAction = action.type === "defensive";
         const { dailyTarget } = action;
-        const value = actionUpdateValues[action.id] || 0;
-        const actionParams = { value, dailyTarget, isDefensive };
+        // const value =
+        //   actionUpdateValues[action.id] ??
+        //   (isDefensiveAction ? action.dailyTarget : 0);
+        const actionValueParams = { action, actionUpdateValues };
+        const value = getActionValueWithFallback(actionValueParams);
+        const actionParams = { value, dailyTarget, isDefensiveAction };
 
         // For defensive actions, displayValue shows remaining actions (dailyTarget - value)
         // For offensive actions, displayValue shows completed actions (value)
@@ -57,7 +62,7 @@ export function HabitCardActions({
             </div>
             <div className="flex flex-col text-sm text-muted-foreground mb-2">
               <div className="flex items-center justify-between border border-muted rounded-md p-2 my-1">
-                Daily {isDefensive ? "Maximum" : "Target"}:
+                Daily {isDefensiveAction ? "Maximum" : "Target"}:
                 <span className="ml-2 font-bold flex items-center text-primary">
                   {isNotToday ? (
                     <span>0</span>
@@ -81,6 +86,7 @@ export function HabitCardActions({
 
                       <span className="ml-1 font-bold flex items-baseline text-primary">
                         {formatNumberSuffixes(action.value + displayValue)}
+                        {/* {formatNumberSuffixes(action.value + value)} */}
                       </span>
                       <span className="ml-2">{action.actionUnit}</span>
                     </div>
