@@ -148,6 +148,9 @@ export function ActionsField({ control }: ActionsFieldProps) {
                     <span className="flex flex-shrink-0 items-start mt-[3.2px]">
                       <ActionIcon type={action.type} size={18} />
                     </span>
+                    <span className="mr-1 text-bold">
+                      {action.type === "offensive" ? "I will" : "I won't"}
+                    </span>
                     <span className="text-base break-words whitespace-normal w-0 flex-grow">
                       {action.action}
                     </span>
@@ -166,13 +169,13 @@ export function ActionsField({ control }: ActionsFieldProps) {
                   <div className="flex items-center justify-between space-x-1">
                     <div className="flex items-center">
                       <span className="text-sm text-muted-foreground">
-                        Daily target:
+                        Daily {action.type === "offensive" ? "Target" : "Limit"}
+                        :
                       </span>
-
                       <span className="mx-1">
                         <MetricIcon metric={action.metric} size={18} />
                       </span>
-                      {action.dailyTarget}
+                      {action.dailyTarget} {action.actionUnit}
                     </div>
 
                     <button
@@ -307,7 +310,10 @@ export function ActionsField({ control }: ActionsFieldProps) {
                 </FormControl>
 
                 <div className="flex items-center mt-2 mb-4">
-                  <Label className="mr-4">Daily target</Label>
+                  <Label className="mr-4">
+                    Daily {actionForm.type === "offensive" ? "Target" : "Limit"}
+                    :
+                  </Label>
 
                   <MetricIcon metric={actionForm.metric} size={20} />
                   <div className="ml-1">{actionForm.dailyTarget}</div>

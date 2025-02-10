@@ -123,6 +123,7 @@ export function HabitCardHeader({
       </div>
       <div className="flex items-center justify-center">
         <div className="relative flex items-center justify-center h-full w-full">
+          {/* FIGURE IT OUT!!! */}
           <CircularProgress
             className="ml-4"
             value={currentProgressPercentage}

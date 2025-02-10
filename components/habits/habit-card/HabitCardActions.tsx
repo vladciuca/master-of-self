@@ -56,13 +56,16 @@ export function HabitCardActions({
                   overCapped={isDailyOverCapped}
                 />
               </span>
+              <span className="text-base font-bold mr-2">
+                {isDefensiveAction ? "I won't" : "I will"}
+              </span>
               <span className="text-base break-words whitespace-normal w-0 flex-grow">
                 {action.action}
               </span>
             </div>
             <div className="flex flex-col text-sm text-muted-foreground mb-2">
               <div className="flex items-center justify-between border border-muted rounded-md p-2 my-1">
-                Daily {isDefensiveAction ? "Maximum" : "Target"}:
+                Daily {isDefensiveAction ? "Limit" : "Target"}:
                 <span className="ml-2 font-bold flex items-center text-primary">
                   {isNotToday ? (
                     <span>0</span>
