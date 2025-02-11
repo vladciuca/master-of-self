@@ -1,46 +1,64 @@
 import { HabitCard } from "@components/habits/habit-card/HabitCard";
 import { Accordion } from "@components/ui/accordion";
-import { Habit, ActionItem } from "@app/types/types";
+import { Habit, Actions } from "@app/types/types";
+import {
+  getHabitActionValuesFromEntry,
+  getHabitActionDefaultValues,
+} from "@lib/level";
 
 type HabitListProps = {
   habits: Habit[];
   handleEdit: (habit: Habit) => void;
-  getActionUpdateValues: (habitId: string) => ActionItem;
+  // handleDelete: (habit: Habit) => Promise<void>;
   entryLoading: boolean;
-  willpowerMultiplier: number;
+  habitActionsFromEntry: Actions;
+  lastEntryWillpower: number;
   submittingJournalEntry: boolean;
   handleActionUpdate: (habitId: string) => void;
+
   isNotToday: boolean;
-  // handleDelete: (habit: Habit) => Promise<void>;
 };
 
 export function HabitList({
   habits = [],
   handleEdit,
-  getActionUpdateValues,
+  // handleDelete,
   entryLoading,
-  willpowerMultiplier,
+  habitActionsFromEntry,
+  lastEntryWillpower,
   handleActionUpdate,
   submittingJournalEntry,
   isNotToday,
-}: // handleDelete,
-HabitListProps) {
+}: HabitListProps) {
+  // NOTE: should use memo here too
+  const habitDefaultActionValues = getHabitActionDefaultValues(habits);
+  const habitActionValues = getHabitActionValuesFromEntry(
+    habitActionsFromEntry
+  );
+
   return (
     <Accordion type="single" collapsible className="w-full pb-1">
-      {habits.map((habit: Habit) => (
-        <HabitCard
-          key={habit._id}
-          habit={habit}
-          actionUpdateValues={getActionUpdateValues(habit._id)}
-          handleEdit={handleEdit}
-          // handleDelete={handleDelete}
-          entryLoading={entryLoading}
-          willpowerMultiplier={willpowerMultiplier}
-          submittingJournalEntry={submittingJournalEntry}
-          handleActionUpdate={handleActionUpdate}
-          isNotToday={isNotToday}
-        />
-      ))}
+      {habits.map((habit: Habit) => {
+        const dailyHabitActionValues = isNotToday
+          ? habitDefaultActionValues[habit._id]
+          : habitActionValues[habit._id];
+        return (
+          <HabitCard
+            key={habit._id}
+            habit={habit}
+            entryLoading={entryLoading}
+            // habitActionValues={dailyHabitActionValues || {}}
+            // NOTE: now that the Entry has the default values when created
+            // there is no need for fallback
+            // check if no habits exist, fallback will be required
+            habitActionValues={dailyHabitActionValues}
+            lastEntryWillpower={lastEntryWillpower}
+            handleEdit={handleEdit}
+            submittingJournalEntry={submittingJournalEntry}
+            handleActionUpdate={handleActionUpdate}
+          />
+        );
+      })}
     </Accordion>
   );
 }

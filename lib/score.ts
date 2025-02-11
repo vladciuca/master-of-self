@@ -6,29 +6,11 @@ export function calculateWillpowerScore(stringArray: string[]): number {
 }
 
 // HABITS ACTION VALUES
-import type { HabitAction, ActionItem } from "@app/types/types";
-
 type HabitActionValueParams = {
   value: number;
   dailyTarget: number;
   isDefensiveAction: boolean;
 };
-
-type HabitActionValueFallbackParams = {
-  action: HabitAction;
-  actionUpdateValues: ActionItem;
-};
-
-export function getActionValueWithFallback({
-  action,
-  actionUpdateValues,
-}: HabitActionValueFallbackParams) {
-  const isDefensiveAction = action.type === "defensive";
-  return (
-    actionUpdateValues[action.id] ??
-    (isDefensiveAction ? action.dailyTarget : 0)
-  );
-}
 
 export function displayActionValue({
   value,
@@ -57,7 +39,7 @@ export function isActionOverCapped({
     : value > BURN_OUT_MULTIPLIER * dailyTarget;
 }
 
-export function getValueColor(params: HabitActionValueParams): string {
+export function getActionValueColor(params: HabitActionValueParams): string {
   if (isActionOverCapped(params)) {
     return params.isDefensiveAction ? "text-red-500" : "text-orange-500";
   }

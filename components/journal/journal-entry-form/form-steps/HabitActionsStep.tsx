@@ -112,7 +112,8 @@ export function HabitActionsStep({
                   habit={habit}
                   projectedHabitXp={calculateProjectedXP(habit)}
                   onChange={handleActionChange}
-                  actionChanges={actionChanges[habit._id] || {}}
+                  // actionChanges={actionChanges[habit._id] || {}}
+                  actionChanges={actionChanges[habit._id]}
                   habitsLoading={habitsLoading}
                   willpowerMultiplier={willpowerMultiplier}
                 />

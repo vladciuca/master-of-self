@@ -64,13 +64,20 @@ export const getHabitRarity = (
   return { bg: "bg-gray-200", icon: "text-gray-500", label: "Common" };
 };
 
+export const applyWillpowerBonus = (
+  baseXp: number,
+  willpower: number
+): number => {
+  const willpowerMultiplier = 1 + willpower / 100;
+  return Math.round(baseXp * willpowerMultiplier);
+};
+
+// WILL NEED TO REMOVE AND USE THE NEW UTIL FUNCTION FOR HABIT ACTIONS
+// specifically this function is used for JE obj and removes the current xp
 export const calculateHabitsXpSumsFromActions = (
   actions: Record<string, Record<string, number>>,
-  dailyWillpower: number
+  willpower: number
 ) => {
-  // Calculate the willpower multiplier
-  const willpowerMultiplier = 1 + dailyWillpower / 100;
-
   return Object.entries(actions).reduce((acc, [habitId, habitActions]) => {
     // Calculate the base XP sum for the habit, excluding the 'currentXp' key
     const baseXp = Object.entries(habitActions).reduce(
@@ -78,9 +85,54 @@ export const calculateHabitsXpSumsFromActions = (
       0
     );
 
-    // Apply the willpower multiplier and round to the nearest integer
-    acc[habitId] = Math.round(baseXp * willpowerMultiplier);
+    // Apply the willpower bonus and round to the nearest integer
+    acc[habitId] = applyWillpowerBonus(baseXp, willpower);
 
     return acc;
   }, {} as Record<string, number>);
+};
+
+// NEW UTIL FUNCTIONS FOR HABIT ACTIONS
+import { Habit, Actions } from "@app/types/types";
+// GET INDIVIDUAL ACTION VALUES FOR HABITS - Removes currentXp key from actions
+export const getHabitActionValuesFromEntry = (
+  actions: Actions
+): { [habitId: string]: { [actionId: string]: number } } => {
+  return Object.entries(actions).reduce((acc, [habitId, habitActions]) => {
+    const { currentXp, ...actionValues } = habitActions;
+    acc[habitId] = actionValues;
+    return acc;
+  }, {} as { [habitId: string]: { [actionId: string]: number } });
+};
+
+// GET THE DEFAULT ACTION VALUES FOR HABITS - based on habit type
+export const getHabitActionDefaultValues = (
+  habits: Habit[]
+): { [habitId: string]: { [actionId: string]: number } } => {
+  return habits.reduce((acc, habit) => {
+    acc[habit._id] = habit.actions.reduce((actionAcc, action) => {
+      if (action.type === "defensive") {
+        actionAcc[action.id] = action.dailyTarget;
+      } else {
+        actionAcc[action.id] = 0;
+      }
+      return actionAcc;
+    }, {} as { [actionId: string]: number });
+    return acc;
+  }, {} as { [habitId: string]: { [actionId: string]: number } });
+};
+
+// GET HABIT XP SUM FROM ACTIONS - will need willpower multiplier here
+export const calculateHabitXpFromActionValues = (
+  actions: { [habitId: string]: { [actionId: string]: number } },
+  willpower: number
+): { [habitId: string]: number } => {
+  return Object.entries(actions).reduce((acc, [habitId, habitActions]) => {
+    const baseXp = Object.values(habitActions).reduce(
+      (sum, value) => sum + value,
+      0
+    );
+    acc[habitId] = applyWillpowerBonus(baseXp, willpower);
+    return acc;
+  }, {} as { [habitId: string]: number });
 };

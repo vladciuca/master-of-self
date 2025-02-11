@@ -1,5 +1,6 @@
 "use client";
 
+import { useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { PageHeader } from "@components/PageHeader";
 import { HabitList } from "@components/habits/HabitList";
@@ -60,27 +61,38 @@ export function UserHabits() {
     }
   };
 
-  const getActionUpdateValues = (habitId: string) => {
-    if (todayEntryLoading || lastEntryLoading) return {};
-    const actions = !todayEntry
-      ? lastEntry?.nightEntry?.actions?.[habitId]
-      : todayEntry?.nightEntry?.actions?.[habitId];
+  // //NOTE: putem sa facem habitActionsFromEntry consistenta cu getLastEntryWillpower
+  // const habitActionsFromEntry = !todayEntry
+  //   ? lastEntry?.nightEntry?.actions
+  //   : todayEntry?.nightEntry?.actions;
 
-    if (!actions) return {};
+  // const getLastEntryWillpower = () => {
+  //   if (todayEntryLoading || lastEntryLoading) return 0;
+  //   return todayEntry?.dailyWillpower || lastEntry?.dailyWillpower || 0;
+  // };
 
-    // Exclude the currentXp key
-    const { currentXp, ...actionValues } = actions;
-    return actionValues;
-  };
+  // //NOTE: think of a way to ensure the Willpower Modifier will be present based on entry loading
+  // const entryLoading = todayEntryLoading || lastEntryLoading;
 
-  const getWillpowerMultiplier = () => {
-    if (todayEntryLoading || lastEntryLoading) return 0;
-    if (!todayEntry) {
-      return 1 + (lastEntry?.dailyWillpower || 0) / 100;
-    } else {
-      return 1 + (todayEntry?.dailyWillpower || 0) / 100;
+  const habitActionsFromEntry = useMemo(() => {
+    return !todayEntry
+      ? lastEntry?.nightEntry?.actions
+      : todayEntry?.nightEntry?.actions;
+  }, [todayEntry, lastEntry]);
+
+  const { lastEntryWillpower, entryLoading } = useMemo(() => {
+    const isLoading = todayEntryLoading || lastEntryLoading;
+    let willpower = 0;
+
+    if (!isLoading) {
+      willpower = todayEntry?.dailyWillpower || lastEntry?.dailyWillpower || 0;
     }
-  };
+
+    return {
+      lastEntryWillpower: willpower,
+      entryLoading: isLoading,
+    };
+  }, [todayEntry, lastEntry, todayEntryLoading, lastEntryLoading]);
 
   return (
     <div className="w-full">
@@ -91,15 +103,17 @@ export function UserHabits() {
         numberOfEntries={numberOfEntries}
       />
 
-      {habitsLoading ? (
+      {entryLoading || habitsLoading ? (
         skeletonCards
       ) : habits.length > 0 ? (
         <HabitList
           habits={habits}
           handleEdit={handleEdit}
-          getActionUpdateValues={getActionUpdateValues}
-          entryLoading={todayEntryLoading || lastEntryLoading}
-          willpowerMultiplier={getWillpowerMultiplier()}
+          // handleDelete={handleDelete}
+          entryLoading={entryLoading}
+          habitActionsFromEntry={habitActionsFromEntry || {}}
+          // lastEntryWillpower={getLastEntryWillpower()}
+          lastEntryWillpower={lastEntryWillpower}
           submittingJournalEntry={submitting}
           handleActionUpdate={handleActionUpdate}
           isNotToday={!todayEntry}

@@ -11,7 +11,7 @@ import { Card } from "@components/ui/card";
 import {
   isDailyTargetCompleted,
   isActionOverCapped,
-  getValueColor,
+  getActionValueColor,
   displayActionValue,
 } from "@lib/score";
 import type { HabitAction } from "@app/types/types";
@@ -41,7 +41,7 @@ export function HabitAction({
     isDefensiveAction,
   };
 
-  const valueColor = getValueColor(habitActionParams);
+  const valueColor = getActionValueColor(habitActionParams);
 
   const handleActionChange = (newValue: number) => {
     onValueChange(action.id, newValue);

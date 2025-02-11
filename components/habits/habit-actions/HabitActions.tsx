@@ -19,7 +19,6 @@ import { Button } from "@/components/ui/button";
 import { XpDisplay } from "@components/ui/xp-display";
 import { Plus } from "lucide-react";
 import { calculateHabitLevel, xpForHabitLevel } from "@lib/level";
-import { getActionValueWithFallback } from "@lib/score";
 import { formatNumberSuffixes } from "@lib/utils";
 import type { Habit, ActionItem } from "@app/types/types";
 import { useSideContentPosition } from "@hooks/useSideContentPosition";
@@ -128,7 +127,8 @@ export function HabitActions({
             icon={icon}
             xp={xp}
             // here projected xp will be 0 always on mount, BUT i need to add the xp form defensive actions as the dailyTarget value
-            // FIGURE IT OUT! FIGURE IT OUT! SO I AM GOING TO FIGURE IT OUT!
+            // FIGURE IT OUT! FIGURE IT OUT! SO FIGURED IT OUT!
+            // BARNYBEE FTWWW
             projectedXp={projectedHabitXp}
           />
         </div>
@@ -209,22 +209,12 @@ export function HabitActions({
             </DrawerHeader>
             <ScrollArea className="h-[50vh] p-4">
               {habit.actions.map((action) => {
-                const isDefensiveAction = action.type === "defensive";
-                // const value =
-                //   actionValues[action.id] ??
-                //   (isDefensiveAction ? action.dailyTarget : 0);
-                const actionValueParams = {
-                  action,
-                  actionUpdateValues: actionValues,
-                };
-                const value = getActionValueWithFallback(actionValueParams);
-
                 return (
                   <HabitAction
                     key={action.id}
                     action={action}
-                    isDefensiveAction={isDefensiveAction}
-                    value={value}
+                    isDefensiveAction={action.type === "defensive"}
+                    value={actionValues[action.id] || 0}
                     onValueChange={handleActionChange}
                     willpowerMultiplier={willpowerMultiplier}
                     currentXp={xp}

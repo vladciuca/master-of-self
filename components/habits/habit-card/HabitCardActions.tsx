@@ -4,46 +4,39 @@ import {
 } from "@components/habits/habit-actions/HabitActionIcons";
 import { formatNumberSuffixes } from "@lib/utils";
 import {
-  getActionValueWithFallback,
   displayActionValue,
   isDailyTargetCompleted,
   isActionOverCapped,
-  getValueColor,
+  getActionValueColor,
 } from "@lib/score";
 import type { HabitAction, ActionItem } from "@app/types/types";
 
 type HabitCardActionsProps = {
   actions: HabitAction[];
-  actionUpdateValues: ActionItem;
-  isNotToday: boolean;
+  habitActionValues: ActionItem;
 };
 
 export function HabitCardActions({
   actions,
-  actionUpdateValues,
-  isNotToday,
+  habitActionValues,
 }: HabitCardActionsProps) {
   return (
     <div>
       {actions.map((action) => {
         const isDefensiveAction = action.type === "defensive";
-        const { dailyTarget } = action;
-        // const value =
-        //   actionUpdateValues[action.id] ??
-        //   (isDefensiveAction ? action.dailyTarget : 0);
-        const actionValueParams = { action, actionUpdateValues };
-        const value = getActionValueWithFallback(actionValueParams);
-        const actionParams = { value, dailyTarget, isDefensiveAction };
+        const actionParams = {
+          value: habitActionValues[action.id],
+          dailyTarget: action.dailyTarget,
+          isDefensiveAction,
+        };
 
         // For defensive actions, displayValue shows remaining actions (dailyTarget - value)
         // For offensive actions, displayValue shows completed actions (value)
         const displayValue = displayActionValue(actionParams);
 
-        const dailyTargetCompleted =
-          !isNotToday && isDailyTargetCompleted(actionParams);
+        const dailyTargetCompleted = isDailyTargetCompleted(actionParams);
 
-        const isDailyOverCapped =
-          !isNotToday && isActionOverCapped(actionParams);
+        const isDailyOverCapped = isActionOverCapped(actionParams);
 
         return (
           <div key={action.id} className="mb-6">
@@ -67,13 +60,9 @@ export function HabitCardActions({
               <div className="flex items-center justify-between border border-muted rounded-md p-2 my-1">
                 Daily {isDefensiveAction ? "Limit" : "Target"}:
                 <span className="ml-2 font-bold flex items-center text-primary">
-                  {isNotToday ? (
-                    <span>0</span>
-                  ) : (
-                    <span className={getValueColor(actionParams)}>
-                      {displayValue}
-                    </span>
-                  )}
+                  <span className={getActionValueColor(actionParams)}>
+                    {displayValue}
+                  </span>
                   /{action.dailyTarget}
                   <span className="ml-2 font-normal">{action.actionUnit}</span>
                 </span>
@@ -89,7 +78,6 @@ export function HabitCardActions({
 
                       <span className="ml-1 font-bold flex items-baseline text-primary">
                         {formatNumberSuffixes(action.value + displayValue)}
-                        {/* {formatNumberSuffixes(action.value + value)} */}
                       </span>
                       <span className="ml-2">{action.actionUnit}</span>
                     </div>

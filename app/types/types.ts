@@ -38,7 +38,7 @@ export type ActionItem = {
 };
 
 export type Actions = {
-  [key: string]: ActionItem & { currentXp: number };
+  [key: string]: ActionItem & { currentXp?: number };
 };
 
 export type JournalEntry = {
