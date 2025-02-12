@@ -4,7 +4,7 @@ import { HabitActions } from "../../../habits/habit-actions/HabitActions";
 import { SkeletonHabitAction } from "@components/skeletons/SkeletonHabitAction";
 import { useUserHabits } from "@/hooks/useUserHabits";
 import { Habit, Actions } from "@app/types/types";
-import { calculateHabitsXpSumsFromActions } from "@lib/level";
+import { calculateHabitsXpFromEntry } from "@lib/level";
 
 type HabitActionsProps = {
   onChange: (value: Actions) => void;
@@ -51,10 +51,7 @@ export function HabitActionsStep({
 
   const calculateProjectedXP = useCallback(
     (habit: Habit) => {
-      const xpSums = calculateHabitsXpSumsFromActions(
-        actionValues,
-        dailyWillpower
-      );
+      const xpSums = calculateHabitsXpFromEntry(actionValues, dailyWillpower);
       return xpSums[habit._id] || 0;
     },
     [actionValues, willpowerMultiplier]
@@ -78,32 +75,6 @@ export function HabitActionsStep({
     },
     [onChange, habits]
   );
-
-  // THIS FUNCTION KEEPS THE CURRENT XP on JE create
-  // const handleActionChange = useCallback(
-  //   (habitId: string, actionId: string, newValue: number) => {
-  //     setActionValues((prev) => {
-  //       const newValues = { ...prev };
-  //       if (!newValues[habitId]) {
-  //         // If the habit doesn't exist in the state, initialize it with the current XP
-  //         newValues[habitId] = {
-  //           currentXp: habits.find((h) => h._id === habitId)?.xp || 0,
-  //         };
-  //       }
-  //       // Update the action value, preserving the currentXp
-  //       newValues[habitId] = {
-  //         ...newValues[habitId],
-  //         [actionId]: newValue,
-  //       };
-
-  //       onChange(newValues);
-  //       return newValues;
-  //     });
-  //   },
-  //   [onChange, habits]
-  // );
-
-  // FIGURE OUT WHAT BEHAVIOR IS MORE NATURAL!
 
   return (
     <FormStepTemplate

@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/accordion";
 import { FaBoltLightning } from "react-icons/fa6";
 import { Shell } from "lucide-react";
-import { calculateHabitsXpSumsFromActions } from "@/lib/level";
+import { calculateHabitsXpFromEntry } from "@/lib/level";
 import { Session, JournalEntryMetadata } from "@/app/types/types";
 
 type JournalEntryCardProps = {
@@ -45,7 +45,7 @@ JournalEntryCardProps) {
     .toUpperCase();
 
   const habitsXpFromActions = nightEntry?.actions
-    ? calculateHabitsXpSumsFromActions(nightEntry.actions, dailyWillpower)
+    ? calculateHabitsXpFromEntry(nightEntry.actions, dailyWillpower)
     : {};
 
   const completedDailyToDos = () => {

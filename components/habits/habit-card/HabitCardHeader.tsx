@@ -59,16 +59,10 @@ export function HabitCardHeader({
   }
 
   // Calculate XP and level
-  // const xpGain = xp + projectedXp;
   const xpGain = lastEntryXp + lastEntryProjectedXp;
   const level = calculateHabitLevel(xpGain);
-  // const currentLevel = calculateHabitLevel(xp);
   const currentLevel = calculateHabitLevel(lastEntryXp);
   const { baseXP, nextLevelXP } = xpForHabitLevel(level);
-  // const currentProgressPercentage = Math.min(
-  //   ((xp - baseXP) / (nextLevelXP - baseXP)) * 100,
-  //   100
-  // );
   const currentProgressPercentage = Math.min(
     ((lastEntryXp - baseXP) / (nextLevelXP - baseXP)) * 100,
     100

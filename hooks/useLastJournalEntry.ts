@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
-import { calculateHabitsXpSumsFromActions } from "@/lib/level";
+import { calculateHabitsXpFromEntry } from "@/lib/level";
 import { calculateWillpowerScore } from "@/lib/score";
 import type { Session, JournalEntry } from "@/app/types/types";
 
@@ -77,7 +77,7 @@ export function useLastJournalEntry() {
           typeof nightEntry.actions === "object" &&
           Object.keys(nightEntry.actions).length > 0
         ) {
-          const currentHabitsXp = calculateHabitsXpSumsFromActions(
+          const currentHabitsXp = calculateHabitsXpFromEntry(
             nightEntry.actions,
             dailyWillpower
           );

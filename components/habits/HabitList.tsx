@@ -30,12 +30,6 @@ export function HabitList({
   submittingJournalEntry,
   hasNoEntryToday,
 }: HabitListProps) {
-  // NOTE: should use memo for values here too
-  // const habitDefaultActionValues = getHabitActionDefaultValues(habits);
-  // const habitActionValues = getHabitActionValuesFromEntry(
-  //   habitActionsFromEntry
-  // );
-
   const habitDefaultActionValues = useMemo(() => {
     console.log("Computing habitDefaultActionValues");
     return getHabitActionDefaultValues(habits);

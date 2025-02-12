@@ -17,7 +17,7 @@ export async function POST(req: NextRequest) {
   }
 
   try {
-    const defaultActions = (nightEntry?.actions as Actions) || {};
+    const defaultActions = nightEntry?.actions as Actions;
 
     const { newJournalEntry, error } = await createJournalEntry(
       userId,

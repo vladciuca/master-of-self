@@ -126,9 +126,6 @@ export function HabitActions({
           <HabitIconProgressBar
             icon={icon}
             xp={xp}
-            // here projected xp will be 0 always on mount, BUT i need to add the xp form defensive actions as the dailyTarget value
-            // FIGURE IT OUT! FIGURE IT OUT! SO FIGURED IT OUT!
-            // BARNYBEE FTWWW
             projectedXp={projectedHabitXp}
           />
         </div>

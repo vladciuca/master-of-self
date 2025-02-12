@@ -5,7 +5,7 @@ import { HabitForm } from "@components/habits/habit-form/HabitForm";
 import { HabitZodType } from "@components/habits/habit-form/habitFormSchema";
 import { SkeletonForm } from "@components/skeletons/SkeletonForm";
 import { useTodayJournalEntry } from "@hooks/useTodayJournalEntry";
-import { calculateHabitsXpSumsFromActions } from "@lib/level";
+import { calculateHabitsXpFromEntry } from "@lib/level";
 
 export default function UpdateHabit() {
   const [submitting, setSubmitting] = useState(false);
@@ -23,7 +23,7 @@ export default function UpdateHabit() {
     const dailyWillpower = todayEntry?.dailyWillpower || 0;
     const habitActionsValue = todayEntry?.nightEntry?.actions || {};
 
-    const xpSums = calculateHabitsXpSumsFromActions(
+    const xpSums = calculateHabitsXpFromEntry(
       habitActionsValue,
       dailyWillpower
     );
