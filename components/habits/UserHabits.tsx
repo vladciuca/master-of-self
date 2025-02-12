@@ -61,38 +61,23 @@ export function UserHabits() {
     }
   };
 
-  //NOTE: putem sa facem habitActionsFromEntry consistenta cu getLastEntryWillpower
-  const habitActionsFromEntry = !todayEntry
-    ? lastEntry?.nightEntry?.actions
-    : todayEntry?.nightEntry?.actions;
+  const habitActionsFromEntry = useMemo(() => {
+    if (todayEntryLoading || lastEntryLoading) {
+      return null;
+    }
+    return (
+      todayEntry?.nightEntry?.actions || lastEntry?.nightEntry?.actions || null
+    );
+  }, [todayEntry, lastEntry, todayEntryLoading, lastEntryLoading]);
 
-  const getLastEntryWillpower = () => {
-    if (todayEntryLoading || lastEntryLoading) return 0;
+  const lastEntryWillpower = useMemo(() => {
+    if (todayEntryLoading || lastEntryLoading) {
+      return 0;
+    }
     return todayEntry?.dailyWillpower || lastEntry?.dailyWillpower || 0;
-  };
+  }, [todayEntry, lastEntry, todayEntryLoading, lastEntryLoading]);
 
-  //NOTE: think of a way to ensure the Willpower Modifier will be present based on entry loading
   const entryLoading = todayEntryLoading || lastEntryLoading;
-
-  // const habitActionsFromEntry = useMemo(() => {
-  //   return !todayEntry
-  //     ? lastEntry?.nightEntry?.actions
-  //     : todayEntry?.nightEntry?.actions;
-  // }, [todayEntry, lastEntry]);
-
-  // const { lastEntryWillpower, entryLoading } = useMemo(() => {
-  //   const isLoading = todayEntryLoading || lastEntryLoading;
-  //   let willpower = 0;
-
-  //   if (!isLoading) {
-  //     willpower = todayEntry?.dailyWillpower || lastEntry?.dailyWillpower || 0;
-  //   }
-
-  //   return {
-  //     lastEntryWillpower: willpower,
-  //     entryLoading: isLoading,
-  //   };
-  // }, [todayEntry, lastEntry, todayEntryLoading, lastEntryLoading]);
 
   return (
     <div className="w-full">
@@ -112,8 +97,7 @@ export function UserHabits() {
           // handleDelete={handleDelete}
           entryLoading={entryLoading}
           habitActionsFromEntry={habitActionsFromEntry || {}}
-          lastEntryWillpower={getLastEntryWillpower()}
-          // lastEntryWillpower={lastEntryWillpower}
+          lastEntryWillpower={lastEntryWillpower}
           submittingJournalEntry={submitting}
           handleActionUpdate={handleActionUpdate}
           hasNoEntryToday={!todayEntry}
