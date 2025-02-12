@@ -93,7 +93,7 @@ export const calculateHabitsXpSumsFromActions = (
 };
 
 // NEW UTIL FUNCTIONS FOR HABIT ACTIONS
-import { Habit, Actions } from "@app/types/types";
+import { Habit, Actions, ActionItem } from "@app/types/types";
 // GET INDIVIDUAL ACTION VALUES FOR HABITS - Removes currentXp key from actions
 export const getHabitActionValuesFromEntry = (
   actions: Actions
@@ -107,10 +107,13 @@ export const getHabitActionValuesFromEntry = (
 
 // GET THE DEFAULT ACTION VALUES FOR HABITS - based on habit type
 export const getHabitActionDefaultValues = (
-  habits: Habit[]
-): { [habitId: string]: { [actionId: string]: number } } => {
+  habits: Habit[],
+  options: { includeCurrentXp?: boolean } = {}
+): { [habitId: string]: ActionItem & { currentXp?: number } } => {
+  const { includeCurrentXp = false } = options;
+
   return habits.reduce((acc, habit) => {
-    acc[habit._id] = habit.actions.reduce((actionAcc, action) => {
+    const habitActions = habit.actions.reduce((actionAcc, action) => {
       if (action.type === "defensive") {
         actionAcc[action.id] = action.dailyTarget;
       } else {
@@ -118,8 +121,18 @@ export const getHabitActionDefaultValues = (
       }
       return actionAcc;
     }, {} as { [actionId: string]: number });
+
+    if (includeCurrentXp) {
+      acc[habit._id] = {
+        ...habitActions,
+        currentXp: habit.xp,
+      };
+    } else {
+      acc[habit._id] = habitActions;
+    }
+
     return acc;
-  }, {} as { [habitId: string]: { [actionId: string]: number } });
+  }, {} as { [habitId: string]: ActionItem & { currentXp?: number } });
 };
 
 // GET HABIT XP SUM FROM ACTIONS - will need willpower multiplier here
