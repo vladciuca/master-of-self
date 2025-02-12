@@ -61,38 +61,38 @@ export function UserHabits() {
     }
   };
 
-  // //NOTE: putem sa facem habitActionsFromEntry consistenta cu getLastEntryWillpower
-  // const habitActionsFromEntry = !todayEntry
-  //   ? lastEntry?.nightEntry?.actions
-  //   : todayEntry?.nightEntry?.actions;
+  //NOTE: putem sa facem habitActionsFromEntry consistenta cu getLastEntryWillpower
+  const habitActionsFromEntry = !todayEntry
+    ? lastEntry?.nightEntry?.actions
+    : todayEntry?.nightEntry?.actions;
 
-  // const getLastEntryWillpower = () => {
-  //   if (todayEntryLoading || lastEntryLoading) return 0;
-  //   return todayEntry?.dailyWillpower || lastEntry?.dailyWillpower || 0;
-  // };
+  const getLastEntryWillpower = () => {
+    if (todayEntryLoading || lastEntryLoading) return 0;
+    return todayEntry?.dailyWillpower || lastEntry?.dailyWillpower || 0;
+  };
 
-  // //NOTE: think of a way to ensure the Willpower Modifier will be present based on entry loading
-  // const entryLoading = todayEntryLoading || lastEntryLoading;
+  //NOTE: think of a way to ensure the Willpower Modifier will be present based on entry loading
+  const entryLoading = todayEntryLoading || lastEntryLoading;
 
-  const habitActionsFromEntry = useMemo(() => {
-    return !todayEntry
-      ? lastEntry?.nightEntry?.actions
-      : todayEntry?.nightEntry?.actions;
-  }, [todayEntry, lastEntry]);
+  // const habitActionsFromEntry = useMemo(() => {
+  //   return !todayEntry
+  //     ? lastEntry?.nightEntry?.actions
+  //     : todayEntry?.nightEntry?.actions;
+  // }, [todayEntry, lastEntry]);
 
-  const { lastEntryWillpower, entryLoading } = useMemo(() => {
-    const isLoading = todayEntryLoading || lastEntryLoading;
-    let willpower = 0;
+  // const { lastEntryWillpower, entryLoading } = useMemo(() => {
+  //   const isLoading = todayEntryLoading || lastEntryLoading;
+  //   let willpower = 0;
 
-    if (!isLoading) {
-      willpower = todayEntry?.dailyWillpower || lastEntry?.dailyWillpower || 0;
-    }
+  //   if (!isLoading) {
+  //     willpower = todayEntry?.dailyWillpower || lastEntry?.dailyWillpower || 0;
+  //   }
 
-    return {
-      lastEntryWillpower: willpower,
-      entryLoading: isLoading,
-    };
-  }, [todayEntry, lastEntry, todayEntryLoading, lastEntryLoading]);
+  //   return {
+  //     lastEntryWillpower: willpower,
+  //     entryLoading: isLoading,
+  //   };
+  // }, [todayEntry, lastEntry, todayEntryLoading, lastEntryLoading]);
 
   return (
     <div className="w-full">
@@ -103,7 +103,7 @@ export function UserHabits() {
         numberOfEntries={numberOfEntries}
       />
 
-      {entryLoading || habitsLoading ? (
+      {habitsLoading ? (
         skeletonCards
       ) : habits.length > 0 ? (
         <HabitList
@@ -112,11 +112,11 @@ export function UserHabits() {
           // handleDelete={handleDelete}
           entryLoading={entryLoading}
           habitActionsFromEntry={habitActionsFromEntry || {}}
-          // lastEntryWillpower={getLastEntryWillpower()}
-          lastEntryWillpower={lastEntryWillpower}
+          lastEntryWillpower={getLastEntryWillpower()}
+          // lastEntryWillpower={lastEntryWillpower}
           submittingJournalEntry={submitting}
           handleActionUpdate={handleActionUpdate}
-          isNotToday={!todayEntry}
+          hasNoEntryToday={!todayEntry}
         />
       ) : (
         <div className="flex-grow flex items-center justify-center">

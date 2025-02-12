@@ -18,20 +18,24 @@ type HabitCardProps = {
   entryLoading: boolean;
   handleEdit: (habit: Habit) => void;
   // handleDelete: (habit: Habit) => Promise<void>;
+  habitDefaultActionValues: ActionItem;
   habitActionValues: ActionItem;
   lastEntryWillpower: number;
   submittingJournalEntry: boolean;
   handleActionUpdate: (habitId: string) => void;
+  hasNoEntryToday: boolean;
 };
 
 export function HabitCard({
   habit,
   handleEdit,
   entryLoading,
+  habitDefaultActionValues,
   habitActionValues,
   lastEntryWillpower,
   handleActionUpdate,
   submittingJournalEntry,
+  hasNoEntryToday,
 }: HabitCardProps) {
   const { description, actions, _id: habitId } = habit;
 
@@ -44,16 +48,20 @@ export function HabitCard({
         <AccordionTrigger className="p-0 m-0 rounded-md flex flex-col">
           <HabitCardHeader
             habit={habit}
+            habitDefaultActionValues={habitDefaultActionValues}
             habitActionValues={habitActionValues}
             lastEntryWillpower={lastEntryWillpower}
             entryLoading={entryLoading}
+            hasNoEntryToday={hasNoEntryToday}
           />
         </AccordionTrigger>
         <AccordionContent className="px-4">
           <HabitCardDescription description={description} />
           <HabitCardActions
             actions={actions}
+            habitDefaultActionValues={habitDefaultActionValues}
             habitActionValues={habitActionValues}
+            hasNoEntryToday={hasNoEntryToday}
           />
           <HabitCardFooter
             session={session}

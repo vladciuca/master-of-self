@@ -15,8 +15,7 @@ type HabitListProps = {
   lastEntryWillpower: number;
   submittingJournalEntry: boolean;
   handleActionUpdate: (habitId: string) => void;
-
-  isNotToday: boolean;
+  hasNoEntryToday: boolean;
 };
 
 export function HabitList({
@@ -28,7 +27,7 @@ export function HabitList({
   lastEntryWillpower,
   handleActionUpdate,
   submittingJournalEntry,
-  isNotToday,
+  hasNoEntryToday,
 }: HabitListProps) {
   // NOTE: should use memo here too
   const habitDefaultActionValues = getHabitActionDefaultValues(habits);
@@ -39,9 +38,9 @@ export function HabitList({
   return (
     <Accordion type="single" collapsible className="w-full pb-1">
       {habits.map((habit: Habit) => {
-        const dailyHabitActionValues = isNotToday
-          ? habitDefaultActionValues[habit._id]
-          : habitActionValues[habit._id];
+        // const dailyHabitActionValues = hasNoEntryToday
+        //   ? habitDefaultActionValues[habit._id]
+        //   : habitActionValues[habit._id];
         return (
           <HabitCard
             key={habit._id}
@@ -51,11 +50,13 @@ export function HabitList({
             // NOTE: now that the Entry has the default values when created
             // there is no need for fallback
             // check if no habits exist, fallback will be required
-            habitActionValues={dailyHabitActionValues}
+            habitDefaultActionValues={habitDefaultActionValues[habit._id] || 0}
+            habitActionValues={habitActionValues[habit._id] || 0}
             lastEntryWillpower={lastEntryWillpower}
             handleEdit={handleEdit}
             submittingJournalEntry={submittingJournalEntry}
             handleActionUpdate={handleActionUpdate}
+            hasNoEntryToday={hasNoEntryToday}
           />
         );
       })}

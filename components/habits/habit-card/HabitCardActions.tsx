@@ -13,19 +13,25 @@ import type { HabitAction, ActionItem } from "@app/types/types";
 
 type HabitCardActionsProps = {
   actions: HabitAction[];
+  habitDefaultActionValues: ActionItem;
   habitActionValues: ActionItem;
+  hasNoEntryToday: boolean;
 };
 
 export function HabitCardActions({
   actions,
+  habitDefaultActionValues,
   habitActionValues,
+  hasNoEntryToday,
 }: HabitCardActionsProps) {
   return (
     <div>
       {actions.map((action) => {
         const isDefensiveAction = action.type === "defensive";
         const actionParams = {
-          value: habitActionValues[action.id],
+          value: hasNoEntryToday
+            ? habitDefaultActionValues[action.id]
+            : habitActionValues[action.id],
           dailyTarget: action.dailyTarget,
           isDefensiveAction,
         };
