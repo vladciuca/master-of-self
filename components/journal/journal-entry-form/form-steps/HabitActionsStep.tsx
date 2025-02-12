@@ -60,6 +60,7 @@ export function HabitActionsStep({
     [actionValues, willpowerMultiplier]
   );
 
+  // THIS FUNCTION UPDATES THE CURRENT XP for the current DAY
   const handleActionChange = useCallback(
     (habitId: string, actionId: string, newValue: number) => {
       setActionValues((prev) => {
@@ -71,23 +72,38 @@ export function HabitActionsStep({
         }
         newValues[habitId][actionId] = newValue;
 
-        if (newValues[habitId][actionId] === 0) {
-          delete newValues[habitId][actionId];
-        }
-
-        if (
-          Object.keys(newValues[habitId]).length === 1 &&
-          "currentXp" in newValues[habitId]
-        ) {
-          delete newValues[habitId];
-        }
-
         onChange(newValues);
         return newValues;
       });
     },
     [onChange, habits]
   );
+
+  // THIS FUNCTION KEEPS THE CURRENT XP on JE create
+  // const handleActionChange = useCallback(
+  //   (habitId: string, actionId: string, newValue: number) => {
+  //     setActionValues((prev) => {
+  //       const newValues = { ...prev };
+  //       if (!newValues[habitId]) {
+  //         // If the habit doesn't exist in the state, initialize it with the current XP
+  //         newValues[habitId] = {
+  //           currentXp: habits.find((h) => h._id === habitId)?.xp || 0,
+  //         };
+  //       }
+  //       // Update the action value, preserving the currentXp
+  //       newValues[habitId] = {
+  //         ...newValues[habitId],
+  //         [actionId]: newValue,
+  //       };
+
+  //       onChange(newValues);
+  //       return newValues;
+  //     });
+  //   },
+  //   [onChange, habits]
+  // );
+
+  // FIGURE OUT WHAT BEHAVIOR IS MORE NATURAL!
 
   return (
     <FormStepTemplate
