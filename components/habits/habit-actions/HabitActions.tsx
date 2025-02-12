@@ -164,7 +164,7 @@ export function HabitActions({
       <div className="flex items-center">
         <Drawer open={isDrawerOpen} onOpenChange={handleDrawerOpenChange}>
           <DrawerTrigger asChild>
-            {projectedHabitXp > 0 ? (
+            {projectedHabitXp !== 0 ? (
               <Button
                 size="icon"
                 className="h-8 w-8 shrink-0 rounded-md"
