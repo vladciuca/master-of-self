@@ -1,13 +1,10 @@
 import {
-  CircleAlert,
-  CircleCheck,
-  // CircleX,
   Flame,
-  ShieldAlert,
-  ShieldCheck,
-  ShieldX,
   Clock,
   Hash,
+  Circle,
+  CircleDashed,
+  CircleMinus,
 } from "lucide-react";
 
 type ActionIconProps = {
@@ -39,25 +36,25 @@ export function ActionIcon({
           {type === "offensive" ? (
             <Flame className={`mr-2 ${iconColor}`} size={iconSize} />
           ) : (
-            <ShieldX className={`mr-2 ${iconColor}`} size={iconSize} />
+            <CircleMinus className={`mr-2 ${iconColor}`} size={iconSize} />
           )}
         </>
       )}
       {!overCapped && !dailyTargetCompleted && (
         <>
           {type === "offensive" ? (
-            <CircleAlert className={`mr-2 ${iconColor}`} size={iconSize} />
+            <CircleDashed className={`mr-2 ${iconColor}`} size={iconSize} />
           ) : (
-            <ShieldAlert className={`mr-2 ${iconColor}`} size={iconSize} />
+            <Circle className={`mr-2 ${iconColor}`} size={iconSize} />
           )}
         </>
       )}
       {!overCapped && dailyTargetCompleted && (
         <>
           {type === "offensive" ? (
-            <CircleCheck className={`mr-2 ${iconColor}`} size={iconSize} />
+            <Circle className={`mr-2 ${iconColor}`} size={iconSize} />
           ) : (
-            <ShieldCheck className={`mr-2 ${iconColor}`} size={iconSize} />
+            <CircleDashed className={`mr-2 ${iconColor}`} size={iconSize} />
           )}
         </>
       )}

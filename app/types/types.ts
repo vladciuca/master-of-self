@@ -72,6 +72,7 @@ export type HabitAction = {
   type: "offensive" | "defensive";
   value: number;
   dailyTarget: number;
+  // actionData key - used for chart
   // actionData: [Date, string | number][];
 };
 

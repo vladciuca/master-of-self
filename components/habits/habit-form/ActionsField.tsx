@@ -29,7 +29,17 @@ import {
   DrawerClose,
 } from "@/components/ui/drawer";
 import { Label } from "@components/ui/label";
-import { CircleX, Plus, Edit2 } from "lucide-react";
+import {
+  CircleX,
+  Plus,
+  Edit2,
+  //test
+  CircleCheck,
+  CircleAlert,
+  Circle,
+  CircleDashed,
+  ArrowBigRightDash,
+} from "lucide-react";
 import { Control, useFieldArray, useWatch } from "react-hook-form";
 import { HabitZodType } from "@components/habits/habit-form/habitFormSchema";
 import { HabitAction } from "@app/types/types";
@@ -209,16 +219,29 @@ export function ActionsField({ control }: ActionsFieldProps) {
               <DrawerHeader>
                 <DrawerTitle className="text-center flex flex-col">
                   {editId !== null ? "Edit Action" : "Add New Action"}
-                  {/* <span>
-                    <Badge variant="secondary" className="text-base mt-4">
-                      {actionForm.type === "offensive" ? "I will" : "I won't"}
-                    </Badge>
-                  </span> */}
+                  <div className="w-full">
+                    <div className="flex items-center justify-center space-x-4 mt-6">
+                      <ActionIcon
+                        type={actionForm.type}
+                        dailyTargetCompleted={false}
+                        overCapped={false}
+                        size={30}
+                      />
+                      <ArrowBigRightDash />
+                      <ActionIcon
+                        type={actionForm.type}
+                        dailyTargetCompleted={true}
+                        overCapped={false}
+                        size={30}
+                      />
+                    </div>
+                  </div>
                 </DrawerTitle>
               </DrawerHeader>
 
               <div className="p-4 pb-0">
-                <Label>Action type</Label>
+                <Label>I want to...</Label>
+
                 <Select
                   value={actionForm.type}
                   onValueChange={(value: "offensive" | "defensive") =>
@@ -232,13 +255,13 @@ export function ActionsField({ control }: ActionsFieldProps) {
                     <SelectItem value="offensive">
                       <span className="flex items-center">
                         <ActionIcon type={"offensive"} size={20} />
-                        Offensive
+                        Build a habit
                       </span>
                     </SelectItem>
                     <SelectItem value="defensive">
                       <span className="flex items-center">
                         <ActionIcon type={"defensive"} size={20} />
-                        Defensive
+                        Break a habit
                       </span>
                     </SelectItem>
                   </SelectContent>
