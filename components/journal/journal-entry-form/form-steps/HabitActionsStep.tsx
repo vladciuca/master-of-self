@@ -4,7 +4,10 @@ import { HabitActions } from "../../../habits/habit-actions/HabitActions";
 import { SkeletonHabitAction } from "@components/skeletons/SkeletonHabitAction";
 import { useUserHabits } from "@/hooks/useUserHabits";
 import { Habit, Actions } from "@app/types/types";
-import { calculateHabitsXpFromEntry } from "@lib/level";
+import {
+  // getHabitActionDefaultValues,
+  calculateHabitsXpFromEntry,
+} from "@lib/level";
 
 type HabitActionsProps = {
   onChange: (value: Actions) => void;
@@ -23,6 +26,11 @@ export function HabitActionsStep({
 }: HabitActionsProps) {
   const { habits, habitsLoading, habitsError } = useUserHabits();
   const [actionValues, setActionValues] = useState<Actions>(actionChanges);
+
+  // const latestDefaultHabitActionValues = getHabitActionDefaultValues(habits);
+
+  // console.log("=== LATEST DEFAULT", latestDefaultHabitActionValues);
+  // console.log("===ACTION CHANGES", actionChanges);
 
   // Update local state when actionChanges prop changes
   useEffect(() => {
