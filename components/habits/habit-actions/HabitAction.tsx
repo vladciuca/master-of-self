@@ -14,6 +14,7 @@ import {
   getActionValueColor,
   displayActionValue,
 } from "@lib/score";
+import { applyWillpowerBonus } from "@lib/level";
 import type { HabitAction } from "@app/types/types";
 
 interface HabitActionProps {
@@ -21,7 +22,8 @@ interface HabitActionProps {
   isDefensiveAction: boolean;
   value: number;
   onValueChange: (actionId: string, newValue: number) => void;
-  willpowerMultiplier: number;
+  // willpowerMultiplier: number;
+  dailyWillpower: number;
   currentXp: number;
   projectedHabitXp: number;
 }
@@ -31,7 +33,8 @@ export function HabitAction({
   isDefensiveAction,
   value,
   onValueChange,
-  willpowerMultiplier,
+  // willpowerMultiplier,
+  dailyWillpower,
   currentXp,
   projectedHabitXp,
 }: HabitActionProps) {
@@ -48,13 +51,27 @@ export function HabitAction({
   };
 
   // Calculate the XP that would be lost if we decrease the value
+  // const getXpChangeForDecrease = () => {
+  //   if (!isDefensiveAction) return willpowerMultiplier;
+
+  //   // For defensive actions, calculate how much XP would be lost
+  //   const currentActionXp = (action.dailyTarget - value) * willpowerMultiplier;
+  //   const newActionXp =
+  //     (action.dailyTarget - (value + 1)) * willpowerMultiplier;
+  //   return newActionXp - currentActionXp;
+  // };
   const getXpChangeForDecrease = () => {
-    if (!isDefensiveAction) return willpowerMultiplier;
+    if (!isDefensiveAction) return applyWillpowerBonus(1, dailyWillpower);
 
     // For defensive actions, calculate how much XP would be lost
-    const currentActionXp = (action.dailyTarget - value) * willpowerMultiplier;
-    const newActionXp =
-      (action.dailyTarget - (value + 1)) * willpowerMultiplier;
+    const currentActionXp = applyWillpowerBonus(
+      action.dailyTarget - value,
+      dailyWillpower
+    );
+    const newActionXp = applyWillpowerBonus(
+      action.dailyTarget - (value + 1),
+      dailyWillpower
+    );
     return newActionXp - currentActionXp;
   };
 
@@ -123,7 +140,8 @@ export function HabitAction({
               </span>
             </div>
             <span className="text-lg font-bold">
-              <XpDisplay xpValue={Math.round(value * willpowerMultiplier)} />
+              {/* <XpDisplay xpValue={Math.round(value * willpowerMultiplier)} /> */}
+              <XpDisplay xpValue={applyWillpowerBonus(value, dailyWillpower)} />
               <span className="text-primary font-normal mx-1">XP</span>
             </span>
           </div>
