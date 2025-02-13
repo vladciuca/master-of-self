@@ -24,8 +24,6 @@ export function HabitActionsStep({
   const { habits, habitsLoading, habitsError } = useUserHabits();
   const [actionValues, setActionValues] = useState<Actions>(actionChanges);
 
-  // const willpowerMultiplier = 1 + dailyWillpower / 100;
-
   // Update local state when actionChanges prop changes
   useEffect(() => {
     setActionValues(actionChanges);
@@ -57,7 +55,7 @@ export function HabitActionsStep({
     [actionValues, dailyWillpower]
   );
 
-  // THIS FUNCTION UPDATES THE CURRENT XP for the current DAY
+  // THIS FUNCTION UPDATES ACTION VALUES & THE CURRENT XP for the current DAY
   const handleActionChange = useCallback(
     (habitId: string, actionId: string, newValue: number) => {
       setActionValues((prev) => {
@@ -99,10 +97,8 @@ export function HabitActionsStep({
                   habit={habit}
                   projectedHabitXp={calculateProjectedXP(habit)}
                   onChange={handleActionChange}
-                  // actionChanges={actionChanges[habit._id] || {}}
                   actionChanges={actionChanges[habit._id]}
                   habitsLoading={habitsLoading}
-                  // willpowerMultiplier={willpowerMultiplier}
                   dailyWillpower={dailyWillpower}
                 />
               </li>

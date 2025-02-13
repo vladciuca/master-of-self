@@ -22,7 +22,6 @@ interface HabitActionProps {
   isDefensiveAction: boolean;
   value: number;
   onValueChange: (actionId: string, newValue: number) => void;
-  // willpowerMultiplier: number;
   dailyWillpower: number;
   currentXp: number;
   projectedHabitXp: number;
@@ -33,7 +32,6 @@ export function HabitAction({
   isDefensiveAction,
   value,
   onValueChange,
-  // willpowerMultiplier,
   dailyWillpower,
   currentXp,
   projectedHabitXp,
@@ -51,15 +49,6 @@ export function HabitAction({
   };
 
   // Calculate the XP that would be lost if we decrease the value
-  // const getXpChangeForDecrease = () => {
-  //   if (!isDefensiveAction) return willpowerMultiplier;
-
-  //   // For defensive actions, calculate how much XP would be lost
-  //   const currentActionXp = (action.dailyTarget - value) * willpowerMultiplier;
-  //   const newActionXp =
-  //     (action.dailyTarget - (value + 1)) * willpowerMultiplier;
-  //   return newActionXp - currentActionXp;
-  // };
   const getXpChangeForDecrease = () => {
     if (!isDefensiveAction) return applyWillpowerBonus(1, dailyWillpower);
 
@@ -140,7 +129,6 @@ export function HabitAction({
               </span>
             </div>
             <span className="text-lg font-bold">
-              {/* <XpDisplay xpValue={Math.round(value * willpowerMultiplier)} /> */}
               <XpDisplay xpValue={applyWillpowerBonus(value, dailyWillpower)} />
               <span className="text-primary font-normal mx-1">XP</span>
             </span>

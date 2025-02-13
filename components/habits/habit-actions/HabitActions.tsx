@@ -29,7 +29,6 @@ type HabitActionsProps = {
   projectedHabitXp: number;
   onChange: (habitId: string, actionId: string, newValue: number) => void;
   actionChanges: ActionItem & { currentXp?: number };
-  // willpowerMultiplier: number;
   dailyWillpower: number;
 };
 
@@ -39,7 +38,6 @@ export function HabitActions({
   projectedHabitXp,
   onChange,
   actionChanges,
-  // willpowerMultiplier,
   dailyWillpower,
 }: HabitActionsProps) {
   const router = useRouter();
@@ -215,7 +213,6 @@ export function HabitActions({
                     isDefensiveAction={action.type === "defensive"}
                     value={actionValues[action.id] || 0}
                     onValueChange={handleActionChange}
-                    // willpowerMultiplier={willpowerMultiplier}
                     dailyWillpower={dailyWillpower}
                     currentXp={xp}
                     projectedHabitXp={projectedHabitXp}
