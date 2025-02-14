@@ -59,7 +59,7 @@ export function HabitForm({
           {type} Habit
         </h1>
         <IconPickerField control={form.control} projectedXp={projectedXp} />
-        <ScrollArea className="px-4">
+        <ScrollArea className="px-4 sm:px-0">
           <NameField control={form.control} />
           <DescriptionField control={form.control} />
           <ActionsField control={form.control} />
