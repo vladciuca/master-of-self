@@ -9,6 +9,7 @@ import { NameField } from "@components/habits/habit-form/NameField";
 import { DescriptionField } from "@components/habits/habit-form/DescriptionField";
 import { ActionsField } from "@components/habits/habit-form/ActionsField";
 import { Form } from "@/components/ui/form";
+import { ScrollArea } from "@components/ui/scroll-area";
 import {
   HabitZodType,
   habitFormSchema,
@@ -52,30 +53,32 @@ export function HabitForm({
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="flex flex-col space-y-8 h-full justify-between sm:py-4"
+        className="flex flex-col space-y-8 h-full justify-between"
       >
         <h1 className="scroll-m-20 text-4xl font-bold tracking-tight text-center">
           {type} Habit
         </h1>
         <IconPickerField control={form.control} projectedXp={projectedXp} />
-        <NameField control={form.control} />
-        <DescriptionField control={form.control} />
-        <ActionsField control={form.control} />
+        <ScrollArea className="">
+          <NameField control={form.control} />
+          <DescriptionField control={form.control} />
+          <ActionsField control={form.control} />
 
-        <div className="flex flex-col justify-center items-center flex-grow">
-          <Button
-            type="submit"
-            disabled={submitting}
-            className="w-full mt-3 mb-4"
-          >
-            {type} Habit
-          </Button>
-          <Link href="/habits" className="w-full flex justify-center mb-4">
-            <Button variant="secondary" className="w-full">
-              Cancel
+          <div className="flex flex-col justify-center items-center flex-grow mt-6">
+            <Button
+              type="submit"
+              disabled={submitting}
+              className="w-full mt-3 mb-4"
+            >
+              {type} Habit
             </Button>
-          </Link>
-        </div>
+            <Link href="/habits" className="w-full flex justify-center mb-4">
+              <Button variant="secondary" className="w-full">
+                Cancel
+              </Button>
+            </Link>
+          </div>
+        </ScrollArea>
       </form>
     </Form>
   );
