@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { useCurrentWillpower } from "@hooks/useCurrentWillpower";
 import { useTodayJournalEntry } from "@hooks/useTodayJournalEntry";
 import { calculateLevel, xpForLevel } from "@lib/level";
+import { journalColors } from "@components/ui/constants";
 
 export function WillpowerLevelBar() {
   const { currentWillpower, currentWillpowerLoading } = useCurrentWillpower();
@@ -110,7 +111,7 @@ export function WillpowerLevelBar() {
             </motion.div>
           )}
           <motion.div
-            className="h-full bg-green-500"
+            className={`h-full bg-${journalColors.night}`}
             initial={{ width: 0 }}
             animate={{ width: `${bonusPercentage}%` }}
             transition={{ duration: 0.5, ease: "easeInOut" }}
@@ -127,7 +128,7 @@ export function WillpowerLevelBar() {
           </motion.div>
           {projectedXP > 0 && (
             <motion.div
-              className="h-full bg-purple-500"
+              className={`h-full bg-${journalColors.day}`}
               initial={{ width: 0 }}
               animate={{ width: `${projectedPercentage}%` }}
               transition={{ duration: 0.5, ease: "easeInOut" }}
@@ -154,7 +155,7 @@ export function WillpowerLevelBar() {
               {currentXP}
             </span> */}
             {bonusXP > 0 && (
-              <span className="text-green-500">
+              <span className={`text-${journalColors.night}`}>
                 <span className="mr-1 font-normal">Bonus:</span>
                 {bonusXP}
               </span>
@@ -163,11 +164,17 @@ export function WillpowerLevelBar() {
             {projectedXP !== 0 && (
               <span
                 className={
-                  projectedXP < 0 ? "text-pink-500" : "text-purple-500"
+                  projectedXP < 0
+                    ? `text-${journalColors.negative}`
+                    : `text-${journalColors.night}`
                 }
               >
-                <span className="mr-1 font-normal">Today:</span>
-                {projectedXP}
+                <span className={`mr-1 font-normal text-${journalColors.day}`}>
+                  Today:
+                </span>
+                <span className={`text-${journalColors.day}`}>
+                  {projectedXP}
+                </span>
               </span>
             )}
           </div>

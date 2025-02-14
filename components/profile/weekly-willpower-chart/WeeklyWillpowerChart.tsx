@@ -14,6 +14,7 @@ import { ChartContainer } from "@components/ui/chart";
 import { Skeleton } from "@components/ui/skeleton";
 import { FaBoltLightning } from "react-icons/fa6";
 import { getStartOfCurrentWeek, getEndOfCurrentWeek } from "@lib/time";
+import { journalColors } from "@components/ui/constants";
 import { Session } from "@models/types";
 import { WeeklyWillpowerData } from "@models/types";
 
@@ -88,11 +89,12 @@ export function WeeklyWillpowerChart() {
   const chartConfig = {
     generatedWillpower: {
       label: "Generated Willpower",
-      color: "hsl(var(--primary))",
+      // color: "hsl(var(--primary))",
+      color: "#EAB308",
     },
     bonusWillpower: {
       label: "Bonus Willpower",
-      color: "#22c55e",
+      color: "#A855F7",
     },
   };
 
@@ -136,9 +138,18 @@ export function WeeklyWillpowerChart() {
             {chartTimePeriod(willpowerData)}
           </span>
           <span className="flex items-center text-3xl font-bold">
-            {isLoading ? "??" : totalWillpower.generated}
-            {!isLoading && totalWillpower.bonus > 0 && (
-              <span className="text-green-500">+{totalWillpower.bonus}</span>
+            {/* {!isLoading && totalWillpower.bonus > 0 && (
+              <span className={`text-${journalColors.night}`}>
+                +{totalWillpower.bonus}
+              </span>
+            )} */}
+            {isLoading ? (
+              "??"
+            ) : (
+              // <span className={`text-${journalColors.day}`}>
+              //   {totalWillpower.generated}
+              // </span>
+              <span>{totalWillpower.generated + totalWillpower.bonus}</span>
             )}
             <FaBoltLightning className="ml-1 text-2xl" />
           </span>
@@ -189,9 +200,12 @@ export function WeeklyWillpowerChart() {
                       <></>
                     ) : (
                       <div className="text-center font-semibold text-xs">
-                        {generatedWillpower}
-                        <span className="text-green-500">
+                        <span className={`text-${journalColors.night}`}>
                           +{bonusWillpower}
+                        </span>
+                        <span className="font-thin">/</span>
+                        <span className={`text-${journalColors.day}`}>
+                          {generatedWillpower}
                         </span>
                       </div>
                     )}

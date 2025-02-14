@@ -2,6 +2,7 @@ import React, { useCallback } from "react";
 import { FormStepTemplate } from "@components/journal/journal-entry-form/form-steps/FormStepTemplate";
 import { TextAreaList } from "@components/ui/textarea-list";
 import { FaBoltLightning } from "react-icons/fa6";
+import { journalColors } from "@components/ui/constants";
 
 type GreatTodayProps = {
   dailyWillpower: number;
@@ -23,7 +24,7 @@ function GreatToday({ dailyWillpower, entryList, onChange }: GreatTodayProps) {
       description="Write down meaningful and achievable goals for the day to generate Willpower."
       scoreSection={
         <>
-          {dailyWillpower}
+          <span className={`text-${journalColors.day}`}>{dailyWillpower}</span>
           <FaBoltLightning className="ml-2 text-3xl" />
         </>
       }

@@ -60,3 +60,9 @@ export const stepStyles: { [key: string]: StepStyle } = {
 export const getStepStyle = (stepType: string): StepStyle => {
   return stepStyles[stepType] || stepStyles.default;
 };
+
+export const journalColors = {
+  day: "yellow-500",
+  night: "purple-500",
+  negative: "pink-500",
+};
