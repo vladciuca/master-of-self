@@ -49,7 +49,7 @@ export type Habit = {
   _id?: ObjectId;
   name: string;
   icon: string;
-  description: string;
+  description?: string;
   xp: number;
   xpData: XpData[];
   creatorId: ObjectId;

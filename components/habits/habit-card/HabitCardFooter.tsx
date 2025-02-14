@@ -34,7 +34,7 @@ export function HabitCardFooter({
         onClick={() => handleEdit(habit)}
         className="flex-1 w-full"
       >
-        Update
+        Update Habits
         {/* <GiPencil className="ml-2" size={"1.2rem"} /> */}
       </Button>
 

@@ -13,11 +13,13 @@ import { HabitZodType } from "@components/habits/habit-form/habitFormSchema";
 type IconPickerFieldProps = {
   control: Control<HabitZodType>;
   projectedXp?: number;
+  type: "Create" | "Update";
 };
 
 export function IconPickerField({
   control,
   projectedXp,
+  type,
 }: IconPickerFieldProps) {
   // const { iconColorClass, bgColorClass } = useIconRarityLevel(
   //   control._formValues.xp
@@ -29,9 +31,11 @@ export function IconPickerField({
       name="icon"
       render={({ field }) => (
         <FormItem>
-          <FormLabel className="w-full flex justify-center">
-            Habit icon
-          </FormLabel>
+          {type === "Create" && (
+            <FormLabel className="w-full flex justify-center">
+              Category Icon
+            </FormLabel>
+          )}
           <FormControl>
             <IconPicker
               value={field.value}

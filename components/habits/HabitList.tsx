@@ -31,12 +31,10 @@ export function HabitList({
   hasNoEntryToday,
 }: HabitListProps) {
   const habitDefaultActionValues = useMemo(() => {
-    console.log("Computing habitDefaultActionValues");
     return getHabitActionDefaultValues(habits);
   }, [habits]);
 
   const habitActionValues = useMemo(() => {
-    console.log("Computing habitActionValues");
     return getHabitActionValuesFromEntry(habitActionsFromEntry);
   }, [habitActionsFromEntry]);
 

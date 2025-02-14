@@ -80,7 +80,7 @@ export type Habit = {
   _id: string;
   name: string;
   icon: string;
-  description: string;
+  description?: string;
   xp: number;
   xpData: XpData[];
   creatorId: string;

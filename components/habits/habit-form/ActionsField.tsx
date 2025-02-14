@@ -7,6 +7,7 @@ import {
   FormField,
   FormItem,
   FormLabel,
+  FormDescription,
   FormControl,
   FormMessage,
 } from "@/components/ui/form";
@@ -38,6 +39,7 @@ import { useSideContentPosition } from "@hooks/useSideContentPosition";
 
 type ActionsFieldProps = {
   control: Control<HabitZodType>;
+  type: "Create" | "Update";
 };
 
 const initialActionForm = {
@@ -48,7 +50,7 @@ const initialActionForm = {
   dailyTarget: 1,
 };
 
-export function ActionsField({ control }: ActionsFieldProps) {
+export function ActionsField({ control, type }: ActionsFieldProps) {
   const [actionForm, setActionForm] = useState<
     Omit<HabitAction, "id" | "value">
   >({
@@ -138,6 +140,13 @@ export function ActionsField({ control }: ActionsFieldProps) {
       render={() => (
         <FormItem>
           <FormLabel>Habit Actions</FormLabel>
+          {type === "Create" && (
+            <FormDescription className="text-xs">
+              Define a specific, measurable action you'll take each day. Be
+              concrete and realistic - this should be something you can clearly
+              track as completed or not completed.
+            </FormDescription>
+          )}
           <div className="flex flex-col gap-2">
             {fields.map((field, index) => {
               const action = actions[index] as HabitAction;
@@ -231,7 +240,6 @@ export function ActionsField({ control }: ActionsFieldProps) {
 
               <ScrollArea className="h-[65vh] p-4">
                 <Label>I want to...</Label>
-
                 <Select
                   value={actionForm.type}
                   onValueChange={(value: "offensive" | "defensive") =>
@@ -260,9 +268,15 @@ export function ActionsField({ control }: ActionsFieldProps) {
                 <Label>
                   {actionForm.type === "offensive" ? "I will..." : "I won't..."}
                 </Label>
+                {editId === null && (
+                  <FormDescription className="text-xs">
+                    Describe the specific action you'll take. Make it clear and
+                    measurable.
+                  </FormDescription>
+                )}
                 <FormControl>
                   <Input
-                    placeholder="Enter action"
+                    placeholder="e.g., Do pushups, Read books, Meditate"
                     value={actionForm.action}
                     onChange={(e) => {
                       setActionForm({ ...actionForm, action: e.target.value });
@@ -274,7 +288,7 @@ export function ActionsField({ control }: ActionsFieldProps) {
                   />
                 </FormControl>
 
-                <Label>Action tracking metric</Label>
+                {/* <Label>Action tracking metric</Label>
                 <Select
                   value={actionForm.metric}
                   onValueChange={(value: "count" | "time") =>
@@ -293,21 +307,27 @@ export function ActionsField({ control }: ActionsFieldProps) {
                         Count
                       </span>
                     </SelectItem>
-                    {/* <SelectItem value="time">
+                    <SelectItem value="time">
                       <span className="flex items-center">
                         <span className="mr-2">
                           <MetricIcon metric="time" size={18} />
                         </span>
                         Time
                       </span>
-                    </SelectItem> */}
+                    </SelectItem>
                   </SelectContent>
-                </Select>
+                </Select> */}
 
-                <Label>Action unit of measurement</Label>
+                <Label>Measurement Unit</Label>
+                {editId === null && (
+                  <FormDescription className="text-xs">
+                    Choose the unit that best measures your action (what you'll
+                    count or track each day)
+                  </FormDescription>
+                )}
                 <FormControl>
                   <Input
-                    placeholder="Enter an action unit"
+                    placeholder="e.g., repetitions, pages, minutes"
                     value={actionForm.actionUnit}
                     onChange={(e) => {
                       setActionForm({
@@ -346,7 +366,7 @@ export function ActionsField({ control }: ActionsFieldProps) {
                   className="w-full my-8 mb-10"
                 />
                 <Button onClick={handleActionSubmit} className="w-full mb-4">
-                  {editId !== null ? "Update Action" : "Add Action"}
+                  {editId !== null ? "Edit Action" : "Add Action"}
                 </Button>
                 <DrawerClose asChild className="w-full mb-4">
                   <Button variant="outline">Close</Button>
@@ -354,6 +374,7 @@ export function ActionsField({ control }: ActionsFieldProps) {
               </ScrollArea>
             </DrawerContent>
           </Drawer>
+
           <FormMessage />
         </FormItem>
       )}

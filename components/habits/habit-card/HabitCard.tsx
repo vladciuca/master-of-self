@@ -3,7 +3,7 @@
 import { useSession } from "next-auth/react";
 import { usePathname } from "next/navigation";
 import { HabitCardHeader } from "@components/habits/habit-card/HabitCardHeader";
-import { HabitCardDescription } from "@components/habits/habit-card/HabitCardDescription";
+// import { HabitCardDescription } from "@components/habits/habit-card/HabitCardDescription";
 import { HabitCardActions } from "@components/habits/habit-card/HabitCardActions";
 import { HabitCardFooter } from "./HabitCardFooter";
 import {
@@ -37,7 +37,11 @@ export function HabitCard({
   submittingJournalEntry,
   hasNoEntryToday,
 }: HabitCardProps) {
-  const { description, actions, _id: habitId } = habit;
+  const {
+    // description,
+    actions,
+    _id: habitId,
+  } = habit;
 
   const { data: session } = useSession() as { data: Session | null };
   const pathName = usePathname();
@@ -56,7 +60,7 @@ export function HabitCard({
           />
         </AccordionTrigger>
         <AccordionContent className="px-4">
-          <HabitCardDescription description={description} />
+          {/* <HabitCardDescription description={description} /> */}
           <HabitCardActions
             actions={actions}
             habitDefaultActionValues={habitDefaultActionValues}

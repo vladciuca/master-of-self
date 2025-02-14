@@ -45,7 +45,7 @@ export function HabitCardActions({
         const isDailyOverCapped = isActionOverCapped(actionParams);
 
         return (
-          <div key={action.id} className="mb-6">
+          <div key={action.id} className="my-6">
             <div className="mb-1 flex items-start max-w-full">
               <span className="flex flex-shrink-0 items-start mt-[3.2px]">
                 <ActionIcon

@@ -2,6 +2,7 @@ import {
   FormField,
   FormItem,
   FormLabel,
+  FormDescription,
   FormControl,
   FormMessage,
 } from "@components/ui/form";
@@ -11,23 +12,32 @@ import { HabitZodType } from "@components/habits/habit-form/habitFormSchema";
 
 type NameFieldProps = {
   control: Control<HabitZodType>;
+  type: "Create" | "Update";
 };
 
-export function NameField({ control }: NameFieldProps) {
+export function NameField({ control, type }: NameFieldProps) {
   return (
     <FormField
       control={control}
       name="name"
       render={({ field }) => (
         <FormItem>
-          <FormLabel>Habit name</FormLabel>
+          <FormLabel>Habit Category</FormLabel>
+          {type === "Create" && (
+            <FormDescription className="text-xs">
+              Choose a broad category that best describes your habit. This helps
+              with organizing and tracking similar habits together.
+            </FormDescription>
+          )}
+
           <FormControl>
             <Input
               className="text-base"
-              placeholder="A consistent action you can take to improve..."
+              placeholder="e.g., Fitness, Mental Health, Finance, etc."
               {...field}
             />
           </FormControl>
+
           <FormMessage />
         </FormItem>
       )}

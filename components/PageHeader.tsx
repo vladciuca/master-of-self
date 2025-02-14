@@ -17,7 +17,7 @@ export function PageHeader({
   title,
   linkTo,
   numberOfEntries,
-  disabled,
+  disabled = false,
 }: PageHeaderProps) {
   const router = useRouter();
 
