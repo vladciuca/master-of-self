@@ -229,7 +229,7 @@ export function ActionsField({ control }: ActionsFieldProps) {
                 </DrawerTitle>
               </DrawerHeader>
 
-              <ScrollArea className="h-[75vh] p-4">
+              <ScrollArea className="h-[70vh] p-4">
                 <Label>I want to...</Label>
 
                 <Select
