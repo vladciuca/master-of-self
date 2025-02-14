@@ -67,7 +67,7 @@ export function HabitForm({
         </div>
 
         <ScrollArea className="px-4 flex-grow">
-          <div className="space-y-8">
+          <div className="space-y-8 px-1">
             <NameField control={form.control} type={type} />
             {/* <DescriptionField control={form.control} /> */}
             <ActionsField control={form.control} type={type} />

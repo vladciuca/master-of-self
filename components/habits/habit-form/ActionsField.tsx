@@ -239,56 +239,62 @@ export function ActionsField({ control, type }: ActionsFieldProps) {
               </DrawerHeader>
 
               <ScrollArea className="h-[65vh] p-4">
-                <Label>I want to...</Label>
-                <Select
-                  value={actionForm.type}
-                  onValueChange={(value: "offensive" | "defensive") =>
-                    setActionForm({ ...actionForm, type: value })
-                  }
-                >
-                  <SelectTrigger className="my-2 mb-4">
-                    <SelectValue placeholder="Select action type" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="offensive">
-                      <span className="flex items-center">
-                        <ActionIcon type={"offensive"} size={20} />
-                        Build a habit
-                      </span>
-                    </SelectItem>
-                    <SelectItem value="defensive">
-                      <span className="flex items-center">
-                        <ActionIcon type={"defensive"} size={20} />
-                        Break a habit
-                      </span>
-                    </SelectItem>
-                  </SelectContent>
-                </Select>
+                <div className="px-1">
+                  <Label>I want to...</Label>
+                  <Select
+                    value={actionForm.type}
+                    onValueChange={(value: "offensive" | "defensive") =>
+                      setActionForm({ ...actionForm, type: value })
+                    }
+                  >
+                    <SelectTrigger className="my-2 mb-4">
+                      <SelectValue placeholder="Select action type" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="offensive">
+                        <span className="flex items-center">
+                          <ActionIcon type={"offensive"} size={20} />
+                          Build a habit
+                        </span>
+                      </SelectItem>
+                      <SelectItem value="defensive">
+                        <span className="flex items-center">
+                          <ActionIcon type={"defensive"} size={20} />
+                          Break a habit
+                        </span>
+                      </SelectItem>
+                    </SelectContent>
+                  </Select>
 
-                <Label>
-                  {actionForm.type === "offensive" ? "I will..." : "I won't..."}
-                </Label>
-                {editId === null && (
-                  <FormDescription className="text-xs">
-                    Describe the specific action you'll take. Make it clear and
-                    measurable.
-                  </FormDescription>
-                )}
-                <FormControl>
-                  <Input
-                    placeholder="e.g., Do pushups, Read books, Meditate"
-                    value={actionForm.action}
-                    onChange={(e) => {
-                      setActionForm({ ...actionForm, action: e.target.value });
-                      setInputError(false);
-                    }}
-                    className={`mt-2 mb-8 text-base ${
-                      inputError ? "border-destructive" : ""
-                    }`}
-                  />
-                </FormControl>
+                  <Label>
+                    {actionForm.type === "offensive"
+                      ? "I will..."
+                      : "I won't..."}
+                  </Label>
+                  {editId === null && (
+                    <FormDescription className="text-xs">
+                      Describe the specific action you'll take. Make it clear
+                      and measurable.
+                    </FormDescription>
+                  )}
+                  <FormControl>
+                    <Input
+                      placeholder="e.g., Do pushups, Read books, Meditate"
+                      value={actionForm.action}
+                      onChange={(e) => {
+                        setActionForm({
+                          ...actionForm,
+                          action: e.target.value,
+                        });
+                        setInputError(false);
+                      }}
+                      className={`mt-2 mb-8 text-base ${
+                        inputError ? "border-destructive" : ""
+                      }`}
+                    />
+                  </FormControl>
 
-                {/* <Label>Action tracking metric</Label>
+                  {/* <Label>Action tracking metric</Label>
                 <Select
                   value={actionForm.metric}
                   onValueChange={(value: "count" | "time") =>
@@ -318,59 +324,60 @@ export function ActionsField({ control, type }: ActionsFieldProps) {
                   </SelectContent>
                 </Select> */}
 
-                <Label>Measurement Unit</Label>
-                {editId === null && (
-                  <FormDescription className="text-xs">
-                    Choose the unit that best measures your action (what you'll
-                    count or track each day)
-                  </FormDescription>
-                )}
-                <FormControl>
-                  <Input
-                    placeholder="e.g., repetitions, pages, minutes"
-                    value={actionForm.actionUnit}
-                    onChange={(e) => {
+                  <Label>Measurement Unit</Label>
+                  {editId === null && (
+                    <FormDescription className="text-xs">
+                      Choose the unit that best measures your action (what
+                      you'll count or track each day)
+                    </FormDescription>
+                  )}
+                  <FormControl>
+                    <Input
+                      placeholder="e.g., repetitions, pages, minutes"
+                      value={actionForm.actionUnit}
+                      onChange={(e) => {
+                        setActionForm({
+                          ...actionForm,
+                          actionUnit: e.target.value,
+                        });
+                        setInputError(false);
+                      }}
+                      className={`mt-2 mb-8 text-base ${
+                        inputError ? "border-destructive" : ""
+                      }`}
+                    />
+                  </FormControl>
+
+                  <div className="flex items-center mt-2 mb-4">
+                    <Label className="mr-4">
+                      Daily{" "}
+                      {actionForm.type === "offensive" ? "Target" : "Limit"}:
+                    </Label>
+
+                    <MetricIcon metric={actionForm.metric} size={20} />
+                    <div className="ml-1">{actionForm.dailyTarget}</div>
+                  </div>
+
+                  <Slider
+                    value={[actionForm.dailyTarget]} // the value should be passed as an array
+                    max={10}
+                    onValueChange={(
+                      value // `value` will be an array, so we grab the first element
+                    ) =>
                       setActionForm({
                         ...actionForm,
-                        actionUnit: e.target.value,
-                      });
-                      setInputError(false);
-                    }}
-                    className={`mt-2 mb-8 text-base ${
-                      inputError ? "border-destructive" : ""
-                    }`}
+                        dailyTarget: Number(value[0]) || 1, // access the first item from the array
+                      })
+                    }
+                    className="w-full my-8 mb-10"
                   />
-                </FormControl>
-
-                <div className="flex items-center mt-2 mb-4">
-                  <Label className="mr-4">
-                    Daily {actionForm.type === "offensive" ? "Target" : "Limit"}
-                    :
-                  </Label>
-
-                  <MetricIcon metric={actionForm.metric} size={20} />
-                  <div className="ml-1">{actionForm.dailyTarget}</div>
+                  <Button onClick={handleActionSubmit} className="w-full mb-4">
+                    {editId !== null ? "Edit Action" : "Add Action"}
+                  </Button>
+                  <DrawerClose asChild className="w-full mb-4">
+                    <Button variant="outline">Close</Button>
+                  </DrawerClose>
                 </div>
-
-                <Slider
-                  value={[actionForm.dailyTarget]} // the value should be passed as an array
-                  max={10}
-                  onValueChange={(
-                    value // `value` will be an array, so we grab the first element
-                  ) =>
-                    setActionForm({
-                      ...actionForm,
-                      dailyTarget: Number(value[0]) || 1, // access the first item from the array
-                    })
-                  }
-                  className="w-full my-8 mb-10"
-                />
-                <Button onClick={handleActionSubmit} className="w-full mb-4">
-                  {editId !== null ? "Edit Action" : "Add Action"}
-                </Button>
-                <DrawerClose asChild className="w-full mb-4">
-                  <Button variant="outline">Close</Button>
-                </DrawerClose>
               </ScrollArea>
             </DrawerContent>
           </Drawer>
