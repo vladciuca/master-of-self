@@ -40,7 +40,7 @@ export default function CreateHabit() {
   };
 
   return (
-    <div className="p-6 h-full">
+    <div className="py-6 h-full">
       <HabitForm type="Create" submitting={submitting} onSubmit={createHabit} />
     </div>
   );
