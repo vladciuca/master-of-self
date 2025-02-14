@@ -73,7 +73,7 @@ export function DailyBonus({ bonusWillpower }: DailyBonusProps) {
 
   return (
     <FormStepTemplate
-      title={"Yesterday's rewards"}
+      title={"Bonus Willpower from yesterday!"}
       scoreSection={
         <>
           <span className="text-green-500">+{bonusWillpower}</span>
