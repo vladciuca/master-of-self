@@ -91,7 +91,7 @@ export default function UpdateHabit() {
   }
 
   return (
-    <div className="p-6 h-full">
+    <div className="py-6 h-full">
       {habitData && (
         <HabitForm
           type="Update"
