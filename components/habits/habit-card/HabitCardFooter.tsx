@@ -28,7 +28,7 @@ export function HabitCardFooter({
   }
 
   return (
-    <div className="mt-12 flex space-x-4">
+    <div className="mt-10 flex space-x-4">
       <Button
         variant="outline"
         onClick={() => handleEdit(habit)}

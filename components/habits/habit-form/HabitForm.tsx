@@ -79,7 +79,7 @@ export function HabitForm({
             disabled={submitting}
             className="w-full mt-3 mb-4"
           >
-            {type} Habits
+            {type}
           </Button>
           <Link href="/habits" className="w-full flex justify-center mb-4">
             <Button variant="secondary" className="w-full">
