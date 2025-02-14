@@ -12,7 +12,6 @@ import {
 } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-// import { Badge } from "@components/ui/badge";
 import {
   Select,
   SelectContent,
@@ -28,18 +27,9 @@ import {
   DrawerTrigger,
   DrawerClose,
 } from "@/components/ui/drawer";
+import { ScrollArea } from "@components/ui/scroll-area";
 import { Label } from "@components/ui/label";
-import {
-  CircleX,
-  Plus,
-  Edit2,
-  //test
-  CircleCheck,
-  CircleAlert,
-  Circle,
-  CircleDashed,
-  ArrowBigRightDash,
-} from "lucide-react";
+import { CircleX, Plus, Edit2, ArrowBigRightDash } from "lucide-react";
 import { Control, useFieldArray, useWatch } from "react-hook-form";
 import { HabitZodType } from "@components/habits/habit-form/habitFormSchema";
 import { HabitAction } from "@models/types";
@@ -239,7 +229,7 @@ export function ActionsField({ control }: ActionsFieldProps) {
                 </DrawerTitle>
               </DrawerHeader>
 
-              <div className="p-4 pb-0">
+              <ScrollArea className="h-[75vh] p-4">
                 <Label>I want to...</Label>
 
                 <Select
@@ -353,16 +343,15 @@ export function ActionsField({ control }: ActionsFieldProps) {
                       dailyTarget: Number(value[0]) || 1, // access the first item from the array
                     })
                   }
-                  className="w-full my-8 mb-16"
+                  className="w-full my-8 mb-10"
                 />
-
                 <Button onClick={handleActionSubmit} className="w-full mb-4">
                   {editId !== null ? "Update Action" : "Add Action"}
                 </Button>
                 <DrawerClose asChild className="w-full mb-4">
                   <Button variant="outline">Close</Button>
                 </DrawerClose>
-              </div>
+              </ScrollArea>
             </DrawerContent>
           </Drawer>
           <FormMessage />
