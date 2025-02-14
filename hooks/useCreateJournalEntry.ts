@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useSession } from "next-auth/react";
 import { getToday, getTomorrow } from "@lib/time";
-import { Session, Habit, Actions } from "@app/types/types";
+import { Session, Habit, Actions } from "@models/types";
 import { useYesterdayJournalEntry } from "./useYesterdayJournalEntry";
 import { useLastJournalEntry } from "./useLastJournalEntry";
 import { useUpdateHabits } from "./useUpdateHabits";

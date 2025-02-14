@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { useSession } from "next-auth/react";
-import type { Session, UserSettings } from "@app/types/types";
+import type { Session, UserSettings } from "@models/types";
 
 export function useUserSettings() {
   const [userSettings, setUserSettings] = useState<UserSettings>({

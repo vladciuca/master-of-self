@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
-import { Session, Habit } from "@app/types/types";
+import { Session, Habit } from "@models/types";
 
 export function useUserHabits() {
   const [habits, setHabits] = useState<Habit[]>([]);

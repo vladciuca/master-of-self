@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { getToday } from "@lib/time";
-import { Session } from "@app/types/types";
+import { Session } from "@models/types";
 
 export function useCurrentWillpower() {
   const [currentWillpower, setCurrentWillpower] = useState(0);

@@ -8,7 +8,7 @@ import React, {
   type ReactNode,
 } from "react";
 import { useSession } from "next-auth/react";
-import type { Session, UserSettings } from "@app/types/types";
+import type { Session, UserSettings } from "@models/types";
 
 // Define the shape of our context
 interface UserSettingsContextType {

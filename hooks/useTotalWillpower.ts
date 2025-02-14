@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
-import { Session } from "@app/types/types";
+import { Session } from "@models/types";
 
 export function useTotalWillpower() {
   const [totalWillpower, setTotalWillpower] = useState(0);

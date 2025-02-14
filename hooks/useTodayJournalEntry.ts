@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { getToday, getTomorrow } from "@lib/time";
-import { Session, JournalEntryMetadata } from "@app/types/types";
+import { Session, JournalEntryMetadata } from "@models/types";
 
 export function useTodayJournalEntry() {
   const [todayEntry, setTodayEntry] = useState<JournalEntryMetadata | null>(

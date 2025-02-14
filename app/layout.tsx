@@ -6,7 +6,7 @@ import { ThemeProvider } from "@context/theme-provider";
 import { SideContentProvider } from "@context/SideContentContext";
 import { UserSettingsProvider } from "@context/UserSettingsContext";
 import { Poppins } from "next/font/google";
-import { Layout } from "@app/types/types";
+import { Layout } from "@models/types";
 import { SideContent } from "components/side-content/SideContent";
 
 const font = Poppins({

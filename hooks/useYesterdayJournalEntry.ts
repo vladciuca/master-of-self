@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { getToday, getYesterday } from "@/lib/time";
 import { calculateHabitsXpFromEntry } from "@/lib/level";
-import type { Session, JournalEntry } from "@/app/types/types";
+import type { Session, JournalEntry } from "@models/types";
 import { calculateWillpowerScore } from "@/lib/score";
 
 type HabitsXp = { [key: string]: number };

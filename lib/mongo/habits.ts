@@ -8,7 +8,7 @@ import {
   HabitUpdate,
   HabitActionUpdate,
   XpData,
-} from "@/app/types/mongodb";
+} from "@models/mongodb";
 
 let client: MongoClient;
 let db: Db;

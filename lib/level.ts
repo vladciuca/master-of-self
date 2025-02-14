@@ -72,7 +72,7 @@ export const applyWillpowerBonus = (
   return Math.round(baseXp * willpowerMultiplier);
 };
 
-import { Habit, Actions, ActionItem } from "@app/types/types";
+import { Habit, Actions, ActionItem } from "@models/types";
 // GET INDIVIDUAL ACTION VALUES FOR HABITS FROM JOURNAL ENTRY - Removes currentXp key from actions
 export const getHabitActionValuesFromEntry = (
   actions: Actions
@@ -150,3 +150,41 @@ export const getHabitActionDefaultValues = (
     return acc;
   }, {} as { [habitId: string]: ActionItem & { currentXp?: number } });
 };
+
+// export function deepMergeHabitActions(
+//   latestDefault: {
+//     [key: string]: ActionItem & { currentXp: number };
+//   },
+//   actionChanges: {
+//     [key: string]: ActionItem & { currentXp: number };
+//   }
+// ): Actions {
+//   const merged: Actions = { ...actionChanges };
+
+//   for (const habitId in latestDefault) {
+//     if (!merged[habitId]) {
+//       // If the habit doesn't exist in actionChanges, add it with currentXp
+//       merged[habitId] = {
+//         currentXp: latestDefault[habitId].currentXp,
+//         ...latestDefault[habitId],
+//       };
+//     } else {
+//       // If the habit exists, keep its currentXp and merge action values
+//       const currentXp = merged[habitId].currentXp;
+//       merged[habitId] = {
+//         currentXp,
+//         ...latestDefault[habitId],
+//         ...merged[habitId],
+//       };
+//     }
+
+//     // Ensure all action IDs from latestDefault are present
+//     for (const actionId in latestDefault[habitId]) {
+//       if (actionId !== "currentXp" && !(actionId in merged[habitId])) {
+//         merged[habitId][actionId] = latestDefault[habitId][actionId];
+//       }
+//     }
+//   }
+
+//   return merged;
+// }

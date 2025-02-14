@@ -9,7 +9,7 @@ import {
   isActionOverCapped,
   getActionValueColor,
 } from "@lib/score";
-import type { HabitAction, ActionItem } from "@app/types/types";
+import type { HabitAction, ActionItem } from "@models/types";
 
 type HabitCardActionsProps = {
   actions: HabitAction[];

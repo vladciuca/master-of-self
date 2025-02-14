@@ -3,9 +3,10 @@ import { FormStepTemplate } from "@/components/journal/journal-entry-form/form-s
 import { HabitActions } from "../../../habits/habit-actions/HabitActions";
 import { SkeletonHabitAction } from "@components/skeletons/SkeletonHabitAction";
 import { useUserHabits } from "@/hooks/useUserHabits";
-import { Habit, Actions } from "@app/types/types";
+import { Habit, Actions } from "@models/types";
 import {
-  // getHabitActionDefaultValues,
+  // deepMergeHabitActions,
+  getHabitActionDefaultValues,
   calculateHabitsXpFromEntry,
 } from "@lib/level";
 
@@ -27,10 +28,17 @@ export function HabitActionsStep({
   const { habits, habitsLoading, habitsError } = useUserHabits();
   const [actionValues, setActionValues] = useState<Actions>(actionChanges);
 
-  // const latestDefaultHabitActionValues = getHabitActionDefaultValues(habits);
+  const latestDefaultHabitActionValues = getHabitActionDefaultValues(habits);
 
-  // console.log("=== LATEST DEFAULT", latestDefaultHabitActionValues);
-  // console.log("===ACTION CHANGES", actionChanges);
+  console.log("=== LATEST DEFAULT", latestDefaultHabitActionValues);
+  console.log("===ACTION CHANGES", actionChanges);
+  // useEffect(() => {
+  //   const mergedValues = deepMergeHabitActions(
+  //     latestDefaultHabitActionValues,
+  //     actionValues
+  //   );
+  //   setActionValues(mergedValues);
+  // }, [latestDefaultHabitActionValues]);
 
   // Update local state when actionChanges prop changes
   useEffect(() => {

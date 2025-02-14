@@ -1,6 +1,6 @@
 import { MongoClient, Db, Collection, ObjectId } from "mongodb";
 import clientPromise from "./mongodb";
-import { User } from "@/app/types/mongodb";
+import { User } from "@models/mongodb";
 
 let client: MongoClient;
 let db: Db;

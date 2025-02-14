@@ -8,7 +8,7 @@ import { MongoDBAdapter } from "@auth/mongodb-adapter";
 import { Adapter } from "next-auth/adapters";
 import { ObjectId } from "mongodb";
 import clientPromise from "@lib/mongo/mongodb";
-import { Session } from "@app/types/types";
+import { Session } from "@models/types";
 
 export const authOptions: NextAuthOptions = {
   providers: [

@@ -13,7 +13,7 @@ import { LearnedToday } from "@components/journal/journal-entry-form/form-steps/
 import { HabitActionsStep } from "@components/journal/journal-entry-form/form-steps/HabitActionsStep";
 import { FormStepProgress } from "./FormStepProgress";
 import { FormStepNavigation } from "./FormStepNavigation";
-import { JournalEntry } from "@/app/types/types";
+import { JournalEntry } from "@models/types";
 import { isEvening } from "@lib/time";
 import { calculateWillpowerScore } from "@/lib/score";
 

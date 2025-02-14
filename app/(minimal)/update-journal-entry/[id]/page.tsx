@@ -7,7 +7,7 @@ import { PageLogo } from "@components/PageLogo";
 import { HeaderTitle } from "@components/HeaderTitle";
 import { useUserSettings } from "@hooks/useUserSettings";
 import { useUserHabits } from "@hooks/useUserHabits";
-import { JournalEntry } from "@app/types/types";
+import { JournalEntry } from "@models/types";
 
 export default function UpdateJournalEntry() {
   const [submitting, setSubmitting] = useState(false);

@@ -1,4 +1,4 @@
-import { Layout } from "@app/types/types";
+import { Layout } from "@models/types";
 
 export default function MinimalLayout({ children }: Layout) {
   return (

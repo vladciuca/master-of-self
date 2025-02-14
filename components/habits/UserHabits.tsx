@@ -10,7 +10,7 @@ import { useUserHabits } from "@hooks/useUserHabits";
 import { useTodayJournalEntry } from "@hooks/useTodayJournalEntry";
 import { useLastJournalEntry } from "@hooks/useLastJournalEntry";
 import { useCreateJournalEntry } from "@hooks/useCreateJournalEntry";
-import { Habit } from "@app/types/types";
+import { Habit } from "@models/types";
 
 const NEW_HABIT_CARD_DETAILS = {
   symbol: <Shell size={"2rem"} />,

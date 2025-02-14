@@ -1,6 +1,6 @@
 import { useState, useCallback } from "react";
 import { useSession } from "next-auth/react";
-import { Session } from "@/app/types/types";
+import { Session } from "@models/types";
 
 export function useLastUpdateTime() {
   const [lastUpdateTime, setLastUpdateTime] = useState<string | null>(null);

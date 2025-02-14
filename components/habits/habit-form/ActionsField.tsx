@@ -42,7 +42,7 @@ import {
 } from "lucide-react";
 import { Control, useFieldArray, useWatch } from "react-hook-form";
 import { HabitZodType } from "@components/habits/habit-form/habitFormSchema";
-import { HabitAction } from "@app/types/types";
+import { HabitAction } from "@models/types";
 import { Slider } from "@components/ui/slider";
 import { useSideContentPosition } from "@hooks/useSideContentPosition";
 

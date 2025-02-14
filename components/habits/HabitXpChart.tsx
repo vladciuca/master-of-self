@@ -6,7 +6,7 @@ import {
   //   ChartTooltip,
   //   ChartTooltipContent,
 } from "@/components/ui/chart";
-import { Habit } from "@app/types/types";
+import { Habit } from "@models/types";
 
 export const description = "A line chart";
 

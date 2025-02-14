@@ -15,7 +15,7 @@ import {
   displayActionValue,
 } from "@lib/score";
 import { applyWillpowerBonus } from "@lib/level";
-import type { HabitAction } from "@app/types/types";
+import type { HabitAction } from "@models/types";
 
 interface HabitActionProps {
   action: HabitAction;

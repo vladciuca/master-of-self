@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import { HabitCard } from "@components/habits/habit-card/HabitCard";
 import { Accordion } from "@components/ui/accordion";
-import { Habit, Actions } from "@app/types/types";
+import { Habit, Actions } from "@models/types";
 import {
   getHabitActionValuesFromEntry,
   getHabitActionDefaultValues,

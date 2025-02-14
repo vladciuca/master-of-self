@@ -14,8 +14,8 @@ import { ChartContainer } from "@components/ui/chart";
 import { Skeleton } from "@components/ui/skeleton";
 import { FaBoltLightning } from "react-icons/fa6";
 import { getStartOfCurrentWeek, getEndOfCurrentWeek } from "@lib/time";
-import { Session } from "@app/types/types";
-import { WeeklyWillpowerData } from "@app/types/types";
+import { Session } from "@models/types";
+import { WeeklyWillpowerData } from "@models/types";
 
 export type WillpowerChartBaseProps = {
   x?: number;

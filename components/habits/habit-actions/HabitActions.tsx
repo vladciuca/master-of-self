@@ -20,7 +20,7 @@ import { XpDisplay } from "@components/ui/xp-display";
 import { Plus } from "lucide-react";
 import { calculateHabitLevel, xpForHabitLevel } from "@lib/level";
 import { formatNumberSuffixes } from "@lib/utils";
-import type { Habit, ActionItem } from "@app/types/types";
+import type { Habit, ActionItem } from "@models/types";
 import { useSideContentPosition } from "@hooks/useSideContentPosition";
 
 type HabitActionsProps = {

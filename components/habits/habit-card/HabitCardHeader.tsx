@@ -7,7 +7,7 @@ import { calculateHabitLevel, xpForHabitLevel } from "@lib/level";
 import { formatNumberSuffixes } from "@lib/utils";
 import { isDailyTargetCompleted, isActionOverCapped } from "@lib/score";
 import { applyWillpowerBonus } from "@lib/level";
-import type { Habit, ActionItem } from "@app/types/types";
+import type { Habit, ActionItem } from "@models/types";
 
 type HabitCardHeaderProps = {
   habit: Habit;

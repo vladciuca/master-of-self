@@ -12,7 +12,7 @@ import {
 import { FaBoltLightning } from "react-icons/fa6";
 import { Shell } from "lucide-react";
 import { calculateHabitsXpFromEntry } from "@/lib/level";
-import { Session, JournalEntryMetadata } from "@/app/types/types";
+import { Session, JournalEntryMetadata } from "@models/types";
 
 type JournalEntryCardProps = {
   journalEntry: JournalEntryMetadata;

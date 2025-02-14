@@ -1,7 +1,7 @@
 import { MongoClient, Db, Collection, ObjectId } from "mongodb";
 import clientPromise from "./mongodb";
-import { JournalEntry, NewJournalEntry } from "@/app/types/mongodb";
-import { WeeklyWillpowerData, Actions } from "@app/types/types";
+import { JournalEntry, NewJournalEntry } from "@models/mongodb";
+import { WeeklyWillpowerData, Actions } from "@models/types";
 
 let client: MongoClient;
 let db: Db;

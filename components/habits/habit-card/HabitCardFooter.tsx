@@ -2,7 +2,7 @@
 
 import { Button } from "@components/ui/button";
 import { GiPencil, GiPencilRuler } from "react-icons/gi";
-import { Session, Habit } from "@app/types/types";
+import { Session, Habit } from "@models/types";
 
 type HabitCardFooterProps = {
   session: Session | null;

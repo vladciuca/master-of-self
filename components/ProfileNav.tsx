@@ -4,7 +4,7 @@ import Link from "next/link";
 import { WillpowerLevelBar } from "@components/WillpowerLevelBar";
 // import { FaBoltLightning } from "react-icons/fa6";
 // import { useTotalWillpower } from "@hooks/useTotalWillpower";
-import { Session } from "@app/types/types";
+import { Session } from "@models/types";
 
 type ProfileBarProps = {
   session: Session;

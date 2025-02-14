@@ -1,7 +1,7 @@
 import { Header } from "@components/Header";
 import { Footer } from "@components/Footer";
 import { PageContent } from "@components/PageContent";
-import { Layout } from "@app/types/types";
+import { Layout } from "@models/types";
 
 export default function FullLayout({ children }: Layout) {
   return (

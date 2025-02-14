@@ -59,7 +59,7 @@
 // }
 import { NextRequest, NextResponse } from "next/server";
 import { updateHabitsXpAndActions } from "@lib/mongo/habits";
-import { HabitUpdate, HabitActionUpdate } from "@app/types/mongodb";
+import { HabitUpdate, HabitActionUpdate } from "@models/mongodb";
 
 type UpdateHabitsRequestBody = {
   userId: string;

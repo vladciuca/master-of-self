@@ -1,6 +1,6 @@
 import { WillpowerChartBaseProps } from "@components/profile/weekly-willpower-chart/WeeklyWillpowerChart";
 import { Rectangle, RectangleProps } from "recharts";
-import { WeeklyWillpowerData } from "@app/types/types";
+import { WeeklyWillpowerData } from "@models/types";
 
 type WillpowerBarProps = RectangleProps &
   WillpowerChartBaseProps & {

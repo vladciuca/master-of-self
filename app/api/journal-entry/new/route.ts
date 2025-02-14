@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createJournalEntry } from "@lib/mongo/journal-entries";
-import { Actions } from "@app/types/types";
+import { Actions } from "@models/types";
 
 export async function POST(req: NextRequest) {
   const { userId, dailyWillpower, bonusWillpower, nightEntry } =

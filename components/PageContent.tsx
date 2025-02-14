@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import SignUpPage from "@app/(full)/sign-up/page";
 import SignInPage from "@app/(full)/sign-in/page";
 import { PageLogo } from "@components/PageLogo";
-import { Layout } from "@app/types/types";
+import { Layout } from "@models/types";
 
 export function PageContent({ children }: Layout) {
   const { data: session } = useSession();

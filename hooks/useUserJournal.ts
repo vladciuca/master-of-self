@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
-import { Session, JournalEntryMetadata } from "@app/types/types";
+import { Session, JournalEntryMetadata } from "@models/types";
 
 export function useUserJournal() {
   const [journalEntries, setJournalEntries] = useState<JournalEntryMetadata[]>(
