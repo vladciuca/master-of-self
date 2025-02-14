@@ -25,8 +25,9 @@ export function NameField({ control, type }: NameFieldProps) {
           <FormLabel>Habit Category</FormLabel>
           {type === "Create" && (
             <FormDescription className="text-xs">
-              Choose a broad category that best describes your habit. This helps
-              with organizing and tracking similar habits together.
+              Choose a broad category that best describes your the area you want
+              to make improvements in. This helps with organizing and tracking
+              similar habits together.
             </FormDescription>
           )}
 
