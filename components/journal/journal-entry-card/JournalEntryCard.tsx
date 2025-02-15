@@ -17,15 +17,18 @@ import { Session, JournalEntryMetadata } from "@models/types";
 
 type JournalEntryCardProps = {
   journalEntry: JournalEntryMetadata;
+  isEveningTime: boolean;
   // handleDelete: (journalEntry: JournalEntryMetadata) => Promise<void>;
 };
 
 export function JournalEntryCard({
   journalEntry,
+  isEveningTime,
 }: // handleDelete,
 JournalEntryCardProps) {
   const { data: session } = useSession() as { data: Session | null };
   const pathName = usePathname();
+
   const {
     _id,
     creatorId,
@@ -196,7 +199,13 @@ JournalEntryCardProps) {
 
         {!hasContent && (
           <p className="mt-4 w-full text-center">
-            You didn't write anything in your journal today.
+            No journal entries{" "}
+            {isToday
+              ? `for today yet. You still have time to fill out your ${
+                  isEveningTime ? "evening" : "morning"
+                } routine`
+              : "for this date"}
+            .
           </p>
         )}
 

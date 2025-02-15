@@ -9,6 +9,7 @@ import { IoMoonSharp } from "react-icons/io5";
 import { GiNightSleep } from "react-icons/gi";
 import { useUserSettings } from "@context/UserSettingsContext";
 import { isEvening } from "@lib/time";
+import { journalColors } from "@components/ui/constants";
 
 export function BottomNav() {
   const { userSettings, userSettingsLoading } = useUserSettings();
@@ -32,35 +33,69 @@ export function BottomNav() {
   }, []);
 
   // Update timer display whenever current time or user settings change
+  // useEffect(() => {
+  //   if (userMorningTime && userEveningTime) {
+  //     const updateTimerDisplay = () => {
+  //       const now = currentTime;
+  //       const morning = getTimeFromString(userMorningTime);
+  //       const evening = getTimeFromString(userEveningTime);
+
+  //       if (isBeforeTime(now, morning)) {
+  //         // Countdown to morning (Night Mode)
+  //         const diff = getTimeDifference(now, morning);
+  //         setTimerDisplay(formatTime(diff));
+  //         setIsNightMode(true);
+  //       } else if (isBeforeTime(now, evening)) {
+  //         // Countdown to evening (Day Mode)
+  //         const diff = getTimeDifference(now, evening);
+  //         setTimerDisplay(formatTime(diff));
+  //         setIsNightMode(false);
+  //       } else {
+  //         // Countdown to midnight (Post-Evening Mode)
+  //         const midnight = new Date(now);
+  //         midnight.setHours(24, 0, 0, 0);
+  //         const diff = getTimeDifference(now, midnight);
+  //         setTimerDisplay(formatTime(diff));
+  //         setIsNightMode(false);
+  //       }
+  //     };
+
+  //     updateTimerDisplay();
+  //   }
+  // }, [currentTime, userMorningTime, userEveningTime]);
   useEffect(() => {
-    if (userMorningTime && userEveningTime) {
-      const updateTimerDisplay = () => {
-        const now = currentTime;
-        const morning = getTimeFromString(userMorningTime);
-        const evening = getTimeFromString(userEveningTime);
+    if (!userMorningTime || !userEveningTime) return;
 
-        if (isBeforeTime(now, morning)) {
-          // Countdown to morning (Night Mode)
-          const diff = getTimeDifference(now, morning);
-          setTimerDisplay(formatTime(diff));
-          setIsNightMode(true);
-        } else if (isBeforeTime(now, evening)) {
-          // Countdown to evening (Day Mode)
-          const diff = getTimeDifference(now, evening);
-          setTimerDisplay(formatTime(diff));
-          setIsNightMode(false);
-        } else {
-          // Countdown to midnight (Post-Evening Mode)
-          const midnight = new Date(now);
-          midnight.setHours(24, 0, 0, 0);
-          const diff = getTimeDifference(now, midnight);
-          setTimerDisplay(formatTime(diff));
-          setIsNightMode(false);
-        }
-      };
+    const updateTimerDisplay = () => {
+      const now = currentTime;
+      const morning = getTimeFromString(userMorningTime);
+      const evening = getTimeFromString(userEveningTime);
 
-      updateTimerDisplay();
-    }
+      if (isBeforeTime(now, morning)) {
+        // Countdown to morning (Night Mode)
+        const diff = getTimeDifference(now, morning);
+        setTimerDisplay(formatTime(diff));
+        setIsNightMode(true);
+      } else if (isBeforeTime(now, evening)) {
+        // Countdown to evening (Day Mode)
+        const diff = getTimeDifference(now, evening);
+        setTimerDisplay(formatTime(diff));
+        setIsNightMode(false);
+      } else {
+        // Countdown to midnight (Post-Evening Mode)
+        const midnight = new Date(now);
+        midnight.setHours(24, 0, 0, 0);
+        const diff = getTimeDifference(now, midnight);
+        setTimerDisplay(formatTime(diff));
+        setIsNightMode(false);
+      }
+    };
+
+    // Run once immediately
+    updateTimerDisplay();
+
+    // Return cleanup function even if empty
+    return () => {};
   }, [currentTime, userMorningTime, userEveningTime]);
 
   // Helper functions
@@ -111,11 +146,15 @@ export function BottomNav() {
       <Link href="/journal" className="flex-1">
         <NavButton>
           {isNightMode ? (
-            <GiNightSleep className={`${iconClass} text-blue-500`} />
+            <GiNightSleep
+              className={`${iconClass} text-${journalColors.sleep}`}
+            />
           ) : !isEvening(userEveningTime) ? (
-            <FaSun className={`${iconClass} text-yellow-500`} />
+            <FaSun className={`${iconClass} text-${journalColors.day}`} />
           ) : (
-            <IoMoonSharp className={`${iconClass} text-purple-500`} />
+            <IoMoonSharp
+              className={`${iconClass} text-${journalColors.night}`}
+            />
           )}
           <div className="text-xs mt-1">{timerDisplay}</div>
         </NavButton>

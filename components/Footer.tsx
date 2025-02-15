@@ -5,12 +5,12 @@ import { usePathname } from "next/navigation";
 import { BottomNav } from "@components/BottomNav";
 import { Button } from "@components/ui/button";
 import Link from "next/link";
-import { useUserSettings } from "@context/UserSettingsContext";
+// import { useUserSettings } from "@context/UserSettingsContext";
 
 export function Footer() {
   const { data: session, status } = useSession();
   const pathname = usePathname();
-  const { userSettings } = useUserSettings();
+  // const { userSettings } = useUserSettings();
 
   // console.log("Footer rendering with userSettings:", userSettings);
 

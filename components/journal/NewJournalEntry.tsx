@@ -7,7 +7,11 @@ import { useYesterdayJournalEntry } from "@hooks/useYesterdayJournalEntry";
 import { useTodayJournalEntry } from "@hooks/useTodayJournalEntry";
 import { useCreateJournalEntry } from "@hooks/useCreateJournalEntry";
 
-export function NewJournalEntry() {
+type NewJournalEntryProps = {
+  isEveningTime: boolean;
+};
+
+export function NewJournalEntry({ isEveningTime }: NewJournalEntryProps) {
   const router = useRouter();
   const { yesterdayEntryLoading, bonusWillpower = 0 } =
     useYesterdayJournalEntry();
@@ -69,9 +73,9 @@ export function NewJournalEntry() {
       <div className="w-full text-muted-foreground mt-4">
         <div className="flex items-center flex-col">
           <div className="flex items-center">
-            {
-              "Generate Willpower to channel into your goals through your habits!"
-            }
+            {!isEveningTime
+              ? "Journal today to generate willpower and stay motivated through the day!"
+              : "Reflect on today's highlights and start tomorrow with more motivation and willpower!"}
           </div>
         </div>
       </div>
