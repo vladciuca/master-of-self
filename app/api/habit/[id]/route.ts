@@ -24,14 +24,19 @@ export async function PATCH(
   req: NextRequest,
   { params }: { params: { id: string } }
 ) {
-  const { name, icon, description, actions } = await req.json();
+  const {
+    name,
+    icon,
+    // description,
+    actions,
+  } = await req.json();
 
   try {
     const { habit, error } = await updateHabit(
       params.id,
       name,
       icon,
-      description,
+      // description,
       actions
     );
 

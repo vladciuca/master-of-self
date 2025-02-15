@@ -7,7 +7,7 @@ export const habitFormSchema = z.object({
     .min(3, "Habit name must contain at least 3 characters")
     .max(25, "Habit name must contain maximum 25 characters"),
   icon: z.string().min(1, "Please select an icon"),
-  description: z.string().min(3, "Please add a habit description").optional(),
+  // description: z.string().min(3, "Please add a habit description").optional(),
   xp: z.number().optional(),
   actions: z
     .array(

@@ -10,10 +10,7 @@ import { NameField } from "@components/habits/habit-form/NameField";
 import { ActionsField } from "@components/habits/habit-form/ActionsField";
 import { Form } from "@/components/ui/form";
 import { ScrollArea } from "@components/ui/scroll-area";
-import {
-  HabitZodType,
-  habitFormSchema,
-} from "@components/habits/habit-form/habitFormSchema";
+import { HabitZodType, habitFormSchema } from "@models/habitFormSchema";
 import { Button } from "@/components/ui/button";
 
 type HabitFormProps = {
@@ -37,7 +34,7 @@ export function HabitForm({
       id: type === "Update" ? habit?.id : undefined,
       name: type === "Update" ? habit?.name : "",
       icon: type === "Update" ? habit?.icon : "",
-      description: type === "Update" ? habit?.description : "",
+      // description: type === "Update" ? habit?.description : "",
       xp: type === "Update" ? habit?.xp : 0,
       actions: type === "Update" ? habit?.actions || [] : [],
     },

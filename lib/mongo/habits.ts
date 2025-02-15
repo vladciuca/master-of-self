@@ -36,7 +36,7 @@ export async function createHabit(
   userId: string,
   name: string,
   icon: string,
-  description: string,
+  // description: string,
   actions: HabitAction[]
 ): Promise<{ newHabit: Habit | null; error?: string }> {
   try {
@@ -46,7 +46,7 @@ export async function createHabit(
       creatorId: new ObjectId(userId),
       name,
       icon,
-      description,
+      // description,
       xp: 0, // initialize XP to 0
       xpData: [], // initialize XP chart data to empty array
       actions,
@@ -69,7 +69,7 @@ export async function updateHabit(
   id: string,
   name: string,
   icon: string,
-  description: string,
+  // description: string,
   actions: HabitAction[]
 ): Promise<{
   habit: Habit | null;
@@ -83,7 +83,7 @@ export async function updateHabit(
       $set: {
         name: name,
         icon: icon,
-        description: description,
+        // description: description,
         actions: actions,
       },
     };

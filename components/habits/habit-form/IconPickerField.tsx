@@ -8,7 +8,7 @@ import {
 import { IconPicker } from "@components/IconPicker";
 // import { useIconRarityLevel } from "@hooks/useIconRarityLevel";
 import { Control } from "react-hook-form";
-import { HabitZodType } from "@components/habits/habit-form/habitFormSchema";
+import { HabitZodType } from "@models/habitFormSchema";
 
 type IconPickerFieldProps = {
   control: Control<HabitZodType>;

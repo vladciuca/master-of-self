@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { useRouter, useParams } from "next/navigation";
 import { HabitForm } from "@components/habits/habit-form/HabitForm";
-import { HabitZodType } from "@components/habits/habit-form/habitFormSchema";
+import { HabitZodType } from "@models/habitFormSchema";
 import { SkeletonForm } from "@components/skeletons/SkeletonForm";
 import { useTodayJournalEntry } from "@hooks/useTodayJournalEntry";
 import { calculateHabitsXpFromEntry } from "@lib/level";
@@ -40,7 +40,7 @@ export default function UpdateHabit() {
         setHabitData({
           name: data.name,
           icon: data.icon,
-          description: data.description,
+          // description: data.description,
           actions: data.actions,
           xp: data.xp,
         });
@@ -55,7 +55,12 @@ export default function UpdateHabit() {
   }, [id]);
 
   const updateHabit = async (habit: HabitZodType) => {
-    const { name, icon, description, actions } = habit;
+    const {
+      name,
+      icon,
+      // description,
+      actions,
+    } = habit;
 
     setSubmitting(true);
 
@@ -67,7 +72,7 @@ export default function UpdateHabit() {
         body: JSON.stringify({
           name: name,
           icon: icon,
-          description: description,
+          // description: description,
           actions: actions,
         }),
       });

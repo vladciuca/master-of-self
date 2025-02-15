@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { HabitForm } from "@components/habits/habit-form/HabitForm";
-import { HabitZodType } from "@components/habits/habit-form/habitFormSchema";
+import { HabitZodType } from "@models/habitFormSchema";
 import { Session } from "@models/types";
 
 export default function CreateHabit() {
@@ -13,7 +13,12 @@ export default function CreateHabit() {
   const [submitting, setSubmitting] = useState<boolean>(false);
 
   const createHabit = async (habit: HabitZodType) => {
-    const { name, icon, description, actions } = habit;
+    const {
+      name,
+      icon,
+      // description,
+      actions,
+    } = habit;
     setSubmitting(true);
 
     try {
@@ -23,7 +28,7 @@ export default function CreateHabit() {
           userId: session?.user?.id,
           name: name,
           icon: icon,
-          description: description,
+          // description: description,
           xp: 0,
           actions: actions,
         }),

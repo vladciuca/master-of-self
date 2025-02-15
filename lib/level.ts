@@ -151,40 +151,32 @@ export const getHabitActionDefaultValues = (
   }, {} as { [habitId: string]: ActionItem & { currentXp?: number } });
 };
 
-// export function deepMergeHabitActions(
-//   latestDefault: {
-//     [key: string]: ActionItem & { currentXp: number };
-//   },
-//   actionChanges: {
-//     [key: string]: ActionItem & { currentXp: number };
-//   }
-// ): Actions {
-//   const merged: Actions = { ...actionChanges };
+// will possibly need to remove IN FUTURE REFACTOR action-id keys if they are deleted
+export function deepMergeHabitsWithNewDefaultValues(
+  actionChanges: Actions,
+  latestDefault: Actions
+): Actions {
+  const result: Actions = { ...actionChanges };
 
-//   for (const habitId in latestDefault) {
-//     if (!merged[habitId]) {
-//       // If the habit doesn't exist in actionChanges, add it with currentXp
-//       merged[habitId] = {
-//         currentXp: latestDefault[habitId].currentXp,
-//         ...latestDefault[habitId],
-//       };
-//     } else {
-//       // If the habit exists, keep its currentXp and merge action values
-//       const currentXp = merged[habitId].currentXp;
-//       merged[habitId] = {
-//         currentXp,
-//         ...latestDefault[habitId],
-//         ...merged[habitId],
-//       };
-//     }
+  for (const [outerKey, outerValue] of Object.entries(latestDefault)) {
+    if (!(outerKey in result)) {
+      // If the outer key doesn't exist in result, add it with all its properties
+      result[outerKey] = { ...outerValue };
+    } else {
+      // If the outer key exists, we need to merge the inner properties
+      for (const [innerKey, innerValue] of Object.entries(outerValue)) {
+        if (innerKey === "currentXp") {
+          // Don't overwrite existing currentXp
+          if (!("currentXp" in result[outerKey])) {
+            result[outerKey].currentXp = innerValue as number;
+          }
+        } else if (!(innerKey in result[outerKey])) {
+          // If the inner key doesn't exist in result, add it
+          result[outerKey][innerKey] = innerValue;
+        }
+      }
+    }
+  }
 
-//     // Ensure all action IDs from latestDefault are present
-//     for (const actionId in latestDefault[habitId]) {
-//       if (actionId !== "currentXp" && !(actionId in merged[habitId])) {
-//         merged[habitId][actionId] = latestDefault[habitId][actionId];
-//       }
-//     }
-//   }
-
-//   return merged;
-// }
+  return result;
+}

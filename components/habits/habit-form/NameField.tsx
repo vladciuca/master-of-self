@@ -8,7 +8,7 @@ import {
 } from "@components/ui/form";
 import { Input } from "@components/ui/input";
 import { Control } from "react-hook-form";
-import { HabitZodType } from "@components/habits/habit-form/habitFormSchema";
+import { HabitZodType } from "@models/habitFormSchema";
 
 type NameFieldProps = {
   control: Control<HabitZodType>;

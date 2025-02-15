@@ -25,6 +25,7 @@ import {
   DrawerContent,
   DrawerHeader,
   DrawerTitle,
+  DrawerDescription,
   DrawerTrigger,
   DrawerClose,
 } from "@/components/ui/drawer";
@@ -32,7 +33,7 @@ import { ScrollArea } from "@components/ui/scroll-area";
 import { Label } from "@components/ui/label";
 import { CircleX, Plus, Edit2, ArrowBigRightDash } from "lucide-react";
 import { Control, useFieldArray, useWatch } from "react-hook-form";
-import { HabitZodType } from "@components/habits/habit-form/habitFormSchema";
+import { HabitZodType } from "@models/habitFormSchema";
 import { HabitAction } from "@models/types";
 import { Slider } from "@components/ui/slider";
 import { useSideContentPosition } from "@hooks/useSideContentPosition";
@@ -236,6 +237,11 @@ export function ActionsField({ control, type }: ActionsFieldProps) {
                     </div>
                   </div>
                 </DrawerTitle>
+                <DrawerDescription>
+                  {editId !== null
+                    ? "Edit your habit action details below"
+                    : "Add a new habit action by filling out the details below"}
+                </DrawerDescription>
               </DrawerHeader>
 
               <ScrollArea className="h-[65vh] p-4">
