@@ -49,8 +49,8 @@ export function HabitList({
             // NOTE: now that the Entry has the default values when created
             // there is no need for fallback
             // check if no habits exist, fallback will be required
-            habitDefaultActionValues={habitDefaultActionValues[habit._id] || 0}
-            habitActionValues={habitActionValues[habit._id] || 0}
+            habitDefaultActionValues={habitDefaultActionValues[habit._id] || {}}
+            habitActionValues={habitActionValues[habit._id] || {}}
             lastEntryWillpower={lastEntryWillpower}
             handleEdit={handleEdit}
             submittingJournalEntry={submittingJournalEntry}

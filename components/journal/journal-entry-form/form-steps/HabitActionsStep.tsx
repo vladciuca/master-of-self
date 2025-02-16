@@ -50,10 +50,14 @@ export function HabitActionsStep({
   useEffect(() => {
     if (!initialMergeRef.current) {
       setLocalActionValues(mergedActionValues);
-      onChange(mergedActionValues);
+      // onChange(mergedActionValues);
       initialMergeRef.current = true;
     }
   }, [onChange, mergedActionValues]);
+
+  useEffect(() => {
+    onChange(mergedActionValues);
+  }, [mergedActionValues]);
 
   const calculateProjectedXP = useCallback(
     (habit: Habit) => {

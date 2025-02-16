@@ -46,7 +46,9 @@ export function IconPickerField({
               projectedXp={projectedXp}
             />
           </FormControl>
-          <FormMessage />
+          <div className="text-center w-full">
+            <FormMessage />
+          </div>
         </FormItem>
       )}
     />

@@ -28,10 +28,18 @@ export function HabitCardActions({
     <div>
       {actions.map((action) => {
         const isDefensiveAction = action.type === "defensive";
+
         const actionParams = {
           value: hasNoEntryToday
             ? habitDefaultActionValues[action.id]
-            : habitActionValues[action.id],
+            : habitActionValues[action.id] ||
+              // if the habit is created after the Journal Entry it will be null resulting in NaN
+              // must send values based on ActionType
+              displayActionValue({
+                value: 0,
+                dailyTarget: action.dailyTarget,
+                isDefensiveAction,
+              }),
           dailyTarget: action.dailyTarget,
           isDefensiveAction,
         };

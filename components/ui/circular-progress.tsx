@@ -113,9 +113,10 @@ export function CircularProgress({
             strokeLinecap="round"
             className="fill-none"
             strokeWidth={strokeWidth}
+            stroke={isNegativeXp ? "#EF4444" : "url(#circle-progress)"}
             animate={{
               strokeDashoffset: offset,
-              stroke: isNegativeXp ? "#EF4444" : "url(#circle-progress)",
+              // stroke: isNegativeXp ? "#EF4444" : "url(#circle-progress)",
             }}
             initial={{
               strokeDashoffset: circumference,
