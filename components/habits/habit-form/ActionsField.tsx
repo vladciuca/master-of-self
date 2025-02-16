@@ -138,7 +138,7 @@ export function ActionsField({ control, type }: ActionsFieldProps) {
     <FormField
       control={control}
       name="actions"
-      render={() => (
+      render={({ field }) => (
         <FormItem>
           <FormLabel>Habit Actions</FormLabel>
           {type === "Create" && (
@@ -294,9 +294,7 @@ export function ActionsField({ control, type }: ActionsFieldProps) {
                         });
                         setInputError(false);
                       }}
-                      className={`mt-2 mb-8 text-base ${
-                        inputError ? "border-destructive" : ""
-                      }`}
+                      className="mt-2 mb-8 text-base"
                     />
                   </FormControl>
 
@@ -348,9 +346,7 @@ export function ActionsField({ control, type }: ActionsFieldProps) {
                         });
                         setInputError(false);
                       }}
-                      className={`mt-2 mb-8 text-base ${
-                        inputError ? "border-destructive" : ""
-                      }`}
+                      className="mt-2 mb-8 text-base"
                     />
                   </FormControl>
 
