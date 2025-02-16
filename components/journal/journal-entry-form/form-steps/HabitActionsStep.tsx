@@ -88,9 +88,6 @@ export function HabitActionsStep({
     [onChange, habits]
   );
 
-  // console.log("=== mergedActionValues", mergedActionValues);
-  // console.log("=== localActionValues", localActionValues);
-
   return (
     <FormStepTemplate
       title="Habit Actions"
