@@ -72,11 +72,6 @@ export function HabitAction({
   //   const xpChange = getXpChangeForDecrease();
   //   const totalXpAfterChange = currentXp + projectedHabitXp + xpChange;
 
-  //   console.log("=== Current", currentXp);
-  //   console.log("=== Projected", projectedHabitXp);
-  //   console.log("=== Change", xpChange);
-  //   console.log("=== Total", totalXpAfterChange);
-
   //   // Level 1 requires 0 XP, so we just need to check if we'd go negative
   //   return totalXpAfterChange < 0;
   // };
