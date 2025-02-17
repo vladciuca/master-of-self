@@ -39,13 +39,10 @@ export function HabitCardHeader({
     0
   );
 
-  // const defaultProjectedXp = applyWillpowerBonus(
-  //   baseDefaultHabitXpFromActions,
-  //   lastEntryWillpower
-  // );
   //WE DO NOT WANT TO APPLY WPx to Projected values if hasNoEntryToday
   const defaultProjectedXp = baseDefaultHabitXpFromActions;
 
+  //WPx is only applied to the real projected XP that will show up as already gained and not be bonusXp(XpGain)
   const projectedXp = applyWillpowerBonus(
     baseHabitXpFromActions,
     lastEntryWillpower
@@ -58,6 +55,15 @@ export function HabitCardHeader({
   if (hasNoEntryToday) {
     lastEntryXp = xp + projectedXp;
     lastEntryProjectedXp = defaultProjectedXp;
+  }
+
+  // if habitActionValues is an empty {} need to use defaultValues with WPx
+  if (!hasNoEntryToday && Object.keys(habitActionValues).length === 0) {
+    const defaultProjectedXpForExistingEntryToday = applyWillpowerBonus(
+      baseDefaultHabitXpFromActions,
+      lastEntryWillpower
+    );
+    lastEntryProjectedXp = defaultProjectedXpForExistingEntryToday;
   }
 
   // Calculate XP and level
@@ -154,7 +160,10 @@ export function HabitCardHeader({
               ) : (
                 <div>
                   <span className="text-base">
-                    <XpDisplay xpValue={lastEntryProjectedXp} />
+                    <XpDisplay
+                      xpValue={lastEntryProjectedXp}
+                      // xpValue={lastEntryProjectedXp || defaultProjectedXp}
+                    />
                   </span>
                   <span>XP</span>
                 </div>
