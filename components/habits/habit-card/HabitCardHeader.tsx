@@ -39,10 +39,12 @@ export function HabitCardHeader({
     0
   );
 
-  const defaultProjectedXp = applyWillpowerBonus(
-    baseDefaultHabitXpFromActions,
-    lastEntryWillpower
-  );
+  // const defaultProjectedXp = applyWillpowerBonus(
+  //   baseDefaultHabitXpFromActions,
+  //   lastEntryWillpower
+  // );
+  //WE DO NOT WANT TO APPLY WPx to Projected values if hasNoEntryToday
+  const defaultProjectedXp = baseDefaultHabitXpFromActions;
 
   const projectedXp = applyWillpowerBonus(
     baseHabitXpFromActions,
