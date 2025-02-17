@@ -57,7 +57,7 @@ export function HabitCardHeader({
     lastEntryProjectedXp = defaultProjectedXp;
   }
 
-  // if habitActionValues is an empty {} need to use defaultValues with WPx
+  // if habitActionValues from today's Journal Entry is an empty {} need to use defaultValues with WPx
   if (!hasNoEntryToday && Object.keys(habitActionValues).length === 0) {
     const defaultProjectedXpForExistingEntryToday = applyWillpowerBonus(
       baseDefaultHabitXpFromActions,
@@ -168,7 +168,7 @@ export function HabitCardHeader({
                   <span>XP</span>
                 </div>
               )}
-              {/* NOTE: this is a string but XP display accepts only numbers
+              {/* NOTE: this is a string but <XpDisplay/> accepts only numbers
               This needs to be used if the XP value is to big and clips the XP circle
               {formatNumberSuffixes(lastEntryProjectedXp)} */}
             </div>
