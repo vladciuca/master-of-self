@@ -79,12 +79,12 @@ export function JournalEntryListFilters({
   };
 
   return (
-    <div className="relative w-full mb-4 px-2">
+    <div className="relative w-full mb-4 px-1">
       {showLeftArrow && (
         <Button
           variant="secondary"
-          size="icon"
-          className="absolute left-0 top-1/2 -translate-y-1/2 z-10 hover:bg-secondary"
+          size="lg"
+          className="absolute left-0 top-1/2 -translate-y-1/2 z-10 hover:bg-secondary w-8 p-0 py-6 rounded-tr-none rounded-br-none"
           onClick={() => scroll("left")}
         >
           <ChevronLeft className="h-4 w-4" />
@@ -113,8 +113,8 @@ export function JournalEntryListFilters({
       {showRightArrow && (
         <Button
           variant="secondary"
-          size="icon"
-          className="absolute right-0 top-1/2 -translate-y-1/2 z-10 hover:bg-secondary"
+          size="lg"
+          className="absolute right-0 top-1/2 -translate-y-1/2 z-10 hover:bg-secondary w-8 p-0 py-6 rounded-tl-none rounded-bl-none"
           onClick={() => scroll("right")}
         >
           <ChevronRight className="h-4 w-4" />

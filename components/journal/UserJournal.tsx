@@ -37,7 +37,7 @@ export function UserJournal() {
 
   return (
     <div className="pt-0">
-      {journalEntriesLoading && <>{skeletonCards}</>}
+      {journalEntriesLoading && <div className="pt-4">{skeletonCards}</div>}
       {!journalEntriesLoading && !journalEntriesError && (
         <div>
           <JournalEntryList
