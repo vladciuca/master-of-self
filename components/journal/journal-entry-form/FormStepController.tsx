@@ -15,7 +15,8 @@ import { FormStepProgress } from "./FormStepProgress";
 import { FormStepNavigation } from "./FormStepNavigation";
 import { JournalEntry } from "@models/types";
 import { isEvening } from "@lib/time";
-import { calculateWillpowerScore } from "@/lib/score";
+import { calculateWillpowerScore } from "@lib/score";
+import { calculateHabitsXpFromEntry } from "@lib/level";
 
 // TEST_FLAG: used for enabling all forms steps
 const SHOW_ALL_TEST = false;
@@ -334,9 +335,18 @@ export function FormStepController({
   }
 
   //TEMP - will add Full page Loading screen
-  if (!isInitialized) {
-    return <div>Loading...</div>;
-  }
+  // if (!isInitialized) {
+  //   return <div>Loading...</div>;
+  // }
+
+  const habitActionValues = calculateHabitsXpFromEntry(
+    formData.nightEntry?.actions || {},
+    formData.dailyWillpower
+  );
+
+  // NOTE: move to util when cleaning up this file
+  const countNonZeroValues = (obj: Record<string, number>) =>
+    Object.values(obj).filter((value) => value !== 0).length;
 
   return (
     <div className="grid grid-rows-[auto,1fr,auto] h-full">
@@ -352,9 +362,7 @@ export function FormStepController({
         )}
         gratefulForCount={formData.dayEntry?.gratefulFor?.length || 0}
         dailyHighlightsCount={formData.nightEntry?.dailyHighlights?.length || 0}
-        habitActionsCount={
-          Object.keys(formData.nightEntry?.actions || {}).length
-        }
+        habitActionsCount={countNonZeroValues(habitActionValues)}
         learnedTodayCount={formData.nightEntry?.learnedToday?.length || 0}
       />
 
