@@ -70,8 +70,8 @@ JournalEntryListProps) {
 
   return (
     <>
-      {!hasTodayEntry && <NewJournalEntry isEveningTime={isEveningTime} />}
       <div className="sticky top-0 z-10 bg-background pt-4 pb-2 shadow-sm">
+        {!hasTodayEntry && <NewJournalEntry isEveningTime={isEveningTime} />}
         <JournalEntryListFilters
           options={filterOptions}
           activeFilter={filter}
