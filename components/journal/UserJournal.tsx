@@ -2,6 +2,7 @@
 
 import { JournalEntryList } from "@components/journal/JournalEntryList";
 import { SkeletonJournalEntryCard } from "@components/skeletons/SkeletonJournalEntryCard";
+import { SkeletonJournalFilter } from "@components/skeletons/SkeletonJournalFilter";
 import { useUserJournal } from "@hooks/useUserJournal";
 
 const skeletonCards = Array.from({ length: 3 }, (_, index) => (
@@ -37,7 +38,12 @@ export function UserJournal() {
 
   return (
     <div className="pt-0">
-      {journalEntriesLoading && <div className="pt-4">{skeletonCards}</div>}
+      {journalEntriesLoading && (
+        <div>
+          <SkeletonJournalFilter />
+          {skeletonCards}
+        </div>
+      )}
       {!journalEntriesLoading && !journalEntriesError && (
         <div>
           <JournalEntryList
