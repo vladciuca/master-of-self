@@ -20,7 +20,7 @@ export function PageLogo() {
   return (
     <div className="h-full flex flex-col items-center justify-center">
       <GiAllSeeingEye size={"20rem"} />
-      <p className="font-semibold">Alpha v1.0.0</p>
+      {/* <p className="">Alpha v0.1</p> */}
     </div>
   );
 }
