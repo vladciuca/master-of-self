@@ -36,7 +36,7 @@ export function UserJournal() {
   // };
 
   return (
-    <div className="pt-4">
+    <div className="pt-0">
       {journalEntriesLoading && <>{skeletonCards}</>}
       {!journalEntriesLoading && !journalEntriesError && (
         <div>

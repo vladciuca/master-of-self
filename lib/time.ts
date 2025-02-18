@@ -71,3 +71,35 @@ export const getEndOfCurrentWeek = (): Date => {
   endOfWeek.setHours(23, 59, 59, 999);
   return endOfWeek;
 };
+
+// JOURNAL ENTRY LIST FILTER FUNCTIONS
+
+export function isThisWeek(date: Date): boolean {
+  const now = new Date();
+  const weekStart = new Date(now.setDate(now.getDate() - now.getDay()));
+  const weekEnd = new Date(now.setDate(now.getDate() - now.getDay() + 6));
+  return date >= weekStart && date <= weekEnd;
+}
+
+export function isThisMonth(date: Date): boolean {
+  const now = new Date();
+  return (
+    date.getMonth() === now.getMonth() &&
+    date.getFullYear() === now.getFullYear()
+  );
+}
+
+export function isCurrentMonthYear(date: Date): boolean {
+  const now = new Date();
+  return (
+    date.getMonth() === now.getMonth() &&
+    date.getFullYear() === now.getFullYear()
+  );
+}
+
+export function isSpecificMonthYear(date: Date, monthYear: string): boolean {
+  return (
+    date.toLocaleString("default", { month: "long", year: "numeric" }) ===
+    monthYear
+  );
+}
