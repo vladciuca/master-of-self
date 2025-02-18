@@ -339,7 +339,7 @@ export function FormStepController({
   //   return <div>Loading...</div>;
   // }
 
-  const habitActionValues = calculateHabitsXpFromEntry(
+  const habitXpValues = calculateHabitsXpFromEntry(
     formData.nightEntry?.actions || {},
     formData.dailyWillpower
   );
@@ -362,7 +362,7 @@ export function FormStepController({
         )}
         gratefulForCount={formData.dayEntry?.gratefulFor?.length || 0}
         dailyHighlightsCount={formData.nightEntry?.dailyHighlights?.length || 0}
-        habitActionsCount={countNonZeroValues(habitActionValues)}
+        habitActionsCount={countNonZeroValues(habitXpValues)}
         learnedTodayCount={formData.nightEntry?.learnedToday?.length || 0}
       />
 
