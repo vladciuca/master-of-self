@@ -1,6 +1,6 @@
 import {
-  // GiAllSeeingEye,
-  GiAura,
+  GiAllSeeingEye,
+  // GiAura,
   // GiSuspicious,
   // GiMeditation,
   // GiLotus,
@@ -19,7 +19,7 @@ import {
 export function PageLogo() {
   return (
     <div className="h-full flex flex-col items-center justify-center">
-      <GiAura size={"20rem"} />
+      <GiAllSeeingEye size={"20rem"} />
       <p className="font-semibold">Alpha v1.0.0</p>
     </div>
   );
