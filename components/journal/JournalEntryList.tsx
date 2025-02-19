@@ -115,8 +115,6 @@ JournalEntryListProps) {
     [headerHeight]
   );
 
-  console.log("===headerHeight", headerHeight);
-
   return (
     <>
       <div
