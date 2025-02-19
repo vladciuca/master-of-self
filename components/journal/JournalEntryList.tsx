@@ -316,21 +316,21 @@ export function JournalEntryList({ journalEntries }: JournalEntryListProps) {
     }
   };
 
-  // const handleFilterChange = useCallback(
-  //   (newFilter: FilterOption) => {
-  //     setFilter(newFilter);
-  //     if (listRef.current) {
-  //       listRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
-  //     }
-  //   },
-  //   [headerHeight]
-  // );
-  const handleFilterChange = (newFilter: FilterOption) => {
-    setFilter(newFilter);
-    if (listRef.current) {
-      listRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
-    }
-  };
+  const handleFilterChange = useCallback(
+    (newFilter: FilterOption) => {
+      setFilter(newFilter);
+      if (listRef.current) {
+        listRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    },
+    [headerHeight, filter]
+  );
+  // const handleFilterChange = (newFilter: FilterOption) => {
+  //   setFilter(newFilter);
+  //   if (listRef.current) {
+  //     listRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+  //   }
+  // };
 
   console.log("===headerHeight", headerHeight);
 
