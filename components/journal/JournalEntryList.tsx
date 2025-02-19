@@ -49,7 +49,7 @@ JournalEntryListProps) {
 
       return () => window.removeEventListener("resize", updateHeaderHeight);
     }
-  }, [hasTodayEntry]);
+  }, []);
 
   const filterOptions = useMemo(() => {
     const options: FilterOption[] = [];
@@ -115,6 +115,8 @@ JournalEntryListProps) {
     [headerHeight]
   );
 
+  console.log("===headerHeight", headerHeight);
+
   return (
     <>
       <div
@@ -128,7 +130,7 @@ JournalEntryListProps) {
           onFilterChange={handleFilterChange}
         />
       </div>
-      <div ref={listRef} className={`scroll-mt-[${headerHeight}px]`}>
+      <div ref={listRef} style={{ scrollMarginTop: `${headerHeight}px` }}>
         {filteredEntries.length > 0 ? (
           <Accordion type="single" collapsible className="pb-1">
             {filteredEntries.map((journalEntry, index) => (
