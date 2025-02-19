@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useRef, useCallback, useEffect } from "react";
 import { NewJournalEntry } from "@components/journal/NewJournalEntry";
 import { JournalEntryCard } from "@components/journal/journal-entry-card/JournalEntryCard";
 import { Accordion } from "@components/ui/accordion";
@@ -24,18 +24,44 @@ type FilterOption = "This Week" | "This Month" | string;
 
 export function JournalEntryList({
   journalEntries,
-}: // handleDelete,
+}: // handleDelete
 JournalEntryListProps) {
   const { userSettings, userSettingsLoading } = useUserSettings();
   const [filter, setFilter] = useState<FilterOption>("This Week");
   const isEveningTime = isEvening(userSettings.journalStartTime.evening);
+  const listRef = useRef<HTMLDivElement>(null);
+  const headerRef = useRef<HTMLDivElement>(null);
+  const [headerHeight, setHeaderHeight] = useState(0);
+
+  const hasTodayEntry = journalEntries.some((entry) => {
+    const entryDate = new Date(entry.createDate);
+    const currentDate = new Date();
+    return entryDate.toLocaleDateString() === currentDate.toLocaleDateString();
+  });
+
+  useEffect(() => {
+    if (headerRef.current) {
+      const updateHeaderHeight = () =>
+        setHeaderHeight(headerRef.current!.offsetHeight);
+
+      updateHeaderHeight(); // Set initial height
+      window.addEventListener("resize", updateHeaderHeight); // Update on resize
+
+      return () => window.removeEventListener("resize", updateHeaderHeight);
+    }
+  }, [hasTodayEntry]);
 
   const filterOptions = useMemo(() => {
-    const options: FilterOption[] = ["This Week", "This Month"];
+    const options: FilterOption[] = [];
     const monthSet = new Set<string>();
+
+    let hasEntriesThisMonth = false;
 
     journalEntries.forEach((entry) => {
       const entryDate = new Date(entry.createDate);
+      if (isThisMonth(entryDate)) {
+        hasEntriesThisMonth = true;
+      }
       const monthYear = entryDate.toLocaleString("default", {
         month: "long",
         year: "numeric",
@@ -44,6 +70,12 @@ JournalEntryListProps) {
         monthSet.add(monthYear);
       }
     });
+
+    options.push("This Week");
+
+    if (hasEntriesThisMonth) {
+      options.push("This Month");
+    }
 
     return [...options, ...Array.from(monthSet)];
   }, [journalEntries]);
@@ -62,32 +94,57 @@ JournalEntryListProps) {
     });
   }, [journalEntries, filter]);
 
-  const hasTodayEntry = journalEntries.some((entry) => {
-    const entryDate = new Date(entry.createDate);
-    const currentDate = new Date();
-    return entryDate.toLocaleDateString() === currentDate.toLocaleDateString();
-  });
+  const getEmptyStateMessage = (filter: FilterOption) => {
+    switch (filter) {
+      case "This Week":
+        return "No journal entries for the current week.";
+      case "This Month":
+        return "No journal entries for the current month.";
+      default:
+        return `No journal entries for ${filter}.`;
+    }
+  };
+
+  const handleFilterChange = useCallback(
+    (newFilter: FilterOption) => {
+      setFilter(newFilter);
+      if (listRef.current) {
+        listRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    },
+    [headerHeight]
+  );
 
   return (
     <>
-      <div className="sticky top-0 z-10 bg-background pt-4 pb-2 shadow-sm">
+      <div
+        ref={headerRef}
+        className="sticky top-0 z-10 bg-background pt-4 pb-2 shadow-sm"
+      >
         {!hasTodayEntry && <NewJournalEntry isEveningTime={isEveningTime} />}
         <JournalEntryListFilters
           options={filterOptions}
           activeFilter={filter}
-          onFilterChange={setFilter}
+          onFilterChange={handleFilterChange}
         />
       </div>
-      <Accordion type="single" collapsible className="pb-1">
-        {filteredEntries.map((journalEntry, index) => (
-          <JournalEntryCard
-            key={index}
-            journalEntry={journalEntry}
-            isEveningTime={isEveningTime}
-            // handleDelete={handleDelete}
-          />
-        ))}
-      </Accordion>
+      <div ref={listRef} className={`scroll-mt-[${headerHeight}px]`}>
+        {filteredEntries.length > 0 ? (
+          <Accordion type="single" collapsible className="pb-1">
+            {filteredEntries.map((journalEntry, index) => (
+              <JournalEntryCard
+                key={index}
+                journalEntry={journalEntry}
+                isEveningTime={isEveningTime}
+              />
+            ))}
+          </Accordion>
+        ) : (
+          <p className="text-center text-muted-foreground py-4">
+            {getEmptyStateMessage(filter)}
+          </p>
+        )}
+      </div>
     </>
   );
 }
