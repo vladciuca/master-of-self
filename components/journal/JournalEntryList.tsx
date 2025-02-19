@@ -260,7 +260,7 @@ export function JournalEntryList({ journalEntries }: JournalEntryListProps) {
 
       return () => window.removeEventListener("resize", updateHeaderHeight);
     }
-  }, [hasTodayEntry]);
+  }, []);
 
   const filterOptions = useMemo(() => {
     const options: FilterOption[] = [];
