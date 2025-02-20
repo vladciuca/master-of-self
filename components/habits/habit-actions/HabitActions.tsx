@@ -81,6 +81,26 @@ export function HabitActions({
     }
   }, [habitIdParam, habitId, habitsLoading]);
 
+  // Manage the setTimeout
+  useEffect(() => {
+    let timeoutId: NodeJS.Timeout;
+
+    if (habitsLoading) return;
+
+    if (habitIdParam === habitId && !habitsLoading) {
+      const delay = 400;
+      // Set a timeout to open the drawer after the delay
+      timeoutId = setTimeout(() => setIsDrawerOpen(true), delay);
+    }
+
+    // Cleanup function to clear the timeout if the component unmounts or dependencies change
+    return () => {
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
+    };
+  }, [habitIdParam, habitId, habitsLoading]);
+
   const scrollToHabit = () => {
     if (habitContainerRef.current) {
       habitContainerRef.current.scrollIntoView({
@@ -96,8 +116,9 @@ export function HabitActions({
 
     if (open) {
       scrollToHabit();
-      const delay = habitIdParam ? 400 : 0;
-      setTimeout(() => setIsDrawerOpen(true), delay);
+      // const delay = habitIdParam ? 400 : 0;
+      // setTimeout(() => setIsDrawerOpen(true), delay);
+      setIsDrawerOpen(true);
     } else {
       setIsDrawerOpen(false);
       setIsScrolled(false);

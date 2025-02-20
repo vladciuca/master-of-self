@@ -23,6 +23,23 @@ function TextAreaList({ entryList, onChange }: TextAreaListProps) {
     itemRefs.current = itemRefs.current.slice(0, textRows.length);
   }, [textRows]);
 
+  // Handle focusing and selection
+  useEffect(() => {
+    if (focusedRow >= 0 && focusedRow < itemRefs.current.length) {
+      const element = itemRefs.current[focusedRow];
+      if (element) {
+        element.focus();
+        // Set selection to the end of the content
+        const range = document.createRange();
+        range.selectNodeContents(element);
+        range.collapse(false);
+        const selection = window.getSelection();
+        selection?.removeAllRanges();
+        selection?.addRange(range);
+      }
+    }
+  }, [focusedRow, textRows.length]);
+
   const handleKeyDown = (event: React.KeyboardEvent<HTMLOListElement>) => {
     if (event.key === "Enter") {
       event.preventDefault();
@@ -34,9 +51,9 @@ function TextAreaList({ entryList, onChange }: TextAreaListProps) {
       ]);
       setFocusedRow(newIndex);
 
-      setTimeout(() => {
-        itemRefs.current[newIndex]?.focus();
-      }, 0);
+      // setTimeout(() => {
+      //   itemRefs.current[newIndex]?.focus();
+      // }, 0);
     }
     if (event.key === "Backspace") {
       const currentLi = itemRefs.current[focusedRow];
@@ -46,18 +63,18 @@ function TextAreaList({ entryList, onChange }: TextAreaListProps) {
         setTextRows((prev) => prev.filter((_, index) => index !== focusedRow));
         setFocusedRow(newIndex);
 
-        setTimeout(() => {
-          const prevLi = itemRefs.current[newIndex];
-          if (prevLi) {
-            prevLi.focus();
-            const range = document.createRange();
-            range.selectNodeContents(prevLi);
-            range.collapse(false);
-            const selection = window.getSelection();
-            selection?.removeAllRanges();
-            selection?.addRange(range);
-          }
-        }, 0);
+        // setTimeout(() => {
+        //   const prevLi = itemRefs.current[newIndex];
+        //   if (prevLi) {
+        //     prevLi.focus();
+        //     const range = document.createRange();
+        //     range.selectNodeContents(prevLi);
+        //     range.collapse(false);
+        //     const selection = window.getSelection();
+        //     selection?.removeAllRanges();
+        //     selection?.addRange(range);
+        //   }
+        // }, 0);
       }
     }
   };
