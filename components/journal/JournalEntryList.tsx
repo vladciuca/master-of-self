@@ -527,7 +527,7 @@ export function JournalEntryList({ journalEntries }: JournalEntryListProps) {
           <Accordion type="single" collapsible className="pb-1">
             {filteredEntries.map((journalEntry, index) => (
               <JournalEntryCard
-                key={journalEntry._id || index}
+                key={journalEntry._id}
                 journalEntry={journalEntry}
                 isEveningTime={isEveningTime}
               />
