@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { WillpowerLevelBar } from "@components/WillpowerLevelBar";
+import { WillpowerLevelBar } from "@components/profile/profile-header/WillpowerLevelBar";
 import { GiCharacter } from "react-icons/gi";
 // import { FaBoltLightning } from "react-icons/fa6";
 // import { useTotalWillpower } from "@hooks/useTotalWillpower";

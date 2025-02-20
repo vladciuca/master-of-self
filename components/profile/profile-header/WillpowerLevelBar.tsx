@@ -181,7 +181,7 @@ export function WillpowerLevelBar() {
 
           <div className="flex flex-end">
             <span className="text-muted-foreground">
-              {/* CHANGE: Ensure the total XP doesn't exceed nextLevelXP */}
+              {/* Ensure the total XP doesn't exceed nextLevelXP */}
               {Math.min(currentXP + bonusXP + projectedXP, nextLevelXP)}
               <span className="font-normal">/</span>
               {nextLevelXP}

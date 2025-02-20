@@ -1,7 +1,7 @@
 "use client";
 
 import { useSession } from "next-auth/react";
-import { ProfileNav } from "@components/ProfileNav";
+import { ProfileNav } from "@components/profile/profile-header/ProfileNav";
 import { HeaderTitle } from "@components/HeaderTitle";
 import { Session } from "@models/types";
 
