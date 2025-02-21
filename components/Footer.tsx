@@ -4,11 +4,14 @@ import { useSession } from "next-auth/react";
 import { usePathname, useRouter } from "next/navigation";
 import { BottomNav } from "@components/BottomNav";
 import { Button } from "@components/ui/button";
+import { useUserSettings } from "@context/UserSettingsContext";
 
 export function Footer() {
   const { data: session, status } = useSession();
   const pathname = usePathname();
   const router = useRouter();
+  const { userSettings, userSettingsLoading, userSettingsError } =
+    useUserSettings();
 
   const handleSignIn = () => {
     router.push("/sign-in");
@@ -18,7 +21,8 @@ export function Footer() {
     router.push("/");
   };
 
-  if (status === "loading") {
+  // userSettingsLoading will be true by default if the user is not logged in
+  if (status === "loading" && userSettingsLoading) {
     return (
       <div className="w-full h-full flex justify-center items-center">
         <div className="loader" />
@@ -27,7 +31,12 @@ export function Footer() {
   }
 
   if (session?.user) {
-    return <BottomNav />;
+    return (
+      <BottomNav
+        userSettings={userSettings}
+        userSettingsError={userSettingsError}
+      />
+    );
   }
 
   return (
