@@ -15,7 +15,7 @@ export function NavButton({
   return (
     <Button
       variant="ghost"
-      className={`py-1 rounded-full w-full flex flex-col items-center justify-center h-full active:bg-transparent ${className} ${
+      className={`py-1 rounded-full w-full flex flex-col items-center justify-center h-full focus:outline-none focus:ring-0 active:bg-transparent ${className} ${
         isActive ? "bg-primary-foreground" : ""
       }`}
     >
