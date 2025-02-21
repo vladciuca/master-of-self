@@ -12,13 +12,13 @@ export function TotalWillpower() {
     <div>
       <CardTitle className="flex justify-between items-baseline">
         <span>Total Willpower</span>
-        <span className="flex items-center text-4xl font-bold">
+        <span className="flex items-center text-3xl font-bold">
           {currentWillpowerLoading ? (
             "??"
           ) : (
             <span>{formatNumberSuffixes(currentWillpower)}</span>
           )}
-          <FaBoltLightning className="ml-1 text-3xl" />
+          <FaBoltLightning className="ml-1 text-2xl" />
         </span>
       </CardTitle>
       <CardDescription className="w-3/4 md-w-4/6">
