@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { NavButton } from "@/components/ui/nav-button";
 import { Target, Shell } from "lucide-react";
 import { FaSun } from "react-icons/fa";
@@ -13,7 +12,6 @@ import { isEvening } from "@lib/time";
 import { journalColors } from "@components/ui/constants";
 
 export function BottomNav() {
-  const pathname = usePathname();
   const { userSettings, userSettingsLoading } = useUserSettings();
   const [currentTime, setCurrentTime] = useState(new Date());
   const [timerDisplay, setTimerDisplay] = useState("--:--");
@@ -21,8 +19,6 @@ export function BottomNav() {
 
   const userMorningTime = userSettings?.journalStartTime.morning;
   const userEveningTime = userSettings?.journalStartTime.evening;
-
-  // console.log("BottomNav rendering with userSettings:", userSettings);
 
   // Update current time every 30 seconds
   useEffect(() => {
@@ -34,37 +30,6 @@ export function BottomNav() {
     return () => clearInterval(timer); // Cleanup
   }, []);
 
-  // Update timer display whenever current time or user settings change
-  // useEffect(() => {
-  //   if (userMorningTime && userEveningTime) {
-  //     const updateTimerDisplay = () => {
-  //       const now = currentTime;
-  //       const morning = getTimeFromString(userMorningTime);
-  //       const evening = getTimeFromString(userEveningTime);
-
-  //       if (isBeforeTime(now, morning)) {
-  //         // Countdown to morning (Night Mode)
-  //         const diff = getTimeDifference(now, morning);
-  //         setTimerDisplay(formatTime(diff));
-  //         setIsNightMode(true);
-  //       } else if (isBeforeTime(now, evening)) {
-  //         // Countdown to evening (Day Mode)
-  //         const diff = getTimeDifference(now, evening);
-  //         setTimerDisplay(formatTime(diff));
-  //         setIsNightMode(false);
-  //       } else {
-  //         // Countdown to midnight (Post-Evening Mode)
-  //         const midnight = new Date(now);
-  //         midnight.setHours(24, 0, 0, 0);
-  //         const diff = getTimeDifference(now, midnight);
-  //         setTimerDisplay(formatTime(diff));
-  //         setIsNightMode(false);
-  //       }
-  //     };
-
-  //     updateTimerDisplay();
-  //   }
-  // }, [currentTime, userMorningTime, userEveningTime]);
   useEffect(() => {
     if (!userMorningTime || !userEveningTime) return;
 
@@ -139,14 +104,14 @@ export function BottomNav() {
   return (
     <nav className="h-full w-full flex justify-around items-center space-x-2 px-2">
       <Link href="/goals" className="flex-1">
-        <NavButton isActive={pathname === "/goals"}>
+        <NavButton>
           <Target className={iconClass} />
           <div className="text-xs mt-1">Goals</div>
         </NavButton>
       </Link>
 
       <Link href="/journal" className="flex-1">
-        <NavButton isActive={pathname === "/journal"}>
+        <NavButton>
           {isNightMode ? (
             <GiNightSleep
               className={`${iconClass} text-${journalColors.sleep}`}
@@ -163,7 +128,7 @@ export function BottomNav() {
       </Link>
 
       <Link href="/habits" className="flex-1">
-        <NavButton isActive={pathname === "/habits"}>
+        <NavButton>
           <Shell className={iconClass} />
           <div className="text-xs mt-1">Habits</div>
         </NavButton>
