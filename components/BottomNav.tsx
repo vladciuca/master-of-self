@@ -17,6 +17,10 @@ export function BottomNav() {
   const [timerDisplay, setTimerDisplay] = useState("--:--");
   const [isNightMode, setIsNightMode] = useState(false);
 
+  if (!userSettings && userSettingsLoading) {
+    return null;
+  }
+
   const userMorningTime = userSettings?.journalStartTime.morning;
   const userEveningTime = userSettings?.journalStartTime.evening;
 
@@ -90,14 +94,6 @@ export function BottomNav() {
     const minutes = date.getUTCMinutes().toString().padStart(2, "0");
     return `${hours}h:${minutes}m`;
   };
-
-  if (userSettingsLoading) {
-    return (
-      <div className="w-full h-full flex justify-center items-center">
-        <div className="loader" />
-      </div>
-    );
-  }
 
   const iconClass = "w-8 h-8";
 
