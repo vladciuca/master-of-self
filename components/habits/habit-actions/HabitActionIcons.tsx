@@ -23,11 +23,11 @@ export function ActionIcon({
   const iconSize = size || 22;
   const iconColor = overCapped
     ? type === "defensive"
-      ? "text-red-500"
+      ? "text-rose-500"
       : "text-orange-500"
     : dailyTargetCompleted
-    ? "text-green-500"
-    : "text-blue-500";
+    ? "text-lime-500"
+    : "text-teal-500";
 
   return (
     <>

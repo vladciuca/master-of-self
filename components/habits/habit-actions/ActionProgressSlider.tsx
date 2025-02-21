@@ -14,8 +14,10 @@ export function ActionProgressSlider({
   isDefensiveAction,
 }: ActionProgressSliderProps) {
   // Define colors based on the action type
-  const startColor = isDefensiveAction ? "#EF4444" : "#3B82F6";
-  const endColor = isDefensiveAction ? "#3B82F6" : "#22C55E";
+  // const startColor = isDefensiveAction ? "#EF4444" : "#3B82F6";
+  // const endColor = isDefensiveAction ? "#3B82F6" : "#84CC16";
+  const startColor = isDefensiveAction ? "#F43F5E" : "#14B8A6";
+  const endColor = isDefensiveAction ? "#14B8A6" : "#84CC16";
 
   // Generate colors once when the component mounts or when dependencies change
   const sliderColors = useMemo(() => {

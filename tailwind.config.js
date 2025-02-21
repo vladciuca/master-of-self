@@ -8,6 +8,12 @@ module.exports = {
     "./src/**/*.{js,jsx,ts,tsx}",
   ],
   safelist: [
+    "bg-rose-500",
+    "text-rose-500",
+    "bg-lime-500",
+    "text-lime-500",
+    "bg-teal-500",
+    "text-teal-500",
     "bg-orange-500",
     "bg-orange-200",
     "text-orange-500",

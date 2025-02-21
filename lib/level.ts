@@ -51,8 +51,8 @@ export function calculateHabitLevel(xp: number) {
 export const getHabitRarity = (
   level: number
 ): { bg: string; icon: string; label: string } => {
-  if (level >= 40)
-    return { bg: "bg-red-200", icon: "text-red-500", label: "Transcendent" };
+  // if (level >= 40)
+  //   return { bg: "bg-red-200", icon: "text-red-500", label: "Transcendent" };
   if (level >= 30)
     return { bg: "bg-orange-200", icon: "text-orange-500", label: "Legendary" };
   if (level >= 20)

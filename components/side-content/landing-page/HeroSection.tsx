@@ -22,21 +22,21 @@ const ConcentricShapes = ({ isActive = true }: { isActive?: boolean }) => {
                 animate="visible"
                 variants={fadeIn}
                 transition={{ duration: 1, delay: 1.5 }}
-                className="absolute inset-0 rounded-xl bg-pink-500"
+                className="absolute inset-0 rounded-xl bg-purple-600"
               />
               <motion.div
                 initial="hidden"
                 animate="visible"
                 variants={fadeIn}
                 transition={{ duration: 1, delay: 1 }}
-                className="absolute inset-0 m-auto w-32 h-32 rounded-3xl bg-purple-500"
+                className="absolute inset-0 m-auto w-32 h-32 rounded-3xl bg-yellow-500"
               />
               <motion.div
                 initial="hidden"
                 animate="visible"
                 variants={fadeIn}
                 transition={{ duration: 1, delay: 0.5 }}
-                className="absolute inset-0 m-auto w-14 h-14 rounded-full bg-blue-500"
+                className="absolute inset-0 m-auto w-14 h-14 rounded-full bg-teal-500"
               />
             </>
           )}

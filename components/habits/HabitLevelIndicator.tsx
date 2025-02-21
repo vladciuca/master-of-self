@@ -12,10 +12,10 @@ export function HabitLevelIndicator({
   return (
     <div>
       {currentLevel < level && (
-        <PiArrowFatLinesUpFill className="text-green-500 ml-1" />
+        <PiArrowFatLinesUpFill className="text-lime-500 ml-1" />
       )}
       {currentLevel > level && (
-        <PiArrowFatLinesDownFill className="text-red-500 ml-1" />
+        <PiArrowFatLinesDownFill className="text-rose-500 ml-1" />
       )}
     </div>
   );

@@ -95,7 +95,7 @@ export function HabitActionsStep({
       scoreSection={
         dailyWillpower > 0 && (
           <>
-            <span className="text-green-500">+{dailyWillpower}%</span>
+            <span className="text-lime-500">+{dailyWillpower}%</span>
             <span className="ml-2 text-2xl">XP</span>
           </>
         )
