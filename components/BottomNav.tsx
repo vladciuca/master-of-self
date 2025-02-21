@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
+import { useSelectedLayoutSegment } from "next/navigation";
 import { NavButton } from "@/components/ui/nav-button";
 import { Target, Shell } from "lucide-react";
 import { FaSun } from "react-icons/fa";
@@ -12,6 +13,7 @@ import { isEvening } from "@lib/time";
 import { journalColors } from "@components/ui/constants";
 
 export function BottomNav() {
+  const segment = useSelectedLayoutSegment();
   const { userSettings, userSettingsLoading } = useUserSettings();
   const [currentTime, setCurrentTime] = useState(new Date());
   const [timerDisplay, setTimerDisplay] = useState("--:--");
@@ -100,14 +102,14 @@ export function BottomNav() {
   return (
     <nav className="h-full w-full flex justify-around items-center space-x-2 px-2">
       <Link href="/goals" className="flex-1">
-        <NavButton>
+        <NavButton isActive={segment === "goals"}>
           <Target className={iconClass} />
           <div className="text-xs mt-1">Goals</div>
         </NavButton>
       </Link>
 
       <Link href="/journal" className="flex-1">
-        <NavButton>
+        <NavButton isActive={segment === "journal"}>
           {isNightMode ? (
             <GiNightSleep
               className={`${iconClass} text-${journalColors.sleep}`}
@@ -124,7 +126,7 @@ export function BottomNav() {
       </Link>
 
       <Link href="/habits" className="flex-1">
-        <NavButton>
+        <NavButton isActive={segment === "habits"}>
           <Shell className={iconClass} />
           <div className="text-xs mt-1">Habits</div>
         </NavButton>
