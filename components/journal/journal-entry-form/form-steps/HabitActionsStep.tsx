@@ -90,8 +90,8 @@ export function HabitActionsStep({
 
   return (
     <FormStepTemplate
-      title="Habit Actions"
-      description="Track your progress on habit actions. Get 1% bonus XP for each Willpower point earned."
+      title="Habits"
+      description="Track your progress on habits. Get 1% bonus XP for each Willpower point earned."
       scoreSection={
         dailyWillpower > 0 && (
           <>

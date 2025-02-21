@@ -1,5 +1,6 @@
 "use client";
 
+import { useCallback } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useRef, useState, useEffect } from "react";
@@ -29,14 +30,22 @@ export function JournalEntryListFilters({
     }
   };
 
-  const handleScroll = () => {
+  // const handleScroll = () => {
+  //   if (scrollContainerRef.current) {
+  //     const { scrollLeft, scrollWidth, clientWidth } =
+  //       scrollContainerRef.current;
+  //     setShowLeftArrow(scrollLeft > 0);
+  //     setShowRightArrow(scrollLeft < scrollWidth - clientWidth - 1);
+  //   }
+  // };
+  const handleScroll = useCallback(() => {
     if (scrollContainerRef.current) {
       const { scrollLeft, scrollWidth, clientWidth } =
         scrollContainerRef.current;
       setShowLeftArrow(scrollLeft > 0);
       setShowRightArrow(scrollLeft < scrollWidth - clientWidth - 1);
     }
-  };
+  }, [setShowLeftArrow, setShowRightArrow]);
 
   useEffect(() => {
     handleScroll();

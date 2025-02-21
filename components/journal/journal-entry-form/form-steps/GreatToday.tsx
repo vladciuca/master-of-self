@@ -21,7 +21,7 @@ function GreatToday({ dailyWillpower, entryList, onChange }: GreatTodayProps) {
   return (
     <FormStepTemplate
       title="What will I do to make today great?"
-      description="Write down meaningful and achievable goals for the day to generate Willpower."
+      description="Write down meaningful and achievable goals for the day to build motivation and generate Willpower."
       scoreSection={
         <>
           <span className={`text-${journalColors.day}`}>{dailyWillpower}</span>

@@ -2,7 +2,7 @@
 
 import { Card, CardDescription, CardTitle } from "@components/ui/card";
 import { Switch } from "@components/ui/switch";
-import { GiPrayer, GiBackup } from "react-icons/gi";
+import { GiPrayer, GiPlayerTime } from "react-icons/gi";
 import { useUserSettings } from "@hooks/useUserSettings";
 
 export function Routine() {
@@ -36,7 +36,7 @@ export function Routine() {
             />
           </div>
           <div className="my-4 flex justify-between items-center">
-            <GiBackup size={"4rem"} className="mr-4" />
+            <GiPlayerTime size={"4rem"} className="mr-4" />
             <div>
               <h1>Reflection</h1>
               <p className="text-sm text-muted-foreground">

@@ -25,7 +25,7 @@ function GratefulFor({
   return (
     <FormStepTemplate
       title="What am I feeling grateful for?"
-      description="Use details to describe what you're feeling grateful for to generate Willpower."
+      description="Use details to describe what you're feeling grateful for and generate Willpower."
       scoreSection={
         <>
           <span className={`text-${journalColors.day}`}>{dailyWillpower}</span>

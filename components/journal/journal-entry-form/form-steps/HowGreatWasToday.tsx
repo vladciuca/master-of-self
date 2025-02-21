@@ -43,7 +43,7 @@ export function HowGreatWasToday({
   return (
     <FormStepTemplate
       title="How great was today?"
-      description="Check off the goals you've accomplished today."
+      description="Mark the goals you dedicated Willpower to and completed today."
     >
       <ol className="list-decimal py-2 mt-2 mx-4 space-y-3">
         {greatToday.map((item, index) => (

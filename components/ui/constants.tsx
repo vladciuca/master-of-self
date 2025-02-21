@@ -2,7 +2,7 @@ import type React from "react";
 import { FaSun, FaMoon, FaStar } from "react-icons/fa6";
 import {
   GiPrayer,
-  GiBackup,
+  GiPlayerTime,
   GiPencilRuler,
   GiEnlightenment,
 } from "react-icons/gi";
@@ -16,7 +16,7 @@ export const stepIconMap: StepIconMap = {
   night: <FaMoon size={"1.4rem"} />,
   highlights: <FaStar size={"1.4rem"} />,
   gratitude: <GiPrayer size={"1.4rem"} />,
-  reflection: <GiBackup size={"1.4rem"} />,
+  reflection: <GiPlayerTime size={"1.4rem"} />,
   actions: <GiPencilRuler size={"1.4rem"} />,
   default: <GiEnlightenment size={"1.7rem"} />,
 };
