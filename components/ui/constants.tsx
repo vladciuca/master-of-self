@@ -16,7 +16,7 @@ export const stepIconMap: StepIconMap = {
   night: <FaMoon size={"1.4rem"} />,
   highlights: <FaStar size={"1.4rem"} />,
   gratitude: <GiPrayer size={"1.4rem"} />,
-  reflection: <GiPlayerTime size={"1.4rem"} />,
+  reflection: <GiPlayerTime size={"1.6rem"} />,
   actions: <GiPencilRuler size={"1.4rem"} />,
   default: <GiEnlightenment size={"1.7rem"} />,
 };
