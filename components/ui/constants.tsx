@@ -48,7 +48,7 @@ export const stepStyles: { [key: string]: StepStyle } = {
     textColor: "text-purple-500",
   },
   actions: {
-    bgColor: "bg-pink-500",
+    bgColor: "bg-blue-500",
     textColor: "text-pink-500",
   },
   default: {
