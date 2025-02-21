@@ -10,7 +10,7 @@ export function NavButton({ children, className = "" }: NavButtonProps) {
   return (
     <Button
       variant="ghost"
-      className={`py-1 rounded-full w-full flex flex-col items-center justify-center h-full ${className}`}
+      className={`py-1 rounded-full w-full flex flex-col items-center justify-center h-full ${className} hover:bg-none hover:text-inherit`}
     >
       {children}
     </Button>
