@@ -61,8 +61,8 @@ export function HeroSection({ isActive = true }: { isActive?: boolean }) {
             transition={{ duration: 0.5 }}
             className="max-w-3xl px-4"
           >
-            <div className="mb-6 text-2xl font-semibold tracking-normal text-muted-foreground">
-              build the best version of yourself
+            <div className="mb-6 text-2xl font-semibold tracking-normal">
+              they say life is a game
             </div>
             <ConcentricShapes isActive={isActive} />
             <motion.h1
@@ -72,7 +72,7 @@ export function HeroSection({ isActive = true }: { isActive?: boolean }) {
               variants={fadeInTransition}
               transition={{ duration: 1, delay: 0.5 }}
             >
-              from IDENTITY
+              but HOW
             </motion.h1>
             <motion.h1
               className="my-6 text-6xl font-bold tracking-tight"
@@ -81,7 +81,7 @@ export function HeroSection({ isActive = true }: { isActive?: boolean }) {
               variants={fadeInTransition}
               transition={{ duration: 1, delay: 1 }}
             >
-              to BELIEVES
+              do YOU
             </motion.h1>
 
             <motion.h1
@@ -91,7 +91,7 @@ export function HeroSection({ isActive = true }: { isActive?: boolean }) {
               variants={fadeInTransition}
               transition={{ duration: 1, delay: 1.5 }}
             >
-              and BEHAVIOR
+              PLAY it !?
             </motion.h1>
 
             {/* <motion.div

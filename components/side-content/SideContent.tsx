@@ -3,39 +3,21 @@
 import { useState } from "react";
 import { Button } from "@components/ui/button";
 import { FaEye } from "react-icons/fa";
-import { GiBookCover, GiCharacter } from "react-icons/gi";
+// import { GiBookCover, GiCharacter } from "react-icons/gi";
 // import { Target, Shell } from "lucide-react";
-import { useSideContent } from "@context/SideContentContext";
 import { LandingPage } from "./landing-page/LandingPage";
-import { IdentityPage } from "./identity-page/IdentityPage";
-
-// TEMP: Define tab components
-// const IdComponent = () => <div>Journal Loop Component</div>;
-// const HabitsComponent = () => <div>Habits Component</div>;
-// const GoalsComponent = () => <div>Goals Component</div>;
-const LoopComponent = () => (
-  <div>
-    <h1 className="text-6xl">
-      To bind your identity together, the game loop consists
-    </h1>
-  </div>
-);
+// import { VisionPage } from "./vision-page/VisionPage";
+// import { IdentityPage } from "./identity-page/IdentityPage";
+import { useSideContent } from "@context/SideContentContext";
 
 const tabs = [
-  { id: "vision", icon: FaEye, label: "Vision", component: LandingPage },
-  {
-    id: "identity",
-    icon: GiCharacter,
-    label: "Identity",
-    component: IdentityPage,
-  },
-  // { id: "goals", icon: Target, label: "Goals", component: GoalsComponent },
-  // { id: "habits", icon: Shell, label: "Habits", component: HabitsComponent },
+  { id: "landing", icon: FaEye, label: "Vision", component: LandingPage },
+  // { id: "vision", icon: FaEye, label: "Vision", component: VisionPage },
   // {
-  //   id: "journal",
-  //   icon: GiBookCover,
-  //   label: "Journal",
-  //   component: LoopComponent,
+  //   id: "identity",
+  //   icon: GiCharacter,
+  //   label: "Identity",
+  //   component: IdentityPage,
   // },
 ];
 
