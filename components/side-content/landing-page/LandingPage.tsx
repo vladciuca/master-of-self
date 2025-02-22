@@ -305,9 +305,12 @@ function ScienceSection() {
       <h3 className="text-4xl font-bold mb-4">The Science in Action</h3>
       <p className="text-lg max-w-3xl mx-auto text-muted-foreground">
         This structured approach is built on principles of{" "}
-        <strong className="text-primary">positive psychology</strong>, cognitive
-        behavioral therapy (CBT), and neuroscience** to rewire your mindset and
-        shape long-term behavior.
+        <strong className="text-primary">positive psychology</strong>,{" "}
+        <strong className="text-primary">
+          cognitive behavioral therapy (CBT)
+        </strong>
+        , and <strong className="text-primary">neuroscience</strong> to rewire
+        your mindset and shape long-term behavior.
       </p>
 
       <motion.section
