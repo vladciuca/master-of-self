@@ -129,7 +129,7 @@ function ThreeCardsSection() {
     },
     {
       icon: <FaBoltLightning />,
-      bg: "bg-orange-500",
+      bg: "bg-pink-400",
       title: "Earn & Leverage Willpower",
       content:
         "Score systems rewards deep reflection and meaningful journaling, making self-improvement an engaging challenge.",
