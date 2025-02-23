@@ -159,6 +159,7 @@ export function ActionForm({
                   </FormLabel>
                   <FormControl>
                     <Input
+                      className="text-base"
                       placeholder="e.g., Do pushups, Read books, Meditate"
                       {...field}
                     />
@@ -220,6 +221,7 @@ export function ActionForm({
                   <FormLabel>Measurement Unit</FormLabel>
                   <FormControl>
                     <Input
+                      className="text-base"
                       placeholder="e.g., repetitions, pages, minutes"
                       {...field}
                     />
