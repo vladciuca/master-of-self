@@ -40,7 +40,7 @@ export function DeleteActionButton({
         </Button>
       </AlertDialogTrigger>
       <AlertDialogContent
-        className="max-w-sm w-[90%] rounded-md sm:space-y-10"
+        className="max-w-sm w-[90%] rounded-md space-y-10"
         style={alertDialogStyle}
       >
         <AlertDialogHeader className="sm:flex sm:flex-col sm:space-y-2 sm:text-center">
@@ -58,7 +58,7 @@ export function DeleteActionButton({
         </AlertDialogHeader>
         <AlertDialogFooter className="sm:flex sm:flex-col-reverse sm:space-x-0 sm:px-6">
           <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction onClick={onDelete} className="sm:mb-2">
+          <AlertDialogAction onClick={onDelete} className="mb-4 sm:mb-6">
             Delete
           </AlertDialogAction>
         </AlertDialogFooter>
