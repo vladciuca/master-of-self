@@ -18,10 +18,11 @@ import {
   ActionIcon,
   MetricIcon,
 } from "@components/habits/habit-actions/HabitActionIcons";
-import { CircleX, Plus, Edit2 } from "lucide-react";
+import { Plus, Edit2 } from "lucide-react";
 import { useSideContentPosition } from "@hooks/useSideContentPosition";
 
 import { ActionForm } from "./ActionForm";
+import { DeleteActionButton } from "./DeleteActionButton";
 
 type ActionsFieldProps = {
   control: Control<HabitZodType>;
@@ -112,14 +113,14 @@ export function ActionsField({ control, type }: ActionsFieldProps) {
                     </span>
 
                     <div>
-                      <button
-                        type="button"
-                        onClick={() => removeAction(action.id)}
-                        className="text-red-500"
-                        aria-label={`Remove action ${action.action}`}
-                      >
-                        <CircleX size={20} />
-                      </button>
+                      <DeleteActionButton
+                        onDelete={() => removeAction(action.id)}
+                        actionName={action.action}
+                        actionPrefix={
+                          action.type === "offensive" ? "I will" : "I won't"
+                        }
+                        actionIcon={<ActionIcon type={action.type} size={18} />}
+                      />
                     </div>
                   </div>
 
@@ -135,14 +136,15 @@ export function ActionsField({ control, type }: ActionsFieldProps) {
                       {action.dailyTarget} {action.actionUnit}
                     </div>
 
-                    <button
+                    <Button
                       type="button"
+                      variant="ghost"
                       onClick={() => editAction(action.id)}
                       aria-label={`Edit action ${action.action}`}
-                      className="flex items-center mr-2 text-blue-500"
+                      className="h-8 w-8 p-0 text-blue-500 hover:text-blue-500"
                     >
                       <Edit2 size={20} />
-                    </button>
+                    </Button>
                   </div>
                 </div>
               );
