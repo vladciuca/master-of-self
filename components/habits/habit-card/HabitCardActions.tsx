@@ -77,7 +77,8 @@ export function HabitCardActions({
                   <span className={getActionValueColor(actionParams)}>
                     {displayValue}
                   </span>
-                  /{action.dailyTarget}
+                  <span className="mx-1">/</span>
+                  {action.dailyTarget}
                   <span className="ml-2 font-normal">{action.actionUnit}</span>
                 </span>
               </div>
