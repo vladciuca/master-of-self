@@ -329,10 +329,10 @@ function ScienceSection() {
             className="flex flex-col items-center text-center space-y-4"
           >
             <div className="text-5xl mb-2">{icon}</div>
-            <h3 className="font-semibold text-lg mb-2 text-purple-400">
-              {title}
-            </h3>
-            <p className="text-sm leading-relaxed">{text}</p>
+            <h3 className="font-semibold text-lg mb-2">{title}</h3>
+            <p className="text-sm leading-relaxed text-muted-foreground">
+              {text}
+            </p>
           </motion.div>
         ))}
       </motion.section>
