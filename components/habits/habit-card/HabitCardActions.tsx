@@ -72,7 +72,7 @@ export function HabitCardActions({
             </div>
             <div className="flex flex-col text-sm text-muted-foreground mb-2">
               <div className="flex items-center justify-between border border-muted rounded-md p-2 my-1">
-                Daily {isDefensiveAction ? "Limit" : "Target"}:
+                Daily {isDefensiveAction ? "Limit" : "Target"}
                 <span className="ml-2 font-bold flex items-center text-primary">
                   <span className={getActionValueColor(actionParams)}>
                     {displayValue}
