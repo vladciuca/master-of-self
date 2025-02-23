@@ -41,11 +41,11 @@ export function isActionOverCapped({
 
 export function getActionValueColor(params: HabitActionValueParams): string {
   if (isActionOverCapped(params)) {
-    return params.isDefensiveAction ? "text-red-500" : "text-orange-500";
+    return params.isDefensiveAction ? "text-rose-500" : "text-orange-500";
   }
 
   if (isDailyTargetCompleted(params)) {
-    return "text-green-500";
+    return "text-lime-500";
   }
 
   return "text-primary";

@@ -48,42 +48,6 @@ export function HabitAction({
     onValueChange(action.id, newValue);
   };
 
-  // // Calculate the XP that would be lost if we decrease the value
-  // const getXpChangeForDecrease = () => {
-  //   //WHY 1? and not 0!
-  //   if (!isDefensiveAction) return applyWillpowerBonus(1, dailyWillpower);
-
-  //   // For defensive actions, calculate how much XP would be lost
-  //   const currentActionXp = applyWillpowerBonus(
-  //     action.dailyTarget - value,
-  //     dailyWillpower
-  //   );
-  //   const newActionXp = applyWillpowerBonus(
-  //     action.dailyTarget - (value + 1),
-  //     dailyWillpower
-  //   );
-  //   return newActionXp - currentActionXp;
-  // };
-
-  // // Check if decreasing would drop below level 1
-  // const wouldDropBelowLevelOne = () => {
-  //   if (!isDefensiveAction) return false;
-
-  //   const xpChange = getXpChangeForDecrease();
-  //   const totalXpAfterChange = currentXp + projectedHabitXp + xpChange;
-
-  //   // Level 1 requires 0 XP, so we just need to check if we'd go negative
-  //   return totalXpAfterChange < 0;
-  // };
-
-  // // Determine if the minus button should be disabled
-  // const isMinusDisabled = isDefensiveAction
-  //   ? value >= action.dailyTarget
-  //   : value <= 0;
-
-  // // Plus button should be disabled if increasing would drop below level 1
-  // const isPlusDisabled = wouldDropBelowLevelOne();
-
   // Modified XP calculation for decrease
   const getXpChangeForDecrease = () => {
     if (!isDefensiveAction) {
@@ -216,7 +180,9 @@ export function HabitAction({
               exit={{ opacity: 0, y: -10 }}
               transition={{ duration: 0.2 }}
             >
-              <p className="text-red-500 mt-2 text-sm text-center font-medium">
+              <p
+                className={`${valueColor} mt-2 text-sm text-center font-medium`}
+              >
                 Stop! You already reached your daily limit!
               </p>
             </motion.div>
@@ -229,7 +195,9 @@ export function HabitAction({
               exit={{ opacity: 0, y: -10 }}
               transition={{ duration: 0.2 }}
             >
-              <p className="text-orange-500 mt-2 text-sm text-center font-medium">
+              <p
+                className={`${valueColor} mt-2 text-sm text-center font-medium`}
+              >
                 On Fire! Don't overdo it or you'll burn out!
               </p>
             </motion.div>
