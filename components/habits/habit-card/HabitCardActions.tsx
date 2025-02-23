@@ -55,18 +55,18 @@ export function HabitCardActions({
         return (
           <div key={action.id} className="mt-6">
             <div className="mb-1 flex items-start max-w-full">
-              <span className="flex flex-shrink-0 items-start mt-[3.2px]">
+              <span className="flex flex-shrink-0 items-center mt-[1.2px]">
                 <ActionIcon
                   type={action.type}
-                  size={18}
+                  size={16}
                   dailyTargetCompleted={dailyTargetCompleted}
                   overCapped={isDailyOverCapped}
                 />
               </span>
-              <span className="text-base font-bold mr-2">
+              <span className="font-bold mr-1">
                 {isDefensiveAction ? "I won't" : "I will"}
               </span>
-              <span className="text-base break-words whitespace-normal w-0 flex-grow">
+              <span className="break-words whitespace-normal w-0 flex-grow">
                 {action.action}
               </span>
             </div>
