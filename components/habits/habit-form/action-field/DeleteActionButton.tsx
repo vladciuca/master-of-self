@@ -12,7 +12,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
-// import { useSideContentPosition } from "@hooks/useSideContentPosition";
+import { useSideContentPosition } from "@hooks/useSideContentPosition";
 
 interface DeleteActionButtonProps {
   onDelete: () => void;
@@ -27,7 +27,7 @@ export function DeleteActionButton({
   actionPrefix,
   actionIcon,
 }: DeleteActionButtonProps) {
-  //   const { drawerStyle } = useSideContentPosition();
+  const { alertDialogStyle } = useSideContentPosition();
 
   return (
     <AlertDialog>
@@ -40,11 +40,12 @@ export function DeleteActionButton({
         </Button>
       </AlertDialogTrigger>
       <AlertDialogContent
-      //   style={drawerStyle}
+        className="max-w-sm w-[90%] rounded-md sm:space-y-10"
+        style={alertDialogStyle}
       >
-        <AlertDialogHeader>
+        <AlertDialogHeader className="sm:flex sm:flex-col sm:space-y-2 sm:text-center">
           <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-          <AlertDialogDescription>
+          <AlertDialogDescription className="sm:px-8">
             This will permanently delete the action
             <span className="ml-2 inline-flex items-center align-middle">
               {actionIcon}
@@ -55,9 +56,11 @@ export function DeleteActionButton({
             . This action cannot be undone.
           </AlertDialogDescription>
         </AlertDialogHeader>
-        <AlertDialogFooter>
+        <AlertDialogFooter className="sm:flex sm:flex-col-reverse sm:space-x-0 sm:px-6">
           <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction onClick={onDelete}>Delete</AlertDialogAction>
+          <AlertDialogAction onClick={onDelete} className="sm:mb-2">
+            Delete
+          </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
