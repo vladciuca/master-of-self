@@ -3,6 +3,7 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { FaSun, FaMoon, FaBoltLightning } from "react-icons/fa6";
+import { GiBrain, GiArcheryTarget, GiLightBulb } from "react-icons/gi";
 import { X } from "lucide-react";
 
 const sectionVariants = {
@@ -91,7 +92,8 @@ function ThreeCardsSection() {
   const cards = [
     {
       icon: <FaSun />,
-      bg: "bg-yellow-500",
+      bg: "bg-amber-400",
+      textColor: "text-white",
       title: "Start Your Day with Purpose",
       content:
         "Morning journaling incentivises you set a positive tone for the day by focusing on gratitude and goal setting.",
@@ -108,7 +110,8 @@ function ThreeCardsSection() {
     },
     {
       icon: <FaMoon />,
-      bg: "bg-purple-500",
+      bg: "bg-violet-500",
+      textColor: "text-white",
       title: "Reflect and Grow",
       content:
         "Evening journaling allows you to track progress, reflect on key moments, and build momentum for the next day.",
@@ -129,7 +132,8 @@ function ThreeCardsSection() {
     },
     {
       icon: <FaBoltLightning />,
-      bg: "bg-pink-400",
+      bg: "bg-teal-500",
+      textColor: "text-white",
       title: "Earn & Leverage Willpower",
       content:
         "Score systems rewards deep reflection and meaningful journaling, making self-improvement an engaging challenge.",
@@ -155,10 +159,10 @@ function ThreeCardsSection() {
       className="grid grid-rows-3 gap-6 px-6"
       variants={sectionVariants}
     >
-      {cards.map(({ icon, bg, title, content, list }, index) => (
+      {cards.map(({ icon, bg, textColor, title, content, list }, index) => (
         <motion.div
           key={index}
-          className={`w-full flex flex-col items-center justify-center p-6 rounded-3xl text-white ${bg}`}
+          className={`w-full flex flex-col items-center justify-center p-6 rounded-3xl ${textColor} ${bg}`}
         >
           <span className="mb-4 text-4xl">{icon}</span>
           <h3 className="text-xl font-bold">{title}</h3>
@@ -281,17 +285,17 @@ function MindsetBehaviorSection() {
 function ScienceSection() {
   const cards = [
     {
-      icon: "🧠",
+      icon: <GiBrain />,
       title: "Neuroplasticity",
       text: "Your brain strengthens pathways you use repeatedly.",
     },
     {
-      icon: "⚡",
+      icon: <GiArcheryTarget />,
       title: "Reticular Activating System (RAS)",
       text: "Helps you focus on what matters.",
     },
     {
-      icon: "💡",
+      icon: <GiLightBulb />,
       title: "Cognitive Reframing",
       text: "Turns self-criticism into growth.",
     },
@@ -325,10 +329,10 @@ function ScienceSection() {
             className="flex flex-col items-center text-center space-y-4"
           >
             <div className="text-5xl mb-2">{icon}</div>
-            <h3 className="font-semibold text-lg mb-2">{title}</h3>
-            <p className="text-muted-foreground text-sm leading-relaxed">
-              {text}
-            </p>
+            <h3 className="font-semibold text-lg mb-2 text-purple-400">
+              {title}
+            </h3>
+            <p className="text-sm leading-relaxed">{text}</p>
           </motion.div>
         ))}
       </motion.section>

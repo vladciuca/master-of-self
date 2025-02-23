@@ -2,6 +2,7 @@ import React from "react";
 import * as GiIcons from "react-icons/gi";
 import { useIconRarityLevel } from "@hooks/useIconRarityLevel";
 import { Skeleton } from "./ui/skeleton";
+import { cn } from "@lib/utils";
 
 export type IconRendererProps = {
   iconName: string | null | undefined;
