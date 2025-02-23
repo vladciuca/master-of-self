@@ -173,7 +173,7 @@ export function ActionForm({
             />
 
             {/* Action Form field for METRIC(currently hidden and set as default value - first option) */}
-            <FormField
+            {/* <FormField
               control={form.control}
               name="metric"
               render={({ field }) => (
@@ -210,7 +210,7 @@ export function ActionForm({
                   <FormMessage />
                 </FormItem>
               )}
-            />
+            /> */}
 
             <FormField
               control={form.control}
@@ -241,8 +241,9 @@ export function ActionForm({
                   <FormLabel className="flex items-center mb-6">
                     Daily{" "}
                     {form.watch("type") === "offensive" ? "Target" : "Limit"}:
-                    <span className="ml-2 text-lg flex items-center">
+                    <span className="ml-2 space-x-1 text-lg flex items-center">
                       <MetricIcon metric={form.watch("metric")} size={20} />
+                      <span></span>
                       {field.value}
                     </span>
                   </FormLabel>
@@ -268,11 +269,6 @@ export function ActionForm({
           <Button
             className="w-full mt-3 mb-4"
             type="submit"
-            // onClick={(e) => {
-            //   e.preventDefault();
-            //   e.stopPropagation();
-            //   form.handleSubmit(handleSubmit)();
-            // }}
             onClick={handleFormSubmit}
           >
             {initialData ? "Update Action" : "Add Action"}
