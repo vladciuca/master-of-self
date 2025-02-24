@@ -25,11 +25,11 @@ export function IconRenderer({
     return null;
   }
 
-  if (isXpLoading) return <Skeleton className={`${className}`} />;
+  if (isXpLoading) return <Skeleton className={cn(className)} />;
 
   return (
-    <div className={`${bgColorClass} ${className}`}>
-      <Icon className={`${iconColorClass} h-full w-full`} />
+    <div className={cn(bgColorClass, className)}>
+      <Icon className={cn(iconColorClass, "h-full w-full")} />
     </div>
   );
 }

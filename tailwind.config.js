@@ -8,47 +8,49 @@ module.exports = {
     "./src/**/*.{js,jsx,ts,tsx}",
   ],
   safelist: [
-    "bg-stone-200",
-    "text-stone-500",
-    "text-emerald-500",
-    "bg-emerald-200",
-    "bg-sky-500",
-    "text-sky-500",
-    "bg-sky-200",
-    "bg-violet-200",
-    "text-violet-500",
-    "bg-rose-500",
-    "text-rose-500",
-    "bg-lime-500",
-    "text-lime-500",
+    //JOURNAL COLORS:
+    //Habits
     "bg-teal-500",
     "text-teal-500",
-    "bg-amber-500",
-    "bg-amber-200",
-    "bg-orange-500",
+    //Day
+    "bg-yellow-500",
+    "text-yellow-500",
+    //Night
+    "bg-purple-500",
+    "text-purple-500",
+    //Sleep
+    "bg-blue-500",
+    "text-blue-500",
+
+    //LEVEL RARITY COLORS:
+    //Transcendent
+    "bg-fuchsia-200",
+    "text-pink-500",
+    //Legendary
     "bg-orange-200",
     "text-orange-500",
-    "bg-purple-500",
-    "bg-purple-300",
-    "bg-purple-200",
-    "text-purple-500",
-    "bg-blue-500",
-    "bg-blue-300",
-    "bg-blue-200",
-    "text-blue-500",
-    "bg-green-500",
+    //Epic
+    "bg-violet-200",
+    "text-violet-600",
+    //Rare
+    "bg-sky-200",
+    "text-blue-600",
+    //Uncommon
     "bg-green-200",
-    "text-green-500",
-    "text-green-400",
-    "bg-green-400",
-    "bg-green-200",
-    "bg-gray-300",
-    "bg-gray-200",
-    "text-gray-500",
-    "text-gray-300",
-    "bg-red-500",
-    "bg-red-200",
+    "text-emerald-500",
+    //Common
+    "bg-stone-200",
+    "text-stone-500",
+
+    //XP COLOR VALUES:
+    //Positive
+    "text-lime-500",
+    //Negative
+    "text-rose-500",
+
+    //ERROR MESSAGES:
     "text-red-500",
+    "border-red-500",
   ],
   prefix: "",
   theme: {
