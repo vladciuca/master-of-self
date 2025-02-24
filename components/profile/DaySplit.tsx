@@ -148,6 +148,8 @@ export function DaySplit() {
 
   const getInputClassName = (isInvalid: boolean): string => {
     return `max-w-fit mr-4 transition-all duration-200 ${
+      // red-500 used as ERROR COLOR
+      // might be moved to a constant(remember to pass to shad CN Form component for error color in this case)
       isInvalid ? "border-red-500 focus:ring-red-500" : ""
     }`;
   };
@@ -211,6 +213,7 @@ export function DaySplit() {
                 exit={{ opacity: 0, y: -10 }}
                 transition={{ duration: 0.2 }}
               >
+                {/* // red-500 used as ERROR COLOR */}
                 <p className="text-red-500 mt-2 text-sm text-center">
                   {errorMessage}.
                 </p>

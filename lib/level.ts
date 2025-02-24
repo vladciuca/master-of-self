@@ -1,3 +1,5 @@
+import colors from "../lib/colors";
+
 // XP FOR CHAR
 export function xpForLevel(level: number) {
   let baseXP = 0;
@@ -51,25 +53,43 @@ export function calculateHabitLevel(xp: number) {
 export const getHabitRarity = (
   level: number
 ): { bg: string; icon: string; label: string } => {
+  const { HABIT_TIER_COLORS } = colors;
+
   if (level >= 40)
     return {
-      bg: "bg-fuchsia-200",
-      icon: "text-fuchsia-500",
+      bg: `bg-${HABIT_TIER_COLORS.transcendent.background}`,
+      icon: `text-${HABIT_TIER_COLORS.transcendent.foreground}`,
       label: "Transcendent",
     };
   if (level >= 30)
-    return { bg: "bg-red-100", icon: "text-red-400", label: "Legendary" };
+    return {
+      bg: `bg-${HABIT_TIER_COLORS.legendary.background}`,
+      icon: `text-${HABIT_TIER_COLORS.legendary.foreground}`,
+      label: "Legendary",
+    };
   if (level >= 20)
-    return { bg: "bg-violet-200", icon: "text-violet-500", label: "Epic" };
+    return {
+      bg: `bg-${HABIT_TIER_COLORS.epic.background}`,
+      icon: `text-${HABIT_TIER_COLORS.epic.foreground}`,
+      label: "Epic",
+    };
   if (level >= 10)
-    return { bg: "bg-blue-200", icon: "text-blue-500", label: "Rare" };
+    return {
+      bg: `bg-${HABIT_TIER_COLORS.rare.background}`,
+      icon: `text-${HABIT_TIER_COLORS.rare.foreground}`,
+      label: "Rare",
+    };
   if (level >= 5)
     return {
-      bg: "bg-emerald-200",
-      icon: "text-emerald-500",
+      bg: `bg-${HABIT_TIER_COLORS.uncommon.background}`,
+      icon: `text-${HABIT_TIER_COLORS.uncommon.foreground}`,
       label: "Uncommon",
     };
-  return { bg: "bg-neutral-200", icon: "text-neutral-500", label: "Common" };
+  return {
+    bg: `bg-${HABIT_TIER_COLORS.common.background}`,
+    icon: `text-${HABIT_TIER_COLORS.common.foreground}`,
+    label: "Common",
+  };
 };
 
 export const applyWillpowerBonus = (

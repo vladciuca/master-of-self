@@ -1,3 +1,5 @@
+const colors = require("./lib/colors");
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   darkMode: ["class"],
@@ -8,49 +10,38 @@ module.exports = {
     "./src/**/*.{js,jsx,ts,tsx}",
   ],
   safelist: [
-    //JOURNAL COLORS:
-    //Habits
-    "bg-teal-500",
-    "text-teal-500",
-    //Day
-    "bg-yellow-500",
-    "text-yellow-500",
-    //Night
-    "bg-purple-500",
-    "text-purple-500",
-    //Sleep
-    "bg-blue-500",
-    "text-blue-500",
-
-    //LEVEL RARITY COLORS:
-    //Transcendent
-    "bg-fuchsia-200",
-    "text-fuchsia-500",
-    //Legendary
-    "bg-red-100",
-    "text-red-400",
-    //Epic
-    "bg-violet-200",
-    "text-violet-500",
-    //Rare
-    "bg-blue-200",
-    "text-blue-500",
-    //Uncommon
-    "bg-emerald-200",
-    "text-emerald-500",
-    //Common
-    "bg-neutral-200",
-    "text-neutral-500",
-
-    //XP COLOR VALUES:
-    //Positive
-    "text-lime-500",
-    //Negative
-    "text-rose-500",
-
-    //ERROR MESSAGES:
-    "text-red-500",
-    "border-red-500",
+    // //ERROR MESSAGES:
+    // "text-red-500",
+    // "border-red-500",
+    {
+      pattern: new RegExp(
+        `^(bg|text)-(${Object.values(colors.JOURNAL_COLORS).join("|")})$`
+      ),
+    },
+    {
+      pattern: new RegExp(
+        `^(bg|text)-(${Object.values(colors.XP_COLORS).join("|")})$`
+      ),
+    },
+    {
+      pattern: new RegExp(
+        `^(bg|text)-(${Object.values(colors.HABIT_COLORS).join("|")})$`
+      ),
+    },
+    {
+      pattern: new RegExp(`^(bg|text)-(${colors.ERROR_COLOR})$`),
+    },
+    // {
+    //   pattern:
+    //     /^bg-\[linear-gradient$$to_right,_#[A-Fa-f0-9]{6}_50%,_#[A-Fa-f0-9]{6}_50%$$\]$/,
+    // },
+    {
+      pattern: new RegExp(
+        `^(bg|text)-(${Object.values(colors.HABIT_TIER_COLORS)
+          .flatMap((tier) => [tier.background, tier.foreground])
+          .join("|")})$`
+      ),
+    },
   ],
   prefix: "",
   theme: {
