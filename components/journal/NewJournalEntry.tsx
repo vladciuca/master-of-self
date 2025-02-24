@@ -2,7 +2,7 @@ import { useRouter } from "next/navigation";
 import { Card } from "@components/ui/card";
 import { Button } from "@components/ui/button";
 import { FaBoltLightning } from "react-icons/fa6";
-import { journalColors } from "@components/ui/constants";
+import { JOURNAL_COLORS } from "@components/ui/constants";
 import { useYesterdayJournalEntry } from "@hooks/useYesterdayJournalEntry";
 import { useTodayJournalEntry } from "@hooks/useTodayJournalEntry";
 import { useCreateJournalEntry } from "@hooks/useCreateJournalEntry";
@@ -50,7 +50,7 @@ export function NewJournalEntry({ isEveningTime }: NewJournalEntryProps) {
             <div className="flex items-center">
               <div className="w-full flex items-center justify-center text-3xl">
                 {bonusWillpower > 0 ? (
-                  <span className={`text-${journalColors.night} font-bold`}>
+                  <span className={`text-${JOURNAL_COLORS.night} font-bold`}>
                     +{bonusWillpower}
                   </span>
                 ) : (

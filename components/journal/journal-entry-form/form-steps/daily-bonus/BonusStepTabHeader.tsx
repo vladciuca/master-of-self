@@ -1,6 +1,6 @@
 import { Badge } from "@/components/ui/badge";
 import { FaBoltLightning } from "react-icons/fa6";
-import { journalColors, getStepStyle } from "@components/ui/constants";
+import { JOURNAL_COLORS, getStepStyle } from "@components/ui/constants";
 import type React from "react";
 
 type BonusStepTabHeaderProps = {
@@ -30,7 +30,7 @@ export const BonusStepTabHeader = ({
       </div>
 
       <div className="flex items-center justify-center mt-1">
-        <span className={`text-${journalColors.night} font-semibold`}>
+        <span className={`text-${JOURNAL_COLORS.night} font-semibold`}>
           +{bonusWillpowerValue}
         </span>
         <FaBoltLightning className="ml-1" />

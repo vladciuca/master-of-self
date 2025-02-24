@@ -8,7 +8,7 @@ import { FaSun } from "react-icons/fa";
 import { IoMoonSharp } from "react-icons/io5";
 import { GiNightSleep } from "react-icons/gi";
 import { isEvening } from "@lib/time";
-import { journalColors } from "@components/ui/constants";
+import { JOURNAL_COLORS } from "@components/ui/constants";
 import type { UserSettings } from "@models/types";
 
 type BottomNavProps = {
@@ -110,13 +110,13 @@ export function BottomNav({ userSettings, userSettingsError }: BottomNavProps) {
         <NavButton>
           {isNightMode ? (
             <GiNightSleep
-              className={`${iconClass} text-${journalColors.sleep}`}
+              className={`${iconClass} text-${JOURNAL_COLORS.sleep}`}
             />
           ) : !isEvening(userEveningTime) ? (
-            <FaSun className={`${iconClass} text-${journalColors.day}`} />
+            <FaSun className={`${iconClass} text-${JOURNAL_COLORS.day}`} />
           ) : (
             <IoMoonSharp
-              className={`${iconClass} text-${journalColors.night}`}
+              className={`${iconClass} text-${JOURNAL_COLORS.night}`}
             />
           )}
           <div className="text-xs mt-1">{timerDisplay}</div>

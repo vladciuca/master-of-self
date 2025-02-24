@@ -12,7 +12,7 @@ import {
 import { FaBoltLightning } from "react-icons/fa6";
 import { Shell } from "lucide-react";
 import { calculateHabitsXpFromEntry } from "@/lib/level";
-import { journalColors } from "@components/ui/constants";
+import { JOURNAL_COLORS } from "@components/ui/constants";
 import { Session, JournalEntryMetadata } from "@models/types";
 
 type JournalEntryCardProps = {
@@ -121,7 +121,7 @@ JournalEntryCardProps) {
             <div className="flex items-center">
               <div className="flex items-center">
                 Willpower Bonus:
-                <span className={`ml-1 text-${journalColors.night}`}>
+                <span className={`ml-1 text-${JOURNAL_COLORS.night}`}>
                   +{bonusWillpower}
                 </span>
                 <span className="text-primary text-xs">

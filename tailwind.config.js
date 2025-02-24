@@ -25,22 +25,22 @@ module.exports = {
     //LEVEL RARITY COLORS:
     //Transcendent
     "bg-fuchsia-200",
-    "text-pink-500",
+    "text-fuchsia-500",
     //Legendary
-    "bg-orange-200",
-    "text-orange-500",
+    "bg-red-100",
+    "text-red-400",
     //Epic
     "bg-violet-200",
-    "text-violet-600",
+    "text-violet-500",
     //Rare
-    "bg-sky-200",
-    "text-blue-600",
+    "bg-blue-200",
+    "text-blue-500",
     //Uncommon
-    "bg-green-200",
+    "bg-emerald-200",
     "text-emerald-500",
     //Common
-    "bg-stone-200",
-    "text-stone-500",
+    "bg-neutral-200",
+    "text-neutral-500",
 
     //XP COLOR VALUES:
     //Positive

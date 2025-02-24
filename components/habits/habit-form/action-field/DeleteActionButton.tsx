@@ -1,5 +1,5 @@
 "use client";
-import { CircleX } from "lucide-react";
+import { CircleX, Archive } from "lucide-react";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -36,7 +36,8 @@ export function DeleteActionButton({
           variant="ghost"
           className="h-8 w-8 p-0 text-red-500 hover:text-red-500"
         >
-          <CircleX size={20} />
+          {/* <CircleX size={20} /> */}
+          <Archive size={20} />
         </Button>
       </AlertDialogTrigger>
       <AlertDialogContent

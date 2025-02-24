@@ -14,7 +14,7 @@ import { ChartContainer } from "@components/ui/chart";
 import { Skeleton } from "@components/ui/skeleton";
 import { FaBoltLightning } from "react-icons/fa6";
 import { getStartOfCurrentWeek, getEndOfCurrentWeek } from "@lib/time";
-import { journalColors } from "@components/ui/constants";
+import { JOURNAL_COLORS } from "@components/ui/constants";
 import { Session } from "@models/types";
 import { WeeklyWillpowerData } from "@models/types";
 
@@ -89,12 +89,11 @@ export function WeeklyWillpowerChart() {
   const chartConfig = {
     generatedWillpower: {
       label: "Generated Willpower",
-      // color: "hsl(var(--primary))",
-      color: "#EAB308",
+      color: JOURNAL_COLORS.dayHex,
     },
     bonusWillpower: {
       label: "Bonus Willpower",
-      color: "#A855F7",
+      color: JOURNAL_COLORS.nightHex,
     },
   };
 
@@ -139,14 +138,14 @@ export function WeeklyWillpowerChart() {
           </span>
           <span className="flex items-center text-3xl font-bold">
             {/* {!isLoading && totalWillpower.bonus > 0 && (
-              <span className={`text-${journalColors.night}`}>
+              <span className={`text-${JOURNAL_COLORS.night}`}>
                 +{totalWillpower.bonus}
               </span>
             )} */}
             {isLoading ? (
               "??"
             ) : (
-              // <span className={`text-${journalColors.day}`}>
+              // <span className={`text-${JOURNAL_COLORS.day}`}>
               //   {totalWillpower.generated}
               // </span>
               <span>{totalWillpower.generated + totalWillpower.bonus}</span>
@@ -175,13 +174,13 @@ export function WeeklyWillpowerChart() {
                 <Bar
                   dataKey="generatedWillpower"
                   stackId="a"
-                  fill="var(--color-generatedWillpower)"
+                  fill={chartConfig.generatedWillpower.color}
                   shape={<WillpowerBar type="generated" />}
                 />
                 <Bar
                   dataKey="bonusWillpower"
                   stackId="a"
-                  fill="var(--color-bonusWillpower)"
+                  fill={chartConfig.bonusWillpower.color}
                   shape={<WillpowerBar type="bonus" />}
                 />
               </BarChart>
@@ -200,11 +199,11 @@ export function WeeklyWillpowerChart() {
                       <></>
                     ) : (
                       <div className="text-center font-semibold text-xs">
-                        <span className={`text-${journalColors.night}`}>
+                        <span className={`text-${JOURNAL_COLORS.night}`}>
                           +{bonusWillpower}
                         </span>
                         <span className="font-thin">/</span>
-                        <span className={`text-${journalColors.day}`}>
+                        <span className={`text-${JOURNAL_COLORS.day}`}>
                           {generatedWillpower}
                         </span>
                       </div>

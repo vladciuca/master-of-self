@@ -54,18 +54,22 @@ export const getHabitRarity = (
   if (level >= 40)
     return {
       bg: "bg-fuchsia-200",
-      icon: "text-pink-500",
+      icon: "text-fuchsia-500",
       label: "Transcendent",
     };
   if (level >= 30)
-    return { bg: "bg-orange-200", icon: "text-orange-500", label: "Legendary" };
+    return { bg: "bg-red-100", icon: "text-red-400", label: "Legendary" };
   if (level >= 20)
-    return { bg: "bg-violet-200", icon: "text-violet-600", label: "Epic" };
+    return { bg: "bg-violet-200", icon: "text-violet-500", label: "Epic" };
   if (level >= 10)
-    return { bg: "bg-sky-200", icon: "text-blue-600", label: "Rare" };
+    return { bg: "bg-blue-200", icon: "text-blue-500", label: "Rare" };
   if (level >= 5)
-    return { bg: "bg-green-200", icon: "text-emerald-500", label: "Uncommon" };
-  return { bg: "bg-stone-200", icon: "text-stone-500", label: "Common" };
+    return {
+      bg: "bg-emerald-200",
+      icon: "text-emerald-500",
+      label: "Uncommon",
+    };
+  return { bg: "bg-neutral-200", icon: "text-neutral-500", label: "Common" };
 };
 
 export const applyWillpowerBonus = (

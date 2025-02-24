@@ -18,7 +18,7 @@ import {
   ActionIcon,
   MetricIcon,
 } from "@components/habits/habit-actions/HabitActionIcons";
-import { Plus, Edit2 } from "lucide-react";
+import { Plus, Edit2, FilePenLine } from "lucide-react";
 import { useSideContentPosition } from "@hooks/useSideContentPosition";
 
 import { ActionForm } from "./ActionForm";
@@ -143,7 +143,8 @@ export function ActionsField({ control, type }: ActionsFieldProps) {
                       aria-label={`Edit action ${action.action}`}
                       className="h-8 w-8 p-0 text-blue-500 hover:text-blue-500"
                     >
-                      <Edit2 size={20} />
+                      {/* <Edit2 size={20} /> */}
+                      <FilePenLine size={20} />
                     </Button>
                   </div>
                 </div>

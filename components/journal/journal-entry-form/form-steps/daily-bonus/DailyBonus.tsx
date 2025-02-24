@@ -7,7 +7,7 @@ import { FaBoltLightning } from "react-icons/fa6";
 import { useYesterdayJournalEntry } from "@hooks/useYesterdayJournalEntry";
 import { stepIconMap } from "@components/ui/constants";
 import { BonusStepTabHeader } from "./BonusStepTabHeader";
-import { journalColors } from "@components/ui/constants";
+import { JOURNAL_COLORS } from "@components/ui/constants";
 
 type DailyBonusProps = {
   bonusWillpower: number;
@@ -77,7 +77,7 @@ export function DailyBonus({ bonusWillpower }: DailyBonusProps) {
       title={"Willpower Bonus"}
       scoreSection={
         <>
-          <span className={`text-${journalColors.night}`}>
+          <span className={`text-${JOURNAL_COLORS.night}`}>
             +{bonusWillpower}
           </span>
           <FaBoltLightning className="ml-2 text-3xl" />

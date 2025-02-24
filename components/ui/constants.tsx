@@ -7,7 +7,7 @@ import {
   GiEnlightenment,
 } from "react-icons/gi";
 
-export const journalColors = {
+export const JOURNAL_COLORS = {
   day: "yellow-500",
   dayHex: "#EAB308",
   night: "purple-500",
@@ -65,6 +65,37 @@ export const stepStyles: { [key: string]: StepStyle } = {
     textColor: "text-yellow-500",
   },
 };
+
+// export const stepStyles: { [key: string]: StepStyle } = {
+//   day: {
+//     bgColor: `bg-${JOURNAL_COLORS.day}`,
+//     textColor: `text-${JOURNAL_COLORS.day}`,
+//   },
+//   night: {
+//     bgColor: `bg-[linear-gradient(to_right,_${JOURNAL_COLORS.dayHex}_50%,_${JOURNAL_COLORS.nightHex}_50%)]`,
+//     textColor: `text-${JOURNAL_COLORS.night}`,
+//   },
+//   gratitude: {
+//     bgColor: `bg-${JOURNAL_COLORS.day}`,
+//     textColor: `text-${JOURNAL_COLORS.day}`,
+//   },
+//   reflection: {
+//     bgColor: `bg-${JOURNAL_COLORS.night}`,
+//     textColor: `text-${JOURNAL_COLORS.night}`,
+//   },
+//   highlights: {
+//     bgColor: `bg-${JOURNAL_COLORS.night}`,
+//     textColor: `text-${JOURNAL_COLORS.night}`,
+//   },
+//   actions: {
+//     bgColor: `bg-${JOURNAL_COLORS.sleep}`,
+//     textColor: `text-${JOURNAL_COLORS.negative}`,
+//   },
+//   default: {
+//     bgColor: `bg-${JOURNAL_COLORS.day}`,
+//     textColor: `text-${JOURNAL_COLORS.day}`,
+//   },
+// };
 
 export const getStepStyle = (stepType: string): StepStyle => {
   return stepStyles[stepType] || stepStyles.default;
