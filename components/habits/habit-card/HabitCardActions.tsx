@@ -54,8 +54,8 @@ export function HabitCardActions({
 
         return (
           <div key={action.id} className="mt-6">
-            <div className="mb-1 flex items-start max-w-full">
-              <span className="flex flex-shrink-0 items-center mt-[1.2px]">
+            <div className="mb-1 flex items-center max-w-full">
+              <span className="flex flex-shrink-0 items-center">
                 <ActionIcon
                   type={action.type}
                   size={16}

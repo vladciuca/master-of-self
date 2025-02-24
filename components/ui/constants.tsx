@@ -2,11 +2,19 @@ import type React from "react";
 import { FaSun, FaMoon, FaStar } from "react-icons/fa6";
 import {
   GiPrayer,
-  GiPlayerTime,
   GiBackup,
   GiPencilRuler,
   GiEnlightenment,
 } from "react-icons/gi";
+
+export const journalColors = {
+  day: "yellow-500",
+  dayHex: "#EAB308",
+  night: "purple-500",
+  nightHex: "#A855F7",
+  sleep: "blue-500",
+  negative: "pink-500",
+};
 
 export type StepIconMap = {
   [key: string]: React.ReactNode;
@@ -60,11 +68,4 @@ export const stepStyles: { [key: string]: StepStyle } = {
 
 export const getStepStyle = (stepType: string): StepStyle => {
   return stepStyles[stepType] || stepStyles.default;
-};
-
-export const journalColors = {
-  day: "yellow-500",
-  night: "purple-500",
-  sleep: "blue-500",
-  negative: "pink-500",
 };
