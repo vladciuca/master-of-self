@@ -97,7 +97,6 @@ export function CircularProgress({
               stroke={XP_HEX_COLORS.positiveHex}
               strokeWidth={strokeWidth}
               fill="none"
-              // className="stroke-lime-500"
               style={{
                 strokeDasharray: circumference,
                 strokeDashoffset: gainOffset,
