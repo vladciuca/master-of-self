@@ -1,3 +1,5 @@
+import { HABIT_COLORS } from "@lib/colors";
+
 // JOURNAL
 export function calculateWillpowerScore(stringArray: string[]): number {
   const totalEntries = stringArray.length;
@@ -41,11 +43,13 @@ export function isActionOverCapped({
 
 export function getActionValueColor(params: HabitActionValueParams): string {
   if (isActionOverCapped(params)) {
-    return params.isDefensiveAction ? "text-rose-500" : "text-orange-500";
+    return params.isDefensiveAction
+      ? `text-${HABIT_COLORS.failed}`
+      : `text-${HABIT_COLORS.burnedOut}`;
   }
 
   if (isDailyTargetCompleted(params)) {
-    return "text-lime-500";
+    return `text-${HABIT_COLORS.completed}`;
   }
 
   return "text-primary";

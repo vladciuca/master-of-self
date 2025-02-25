@@ -7,7 +7,7 @@ import { FaBoltLightning } from "react-icons/fa6";
 import { useYesterdayJournalEntry } from "@hooks/useYesterdayJournalEntry";
 import { stepIconMap } from "@components/ui/constants";
 import { BonusStepTabHeader } from "./BonusStepTabHeader";
-import { JOURNAL_COLORS } from "@components/ui/constants";
+import { JOURNAL_COLORS } from "@lib/colors";
 
 type DailyBonusProps = {
   bonusWillpower: number;

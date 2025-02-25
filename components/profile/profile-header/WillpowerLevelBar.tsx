@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { useCurrentWillpower } from "@hooks/useCurrentWillpower";
 import { useTodayJournalEntry } from "@hooks/useTodayJournalEntry";
 import { calculateLevel, xpForLevel } from "@lib/level";
-import { JOURNAL_COLORS } from "@components/ui/constants";
+import { JOURNAL_COLORS } from "@lib/colors";
 
 export function WillpowerLevelBar() {
   const { currentWillpower, currentWillpowerLoading } = useCurrentWillpower();

@@ -2,7 +2,7 @@ import { useRouter } from "next/navigation";
 import { Card } from "@components/ui/card";
 import { Button } from "@components/ui/button";
 import { FaBoltLightning } from "react-icons/fa6";
-import { JOURNAL_COLORS } from "@components/ui/constants";
+import { JOURNAL_COLORS } from "@lib/colors";
 import { useYesterdayJournalEntry } from "@hooks/useYesterdayJournalEntry";
 import { useTodayJournalEntry } from "@hooks/useTodayJournalEntry";
 import { useCreateJournalEntry } from "@hooks/useCreateJournalEntry";

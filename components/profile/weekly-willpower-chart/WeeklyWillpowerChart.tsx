@@ -14,7 +14,7 @@ import { ChartContainer } from "@components/ui/chart";
 import { Skeleton } from "@components/ui/skeleton";
 import { FaBoltLightning } from "react-icons/fa6";
 import { getStartOfCurrentWeek, getEndOfCurrentWeek } from "@lib/time";
-import { JOURNAL_COLORS } from "@components/ui/constants";
+import { JOURNAL_COLORS } from "@lib/colors";
 import { Session } from "@models/types";
 import { WeeklyWillpowerData } from "@models/types";
 

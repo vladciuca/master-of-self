@@ -1,4 +1,4 @@
-import colors from "../lib/colors";
+import { HABIT_TIER_COLORS } from "@lib/colors";
 
 // XP FOR CHAR
 export function xpForLevel(level: number) {
@@ -53,8 +53,6 @@ export function calculateHabitLevel(xp: number) {
 export const getHabitRarity = (
   level: number
 ): { bg: string; icon: string; label: string } => {
-  const { HABIT_TIER_COLORS } = colors;
-
   if (level >= 40)
     return {
       bg: `bg-${HABIT_TIER_COLORS.transcendent.background}`,

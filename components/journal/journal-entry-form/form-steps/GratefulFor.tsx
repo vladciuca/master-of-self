@@ -2,7 +2,7 @@ import React, { useCallback } from "react";
 import { FormStepTemplate } from "@components/journal/journal-entry-form/form-steps/FormStepTemplate";
 import { TextAreaList } from "@components/ui/textarea-list";
 import { FaBoltLightning } from "react-icons/fa6";
-import { JOURNAL_COLORS } from "@components/ui/constants";
+import { JOURNAL_COLORS } from "@lib/colors";
 
 type GratefulForProps = {
   dailyWillpower: number;

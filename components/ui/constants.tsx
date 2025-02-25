@@ -8,35 +8,16 @@ import {
   GiPencilRuler,
   GiEnlightenment,
 } from "react-icons/gi";
-import colors from "../../lib/colors";
+// import colors from "../../lib/colors";
+import { JOURNAL_COLORS, HABIT_COLORS } from "@lib/colors";
 
-// export const JOURNAL_COLORS = {
-//   day: "yellow-500",
-//   dayHex: "#EAB308",
-//   night: "purple-500",
-//   nightHex: "#A855F7",
-//   sleep: "blue-500",
-// };
+//APP COLORS
+// export const JOURNAL_COLORS = colors.JOURNAL_COLORS;
+// export const XP_COLORS = colors.XP_COLORS;
+// export const HABIT_COLORS = colors.HABIT_COLORS;
+// export const ERROR_COLOR = colors.ERROR_COLOR;
 
-// export const XP_COLORS = {
-//   positive: "lime-500",
-//   negative: "rose-500",
-// };
-
-// export const HABIT_COLORS = {
-//   main: "teal-500",
-//   completed: XP_COLORS.positive,
-//   failed: XP_COLORS.negative,
-//   burnedOut: "orange-500",
-// };
-
-// export const ERROR_COLOR = "red-500";
-
-export const JOURNAL_COLORS = colors.JOURNAL_COLORS;
-export const XP_COLORS = colors.XP_COLORS;
-export const HABIT_COLORS = colors.HABIT_COLORS;
-export const ERROR_COLOR = colors.ERROR_COLOR;
-
+//JOURNAL STEP ICONS
 export type StepIconMap = {
   [key: string]: React.ReactNode;
 };
@@ -52,6 +33,7 @@ export const stepIconMap: StepIconMap = {
   default: <GiEnlightenment size={"1.7rem"} />,
 };
 
+//JOURNAL STEPS STYLE
 export type StepStyle = {
   bgColor: string;
 };
@@ -129,3 +111,5 @@ export const stepStyles: { [key: string]: StepStyle } = {
 export const getStepStyle = (stepType: string): StepStyle => {
   return stepStyles[stepType] || stepStyles.default;
 };
+
+//HABIT ICONS

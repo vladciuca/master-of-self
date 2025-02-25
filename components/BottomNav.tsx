@@ -8,7 +8,7 @@ import { FaSun } from "react-icons/fa";
 import { IoMoonSharp } from "react-icons/io5";
 import { GiNightSleep } from "react-icons/gi";
 import { isEvening } from "@lib/time";
-import { JOURNAL_COLORS } from "@components/ui/constants";
+import { JOURNAL_COLORS } from "@lib/colors";
 import type { UserSettings } from "@models/types";
 
 type BottomNavProps = {

@@ -19,6 +19,7 @@ module.exports = {
       ),
     },
     {
+      //don't forget stroke- here!(in progress bar)
       pattern: new RegExp(
         `^(bg|text)-(${Object.values(colors.XP_COLORS).join("|")})$`
       ),

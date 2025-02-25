@@ -6,6 +6,7 @@ import {
   CircleDashed,
   CircleMinus,
 } from "lucide-react";
+import { HABIT_COLORS } from "@lib/colors";
 
 type ActionIconProps = {
   type: "offensive" | "defensive";
@@ -23,11 +24,11 @@ export function ActionIcon({
   const iconSize = size || 22;
   const iconColor = overCapped
     ? type === "defensive"
-      ? "text-rose-500"
-      : "text-orange-500"
+      ? `text-${HABIT_COLORS.failed}`
+      : `text-${HABIT_COLORS.burnedOut}`
     : dailyTargetCompleted
-    ? "text-lime-500"
-    : "text-teal-500";
+    ? `text-${HABIT_COLORS.completed}`
+    : `text-${HABIT_COLORS.main}`;
 
   return (
     <>

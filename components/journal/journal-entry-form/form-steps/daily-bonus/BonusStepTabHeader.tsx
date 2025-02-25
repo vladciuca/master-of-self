@@ -1,6 +1,7 @@
 import { Badge } from "@/components/ui/badge";
 import { FaBoltLightning } from "react-icons/fa6";
-import { JOURNAL_COLORS, getStepStyle } from "@components/ui/constants";
+import { getStepStyle } from "@components/ui/constants";
+import { JOURNAL_COLORS } from "@lib/colors";
 import type React from "react";
 
 type BonusStepTabHeaderProps = {
