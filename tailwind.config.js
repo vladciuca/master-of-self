@@ -10,9 +10,6 @@ module.exports = {
     "./src/**/*.{js,jsx,ts,tsx}",
   ],
   safelist: [
-    // //ERROR MESSAGES:
-    // "text-red-500",
-    // "border-red-500",
     {
       pattern: new RegExp(
         `^(bg|text)-(${Object.values(colors.JOURNAL_COLORS).join("|")})$`
@@ -30,7 +27,8 @@ module.exports = {
       ),
     },
     {
-      pattern: new RegExp(`^(bg|text)-(${colors.ERROR_COLOR})$`),
+      pattern: new RegExp(`^(bg|text|border)-(${colors.ERROR_COLOR})$`),
+      variants: ["hover"],
     },
     // {
     //   pattern:

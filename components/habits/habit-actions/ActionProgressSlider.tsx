@@ -1,5 +1,5 @@
 import React, { useMemo } from "react";
-import { HABIT_COLORS } from "@lib/colors";
+import { HABIT_HEX_COLORS } from "@lib/colors";
 
 interface ActionProgressSliderProps {
   value: number;
@@ -16,11 +16,11 @@ export function ActionProgressSlider({
 }: ActionProgressSliderProps) {
   // Define colors based on the action type
   const startColor = isDefensiveAction
-    ? HABIT_COLORS.failedHex
-    : HABIT_COLORS.mainHex;
+    ? HABIT_HEX_COLORS.failedHex
+    : HABIT_HEX_COLORS.mainHex;
   const endColor = isDefensiveAction
-    ? HABIT_COLORS.mainHex
-    : HABIT_COLORS.completedHex;
+    ? HABIT_HEX_COLORS.mainHex
+    : HABIT_HEX_COLORS.completedHex;
 
   // Generate colors once when the component mounts or when dependencies change
   const sliderColors = useMemo(() => {

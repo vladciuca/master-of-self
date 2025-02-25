@@ -7,6 +7,7 @@ import { Label } from "@components/ui/label";
 import { Input } from "@components/ui/input";
 import { FaSun, FaMoon } from "react-icons/fa6";
 import { useUserSettings } from "@context/UserSettingsContext";
+import { ERROR_COLOR } from "@lib/colors";
 
 interface InvalidFields {
   morning: boolean;
@@ -148,9 +149,7 @@ export function DaySplit() {
 
   const getInputClassName = (isInvalid: boolean): string => {
     return `max-w-fit mr-4 transition-all duration-200 ${
-      // red-500 used as ERROR COLOR
-      // might be moved to a constant(remember to pass to shad CN Form component for error color in this case)
-      isInvalid ? "border-red-500 focus:ring-red-500" : ""
+      isInvalid ? `border-${ERROR_COLOR}` : ""
     }`;
   };
 
@@ -214,7 +213,7 @@ export function DaySplit() {
                 transition={{ duration: 0.2 }}
               >
                 {/* // red-500 used as ERROR COLOR */}
-                <p className="text-red-500 mt-2 text-sm text-center">
+                <p className={`text-${ERROR_COLOR} mt-2 text-sm text-center`}>
                   {errorMessage}.
                 </p>
               </motion.div>

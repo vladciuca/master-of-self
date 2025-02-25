@@ -95,7 +95,7 @@ export function WillpowerLevelBar() {
           {/* CHANGE: Move negative projected XP bar here */}
           {projectedXP < 0 && (
             <motion.div
-              className="h-full bg-red-500 absolute top-0"
+              className="h-full bg-pink-500 absolute top-0"
               initial={{ width: 0 }}
               animate={{ width: `${negativeProjectedPercentage}%` }}
               transition={{ duration: 0.5, ease: "easeInOut" }}
@@ -166,7 +166,7 @@ export function WillpowerLevelBar() {
               <span
                 className={
                   projectedXP < 0
-                    ? "text-red-500"
+                    ? "text-pink-500"
                     : `text-${JOURNAL_COLORS.night}`
                 }
               >

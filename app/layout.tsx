@@ -29,7 +29,6 @@ export default async function RootLayout({ children }: Layout) {
   //   session = null; // Fallback in case of error
   // }
 
-  // bg-gradient-to-br from-purple-600 via-pink-500 to-red-500
   // bg-gradient-to-br from-[#a6d9ff] via-[#bcb4ff] to-pink-500
   // bg-gradient-to-r from-[#bcb4ff] to-[#a6d9ff] via-[#a6d9ff] via-48%
 

@@ -15,6 +15,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import { ERROR_COLOR } from "@lib/colors";
 
 export function SignInForm() {
   const [email, setEmail] = useState("");
@@ -77,7 +78,7 @@ export function SignInForm() {
               />
             </div>
           </div>
-          {error && <p className="text-red-500 mt-2">{error}</p>}
+          {error && <p className={`text-${ERROR_COLOR} mt-2`}>{error}</p>}
           <Button
             variant="outline"
             className="w-full mt-4 hover:bg-primary hover:text-primary-foreground"

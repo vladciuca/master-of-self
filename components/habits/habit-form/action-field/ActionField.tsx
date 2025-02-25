@@ -18,11 +18,13 @@ import {
   ActionIcon,
   MetricIcon,
 } from "@components/habits/habit-actions/HabitActionIcons";
-import { Plus, Edit2, FilePenLine } from "lucide-react";
+import { Plus, FilePenLine } from "lucide-react";
 import { useSideContentPosition } from "@hooks/useSideContentPosition";
 
 import { ActionForm } from "./ActionForm";
 import { DeleteActionButton } from "./DeleteActionButton";
+
+import { HABIT_COLORS } from "@lib/colors";
 
 type ActionsFieldProps = {
   control: Control<HabitZodType>;
@@ -141,7 +143,7 @@ export function ActionsField({ control, type }: ActionsFieldProps) {
                       variant="ghost"
                       onClick={() => editAction(action.id)}
                       aria-label={`Edit action ${action.action}`}
-                      className="h-8 w-8 p-0 text-blue-500 hover:text-blue-500"
+                      className={`h-8 w-8 p-0 text-${HABIT_COLORS.main} hover:text-${HABIT_COLORS.main}`}
                     >
                       {/* <Edit2 size={20} /> */}
                       <FilePenLine size={20} />

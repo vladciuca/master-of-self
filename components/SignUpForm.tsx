@@ -14,6 +14,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { ERROR_COLOR } from "@lib/colors";
 
 export function SignUpForm() {
   const [email, setEmail] = useState("");
@@ -104,7 +105,7 @@ export function SignUpForm() {
               />
             </div>
           </div>
-          {error && <p className="text-red-500 mt-2">{error}</p>}
+          {error && <p className={`text-${ERROR_COLOR} mt-2`}>{error}</p>}
           <Button className="w-full mt-4" type="submit">
             Sign Up
           </Button>
