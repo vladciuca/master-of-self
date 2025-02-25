@@ -8,8 +8,6 @@ import { HowGreatWasToday } from "@components/journal/journal-entry-form/form-st
 import { GratefulFor } from "@components/journal/journal-entry-form/form-steps/GratefulFor";
 import { DailyHighlights } from "@components/journal/journal-entry-form/form-steps/DailyHighlights";
 import { LearnedToday } from "@components/journal/journal-entry-form/form-steps/LearnedToday";
-// obsolete step - might use functionality for another use case
-// import { HabitsStep } from "@components/journal/journal-entry-form/form-steps/HabitsStep";
 import { HabitActionsStep } from "@components/journal/journal-entry-form/form-steps/HabitActionsStep";
 import { FormStepProgress } from "./FormStepProgress";
 import { FormStepNavigation } from "./FormStepNavigation";
@@ -53,9 +51,8 @@ export function FormStepController({
       howGreatToday: journalEntryData?.nightEntry?.howGreatToday || [],
       dailyHighlights: journalEntryData?.nightEntry?.dailyHighlights || [],
       learnedToday: journalEntryData?.nightEntry?.learnedToday || [],
-      // habits: journalEntryData?.nightEntry?.habits || {},
-      actions: journalEntryData?.nightEntry?.actions || {},
     },
+    habits: journalEntryData?.habits || {},
   }));
   const [isInitialized, setIsInitialized] = useState(false);
 
@@ -102,13 +99,8 @@ export function FormStepController({
         | "howGreatToday"
         | "dailyHighlights"
         | "learnedToday"
-        // HABITS IS DEAD KEY -moved them into actions
-        // | "habits"
-        | "actions",
-      value:
-        | string[]
-        | { [key: string]: number }
-        | { [key: string]: { [key: string]: number } }
+        | "habits",
+      value: string[] | { [key: string]: { [key: string]: number } }
     ) => {
       setFormData((prev) => {
         const newData = { ...prev };
@@ -120,13 +112,16 @@ export function FormStepController({
         } else if (
           field === "howGreatToday" ||
           field === "dailyHighlights" ||
-          field === "learnedToday" ||
-          // field === "habits" ||
-          field === "actions"
+          field === "learnedToday"
         ) {
           newData.nightEntry = {
             ...prev.nightEntry,
-            [field]: value,
+            [field]: value as string[],
+          };
+        } else if (field === "habits") {
+          newData.habits = {
+            ...prev.habits,
+            ...(value as { [key: string]: { [key: string]: number } }),
           };
         }
         return newData;
@@ -139,7 +134,6 @@ export function FormStepController({
     () => [
       {
         type: "reward",
-        // component: <DailyBonus bonusWillpower={formData.bonusWillpower} />,
         component: <DailyBonus bonusWillpower={formData.bonusWillpower} />,
         isAvailable:
           SHOW_ALL_TEST ||
@@ -205,23 +199,12 @@ export function FormStepController({
         isAvailable:
           SHOW_ALL_TEST || (isEvening(userEveningTime) && hasReflection),
       },
-      // {
-      //   type: "habits",
-      //   component: (
-      //     <HabitsStep
-      //       dailyWillpower={formData.dailyWillpower}
-      //       onChange={(value) => handleChange("habits", value)}
-      //       habitXpChanges={formData.nightEntry?.habits || {}}
-      //     />
-      //   ),
-      //   isAvailable: SHOW_ALL_TEST || (isEvening(userEveningTime) && hasHabits),
-      // },
       {
-        type: "actions",
+        type: "habits",
         component: (
           <HabitActionsStep
-            onChange={(value) => handleChange("actions", value)}
-            actionChanges={formData.nightEntry?.actions || {}}
+            onChange={(value) => handleChange("habits", value)}
+            actionChanges={formData.habits || {}}
             dailyWillpower={formData.dailyWillpower}
           />
         ),
@@ -334,13 +317,8 @@ export function FormStepController({
     return safeArr2.filter((element) => set1.has(element)).length;
   }
 
-  //TEMP - will add Full page Loading screen
-  // if (!isInitialized) {
-  //   return <div>Loading...</div>;
-  // }
-
   const habitXpValues = calculateHabitsXpFromEntry(
-    formData.nightEntry?.actions || {},
+    formData.habits || {},
     formData.dailyWillpower
   );
 

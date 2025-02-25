@@ -1,5 +1,5 @@
 import { ObjectId } from "mongodb";
-import { UserSettings, Actions } from "./types";
+import { UserSettings, Habits } from "./types";
 
 // USER ===============================================================================
 
@@ -23,14 +23,8 @@ export type JournalEntry = {
   dailyWillpower: Number;
   bonusWillpower: Number;
   dayEntry: Object;
-  // nightEntry: Object;
-  nightEntry: {
-    // howGreatToday?: string[];
-    // dailyHighlights?: string[];
-    // learnedToday?: string[];
-    // habits?: { [key: string]: number };
-    actions?: Actions;
-  };
+  nightEntry: Object;
+  habits: Habits;
 };
 
 export type NewJournalEntry = Omit<JournalEntry, "_id">; // Lets mongo db assign the _id

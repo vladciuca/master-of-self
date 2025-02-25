@@ -28,14 +28,15 @@ export async function PATCH(
   req: NextRequest,
   { params }: { params: { id: string } }
 ) {
-  const { dailyWillpower, dayEntry, nightEntry } = await req.json();
+  const { dailyWillpower, dayEntry, nightEntry, habits } = await req.json();
 
   try {
     const { journalEntry, error } = await updateJournalEntry(
       params.id,
       dailyWillpower,
       dayEntry,
-      nightEntry
+      nightEntry,
+      habits
     );
 
     if (error) {

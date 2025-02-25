@@ -11,12 +11,6 @@ import {
 // import colors from "../../lib/colors";
 import { JOURNAL_COLORS, HABIT_COLORS } from "@lib/colors";
 
-//APP COLORS
-// export const JOURNAL_COLORS = colors.JOURNAL_COLORS;
-// export const XP_COLORS = colors.XP_COLORS;
-// export const HABIT_COLORS = colors.HABIT_COLORS;
-// export const ERROR_COLOR = colors.ERROR_COLOR;
-
 //JOURNAL STEP ICONS
 export type StepIconMap = {
   [key: string]: React.ReactNode;
@@ -29,7 +23,7 @@ export const stepIconMap: StepIconMap = {
   highlights: <FaStar size={"1.4rem"} />,
   gratitude: <GiPrayer size={"1.4rem"} />,
   reflection: <GiBackup size={"1.4rem"} />,
-  actions: <GiPencilRuler size={"1.4rem"} />,
+  habits: <GiPencilRuler size={"1.4rem"} />,
   default: <GiEnlightenment size={"1.7rem"} />,
 };
 
@@ -103,7 +97,7 @@ export const stepStyles: { [key: string]: StepStyle } = {
   },
   // CONDITIONAL STEP: active if habits exist
   // RENAME: Habits - in HABIT-REFACTOR
-  actions: {
+  habits: {
     bgColor: `bg-${HABIT_COLORS.main}`,
   },
 };

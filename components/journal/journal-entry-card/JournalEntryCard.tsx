@@ -37,6 +37,7 @@ JournalEntryCardProps) {
     bonusWillpower,
     dayEntry,
     nightEntry,
+    habits,
   } = journalEntry;
 
   const entryDate = new Date(createDate);
@@ -48,8 +49,9 @@ JournalEntryCardProps) {
     .toLocaleString("default", { weekday: "short" })
     .toUpperCase();
 
-  const habitsXpFromActions = nightEntry?.actions
-    ? calculateHabitsXpFromEntry(nightEntry.actions, dailyWillpower)
+  //maybe check if it should not be empty WTF is this here
+  const habitsXpFromActions = habits
+    ? calculateHabitsXpFromEntry(habits, dailyWillpower)
     : {};
 
   const completedDailyToDos = () => {
@@ -132,46 +134,24 @@ JournalEntryCardProps) {
           </div>
         )}
 
-        {/*Habits*/}
-        {/*a BUG here resulting in this being displayed after the habit has been deleted*/}
-        {/* Should remove after the fix not to post 0 values for habits in id: xp */}
-        {/* {nightEntry?.habits && Object.keys(nightEntry.habits).length > 0 && (
-          <div className="mt-4 flex w-full">
-            <div className="flex-shrink-0 flex items-start mr-4">
-              <h2 className="flex items-center text-muted-foreground mt-1">
-                <Shell className="mr-2 text-muted-foreground" size={"1rem"} />
-                Habits:
-              </h2>
-            </div>
-
-            <div className="flex-grow flex flex-wrap items-start">
-              <JournalEntryHabits habits={nightEntry?.habits} />
-            </div>
-          </div>
-        )} */}
-
         {/* Habit Actions */}
         <div className="flex-grow flex flex-col items-start">
-          {nightEntry?.actions &&
-            Object.keys(nightEntry.actions).length > 0 && (
-              <div className="mt-2 flex w-full">
-                <div className="flex-shrink-0 flex items-start mr-4">
-                  <h2 className="flex items-center text-muted-foreground mt-1">
-                    <Shell
-                      className="mr-2 text-muted-foreground"
-                      size={"1rem"}
-                    />
-                    Habits:
-                  </h2>
-                </div>
-                <div className="flex-grow flex flex-wrap items-start">
-                  <JournalEntryHabits
-                    habitsXp={habitsXpFromActions}
-                    actions={nightEntry.actions}
-                  />
-                </div>
+          {habits && Object.keys(habits).length > 0 && (
+            <div className="mt-2 flex w-full">
+              <div className="flex-shrink-0 flex items-start mr-4">
+                <h2 className="flex items-center text-muted-foreground mt-1">
+                  <Shell className="mr-2 text-muted-foreground" size={"1rem"} />
+                  Habits:
+                </h2>
               </div>
-            )}
+              <div className="flex-grow flex flex-wrap items-start">
+                <JournalEntryHabits
+                  habitsXp={habitsXpFromActions}
+                  habits={habits}
+                />
+              </div>
+            </div>
+          )}
         </div>
 
         {isToday && (

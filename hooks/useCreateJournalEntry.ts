@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useSession } from "next-auth/react";
 import { getToday, getTomorrow } from "@lib/time";
-import { Session, Habit, Actions } from "@models/types";
+import { Session, Habits } from "@models/types";
 import { useYesterdayJournalEntry } from "./useYesterdayJournalEntry";
 import { useLastJournalEntry } from "./useLastJournalEntry";
 import { useUpdateHabits } from "./useUpdateHabits";
@@ -43,11 +43,11 @@ export function useCreateJournalEntry() {
       if (yesterdayEntry) bonusWillPowerFormYesterday = bonusWillpower;
 
       // Generate default habit action values and include current habit XP
-      let defaultJournalEntryActionValues: Actions = {};
+      let defaultJournalEntryActionValues: Habits = {};
       if (!isLoading && habits && habits.length > 0) {
         defaultJournalEntryActionValues = getHabitActionDefaultValues(habits, {
           includeCurrentXp: true,
-        }) as Actions;
+        }) as Habits;
       }
 
       if (Object.keys(defaultJournalEntryActionValues).length === 0) {
@@ -67,9 +67,7 @@ export function useCreateJournalEntry() {
             userId: session.user.id,
             dailyWillpower: bonusWillPowerFormYesterday,
             bonusWillpower: bonusWillPowerFormYesterday,
-            nightEntry: {
-              actions: defaultJournalEntryActionValues,
-            },
+            habits: defaultJournalEntryActionValues,
           }),
         }
       );
@@ -88,13 +86,13 @@ export function useCreateJournalEntry() {
       // Update habits if there are actions and XP from the last entry
       const todayDate = getToday().toISOString().split("T")[0];
       if (
-        lastEntry?.nightEntry?.actions &&
-        Object.keys(lastEntry.nightEntry.actions).length > 0 &&
+        lastEntry?.habits &&
+        Object.keys(lastEntry.habits).length > 0 &&
         Object.keys(habitsXp).length > 0
       ) {
         await updateHabits({
           habitsXpUpdates: habitsXp,
-          habitActionsUpdates: lastEntry.nightEntry.actions,
+          habitActionsUpdates: lastEntry.habits,
           updateDate: todayDate,
         });
       }

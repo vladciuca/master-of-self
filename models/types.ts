@@ -22,10 +22,6 @@ export type UserSettings = {
     morning: string;
     evening: string;
   };
-  // TODO - for V2
-  // userXp: number;
-  // habitSlots: number;
-  // goalSlots: number;
 };
 export type UserMetadata = User & UserSettings;
 
@@ -37,7 +33,7 @@ export type ActionItem = {
   [key: string]: number;
 };
 
-export type Actions = {
+export type Habits = {
   [key: string]: ActionItem & { currentXp?: number };
 };
 
@@ -52,10 +48,8 @@ export type JournalEntry = {
     howGreatToday?: string[];
     dailyHighlights?: string[];
     learnedToday?: string[];
-    //obsolete key habits - moved into actions key
-    habits?: { [key: string]: number };
-    actions?: Actions;
   };
+  habits: Habits;
 };
 
 export type JournalEntryMetadata = JournalEntry & {

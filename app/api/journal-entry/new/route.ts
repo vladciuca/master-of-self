@@ -1,10 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createJournalEntry } from "@lib/mongo/journal-entries";
-import { Actions } from "@models/types";
+import { Habits } from "@models/types";
 
 export async function POST(req: NextRequest) {
-  const { userId, dailyWillpower, bonusWillpower, nightEntry } =
-    await req.json();
+  const { userId, dailyWillpower, bonusWillpower, habits } = await req.json();
 
   const userToday = req.nextUrl.searchParams.get("today");
   const userTomorrow = req.nextUrl.searchParams.get("tomorrow");
@@ -17,7 +16,7 @@ export async function POST(req: NextRequest) {
   }
 
   try {
-    const defaultActions = nightEntry?.actions as Actions;
+    const defaultActions = habits as Habits;
 
     const { newJournalEntry, error } = await createJournalEntry(
       userId,

@@ -65,9 +65,7 @@ export function UserHabits() {
     if (todayEntryLoading || lastEntryLoading) {
       return null;
     }
-    return (
-      todayEntry?.nightEntry?.actions || lastEntry?.nightEntry?.actions || null
-    );
+    return todayEntry?.habits || lastEntry?.habits || null;
   }, [todayEntry, lastEntry, todayEntryLoading, lastEntryLoading]);
 
   const lastEntryWillpower = useMemo(() => {

@@ -45,7 +45,7 @@ export function FormStepProgress({
         return gratefulForCount;
       case "highlights":
         return dailyHighlightsCount;
-      case "actions":
+      case "habits":
         return habitActionsCount;
       case "reflection":
         return learnedTodayCount;

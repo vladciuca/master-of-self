@@ -21,7 +21,7 @@ export default function UpdateHabit() {
     if (todayEntryLoading) return 0;
 
     const dailyWillpower = todayEntry?.dailyWillpower || 0;
-    const habitActionsValue = todayEntry?.nightEntry?.actions || {};
+    const habitActionsValue = todayEntry?.habits || {};
 
     const xpSums = calculateHabitsXpFromEntry(
       habitActionsValue,

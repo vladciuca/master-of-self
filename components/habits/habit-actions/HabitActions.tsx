@@ -116,8 +116,6 @@ export function HabitActions({
 
     if (open) {
       scrollToHabit();
-      // const delay = habitIdParam ? 400 : 0;
-      // setTimeout(() => setIsDrawerOpen(true), delay);
       setIsDrawerOpen(true);
     } else {
       setIsDrawerOpen(false);
