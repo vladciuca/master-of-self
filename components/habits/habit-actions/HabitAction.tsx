@@ -19,7 +19,7 @@ import type { HabitAction } from "@models/types";
 
 interface HabitActionProps {
   action: HabitAction;
-  isDefensiveAction: boolean;
+  isActionBreak: boolean;
   value: number;
   onValueChange: (actionId: string, newValue: number) => void;
   dailyWillpower: number;
@@ -29,7 +29,7 @@ interface HabitActionProps {
 
 export function HabitAction({
   action,
-  isDefensiveAction,
+  isActionBreak,
   value,
   onValueChange,
   dailyWillpower,
@@ -39,7 +39,7 @@ export function HabitAction({
   const habitActionParams = {
     value,
     dailyTarget: action.dailyTarget,
-    isDefensiveAction,
+    isActionBreak,
   };
 
   const valueColor = getActionValueColor(habitActionParams);
@@ -50,7 +50,7 @@ export function HabitAction({
 
   // Modified XP calculation for decrease
   const getXpChangeForDecrease = () => {
-    if (!isDefensiveAction) {
+    if (!isActionBreak) {
       // For offensive actions, losing 1 progress should cost 1 XP (before willpower)
       return applyWillpowerBonus(-1, dailyWillpower);
     }
@@ -65,7 +65,7 @@ export function HabitAction({
 
   // Modified check for level one
   const wouldDropBelowLevelOne = () => {
-    if (!isDefensiveAction) return false;
+    if (!isActionBreak) return false;
 
     const xpChange = getXpChangeForDecrease();
     const totalXpAfterChange = currentXp + projectedHabitXp + xpChange;
@@ -76,12 +76,12 @@ export function HabitAction({
   };
 
   // Modified minus button disable logic
-  const isMinusDisabled = isDefensiveAction
+  const isMinusDisabled = isActionBreak
     ? value >= action.dailyTarget // Can't go above daily target for defensive actions
     : value <= 0 || wouldDropBelowLevelOne(); // Can't go below 0 or drop below level 1 for offensive
 
   // Plus button should only be disabled for defensive actions at their limit
-  const isPlusDisabled = isDefensiveAction ? wouldDropBelowLevelOne() : false; // Allow unlimited progress for offensive actions
+  const isPlusDisabled = isActionBreak ? wouldDropBelowLevelOne() : false; // Allow unlimited progress for offensive actions
 
   return (
     <>
@@ -95,7 +95,7 @@ export function HabitAction({
           />
         </span>
         <span className="font-bold mr-2">
-          {isDefensiveAction ? "I won't" : "I will"}
+          {isActionBreak ? "I won't" : "I will"}
         </span>
         <span className="text-base break-words whitespace-normal w-0 flex-grow">
           {action.action}
@@ -141,7 +141,7 @@ export function HabitAction({
             className="select-none h-8 w-8 shrink-0 rounded-full"
             disabled={isMinusDisabled}
             onClick={() =>
-              handleActionChange(isDefensiveAction ? value + 1 : value - 1)
+              handleActionChange(isActionBreak ? value + 1 : value - 1)
             }
           >
             <Minus className="h-4 w-4" />
@@ -153,7 +153,7 @@ export function HabitAction({
               value={value}
               max={action.dailyTarget}
               onChange={(newValue) => handleActionChange(newValue)}
-              isDefensiveAction={isDefensiveAction}
+              isActionBreak={isActionBreak}
             />
           </div>
 
@@ -163,7 +163,7 @@ export function HabitAction({
             className="select-none h-8 w-8 shrink-0 rounded-full"
             disabled={isPlusDisabled}
             onClick={() =>
-              handleActionChange(isDefensiveAction ? value - 1 : value + 1)
+              handleActionChange(isActionBreak ? value - 1 : value + 1)
             }
           >
             <Plus className="h-4 w-4" />
@@ -172,7 +172,7 @@ export function HabitAction({
         </div>
 
         <AnimatePresence mode="wait">
-          {isDefensiveAction && isActionOverCapped(habitActionParams) && (
+          {isActionBreak && isActionOverCapped(habitActionParams) && (
             <motion.div
               className="flex justify-center"
               initial={{ opacity: 0, y: -10 }}
@@ -187,7 +187,7 @@ export function HabitAction({
               </p>
             </motion.div>
           )}
-          {!isDefensiveAction && isActionOverCapped(habitActionParams) && (
+          {!isActionBreak && isActionOverCapped(habitActionParams) && (
             <motion.div
               className="flex justify-center"
               initial={{ opacity: 0, y: -10 }}

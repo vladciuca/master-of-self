@@ -11,15 +11,15 @@ export function calculateWillpowerScore(stringArray: string[]): number {
 type HabitActionValueParams = {
   value: number;
   dailyTarget: number;
-  isDefensiveAction: boolean;
+  isActionBreak: boolean;
 };
 
 export function displayActionValue({
   value,
   dailyTarget,
-  isDefensiveAction,
+  isActionBreak,
 }: HabitActionValueParams): number {
-  return isDefensiveAction ? dailyTarget - value : value;
+  return isActionBreak ? dailyTarget - value : value;
 }
 
 export function isDailyTargetCompleted({
@@ -34,16 +34,14 @@ const BURN_OUT_MULTIPLIER = 1.5;
 export function isActionOverCapped({
   value,
   dailyTarget,
-  isDefensiveAction,
+  isActionBreak,
 }: HabitActionValueParams): boolean {
-  return isDefensiveAction
-    ? value < 0
-    : value > BURN_OUT_MULTIPLIER * dailyTarget;
+  return isActionBreak ? value < 0 : value > BURN_OUT_MULTIPLIER * dailyTarget;
 }
 
 export function getActionValueColor(params: HabitActionValueParams): string {
   if (isActionOverCapped(params)) {
-    return params.isDefensiveAction
+    return params.isActionBreak
       ? `text-${HABIT_COLORS.failed}`
       : `text-${HABIT_COLORS.burnedOut}`;
   }

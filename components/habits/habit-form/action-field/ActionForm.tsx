@@ -48,7 +48,7 @@ const initialActionForm = {
   action: "",
   actionUnit: "",
   metric: "count" as const,
-  type: "offensive" as const,
+  type: "build" as const,
   dailyTarget: 1,
 };
 
@@ -128,16 +128,16 @@ export function ActionForm({
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      <SelectItem value="offensive">
+                      <SelectItem value="build">
                         <span className="flex items-center">
-                          <ActionIcon type="offensive" size={20} />
-                          Build a habit
+                          <ActionIcon type="build" size={20} />
+                          <span className="ml-2">Build a habit</span>
                         </span>
                       </SelectItem>
-                      <SelectItem value="defensive">
+                      <SelectItem value="break">
                         <span className="flex items-center">
-                          <ActionIcon type="defensive" size={20} />
-                          Break a habit
+                          <ActionIcon type="break" size={20} />
+                          <span className="ml-2">Break a habit</span>
                         </span>
                       </SelectItem>
                     </SelectContent>
@@ -153,7 +153,7 @@ export function ActionForm({
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>
-                    {form.watch("type") === "offensive"
+                    {form.watch("type") === "build"
                       ? "I will..."
                       : "I won't..."}
                   </FormLabel>
@@ -241,8 +241,7 @@ export function ActionForm({
               render={({ field }) => (
                 <FormItem>
                   <FormLabel className="flex items-center mb-6">
-                    Daily{" "}
-                    {form.watch("type") === "offensive" ? "Target" : "Limit"}:
+                    Daily {form.watch("type") === "build" ? "Target" : "Limit"}:
                     <span className="ml-2 space-x-1 text-lg flex items-center">
                       <MetricIcon metric={form.watch("metric")} size={20} />
                       <span></span>

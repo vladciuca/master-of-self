@@ -115,7 +115,7 @@ export function ActionsField({ control, type }: ActionsFieldProps) {
                         onDelete={() => removeAction(action.id)}
                         actionName={action.action}
                         actionPrefix={
-                          action.type === "offensive" ? "I will" : "I won't"
+                          action.type === "build" ? "I will" : "I won't"
                         }
                         actionIcon={<ActionIcon type={action.type} size={18} />}
                       />
@@ -125,8 +125,7 @@ export function ActionsField({ control, type }: ActionsFieldProps) {
                   <div className="flex items-center justify-between space-x-1">
                     <div className="flex items-center">
                       <span className="text-sm text-muted-foreground">
-                        Daily {action.type === "offensive" ? "Target" : "Limit"}
-                        :
+                        Daily {action.type === "build" ? "Target" : "Limit"}:
                       </span>
                       <span className="mx-1">
                         <MetricIcon metric={action.metric} size={18} />

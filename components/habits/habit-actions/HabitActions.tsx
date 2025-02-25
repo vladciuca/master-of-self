@@ -229,7 +229,7 @@ export function HabitActions({
                   <HabitAction
                     key={action.id}
                     action={action}
-                    isDefensiveAction={action.type === "defensive"}
+                    isActionBreak={action.type === "break"}
                     value={actionValues[action.id] || 0}
                     onValueChange={handleActionChange}
                     dailyWillpower={dailyWillpower}

@@ -28,7 +28,7 @@ export function HabitCardActions({
   return (
     <div>
       {actions.map((action) => {
-        const isDefensiveAction = action.type === "defensive";
+        const isActionBreak = action.type === "break";
 
         const actionParams = {
           value: hasNoEntryToday
@@ -39,10 +39,10 @@ export function HabitCardActions({
               displayActionValue({
                 value: 0,
                 dailyTarget: action.dailyTarget,
-                isDefensiveAction,
+                isActionBreak,
               }),
           dailyTarget: action.dailyTarget,
-          isDefensiveAction,
+          isActionBreak,
         };
 
         // For defensive actions, displayValue shows remaining actions (dailyTarget - value)
@@ -69,7 +69,7 @@ export function HabitCardActions({
             />
             <div className="flex flex-col text-sm text-muted-foreground mb-2">
               <div className="flex items-center justify-between border border-muted rounded-md p-2 my-1">
-                Daily {isDefensiveAction ? "Limit" : "Target"}
+                Daily {isActionBreak ? "Limit" : "Target"}
                 <span className="ml-2 font-bold flex items-center text-primary">
                   <span className={getActionValueColor(actionParams)}>
                     {displayValue}

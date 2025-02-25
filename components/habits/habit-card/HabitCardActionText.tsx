@@ -1,6 +1,6 @@
 type HabitCardActionTextProps = {
   actionName: string;
-  actionType: "offensive" | "defensive";
+  actionType: "build" | "break";
   actionIcon: JSX.Element;
 };
 
@@ -16,7 +16,7 @@ export function HabitCardActionText({
       </span>
 
       <span className="mr-1 font-semibold inline-flex align-baseline">
-        {actionType === "offensive" ? "I will" : "I won't"}
+        {actionType === "build" ? "I will" : "I won't"}
       </span>
 
       {actionName}

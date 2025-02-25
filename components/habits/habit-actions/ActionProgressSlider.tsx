@@ -5,20 +5,20 @@ interface ActionProgressSliderProps {
   value: number;
   max: number;
   onChange: (value: number) => void;
-  isDefensiveAction: boolean;
+  isActionBreak: boolean;
 }
 
 export function ActionProgressSlider({
   value,
   max,
   onChange,
-  isDefensiveAction,
+  isActionBreak,
 }: ActionProgressSliderProps) {
   // Define colors based on the action type
-  const startColor = isDefensiveAction
+  const startColor = isActionBreak
     ? HABIT_HEX_COLORS.failedHex
     : HABIT_HEX_COLORS.mainHex;
-  const endColor = isDefensiveAction
+  const endColor = isActionBreak
     ? HABIT_HEX_COLORS.mainHex
     : HABIT_HEX_COLORS.completedHex;
 

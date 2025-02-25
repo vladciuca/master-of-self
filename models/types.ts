@@ -63,7 +63,7 @@ export type HabitAction = {
   action: string;
   actionUnit: string;
   metric: "count" | "time";
-  type: "offensive" | "defensive";
+  type: "build" | "break";
   value: number;
   dailyTarget: number;
   // actionData key - used for chart

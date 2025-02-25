@@ -9,7 +9,7 @@ import {
 import { HABIT_COLORS } from "@lib/colors";
 
 type ActionIconProps = {
-  type: "offensive" | "defensive";
+  type: "build" | "break";
   dailyTargetCompleted?: boolean;
   overCapped?: boolean;
   size?: number;
@@ -23,7 +23,7 @@ export function ActionIcon({
 }: ActionIconProps) {
   const iconSize = size || 22;
   const iconColor = overCapped
-    ? type === "defensive"
+    ? type === "break"
       ? `text-${HABIT_COLORS.failed}`
       : `text-${HABIT_COLORS.burnedOut}`
     : dailyTargetCompleted
@@ -34,7 +34,7 @@ export function ActionIcon({
     <>
       {overCapped && (
         <>
-          {type === "offensive" ? (
+          {type === "build" ? (
             <Flame className={`${iconColor}`} size={iconSize} />
           ) : (
             <CircleMinus className={`${iconColor}`} size={iconSize} />
@@ -43,7 +43,7 @@ export function ActionIcon({
       )}
       {!overCapped && !dailyTargetCompleted && (
         <>
-          {type === "offensive" ? (
+          {type === "build" ? (
             <CircleDashed className={`${iconColor}`} size={iconSize} />
           ) : (
             <Circle className={`${iconColor}`} size={iconSize} />
@@ -52,7 +52,7 @@ export function ActionIcon({
       )}
       {!overCapped && dailyTargetCompleted && (
         <>
-          {type === "offensive" ? (
+          {type === "build" ? (
             <Circle className={`${iconColor}`} size={iconSize} />
           ) : (
             <CircleDashed className={`${iconColor}`} size={iconSize} />

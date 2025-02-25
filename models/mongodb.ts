@@ -35,7 +35,7 @@ export type HabitAction = {
   id: string;
   action: string;
   metric: "count" | "time";
-  type: "offensive" | "defensive";
+  type: "build" | "break";
   value: number;
 };
 

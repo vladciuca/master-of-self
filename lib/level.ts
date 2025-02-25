@@ -156,7 +156,7 @@ export const getHabitActionDefaultValues = (
 
   return habits.reduce((acc, habit) => {
     const habitActions = habit.actions.reduce((actionAcc, action) => {
-      if (action.type === "defensive") {
+      if (action.type === "break") {
         actionAcc[action.id] = action.dailyTarget;
       } else {
         actionAcc[action.id] = 0;

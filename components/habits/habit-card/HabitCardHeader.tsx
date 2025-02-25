@@ -119,7 +119,7 @@ export function HabitCardHeader({
                   ? habitDefaultActionValues[action.id]
                   : habitActionValues[action.id],
                 dailyTarget: action.dailyTarget,
-                isDefensiveAction: action.type === "defensive",
+                isActionBreak: action.type === "break",
               };
 
               const dailyTargetCompleted = isDailyTargetCompleted(actionParams);
