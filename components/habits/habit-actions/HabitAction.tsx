@@ -104,10 +104,10 @@ export function HabitAction({
       <Card className="mt-2 mb-8 p-2">
         <div className="flex flex-col items-center">
           <div className="w-full flex items-center justify-between text-sm text-muted-foreground mb-2">
-            <div className="flex items-baseline mx-2">
+            <div className="flex items-baseline">
               <span className="text-primary ml-1">
                 <div className="flex items-baseline space-x-2">
-                  <div className="flex items-baseline ml-2">
+                  <div className="flex items-baseline">
                     <span className="flex items-baseline">
                       <MetricIcon metric={action.metric} size={16} />
                     </span>

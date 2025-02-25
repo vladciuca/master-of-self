@@ -10,6 +10,7 @@ import {
   getActionValueColor,
 } from "@lib/score";
 import type { HabitAction, ActionItem } from "@models/types";
+import { HabitCardActionText } from "./HabitCardActionText";
 
 type HabitCardActionsProps = {
   actions: HabitAction[];
@@ -54,22 +55,18 @@ export function HabitCardActions({
 
         return (
           <div key={action.id} className="mt-6">
-            <div className="mb-1 flex items-center max-w-full">
-              <span className="flex flex-shrink-0 items-center">
+            <HabitCardActionText
+              actionName={action.action}
+              actionIcon={
                 <ActionIcon
                   type={action.type}
                   size={16}
                   dailyTargetCompleted={dailyTargetCompleted}
                   overCapped={isDailyOverCapped}
                 />
-              </span>
-              <span className="font-bold mr-1">
-                {isDefensiveAction ? "I won't" : "I will"}
-              </span>
-              <span className="break-words whitespace-normal w-0 flex-grow">
-                {action.action}
-              </span>
-            </div>
+              }
+              actionType={action.type}
+            />
             <div className="flex flex-col text-sm text-muted-foreground mb-2">
               <div className="flex items-center justify-between border border-muted rounded-md p-2 my-1">
                 Daily {isDefensiveAction ? "Limit" : "Target"}

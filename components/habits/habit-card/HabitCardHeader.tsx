@@ -112,7 +112,7 @@ export function HabitCardHeader({
               <span className="text-primary ml-1">XP</span>
             </div>
           </div>
-          <div className="flex items-center my-1">
+          <div className="flex items-center my-1 space-x-2">
             {habit.actions.map((action) => {
               const actionParams = {
                 value: hasNoEntryToday

@@ -35,27 +35,27 @@ export function ActionIcon({
       {overCapped && (
         <>
           {type === "offensive" ? (
-            <Flame className={`mr-2 ${iconColor}`} size={iconSize} />
+            <Flame className={`${iconColor}`} size={iconSize} />
           ) : (
-            <CircleMinus className={`mr-2 ${iconColor}`} size={iconSize} />
+            <CircleMinus className={`${iconColor}`} size={iconSize} />
           )}
         </>
       )}
       {!overCapped && !dailyTargetCompleted && (
         <>
           {type === "offensive" ? (
-            <CircleDashed className={`mr-2 ${iconColor}`} size={iconSize} />
+            <CircleDashed className={`${iconColor}`} size={iconSize} />
           ) : (
-            <Circle className={`mr-2 ${iconColor}`} size={iconSize} />
+            <Circle className={`${iconColor}`} size={iconSize} />
           )}
         </>
       )}
       {!overCapped && dailyTargetCompleted && (
         <>
           {type === "offensive" ? (
-            <Circle className={`mr-2 ${iconColor}`} size={iconSize} />
+            <Circle className={`${iconColor}`} size={iconSize} />
           ) : (
-            <CircleDashed className={`mr-2 ${iconColor}`} size={iconSize} />
+            <CircleDashed className={`${iconColor}`} size={iconSize} />
           )}
         </>
       )}

@@ -3,7 +3,6 @@
 import { useSession } from "next-auth/react";
 import { usePathname } from "next/navigation";
 import { HabitCardHeader } from "@components/habits/habit-card/HabitCardHeader";
-// import { HabitCardDescription } from "@components/habits/habit-card/HabitCardDescription";
 import { HabitCardActions } from "@components/habits/habit-card/HabitCardActions";
 import { HabitCardFooter } from "./HabitCardFooter";
 import {
@@ -60,7 +59,6 @@ export function HabitCard({
           />
         </AccordionTrigger>
         <AccordionContent className="px-4">
-          {/* <HabitCardDescription description={description} /> */}
           <HabitCardActions
             actions={actions}
             habitDefaultActionValues={habitDefaultActionValues}

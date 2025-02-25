@@ -1,6 +1,8 @@
 "use client";
 import { useState } from "react";
 import { type Control, useFieldArray, useWatch } from "react-hook-form";
+import { HabitCardActionText } from "@components/habits/habit-card/HabitCardActionText";
+
 import type { HabitZodType } from "@models/habitFormSchema";
 import type { HabitAction } from "@models/types";
 
@@ -101,18 +103,12 @@ export function ActionsField({ control, type }: ActionsFieldProps) {
 
               return (
                 <div key={field.id} className="border p-2 rounded-md">
-                  <div className="flex items-start max-w-full border-b pb-1 mb-2">
-                    <span className="flex flex-shrink-0 items-start mt-[3.2px]">
-                      <ActionIcon type={action.type} size={18} />
-                    </span>
-
-                    <span className="mr-1 text-bold">
-                      {action.type === "offensive" ? "I will" : "I won't"}
-                    </span>
-
-                    <span className="text-base break-words whitespace-normal w-0 flex-grow">
-                      {action.action}
-                    </span>
+                  <div className="flex items-center max-w-full border-b pb-1 mb-2">
+                    <HabitCardActionText
+                      actionName={action.action}
+                      actionIcon={<ActionIcon type={action.type} size={18} />}
+                      actionType={action.type}
+                    />
 
                     <div>
                       <DeleteActionButton
