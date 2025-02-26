@@ -2,8 +2,8 @@ import * as z from "zod";
 
 const actionSchema = z.object({
   id: z.string().optional(),
-  action: z.string().min(3, "Action must contain at least 3 characters"),
-  actionUnit: z.string().min(2, "Unit must contain at least 2 characters"),
+  task: z.string().min(3, "Action must contain at least 3 characters"),
+  unit: z.string().min(2, "Unit must contain at least 2 characters"),
   type: z.enum(["build", "break"]),
   metric: z.enum(["count", "time"]),
   value: z.number().default(0),
@@ -12,7 +12,7 @@ const actionSchema = z.object({
 
 export const habitFormSchema = z.object({
   id: z.string().optional(),
-  name: z
+  category: z
     .string()
     .min(3, "Habit category name must contain at least 3 characters")
     .max(25, "Habit category name must contain maximum 25 characters"),

@@ -106,7 +106,7 @@ export function ActionsField({ control, type }: ActionsFieldProps) {
                 <div key={field.id} className="border p-2 rounded-md">
                   <div className="flex items-center max-w-full border-b pb-1 mb-2">
                     <HabitCardActionText
-                      actionName={action.action}
+                      actionName={action.task}
                       actionIcon={<ActionIcon type={action.type} size={18} />}
                       actionType={action.type}
                     />
@@ -114,7 +114,7 @@ export function ActionsField({ control, type }: ActionsFieldProps) {
                     <div>
                       <DeleteActionButton
                         onDelete={() => removeAction(action.id)}
-                        actionName={action.action}
+                        actionName={action.task}
                         actionPrefix={
                           action.type === "build" ? "I will" : "I won't"
                         }
@@ -131,17 +131,16 @@ export function ActionsField({ control, type }: ActionsFieldProps) {
                       <span className="mx-1">
                         <MetricIcon metric={action.metric} size={18} />
                       </span>
-                      {action.dailyTarget} {action.actionUnit}
+                      {action.dailyTarget} {action.unit}
                     </div>
 
                     <Button
                       type="button"
                       variant="ghost"
                       onClick={() => editAction(action.id)}
-                      aria-label={`Edit action ${action.action}`}
+                      aria-label={`Edit action ${action.task}`}
                       className={`h-8 w-8 p-0 text-${HABIT_COLORS.main} hover:text-${HABIT_COLORS.main}`}
                     >
-                      {/* <Edit2 size={20} /> */}
                       <FilePenLine size={20} />
                     </Button>
                   </div>

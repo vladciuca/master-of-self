@@ -60,8 +60,8 @@ export type JournalEntryMetadata = JournalEntry & {
 
 export type HabitAction = {
   id: string;
-  action: string; // rename to task:
-  actionUnit: string; // rename to unit:
+  task: string; // rename action to task:
+  unit: string; // rename from actionUnit to unit:
   metric: "count" | "time";
   type: "build" | "break";
   value: number;
@@ -72,7 +72,7 @@ export type HabitAction = {
 
 export type Habit = {
   _id: string;
-  name: string; // rename to category:
+  category: string; // rename from name to category:
   icon: string;
   xp: number;
   xpData: XpData[];

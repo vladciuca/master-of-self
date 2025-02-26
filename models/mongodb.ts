@@ -33,7 +33,9 @@ export type NewJournalEntry = Omit<JournalEntry, "_id">; // Lets mongo db assign
 
 export type HabitAction = {
   id: string;
-  action: string;
+  task: string;
+  // no unit key?
+  unit: string;
   metric: "count" | "time";
   type: "build" | "break";
   value: number;
@@ -41,7 +43,7 @@ export type HabitAction = {
 
 export type Habit = {
   _id?: ObjectId;
-  name: string;
+  category: string;
   icon: string;
   xp: number;
   xpData: XpData[];

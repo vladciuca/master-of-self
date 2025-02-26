@@ -31,7 +31,7 @@ export function HabitForm({
     resolver: zodResolver(habitFormSchema),
     defaultValues: {
       id: type === "Update" ? habit?.id : undefined,
-      name: type === "Update" ? habit?.name : "",
+      category: type === "Update" ? habit?.category : "",
       icon: type === "Update" ? habit?.icon : "",
       xp: type === "Update" ? habit?.xp : 0,
       actions: type === "Update" ? habit?.actions || [] : [],

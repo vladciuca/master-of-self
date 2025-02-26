@@ -98,7 +98,7 @@ export function HabitAction({
           {isActionBreak ? "I won't" : "I will"}
         </span>
         <span className="text-base break-words whitespace-normal w-0 flex-grow">
-          {action.action}
+          {action.task}
         </span>
       </div>
       <Card className="mt-2 mb-8 p-2">
@@ -125,7 +125,7 @@ export function HabitAction({
               </span>
               /{action.dailyTarget}
               <span className="ml-2 text-xl font-bold text-primary">
-                {action.actionUnit}
+                {action.unit}
               </span>
             </div>
             <span className="text-lg font-bold">

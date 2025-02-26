@@ -19,7 +19,7 @@ export function CategoryNameField({ control, type }: NameFieldProps) {
   return (
     <FormField
       control={control}
-      name="name"
+      name="category"
       render={({ field }) => (
         <FormItem>
           <FormLabel>Habit Category</FormLabel>

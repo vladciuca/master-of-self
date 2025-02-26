@@ -26,7 +26,7 @@ export function HabitCardHeader({
   lastEntryWillpower,
   hasNoEntryToday,
 }: HabitCardHeaderProps) {
-  const { name, icon, xp } = habit;
+  const { category, icon, xp } = habit;
 
   // Calculate default projected XP for Habits
   const baseDefaultHabitXpFromActions = Object.values(
@@ -95,7 +95,7 @@ export function HabitCardHeader({
         </div>
 
         <div className="pl-4 flex flex-col justify-center">
-          <span>{name}</span>
+          <span>{category}</span>
 
           <div className="text-muted-foreground flex items-center">
             <div className="font-semibold text-sm text-muted-foreground flex items-center">

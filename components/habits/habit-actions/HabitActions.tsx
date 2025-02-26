@@ -43,7 +43,7 @@ export function HabitActions({
   const router = useRouter();
   const searchParams = useSearchParams();
   const { drawerStyle } = useSideContentPosition();
-  const { name, icon, xp, _id: habitId } = habit;
+  const { category, icon, xp, _id: habitId } = habit;
   const habitIdParam = searchParams.get("habitId");
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -150,7 +150,7 @@ export function HabitActions({
         </div>
         <div className="px-4 flex flex-col justify-center">
           <h4 className="scroll-m-20 text-xl font-semibold tracking-tight">
-            {name}
+            {category}
           </h4>
           <div className="text-sm text-muted-foreground flex items-center">
             <span className="font-semibold flex items-center">
@@ -209,9 +209,9 @@ export function HabitActions({
             style={drawerStyle}
           >
             <DrawerHeader>
-              <DrawerTitle className="sr-only">{`${name} Actions`}</DrawerTitle>
+              <DrawerTitle className="sr-only">{`${category} Actions`}</DrawerTitle>
               <DrawerDescription className="sr-only">
-                Manage actions for the habit: {name}
+                Manage actions for the habit: {category}
               </DrawerDescription>
               <div className="flex justify-center">
                 <HabitIconProgressBar

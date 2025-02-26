@@ -56,7 +56,7 @@ export function HabitCardActions({
         return (
           <div key={action.id} className="mt-6">
             <HabitCardActionText
-              actionName={action.action}
+              actionName={action.task}
               actionIcon={
                 <ActionIcon
                   type={action.type}
@@ -76,7 +76,7 @@ export function HabitCardActions({
                   </span>
                   <span className="mx-1">/</span>
                   {action.dailyTarget}
-                  <span className="ml-2 font-normal">{action.actionUnit}</span>
+                  <span className="ml-2 font-normal">{action.unit}</span>
                 </span>
               </div>
 
@@ -91,7 +91,7 @@ export function HabitCardActions({
                       <span className="ml-1 font-bold flex items-baseline text-primary">
                         {formatNumberSuffixes(action.value + displayValue)}
                       </span>
-                      <span className="ml-2">{action.actionUnit}</span>
+                      <span className="ml-2">{action.unit}</span>
                     </div>
                   </div>
                 </span>

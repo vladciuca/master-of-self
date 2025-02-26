@@ -38,9 +38,8 @@ export default function UpdateHabit() {
         const response = await fetch(`/api/habit/${id}`);
         const data = await response.json();
         setHabitData({
-          name: data.name,
+          category: data.category,
           icon: data.icon,
-          // description: data.description,
           actions: data.actions,
           xp: data.xp,
         });
@@ -55,12 +54,7 @@ export default function UpdateHabit() {
   }, [id]);
 
   const updateHabit = async (habit: HabitZodType) => {
-    const {
-      name,
-      icon,
-      // description,
-      actions,
-    } = habit;
+    const { category, icon, actions } = habit;
 
     setSubmitting(true);
 
@@ -70,9 +64,8 @@ export default function UpdateHabit() {
       const response = await fetch(`/api/habit/${id}`, {
         method: "PATCH",
         body: JSON.stringify({
-          name: name,
+          category: category,
           icon: icon,
-          // description: description,
           actions: actions,
         }),
       });

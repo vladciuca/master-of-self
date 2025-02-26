@@ -149,7 +149,7 @@ export function ActionForm({
 
             <FormField
               control={form.control}
-              name="action"
+              name="task"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>
@@ -215,7 +215,7 @@ export function ActionForm({
 
             <FormField
               control={form.control}
-              name="actionUnit"
+              name="unit"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Tracking Unit</FormLabel>
