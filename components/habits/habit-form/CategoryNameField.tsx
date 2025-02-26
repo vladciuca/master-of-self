@@ -15,7 +15,7 @@ type NameFieldProps = {
   type: "Create" | "Update";
 };
 
-export function NameField({ control, type }: NameFieldProps) {
+export function CategoryNameField({ control, type }: NameFieldProps) {
   return (
     <FormField
       control={control}
@@ -26,7 +26,7 @@ export function NameField({ control, type }: NameFieldProps) {
           {type === "Create" && (
             <FormDescription className="text-xs">
               Choose a broad category that best describes the area you want to
-              make improvements in. This helps with organizing and tracking
+              achieve mastery in. This helps with organizing and tracking
               similar habits together.
             </FormDescription>
           )}

@@ -7,13 +7,13 @@ import { calculateHabitLevel, xpForHabitLevel } from "@lib/level";
 import { formatNumberSuffixes } from "@lib/utils";
 import { isDailyTargetCompleted, isActionOverCapped } from "@lib/score";
 import { applyWillpowerBonus } from "@lib/level";
-import type { Habit, ActionItem } from "@models/types";
+import type { Habit, JournalEntryHabitActions } from "@models/types";
 
 type HabitCardHeaderProps = {
   habit: Habit;
   entryLoading: boolean;
-  habitDefaultActionValues: ActionItem;
-  habitActionValues: ActionItem;
+  habitDefaultActionValues: JournalEntryHabitActions;
+  habitActionValues: JournalEntryHabitActions;
   lastEntryWillpower: number;
   hasNoEntryToday: boolean;
 };

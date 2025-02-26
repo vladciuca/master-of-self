@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { IconPickerField } from "@components/habits/habit-form/IconPickerField";
-import { NameField } from "@components/habits/habit-form/NameField";
+import { CategoryNameField } from "@components/habits/habit-form/CategoryNameField";
 import { ActionsField } from "@components/habits/habit-form/action-field/ActionField";
 import { Form } from "@/components/ui/form";
 import { ScrollArea } from "@components/ui/scroll-area";
@@ -67,7 +67,7 @@ export function HabitForm({
 
         <ScrollArea className="px-4 flex-grow">
           <div className="space-y-8 px-1">
-            <NameField control={form.control} type={type} />
+            <CategoryNameField control={form.control} type={type} />
             <ActionsField control={form.control} type={type} />
           </div>
         </ScrollArea>

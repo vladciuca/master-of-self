@@ -9,13 +9,13 @@ import {
   isActionOverCapped,
   getActionValueColor,
 } from "@lib/score";
-import type { HabitAction, ActionItem } from "@models/types";
+import type { HabitAction, JournalEntryHabitActions } from "@models/types";
 import { HabitCardActionText } from "./HabitCardActionText";
 
 type HabitCardActionsProps = {
   actions: HabitAction[];
-  habitDefaultActionValues: ActionItem;
-  habitActionValues: ActionItem;
+  habitDefaultActionValues: JournalEntryHabitActions;
+  habitActionValues: JournalEntryHabitActions;
   hasNoEntryToday: boolean;
 };
 

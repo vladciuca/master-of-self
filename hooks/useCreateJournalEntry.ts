@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useSession } from "next-auth/react";
 import { getToday, getTomorrow } from "@lib/time";
-import { Session, Habits } from "@models/types";
+import { Session, JournalEntryHabit } from "@models/types";
 import { useYesterdayJournalEntry } from "./useYesterdayJournalEntry";
 import { useLastJournalEntry } from "./useLastJournalEntry";
 import { useUpdateHabits } from "./useUpdateHabits";
@@ -43,11 +43,11 @@ export function useCreateJournalEntry() {
       if (yesterdayEntry) bonusWillPowerFormYesterday = bonusWillpower;
 
       // Generate default habit action values and include current habit XP
-      let defaultJournalEntryActionValues: Habits = {};
+      let defaultJournalEntryActionValues: JournalEntryHabit = {};
       if (!isLoading && habits && habits.length > 0) {
         defaultJournalEntryActionValues = getHabitActionDefaultValues(habits, {
           includeCurrentXp: true,
-        }) as Habits;
+        }) as JournalEntryHabit;
       }
 
       if (Object.keys(defaultJournalEntryActionValues).length === 0) {

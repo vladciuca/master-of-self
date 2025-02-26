@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@components/ui/button";
-import { GiPencil, GiPencilRuler } from "react-icons/gi";
+import { GiPencilRuler } from "react-icons/gi";
 import { Session, Habit } from "@models/types";
 
 type HabitCardFooterProps = {
@@ -35,7 +35,6 @@ export function HabitCardFooter({
         className="flex-1 w-full"
       >
         Update Habits
-        {/* <GiPencil className="ml-2" size={"1.2rem"} /> */}
       </Button>
 
       <Button

@@ -90,9 +90,10 @@ export function ActionsField({ control, type }: ActionsFieldProps) {
           <FormLabel>Habit Actions</FormLabel>
           {type === "Create" && (
             <FormDescription className="text-xs">
-              Define a specific, measurable action you'll take each day to build
-              or break a habit. Be concrete and realistic - this should be
-              something you can clearly track as completed or not completed.
+              Define specific, measurable actions you’ll take each day to build
+              or break a habit. These should be concrete and realistic—actions
+              you can clearly track as completed or not completed—helping you
+              achieve mastery within your chosen category.
             </FormDescription>
           )}
 

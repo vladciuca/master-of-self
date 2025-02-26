@@ -4,11 +4,14 @@ import { IconRenderer } from "@components/IconRenderer";
 import { Skeleton } from "@components/ui/skeleton";
 import { XpDisplay } from "@components/ui/xp-display";
 import { useHabitsIcons } from "@hooks/useHabitsIcons";
-import type { ActionItem, Habits } from "@models/types";
+import type {
+  JournalEntryHabit,
+  JournalEntryHabitActions,
+} from "@models/types";
 
 type JournalEntryHabitsProp = {
-  habitsXp: ActionItem;
-  habits: Habits;
+  habitsXp: JournalEntryHabitActions;
+  habits: JournalEntryHabit;
 };
 
 export function JournalEntryHabits({

@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import { HabitCard } from "@components/habits/habit-card/HabitCard";
 import { Accordion } from "@components/ui/accordion";
-import { Habit, Habits } from "@models/types";
+import { Habit, JournalEntryHabit } from "@models/types";
 import {
   getHabitActionValuesFromEntry,
   getHabitActionDefaultValues,
@@ -12,7 +12,7 @@ type HabitListProps = {
   handleEdit: (habit: Habit) => void;
   // handleDelete: (habit: Habit) => Promise<void>;
   entryLoading: boolean;
-  habitActionsFromEntry: Habits;
+  habitActionsFromEntry: JournalEntryHabit;
   lastEntryWillpower: number;
   submittingJournalEntry: boolean;
   handleActionUpdate: (habitId: string) => void;

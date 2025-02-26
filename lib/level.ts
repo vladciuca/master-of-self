@@ -98,10 +98,14 @@ export const applyWillpowerBonus = (
   return Math.round(baseXp * willpowerMultiplier);
 };
 
-import { Habit, Habits, ActionItem } from "@models/types";
+import {
+  Habit,
+  JournalEntryHabit,
+  JournalEntryHabitActions,
+} from "@models/types";
 // GET INDIVIDUAL ACTION VALUES FOR HABITS FROM JOURNAL ENTRY - Removes currentXp key from actions
 export const getHabitActionValuesFromEntry = (
-  habits: Habits
+  habits: JournalEntryHabit
 ): { [habitId: string]: { [actionId: string]: number } } => {
   return Object.entries(habits).reduce((acc, [habitId, habitActions]) => {
     const { currentXp, ...actionValues } = habitActions;
@@ -151,7 +155,7 @@ export const calculateHabitsXpFromEntry = (
 export const getHabitActionDefaultValues = (
   habits: Habit[],
   options: { includeCurrentXp?: boolean } = {}
-): { [habitId: string]: ActionItem & { currentXp?: number } } => {
+): { [habitId: string]: JournalEntryHabitActions & { currentXp?: number } } => {
   const { includeCurrentXp = false } = options;
 
   return habits.reduce((acc, habit) => {
@@ -174,15 +178,15 @@ export const getHabitActionDefaultValues = (
     }
 
     return acc;
-  }, {} as { [habitId: string]: ActionItem & { currentXp?: number } });
+  }, {} as { [habitId: string]: JournalEntryHabitActions & { currentXp?: number } });
 };
 
 // will possibly need to remove IN FUTURE REFACTOR action-id keys if they are deleted
 export function deepMergeHabitsWithNewDefaultValues(
-  habitActionChanges: Habits,
-  latestDefault: Habits
-): Habits {
-  const result: Habits = { ...habitActionChanges };
+  habitActionChanges: JournalEntryHabit,
+  latestDefault: JournalEntryHabit
+): JournalEntryHabit {
+  const result: JournalEntryHabit = { ...habitActionChanges };
 
   for (const [outerKey, outerValue] of Object.entries(latestDefault)) {
     if (!(outerKey in result)) {

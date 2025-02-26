@@ -10,15 +10,15 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@components/ui/accordion";
-import { Session, Habit, ActionItem } from "@models/types";
+import { Session, Habit, JournalEntryHabitActions } from "@models/types";
 
 type HabitCardProps = {
   habit: Habit;
   entryLoading: boolean;
   handleEdit: (habit: Habit) => void;
   // handleDelete: (habit: Habit) => Promise<void>;
-  habitDefaultActionValues: ActionItem;
-  habitActionValues: ActionItem;
+  habitDefaultActionValues: JournalEntryHabitActions;
+  habitActionValues: JournalEntryHabitActions;
   lastEntryWillpower: number;
   submittingJournalEntry: boolean;
   handleActionUpdate: (habitId: string) => void;

@@ -1,41 +1,8 @@
-// import * as z from "zod";
-
-// export const habitFormSchema = z.object({
-//   id: z.string().optional(),
-//   name: z
-//     .string()
-//     .min(3, "Habit name must contain at least 3 characters")
-//     .max(25, "Habit name must contain maximum 25 characters"),
-//   icon: z.string().min(1, "Please select an icon"),
-//   // description: z.string().min(3, "Please add a habit description").optional(),
-//   xp: z.number().optional(),
-//   actions: z
-//     .array(
-//       z.object({
-//         id: z.string().optional(),
-//         action: z
-//           .string()
-//           .min(3, "Action name must contain at least 3 characters"),
-//         actionUnit: z
-//           .string()
-//           .min(2, "Unit must contain at least 2 characters"),
-//         // action: z.string(),
-//         // actionUnit: z.string(),
-//         type: z.enum(["build", "break"]),
-//         metric: z.enum(["count", "time"]),
-//         value: z.number().default(0),
-//         dailyTarget: z.number().default(1),
-//       })
-//     )
-//     .min(1, "Please add a habit action"),
-// });
-
-// export type HabitZodType = z.infer<typeof habitFormSchema>;
 import * as z from "zod";
 
 const actionSchema = z.object({
   id: z.string().optional(),
-  action: z.string().min(3, "Action name must contain at least 3 characters"),
+  action: z.string().min(3, "Action must contain at least 3 characters"),
   actionUnit: z.string().min(2, "Unit must contain at least 2 characters"),
   type: z.enum(["build", "break"]),
   metric: z.enum(["count", "time"]),
@@ -47,9 +14,9 @@ export const habitFormSchema = z.object({
   id: z.string().optional(),
   name: z
     .string()
-    .min(3, "Habit name must contain at least 3 characters")
-    .max(25, "Habit name must contain maximum 25 characters"),
-  icon: z.string().min(1, "Please select an icon"),
+    .min(3, "Habit category name must contain at least 3 characters")
+    .max(25, "Habit category name must contain maximum 25 characters"),
+  icon: z.string().min(1, "Please select a category icon"),
   xp: z.number().optional(),
   actions: z.array(actionSchema).min(1, "Please add a habit action"),
 });

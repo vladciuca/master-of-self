@@ -29,12 +29,12 @@ export interface Session extends NextAuthSession {
   user: User;
 }
 
-export type ActionItem = {
+export type JournalEntryHabitActions = {
   [key: string]: number;
 };
 
-export type Habits = {
-  [key: string]: ActionItem & { currentXp?: number };
+export type JournalEntryHabit = {
+  [key: string]: JournalEntryHabitActions & { currentXp?: number };
 };
 
 export type JournalEntry = {
@@ -49,7 +49,7 @@ export type JournalEntry = {
     dailyHighlights?: string[];
     learnedToday?: string[];
   };
-  habits: Habits;
+  habits: JournalEntryHabit;
 };
 
 export type JournalEntryMetadata = JournalEntry & {
@@ -60,8 +60,8 @@ export type JournalEntryMetadata = JournalEntry & {
 
 export type HabitAction = {
   id: string;
-  action: string;
-  actionUnit: string;
+  action: string; // rename to task:
+  actionUnit: string; // rename to unit:
   metric: "count" | "time";
   type: "build" | "break";
   value: number;
@@ -72,9 +72,8 @@ export type HabitAction = {
 
 export type Habit = {
   _id: string;
-  name: string;
+  name: string; // rename to category:
   icon: string;
-  description?: string;
   xp: number;
   xpData: XpData[];
   creatorId: string;

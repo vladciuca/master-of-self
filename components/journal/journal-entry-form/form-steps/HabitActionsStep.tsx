@@ -8,7 +8,7 @@ import { FormStepTemplate } from "@/components/journal/journal-entry-form/form-s
 import { HabitActions } from "@components/habits/habit-actions/HabitActions";
 import { SkeletonHabitAction } from "@components/skeletons/SkeletonHabitAction";
 import { useUserHabits } from "@/hooks/useUserHabits";
-import type { Habit, Habits } from "@models/types";
+import type { Habit, JournalEntryHabit } from "@models/types";
 import {
   // deepMergeHabitsWithNewDefaultValues,
   // getHabitActionDefaultValues,
@@ -17,8 +17,8 @@ import {
 import { XP_COLORS } from "@lib/colors";
 
 type HabitActionsProps = {
-  onChange: (value: Habits) => void;
-  actionChanges?: Habits;
+  onChange: (value: JournalEntryHabit) => void;
+  actionChanges?: JournalEntryHabit;
   dailyWillpower: number;
 };
 
@@ -34,7 +34,7 @@ export function HabitActionsStep({
   const { habits, habitsLoading, habitsError } = useUserHabits();
   // const initialMergeRef = useRef(false);
   const [localActionValues, setLocalActionValues] =
-    useState<Habits>(actionChanges);
+    useState<JournalEntryHabit>(actionChanges);
 
   // Calculate default values based on habits
   // const latestDefaultHabitActionValues = useMemo(
