@@ -106,7 +106,7 @@ export function ActionsField({ control, type }: ActionsFieldProps) {
                 <div key={field.id} className="border p-2 rounded-md">
                   <div className="flex items-center max-w-full border-b pb-1 mb-2">
                     <HabitCardActionText
-                      actionName={action.task}
+                      actionTask={action.task}
                       actionIcon={<ActionIcon type={action.type} size={18} />}
                       actionType={action.type}
                     />

@@ -1,11 +1,11 @@
 type HabitCardActionTextProps = {
-  actionName: string;
+  actionTask: string;
   actionType: "build" | "break";
   actionIcon: JSX.Element;
 };
 
 export function HabitCardActionText({
-  actionName,
+  actionTask,
   actionIcon,
   actionType,
 }: HabitCardActionTextProps) {
@@ -19,7 +19,7 @@ export function HabitCardActionText({
         {actionType === "build" ? "I will" : "I won't"}
       </span>
 
-      {actionName}
+      {actionTask}
     </div>
   );
 }

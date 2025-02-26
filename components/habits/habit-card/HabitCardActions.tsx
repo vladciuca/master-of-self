@@ -56,7 +56,7 @@ export function HabitCardActions({
         return (
           <div key={action.id} className="mt-6">
             <HabitCardActionText
-              actionName={action.task}
+              actionTask={action.task}
               actionIcon={
                 <ActionIcon
                   type={action.type}
