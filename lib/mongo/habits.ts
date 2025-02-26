@@ -78,7 +78,7 @@ export async function updateHabit(
 
     const update = {
       $set: {
-        name: category,
+        category: category,
         icon: icon,
         actions: actions,
       },

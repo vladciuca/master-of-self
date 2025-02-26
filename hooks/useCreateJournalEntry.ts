@@ -65,7 +65,8 @@ export function useCreateJournalEntry() {
           },
           body: JSON.stringify({
             userId: session.user.id,
-            dailyWillpower: bonusWillPowerFormYesterday,
+            // dailyWillpower: bonusWillPowerFormYesterday,
+            dailyWillpower: 0,
             bonusWillpower: bonusWillPowerFormYesterday,
             habits: defaultJournalEntryActionValues,
           }),

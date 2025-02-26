@@ -143,7 +143,7 @@ export function FormStepController({
         type: "gratitude",
         component: (
           <GratefulFor
-            dailyWillpower={formData.dailyWillpower - formData.bonusWillpower}
+            dailyWillpower={formData.dailyWillpower}
             entryList={formData.dayEntry?.gratefulFor || []}
             onChange={(value) => handleChange("gratefulFor", value)}
           />
@@ -155,7 +155,7 @@ export function FormStepController({
         type: "day",
         component: (
           <GreatToday
-            dailyWillpower={formData.dailyWillpower - formData.bonusWillpower}
+            dailyWillpower={formData.dailyWillpower}
             entryList={formData.dayEntry?.greatToday || []}
             onChange={(value) => handleChange("greatToday", value)}
           />
