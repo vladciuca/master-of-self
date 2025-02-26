@@ -61,6 +61,7 @@ export async function createJournalEntry(
       bonusWillpower,
       dayEntry: {},
       nightEntry: {},
+      //rename this to defaultHabitActions
       habits: defaultActions,
     };
 
@@ -187,7 +188,6 @@ export async function getTodaysJournalEntry(
 // GET YESTERDAYS'S USER JOURNAL ENTRY ==========================================================
 export async function getYesterdaysJournalEntry(
   userId: string,
-  userToday: string,
   userYesterday: string
 ): Promise<{
   yesterdaysJournalEntry: JournalEntry | null;
@@ -196,15 +196,15 @@ export async function getYesterdaysJournalEntry(
   try {
     if (!journalEntries) await init();
 
-    // Set up the date range for yesterday (00:00:00 to 23:59:59)
+    // convert the Date from string to Date obj
     const yesterday = new Date(userYesterday);
-    const today = new Date(userToday);
 
     const yesterdaysJournalEntry = await journalEntries.findOne({
       creatorId: new ObjectId(userId),
+      //we always use 00:00 time stamps when creating a new entry by default
+      //so for this we can use directly equals exact date to find the corresponding entry
       createDate: {
-        $gte: yesterday,
-        $lte: today,
+        $eq: yesterday,
       },
     });
 

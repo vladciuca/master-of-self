@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
-import { getToday, getYesterday } from "@/lib/time";
+import { getYesterday } from "@/lib/time";
 import { calculateHabitsXpFromEntry } from "@/lib/level";
 import type { Session, JournalEntry } from "@models/types";
 import { calculateWillpowerScore } from "@/lib/score";
@@ -33,11 +33,10 @@ export function useYesterdayJournalEntry() {
       setYesterdayEntryLoading(true);
 
       try {
-        const today = getToday();
         const yesterday = getYesterday();
 
         const yesterdayEntryResponse = await fetch(
-          `/api/users/${session.user.id}/journal-entries/yesterday?today=${today}&yesterday=${yesterday}`
+          `/api/users/${session.user.id}/journal-entries/yesterday?yesterday=${yesterday}`
         );
 
         if (!yesterdayEntryResponse.ok) {

@@ -23,6 +23,11 @@ export function DailyBonus({ bonusWillpower }: DailyBonusProps) {
     learnedTodayBonusWillpower,
   } = useYesterdayJournalEntry();
 
+  // console.log(
+  //   "===yday entry should not exist why is it returning todays entry as yday?",
+  //   yesterdayEntry
+  // );
+
   const tabData = useMemo(
     () =>
       [
