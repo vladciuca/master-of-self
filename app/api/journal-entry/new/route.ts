@@ -6,9 +6,9 @@ export async function POST(req: NextRequest) {
   const { userId, dailyWillpower, bonusWillpower, habits } = await req.json();
 
   const userToday = req.nextUrl.searchParams.get("today");
-  const userTomorrow = req.nextUrl.searchParams.get("tomorrow");
+  // const userTomorrow = req.nextUrl.searchParams.get("tomorrow");
 
-  if (!userToday || !userTomorrow) {
+  if (!userToday) {
     return NextResponse.json(
       { error: "Both 'today' and 'tomorrow' parameters are required" },
       { status: 400 }
@@ -16,15 +16,15 @@ export async function POST(req: NextRequest) {
   }
 
   try {
-    const defaultActions = habits as JournalEntryHabit;
+    const defaultHabitsValues = habits as JournalEntryHabit;
 
     const { newJournalEntry, error } = await createJournalEntry(
       userId,
       dailyWillpower,
       bonusWillpower,
       userToday,
-      userTomorrow,
-      defaultActions
+      // userTomorrow,
+      defaultHabitsValues
     );
 
     if (error) {
