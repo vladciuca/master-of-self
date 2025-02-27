@@ -87,12 +87,19 @@ export function JournalEntryList({ journalEntries }: JournalEntryListProps) {
     const options: FilterOption[] = [];
     const monthSet = new Set<string>();
 
-    let hasEntriesThisMonth = false;
+    // let hasEntriesThisMonth = false;
+    // CHANGE HERE: Check if there are entries in this month but outside this week
+    // This will determine if we should show the "This Month" filter option
+    let hasEntriesThisMonthButNotThisWeek = false;
 
     journalEntries.forEach((entry) => {
       const entryDate = new Date(entry.createDate);
-      if (isThisMonth(entryDate)) {
-        hasEntriesThisMonth = true;
+      // if (isThisMonth(entryDate)) {
+      //   hasEntriesThisMonth = true;
+      // }
+      // Check if entry is in this month but NOT in this week
+      if (isThisMonth(entryDate) && !isThisWeek(entryDate)) {
+        hasEntriesThisMonthButNotThisWeek = true;
       }
       const monthYear = entryDate.toLocaleString("default", {
         month: "long",
@@ -105,7 +112,12 @@ export function JournalEntryList({ journalEntries }: JournalEntryListProps) {
 
     options.push("This Week");
 
-    if (hasEntriesThisMonth) {
+    // should not be displayed if current week has not passed yet
+    // if (hasEntriesThisMonth) {
+    //   options.push("This Month");
+    // }
+    // UPDATED CONDITION: Only add "This Month" if there are entries this month that are not in this week
+    if (hasEntriesThisMonthButNotThisWeek) {
       options.push("This Month");
     }
 
@@ -130,6 +142,8 @@ export function JournalEntryList({ journalEntries }: JournalEntryListProps) {
     switch (filter) {
       case "This Week":
         return "No journal entries for the current week.";
+      // this month should not even appear if there is no "This week"
+      // think of any edge-cases that might trigger this
       case "This Month":
         return "No journal entries for the current month.";
       default:
