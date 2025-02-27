@@ -17,7 +17,7 @@ import { calculateWillpowerScore } from "@lib/score";
 import { calculateHabitsXpFromEntry } from "@lib/level";
 
 // TEST_FLAG: used for enabling all forms steps
-const SHOW_ALL_TEST = true;
+const SHOW_ALL_TEST = false;
 
 type FormStepControllerProps = {
   submitting: boolean;
@@ -67,7 +67,6 @@ export function FormStepController({
     return Math.floor((greatTodayScore + gratefulForScore) * 1.5);
   }, []);
 
-  // do i have to add the habits key here?
   useEffect(() => {
     if (journalEntryData) {
       setFormData((prev) => ({
@@ -80,6 +79,10 @@ export function FormStepController({
         nightEntry: {
           ...prev.nightEntry,
           ...journalEntryData.nightEntry,
+        },
+        habits: {
+          ...prev.habits,
+          ...journalEntryData.habits,
         },
       }));
     }
