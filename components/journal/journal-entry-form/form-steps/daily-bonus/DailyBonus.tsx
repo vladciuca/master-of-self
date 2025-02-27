@@ -17,16 +17,12 @@ export function DailyBonus({ bonusWillpower }: DailyBonusProps) {
   const {
     yesterdayEntry,
     yesterdayEntryLoading,
-    // bonusWillpower,
+    // bonusWillpower, //don't retrieve from hook, pass from parent?
+    //what is better? - also need a loading state - skeleton here
     howGreatTodayBonusWillpower,
     dailyHighlightsBonusWillpower,
     learnedTodayBonusWillpower,
   } = useYesterdayJournalEntry();
-
-  // console.log(
-  //   "===yday entry should not exist why is it returning todays entry as yday?",
-  //   yesterdayEntry
-  // );
 
   const tabData = useMemo(
     () =>

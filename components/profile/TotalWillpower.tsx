@@ -3,20 +3,26 @@
 import { CardTitle, CardDescription } from "@components/ui/card";
 import { FaBoltLightning } from "react-icons/fa6";
 import { formatNumberSuffixes } from "@lib/utils";
-import { useCurrentWillpower } from "@hooks/useCurrentWillpower";
+import { useTotalWillpower } from "@hooks/useTotalWillpower";
 
 export function TotalWillpower() {
-  const { currentWillpower, currentWillpowerLoading } = useCurrentWillpower();
+  const { totalWillpower, totalWillpowerLoading, totalWillpowerError } =
+    useTotalWillpower();
 
   return (
     <div>
       <CardTitle className="flex justify-between items-baseline">
         <span>Total Willpower</span>
+
         <span className="flex items-center text-3xl font-bold">
-          {currentWillpowerLoading ? (
+          {totalWillpowerLoading ? (
             "??"
+          ) : totalWillpowerError ? (
+            <span className="text-destructive text-lg">
+              {totalWillpowerError}
+            </span>
           ) : (
-            <span>{formatNumberSuffixes(currentWillpower)}</span>
+            <span>{formatNumberSuffixes(totalWillpower)}</span>
           )}
           <FaBoltLightning className="ml-1 text-2xl" />
         </span>

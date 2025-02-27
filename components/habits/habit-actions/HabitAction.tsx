@@ -23,7 +23,7 @@ interface HabitActionProps {
   isActionBreak: boolean;
   value: number;
   onValueChange: (actionId: string, newValue: number) => void;
-  dailyWillpower: number;
+  totalWillpower: number;
   currentXp: number;
   projectedHabitXp: number;
 }
@@ -33,7 +33,7 @@ export function HabitAction({
   isActionBreak,
   value,
   onValueChange,
-  dailyWillpower,
+  totalWillpower,
   currentXp,
   projectedHabitXp,
 }: HabitActionProps) {
@@ -53,7 +53,7 @@ export function HabitAction({
   const getXpChangeForDecrease = () => {
     if (!isActionBreak) {
       // For offensive actions, losing 1 progress should cost 1 XP (before willpower)
-      return applyWillpowerBonus(-1, dailyWillpower);
+      return applyWillpowerBonus(-1, totalWillpower);
     }
 
     // For defensive actions, calculate raw XP change first, then apply willpower
@@ -61,7 +61,7 @@ export function HabitAction({
     const newRawXp = action.dailyTarget - (value + 1);
     const xpDifference = newRawXp - currentRawXp;
 
-    return applyWillpowerBonus(xpDifference, dailyWillpower);
+    return applyWillpowerBonus(xpDifference, totalWillpower);
   };
 
   // Modified check for level one
@@ -126,7 +126,7 @@ export function HabitAction({
               </span>
             </div>
             <span className="text-lg font-bold">
-              <XpDisplay xpValue={applyWillpowerBonus(value, dailyWillpower)} />
+              <XpDisplay xpValue={applyWillpowerBonus(value, totalWillpower)} />
               <span className="text-primary font-normal mx-1">XP</span>
             </span>
           </div>

@@ -56,6 +56,7 @@ export function FormStepController({
   }));
   const [isInitialized, setIsInitialized] = useState(false);
 
+  // Get daily WP form day step forms
   const calculateDailyWillpower = useCallback((data: JournalEntry) => {
     const greatTodayScore = calculateWillpowerScore(
       data.dayEntry?.greatToday || []
@@ -66,6 +67,7 @@ export function FormStepController({
     return Math.floor((greatTodayScore + gratefulForScore) * 1.5);
   }, []);
 
+  // do i have to add the habits key here?
   useEffect(() => {
     if (journalEntryData) {
       setFormData((prev) => ({
@@ -84,8 +86,7 @@ export function FormStepController({
   }, [journalEntryData]);
 
   useEffect(() => {
-    const willpower =
-      calculateDailyWillpower(formData) + formData.bonusWillpower;
+    const willpower = calculateDailyWillpower(formData);
     if (willpower !== formData.dailyWillpower) {
       setFormData((prev) => ({ ...prev, dailyWillpower: willpower }));
     }
@@ -205,7 +206,7 @@ export function FormStepController({
           <HabitActionsStep
             onChange={(value) => handleChange("habits", value)}
             actionChanges={formData.habits || {}}
-            dailyWillpower={formData.dailyWillpower}
+            totalWillpower={formData.dailyWillpower + formData.bonusWillpower}
           />
         ),
         isAvailable: hasHabits,

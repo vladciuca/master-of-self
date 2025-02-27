@@ -29,7 +29,7 @@ type HabitActionsProps = {
   projectedHabitXp: number;
   onChange: (habitId: string, actionId: string, newValue: number) => void;
   actionChanges: JournalEntryHabitActions & { currentXp?: number };
-  dailyWillpower: number;
+  totalWillpower: number;
 };
 
 export function HabitActions({
@@ -38,7 +38,7 @@ export function HabitActions({
   projectedHabitXp,
   onChange,
   actionChanges,
-  dailyWillpower,
+  totalWillpower,
 }: HabitActionsProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -232,7 +232,7 @@ export function HabitActions({
                     isActionBreak={action.type === "break"}
                     value={actionValues[action.id] || 0}
                     onValueChange={handleActionChange}
-                    dailyWillpower={dailyWillpower}
+                    totalWillpower={totalWillpower}
                     currentXp={xp}
                     projectedHabitXp={projectedHabitXp}
                   />

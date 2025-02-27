@@ -1,3 +1,5 @@
+// IS THIS EVEN USED ANYMORE?
+
 import { useState, useCallback } from "react";
 import { useSession } from "next-auth/react";
 import { Session } from "@models/types";

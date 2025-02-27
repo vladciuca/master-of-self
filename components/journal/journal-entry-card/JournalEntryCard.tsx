@@ -40,6 +40,8 @@ JournalEntryCardProps) {
     habits,
   } = journalEntry;
 
+  const totalWillpower = dailyWillpower + bonusWillpower;
+
   const entryDate = new Date(createDate);
   const currentDate = new Date();
   const isToday =
@@ -51,7 +53,7 @@ JournalEntryCardProps) {
 
   //maybe check if it should not be empty WTF is this here
   const habitsXpFromActions = habits
-    ? calculateHabitsXpFromEntry(habits, dailyWillpower)
+    ? calculateHabitsXpFromEntry(habits, totalWillpower)
     : {};
 
   const completedDailyToDos = () => {
@@ -105,7 +107,7 @@ JournalEntryCardProps) {
             <div className="ml-6 flex flex-col justify-center">
               <div className="flex items-center">
                 <div className="w-full flex items-center justify-center text-3xl font-bold">
-                  {dailyWillpower}
+                  {totalWillpower}
                   <FaBoltLightning className="ml-1 text-2xl" />
                 </div>
               </div>

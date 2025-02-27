@@ -7,12 +7,10 @@ export async function GET(
 ) {
   const userId = params.id;
   const userToday = req.nextUrl.searchParams.get("today");
-  const userTomorrow = req.nextUrl.searchParams.get("tomorrow");
 
-  // Check if both parameters are provided
-  if (!userToday || !userTomorrow) {
+  if (!userToday) {
     return NextResponse.json(
-      { error: "Both 'today' and 'tomorrow' parameters are required" },
+      { error: "'today' parameter is required" },
       { status: 400 }
     );
   }
@@ -20,8 +18,7 @@ export async function GET(
   try {
     const { todaysJournalEntry } = await getTodaysJournalEntry(
       userId,
-      userToday,
-      userTomorrow
+      userToday
     );
 
     return NextResponse.json({ todaysJournalEntry }, { status: 200 });

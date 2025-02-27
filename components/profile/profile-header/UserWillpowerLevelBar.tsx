@@ -1,26 +1,29 @@
 //NOTE* USER LEVEL BAR - WIP COMPONENT - currently there is no logic for negative XP
 
 import { motion } from "framer-motion";
-import { useCurrentWillpower } from "@hooks/useCurrentWillpower";
+import { useTotalWillpowerBeforeToday } from "@hooks/useTotalWillpowerBeforeToday";
 import { useTodayJournalEntry } from "@hooks/useTodayJournalEntry";
 import { calculateLevel, xpForLevel } from "@lib/level";
 import { JOURNAL_COLORS } from "@lib/colors";
 
-export function WillpowerLevelBar() {
-  const { currentWillpower, currentWillpowerLoading } = useCurrentWillpower();
+export function UserWillpowerLevelBar() {
+  const { totalWillpowerBeforeToday, totalWillpowerBeforeTodayLoading } =
+    useTotalWillpowerBeforeToday();
   const { todayEntry, todayEntryLoading } = useTodayJournalEntry();
 
+  // Use nullish coalescing (??) to default to 0 only when values are null/undefined,
+  // preserving intentional zero values for willpower changes
   const bonusWillpower = todayEntry?.bonusWillpower ?? 0;
   const dailyWillpower = todayEntry?.dailyWillpower ?? 0;
 
-  const currentXP = currentWillpower;
+  const currentXP = totalWillpowerBeforeToday;
   const bonusXP = bonusWillpower;
-  const projectedXP = dailyWillpower - bonusWillpower;
+  const projectedXP = dailyWillpower;
 
-  const level = calculateLevel(currentWillpower);
+  const level = calculateLevel(totalWillpowerBeforeToday);
   const { nextLevelXP } = xpForLevel(level);
 
-  const isLoading = currentWillpowerLoading || todayEntryLoading;
+  const isLoading = totalWillpowerBeforeTodayLoading || todayEntryLoading;
 
   // Calculate percentages
   const currentPercentage = isLoading
@@ -35,10 +38,7 @@ export function WillpowerLevelBar() {
     ? 0
     : Math.max(
         0,
-        Math.min(
-          100 - currentPercentage - bonusPercentage,
-          (projectedXP / nextLevelXP) * 100
-        )
+        Math.min(100 - currentPercentage, (projectedXP / nextLevelXP) * 100)
       );
 
   // Remove totalPositivePercentage and totalNegativePercentage
@@ -63,7 +63,7 @@ export function WillpowerLevelBar() {
         <div className="text-sm">
           Level
           <span className="text-primary text-xl ml-1 font-bold">
-            {currentWillpowerLoading ? "??" : level}
+            {totalWillpowerBeforeTodayLoading ? "??" : level}
           </span>
         </div>
 
@@ -147,44 +147,44 @@ export function WillpowerLevelBar() {
           )}
         </div>
       </div>
-      {isLoading && <div className="mx-1 mt-1 text-xs">??</div>}
+      {isLoading && (
+        <div className="mx-1 mt-1 font-semibold text-xs text-muted-foreground">
+          ??
+        </div>
+      )}
       {!isLoading && (
         <div className="mt-1 flex text-xs justify-between space-x-4 mx-1">
           <div className="space-x-2">
             {/* <span className="text-primary">
-              <span className="mr-1 font-normal">Previous:</span>
-              {currentXP}
+              <span className="mr-1">Previous:</span>
+              <span className="font-semibold">{currentXP}</span>
+              
             </span> */}
             {bonusXP > 0 && (
               <span className={`text-${JOURNAL_COLORS.night}`}>
-                <span className="mr-1 font-normal">Bonus:</span>
-                {bonusXP}
+                <span className="mr-1">Bonus:</span>
+                <span className="font-semibold">{bonusXP}</span>
               </span>
             )}
 
             {projectedXP !== 0 && (
               <span
-                className={
+                className={`${
                   projectedXP < 0
                     ? "text-pink-500"
-                    : `text-${JOURNAL_COLORS.night}`
-                }
+                    : `text-${JOURNAL_COLORS.day}`
+                }`}
               >
-                <span className={`mr-1 font-normal text-${JOURNAL_COLORS.day}`}>
-                  Today:
-                </span>
-                <span className={`text-${JOURNAL_COLORS.day}`}>
-                  {projectedXP}
-                </span>
+                <span className="mr-1">Today:</span>
+                <span className="font-semibold">{projectedXP}</span>
               </span>
             )}
           </div>
 
           <div className="flex flex-end">
-            <span className="text-muted-foreground">
+            <span className="text-muted-foreground font-semibold">
               {/* Ensure the total XP doesn't exceed nextLevelXP */}
-              {Math.min(currentXP + bonusXP + projectedXP, nextLevelXP)}
-              <span className="font-normal">/</span>
+              {Math.min(currentXP + bonusXP + projectedXP, nextLevelXP)}/
               {nextLevelXP}
             </span>
           </div>

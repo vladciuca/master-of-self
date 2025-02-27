@@ -72,7 +72,13 @@ export function UserHabits() {
     if (todayEntryLoading || lastEntryLoading) {
       return 0;
     }
-    return todayEntry?.dailyWillpower || lastEntry?.dailyWillpower || 0;
+
+    const lastEntryDailyWillpower = todayEntry?.dailyWillpower || 0;
+    const lastEntryBonusWillpower = todayEntry?.bonusWillpower || 0;
+    const lastEntryTotalWillpower =
+      lastEntryDailyWillpower + lastEntryBonusWillpower;
+
+    return lastEntryTotalWillpower;
   }, [todayEntry, lastEntry, todayEntryLoading, lastEntryLoading]);
 
   const entryLoading = todayEntryLoading || lastEntryLoading;

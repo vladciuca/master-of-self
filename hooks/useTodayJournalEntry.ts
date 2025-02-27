@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
-import { getToday, getTomorrow } from "@lib/time";
+import { getToday } from "@lib/time";
 import { Session, JournalEntryMetadata } from "@models/types";
 
 export function useTodayJournalEntry() {
@@ -18,10 +18,9 @@ export function useTodayJournalEntry() {
 
       try {
         const today = getToday();
-        const tomorrow = getTomorrow();
 
         const todayEntryResponse = await fetch(
-          `/api/users/${session?.user.id}/journal-entries/today?today=${today}&tomorrow=${tomorrow}`
+          `/api/users/${session?.user.id}/journal-entries/today?today=${today}`
         );
 
         if (!todayEntryResponse.ok) {

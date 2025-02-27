@@ -154,11 +154,9 @@ export async function getJournalEntries(userId: string): Promise<{
 }
 
 // GET TODAY'S USER JOURNAL ENTRY ===============================================================
-// ADD USER LOCAL TIME PASSED AS PARAM
 export async function getTodaysJournalEntry(
   userId: string,
-  userToday: string,
-  userTomorrow: string
+  userToday: string
 ): Promise<{
   todaysJournalEntry: JournalEntry | null;
   error?: string;
@@ -166,15 +164,15 @@ export async function getTodaysJournalEntry(
   try {
     if (!journalEntries) await init();
 
-    // Set up the date range for today (00:00:00 to 23:59:59)
+    // convert the Date from string to Date obj
     const today = new Date(userToday);
-    const tomorrow = new Date(userTomorrow);
 
     const todaysJournalEntry = await journalEntries.findOne({
       creatorId: new ObjectId(userId),
+      // we always use 00:00 time stamps when creating a new entry by default
+      // so for this we can use directly equals exact date to find the corresponding entry
       createDate: {
-        $gte: today,
-        $lt: tomorrow,
+        $eq: today,
       },
     });
 
@@ -201,8 +199,8 @@ export async function getYesterdaysJournalEntry(
 
     const yesterdaysJournalEntry = await journalEntries.findOne({
       creatorId: new ObjectId(userId),
-      //we always use 00:00 time stamps when creating a new entry by default
-      //so for this we can use directly equals exact date to find the corresponding entry
+      // we always use 00:00 time stamps when creating a new entry by default
+      // so for this we can use directly equals exact date to find the corresponding entry
       createDate: {
         $eq: yesterday,
       },
@@ -278,8 +276,9 @@ export async function getWeeklyWillpowerData(
       journalEntriesData.map((entry) => [
         entry.createDate.toISOString().split("T")[0],
         {
-          generatedWillpower:
-            (entry.dailyWillpower as number) - (entry.bonusWillpower as number),
+          // generatedWillpower:
+          //   (entry.dailyWillpower as number) - (entry.bonusWillpower as number),
+          generatedWillpower: Number(entry.dailyWillpower),
           bonusWillpower: Number(entry.bonusWillpower),
         },
       ])
@@ -307,7 +306,7 @@ export async function getWeeklyWillpowerData(
     };
   }
 }
-
+// NOTE* combine this two DB functions into one?
 // GET TOTAL WILLPOWER ==========================================================================
 export async function getTotalWillpower(userId: string): Promise<{
   totalWillpower: number;
@@ -325,7 +324,12 @@ export async function getTotalWillpower(userId: string): Promise<{
       {
         $group: {
           _id: null,
-          totalWillpower: { $sum: "$dailyWillpower" },
+          // totalWillpower: { $sum: "$dailyWillpower" },
+          totalWillpower: {
+            $sum: {
+              $add: ["$dailyWillpower", "$bonusWillpower"],
+            },
+          },
         },
       },
     ];
@@ -346,12 +350,12 @@ export async function getTotalWillpower(userId: string): Promise<{
   }
 }
 
-// GET CURRENT WILLPOWER ========================================================================
-export async function getCurrentWillpower(
+// GET TOTAL WILLPOWER BEFORE TODAY ==============================================================
+export async function getTotalWillpowerBeforeToday(
   userId: string,
   userToday: string
 ): Promise<{
-  currentWillpower: number;
+  totalWillpowerBeforeToday: number;
   error?: string;
 }> {
   try {
@@ -370,7 +374,12 @@ export async function getCurrentWillpower(
       {
         $group: {
           _id: null,
-          currentWillpower: { $sum: "$dailyWillpower" },
+          // totalWillpowerBeforeToday: { $sum: "$dailyWillpower" },
+          totalWillpowerBeforeToday: {
+            $sum: {
+              $add: ["$dailyWillpower", "$bonusWillpower"],
+            },
+          },
         },
       },
     ];
@@ -378,14 +387,14 @@ export async function getCurrentWillpower(
     const result = await journalEntries.aggregate(pipeline).toArray();
 
     if (result.length === 0) {
-      return { currentWillpower: 0 };
+      return { totalWillpowerBeforeToday: 0 };
     }
 
-    return { currentWillpower: result[0].currentWillpower };
+    return { totalWillpowerBeforeToday: result[0].totalWillpowerBeforeToday };
   } catch (error) {
     console.error("Failed to calculate current willpower", error);
     return {
-      currentWillpower: 0,
+      totalWillpowerBeforeToday: 0,
       error: "Failed to calculate current willpower",
     };
   }

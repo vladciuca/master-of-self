@@ -19,7 +19,7 @@ import { XP_COLORS } from "@lib/colors";
 type HabitActionsProps = {
   onChange: (value: JournalEntryHabit) => void;
   actionChanges?: JournalEntryHabit;
-  dailyWillpower: number;
+  totalWillpower: number;
 };
 
 const skeletonCards = Array.from({ length: 3 }, (_, index) => (
@@ -29,7 +29,7 @@ const skeletonCards = Array.from({ length: 3 }, (_, index) => (
 export function HabitActionsStep({
   onChange,
   actionChanges = {},
-  dailyWillpower,
+  totalWillpower,
 }: HabitActionsProps) {
   const { habits, habitsLoading, habitsError } = useUserHabits();
   // const initialMergeRef = useRef(false);
@@ -72,11 +72,11 @@ export function HabitActionsStep({
     (habit: Habit) => {
       const xpSums = calculateHabitsXpFromEntry(
         localActionValues,
-        dailyWillpower
+        totalWillpower
       );
       return xpSums[habit._id] || 0;
     },
-    [localActionValues, dailyWillpower]
+    [localActionValues, totalWillpower]
   );
 
   // This function updates individual action values and calls the grandfather's onChange
@@ -102,10 +102,10 @@ export function HabitActionsStep({
       title="Habits"
       description="Track your progress on habits. Get 1% bonus XP for each Willpower point earned."
       scoreSection={
-        dailyWillpower > 0 && (
+        totalWillpower > 0 && (
           <>
             <span className={`text-${XP_COLORS.positive}`}>
-              +{dailyWillpower}%
+              +{totalWillpower}%
             </span>
             <span className="ml-2 text-2xl">XP</span>
           </>
@@ -125,7 +125,7 @@ export function HabitActionsStep({
                   // actionChanges={mergedActionValues[habit._id]}
                   actionChanges={actionChanges[habit._id]}
                   habitsLoading={habitsLoading}
-                  dailyWillpower={dailyWillpower}
+                  totalWillpower={totalWillpower}
                 />
               </li>
             ))}

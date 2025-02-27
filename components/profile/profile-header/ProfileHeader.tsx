@@ -1,19 +1,15 @@
 "use client";
 
 import Link from "next/link";
-import { WillpowerLevelBar } from "@components/profile/profile-header/WillpowerLevelBar";
+import { UserWillpowerLevelBar } from "@components/profile/profile-header/UserWillpowerLevelBar";
 import { GiCharacter } from "react-icons/gi";
-// import { FaBoltLightning } from "react-icons/fa6";
-// import { useTotalWillpower } from "@hooks/useTotalWillpower";
 import { Session } from "@models/types";
 
 type ProfileBarProps = {
   session: Session;
 };
 
-export function ProfileNav({ session }: ProfileBarProps) {
-  // const { totalWillpower, totalWillpowerLoading } = useTotalWillpower();
-
+export function ProfileHeader({ session }: ProfileBarProps) {
   // const name = session.user?.name || "";
   // const nameInitials = name
   //   ? name
@@ -34,19 +30,7 @@ export function ProfileNav({ session }: ProfileBarProps) {
       </div>
 
       <div className="flex flex-grow flex-col justify-end ml-3">
-        <div className="flex items-center text-xl font-bold">
-          {/* <div className="flex flex-col items-end">
-            <div className="text-xs uppercase text-muted-foreground">Total</div>
-            <span className="text-4xl">
-              {totalWillpowerLoading ? "??" : totalWillpower}
-            </span>
-          </div>
-
-          <div>
-            <FaBoltLightning className="ml-1" size={"2.5rem"} />
-          </div> */}
-          <WillpowerLevelBar />
-        </div>
+        <UserWillpowerLevelBar />
       </div>
     </div>
   );
