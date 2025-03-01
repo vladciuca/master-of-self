@@ -1,32 +1,29 @@
 "use client";
 
+import { useFormContext } from "react-hook-form";
 import { FormStepTemplate } from "@components/journal/journal-entry-form/form-steps/FormStepTemplate";
 import { Badge } from "@components/ui/badge";
 import { Checkbox } from "@components/ui/checkbox";
 import { useState, useEffect } from "react";
+import type { JournalEntry } from "@models/types";
 
-type HowGreatWasTodayProps = {
-  greatToday: string[];
-  onHowGreatTodayChange: (howGreatToday: string[]) => void;
-  initialHowGreatToday?: string[];
-};
+export function HowGreatWasToday() {
+  const { watch, setValue } = useFormContext<JournalEntry>();
 
-export function HowGreatWasToday({
-  greatToday,
-  onHowGreatTodayChange,
-  initialHowGreatToday = [],
-}: HowGreatWasTodayProps) {
+  const greatToday = watch("dayEntry.greatToday") || [];
+  const howGreatToday = watch("nightEntry.howGreatToday") || [];
+
   const [checkedItems, setCheckedItems] = useState<{ [key: string]: boolean }>(
     {}
   );
 
   useEffect(() => {
     const initialCheckedState = greatToday.reduce((acc, item) => {
-      acc[item] = initialHowGreatToday.includes(item);
+      acc[item] = howGreatToday.includes(item);
       return acc;
     }, {} as { [key: string]: boolean });
     setCheckedItems(initialCheckedState);
-  }, [greatToday, initialHowGreatToday]);
+  }, [greatToday, howGreatToday]);
 
   const handleCheckboxChange = (item: string) => {
     setCheckedItems((prev) => {
@@ -35,7 +32,11 @@ export function HowGreatWasToday({
       const newHowGreatToday = greatToday.filter(
         (greatItem) => newCheckedItems[greatItem]
       );
-      onHowGreatTodayChange(newHowGreatToday);
+
+      setValue("nightEntry.howGreatToday", newHowGreatToday, {
+        // shouldValidate: true,
+        shouldDirty: true,
+      });
 
       return newCheckedItems;
     });
@@ -64,14 +65,7 @@ export function HowGreatWasToday({
                 </Badge>
               </div>
 
-              <span
-                // className={`ml-1 mr-2 ${
-                //   checkedItems[item] ? "line-through" : ""
-                // }`}
-                className="break-words w-5/6 text-left mt-1"
-              >
-                {item}
-              </span>
+              <span className="break-words w-5/6 text-left mt-1">{item}</span>
             </div>
 
             <div className="flex justify-end w-1/6">

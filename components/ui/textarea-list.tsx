@@ -12,6 +12,14 @@ function TextAreaList({ entryList, onChange }: TextAreaListProps) {
   const [focusedRow, setFocusedRow] = useState<number>(0);
   const itemRefs = useRef<(HTMLLIElement | null)[]>([]);
 
+  // Update internal state when props change
+  // was added to ensure that the internal state of the TextAreaList component (textRows) stays in sync with the external prop (entryList) provided by the parent component. This is important in a controlled component scenario, where the source of truth for the data is in the parent component (managed by React Hook Form in this case).
+  // useEffect(() => {
+  //   if (JSON.stringify(entryList) !== JSON.stringify(textRows)) {
+  //     setTextRows(entryList.length > 0 ? entryList : [""]);
+  //   }
+  // }, [entryList]);
+
   useEffect(() => {
     const filteredEntries = textRows.filter((row) => row.trim() !== "");
     if (JSON.stringify(filteredEntries) !== JSON.stringify(entryList)) {
@@ -50,10 +58,6 @@ function TextAreaList({ entryList, onChange }: TextAreaListProps) {
         ...prev.slice(newIndex),
       ]);
       setFocusedRow(newIndex);
-
-      // setTimeout(() => {
-      //   itemRefs.current[newIndex]?.focus();
-      // }, 0);
     }
     if (event.key === "Backspace") {
       const currentLi = itemRefs.current[focusedRow];
@@ -62,19 +66,6 @@ function TextAreaList({ entryList, onChange }: TextAreaListProps) {
         const newIndex = Math.max(0, focusedRow - 1);
         setTextRows((prev) => prev.filter((_, index) => index !== focusedRow));
         setFocusedRow(newIndex);
-
-        // setTimeout(() => {
-        //   const prevLi = itemRefs.current[newIndex];
-        //   if (prevLi) {
-        //     prevLi.focus();
-        //     const range = document.createRange();
-        //     range.selectNodeContents(prevLi);
-        //     range.collapse(false);
-        //     const selection = window.getSelection();
-        //     selection?.removeAllRanges();
-        //     selection?.addRange(range);
-        //   }
-        // }, 0);
       }
     }
   };
@@ -168,3 +159,75 @@ const MemoizedTextAreaList = React.memo(
 );
 
 export { MemoizedTextAreaList as TextAreaList };
+// "use client";
+
+// import type React from "react";
+// import { useRef, useCallback } from "react";
+
+// interface TextAreaListProps {
+//   value: string[];
+//   onChange: (newValue: string[]) => void;
+// }
+
+// export function TextAreaList({ value, onChange }: TextAreaListProps) {
+//   const itemRefs = useRef<(HTMLLIElement | null)[]>([]);
+
+//   const handleKeyDown = useCallback(
+//     (event: React.KeyboardEvent<HTMLLIElement>, index: number) => {
+//       if (event.key === "Enter") {
+//         event.preventDefault();
+//         const newValue = [...value];
+//         newValue.splice(index + 1, 0, "");
+//         onChange(newValue);
+//         // Focus will be handled by React in the next render
+//       } else if (
+//         event.key === "Backspace" &&
+//         value[index] === "" &&
+//         value.length > 1
+//       ) {
+//         event.preventDefault();
+//         const newValue = value.filter((_, i) => i !== index);
+//         onChange(newValue);
+//         // Focus previous item if available
+//         if (index > 0) {
+//           itemRefs.current[index - 1]?.focus();
+//         }
+//       }
+//     },
+//     [value, onChange]
+//   );
+
+//   const handleInput = useCallback(
+//     (index: number, newText: string) => {
+//       const newValue = [...value];
+//       newValue[index] = newText;
+//       onChange(newValue);
+//     },
+//     [value, onChange]
+//   );
+
+//   const refCallback = useCallback((el: HTMLLIElement | null, index: number) => {
+//     itemRefs.current[index] = el;
+//   }, []);
+
+//   return (
+//     <div className="rounded-md overflow-scroll h-full min-h-60">
+//       <ol className="list-decimal ml-8 mr-3 py-2">
+//         {value.map((text, index) => (
+//           <li
+//             key={index}
+//             ref={(el) => refCallback(el, index)}
+//             className="outline-none text-base"
+//             contentEditable
+//             suppressContentEditableWarning
+//             onInput={(e) =>
+//               handleInput(index, e.currentTarget.textContent || "")
+//             }
+//             onKeyDown={(e) => handleKeyDown(e, index)}
+//             dangerouslySetInnerHTML={{ __html: text }}
+//           />
+//         ))}
+//       </ol>
+//     </div>
+//   );
+// }

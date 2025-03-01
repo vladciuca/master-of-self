@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "trace-dev": "NODE_OPTIONS='--trace-warnings' next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"

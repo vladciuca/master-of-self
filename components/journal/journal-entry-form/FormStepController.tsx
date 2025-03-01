@@ -2,6 +2,9 @@
 
 import React, { useState, useEffect, useCallback, useMemo } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+
+import { useForm, FormProvider, UseFormReturn } from "react-hook-form";
+
 import { DailyBonus } from "@components/journal/journal-entry-form/form-steps/daily-bonus/DailyBonus";
 import { GreatToday } from "@components/journal/journal-entry-form/form-steps/GreatToday";
 import { HowGreatWasToday } from "@components/journal/journal-entry-form/form-steps/HowGreatWasToday";
@@ -17,7 +20,7 @@ import { calculateWillpowerScore } from "@lib/score";
 import { calculateHabitsXpFromEntry } from "@lib/level";
 
 // TEST_FLAG: used for enabling all forms steps
-const SHOW_ALL_TEST = false;
+const SHOW_ALL_TEST = true;
 
 type FormStepControllerProps = {
   submitting: boolean;
@@ -28,6 +31,8 @@ type FormStepControllerProps = {
   hasGratitude?: boolean;
   hasReflection?: boolean;
 };
+
+export type JournalFormContext = UseFormReturn<JournalEntry>;
 
 export function FormStepController({
   journalEntryData,
@@ -40,189 +45,137 @@ export function FormStepController({
 }: FormStepControllerProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const [formData, setFormData] = useState<JournalEntry>(() => ({
-    dailyWillpower: journalEntryData?.dailyWillpower || 0,
-    bonusWillpower: journalEntryData?.bonusWillpower || 0,
-    dayEntry: {
-      greatToday: journalEntryData?.dayEntry?.greatToday || [],
-      gratefulFor: journalEntryData?.dayEntry?.gratefulFor || [],
-    },
-    nightEntry: {
-      howGreatToday: journalEntryData?.nightEntry?.howGreatToday || [],
-      dailyHighlights: journalEntryData?.nightEntry?.dailyHighlights || [],
-      learnedToday: journalEntryData?.nightEntry?.learnedToday || [],
-    },
-    habits: journalEntryData?.habits || {},
-  }));
   const [isInitialized, setIsInitialized] = useState(false);
 
+  // Initialize React Hook Form with default values
+  const methods = useForm<JournalEntry>({
+    defaultValues: {
+      dailyWillpower: journalEntryData?.dailyWillpower || 0,
+      bonusWillpower: journalEntryData?.bonusWillpower || 0,
+      dayEntry: {
+        greatToday: journalEntryData?.dayEntry?.greatToday || [],
+        gratefulFor: journalEntryData?.dayEntry?.gratefulFor || [],
+      },
+      nightEntry: {
+        howGreatToday: journalEntryData?.nightEntry?.howGreatToday || [],
+        dailyHighlights: journalEntryData?.nightEntry?.dailyHighlights || [],
+        learnedToday: journalEntryData?.nightEntry?.learnedToday || [],
+      },
+      habits: journalEntryData?.habits || {},
+    },
+  });
+
+  // Get form values and methods
+  const { watch, setValue, getValues } = methods;
+
+  const greatToday = watch("dayEntry.greatToday");
+  const gratefulFor = watch("dayEntry.gratefulFor");
+
   // Get daily WP form day step forms
-  const calculateDailyWillpower = useCallback((data: JournalEntry) => {
-    const greatTodayScore = calculateWillpowerScore(
-      data.dayEntry?.greatToday || []
-    );
-    const gratefulForScore = calculateWillpowerScore(
-      data.dayEntry?.gratefulFor || []
-    );
-    return Math.floor((greatTodayScore + gratefulForScore) * 1.5);
-  }, []);
-
-  useEffect(() => {
-    if (journalEntryData) {
-      setFormData((prev) => ({
-        ...prev,
-        ...journalEntryData,
-        dayEntry: {
-          ...prev.dayEntry,
-          ...journalEntryData.dayEntry,
-        },
-        nightEntry: {
-          ...prev.nightEntry,
-          ...journalEntryData.nightEntry,
-        },
-        habits: {
-          ...prev.habits,
-          ...journalEntryData.habits,
-        },
-      }));
-    }
-  }, [journalEntryData]);
-
-  useEffect(() => {
-    const willpower = calculateDailyWillpower(formData);
-    if (willpower !== formData.dailyWillpower) {
-      setFormData((prev) => ({ ...prev, dailyWillpower: willpower }));
-    }
-  }, [formData, calculateDailyWillpower]);
-
-  const handleChange = useCallback(
-    (
-      field:
-        | "gratefulFor"
-        | "greatToday"
-        | "howGreatToday"
-        | "dailyHighlights"
-        | "learnedToday"
-        | "habits",
-      value: string[] | { [key: string]: { [key: string]: number } }
-    ) => {
-      setFormData((prev) => {
-        const newData = { ...prev };
-        if (field === "greatToday" || field === "gratefulFor") {
-          newData.dayEntry = {
-            ...prev.dayEntry,
-            [field]: value as string[],
-          };
-        } else if (
-          field === "howGreatToday" ||
-          field === "dailyHighlights" ||
-          field === "learnedToday"
-        ) {
-          newData.nightEntry = {
-            ...prev.nightEntry,
-            [field]: value as string[],
-          };
-        } else if (field === "habits") {
-          newData.habits = {
-            ...prev.habits,
-            ...(value as { [key: string]: { [key: string]: number } }),
-          };
-        }
-        return newData;
-      });
+  const calculateDailyWillpower = useCallback(
+    (greatTodayList: string[], gratefulForList: string[]) => {
+      const greatTodayScore = calculateWillpowerScore(greatTodayList || []);
+      const gratefulForScore = calculateWillpowerScore(gratefulForList || []);
+      return Math.floor((greatTodayScore + gratefulForScore) * 1.5);
     },
     []
   );
+
+  // Update form data when journalEntryData changes
+  useEffect(() => {
+    if (journalEntryData) {
+      // Update all form fields with new data
+      setValue("dailyWillpower", journalEntryData.dailyWillpower || 0);
+      setValue("bonusWillpower", journalEntryData.bonusWillpower || 0);
+
+      if (journalEntryData.dayEntry) {
+        setValue(
+          "dayEntry.greatToday",
+          journalEntryData.dayEntry.greatToday || []
+        );
+        setValue(
+          "dayEntry.gratefulFor",
+          journalEntryData.dayEntry.gratefulFor || []
+        );
+      }
+
+      if (journalEntryData.nightEntry) {
+        setValue(
+          "nightEntry.howGreatToday",
+          journalEntryData.nightEntry.howGreatToday || []
+        );
+        setValue(
+          "nightEntry.dailyHighlights",
+          journalEntryData.nightEntry.dailyHighlights || []
+        );
+        setValue(
+          "nightEntry.learnedToday",
+          journalEntryData.nightEntry.learnedToday || []
+        );
+      }
+
+      if (journalEntryData.habits) {
+        setValue("habits", journalEntryData.habits);
+      }
+    }
+  }, [journalEntryData, setValue]);
+
+  // Update willpower when relevant fields change
+  useEffect(() => {
+    const willpower = calculateDailyWillpower(
+      greatToday || [],
+      gratefulFor || []
+    );
+    setValue("dailyWillpower", willpower);
+  }, [greatToday, gratefulFor, calculateDailyWillpower, setValue]);
 
   const formSteps = useMemo(
     () => [
       {
         type: "reward",
-        component: <DailyBonus bonusWillpower={formData.bonusWillpower} />,
+        component: <DailyBonus />,
         isAvailable:
           SHOW_ALL_TEST ||
-          (!isEvening(userEveningTime) && formData.bonusWillpower > 0),
+          (!isEvening(userEveningTime) && watch("bonusWillpower") > 0),
       },
       {
         type: "gratitude",
-        component: (
-          <GratefulFor
-            dailyWillpower={formData.dailyWillpower}
-            entryList={formData.dayEntry?.gratefulFor || []}
-            onChange={(value) => handleChange("gratefulFor", value)}
-          />
-        ),
+        component: <GratefulFor />,
         isAvailable:
           SHOW_ALL_TEST || (!isEvening(userEveningTime) && hasGratitude),
       },
       {
         type: "day",
-        component: (
-          <GreatToday
-            dailyWillpower={formData.dailyWillpower}
-            entryList={formData.dayEntry?.greatToday || []}
-            onChange={(value) => handleChange("greatToday", value)}
-          />
-        ),
+        component: <GreatToday />,
         isAvailable: SHOW_ALL_TEST || !isEvening(userEveningTime),
       },
       {
         type: "night",
-        component: (
-          <HowGreatWasToday
-            greatToday={formData.dayEntry?.greatToday || []}
-            onHowGreatTodayChange={(howGreatToday) =>
-              handleChange("howGreatToday", howGreatToday)
-            }
-            initialHowGreatToday={formData.nightEntry?.howGreatToday || []}
-          />
-        ),
+        component: <HowGreatWasToday />,
         isAvailable:
           SHOW_ALL_TEST ||
           (isEvening(userEveningTime) &&
-            (formData.dayEntry?.greatToday?.length || 0) > 0),
+            watch("dayEntry.greatToday")?.length) ||
+          0 > 0,
       },
       {
         type: "highlights",
-        component: (
-          <DailyHighlights
-            entryList={formData.nightEntry?.dailyHighlights || []}
-            onChange={(value) => handleChange("dailyHighlights", value)}
-          />
-        ),
+        component: <DailyHighlights />,
         isAvailable: SHOW_ALL_TEST || isEvening(userEveningTime),
       },
       {
         type: "reflection",
-        component: (
-          <LearnedToday
-            entryList={formData.nightEntry?.learnedToday || []}
-            onChange={(value) => handleChange("learnedToday", value)}
-          />
-        ),
+        component: <LearnedToday />,
         isAvailable:
           SHOW_ALL_TEST || (isEvening(userEveningTime) && hasReflection),
       },
       {
         type: "habits",
-        component: (
-          <HabitActionsStep
-            onChange={(value) => handleChange("habits", value)}
-            actionChanges={formData.habits || {}}
-            totalWillpower={formData.dailyWillpower + formData.bonusWillpower}
-          />
-        ),
+        component: <HabitActionsStep />,
         isAvailable: hasHabits,
       },
     ],
-    [
-      formData,
-      handleChange,
-      userEveningTime,
-      hasGratitude,
-      hasReflection,
-      hasHabits,
-    ]
+    [watch, userEveningTime, hasGratitude, hasReflection, hasHabits]
   );
 
   const availableSteps = useMemo(
@@ -274,11 +227,13 @@ export function FormStepController({
     [setStep, submitting]
   );
 
-  // Updated handleNextForm to use stepTypes
+  // Updated handleNextForm to use stepTypes and React Hook Form
   const handleNextForm = useCallback(async () => {
+    const formData = getValues();
     const nextIndex = currentStepIndex + 1;
+
     if (nextIndex < availableSteps.length) {
-      await onSubmit(formData);
+      await onSubmit(formData); // multiple submits - submits data after each step
       handleStepChange(stepTypes[nextIndex]);
     } else {
       await onSubmit(formData);
@@ -287,7 +242,7 @@ export function FormStepController({
   }, [
     currentStepIndex,
     availableSteps.length,
-    formData,
+    getValues,
     onSubmit,
     handleStepChange,
     router,
@@ -311,6 +266,7 @@ export function FormStepController({
     availableSteps[currentStepIndex !== -1 ? currentStepIndex : 0]?.component;
 
   // TEMP UTIL FUNCTION
+  // NOTE: move to util when cleaning up this file
   function countMatchingElements(
     arr1: string[] | undefined,
     arr2: string[] | undefined
@@ -321,9 +277,10 @@ export function FormStepController({
     return safeArr2.filter((element) => set1.has(element)).length;
   }
 
+  const formValues = getValues();
   const habitXpValues = calculateHabitsXpFromEntry(
-    formData.habits || {},
-    formData.dailyWillpower
+    formValues.habits || {},
+    formValues.dailyWillpower
   );
 
   // NOTE: move to util when cleaning up this file
@@ -331,32 +288,37 @@ export function FormStepController({
     Object.values(obj).filter((value) => value !== 0).length;
 
   return (
-    <div className="grid grid-rows-[auto,1fr,auto] h-full">
-      <FormStepProgress
-        availableSteps={availableSteps}
-        currentStepType={currentStep}
-        handleStepChange={handleStepChange}
-        progressPercentage={progressPercentage}
-        greatTodayCount={formData.dayEntry?.greatToday?.length || 0}
-        dailyGoalsCompleted={countMatchingElements(
-          formData.dayEntry?.greatToday,
-          formData.nightEntry?.howGreatToday
-        )}
-        gratefulForCount={formData.dayEntry?.gratefulFor?.length || 0}
-        dailyHighlightsCount={formData.nightEntry?.dailyHighlights?.length || 0}
-        habitActionsCount={countNonZeroValues(habitXpValues)}
-        learnedTodayCount={formData.nightEntry?.learnedToday?.length || 0}
-      />
+    // Wrap everything in FormProvider to make form context available to all children
+    <FormProvider {...methods}>
+      <div className="grid grid-rows-[auto,1fr,auto] h-full">
+        <FormStepProgress
+          availableSteps={availableSteps}
+          currentStepType={currentStep}
+          handleStepChange={handleStepChange}
+          progressPercentage={progressPercentage}
+          greatTodayCount={watch("dayEntry.greatToday")?.length || 0}
+          dailyGoalsCompleted={countMatchingElements(
+            watch("dayEntry.greatToday"),
+            watch("nightEntry.howGreatToday")
+          )}
+          gratefulForCount={watch("dayEntry.gratefulFor")?.length || 0}
+          dailyHighlightsCount={
+            watch("nightEntry.dailyHighlights")?.length || 0
+          }
+          habitActionsCount={countNonZeroValues(habitXpValues)}
+          learnedTodayCount={watch("nightEntry.learnedToday")?.length || 0}
+        />
 
-      <div className="h-full overflow-hidden">{currentStepComponent}</div>
+        <div className="h-full overflow-hidden">{currentStepComponent}</div>
 
-      <FormStepNavigation
-        availableStepsLength={availableSteps.length}
-        currentStepIndex={currentStepIndex}
-        submitting={submitting}
-        handlePrevForm={handlePrevForm}
-        handleNextForm={handleNextForm}
-      />
-    </div>
+        <FormStepNavigation
+          availableStepsLength={availableSteps.length}
+          currentStepIndex={currentStepIndex}
+          submitting={submitting}
+          handlePrevForm={handlePrevForm}
+          handleNextForm={handleNextForm}
+        />
+      </div>
+    </FormProvider>
   );
 }

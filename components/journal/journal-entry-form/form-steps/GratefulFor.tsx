@@ -1,26 +1,24 @@
-import React, { useCallback } from "react";
+import { useFormContext } from "react-hook-form";
 import { FormStepTemplate } from "@components/journal/journal-entry-form/form-steps/FormStepTemplate";
 import { TextAreaList } from "@components/ui/textarea-list";
 import { FaBoltLightning } from "react-icons/fa6";
 import { JOURNAL_COLORS } from "@lib/colors";
+import type { JournalEntry } from "@models/types";
 
-type GratefulForProps = {
-  dailyWillpower: number;
-  entryList: string[];
-  onChange: (value: string[]) => void;
-};
+export function GratefulFor() {
+  const { watch, setValue } = useFormContext<JournalEntry>();
 
-function GratefulFor({
-  dailyWillpower,
-  entryList,
-  onChange,
-}: GratefulForProps) {
-  const handleTextAreaListChange = useCallback(
-    (newEntries: string[]) => {
-      onChange(newEntries);
-    },
-    [onChange]
-  );
+  // Watch the gratefulFor field & willpower
+  const dailyWillpower = watch("dailyWillpower");
+  const gratefulFor = watch("dayEntry.gratefulFor");
+
+  // Handle changes from TextAreaList
+  const handleTextAreaListChange = (newEntries: string[]) => {
+    setValue("dayEntry.gratefulFor", newEntries, {
+      // shouldValidate: true,
+      shouldDirty: true,
+    });
+  };
 
   return (
     <FormStepTemplate
@@ -33,20 +31,13 @@ function GratefulFor({
         </>
       }
     >
-      <TextAreaList entryList={entryList} onChange={handleTextAreaListChange} />
+      <TextAreaList
+        entryList={gratefulFor || []}
+        // empty [""] here to prevent rendering issues for when gratefulFor is undefined or null
+        // NOTE: could add this to the default state
+        // value={gratefulFor || [""]}
+        onChange={handleTextAreaListChange}
+      />
     </FormStepTemplate>
   );
 }
-
-GratefulFor.displayName = "GratefulFor";
-
-const MemoizedGratefulFor = React.memo(GratefulFor, (prevProps, nextProps) => {
-  return (
-    prevProps.dailyWillpower === nextProps.dailyWillpower &&
-    JSON.stringify(prevProps.entryList) ===
-      JSON.stringify(nextProps.entryList) &&
-    prevProps.onChange === nextProps.onChange
-  );
-});
-
-export { MemoizedGratefulFor as GratefulFor };

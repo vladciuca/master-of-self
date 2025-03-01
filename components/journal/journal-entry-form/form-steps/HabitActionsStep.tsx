@@ -1,100 +1,42 @@
-import {
-  useEffect,
-  useCallback,
-  //  useMemo, useRef,
-  useState,
-} from "react";
+import { useCallback } from "react";
+import { useFormContext } from "react-hook-form";
 import { FormStepTemplate } from "@/components/journal/journal-entry-form/form-steps/FormStepTemplate";
 import { HabitActions } from "@components/habits/habit-actions/HabitActions";
 import { SkeletonHabitAction } from "@components/skeletons/SkeletonHabitAction";
 import { useUserHabits } from "@/hooks/useUserHabits";
-import type { Habit, JournalEntryHabit } from "@models/types";
-import {
-  // deepMergeHabitsWithNewDefaultValues,
-  // getHabitActionDefaultValues,
-  calculateHabitsXpFromEntry,
-} from "@lib/level";
+import { calculateHabitsXpFromEntry } from "@lib/level";
 import { XP_COLORS } from "@lib/colors";
-
-type HabitActionsProps = {
-  onChange: (value: JournalEntryHabit) => void;
-  actionChanges?: JournalEntryHabit;
-  totalWillpower: number;
-};
+import type { Habit, JournalEntry } from "@models/types";
 
 const skeletonCards = Array.from({ length: 3 }, (_, index) => (
   <SkeletonHabitAction key={index} />
 ));
 
-export function HabitActionsStep({
-  onChange,
-  actionChanges = {},
-  totalWillpower,
-}: HabitActionsProps) {
+export function HabitActionsStep() {
   const { habits, habitsLoading, habitsError } = useUserHabits();
-  // const initialMergeRef = useRef(false);
-  const [localActionValues, setLocalActionValues] =
-    useState<JournalEntryHabit>(actionChanges);
+  const { watch, setValue } = useFormContext<JournalEntry>();
 
-  // Calculate default values based on habits
-  // const latestDefaultHabitActionValues = useMemo(
-  //   () => getHabitActionDefaultValues(habits, { includeCurrentXp: true }),
-  //   [habits]
-  // );
-
-  // Merge actionChanges with default values
-  // const mergedActionValues = useMemo(
-  //   () =>
-  //     deepMergeHabitsWithNewDefaultValues(
-  //       localActionValues,
-  //       latestDefaultHabitActionValues
-  //     ),
-  //   [localActionValues, latestDefaultHabitActionValues]
-  // );
-
-  // Call onChange with merged values only once when the component mounts
-  // useEffect(() => {
-  //   if (!initialMergeRef.current) {
-  //     setLocalActionValues(mergedActionValues);
-  //     // onChange(mergedActionValues);
-  //     initialMergeRef.current = true;
-  //   }
-  // }, [onChange, mergedActionValues]);
-  useEffect(() => {
-    setLocalActionValues(actionChanges);
-  }, [onChange, actionChanges]);
-
-  // useEffect(() => {
-  //   onChange(mergedActionValues);
-  // }, [mergedActionValues]);
+  const dailyWillpower = watch("dailyWillpower");
+  const bonusWillpower = watch("bonusWillpower");
+  const totalWillpower = dailyWillpower + bonusWillpower;
+  const todaysHabits = watch("habits");
 
   const calculateProjectedXP = useCallback(
     (habit: Habit) => {
-      const xpSums = calculateHabitsXpFromEntry(
-        localActionValues,
-        totalWillpower
-      );
+      const xpSums = calculateHabitsXpFromEntry(todaysHabits, totalWillpower);
       return xpSums[habit._id] || 0;
     },
-    [localActionValues, totalWillpower]
+    [todaysHabits, totalWillpower]
   );
 
-  // This function updates individual action values and calls the grandfather's onChange
+  // NOTE: we do not set current XP here anymore as 0 (default) - will be handled in hook
   const handleActionChange = useCallback(
     (habitId: string, actionId: string, newValue: number) => {
-      setLocalActionValues((prev) => {
-        const updatedValues = { ...prev };
-        if (!updatedValues[habitId]) {
-          updatedValues[habitId] = {
-            currentXp: habits.find((h) => h._id === habitId)?.xp || 0,
-          };
-        }
-        updatedValues[habitId][actionId] = newValue;
-        onChange(updatedValues);
-        return updatedValues;
+      setValue(`habits.${habitId}.${actionId}`, newValue, {
+        shouldDirty: true,
       });
     },
-    [onChange, habits]
+    [setValue]
   );
 
   return (
@@ -122,8 +64,7 @@ export function HabitActionsStep({
                   habit={habit}
                   projectedHabitXp={calculateProjectedXP(habit)}
                   onChange={handleActionChange}
-                  // actionChanges={mergedActionValues[habit._id]}
-                  actionChanges={actionChanges[habit._id]}
+                  actionChanges={todaysHabits[habit._id]}
                   habitsLoading={habitsLoading}
                   totalWillpower={totalWillpower}
                 />

@@ -138,7 +138,32 @@ JournalEntryCardProps) {
 
         {/* Habit Actions */}
         <div className="flex-grow flex flex-col items-start">
-          {habits && Object.keys(habits).length > 0 && (
+          {/* check for 0 values too to display this*/}
+          {habits &&
+            Object.values(habits).some((habitActions) =>
+              Object.entries(habitActions)
+                .filter(([key, value]) => key !== "currentXp")
+                .some(([_, value]) => value !== 0)
+            ) && (
+              <div className="mt-2 flex w-full">
+                <div className="flex-shrink-0 flex items-start mr-4">
+                  <h2 className="flex items-center text-muted-foreground mt-1">
+                    <Shell
+                      className="mr-2 text-muted-foreground"
+                      size={"1rem"}
+                    />
+                    Habits:
+                  </h2>
+                </div>
+                <div className="flex-grow flex flex-wrap items-start">
+                  <JournalEntryHabits
+                    habitsXp={habitsXpFromActions}
+                    habits={habits}
+                  />
+                </div>
+              </div>
+            )}
+          {/* {habits && Object.keys(habits).length > 0 && (
             <div className="mt-2 flex w-full">
               <div className="flex-shrink-0 flex items-start mr-4">
                 <h2 className="flex items-center text-muted-foreground mt-1">
@@ -153,7 +178,7 @@ JournalEntryCardProps) {
                 />
               </div>
             </div>
-          )}
+          )} */}
         </div>
 
         {isToday && (

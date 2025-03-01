@@ -30,17 +30,24 @@ export function HabitCardActions({
       {actions.map((action) => {
         const isActionBreak = action.type === "break";
 
+        // const actionParams = {
+        //   value: hasNoEntryToday
+        //     ? habitDefaultActionValues[action.id]
+        //     : habitActionValues[action.id] ||
+        //       // if the habit is created after the Journal Entry it will be null resulting in NaN
+        //       // must send values based on ActionType
+        //       displayActionValue({
+        //         value: 0,
+        //         dailyTarget: action.dailyTarget,
+        //         isActionBreak,
+        //       }),
+        //   dailyTarget: action.dailyTarget,
+        //   isActionBreak,
+        // };
         const actionParams = {
           value: hasNoEntryToday
             ? habitDefaultActionValues[action.id]
-            : habitActionValues[action.id] ||
-              // if the habit is created after the Journal Entry it will be null resulting in NaN
-              // must send values based on ActionType
-              displayActionValue({
-                value: 0,
-                dailyTarget: action.dailyTarget,
-                isActionBreak,
-              }),
+            : habitActionValues[action.id],
           dailyTarget: action.dailyTarget,
           isActionBreak,
         };

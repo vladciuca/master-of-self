@@ -36,11 +36,7 @@ export function HabitCard({
   submittingJournalEntry,
   hasNoEntryToday,
 }: HabitCardProps) {
-  const {
-    // description,
-    actions,
-    _id: habitId,
-  } = habit;
+  const { actions, _id: habitId } = habit;
 
   const { data: session } = useSession() as { data: Session | null };
   const pathName = usePathname();
