@@ -27,7 +27,7 @@ module.exports = {
       ),
     },
     {
-      pattern: new RegExp(`^(bg|text|border)-(${colors.ERROR_COLOR})$`),
+      pattern: new RegExp(`^(bg|text|border)-(${colors.ERROR_COLOR})(/\\d+)?$`),
       variants: ["hover"],
     },
     // {
