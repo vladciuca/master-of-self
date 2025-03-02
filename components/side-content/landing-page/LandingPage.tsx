@@ -76,8 +76,11 @@ function HeroSection() {
 
 function IntroductionSection() {
   return (
-    <motion.section className="text-center py-12" variants={sectionVariants}>
-      <h1 className="text-xl">
+    <motion.section
+      className="flex justify-center text-center w-full py-12"
+      variants={sectionVariants}
+    >
+      <h1 className="text-xl max-w-[800px]">
         Journaling in <strong className="text-teal-500">MOS</strong> is designed
         as a <strong className="text-teal-500">gameplay loop</strong> that
         reinforces motivation through positivity, leveraging{" "}
@@ -156,13 +159,13 @@ function ThreeCardsSection() {
 
   return (
     <motion.section
-      className="grid grid-rows-3 gap-6 px-6"
+      className="grid grid-rows-3 gap-6 px-6 justify-center"
       variants={sectionVariants}
     >
       {cards.map(({ icon, bg, textColor, title, content, list }, index) => (
         <motion.div
           key={index}
-          className={`w-full flex flex-col items-center justify-center p-6 rounded-3xl ${textColor} ${bg}`}
+          className={`max-w-[550px] flex flex-col items-center justify-center p-6 rounded-3xl ${textColor} ${bg}`}
         >
           <span className="mb-4 text-4xl">{icon}</span>
           <h3 className="text-xl font-bold">{title}</h3>
@@ -250,13 +253,13 @@ function MindsetBehaviorSection() {
 
   return (
     <motion.section
-      className="grid grid-rows-1 gap-8 px-6 py-8"
+      className="grid grid-rows-1 gap-8 px-6 py-8 justify-center"
       variants={sectionVariants}
       initial="hidden"
       animate="visible"
     >
       {cards.map((card, index) => (
-        <div key={index} className="my-8">
+        <div key={index} className="my-8 max-w-[900px]">
           <h3 className={`text-4xl font-bold`}>{card.title}</h3>
           <ul className="mt-4 list-inside">
             {card.list.map((item, idx) => (
