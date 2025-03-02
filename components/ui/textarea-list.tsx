@@ -160,8 +160,8 @@
 // ===========================================================================================
 
 //NOTE:
-// ### ADDED: text splitting on cursor position
-// ### TO ADD: be able to delete a fieldRow if there is text inside
+// ### ADDED: text splitting on cursor position on Enter
+// ### ADDED: be able to delete via Backspace a fieldRow if there is text inside
 // the text should be moved at the end of previous fieldRow
 "use client";
 
@@ -292,7 +292,46 @@ function TextAreaList({ entryList, onChange }: TextAreaListProps) {
 
     if (event.key === "Backspace") {
       const currentLi = itemRefs.current[focusedRow];
-      if (currentLi?.textContent === "" && textRows.length > 1) {
+
+      // Check if we're at the start of a line that's not the first line
+      if (currentLi && focusedRow > 0) {
+        const selection = window.getSelection();
+        if (selection && selection.rangeCount > 0) {
+          const range = selection.getRangeAt(0);
+          const cursorOffset = getCursorOffset(currentLi, range);
+
+          // If cursor is at the beginning of line
+          if (cursorOffset === 0) {
+            event.preventDefault();
+
+            // Get content of current line
+            const currentText = currentLi.textContent || "";
+
+            // Get previous line
+            const prevLi = itemRefs.current[focusedRow - 1];
+            const prevText = prevLi?.textContent || "";
+
+            // Set cursor position at the junction of both texts
+            const newCursorPosition = prevText.length;
+
+            // Update text rows
+            setTextRows((prev) => {
+              const newRows = [...prev];
+              newRows[focusedRow - 1] = prevText + currentText;
+              return newRows.filter((_, index) => index !== focusedRow);
+            });
+
+            // Set focus to previous row with cursor at the junction
+            cursorTargetRef.current = {
+              row: focusedRow - 1,
+              offset: newCursorPosition,
+            };
+            setFocusedRow(focusedRow - 1);
+          }
+        }
+      }
+      // Keep the existing logic for empty lines
+      else if (currentLi?.textContent === "" && textRows.length > 1) {
         event.preventDefault();
         const newIndex = Math.max(0, focusedRow - 1);
         setTextRows((prev) => prev.filter((_, index) => index !== focusedRow));
