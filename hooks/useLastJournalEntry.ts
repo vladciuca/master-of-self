@@ -42,23 +42,29 @@ export function useLastJournalEntry() {
         const entry = responseData?.lastJournalEntry || null;
         setLastEntry(entry);
 
-        const nightEntry = entry?.nightEntry || {
-          dailyHighlights: [],
-          howGreatToday: [],
-          learnedToday: [],
-          actions: {},
-        };
-        const dailyWillpower = entry?.dailyWillpower || 0;
+        //removed fallbacks as they are already handled
+        const nightEntry = entry.nightEntry;
+        // || {
+        //   dailyHighlights: [],
+        //   howGreatToday: [],
+        //   learnedToday: [],
+        // };
+        const dailyWillpower = entry.dailyWillpower;
+        // || 0;
+        const habits = entry.habits;
 
         // Calculate individual bonus willpower scores
         const howGreatTodayScore = calculateWillpowerScore(
-          nightEntry.howGreatToday || []
+          nightEntry.howGreatToday
+          // || []
         );
         const dailyHighlightsScore = calculateWillpowerScore(
-          nightEntry.dailyHighlights || []
+          nightEntry.dailyHighlights
+          // || []
         );
         const learnedTodayScore = calculateWillpowerScore(
-          nightEntry.learnedToday || []
+          nightEntry.learnedToday
+          // || []
         );
 
         // Set individual scores
@@ -73,12 +79,12 @@ export function useLastJournalEntry() {
 
         // Calculate and set habits XP
         if (
-          nightEntry.actions &&
-          typeof nightEntry.actions === "object" &&
-          Object.keys(nightEntry.actions).length > 0
+          habits &&
+          typeof habits === "object" &&
+          Object.keys(habits).length > 0
         ) {
           const currentHabitsXp = calculateHabitsXpFromEntry(
-            nightEntry.actions,
+            habits,
             dailyWillpower
           );
           setHabitsXp(currentHabitsXp);

@@ -181,27 +181,34 @@ export const getHabitActionDefaultValues = (
   }, {} as { [habitId: string]: JournalEntryHabitActions & { currentXp?: number } });
 };
 
-// will possibly need to remove IN FUTURE REFACTOR action-id keys if they are deleted
-export function deepMergeHabitsWithNewDefaultValues(
-  habitActionChanges: JournalEntryHabit,
-  latestDefault: JournalEntryHabit
-): JournalEntryHabit {
-  const result: JournalEntryHabit = { ...habitActionChanges };
+// Merge Habit Values function param vales
+type MergeDefaultHabitValueParams = {
+  values: JournalEntryHabit;
+  defaultValues: JournalEntryHabit;
+};
+// NOTE: must add {values: habitActionChanges, defaultValue: latestDefault} here for merge safety
+export function deepMergeHabitsWithNewDefaultValues({
+  values,
+  defaultValues,
+}: MergeDefaultHabitValueParams): JournalEntryHabit {
+  // Shallow copy won't keep original object nested properties references
+  // example of shallow copy: const result: JournalEntryHabit = { ...habitActionChanges };
+  // NOTE: we do not want to create a shallow copy as the nested objects will keep its references
+  const result: JournalEntryHabit = structuredClone(values);
 
-  for (const [outerKey, outerValue] of Object.entries(latestDefault)) {
+  for (const [outerKey, outerValue] of Object.entries(defaultValues)) {
     if (!(outerKey in result)) {
-      // If the outer key doesn't exist in result, add it with all its properties
-      result[outerKey] = { ...outerValue };
+      // If the outer key(new habit) is missing, add it and set currentXp to 0
+      // NOTE: We set the currentXp here to 0 as default because it means
+      // that the Habit was just created after today's Journal Entry
+      // this means that currentXP for the merged habit will always be 0
+      result[outerKey] = { ...outerValue, currentXp: 0 };
     } else {
-      // If the outer key exists, we need to merge the inner properties
+      // Outer key exists, merge missing inner properties
       for (const [innerKey, innerValue] of Object.entries(outerValue)) {
-        if (innerKey === "currentXp") {
-          // Don't overwrite existing currentXp
-          if (!("currentXp" in result[outerKey])) {
-            result[outerKey].currentXp = innerValue as number;
-          }
-        } else if (!(innerKey in result[outerKey])) {
-          // If the inner key doesn't exist in result, add it
+        // NOTE: Here we will only add new action-keys and never delete them
+        // They will be removed the next day when a new journal entry is created with the default values
+        if (!(innerKey in result[outerKey])) {
           result[outerKey][innerKey] = innerValue;
         }
       }

@@ -11,10 +11,8 @@ export function GreatToday() {
   const dailyWillpower = watch("dailyWillpower");
   const greatToday = watch("dayEntry.greatToday");
 
-  // Handle changes from TextAreaList
   const handleTextAreaListChange = (newEntries: string[]) => {
     setValue("dayEntry.greatToday", newEntries, {
-      // shouldValidate: true,
       shouldDirty: true,
     });
   };
@@ -32,7 +30,6 @@ export function GreatToday() {
     >
       <TextAreaList
         entryList={greatToday || []}
-        // value={greatToday || [""]}
         onChange={handleTextAreaListChange}
       />
     </FormStepTemplate>

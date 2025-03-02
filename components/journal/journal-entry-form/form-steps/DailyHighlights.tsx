@@ -10,7 +10,6 @@ export function DailyHighlights() {
 
   const handleTextAreaListChange = (newEntries: string[]) => {
     setValue("nightEntry.dailyHighlights", newEntries, {
-      // shouldValidate: true,
       shouldDirty: true,
     });
   };
@@ -22,7 +21,6 @@ export function DailyHighlights() {
     >
       <TextAreaList
         entryList={dailyHighlights || []}
-        // value={dailyHighlights || [""]}
         onChange={handleTextAreaListChange}
       />
     </FormStepTemplate>

@@ -10,7 +10,6 @@ export function LearnedToday() {
 
   const handleTextAreaListChange = (newEntries: string[]) => {
     setValue("nightEntry.learnedToday", newEntries, {
-      // shouldValidate: true,
       shouldDirty: true,
     });
   };
@@ -22,7 +21,6 @@ export function LearnedToday() {
     >
       <TextAreaList
         entryList={learnedToday || []}
-        // value={dailyHighlights || [""]}
         onChange={handleTextAreaListChange}
       />
     </FormStepTemplate>

@@ -8,14 +8,27 @@ import type { JournalEntry } from "@models/types";
 export function GratefulFor() {
   const { watch, setValue } = useFormContext<JournalEntry>();
 
-  // Watch the gratefulFor field & willpower
   const dailyWillpower = watch("dailyWillpower");
   const gratefulFor = watch("dayEntry.gratefulFor");
 
-  // Handle changes from TextAreaList
   const handleTextAreaListChange = (newEntries: string[]) => {
     setValue("dayEntry.gratefulFor", newEntries, {
-      // shouldValidate: true,
+      //### `shouldDirty: true`
+
+      // This option marks the field as "dirty" (modified by the user) after its value is updated programmatically.
+
+      // - A "dirty" field means the user has changed its value from the initial state.
+      // - This is important for tracking which fields have been modified.
+      // - It affects the form's `isDirty` state, which can be used to enable/disable submit buttons or show warnings about unsaved changes.
+      // - Without this option, fields updated via `setValue` would not be considered "dirty" by default.
+
+      //**`shouldDirty: true`** makes sure that when a user adds or edits items in the list,
+      // the form recognizes these changes as user modifications, which is important for:
+      // - Tracking unsaved changes
+      // - Enabling/disabling save buttons based on whether the form has changed
+      // - Showing "unsaved changes" warnings if the user tries to navigate away
+
+      // NOTE: check if this property is required if there are no validations required
       shouldDirty: true,
     });
   };
@@ -33,9 +46,6 @@ export function GratefulFor() {
     >
       <TextAreaList
         entryList={gratefulFor || []}
-        // empty [""] here to prevent rendering issues for when gratefulFor is undefined or null
-        // NOTE: could add this to the default state
-        // value={gratefulFor || [""]}
         onChange={handleTextAreaListChange}
       />
     </FormStepTemplate>
