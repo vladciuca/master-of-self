@@ -111,7 +111,7 @@ export function ActionForm({
         </DrawerHeader>
 
         <ScrollArea className="h-[45vh] p-4">
-          <div className="px-1 space-y-4">
+          <div className="px-1 pb-4 space-y-4">
             <FormField
               control={form.control}
               name="type"
@@ -161,6 +161,11 @@ export function ActionForm({
                     <Input
                       className="text-base"
                       placeholder="e.g., Do pushups, Read books, Meditate"
+                      onPointerDown={(e) => {
+                        e.stopPropagation();
+                        e.preventDefault();
+                        e.currentTarget.focus();
+                      }}
                       {...field}
                     />
                   </FormControl>
@@ -223,6 +228,11 @@ export function ActionForm({
                     <Input
                       className="text-base"
                       placeholder="e.g., repetitions, pages, minutes"
+                      onPointerDown={(e) => {
+                        e.stopPropagation();
+                        e.preventDefault();
+                        e.currentTarget.focus();
+                      }}
                       {...field}
                     />
                   </FormControl>
