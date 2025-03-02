@@ -13,8 +13,8 @@ export function GratefulFor() {
 
   const handleTextAreaListChange = (newEntries: string[]) => {
     setValue("dayEntry.gratefulFor", newEntries, {
-      //### `shouldDirty: true`
-
+      // NOTE: tracks user interactions, letting react-hook-form if changes were made and to what field
+      shouldDirty: true,
       // This option marks the field as "dirty" (modified by the user) after its value is updated programmatically.
 
       // - A "dirty" field means the user has changed its value from the initial state.
@@ -27,9 +27,6 @@ export function GratefulFor() {
       // - Tracking unsaved changes
       // - Enabling/disabling save buttons based on whether the form has changed
       // - Showing "unsaved changes" warnings if the user tries to navigate away
-
-      // NOTE: check if this property is required if there are no validations required
-      shouldDirty: true,
     });
   };
 
