@@ -9,15 +9,15 @@ import { stepIconMap } from "@components/ui/constants";
 import { BonusStepTabHeader } from "./BonusStepTabHeader";
 import { JOURNAL_COLORS } from "@lib/colors";
 
-type DailyBonusProps = {
-  bonusWillpower: number;
-};
+// type DailyBonusProps = {
+//   bonusWillpower: number;
+// };
 
-export function DailyBonus({ bonusWillpower }: DailyBonusProps) {
+export function DailyBonus() {
   const {
     yesterdayEntry,
     yesterdayEntryLoading,
-    // bonusWillpower, //don't retrieve from hook, pass from parent?
+    bonusWillpower, //don't retrieve from hook, pass from parent?
     //what is better? - also need a loading state - skeleton here
     howGreatTodayBonusWillpower,
     dailyHighlightsBonusWillpower,

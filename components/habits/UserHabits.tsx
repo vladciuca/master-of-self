@@ -47,7 +47,7 @@ export function UserHabits() {
       try {
         const newEntryId = await createJournalEntry();
         router.push(
-          `/update-journal-entry/${newEntryId}?step=actions&habitId=${habitId}`,
+          `/update-journal-entry/${newEntryId}?step=habits&habitId=${habitId}`,
           { scroll: false }
         );
       } catch (error) {
@@ -55,7 +55,7 @@ export function UserHabits() {
       }
     } else {
       router.push(
-        `/update-journal-entry/${todayEntry._id}?step=actions&habitId=${habitId}`,
+        `/update-journal-entry/${todayEntry._id}?step=habits&habitId=${habitId}`,
         { scroll: false }
       );
     }

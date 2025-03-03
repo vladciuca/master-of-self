@@ -182,11 +182,12 @@ export async function getHabitsIcons(ids: string[]): Promise<{
     return { iconMap: {}, error: "Failed to fetch habit icons" };
   }
 }
+
 // UPDATE HABIT XP - [received an array and modified an object with the array] ==================
 // UPDATE HABIT ACTION VALUES ===================================================================
 // COMBINED UPDATE HABIT XP AND ACTIONS =========================================================
 export async function updateHabitsXpAndActions(
-  userId: string,
+  // userId: string,
   habitXpUpdates: HabitUpdate[],
   habitActionUpdates: HabitActionUpdate,
   updateDate: string

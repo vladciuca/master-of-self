@@ -1,62 +1,3 @@
-// import { NextRequest, NextResponse } from "next/server";
-// import { updateHabitsXpAndActions } from "@lib/mongo/habits";
-
-// export async function PATCH(req: NextRequest) {
-//   const { userId, habitXpUpdates, habitActionsUpdates, updateDate } =
-//     await req.json();
-
-//   try {
-//     const { updatedHabits, status } = await updateHabitsXpAndActions(
-//       userId,
-//       habitXpUpdates,
-//       habitActionsUpdates,
-//       updateDate
-//     );
-
-//     switch (status) {
-//       case "already_updated":
-//         return NextResponse.json(
-//           {
-//             habits: updatedHabits,
-//             message: "Habits were already updated today",
-//           },
-//           { status: 200 }
-//         );
-
-//       case "no_updates_needed":
-//         return NextResponse.json(
-//           {
-//             habits: updatedHabits,
-//             message: "No updates were needed",
-//           },
-//           { status: 200 }
-//         );
-
-//       case "success":
-//         return NextResponse.json(
-//           {
-//             habits: updatedHabits,
-//             message: "Successfully updated habits",
-//           },
-//           { status: 200 }
-//         );
-
-//       default:
-//         return NextResponse.json(
-//           {
-//             error: "Unknown status returned",
-//           },
-//           { status: 500 }
-//         );
-//     }
-//   } catch (error) {
-//     console.error("Error updating habit:", error);
-//     return NextResponse.json(
-//       { error: "Internal Server Error" },
-//       { status: 500 }
-//     );
-//   }
-// }
 import { NextRequest, NextResponse } from "next/server";
 import { updateHabitsXpAndActions } from "@lib/mongo/habits";
 import { HabitUpdate, HabitActionUpdate } from "@models/mongodb";
@@ -85,7 +26,7 @@ export async function PATCH(req: NextRequest) {
     }
 
     const { updatedHabits, status } = await updateHabitsXpAndActions(
-      userId,
+      // userId,
       habitXpUpdates,
       habitActionsUpdates,
       updateDate

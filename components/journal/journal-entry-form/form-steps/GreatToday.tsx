@@ -1,22 +1,21 @@
-import React, { useCallback } from "react";
+import { useFormContext } from "react-hook-form";
 import { FormStepTemplate } from "@components/journal/journal-entry-form/form-steps/FormStepTemplate";
 import { TextAreaList } from "@components/ui/textarea-list";
 import { FaBoltLightning } from "react-icons/fa6";
 import { JOURNAL_COLORS } from "@lib/colors";
+import type { JournalEntry } from "@models/types";
 
-type GreatTodayProps = {
-  dailyWillpower: number;
-  entryList: string[];
-  onChange: (value: string[]) => void;
-};
+export function GreatToday() {
+  const { watch, setValue } = useFormContext<JournalEntry>();
 
-function GreatToday({ dailyWillpower, entryList, onChange }: GreatTodayProps) {
-  const handleTextAreaListChange = useCallback(
-    (newEntries: string[]) => {
-      onChange(newEntries);
-    },
-    [onChange]
-  );
+  const dailyWillpower = watch("dailyWillpower");
+  const greatToday = watch("dayEntry.greatToday");
+
+  const handleTextAreaListChange = (newEntries: string[]) => {
+    setValue("dayEntry.greatToday", newEntries, {
+      shouldDirty: true,
+    });
+  };
 
   return (
     <FormStepTemplate
@@ -29,20 +28,10 @@ function GreatToday({ dailyWillpower, entryList, onChange }: GreatTodayProps) {
         </>
       }
     >
-      <TextAreaList entryList={entryList} onChange={handleTextAreaListChange} />
+      <TextAreaList
+        entryList={greatToday || []}
+        onChange={handleTextAreaListChange}
+      />
     </FormStepTemplate>
   );
 }
-
-GreatToday.displayName = "GreatToday";
-
-const MemoizedGratefulFor = React.memo(GreatToday, (prevProps, nextProps) => {
-  return (
-    prevProps.dailyWillpower === nextProps.dailyWillpower &&
-    JSON.stringify(prevProps.entryList) ===
-      JSON.stringify(nextProps.entryList) &&
-    prevProps.onChange === nextProps.onChange
-  );
-});
-
-export { MemoizedGratefulFor as GreatToday };

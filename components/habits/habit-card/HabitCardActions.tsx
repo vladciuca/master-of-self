@@ -45,6 +45,23 @@ export function HabitCardActions({
           isActionBreak,
         };
 
+        // NOTE: Think this a way better approach
+        // PROS: gets rid of NaN values
+        // PROS: can even move this || up to the parent and simplify this component
+        // CONS: will it work with LAST_ENTRY?
+        // CONST: This doesn't work because yday values will be display in actions when default should
+        // const value =
+        //   habitActionValues[action.id] || habitDefaultActionValues[action.id];
+
+        // const actionParams = {
+        //   // value: hasNoEntryToday
+        //   //   ? habitDefaultActionValues[action.id]
+        //   //   : habitActionValues[action.id],
+        //   value,
+        //   dailyTarget: action.dailyTarget,
+        //   isActionBreak,
+        // };
+
         // For defensive actions, displayValue shows remaining actions (dailyTarget - value)
         // For offensive actions, displayValue shows completed actions (value)
         const displayValue = displayActionValue(actionParams);

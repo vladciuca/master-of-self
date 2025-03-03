@@ -1,14 +1,14 @@
 import { useState } from "react";
 import { useSession } from "next-auth/react";
-import {
-  getToday,
-  // getTomorrow
-} from "@lib/time";
 import { Session, JournalEntryHabit } from "@models/types";
 import { useYesterdayJournalEntry } from "./useYesterdayJournalEntry";
 import { useLastJournalEntry } from "./useLastJournalEntry";
 import { useUpdateHabits } from "./useUpdateHabits";
 import { useUserHabits } from "@hooks/useUserHabits";
+import {
+  getToday,
+  // getTomorrow
+} from "@lib/time";
 import { getHabitActionDefaultValues } from "@lib/level";
 
 export function useCreateJournalEntry() {
@@ -89,6 +89,7 @@ export function useCreateJournalEntry() {
 
       // Update habits if there are actions and XP from the last entry
       const todayDate = getToday().toISOString().split("T")[0];
+
       if (
         lastEntry?.habits &&
         Object.keys(lastEntry.habits).length > 0 &&

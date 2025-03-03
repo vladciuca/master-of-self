@@ -1,13 +1,9 @@
 "use client";
 
 import { useState } from "react";
+import { LandingPage } from "./landing-page/LandingPage";
 import { Button } from "@components/ui/button";
 import { FaEye } from "react-icons/fa";
-// import { GiBookCover, GiCharacter } from "react-icons/gi";
-// import { Target, Shell } from "lucide-react";
-import { LandingPage } from "./landing-page/LandingPage";
-// import { VisionPage } from "./vision-page/VisionPage";
-// import { IdentityPage } from "./identity-page/IdentityPage";
 import { useSideContent } from "@context/SideContentContext";
 
 const tabs = [

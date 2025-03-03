@@ -45,8 +45,8 @@ type ActionFormProps = {
 };
 
 const initialActionForm = {
-  action: "",
-  actionUnit: "",
+  task: "",
+  unit: "",
   metric: "count" as const,
   type: "build" as const,
   dailyTarget: 1,
@@ -61,6 +61,12 @@ export function ActionForm({
     resolver: zodResolver(habitFormSchema.shape.actions.element),
     defaultValues: initialData || initialActionForm,
   });
+
+  const handleFocusInput = (e: React.PointerEvent<HTMLInputElement>) => {
+    e.stopPropagation();
+    e.preventDefault();
+    e.currentTarget.focus();
+  };
 
   const handleSubmit = useCallback(
     (data: Omit<HabitAction, "id" | "value">) => {
@@ -111,7 +117,7 @@ export function ActionForm({
         </DrawerHeader>
 
         <ScrollArea className="h-[45vh] p-4">
-          <div className="px-1 space-y-4">
+          <div className="px-1 pb-4 space-y-4">
             <FormField
               control={form.control}
               name="type"
@@ -161,6 +167,7 @@ export function ActionForm({
                     <Input
                       className="text-base"
                       placeholder="e.g., Do pushups, Read books, Meditate"
+                      onPointerDown={handleFocusInput}
                       {...field}
                     />
                   </FormControl>
@@ -223,6 +230,7 @@ export function ActionForm({
                     <Input
                       className="text-base"
                       placeholder="e.g., repetitions, pages, minutes"
+                      onPointerDown={handleFocusInput}
                       {...field}
                     />
                   </FormControl>

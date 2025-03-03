@@ -1,5 +1,5 @@
 "use client";
-import { CircleX, Archive } from "lucide-react";
+import { Archive } from "lucide-react";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -37,7 +37,6 @@ export function DeleteActionButton({
           variant="ghost"
           className={`h-8 w-8 p-0 text-${ERROR_COLOR} hover:text-${ERROR_COLOR}`}
         >
-          {/* <CircleX size={20} /> */}
           <Archive size={20} />
         </Button>
       </AlertDialogTrigger>
@@ -49,7 +48,7 @@ export function DeleteActionButton({
           <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
           <AlertDialogDescription className="sm:px-8">
             This will permanently delete the action
-            <span className="ml-2 inline-flex items-center align-middle">
+            <span className="mx-2 inline-flex items-center align-middle">
               {actionIcon}
             </span>
             <span className="text-primary font-semibold align-middle">
@@ -60,7 +59,10 @@ export function DeleteActionButton({
         </AlertDialogHeader>
         <AlertDialogFooter className="sm:flex sm:flex-col-reverse sm:space-x-0 sm:px-6">
           <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction onClick={onDelete} className="mb-4 sm:mb-6">
+          <AlertDialogAction
+            onClick={onDelete}
+            className={`mb-4 sm:mb-6 bg-${ERROR_COLOR} text-white hover:bg-${ERROR_COLOR}/80`}
+          >
             Delete
           </AlertDialogAction>
         </AlertDialogFooter>

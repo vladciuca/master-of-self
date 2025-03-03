@@ -34,6 +34,7 @@ export default function UpdateJournalEntry() {
   // const userMorningTime = userSettings?.journalStartTime.morning;
   const userEveningTime = userSettings?.journalStartTime.evening;
 
+  // NOTE: Move this into its own hook
   useEffect(() => {
     const getJournalEntryData = async () => {
       setJournalEntryLoading(true);
