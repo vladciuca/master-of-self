@@ -62,6 +62,12 @@ export function ActionForm({
     defaultValues: initialData || initialActionForm,
   });
 
+  const handleFocusInput = (e: React.PointerEvent<HTMLInputElement>) => {
+    e.stopPropagation();
+    e.preventDefault();
+    e.currentTarget.focus();
+  };
+
   const handleSubmit = useCallback(
     (data: Omit<HabitAction, "id" | "value">) => {
       onSubmit(data);
@@ -161,11 +167,7 @@ export function ActionForm({
                     <Input
                       className="text-base"
                       placeholder="e.g., Do pushups, Read books, Meditate"
-                      onPointerDown={(e) => {
-                        e.stopPropagation();
-                        e.preventDefault();
-                        e.currentTarget.focus();
-                      }}
+                      onPointerDown={handleFocusInput}
                       {...field}
                     />
                   </FormControl>
@@ -228,11 +230,7 @@ export function ActionForm({
                     <Input
                       className="text-base"
                       placeholder="e.g., repetitions, pages, minutes"
-                      onPointerDown={(e) => {
-                        e.stopPropagation();
-                        e.preventDefault();
-                        e.currentTarget.focus();
-                      }}
+                      onPointerDown={handleFocusInput}
                       {...field}
                     />
                   </FormControl>

@@ -159,7 +159,7 @@
 
 // ===========================================================================================
 
-//NOTE:
+// NOTE: This custom component syncs its state with the parent form
 // ### ADDED: text splitting on cursor position on Enter
 // ### ADDED: be able to delete via Backspace a fieldRow if there is text inside
 // the text should be moved at the end of previous fieldRow
