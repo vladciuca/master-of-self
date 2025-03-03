@@ -13,7 +13,7 @@ import { useCreateJournalEntry } from "@hooks/useCreateJournalEntry";
 import { Habit } from "@models/types";
 
 // TEST: for implementing merge function of Default Habit Values with Journal Value
-// import { useJournalHabitsSync } from "@hooks/useJournalHabitsSync";
+import { useJournalHabitsSync } from "@hooks/useJournalHabitsSync";
 
 const NEW_HABIT_CARD_DETAILS = {
   symbol: <Shell size={"2rem"} />,
@@ -39,7 +39,7 @@ export function UserHabits() {
   const { lastEntry, lastEntryLoading } = useLastJournalEntry();
   const router = useRouter();
 
-  // console.log("===SYNC", useJournalHabitsSync());
+  console.log("===SYNC", useJournalHabitsSync());
 
   const numberOfEntries = habitsLoading ? "?" : habits.length;
 
