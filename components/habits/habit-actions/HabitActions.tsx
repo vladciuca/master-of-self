@@ -46,12 +46,12 @@ export function HabitActions({
   const { category, icon, xp, _id: habitId } = habit;
   const habitIdParam = searchParams.get("habitId");
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-  const [isScrolled, setIsScrolled] = useState(false);
 
   const [actionValues, setActionValues] = useState<JournalEntryHabitActions>(
     actionChanges || {}
   );
   const habitContainerRef = useRef<HTMLDivElement>(null);
+  const hasInteractedRef = useRef(false);
 
   // Calculate XP and level
   const xpGain = xp + projectedHabitXp;
@@ -76,24 +76,32 @@ export function HabitActions({
   );
 
   useEffect(() => {
-    if (habitIdParam === habitId && !habitsLoading) {
-      handleDrawerOpenChange(true);
-    }
-  }, [habitIdParam, habitId, habitsLoading]);
-
-  // Manage the setTimeout
-  useEffect(() => {
-    let timeoutId: NodeJS.Timeout;
-
     if (habitsLoading) return;
 
-    if (habitIdParam === habitId && !habitsLoading) {
+    let timeoutId: NodeJS.Timeout;
+
+    if (
+      habitIdParam === habitId &&
+      !habitsLoading &&
+      !hasInteractedRef.current
+    ) {
+      hasInteractedRef.current = true;
+
+      // First, scroll to the habit
+      if (habitContainerRef.current) {
+        habitContainerRef.current.scrollIntoView({
+          behavior: "smooth",
+          block: "nearest",
+        });
+      }
+
+      // Then, after a delay to allow scrolling animation to be visible, open the drawer
       const delay = 400;
-      // Set a timeout to open the drawer after the delay
-      timeoutId = setTimeout(() => setIsDrawerOpen(true), delay);
+      timeoutId = setTimeout(() => {
+        setIsDrawerOpen(true);
+      }, delay);
     }
 
-    // Cleanup function to clear the timeout if the component unmounts or dependencies change
     return () => {
       if (timeoutId) {
         clearTimeout(timeoutId);
@@ -101,25 +109,30 @@ export function HabitActions({
     };
   }, [habitIdParam, habitId, habitsLoading]);
 
-  const scrollToHabit = () => {
-    if (habitContainerRef.current) {
-      habitContainerRef.current.scrollIntoView({
-        behavior: "smooth",
-        block: "nearest",
-      });
+  useEffect(() => {
+    if (!isDrawerOpen) {
+      hasInteractedRef.current = false;
     }
-    setIsScrolled(true);
-  };
+  }, [isDrawerOpen]);
 
   const handleDrawerOpenChange = (open: boolean) => {
     if (habitsLoading) return;
 
     if (open) {
-      scrollToHabit();
+      // If we're opening manually (not from URL param effect)
+      if (!hasInteractedRef.current) {
+        if (habitContainerRef.current) {
+          habitContainerRef.current.scrollIntoView({
+            behavior: "smooth",
+            block: "nearest",
+          });
+        }
+        hasInteractedRef.current = true;
+      }
       setIsDrawerOpen(true);
     } else {
       setIsDrawerOpen(false);
-      setIsScrolled(false);
+      hasInteractedRef.current = false;
       updateURL(false);
     }
   };
@@ -184,11 +197,7 @@ export function HabitActions({
         <Drawer open={isDrawerOpen} onOpenChange={handleDrawerOpenChange}>
           <DrawerTrigger asChild>
             {projectedHabitXp !== 0 ? (
-              <Button
-                size="icon"
-                className="h-8 w-8 shrink-0 rounded-md"
-                onClick={() => !isScrolled && scrollToHabit()}
-              >
+              <Button size="icon" className="h-8 w-8 shrink-0 rounded-md">
                 <Plus className="h-4 w-4" />
                 <span className="sr-only">Take Action Button</span>
               </Button>
@@ -200,7 +209,6 @@ export function HabitActions({
                     ? "bg-primary text-primary-foreground"
                     : "bg-background"
                 }`}
-                onClick={() => !isScrolled && scrollToHabit()}
               />
             )}
           </DrawerTrigger>
