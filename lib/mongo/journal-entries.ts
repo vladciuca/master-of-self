@@ -115,9 +115,44 @@ export async function updateJournalEntry(
   }
 }
 
+// UPDATE JOURNAL ENTRY HABITS ==================================================================
+export async function updateJournalEntryHabits(
+  id: string,
+  habits: JournalEntryHabit
+): Promise<{
+  journalEntry: JournalEntry | null;
+  error?: string;
+}> {
+  try {
+    if (!journalEntries) await init();
+
+    const query = { _id: new ObjectId(id) };
+
+    // Only update the habits field
+    const update = { $set: { habits } };
+
+    const journalEntry = await journalEntries.findOneAndUpdate(query, update, {
+      returnDocument: "after",
+    });
+
+    if (!journalEntry) {
+      throw new Error("Journal entry not found");
+    }
+
+    return { journalEntry };
+  } catch (error) {
+    console.error("Error updating journal entry habits:", error);
+    return {
+      journalEntry: null,
+      error: "Failed to update journal entry habits",
+    };
+  }
+}
+
 // DELETE JOURNAL ENTRY ========================================================================
 
-// GET JOURNAL ENTRY ===========================================================================
+// GET INDIVIDUAL JOURNAL ENTRY ================================================================
+// NOTE: should add user id here? is it required?
 export async function getJournalEntry(id: string): Promise<{
   journalEntry: JournalEntry | null;
   error?: string;
