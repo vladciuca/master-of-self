@@ -68,7 +68,10 @@ export function FormStepController({
   // Get form values and methods
   const { watch, setValue, getValues } = methods;
 
-  const greatToday = watch("dayEntry.greatToday");
+  // NOTE: TS type checking is static and happening at compile time, not runtime.
+  // The TypeScript compiler doesn't know about the runtime behavior of React Hook Form
+  // This is why we must set a fallback value to be able to use in isAvailable step condition
+  const greatToday = watch("dayEntry.greatToday") || [];
   const gratefulFor = watch("dayEntry.gratefulFor");
 
   // Get daily WP form day step forms
@@ -154,9 +157,7 @@ export function FormStepController({
         component: <HowGreatWasToday />,
         isAvailable:
           SHOW_ALL_TEST ||
-          (isEvening(userEveningTime) &&
-            watch("dayEntry.greatToday")?.length) ||
-          0 > 0,
+          (isEvening(userEveningTime) && greatToday?.length > 0),
       },
       {
         type: "highlights",
@@ -217,7 +218,6 @@ export function FormStepController({
     }
   }, [isInitialized, availableSteps, currentStepType, stepTypes, setStep]);
 
-  // Use setStep instead of updateUrlStep
   const handleStepChange = useCallback(
     (stepType: string) => {
       if (!submitting) {
@@ -227,13 +227,12 @@ export function FormStepController({
     [setStep, submitting]
   );
 
-  // Updated handleNextForm to use stepTypes and React Hook Form
   const handleNextForm = useCallback(async () => {
     const formData = getValues();
     const nextIndex = currentStepIndex + 1;
 
     if (nextIndex < availableSteps.length) {
-      await onSubmit(formData); // multiple submits - submits data after each step
+      await onSubmit(formData); // submits data after each step
       handleStepChange(stepTypes[nextIndex]);
     } else {
       await onSubmit(formData);
@@ -288,7 +287,6 @@ export function FormStepController({
     Object.values(obj).filter((value) => value !== 0).length;
 
   return (
-    // Wrap everything in FormProvider to make form context available to all children
     <FormProvider {...methods}>
       <div className="grid grid-rows-[auto,1fr,auto] h-full">
         <FormStepProgress
