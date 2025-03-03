@@ -152,7 +152,7 @@ export function ActionsField({ control, type }: ActionsFieldProps) {
           <Drawer
             open={isDrawerOpen}
             onOpenChange={setIsDrawerOpen}
-            repositionInputs={false}
+            // repositionInputs={false}
           >
             <DrawerTrigger asChild>
               <Button

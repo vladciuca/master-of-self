@@ -45,8 +45,8 @@ type ActionFormProps = {
 };
 
 const initialActionForm = {
-  action: "",
-  actionUnit: "",
+  task: "",
+  unit: "",
   metric: "count" as const,
   type: "build" as const,
   dailyTarget: 1,

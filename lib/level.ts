@@ -183,18 +183,18 @@ export const getHabitActionDefaultValues = (
 
 // Merge Habit Values function param vales
 type MergeDefaultHabitValueParams = {
-  values: JournalEntryHabit;
+  journalValues: JournalEntryHabit;
   defaultValues: JournalEntryHabit;
 };
 // NOTE: must add {values: habitActionChanges, defaultValue: latestDefault} here for merge safety
 export function deepMergeHabitsWithNewDefaultValues({
-  values,
+  journalValues,
   defaultValues,
 }: MergeDefaultHabitValueParams): JournalEntryHabit {
   // Shallow copy won't keep original object nested properties references
   // example of shallow copy: const result: JournalEntryHabit = { ...habitActionChanges };
   // NOTE: we do not want to create a shallow copy as the nested objects will keep its references
-  const result: JournalEntryHabit = structuredClone(values);
+  const result: JournalEntryHabit = structuredClone(journalValues);
 
   for (const [outerKey, outerValue] of Object.entries(defaultValues)) {
     if (!(outerKey in result)) {
