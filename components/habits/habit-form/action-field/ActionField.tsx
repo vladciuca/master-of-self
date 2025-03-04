@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { type Control, useFieldArray, useWatch } from "react-hook-form";
 import { HabitCardActionText } from "@components/habits/habit-card/HabitCardActionText";
 
@@ -80,6 +80,11 @@ export function ActionsField({ control, type }: ActionsFieldProps) {
       setIsDrawerOpen(true);
     }
   };
+
+  const initialData = editId
+    ? actions.find((action) => action.id === editId)
+    : undefined;
+  const onClose = useCallback(() => setIsDrawerOpen(false), []);
 
   return (
     <FormField
@@ -174,12 +179,8 @@ export function ActionsField({ control, type }: ActionsFieldProps) {
             >
               <ActionForm
                 onSubmit={handleActionSubmit}
-                initialData={
-                  editId
-                    ? actions.find((action) => action.id === editId)
-                    : undefined
-                }
-                onClose={() => setIsDrawerOpen(false)}
+                initialData={initialData}
+                onClose={onClose}
               />
             </DrawerContent>
           </Drawer>
