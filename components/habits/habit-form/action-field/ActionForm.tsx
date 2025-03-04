@@ -88,35 +88,34 @@ export function ActionForm({
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(handleSubmit)}>
-        <DrawerHeader>
-          <DrawerTitle className="text-center flex flex-col">
-            {initialData ? "Edit Action" : "Add New Action"}
-            <div className="w-full">
-              <div className="flex items-center justify-center space-x-4 mt-6">
-                <ActionIcon
-                  type={form.watch("type")}
-                  dailyTargetCompleted={false}
-                  overCapped={false}
-                  size={30}
-                />
-                <ArrowBigRightDash />
-                <ActionIcon
-                  type={form.watch("type")}
-                  dailyTargetCompleted={true}
-                  overCapped={false}
-                  size={30}
-                />
+        <ScrollArea className="h-[75vh] p-4">
+          <DrawerHeader>
+            <DrawerTitle className="text-center flex flex-col">
+              {initialData ? "Edit Action" : "Add New Action"}
+              <div className="w-full">
+                <div className="flex items-center justify-center space-x-4 mt-6">
+                  <ActionIcon
+                    type={form.watch("type")}
+                    dailyTargetCompleted={false}
+                    overCapped={false}
+                    size={30}
+                  />
+                  <ArrowBigRightDash />
+                  <ActionIcon
+                    type={form.watch("type")}
+                    dailyTargetCompleted={true}
+                    overCapped={false}
+                    size={30}
+                  />
+                </div>
               </div>
-            </div>
-          </DrawerTitle>
-          <DrawerDescription className="text-center mt-2">
-            {initialData
-              ? "Edit your habit action details below"
-              : "Add a new habit action by filling out the details below"}
-          </DrawerDescription>
-        </DrawerHeader>
-
-        <ScrollArea className="h-[45vh] p-4">
+            </DrawerTitle>
+            <DrawerDescription className="text-center mt-2">
+              {initialData
+                ? "Edit your habit action details below"
+                : "Add a new habit action by filling out the details below"}
+            </DrawerDescription>
+          </DrawerHeader>
           <div className="px-1 pb-4 space-y-4">
             <FormField
               control={form.control}
