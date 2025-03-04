@@ -16,14 +16,14 @@ import { useSideContentPosition } from "@hooks/useSideContentPosition";
 import { ERROR_COLOR } from "@lib/colors";
 
 interface DeleteActionButtonProps {
-  onDelete: () => void;
+  handleRemoveAction: () => void;
   actionName: string;
   actionPrefix: string;
   actionIcon: JSX.Element;
 }
 
 export function DeleteActionButton({
-  onDelete,
+  handleRemoveAction,
   actionName,
   actionPrefix,
   actionIcon,
@@ -60,7 +60,7 @@ export function DeleteActionButton({
         <AlertDialogFooter className="sm:flex sm:flex-col-reverse sm:space-x-0 sm:px-6">
           <AlertDialogCancel>Cancel</AlertDialogCancel>
           <AlertDialogAction
-            onClick={onDelete}
+            onClick={handleRemoveAction}
             className={`mb-4 sm:mb-6 bg-${ERROR_COLOR} text-white hover:bg-${ERROR_COLOR}/80`}
           >
             Delete

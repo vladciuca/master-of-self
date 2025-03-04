@@ -40,8 +40,8 @@ import { ArrowBigRightDash } from "lucide-react";
 
 type ActionFormProps = {
   onSubmit: (data: Omit<HabitAction, "id" | "value">) => void;
-  initialData?: HabitAction;
-  onClose: () => void;
+  initialData?: HabitAction | null;
+  handleCloseDrawer: () => void;
 };
 
 const initialActionForm = {
@@ -55,7 +55,7 @@ const initialActionForm = {
 export function ActionForm({
   onSubmit,
   initialData,
-  onClose,
+  handleCloseDrawer,
 }: ActionFormProps) {
   const form = useForm<Omit<HabitAction, "id" | "value">>({
     resolver: zodResolver(habitFormSchema.shape.actions.element),
@@ -285,7 +285,7 @@ export function ActionForm({
             type="button"
             variant="outline"
             className="w-full"
-            onClick={onClose}
+            onClick={handleCloseDrawer}
           >
             Cancel
           </Button>

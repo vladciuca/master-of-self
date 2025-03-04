@@ -1,7 +1,6 @@
 "use client";
 import { useState, useCallback } from "react";
 import { type Control, useFieldArray, useWatch } from "react-hook-form";
-import { HabitCardActionText } from "@components/habits/habit-card/HabitCardActionText";
 
 import type { HabitZodType } from "@models/habitFormSchema";
 import type { HabitAction } from "@models/types";
@@ -16,17 +15,11 @@ import {
 import { Button } from "@/components/ui/button";
 import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer";
 
-import {
-  ActionIcon,
-  MetricIcon,
-} from "@components/habits/habit-actions/HabitActionIcons";
-import { Plus, FilePenLine } from "lucide-react";
+import { Plus } from "lucide-react";
 import { useSideContentPosition } from "@hooks/useSideContentPosition";
 
+import { ActionFieldItem } from "./ActionFieldItem";
 import { ActionForm } from "./ActionForm";
-import { DeleteActionButton } from "./DeleteActionButton";
-
-import { HABIT_COLORS } from "@lib/colors";
 
 type ActionsFieldProps = {
   control: Control<HabitZodType>;
@@ -66,25 +59,37 @@ export function ActionsField({ control, type }: ActionsFieldProps) {
     setIsDrawerOpen(false);
   };
 
-  const removeAction = (id: string) => {
-    const removeIndex = actions.findIndex((action) => action.id === id);
-    if (removeIndex !== -1) {
-      remove(removeIndex);
-    }
-  };
+  const handleRemoveAction = useCallback(
+    (id: string) => () => {
+      const removeIndex = actions.findIndex((action) => action.id === id);
+      if (removeIndex !== -1) {
+        remove(removeIndex);
+      }
+    },
+    [remove, actions]
+  );
 
-  const editAction = (id: string) => {
-    const actionToEdit = actions.find((action) => action.id === id);
-    if (actionToEdit) {
-      setEditId(id);
-      setIsDrawerOpen(true);
-    }
-  };
+  const handleEditAction = useCallback(
+    (id: string) => () => {
+      const actionToEdit = actions.find((action) => action.id === id);
+      if (actionToEdit) {
+        setEditId(id);
+        setIsDrawerOpen(true);
+      }
+    },
+    [actions, setEditId, setIsDrawerOpen]
+  );
+
+  const handleAddAction = useCallback(() => {
+    setEditId(null);
+    setIsDrawerOpen(true);
+  }, []);
+
+  const handleCloseDrawer = useCallback(() => setIsDrawerOpen(false), []);
 
   const initialData = editId
     ? actions.find((action) => action.id === editId)
-    : undefined;
-  const onClose = useCallback(() => setIsDrawerOpen(false), []);
+    : null;
 
   return (
     <FormField
@@ -109,46 +114,11 @@ export function ActionsField({ control, type }: ActionsFieldProps) {
 
               return (
                 <div key={field.id} className="border p-2 rounded-md">
-                  <div className="flex items-center max-w-full border-b pb-1 mb-2">
-                    <HabitCardActionText
-                      actionTask={action.task}
-                      actionIcon={<ActionIcon type={action.type} size={18} />}
-                      actionType={action.type}
-                    />
-
-                    <div>
-                      <DeleteActionButton
-                        onDelete={() => removeAction(action.id)}
-                        actionName={action.task}
-                        actionPrefix={
-                          action.type === "build" ? "I will" : "I won't"
-                        }
-                        actionIcon={<ActionIcon type={action.type} size={18} />}
-                      />
-                    </div>
-                  </div>
-
-                  <div className="flex items-center justify-between space-x-1">
-                    <div className="flex items-center">
-                      <span className="text-sm text-muted-foreground">
-                        Daily {action.type === "build" ? "Target" : "Limit"}:
-                      </span>
-                      <span className="mx-1">
-                        <MetricIcon metric={action.metric} size={18} />
-                      </span>
-                      {action.dailyTarget} {action.unit}
-                    </div>
-
-                    <Button
-                      type="button"
-                      variant="ghost"
-                      onClick={() => editAction(action.id)}
-                      aria-label={`Edit action ${action.task}`}
-                      className={`h-8 w-8 p-0 text-${HABIT_COLORS.main} hover:text-${HABIT_COLORS.main}`}
-                    >
-                      <FilePenLine size={20} />
-                    </Button>
-                  </div>
+                  <ActionFieldItem
+                    action={action}
+                    handleRemoveAction={handleRemoveAction(action.id)}
+                    handleEditAction={handleEditAction(action.id)}
+                  />
                 </div>
               );
             })}
@@ -164,10 +134,7 @@ export function ActionsField({ control, type }: ActionsFieldProps) {
                 type="button"
                 variant="outline"
                 className="w-full mt-2"
-                onClick={() => {
-                  setEditId(null);
-                  setIsDrawerOpen(true);
-                }}
+                onClick={handleAddAction}
               >
                 <Plus className="mr-2 h-4 w-4" /> Add Action
               </Button>
@@ -180,7 +147,7 @@ export function ActionsField({ control, type }: ActionsFieldProps) {
               <ActionForm
                 onSubmit={handleActionSubmit}
                 initialData={initialData}
-                onClose={onClose}
+                handleCloseDrawer={handleCloseDrawer}
               />
             </DrawerContent>
           </Drawer>
