@@ -88,7 +88,7 @@ export function ActionForm({
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(handleSubmit)}>
-        <ScrollArea className="h-[75vh] p-4">
+        <ScrollArea className="h-[65vh] p-4">
           <DrawerHeader>
             <DrawerTitle className="text-center flex flex-col">
               {initialData ? "Edit Action" : "Add New Action"}
