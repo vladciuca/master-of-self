@@ -9,6 +9,7 @@ type UpdateHabitsRequestBody = {
   updateDate: string;
 };
 
+// NOTE: This is update habit XP (with data array)
 export async function PATCH(req: NextRequest) {
   try {
     const {

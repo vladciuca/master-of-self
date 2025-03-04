@@ -9,6 +9,7 @@ type UpdateHabitsProps = {
   updateDate: string;
 };
 
+// updases habit xp
 export function useUpdateHabits() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
