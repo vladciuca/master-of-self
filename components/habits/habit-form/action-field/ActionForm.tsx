@@ -64,6 +64,7 @@ export function ActionForm({
   // Create stable refs that persist across renders
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const taskInputRef = useRef<HTMLInputElement>(null);
+  const unitInputRef = useRef<HTMLInputElement>(null);
 
   const [actionData, setActionData] = useState<
     Omit<HabitAction, "id" | "value">
@@ -73,19 +74,27 @@ export function ActionForm({
   // Track whether this is the first render after mounting
   const isFirstRender = useRef(true);
 
-  // Effect to focus and scroll to input on mount
   useEffect(() => {
-    // Only run this effect once when the component mounts
     if (isFirstRender.current) {
       isFirstRender.current = false;
 
-      // Use a timeout to ensure the drawer animation has completed
       const timer = setTimeout(() => {
-        if (taskInputRef.current) {
-          // Focus the input
+        // Focus the first input with an error, or default to task input
+        if (errors.task && taskInputRef.current) {
           taskInputRef.current.focus();
-
-          // Explicitly scroll to the input
+          taskInputRef.current.scrollIntoView({
+            behavior: "smooth",
+            block: "center",
+          });
+        } else if (errors.unit && unitInputRef.current) {
+          unitInputRef.current.focus();
+          unitInputRef.current.scrollIntoView({
+            behavior: "smooth",
+            block: "center",
+          });
+        } else if (taskInputRef.current) {
+          // Default to focusing the task input if no errors
+          taskInputRef.current.focus();
           taskInputRef.current.scrollIntoView({
             behavior: "smooth",
             block: "center",
@@ -95,7 +104,7 @@ export function ActionForm({
 
       return () => clearTimeout(timer);
     }
-  }, []);
+  }, [errors]);
 
   const validateField = (name: string, value: any) => {
     try {
@@ -148,7 +157,7 @@ export function ActionForm({
 
   return (
     <div>
-      <ScrollArea className="h-[65vh] p-4">
+      <ScrollArea ref={scrollAreaRef} className="h-[65vh] p-4">
         <DrawerHeader>
           <DrawerTitle className="text-center flex flex-col">
             {initialData ? "Edit Action" : "Add New Action"}
@@ -216,6 +225,7 @@ export function ActionForm({
                 placeholder="e.g., Do pushups, Read books, Meditate"
                 value={actionData.task}
                 onChange={(e) => handleInputChange("task", e.target.value)}
+                ref={taskInputRef}
               />
             </FormControl>
             <FormDescription>
@@ -233,6 +243,7 @@ export function ActionForm({
                 placeholder="e.g., repetitions, pages, minutes"
                 value={actionData.unit}
                 onChange={(e) => handleInputChange("unit", e.target.value)}
+                ref={unitInputRef}
               />
             </FormControl>
             <FormDescription>
