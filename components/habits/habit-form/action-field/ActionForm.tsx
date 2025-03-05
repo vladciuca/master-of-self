@@ -85,7 +85,7 @@ export function ActionForm({
     // Use Form component but without the form element
     <Form {...form}>
       <div>
-        <ScrollArea className="h-[65vh] p-4">
+        <ScrollArea className="h-[85vh] p-4">
           <DrawerHeader>
             <DrawerTitle className="text-center flex flex-col">
               {initialData ? "Edit Action" : "Add New Action"}
