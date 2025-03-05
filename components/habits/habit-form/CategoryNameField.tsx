@@ -22,7 +22,7 @@ export function CategoryNameField({ control, type }: NameFieldProps) {
       name="category"
       render={({ field }) => (
         <FormItem>
-          <FormLabel>Habit Category</FormLabel>
+          <FormLabel>Habit</FormLabel>
           {type === "Create" && (
             <FormDescription className="text-xs">
               Choose a broad category that best describes the area you want to

@@ -56,16 +56,16 @@ export function HabitForm({
       >
         <div className="space-y-8 mb-8">
           <h1 className="scroll-m-20 text-4xl font-bold tracking-tight text-center">
-            {type} Habits
+            {type} Habit
           </h1>
-        </div>
-
-        <ScrollArea className="px-4 flex-grow">
           <IconPickerField
             control={form.control}
             projectedXp={projectedXp}
             type={type}
           />
+        </div>
+
+        <ScrollArea className="px-4 flex-grow">
           <div className="space-y-8 px-1">
             <CategoryNameField control={form.control} type={type} />
             <ActionsField control={form.control} type={type} />
@@ -81,7 +81,7 @@ export function HabitForm({
             {type}
           </Button>
           <Link href="/habits" className="w-full flex justify-center mb-4">
-            <Button variant="secondary" className="w-full">
+            <Button variant="outline" className="w-full">
               Cancel
             </Button>
           </Link>

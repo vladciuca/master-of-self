@@ -108,24 +108,6 @@ export function ActionsField({ control, type }: ActionsFieldProps) {
             </FormDescription>
           )}
 
-          <div className="flex flex-col gap-2">
-            {/* HERE WE SHOULD MAP OVER THE ARRAY NOT FIELDS */}
-            {fields.map((field, index) => {
-              const action = actions[index] as HabitAction;
-              if (!action) return null;
-
-              return (
-                <div key={field.id} className="border p-2 rounded-md">
-                  <ActionFieldItem
-                    action={action}
-                    handleRemoveAction={handleRemoveAction(action.id)}
-                    handleEditAction={handleEditAction(action.id)}
-                  />
-                </div>
-              );
-            })}
-          </div>
-
           {/* NOTE TO SELF: NEVER FUCKING PUT INPUTS IN DRAWERS 
           REFACTOR THIS IN HABIT REFACTOR */}
           <Drawer
@@ -155,6 +137,24 @@ export function ActionsField({ control, type }: ActionsFieldProps) {
               />
             </DrawerContent>
           </Drawer>
+
+          <div className="flex flex-col gap-2">
+            {/* HERE WE SHOULD MAP OVER THE ARRAY NOT FIELDS */}
+            {fields.map((field, index) => {
+              const action = actions[index] as HabitAction;
+              if (!action) return null;
+
+              return (
+                <div key={field.id} className="border p-2 rounded-md">
+                  <ActionFieldItem
+                    action={action}
+                    handleRemoveAction={handleRemoveAction(action.id)}
+                    handleEditAction={handleEditAction(action.id)}
+                  />
+                </div>
+              );
+            })}
+          </div>
 
           <FormMessage />
         </FormItem>

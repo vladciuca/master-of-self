@@ -34,7 +34,7 @@ export function HabitCardFooter({
         onClick={() => handleEdit(habit)}
         className="flex-1 w-full"
       >
-        Update Habits
+        Update Habit
       </Button>
 
       <Button

@@ -266,7 +266,7 @@ export function ActionForm({
               )}
             />
           </div>
-          <div className="flex flex-col justify-center items-center my-2 py-4">
+          <div className="flex flex-col justify-center items-center my-2 pt-4">
             <Button
               className="w-full mt-3 mb-4"
               type="button"
