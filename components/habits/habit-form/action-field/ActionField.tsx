@@ -29,6 +29,10 @@ type ActionsFieldProps = {
 export function ActionsField({ control, type }: ActionsFieldProps) {
   const [editId, setEditId] = useState<string | null>(null);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+
+  // Create a key to force re-render of the ActionForm component
+  const [formKey, setFormKey] = useState(0);
+
   const { drawerStyle } = useSideContentPosition();
 
   const { fields, append, remove, update } = useFieldArray({
@@ -42,8 +46,6 @@ export function ActionsField({ control, type }: ActionsFieldProps) {
     defaultValue: [],
   }) as HabitAction[];
 
-  //THIS SHOULD NOT BE A SUBMIT
-  //IT SHOULD JUST ADD ITEMS TO THE HABIT FORM
   const handleActionSubmit = (data: Omit<HabitAction, "id" | "value">) => {
     if (editId !== null) {
       const editIndex = actions.findIndex((action) => action.id === editId);
@@ -76,6 +78,8 @@ export function ActionsField({ control, type }: ActionsFieldProps) {
       const actionToEdit = actions.find((action) => action.id === id);
       if (actionToEdit) {
         setEditId(id);
+        // Generate a new key to force re-render when switching to edit mode
+        setFormKey((prev) => prev + 1);
         setIsDrawerOpen(true);
       }
     },
@@ -84,6 +88,8 @@ export function ActionsField({ control, type }: ActionsFieldProps) {
 
   const handleAddAction = useCallback(() => {
     setEditId(null);
+    // Generate a new key to force re-render when switching to create mode
+    setFormKey((prev) => prev + 1);
     setIsDrawerOpen(true);
   }, []);
 
@@ -130,7 +136,7 @@ export function ActionsField({ control, type }: ActionsFieldProps) {
           <Drawer
             open={isDrawerOpen}
             onOpenChange={setIsDrawerOpen}
-            repositionInputs={true}
+            // repositionInputs={true}
           >
             <DrawerTrigger asChild>
               <Button
@@ -147,9 +153,8 @@ export function ActionsField({ control, type }: ActionsFieldProps) {
               className="max-w-md mx-auto right-0 left-0"
               style={drawerStyle}
             >
-              {/* THIS SHOULD NOT BE A FORM 
-              THIS SHOULD BE ANOTHER FORM FIELD!!!!!!!!!!!!!! with .action SCHEMA VALIDATIONS */}
               <ActionForm
+                key={formKey}
                 handleActionSubmit={handleActionSubmit}
                 initialData={initialData}
                 handleCloseDrawer={handleCloseDrawer}
