@@ -61,7 +61,7 @@ export function DeleteActionButton({
           <AlertDialogCancel>Cancel</AlertDialogCancel>
           <AlertDialogAction
             onClick={handleRemoveAction}
-            className={`mb-4 sm:mb-4 bg-${ERROR_COLOR} text-white hover:bg-${ERROR_COLOR}/80`}
+            className={`mb-2 bg-${ERROR_COLOR} text-white hover:bg-${ERROR_COLOR}/80`}
           >
             Delete
           </AlertDialogAction>
