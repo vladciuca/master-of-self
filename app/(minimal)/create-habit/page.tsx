@@ -13,7 +13,7 @@ export default function CreateHabit() {
   const [submitting, setSubmitting] = useState<boolean>(false);
 
   const createHabit = async (habit: HabitZodType) => {
-    const { category, icon, actions } = habit;
+    const { name, icon, actions } = habit;
     setSubmitting(true);
 
     try {
@@ -21,7 +21,7 @@ export default function CreateHabit() {
         method: "POST",
         body: JSON.stringify({
           userId: session?.user?.id,
-          category: category,
+          name: name,
           icon: icon,
           xp: 0,
           actions: actions,

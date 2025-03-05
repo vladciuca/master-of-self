@@ -43,7 +43,7 @@ export type HabitAction = {
 
 export type Habit = {
   _id?: ObjectId;
-  category: string;
+  name: string;
   icon: string;
   xp: number;
   xpData: XpData[];

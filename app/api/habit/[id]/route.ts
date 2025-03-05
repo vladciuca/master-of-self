@@ -24,15 +24,10 @@ export async function PATCH(
   req: NextRequest,
   { params }: { params: { id: string } }
 ) {
-  const { category, icon, actions } = await req.json();
+  const { name, icon, actions } = await req.json();
 
   try {
-    const { habit, error } = await updateHabit(
-      params.id,
-      category,
-      icon,
-      actions
-    );
+    const { habit, error } = await updateHabit(params.id, name, icon, actions);
 
     if (error) {
       return new NextResponse(error, { status: 404 });

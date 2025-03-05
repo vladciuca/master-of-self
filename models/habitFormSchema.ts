@@ -12,7 +12,7 @@ const actionSchema = z.object({
 
 export const habitFormSchema = z.object({
   id: z.string().optional(),
-  category: z
+  name: z
     .string()
     .min(3, "Habit name must contain at least 3 characters")
     .max(25, "Habit name must contain maximum 25 characters"),

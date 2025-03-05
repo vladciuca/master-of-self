@@ -15,11 +15,11 @@ type NameFieldProps = {
   type: "Create" | "Update";
 };
 
-export function CategoryNameField({ control, type }: NameFieldProps) {
+export function NameField({ control, type }: NameFieldProps) {
   return (
     <FormField
       control={control}
-      name="category"
+      name="name"
       render={({ field }) => (
         <FormItem>
           <FormLabel>Habit</FormLabel>

@@ -2,15 +2,10 @@ import { NextRequest, NextResponse } from "next/server";
 import { createHabit } from "@lib/mongo/habits";
 
 export async function POST(req: NextRequest) {
-  const { userId, category, icon, actions } = await req.json();
+  const { userId, name, icon, actions } = await req.json();
 
   try {
-    const { newHabit, error } = await createHabit(
-      userId,
-      category,
-      icon,
-      actions
-    );
+    const { newHabit, error } = await createHabit(userId, name, icon, actions);
 
     if (error) {
       return new NextResponse(error, { status: 500 });
