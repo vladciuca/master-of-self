@@ -266,25 +266,24 @@ export function ActionForm({
               )}
             />
           </div>
+          <div className="flex flex-col justify-center items-center my-2 py-4">
+            <Button
+              className="w-full mt-3 mb-4"
+              type="button"
+              onClick={handleAddAction}
+            >
+              {initialData ? "Update Action" : "Add Action"}
+            </Button>
+            <Button
+              type="button"
+              variant="outline"
+              className="w-full"
+              onClick={handleCloseDrawer}
+            >
+              Cancel
+            </Button>
+          </div>
         </ScrollArea>
-
-        <div className="flex flex-col justify-center items-center my-2 px-4">
-          <Button
-            className="w-full mt-3 mb-4"
-            type="button"
-            onClick={handleAddAction}
-          >
-            {initialData ? "Update Action" : "Add Action"}
-          </Button>
-          <Button
-            type="button"
-            variant="outline"
-            className="w-full"
-            onClick={handleCloseDrawer}
-          >
-            Cancel
-          </Button>
-        </div>
       </div>
     </Form>
   );

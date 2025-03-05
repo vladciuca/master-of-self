@@ -70,22 +70,21 @@ export function HabitForm({
             <CategoryNameField control={form.control} type={type} />
             <ActionsField control={form.control} type={type} />
           </div>
-        </ScrollArea>
-
-        <div className="flex flex-col justify-center items-center mt-2 px-4">
-          <Button
-            className="w-full mt-3 mb-4"
-            type="submit"
-            disabled={submitting}
-          >
-            {type}
-          </Button>
-          <Link href="/habits" className="w-full flex justify-center mb-4">
-            <Button variant="secondary" className="w-full">
-              Cancel
+          <div className="flex flex-col justify-center items-center mt-2 py-4">
+            <Button
+              className="w-full mt-3 mb-4"
+              type="submit"
+              disabled={submitting}
+            >
+              {type}
             </Button>
-          </Link>
-        </div>
+            <Link href="/habits" className="w-full flex justify-center mb-4">
+              <Button variant="secondary" className="w-full">
+                Cancel
+              </Button>
+            </Link>
+          </div>
+        </ScrollArea>
       </form>
     </Form>
   );

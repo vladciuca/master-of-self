@@ -19,7 +19,6 @@ export default function UpdateHabit() {
 
   //get projected xp for habit
   const getProjectedHabitXp = (habitId: string) => {
-    // if (todayEntryLoading) return 0;
     if (todayEntryLoading || !todayEntry) return 0;
 
     const dailyWillpower = todayEntry?.dailyWillpower || 0;
@@ -57,50 +56,6 @@ export default function UpdateHabit() {
 
     if (id) getHabitData();
   }, [id]);
-
-  // useEffect(() => {
-  //   //NOTE: understand more about the mounted process here
-  //   let isMounted = true;
-
-  //   const getHabitData = async () => {
-  //     if (!id) return;
-
-  //     try {
-  //       const response = await fetch(`/api/habit/${id}`);
-
-  //       if (!response.ok) {
-  //         throw new Error("Failed to fetch habit data");
-  //       }
-
-  //       const data = await response.json();
-
-  //       // Only update state if component is still mounted
-  //       if (isMounted) {
-  //         setHabitData({
-  //           id: data.id,
-  //           category: data.category,
-  //           icon: data.icon,
-  //           actions: data.actions,
-  //           xp: data.xp,
-  //         });
-  //       }
-  //     } catch (error) {
-  //       console.error("Error fetching habit data", error);
-  //     } finally {
-  //       // Only update loading state if component is still mounted
-  //       if (isMounted) {
-  //         setIsLoading(false);
-  //       }
-  //     }
-  //   };
-
-  //   getHabitData();
-
-  //   // Cleanup function to prevent state updates on unmounted component
-  //   return () => {
-  //     isMounted = false;
-  //   };
-  // }, [id]);
 
   const isPageLoading = isLoading || todayEntryLoading;
 
