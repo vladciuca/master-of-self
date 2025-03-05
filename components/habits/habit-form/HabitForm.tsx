@@ -58,33 +58,34 @@ export function HabitForm({
           <h1 className="scroll-m-20 text-4xl font-bold tracking-tight text-center">
             {type} Habits
           </h1>
+        </div>
+
+        <ScrollArea className="px-4 flex-grow">
           <IconPickerField
             control={form.control}
             projectedXp={projectedXp}
             type={type}
           />
-        </div>
-
-        <ScrollArea className="px-4 flex-grow">
           <div className="space-y-8 px-1">
             <CategoryNameField control={form.control} type={type} />
             <ActionsField control={form.control} type={type} />
           </div>
-          <div className="flex flex-col justify-center items-center mt-2 py-4">
-            <Button
-              className="w-full mt-3 mb-4"
-              type="submit"
-              disabled={submitting}
-            >
-              {type}
-            </Button>
-            <Link href="/habits" className="w-full flex justify-center mb-4">
-              <Button variant="secondary" className="w-full">
-                Cancel
-              </Button>
-            </Link>
-          </div>
         </ScrollArea>
+
+        <div className="flex flex-col justify-center items-center mt-2 px-4">
+          <Button
+            className="w-full mt-3 mb-4"
+            type="submit"
+            disabled={submitting}
+          >
+            {type}
+          </Button>
+          <Link href="/habits" className="w-full flex justify-center mb-4">
+            <Button variant="secondary" className="w-full">
+              Cancel
+            </Button>
+          </Link>
+        </div>
       </form>
     </Form>
   );
