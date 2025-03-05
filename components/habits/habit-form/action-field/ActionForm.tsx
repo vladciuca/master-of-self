@@ -626,7 +626,7 @@ export function ActionForm({
   return (
     // Use Form component but without the form element
     <Form {...form}>
-      <div>
+      <div className="h-[85vh] p-4 overflow-y-auto">
         {/* <ScrollArea className="h-[65vh] p-4"> */}
         <DrawerHeader>
           <DrawerTitle className="text-center flex flex-col">
