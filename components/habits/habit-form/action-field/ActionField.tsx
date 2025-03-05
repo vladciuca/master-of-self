@@ -42,6 +42,8 @@ export function ActionsField({ control, type }: ActionsFieldProps) {
     defaultValue: [],
   }) as HabitAction[];
 
+  //THIS SHOULD NOT BE A SUBMIT
+  //IT SHOULD JUST ADD ITEMS TO THE HABIT FORM
   const handleActionSubmit = (data: Omit<HabitAction, "id" | "value">) => {
     if (editId !== null) {
       const editIndex = actions.findIndex((action) => action.id === editId);
@@ -108,6 +110,7 @@ export function ActionsField({ control, type }: ActionsFieldProps) {
           )}
 
           <div className="flex flex-col gap-2">
+            {/* HERE WE SHOULD MAP OVER THE ARRAY NOT FIELDS */}
             {fields.map((field, index) => {
               const action = actions[index] as HabitAction;
               if (!action) return null;
@@ -144,8 +147,10 @@ export function ActionsField({ control, type }: ActionsFieldProps) {
               className="max-w-md mx-auto right-0 left-0"
               style={drawerStyle}
             >
+              {/* THIS SHOULD NOT BE A FORM 
+              THIS SHOULD BE ANOTHER FORM FIELD!!!!!!!!!!!!!! with .action SCHEMA VALIDATIONS */}
               <ActionForm
-                onSubmit={handleActionSubmit}
+                handleActionSubmit={handleActionSubmit}
                 initialData={initialData}
                 handleCloseDrawer={handleCloseDrawer}
               />
