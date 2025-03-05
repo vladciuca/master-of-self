@@ -12,10 +12,8 @@ const actionSchema = z.object({
 
 import type { HabitAction } from "@models/types";
 
-// import { Form } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import {
-  // FormField,
   FormItem,
   FormLabel,
   FormDescription,
@@ -46,7 +44,7 @@ import { ArrowBigRightDash } from "lucide-react";
 
 type ActionFormProps = {
   handleActionSubmit: (data: Omit<HabitAction, "id" | "value">) => void;
-  initialData?: HabitAction | null;
+  initialData?: HabitAction;
   handleCloseDrawer: () => void;
 };
 
@@ -218,8 +216,7 @@ export function ActionForm({
               Daily {actionData.type === "build" ? "Target" : "Limit"}:
               <span className="ml-2 space-x-1 text-lg flex items-center">
                 <MetricIcon metric={actionData.metric} size={20} />
-                <span></span>
-                {actionData.dailyTarget}
+                <span className="ml-2">{actionData.dailyTarget}</span>
               </span>
             </FormLabel>
             <FormControl>
