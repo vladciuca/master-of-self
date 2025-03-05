@@ -150,7 +150,7 @@ export function ActionsField({ control, type }: ActionsFieldProps) {
               {/* THIS SHOULD NOT BE A FORM 
               THIS SHOULD BE ANOTHER FORM FIELD!!!!!!!!!!!!!! with .action SCHEMA VALIDATIONS */}
               <ActionForm
-                handleActionSubmit={handleActionSubmit}
+                onAddAction={handleActionSubmit}
                 initialData={initialData}
                 handleCloseDrawer={handleCloseDrawer}
               />
