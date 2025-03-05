@@ -80,7 +80,7 @@ export default function UpdateHabit() {
     }
   };
 
-  if (todayEntryLoading || habitDataLoading) {
+  if (todayEntryLoading && habitDataLoading) {
     return (
       <div className="p-6 h-full">
         <SkeletonForm />
