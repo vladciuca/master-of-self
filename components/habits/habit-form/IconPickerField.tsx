@@ -33,7 +33,7 @@ export function IconPickerField({
         <FormItem>
           {type === "Create" && (
             <FormLabel className="w-full flex justify-center">
-              Habit Category Icon
+              Habit Icon
             </FormLabel>
           )}
           <FormControl>
