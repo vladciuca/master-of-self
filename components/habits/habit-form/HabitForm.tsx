@@ -54,7 +54,7 @@ export function HabitForm({
         onSubmit={form.handleSubmit(handleHabitSubmit)}
         className="flex flex-col h-full justify-between"
       >
-        <div className="space-y-8 mb-8">
+        <div className="space-y-6 mb-4">
           <h1 className="scroll-m-20 text-4xl font-bold tracking-tight text-center">
             {type} Habit
           </h1>
