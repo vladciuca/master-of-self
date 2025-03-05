@@ -31,7 +31,7 @@ export function ActionsField({ control, type }: ActionsFieldProps) {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   // Create a key to force re-render of the ActionForm component
-  const [formKey, setFormKey] = useState(0);
+  // const [formKey, setFormKey] = useState(0);
 
   const { drawerStyle } = useSideContentPosition();
 
@@ -79,7 +79,7 @@ export function ActionsField({ control, type }: ActionsFieldProps) {
       if (actionToEdit) {
         setEditId(id);
         // Generate a new key to force re-render when switching to edit mode
-        setFormKey((prev) => prev + 1);
+        // setFormKey((prev) => prev + 1);
         setIsDrawerOpen(true);
       }
     },
@@ -89,7 +89,7 @@ export function ActionsField({ control, type }: ActionsFieldProps) {
   const handleAddAction = useCallback(() => {
     setEditId(null);
     // Generate a new key to force re-render when switching to create mode
-    setFormKey((prev) => prev + 1);
+    // setFormKey((prev) => prev + 1);
     setIsDrawerOpen(true);
   }, []);
 
@@ -154,7 +154,7 @@ export function ActionsField({ control, type }: ActionsFieldProps) {
               style={drawerStyle}
             >
               <ActionForm
-                key={formKey}
+                // key={formKey}
                 handleActionSubmit={handleActionSubmit}
                 initialData={initialData}
                 handleCloseDrawer={handleCloseDrawer}
