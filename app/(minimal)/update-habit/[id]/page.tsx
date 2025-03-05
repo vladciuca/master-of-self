@@ -60,6 +60,7 @@ export default function UpdateHabit() {
   // }, [id]);
 
   useEffect(() => {
+    //NOTE: understand more about the mounted process here
     let isMounted = true;
 
     const getHabitData = async () => {

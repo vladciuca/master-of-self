@@ -719,7 +719,7 @@ export function ActionForm({
             />
 
             {/* Action Form field for METRIC(currently hidden and set as default value - first option) */}
-            <FormField
+            {/* <FormField
               control={form.control}
               name="metric"
               render={({ field }) => (
@@ -756,7 +756,7 @@ export function ActionForm({
                   <FormMessage />
                 </FormItem>
               )}
-            />
+            /> */}
 
             <FormField
               control={form.control}
