@@ -10,7 +10,8 @@ import { calculateHabitsXpFromEntry } from "@lib/level";
 export default function UpdateHabit() {
   const [submitting, setSubmitting] = useState(false);
   const [habitData, setHabitData] = useState<HabitZodType | null>(null);
-  const [habitDataLoading, setHabitDataLoading] = useState(true); // Default to true since we're loading by default
+  // const [habitDataLoading, setHabitDataLoading] = useState(true); // Default to true since we're loading by default
+  const [isLoading, setIsLoading] = useState(true);
   const { todayEntry, todayEntryLoading } = useTodayJournalEntry();
   const router = useRouter();
   const params = useParams<{ id: string }>();
@@ -18,40 +19,90 @@ export default function UpdateHabit() {
 
   //get projected xp for habit
   const getProjectedHabitXp = (habitId: string) => {
-    if (todayEntryLoading) return 0;
+    // if (todayEntryLoading) return 0;
+    if (todayEntryLoading || !todayEntry) return 0;
 
     const dailyWillpower = todayEntry?.dailyWillpower || 0;
+    const bonusWillpower = todayEntry?.bonusWillpower || 0;
+    const totalWillpower = dailyWillpower + bonusWillpower;
     const habitActionsValue = todayEntry?.habits || {};
 
+    //NOTE* should add param object here for calculateHabitsXpFromEntry util function
     const xpSums = calculateHabitsXpFromEntry(
       habitActionsValue,
-      dailyWillpower
+      totalWillpower
     );
 
     return xpSums[habitId] || 0;
   };
 
+  // useEffect(() => {
+  //   const getHabitData = async () => {
+  //     try {
+  //       setHabitDataLoading(true);
+  //       const response = await fetch(`/api/habit/${id}`);
+  //       const data = await response.json();
+  //       setHabitData({
+  //         category: data.category,
+  //         icon: data.icon,
+  //         actions: data.actions,
+  //         xp: data.xp,
+  //       });
+  //     } catch (error) {
+  //       console.error("Error fetching habit data", error);
+  //     } finally {
+  //       setHabitDataLoading(false);
+  //       setIsLoading(false);
+  //     }
+  //   };
+
+  //   if (id) getHabitData();
+  // }, [id]);
+
   useEffect(() => {
+    let isMounted = true;
+
     const getHabitData = async () => {
+      if (!id) return;
+
       try {
-        setHabitDataLoading(true);
         const response = await fetch(`/api/habit/${id}`);
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch habit data");
+        }
+
         const data = await response.json();
-        setHabitData({
-          category: data.category,
-          icon: data.icon,
-          actions: data.actions,
-          xp: data.xp,
-        });
+
+        // Only update state if component is still mounted
+        if (isMounted) {
+          setHabitData({
+            id: data.id,
+            category: data.category,
+            icon: data.icon,
+            actions: data.actions,
+            xp: data.xp,
+          });
+        }
       } catch (error) {
         console.error("Error fetching habit data", error);
       } finally {
-        setHabitDataLoading(false);
+        // Only update loading state if component is still mounted
+        if (isMounted) {
+          setIsLoading(false);
+        }
       }
     };
 
-    if (id) getHabitData();
+    getHabitData();
+
+    // Cleanup function to prevent state updates on unmounted component
+    return () => {
+      isMounted = false;
+    };
   }, [id]);
+
+  const isPageLoading = isLoading || todayEntryLoading;
 
   const updateHabit = async (habit: HabitZodType) => {
     const { category, icon, actions } = habit;
@@ -74,13 +125,14 @@ export default function UpdateHabit() {
         router.push("/habits");
       }
     } catch (error) {
+      //NOTE: no console logs
       console.log(error);
     } finally {
       setSubmitting(false);
     }
   };
 
-  if (todayEntryLoading && habitDataLoading) {
+  if (isPageLoading) {
     return (
       <div className="p-6 h-full">
         <SkeletonForm />
@@ -90,7 +142,7 @@ export default function UpdateHabit() {
 
   return (
     <div className="pt-6 h-full">
-      {habitData && (
+      {habitData ? (
         <HabitForm
           type="Update"
           habit={habitData}
@@ -98,6 +150,10 @@ export default function UpdateHabit() {
           submitting={submitting}
           onSubmit={updateHabit}
         />
+      ) : (
+        <div className="text-center p-6">
+          <p>Habit not found or error loading data.</p>
+        </div>
       )}
     </div>
   );

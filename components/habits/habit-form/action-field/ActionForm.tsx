@@ -1,4 +1,4 @@
-"use client";
+// "use client";
 
 // import { useCallback, useState } from "react";
 // // import { useForm } from "react-hook-form";
@@ -540,7 +540,7 @@
 //   );
 // }
 //===============================================
-// ("use client");
+"use client";
 
 import { useCallback } from "react";
 import { useForm } from "react-hook-form";
@@ -627,7 +627,7 @@ export function ActionForm({
     // Use Form component but without the form element
     <Form {...form}>
       <div>
-        <div className="h-[65vh] p-4 overflow-y-auto">
+        <ScrollArea className="h-[65vh] p-4">
           <DrawerHeader>
             <DrawerTitle className="text-center flex flex-col">
               {initialData ? "Edit Action" : "Add New Action"}
@@ -808,7 +808,7 @@ export function ActionForm({
               )}
             />
           </div>
-        </div>
+        </ScrollArea>
 
         <div className="flex flex-col justify-center items-center my-2 px-4">
           <Button
