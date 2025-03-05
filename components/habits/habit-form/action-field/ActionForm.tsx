@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useState } from "react";
+import { useCallback, useState, useEffect, useRef } from "react";
 import * as z from "zod";
 const actionSchema = z.object({
   task: z.string().min(3, "Action must contain at least 3 characters"),
@@ -44,7 +44,7 @@ import { ArrowBigRightDash } from "lucide-react";
 
 type ActionFormProps = {
   handleActionSubmit: (data: Omit<HabitAction, "id" | "value">) => void;
-  initialData?: HabitAction;
+  initialData?: HabitAction | null;
   handleCloseDrawer: () => void;
 };
 
@@ -61,10 +61,41 @@ export function ActionForm({
   initialData,
   handleCloseDrawer,
 }: ActionFormProps) {
+  // Create stable refs that persist across renders
+  const scrollAreaRef = useRef<HTMLDivElement>(null);
+  const taskInputRef = useRef<HTMLInputElement>(null);
+
   const [actionData, setActionData] = useState<
     Omit<HabitAction, "id" | "value">
   >(initialData || initialActionState);
   const [errors, setErrors] = useState<Record<string, string>>({});
+
+  // Track whether this is the first render after mounting
+  const isFirstRender = useRef(true);
+
+  // Effect to focus and scroll to input on mount
+  useEffect(() => {
+    // Only run this effect once when the component mounts
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+
+      // Use a timeout to ensure the drawer animation has completed
+      const timer = setTimeout(() => {
+        if (taskInputRef.current) {
+          // Focus the input
+          taskInputRef.current.focus();
+
+          // Explicitly scroll to the input
+          taskInputRef.current.scrollIntoView({
+            behavior: "smooth",
+            block: "center",
+          });
+        }
+      }, 300);
+
+      return () => clearTimeout(timer);
+    }
+  }, []);
 
   const validateField = (name: string, value: any) => {
     try {

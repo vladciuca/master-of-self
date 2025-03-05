@@ -95,11 +95,11 @@ export function ActionsField({ control, type }: ActionsFieldProps) {
 
   const handleCloseDrawer = useCallback(() => setIsDrawerOpen(false), []);
 
-  // const initialData = editId
-  //   ? actions.find((action) => action.id === editId)
-  //   : null;
+  const initialData = editId
+    ? actions.find((action) => action.id === editId)
+    : null;
 
-  const initialData = actions.find((action) => action.id);
+  // const initialData = actions.find((action) => action.id);
 
   return (
     <FormField
