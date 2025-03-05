@@ -30,9 +30,6 @@ export function ActionsField({ control, type }: ActionsFieldProps) {
   const [editId, setEditId] = useState<string | null>(null);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
-  // Create a key to force re-render of the ActionForm component
-  // const [formKey, setFormKey] = useState(0);
-
   const { drawerStyle } = useSideContentPosition();
 
   const { fields, append, remove, update } = useFieldArray({
@@ -78,8 +75,6 @@ export function ActionsField({ control, type }: ActionsFieldProps) {
       const actionToEdit = actions.find((action) => action.id === id);
       if (actionToEdit) {
         setEditId(id);
-        // Generate a new key to force re-render when switching to edit mode
-        // setFormKey((prev) => prev + 1);
         setIsDrawerOpen(true);
       }
     },
@@ -88,8 +83,6 @@ export function ActionsField({ control, type }: ActionsFieldProps) {
 
   const handleAddAction = useCallback(() => {
     setEditId(null);
-    // Generate a new key to force re-render when switching to create mode
-    // setFormKey((prev) => prev + 1);
     setIsDrawerOpen(true);
   }, []);
 
@@ -98,8 +91,6 @@ export function ActionsField({ control, type }: ActionsFieldProps) {
   const initialData = editId
     ? actions.find((action) => action.id === editId)
     : null;
-
-  // const initialData = actions.find((action) => action.id);
 
   return (
     <FormField
@@ -135,6 +126,8 @@ export function ActionsField({ control, type }: ActionsFieldProps) {
             })}
           </div>
 
+          {/* NOTE TO SELF: NEVER FUCKING PUT INPUTS IN DRAWERS 
+          REFACTOR THIS IN HABIT REFACTOR */}
           <Drawer
             open={isDrawerOpen}
             onOpenChange={setIsDrawerOpen}
@@ -156,7 +149,6 @@ export function ActionsField({ control, type }: ActionsFieldProps) {
               style={drawerStyle}
             >
               <ActionForm
-                // key={formKey}
                 handleActionSubmit={handleActionSubmit}
                 initialData={initialData}
                 handleCloseDrawer={handleCloseDrawer}
