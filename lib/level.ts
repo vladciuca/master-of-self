@@ -152,6 +152,7 @@ export const calculateHabitsXpFromEntry = (
 
 // GET THE DEFAULT ACTION VALUES FOR HABITS - based on habit type
 // also includes option for current habit XP - used for useCreateJournalEntry hook
+// THIS IS FOR THE ALL HABITS
 export const getHabitActionDefaultValues = (
   habits: Habit[],
   options: { includeCurrentXp?: boolean } = {}
@@ -180,6 +181,8 @@ export const getHabitActionDefaultValues = (
     return acc;
   }, {} as { [habitId: string]: JournalEntryHabitActions & { currentXp?: number } });
 };
+
+// THIS IS FOR ONE HABIT BY ID
 
 // Merge Habit Values function param vales
 type MergeDefaultHabitValueParams = {

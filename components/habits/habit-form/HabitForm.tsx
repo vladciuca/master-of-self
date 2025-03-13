@@ -17,6 +17,7 @@ type HabitFormProps = {
   submitting: boolean;
   onSubmit: (habit: HabitZodType) => Promise<void>;
   habit?: HabitZodType;
+  xp?: number;
   projectedXp?: number;
 };
 
@@ -25,6 +26,7 @@ export function HabitForm({
   submitting,
   onSubmit,
   habit,
+  xp,
   projectedXp,
 }: HabitFormProps) {
   const form = useForm<HabitZodType>({
@@ -60,6 +62,7 @@ export function HabitForm({
           </h1>
           <IconPickerField
             control={form.control}
+            xp={xp}
             projectedXp={projectedXp}
             type={type}
           />

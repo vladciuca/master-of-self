@@ -12,12 +12,14 @@ import { HabitZodType } from "@models/habitFormSchema";
 
 type IconPickerFieldProps = {
   control: Control<HabitZodType>;
+  xp?: number;
   projectedXp?: number;
   type: "Create" | "Update";
 };
 
 export function IconPickerField({
   control,
+  xp,
   projectedXp,
   type,
 }: IconPickerFieldProps) {
@@ -42,7 +44,8 @@ export function IconPickerField({
               onChange={(iconName) => field.onChange(iconName)}
               // iconColorClass={iconColorClass}
               // bgColorClass={bgColorClass}
-              habitXp={control._formValues.xp}
+              // habitXp={control._formValues.xp}
+              habitXp={xp}
               projectedXp={projectedXp}
             />
           </FormControl>

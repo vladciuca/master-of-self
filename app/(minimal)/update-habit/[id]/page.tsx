@@ -5,28 +5,40 @@ import { HabitForm } from "@components/habits/habit-form/HabitForm";
 import { HabitZodType } from "@models/habitFormSchema";
 import { SkeletonForm } from "@components/skeletons/SkeletonForm";
 import { useTodayJournalEntry } from "@hooks/useTodayJournalEntry";
+import { useLastJournalEntry } from "@hooks/useLastJournalEntry";
 import { calculateHabitsXpFromEntry } from "@lib/level";
 
 export default function UpdateHabit() {
   const [submitting, setSubmitting] = useState(false);
   const [habitData, setHabitData] = useState<HabitZodType | null>(null);
-  // const [habitDataLoading, setHabitDataLoading] = useState(true); // Default to true since we're loading by default
-  const [isLoading, setIsLoading] = useState(true);
+  const [habitDataLoading, setHabitDataLoading] = useState(true);
   const { todayEntry, todayEntryLoading } = useTodayJournalEntry();
+  const { lastEntry, lastEntryLoading } = useLastJournalEntry();
   const router = useRouter();
   const params = useParams<{ id: string }>();
   const { id } = params;
 
-  //get projected xp for habit
-  const getProjectedHabitXp = (habitId: string) => {
-    if (todayEntryLoading || !todayEntry) return 0;
+  const habitDefaultXpValues = (habitData: HabitZodType) => {
+    return habitData?.actions.reduce(
+      (sum: number, action) =>
+        sum + (action.type === "break" ? action.dailyTarget : 0),
+      0
+    );
+  };
 
-    const dailyWillpower = todayEntry?.dailyWillpower || 0;
-    const bonusWillpower = todayEntry?.bonusWillpower || 0;
+  const getHabitXpFromEntry = (
+    entry: any,
+    loading: boolean,
+    habitId: string
+  ) => {
+    if (loading || !entry) return 0;
+
+    const dailyWillpower = entry?.dailyWillpower || 0;
+    const bonusWillpower = entry?.bonusWillpower || 0;
     const totalWillpower = dailyWillpower + bonusWillpower;
-    const habitActionsValue = todayEntry?.habits || {};
+    const habitActionsValue = entry?.habits || {};
 
-    //NOTE* should add param object here for calculateHabitsXpFromEntry util function
+    // NOTE: use param object here for values
     const xpSums = calculateHabitsXpFromEntry(
       habitActionsValue,
       totalWillpower
@@ -35,10 +47,27 @@ export default function UpdateHabit() {
     return xpSums[habitId] || 0;
   };
 
+  const projectedHabitXp = getHabitXpFromEntry(
+    todayEntry,
+    todayEntryLoading,
+    id
+  );
+  const unSubmittedXp = getHabitXpFromEntry(lastEntry, lastEntryLoading, id);
+  const habitDefaultXp = habitData && habitDefaultXpValues(habitData);
+
+  // ?? nullish operator so that XP will only be 0 if habit data is null or undefined
+  let xp = habitData?.xp ?? 0;
+  let projectedXp = projectedHabitXp;
+
+  if (!todayEntry) {
+    xp = xp + unSubmittedXp;
+    projectedXp = habitDefaultXp || 0;
+  }
+
   useEffect(() => {
     const getHabitData = async () => {
       try {
-        setIsLoading(true);
+        setHabitDataLoading(true);
         const response = await fetch(`/api/habit/${id}`);
         const data = await response.json();
         setHabitData({
@@ -50,14 +79,12 @@ export default function UpdateHabit() {
       } catch (error) {
         console.error("Error fetching habit data", error);
       } finally {
-        setIsLoading(false);
+        setHabitDataLoading(false);
       }
     };
 
     if (id) getHabitData();
   }, [id]);
-
-  const isPageLoading = isLoading || todayEntryLoading;
 
   const updateHabit = async (habit: HabitZodType) => {
     const { name, icon, actions } = habit;
@@ -87,7 +114,7 @@ export default function UpdateHabit() {
     }
   };
 
-  if (isPageLoading) {
+  if (habitDataLoading) {
     return (
       <div className="p-6 h-full">
         <SkeletonForm />
@@ -97,22 +124,16 @@ export default function UpdateHabit() {
 
   return (
     <div className="pt-6 h-full">
-      {
-        habitData && (
-          <HabitForm
-            type="Update"
-            habit={habitData}
-            projectedXp={getProjectedHabitXp(id)}
-            submitting={submitting}
-            onSubmit={updateHabit}
-          />
-        )
-        // : (
-        //   <div className="text-center p-6">
-        //     <p>Habit not found or error loading data.</p>
-        //   </div>
-        // )}
-      }
+      {habitData && (
+        <HabitForm
+          type="Update"
+          habit={habitData}
+          xp={xp}
+          projectedXp={projectedXp}
+          submitting={submitting}
+          onSubmit={updateHabit}
+        />
+      )}
     </div>
   );
 }
