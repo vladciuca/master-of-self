@@ -277,10 +277,10 @@ export function FormStepController({
   }
 
   const formValues = getValues();
-  const habitXpValues = calculateHabitsXpFromEntry(
-    formValues.habits || {},
-    formValues.dailyWillpower
-  );
+  const habitXpValues = calculateHabitsXpFromEntry({
+    entryHabits: formValues.habits || {},
+    entryWillpower: formValues.dailyWillpower + formValues.dailyWillpower,
+  });
 
   // NOTE: move to util when cleaning up this file
   const countNonZeroValues = (obj: Record<string, number>) =>

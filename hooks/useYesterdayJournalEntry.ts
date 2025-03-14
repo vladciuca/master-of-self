@@ -56,6 +56,8 @@ export function useYesterdayJournalEntry() {
           actions: {},
         };
         const dailyWillpower = entry?.dailyWillpower || 0;
+        const bonusWillpower = entry?.bonusWillpower || 0;
+        const totalWillpower = dailyWillpower + bonusWillpower;
 
         // Calculate individual bonus willpower scores
         const howGreatTodayScore = calculateWillpowerScore(
@@ -84,10 +86,10 @@ export function useYesterdayJournalEntry() {
           typeof nightEntry.actions === "object" &&
           Object.keys(nightEntry.actions).length > 0
         ) {
-          const currentHabitsXp = calculateHabitsXpFromEntry(
-            nightEntry.actions,
-            dailyWillpower
-          );
+          const currentHabitsXp = calculateHabitsXpFromEntry({
+            entryHabits: nightEntry.actions,
+            entryWillpower: totalWillpower,
+          });
           setHabitsXp(currentHabitsXp);
         }
       } catch (error) {

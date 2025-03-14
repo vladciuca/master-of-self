@@ -36,13 +36,12 @@ export default function UpdateHabit() {
     const dailyWillpower = entry?.dailyWillpower || 0;
     const bonusWillpower = entry?.bonusWillpower || 0;
     const totalWillpower = dailyWillpower + bonusWillpower;
-    const habitActionsValue = entry?.habits || {};
+    const habits = entry?.habits || {};
 
-    // NOTE: use param object here for values
-    const xpSums = calculateHabitsXpFromEntry(
-      habitActionsValue,
-      totalWillpower
-    );
+    const xpSums = calculateHabitsXpFromEntry({
+      entryHabits: habits,
+      entryWillpower: totalWillpower,
+    });
 
     return xpSums[habitId] || 0;
   };

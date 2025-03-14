@@ -53,7 +53,10 @@ JournalEntryCardProps) {
 
   //maybe check if it should not be empty WTF is this here
   const habitsXpFromActions = habits
-    ? calculateHabitsXpFromEntry(habits, totalWillpower)
+    ? calculateHabitsXpFromEntry({
+        entryHabits: habits,
+        entryWillpower: totalWillpower,
+      })
     : {};
 
   const completedDailyToDos = () => {

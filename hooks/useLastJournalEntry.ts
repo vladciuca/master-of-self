@@ -42,29 +42,22 @@ export function useLastJournalEntry() {
         const entry = responseData?.lastJournalEntry || null;
         setLastEntry(entry);
 
-        //removed fallbacks as they are already handled
         const nightEntry = entry.nightEntry;
-        // || {
-        //   dailyHighlights: [],
-        //   howGreatToday: [],
-        //   learnedToday: [],
-        // };
+
         const dailyWillpower = entry.dailyWillpower;
-        // || 0;
+        const bonusWillpower = entry.bonusWillpower;
+        const totalWillpower = dailyWillpower + bonusWillpower;
         const habits = entry.habits;
 
         // Calculate individual bonus willpower scores
         const howGreatTodayScore = calculateWillpowerScore(
           nightEntry.howGreatToday
-          // || []
         );
         const dailyHighlightsScore = calculateWillpowerScore(
           nightEntry.dailyHighlights
-          // || []
         );
         const learnedTodayScore = calculateWillpowerScore(
           nightEntry.learnedToday
-          // || []
         );
 
         // Set individual scores
@@ -83,10 +76,10 @@ export function useLastJournalEntry() {
           typeof habits === "object" &&
           Object.keys(habits).length > 0
         ) {
-          const currentHabitsXp = calculateHabitsXpFromEntry(
-            habits,
-            dailyWillpower
-          );
+          const currentHabitsXp = calculateHabitsXpFromEntry({
+            entryHabits: habits,
+            entryWillpower: totalWillpower,
+          });
           setHabitsXp(currentHabitsXp);
         }
       } catch (error) {

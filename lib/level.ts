@@ -115,11 +115,16 @@ export const getHabitActionValuesFromEntry = (
 };
 
 // CALCULATES INDIVIDUAL HABIT XP VALUES FORM JOURNAL ENTRY - Excluding currentXp key from actions
-export const calculateHabitsXpFromEntry = (
-  habits: Record<string, Record<string, number>>,
-  willpower: number
-) => {
-  return Object.entries(habits).reduce((acc, [habitId, habitActions]) => {
+type CalculateHabitXpFromEntryParams = {
+  entryHabits: Record<string, Record<string, number>>;
+  entryWillpower: number;
+};
+
+export const calculateHabitsXpFromEntry = ({
+  entryHabits,
+  entryWillpower,
+}: CalculateHabitXpFromEntryParams) => {
+  return Object.entries(entryHabits).reduce((acc, [habitId, habitActions]) => {
     // Calculate the base XP sum for the habit, excluding the 'currentXp' key
     const baseXp = Object.entries(habitActions).reduce(
       (sum, [key, value]) => (key !== "currentXp" ? sum + value : sum),
@@ -127,7 +132,7 @@ export const calculateHabitsXpFromEntry = (
     );
 
     // Apply the willpower bonus and round to the nearest integer
-    acc[habitId] = applyWillpowerBonus(baseXp, willpower);
+    acc[habitId] = applyWillpowerBonus(baseXp, entryWillpower);
 
     return acc;
   }, {} as Record<string, number>);

@@ -23,7 +23,10 @@ export function HabitActionsStep() {
 
   const calculateProjectedXP = useCallback(
     (habit: Habit) => {
-      const xpSums = calculateHabitsXpFromEntry(todaysHabits, totalWillpower);
+      const xpSums = calculateHabitsXpFromEntry({
+        entryHabits: todaysHabits,
+        entryWillpower: totalWillpower,
+      });
       return xpSums[habit._id] || 0;
     },
     [todaysHabits, totalWillpower]
