@@ -9,7 +9,7 @@ import { Shell } from "lucide-react";
 import { useUserHabits } from "@hooks/useUserHabits";
 import { useTodayJournalEntry } from "@hooks/useTodayJournalEntry";
 import { useLastJournalEntry } from "@hooks/useLastJournalEntry";
-import { useCreateJournalEntry } from "@hooks/useCreateJournalEntry";
+import { useCreateJournalEntry } from "@hooks/journal/useCreateJournalEntry";
 import { Habit } from "@models/types";
 
 const NEW_HABIT_CARD_DETAILS = {
@@ -32,6 +32,7 @@ const skeletonCards = Array.from({ length: 3 }, (_, index) => (
 export function UserHabits() {
   const { habits, habitsLoading, habitsError } = useUserHabits();
   const { createJournalEntry, submitting } = useCreateJournalEntry();
+  // NOTE: No error handling here
   const { todayEntry, todayEntryLoading } = useTodayJournalEntry();
   const { lastEntry, lastEntryLoading } = useLastJournalEntry();
   const router = useRouter();

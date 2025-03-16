@@ -6,7 +6,6 @@ export async function POST(req: NextRequest) {
   const { userId, dailyWillpower, bonusWillpower, habits } = await req.json();
 
   const userToday = req.nextUrl.searchParams.get("today");
-  // const userTomorrow = req.nextUrl.searchParams.get("tomorrow");
 
   if (!userToday) {
     return NextResponse.json(
@@ -23,7 +22,6 @@ export async function POST(req: NextRequest) {
       dailyWillpower,
       bonusWillpower,
       userToday,
-      // userTomorrow,
       defaultHabitsValues
     );
 

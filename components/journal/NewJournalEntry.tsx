@@ -5,7 +5,7 @@ import { FaBoltLightning } from "react-icons/fa6";
 import { JOURNAL_COLORS } from "@lib/colors";
 import { useYesterdayJournalEntry } from "@hooks/useYesterdayJournalEntry";
 import { useTodayJournalEntry } from "@hooks/useTodayJournalEntry";
-import { useCreateJournalEntry } from "@hooks/useCreateJournalEntry";
+import { useCreateJournalEntry } from "@hooks/journal/useCreateJournalEntry";
 
 type NewJournalEntryProps = {
   isEveningTime: boolean;
@@ -13,6 +13,7 @@ type NewJournalEntryProps = {
 
 export function NewJournalEntry({ isEveningTime }: NewJournalEntryProps) {
   const router = useRouter();
+  // NOTE: No error handling!!!!
   const { yesterdayEntryLoading, bonusWillpower = 0 } =
     useYesterdayJournalEntry();
   const { todayEntry, todayEntryLoading } = useTodayJournalEntry();
@@ -26,6 +27,7 @@ export function NewJournalEntry({ isEveningTime }: NewJournalEntryProps) {
 
   const handleCreateJournalEntry = async () => {
     try {
+      // NOTE: Figure out how the ID is returned form the createJournalEntry function
       const newEntryId = await createJournalEntry();
 
       router.push(`/update-journal-entry/${newEntryId}`);
@@ -34,7 +36,8 @@ export function NewJournalEntry({ isEveningTime }: NewJournalEntryProps) {
     }
   };
 
-  const isEntryExisting = !!todayEntry;
+  // Check of entry for today exists by converting it to a boolean
+  const hasTodayEntry = !!todayEntry;
 
   return (
     <Card className="p-4 mb-6">
@@ -85,11 +88,11 @@ export function NewJournalEntry({ isEveningTime }: NewJournalEntryProps) {
           size="sm"
           className="py-3"
           onClick={handleCreateJournalEntry}
-          disabled={submitting || isEntryExisting || todayEntryLoading}
+          disabled={submitting || hasTodayEntry || todayEntryLoading}
         >
           {submitting
             ? "Creating..."
-            : isEntryExisting
+            : hasTodayEntry
             ? "Entry already exists"
             : "Start today's journal"}
         </Button>

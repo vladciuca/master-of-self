@@ -1,36 +1,34 @@
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { calculateHabitsXpFromEntry } from "@/lib/level";
-import { calculateWillpowerScore } from "@/lib/score";
-import type { Session, JournalEntry } from "@models/types";
-
-type HabitsXp = { [key: string]: number };
+import type {
+  Session,
+  JournalEntry,
+  JournalEntryHabitActions,
+} from "@models/types";
 
 export function useLastJournalEntry() {
+  const { data: session } = useSession() as { data: Session | null };
+
   const [lastEntry, setLastEntry] = useState<JournalEntry | null>(null);
   const [lastEntryLoading, setLastEntryLoading] = useState(false);
   const [lastEntryError, setLastEntryError] = useState<string | null>(null);
-  const [bonusWillpower, setBonusWillpower] = useState<number>(0);
-  const [howGreatTodayBonusWillpower, setHowGreatTodayBonusWillpower] =
-    useState<number>(0);
-  const [dailyHighlightsBonusWillpower, setDailyHighlightsBonusWillpower] =
-    useState<number>(0);
-  const [learnedTodayBonusWillpower, setLearnedTodayBonusWillpower] =
-    useState<number>(0);
-  const [habitsXp, setHabitsXp] = useState<HabitsXp>({});
-  const { data: session } = useSession() as { data: Session | null };
+
+  const [habitsXp, setHabitsXp] = useState<JournalEntryHabitActions>({});
 
   useEffect(() => {
-    const getLastEntry = async () => {
-      if (!session?.user.id) return;
+    if (!session?.user.id) return;
 
+    const abortController = new AbortController();
+    const signal = abortController.signal;
+
+    const getLastEntry = async () => {
       setLastEntryError(null);
       setLastEntryLoading(true);
 
       try {
-        const lastEntryResponse = await fetch(
-          `/api/users/${session.user.id}/journal-entries/last`
-        );
+        const url = `/api/users/${session.user.id}/journal-entries/last`;
+        const lastEntryResponse = await fetch(url, { signal });
 
         if (!lastEntryResponse.ok) {
           throw new Error(
@@ -39,68 +37,54 @@ export function useLastJournalEntry() {
         }
 
         const responseData = await lastEntryResponse.json();
-        const entry = responseData?.lastJournalEntry || null;
+        const entry = responseData?.lastJournalEntry ?? null;
         setLastEntry(entry);
 
-        const nightEntry = entry.nightEntry;
+        if (!entry) return;
 
-        const dailyWillpower = entry.dailyWillpower;
-        const bonusWillpower = entry.bonusWillpower;
-        const totalWillpower = dailyWillpower + bonusWillpower;
-        const habits = entry.habits;
-
-        // Calculate individual bonus willpower scores
-        const howGreatTodayScore = calculateWillpowerScore(
-          nightEntry.howGreatToday
-        );
-        const dailyHighlightsScore = calculateWillpowerScore(
-          nightEntry.dailyHighlights
-        );
-        const learnedTodayScore = calculateWillpowerScore(
-          nightEntry.learnedToday
-        );
-
-        // Set individual scores
-        setHowGreatTodayBonusWillpower(howGreatTodayScore);
-        setDailyHighlightsBonusWillpower(dailyHighlightsScore);
-        setLearnedTodayBonusWillpower(learnedTodayScore);
-
-        // Calculate and set total bonus willpower
-        const totalBonus =
-          howGreatTodayScore + dailyHighlightsScore + learnedTodayScore;
-        setBonusWillpower(totalBonus);
+        const habits = entry.habits || {};
+        const totalWillpower =
+          (entry.dailyWillpower || 0) + (entry.bonusWillpower || 0);
 
         // Calculate and set habits XP
         if (
-          habits &&
-          typeof habits === "object" &&
-          Object.keys(habits).length > 0
-        ) {
-          const currentHabitsXp = calculateHabitsXpFromEntry({
-            entryHabits: habits,
-            entryWillpower: totalWillpower,
-          });
-          setHabitsXp(currentHabitsXp);
-        }
+          !habits ||
+          typeof habits !== "object" ||
+          Object.keys(habits).length === 0
+        )
+          return;
+
+        const currentHabitsXp = calculateHabitsXpFromEntry({
+          entryHabits: habits,
+          entryWillpower: totalWillpower,
+        });
+        setHabitsXp(currentHabitsXp);
       } catch (error) {
+        if ((error as Error).name === "AbortError") {
+          console.error("Fetch aborted");
+          return;
+        }
+
         console.error("Failed to fetch last journal entry", error);
         setLastEntryError("Failed to fetch last journal entry");
+        // Reset state
+        setHabitsXp({});
       } finally {
         setLastEntryLoading(false);
       }
     };
 
     getLastEntry();
+
+    return () => {
+      abortController.abort();
+    };
   }, [session?.user.id]);
 
   return {
     lastEntry,
     lastEntryLoading,
     lastEntryError,
-    bonusWillpower,
-    howGreatTodayBonusWillpower,
-    dailyHighlightsBonusWillpower,
-    learnedTodayBonusWillpower,
     habitsXp,
   };
 }

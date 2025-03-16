@@ -28,7 +28,6 @@ export async function createJournalEntry(
   dailyWillpower: number,
   bonusWillpower: number,
   userToday: string,
-  // userTomorrow: string,
   defaultHabitsValues: JournalEntryHabit
 ): Promise<{ newJournalEntry: JournalEntry | null; error?: string }> {
   try {
@@ -36,15 +35,10 @@ export async function createJournalEntry(
 
     // Check if an entry for today already exists
     const today = new Date(userToday);
-    // const tomorrow = new Date(userTomorrow);
 
-    //NOTE* check here if we need both DATES
-    //we should not
     const existingEntry = await journalEntries.findOne({
       creatorId: new ObjectId(userId),
       createDate: {
-        // $gte: today,
-        // $lt: tomorrow,
         $eq: today,
       },
     });

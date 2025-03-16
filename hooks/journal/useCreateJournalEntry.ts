@@ -1,24 +1,27 @@
 import { useState } from "react";
 import { useSession } from "next-auth/react";
 import { Session, JournalEntryHabit } from "@models/types";
-import { useYesterdayJournalEntry } from "./useYesterdayJournalEntry";
-import { useLastJournalEntry } from "./useLastJournalEntry";
-import { useUpdateHabits } from "./useUpdateHabits";
+import { useYesterdayJournalEntry } from "../useYesterdayJournalEntry";
+import { useLastJournalEntry } from "../useLastJournalEntry";
+import { useUpdateHabits } from "../useUpdateHabits";
 import { useUserHabits } from "@hooks/useUserHabits";
-import {
-  getToday,
-  // getTomorrow
-} from "@lib/time";
+import { getToday } from "@lib/time";
 import { getHabitActionDefaultValues } from "@lib/level";
 
 export function useCreateJournalEntry() {
   const [submitting, setSubmitting] = useState<boolean>(false);
   const { data: session } = useSession() as { data: Session | null };
 
-  const { lastEntry, lastEntryLoading, bonusWillpower, habitsXp } =
+  const { lastEntry, lastEntryLoading, lastEntryError, habitsXp } =
     useLastJournalEntry();
-  const { yesterdayEntry } = useYesterdayJournalEntry();
-  const { updateHabits, isLoading, error } = useUpdateHabits();
+  const {
+    yesterdayEntry,
+    yesterdayEntryLoading,
+    yesterdayEntryError,
+    bonusWillpower,
+  } = useYesterdayJournalEntry();
+  const { updateHabits, updateHabitsLoading, updateHabitsError } =
+    useUpdateHabits();
   const { habits, habitsLoading, habitsError } = useUserHabits();
 
   const createJournalEntry = async () => {
@@ -40,14 +43,17 @@ export function useCreateJournalEntry() {
       }
 
       const today = getToday();
-      // const tomorrow = getTomorrow();
 
+      // Get Bonus WP from yesterday's
       let bonusWillPowerFormYesterday = 0;
+
+      // NOTE: !state here & !error
       if (yesterdayEntry) bonusWillPowerFormYesterday = bonusWillpower;
 
       // Generate default habit action values and include current habit XP
+      // NOTE: Should extract in a separate hook or even better return from useUserHabits directly default values!
       let defaultJournalEntryActionValues: JournalEntryHabit = {};
-      if (!isLoading && habits && habits.length > 0) {
+      if (!updateHabitsLoading && habits && habits.length > 0) {
         defaultJournalEntryActionValues = getHabitActionDefaultValues(habits, {
           includeCurrentXp: true,
         }) as JournalEntryHabit;
@@ -60,7 +66,6 @@ export function useCreateJournalEntry() {
       }
 
       const createNewEntryResponse = await fetch(
-        // `/api/journal-entry/new?today=${today}&tomorrow=${tomorrow}`,
         `/api/journal-entry/new?today=${today}`,
         {
           method: "POST",

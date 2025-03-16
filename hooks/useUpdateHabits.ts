@@ -9,11 +9,13 @@ type UpdateHabitsProps = {
   updateDate: string;
 };
 
-// updases habit xp
 export function useUpdateHabits() {
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
   const { data: session } = useSession() as { data: Session | null };
+
+  const [updateHabitsLoading, setUpdateHabitsLoading] = useState(false);
+  const [updateHabitsError, setUpdateHabitsError] = useState<string | null>(
+    null
+  );
 
   const updateHabits = async ({
     habitsXpUpdates,
@@ -23,8 +25,8 @@ export function useUpdateHabits() {
     if (!session?.user.id)
       return { status: "error", message: "User not authenticated" };
 
-    setIsLoading(true);
-    setError(null);
+    setUpdateHabitsLoading(true);
+    setUpdateHabitsError(null);
 
     try {
       const payload = {
@@ -53,12 +55,12 @@ export function useUpdateHabits() {
       return result;
     } catch (error) {
       console.error("Error updating habits:", error);
-      setError("Failed to update habit XP");
+      setUpdateHabitsError("Failed to update habit XP");
       throw error;
     } finally {
-      setIsLoading(false);
+      setUpdateHabitsLoading(false);
     }
   };
 
-  return { updateHabits, isLoading, error };
+  return { updateHabits, updateHabitsLoading, updateHabitsError };
 }
