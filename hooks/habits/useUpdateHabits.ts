@@ -12,12 +12,12 @@ type UpdateHabitsProps = {
 export function useUpdateHabits() {
   const { data: session } = useSession() as { data: Session | null };
 
-  // NOTE: should call this Submitting instead of loading
   const [updateHabitsSubmitting, setUpdateHabitsSubmitting] = useState(false);
   const [updateHabitsError, setUpdateHabitsError] = useState<string | null>(
     null
   );
 
+  // NOTE: Consider adding new AbortController(); for this call?
   const updateHabits = async ({
     habitsXpUpdates,
     habitActionsUpdates,
