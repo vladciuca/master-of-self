@@ -48,7 +48,9 @@ export function useTodayJournalEntry() {
         console.error("Failed to fetch today's journal entry", error);
         setTodayEntryError("Failed to fetch today's journal entry");
       } finally {
-        setTodayEntryLoading(false);
+        if (!signal.aborted) {
+          setTodayEntryLoading(false);
+        }
       }
     };
 

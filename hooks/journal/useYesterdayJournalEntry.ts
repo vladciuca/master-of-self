@@ -17,7 +17,7 @@ export function useYesterdayJournalEntry() {
   const [yesterdayEntry, setYesterdayEntry] = useState<JournalEntry | null>(
     null
   );
-  const [yesterdayEntryLoading, setYesterdayEntryLoading] = useState(true);
+  const [yesterdayEntryLoading, setYesterdayEntryLoading] = useState(false);
   const [yesterdayEntryError, setYesterdayEntryError] = useState<string | null>(
     null
   );
@@ -51,7 +51,7 @@ export function useYesterdayJournalEntry() {
   };
 
   // Helper function to reset states on error
-  const resetStates = () => {
+  const resetScoreStates = () => {
     setWillpowerScores({
       howGreatToday: 0,
       dailyHighlights: 0,
@@ -61,7 +61,6 @@ export function useYesterdayJournalEntry() {
 
   useEffect(() => {
     if (!session?.user.id) {
-      setYesterdayEntryLoading(false);
       return;
     }
 
@@ -108,13 +107,16 @@ export function useYesterdayJournalEntry() {
           console.warn("Fetch aborted");
           return;
         }
-
         console.error("Failed to fetch yesterday's journal entry", error);
+
         setYesterdayEntryError("Failed to fetch yesterday's journal entry");
         // Reset state here to ensure consistency
-        resetStates();
+        resetScoreStates();
       } finally {
-        setYesterdayEntryLoading(false);
+        // NOTE: If the request was aborted (signal.aborted === true), we skip updating loading = false to prevent incorrect state updates.
+        if (!signal.aborted) {
+          setYesterdayEntryLoading(false);
+        }
       }
     };
 

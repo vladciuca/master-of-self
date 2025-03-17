@@ -70,7 +70,9 @@ export function useLastJournalEntry() {
         // Reset state
         setHabitsXp({});
       } finally {
-        setLastEntryLoading(false);
+        if (!signal.aborted) {
+          setLastEntryLoading(false);
+        }
       }
     };
 
