@@ -31,7 +31,8 @@ const skeletonCards = Array.from({ length: 3 }, (_, index) => (
 
 export function UserHabits() {
   const { habits, habitsLoading, habitsError } = useUserHabits();
-  const { createJournalEntry, submitting } = useCreateJournalEntry();
+  const { createJournalEntry, submittingJournalEntry } =
+    useCreateJournalEntry();
   // NOTE: No error handling here
   const { todayEntry, todayEntryLoading } = useTodayJournalEntry();
   const { lastEntry, lastEntryLoading } = useLastJournalEntry();
@@ -103,7 +104,7 @@ export function UserHabits() {
           entryLoading={entryLoading}
           habitActionsFromEntry={habitActionsFromEntry || {}}
           lastEntryWillpower={lastEntryWillpower}
-          submittingJournalEntry={submitting}
+          submittingJournalEntry={submittingJournalEntry}
           handleActionUpdate={handleActionUpdate}
           hasNoEntryToday={!todayEntry}
         />

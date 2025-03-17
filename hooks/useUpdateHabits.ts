@@ -12,7 +12,8 @@ type UpdateHabitsProps = {
 export function useUpdateHabits() {
   const { data: session } = useSession() as { data: Session | null };
 
-  const [updateHabitsLoading, setUpdateHabitsLoading] = useState(false);
+  // NOTE: should call this Submitting instead of loading
+  const [updateHabitsSubmitting, setUpdateHabitsSubmitting] = useState(false);
   const [updateHabitsError, setUpdateHabitsError] = useState<string | null>(
     null
   );
@@ -25,7 +26,7 @@ export function useUpdateHabits() {
     if (!session?.user.id)
       return { status: "error", message: "User not authenticated" };
 
-    setUpdateHabitsLoading(true);
+    setUpdateHabitsSubmitting(true);
     setUpdateHabitsError(null);
 
     try {
@@ -58,9 +59,9 @@ export function useUpdateHabits() {
       setUpdateHabitsError("Failed to update habit XP");
       throw error;
     } finally {
-      setUpdateHabitsLoading(false);
+      setUpdateHabitsSubmitting(false);
     }
   };
 
-  return { updateHabits, updateHabitsLoading, updateHabitsError };
+  return { updateHabits, updateHabitsSubmitting, updateHabitsError };
 }

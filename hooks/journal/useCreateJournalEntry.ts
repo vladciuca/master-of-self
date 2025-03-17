@@ -9,7 +9,8 @@ import { getToday } from "@lib/time";
 import { getHabitActionDefaultValues } from "@lib/level";
 
 export function useCreateJournalEntry() {
-  const [submitting, setSubmitting] = useState<boolean>(false);
+  const [submittingJournalEntry, setSubmittingJournalEntry] =
+    useState<boolean>(false);
   const { data: session } = useSession() as { data: Session | null };
 
   const { lastEntry, lastEntryLoading, lastEntryError, habitsXp } =
@@ -20,40 +21,71 @@ export function useCreateJournalEntry() {
     yesterdayEntryError,
     bonusWillpower,
   } = useYesterdayJournalEntry();
-  const { updateHabits, updateHabitsLoading, updateHabitsError } =
-    useUpdateHabits();
+
   const { habits, habitsLoading, habitsError } = useUserHabits();
 
+  const { updateHabits, updateHabitsSubmitting, updateHabitsError } =
+    useUpdateHabits();
+
   const createJournalEntry = async () => {
-    setSubmitting(false);
+    setSubmittingJournalEntry(false);
 
     try {
-      setSubmitting(true);
+      setSubmittingJournalEntry(true);
 
+      // 1. Authentication check
       if (!session?.user.id) {
-        throw new Error("User not authenticated");
+        throw new Error("AUTHENTICATION_ERROR: User not authenticated");
       }
 
+      // 2. Check yesterday's entry data - FOR WP BONUS
+      if (yesterdayEntryLoading) {
+        throw new Error(
+          "YESTERDAY_ENTRY_LOADING: Yesterday's entry data is still loading"
+        );
+      }
+
+      if (yesterdayEntryError) {
+        throw new Error(`YESTERDAY_ENTRY_ERROR: ${yesterdayEntryError}`);
+      }
+
+      // 3. Check user habits data - FOR DEFAULT_JE_HABIT_ACTION_VALUES
       if (habitsLoading) {
-        throw new Error("Habits are still loading");
+        throw new Error("HABITS_LOADING: Habits data is still loading");
       }
 
       if (habitsError) {
-        throw new Error("Error loading habits");
+        throw new Error(`HABITS_ERROR: ${habitsError}`);
       }
 
-      const today = getToday();
+      // 4. Check last entry data - TO UPDATE THE HABIT XP
+      if (lastEntryLoading) {
+        throw new Error("LAST_ENTRY_LOADING: Last entry data is still loading");
+      }
 
-      // Get Bonus WP from yesterday's
+      if (lastEntryError) {
+        throw new Error(`LAST_ENTRY_ERROR: ${lastEntryError}`);
+      }
+
+      // 5. Check update habits status - Check for Previous Unfinished Call
+      if (updateHabitsSubmitting) {
+        throw new Error(
+          "UPDATE_HABITS_LOADING: Update habits is still processing"
+        );
+      }
+
+      if (updateHabitsError) {
+        throw new Error(`UPDATE_HABITS_ERROR: ${updateHabitsError}`);
+      }
+
       let bonusWillPowerFormYesterday = 0;
-
-      // NOTE: !state here & !error
+      // Get Bonus WP from yesterday's
       if (yesterdayEntry) bonusWillPowerFormYesterday = bonusWillpower;
 
       // Generate default habit action values and include current habit XP
-      // NOTE: Should extract in a separate hook or even better return from useUserHabits directly default values!
+      // NOTE: Should return from useUserHabits directly default values!
       let defaultJournalEntryActionValues: JournalEntryHabit = {};
-      if (!updateHabitsLoading && habits && habits.length > 0) {
+      if (habits && habits.length > 0) {
         defaultJournalEntryActionValues = getHabitActionDefaultValues(habits, {
           includeCurrentXp: true,
         }) as JournalEntryHabit;
@@ -63,6 +95,32 @@ export function useCreateJournalEntry() {
         console.warn(
           "No habits with actions found. Using empty object for actions."
         );
+      }
+
+      const today = getToday();
+
+      const todayDate = getToday().toISOString().split("T")[0];
+
+      // NOTE: Must not crete entry before updating the Habits XP
+      // Update habits if there are actions and XP from the last entry
+      if (
+        lastEntry?.habits &&
+        Object.keys(lastEntry.habits).length > 0 &&
+        Object.keys(habitsXp).length > 0
+      ) {
+        try {
+          await updateHabits({
+            habitsXpUpdates: habitsXp,
+            habitActionsUpdates: lastEntry.habits,
+            updateDate: todayDate,
+          });
+        } catch (updateError) {
+          console.error(
+            "Error updating habits before entry creation:",
+            updateError
+          );
+          throw new Error(`Failed to update habits: ${updateHabitsError}`);
+        }
       }
 
       const createNewEntryResponse = await fetch(
@@ -92,28 +150,13 @@ export function useCreateJournalEntry() {
         throw new Error("Failed to create new entry: No _id returned");
       }
 
-      // Update habits if there are actions and XP from the last entry
-      const todayDate = getToday().toISOString().split("T")[0];
-
-      if (
-        lastEntry?.habits &&
-        Object.keys(lastEntry.habits).length > 0 &&
-        Object.keys(habitsXp).length > 0
-      ) {
-        await updateHabits({
-          habitsXpUpdates: habitsXp,
-          habitActionsUpdates: lastEntry.habits,
-          updateDate: todayDate,
-        });
-      }
-
       return newEntry._id;
     } catch (error) {
       console.error("Error creating new entry:", error);
-      setSubmitting(false);
+      setSubmittingJournalEntry(false);
       throw error;
     }
   };
 
-  return { createJournalEntry, submitting };
+  return { createJournalEntry, submittingJournalEntry };
 }

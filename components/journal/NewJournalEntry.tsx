@@ -17,7 +17,8 @@ export function NewJournalEntry({ isEveningTime }: NewJournalEntryProps) {
   const { yesterdayEntryLoading, bonusWillpower = 0 } =
     useYesterdayJournalEntry();
   const { todayEntry, todayEntryLoading } = useTodayJournalEntry();
-  const { createJournalEntry, submitting } = useCreateJournalEntry();
+  const { createJournalEntry, submittingJournalEntry } =
+    useCreateJournalEntry();
 
   const date = new Date();
   const day = date.getDate();
@@ -57,6 +58,9 @@ export function NewJournalEntry({ isEveningTime }: NewJournalEntryProps) {
                     +{bonusWillpower}
                   </span>
                 ) : (
+                  // NOTE: this dosen't work anymore! - NEEDS FIX
+                  // FLIPS FORM 0 to value
+                  // yesterdayEntryLoading is always FALSE
                   <span className="font-semibold">
                     {yesterdayEntryLoading ? "??" : 0}
                   </span>
@@ -88,9 +92,11 @@ export function NewJournalEntry({ isEveningTime }: NewJournalEntryProps) {
           size="sm"
           className="py-3"
           onClick={handleCreateJournalEntry}
-          disabled={submitting || hasTodayEntry || todayEntryLoading}
+          disabled={
+            submittingJournalEntry || todayEntryLoading || hasTodayEntry
+          }
         >
-          {submitting
+          {submittingJournalEntry
             ? "Creating..."
             : hasTodayEntry
             ? "Entry already exists"

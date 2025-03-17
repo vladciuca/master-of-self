@@ -17,7 +17,7 @@ export function useYesterdayJournalEntry() {
   const [yesterdayEntry, setYesterdayEntry] = useState<JournalEntry | null>(
     null
   );
-  const [yesterdayEntryLoading, setYesterdayEntryLoading] = useState(false);
+  const [yesterdayEntryLoading, setYesterdayEntryLoading] = useState(true);
   const [yesterdayEntryError, setYesterdayEntryError] = useState<string | null>(
     null
   );
@@ -60,7 +60,10 @@ export function useYesterdayJournalEntry() {
   };
 
   useEffect(() => {
-    if (!session?.user.id) return;
+    if (!session?.user.id) {
+      setYesterdayEntryLoading(false);
+      return;
+    }
 
     // Create abort controller for cleanup
     const abortController = new AbortController();

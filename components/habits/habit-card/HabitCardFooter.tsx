@@ -39,7 +39,7 @@ export function HabitCardFooter({
 
       <Button
         variant="secondary"
-        disabled={entryLoading && submittingJournalEntry}
+        disabled={entryLoading || submittingJournalEntry}
         onClick={() => handleActionUpdate(habit._id)}
         className="flex-1 w-full"
       >
