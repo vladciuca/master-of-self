@@ -74,7 +74,9 @@ export function useYesterdayJournalEntry() {
         const yesterday = getYesterday();
         const url = `/api/users/${session.user.id}/journal-entries/yesterday?yesterday=${yesterday}`;
 
-        const yesterdayEntryResponse = await fetch(url, { signal });
+        const yesterdayEntryResponse = await fetch(url, {
+          signal,
+        });
 
         if (!yesterdayEntryResponse.ok) {
           throw new Error(
@@ -84,6 +86,7 @@ export function useYesterdayJournalEntry() {
 
         const responseData = await yesterdayEntryResponse.json();
         const entry = responseData?.yesterdaysJournalEntry ?? null;
+
         setYesterdayEntry(entry);
 
         if (!entry) return;
@@ -99,7 +102,7 @@ export function useYesterdayJournalEntry() {
         setWillpowerScores(scores);
       } catch (error) {
         if ((error as Error).name === "AbortError") {
-          console.error("Fetch aborted");
+          console.warn("Fetch aborted");
           return;
         }
 

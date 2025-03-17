@@ -4,8 +4,8 @@ import { useRouter, useParams } from "next/navigation";
 import { HabitForm } from "@components/habits/habit-form/HabitForm";
 import { HabitZodType } from "@models/habitFormSchema";
 import { SkeletonForm } from "@components/skeletons/SkeletonForm";
-import { useTodayJournalEntry } from "@hooks/useTodayJournalEntry";
-import { useLastJournalEntry } from "@hooks/useLastJournalEntry";
+import { useTodayJournalEntry } from "@hooks/journal/useTodayJournalEntry";
+import { useLastJournalEntry } from "@hooks/journal/useLastJournalEntry";
 import { calculateHabitsXpFromEntry } from "@lib/level";
 
 export default function UpdateHabit() {

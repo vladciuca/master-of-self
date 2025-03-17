@@ -41,7 +41,7 @@ export function useTodayJournalEntry() {
         setTodayEntry(entry);
       } catch (error) {
         if ((error as Error).name === "AbortError") {
-          console.error("Fetch aborted");
+          console.warn("Fetch aborted");
           return;
         }
 

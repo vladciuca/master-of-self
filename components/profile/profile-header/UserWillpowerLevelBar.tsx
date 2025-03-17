@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import { useTotalWillpowerBeforeToday } from "@hooks/useTotalWillpowerBeforeToday";
-import { useTodayJournalEntry } from "@hooks/useTodayJournalEntry";
+import { useTodayJournalEntry } from "@hooks/journal/useTodayJournalEntry";
 import { calculateLevel, xpForLevel } from "@lib/level";
 import { JOURNAL_COLORS } from "@lib/colors";
 

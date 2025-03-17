@@ -34,7 +34,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 
-import { useTodayJournalEntry } from "./useTodayJournalEntry";
+import { useTodayJournalEntry } from "./journal/useTodayJournalEntry";
 import { useUserHabits } from "./useUserHabits";
 import {
   getHabitActionDefaultValues,

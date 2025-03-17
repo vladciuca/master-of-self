@@ -32,6 +32,7 @@ export default function CreateHabit() {
         router.push("/habits");
       }
     } catch (error) {
+      //NOTE: no console log errors
       console.log(error);
     } finally {
       setSubmitting(false);

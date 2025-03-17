@@ -4,7 +4,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { FormStepTemplate } from "@components/journal/journal-entry-form/form-steps/FormStepTemplate";
 import { JournalEntrySection } from "@components/journal/journal-entry-card/JournalEntrySection";
 import { FaBoltLightning } from "react-icons/fa6";
-import { useYesterdayJournalEntry } from "@hooks/useYesterdayJournalEntry";
+import { useYesterdayJournalEntry } from "@hooks/journal/useYesterdayJournalEntry";
 import { stepIconMap } from "@components/ui/constants";
 import { BonusStepTabHeader } from "./BonusStepTabHeader";
 import { JOURNAL_COLORS } from "@lib/colors";
