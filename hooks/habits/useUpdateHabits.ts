@@ -1,10 +1,10 @@
 import { useState, useEffect, useRef } from "react";
 import { useSession } from "next-auth/react";
 import { HabitActionUpdate, HabitUpdate } from "@models/mongodb";
-import { Session } from "@models/types";
+import type { Session, JournalEntryHabitActions } from "@models/types";
 
 type UpdateHabitsProps = {
-  habitsXpUpdates: { [key: string]: number };
+  habitsXpUpdates: JournalEntryHabitActions;
   habitActionsUpdates: HabitActionUpdate;
   updateDate: string;
 };

@@ -1,11 +1,12 @@
 import { useState, useEffect, useCallback } from "react";
+import type { JournalEntryHabitActions } from "@models/types";
 
 type HabitsIcons = {
   icon: string;
   xp: number;
 };
 
-export function useHabitsIcons(initialHabits: { [key: string]: number }) {
+export function useHabitsIcons(initialHabits: JournalEntryHabitActions) {
   const [journalHabits, setJournalHabits] = useState(initialHabits);
   const [habitData, setHabitData] = useState<{
     [key: string]: HabitsIcons;
