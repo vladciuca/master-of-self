@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useSession } from "next-auth/react";
 import { HabitActionUpdate, HabitUpdate } from "@models/mongodb";
 import { Session } from "@models/types";
@@ -17,7 +17,17 @@ export function useUpdateHabits() {
     null
   );
 
-  // NOTE: Consider adding new AbortController(); for this call?
+  const abortControllerRef = useRef<AbortController | null>(null);
+
+  // Cleanup function to abort fetch requests when component unmounts
+  useEffect(() => {
+    return () => {
+      if (abortControllerRef.current) {
+        abortControllerRef.current.abort();
+      }
+    };
+  }, []);
+
   const updateHabits = async ({
     habitsXpUpdates,
     habitActionsUpdates,
@@ -25,6 +35,12 @@ export function useUpdateHabits() {
   }: UpdateHabitsProps) => {
     if (!session?.user.id)
       return { status: "error", message: "User not authenticated" };
+
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort();
+    }
+    abortControllerRef.current = new AbortController();
+    const { signal } = abortControllerRef.current;
 
     setUpdateHabitsSubmitting(true);
     setUpdateHabitsError(null);
@@ -45,6 +61,7 @@ export function useUpdateHabits() {
             "Content-Type": "application/json",
           },
           body: JSON.stringify(payload),
+          signal,
         }
       );
 
@@ -55,10 +72,16 @@ export function useUpdateHabits() {
       const result = await response.json();
       return result;
     } catch (error) {
+      if ((error as Error).name === "AbortError") {
+        console.warn("Fetch request was aborted");
+        return;
+      }
+
       console.error("Error updating habits:", error);
       setUpdateHabitsError("Failed to update habit XP");
       throw error;
     } finally {
+      // Unlike GET requests, there’s no risk of an inconsistent UI caused by setting submitting = false after an abort.
       setUpdateHabitsSubmitting(false);
     }
   };

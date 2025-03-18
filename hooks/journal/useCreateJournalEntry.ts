@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useSession } from "next-auth/react";
 import { Session, JournalEntryHabit } from "@models/types";
 import { useYesterdayJournalEntry } from "./useYesterdayJournalEntry";
@@ -15,113 +15,90 @@ export function useCreateJournalEntry() {
 
   const { lastEntry, lastEntryLoading, lastEntryError, habitsXp } =
     useLastJournalEntry();
-  const {
-    yesterdayEntry,
-    yesterdayEntryLoading,
-    yesterdayEntryError,
-    bonusWillpower,
-  } = useYesterdayJournalEntry();
+  const { bonusWillpower, yesterdayEntryLoading, yesterdayEntryError } =
+    useYesterdayJournalEntry();
 
-  const { habits, habitsLoading, habitsError } = useUserHabits();
+  const { habits, hasHabits, habitsLoading, habitsError } = useUserHabits();
 
   const { updateHabits, updateHabitsSubmitting, updateHabitsError } =
     useUpdateHabits();
 
+  const abortControllerRef = useRef<AbortController | null>(null);
+
+  // Cleanup function to abort fetch requests when component unmounts
+  useEffect(() => {
+    return () => {
+      if (abortControllerRef.current) {
+        abortControllerRef.current.abort();
+      }
+    };
+  }, []);
+
   const createJournalEntry = async () => {
+    if (!session?.user.id) throw new Error("User not authenticated");
+
+    // NOTE: Chaining Loading states and errors here is used because:
+    // the createJournalEntry function is dependent all the data from these calls!
+    // Ensure all dependencies are loaded
+    if (
+      yesterdayEntryLoading ||
+      habitsLoading ||
+      lastEntryLoading ||
+      updateHabitsSubmitting
+    ) {
+      console.warn("Waiting for all dependent hooks to finish loading...");
+      return;
+    }
+
+    // Ensure no errors before proceeding
+    if (
+      yesterdayEntryError ||
+      habitsError ||
+      lastEntryError ||
+      updateHabitsError
+    ) {
+      throw new Error(
+        `Error fetching required data: 
+        Yesterday Entry: ${yesterdayEntryError}, 
+        Habits: ${habitsError}, 
+        Last Entry: ${lastEntryError}, 
+        Update Habits: ${updateHabitsError}`
+      );
+    }
+
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort();
+    }
+    abortControllerRef.current = new AbortController();
+    const { signal } = abortControllerRef.current;
+
+    // setSubmittingJournalEntry(false);
     setSubmittingJournalEntry(false);
 
     try {
       setSubmittingJournalEntry(true);
 
-      // 1. Authentication check
-      if (!session?.user.id) {
-        throw new Error("AUTHENTICATION_ERROR: User not authenticated");
-      }
-
-      // 2. Check yesterday's entry data - FOR WP BONUS
-      if (yesterdayEntryLoading) {
-        throw new Error(
-          "YESTERDAY_ENTRY_LOADING: Yesterday's entry data is still loading"
-        );
-      }
-
-      if (yesterdayEntryError) {
-        throw new Error(`YESTERDAY_ENTRY_ERROR: ${yesterdayEntryError}`);
-      }
-
-      // 3. Check user habits data - FOR DEFAULT_JE_HABIT_ACTION_VALUES
-      if (habitsLoading) {
-        throw new Error("HABITS_LOADING: Habits data is still loading");
-      }
-
-      if (habitsError) {
-        throw new Error(`HABITS_ERROR: ${habitsError}`);
-      }
-
-      // 4. Check last entry data - TO UPDATE THE HABIT XP
-      if (lastEntryLoading) {
-        throw new Error("LAST_ENTRY_LOADING: Last entry data is still loading");
-      }
-
-      if (lastEntryError) {
-        throw new Error(`LAST_ENTRY_ERROR: ${lastEntryError}`);
-      }
-
-      // 5. Check update habits status - Check for Previous Unfinished Call
-      if (updateHabitsSubmitting) {
-        throw new Error(
-          "UPDATE_HABITS_LOADING: Update habits is still processing"
-        );
-      }
-
-      if (updateHabitsError) {
-        throw new Error(`UPDATE_HABITS_ERROR: ${updateHabitsError}`);
-      }
-
-      let bonusWillPowerFormYesterday = 0;
-      // Get Bonus WP from yesterday's
-      if (yesterdayEntry) bonusWillPowerFormYesterday = bonusWillpower;
-
-      // Generate default habit action values and include current habit XP
-      // NOTE: Should return from useUserHabits directly default values!
-      let defaultJournalEntryActionValues: JournalEntryHabit = {};
-      if (habits && habits.length > 0) {
-        defaultJournalEntryActionValues = getHabitActionDefaultValues(habits, {
-          includeCurrentXp: true,
-        }) as JournalEntryHabit;
-      }
-
-      if (Object.keys(defaultJournalEntryActionValues).length === 0) {
-        console.warn(
-          "No habits with actions found. Using empty object for actions."
-        );
-      }
-
       const today = getToday();
-
-      const todayDate = getToday().toISOString().split("T")[0];
+      const todayDate = today.toISOString().split("T")[0];
 
       // NOTE: Must not crete entry before updating the Habits XP
-      // Update habits if there are actions and XP from the last entry
-      if (
-        lastEntry?.habits &&
-        Object.keys(lastEntry.habits).length > 0 &&
-        Object.keys(habitsXp).length > 0
-      ) {
-        try {
-          await updateHabits({
-            habitsXpUpdates: habitsXp,
-            habitActionsUpdates: lastEntry.habits,
-            updateDate: todayDate,
-          });
-        } catch (updateError) {
-          console.error(
-            "Error updating habits before entry creation:",
-            updateError
-          );
-          throw new Error(`Failed to update habits: ${updateHabitsError}`);
-        }
-      }
+      // Parallel API updates
+      await Promise.allSettled([
+        // NOTE: Might need to check vs hasHabits too to do the update here and also lastEntry
+        lastEntry && hasHabits
+          ? updateHabits({
+              habitsXpUpdates: habitsXp,
+              habitActionsUpdates: lastEntry.habits,
+              updateDate: todayDate,
+            })
+          : Promise.resolve(), // If lastEntry is null / the user doesn't have habits, resolve immediately
+      ]);
+
+      const defaultJournalEntryActionValues: JournalEntryHabit = hasHabits
+        ? getHabitActionDefaultValues(habits, {
+            includeCurrentXp: true,
+          })
+        : {};
 
       const createNewEntryResponse = await fetch(
         `/api/journal-entry/new?today=${today}`,
@@ -133,9 +110,12 @@ export function useCreateJournalEntry() {
           body: JSON.stringify({
             userId: session.user.id,
             dailyWillpower: 0,
-            bonusWillpower: bonusWillPowerFormYesterday,
+            bonusWillpower: bonusWillpower ?? 0,
+            // HERE might need a check if the user dosent have habits do not run this function
+            // But this should be encapsulated inside the useHabits hook right?! nigger
             habits: defaultJournalEntryActionValues,
           }),
+          signal, // Attach signal to the request
         }
       );
 
@@ -152,6 +132,11 @@ export function useCreateJournalEntry() {
 
       return newEntry._id;
     } catch (error) {
+      if ((error as Error).name === "AbortError") {
+        console.warn("Create journal entry request was aborted.");
+        return;
+      }
+
       console.error("Error creating new entry:", error);
       setSubmittingJournalEntry(false);
       throw error;

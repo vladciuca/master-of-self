@@ -70,13 +70,21 @@ export function UserHabits() {
     return todayEntry?.habits || lastEntry?.habits || null;
   }, [todayEntry, lastEntry, todayEntryLoading, lastEntryLoading]);
 
+  // NOTE: this is some fucked up logic here, i think it should be yesterday right? but last entry should be yday but for today
+  // aha, cause u haven't gotten the bonus yet, yea
   const lastEntryWillpower = useMemo(() => {
     if (todayEntryLoading || lastEntryLoading) {
       return 0;
     }
 
-    const lastEntryDailyWillpower = todayEntry?.dailyWillpower || 0;
-    const lastEntryBonusWillpower = todayEntry?.bonusWillpower || 0;
+    // NOTE: im pretty sure it should be last entry here, NOT todayEntry
+    // FIGURE OUT WHY WAS(IS) TODAY HERE?
+    // What was the reason
+    // const lastEntryDailyWillpower = todayEntry?.dailyWillpower || 0;
+    // const lastEntryBonusWillpower = todayEntry?.bonusWillpower || 0;
+    const lastEntryDailyWillpower = lastEntry?.dailyWillpower || 0;
+    const lastEntryBonusWillpower = lastEntry?.bonusWillpower || 0;
+
     const lastEntryTotalWillpower =
       lastEntryDailyWillpower + lastEntryBonusWillpower;
 
