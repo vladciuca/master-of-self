@@ -72,7 +72,6 @@ export function useCreateJournalEntry() {
     abortControllerRef.current = new AbortController();
     const { signal } = abortControllerRef.current;
 
-    // setSubmittingJournalEntry(false);
     setSubmittingJournalEntry(false);
 
     try {
