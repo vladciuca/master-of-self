@@ -96,12 +96,6 @@ export function useCreateJournalEntry() {
           : Promise.resolve(), // If lastEntry is null / the user doesn't have habits, resolve immediately
       ]);
 
-      // const defaultJournalEntryActionValues: JournalEntryHabit = hasHabits
-      //   ? getHabitActionDefaultValues(habits, {
-      //       includeCurrentXp: true,
-      //     })
-      //   : {};
-
       const createNewEntryResponse = await fetch(
         `/api/journal-entry/new?today=${today}`,
         {

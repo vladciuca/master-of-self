@@ -74,14 +74,6 @@ export function UserHabits() {
     }
   };
 
-  // *** NOTE: use ?? here to account for undefined values fallbacks
-  // const entryHabits =
-  //   !lastEntryLoading && !lastEntryError ? lastEntry?.habits ?? {} : {};
-  // const entryTotalWillpower =
-  //   !lastEntryLoading && !lastEntryError
-  //     ? (lastEntry?.dailyWillpower ?? 0) + (lastEntry?.bonusWillpower ?? 0)
-  //     : 0;
-
   const isEntryValid = !lastEntryLoading && !lastEntryError;
 
   const {
