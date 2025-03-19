@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useSession } from "next-auth/react";
 import { getHabitActionDefaultValues } from "@lib/level";
 import { Session, Habit, JournalEntryHabit } from "@models/types";
@@ -9,6 +9,24 @@ export function useUserHabits() {
   const [habits, setHabits] = useState<Habit[]>([]);
   const [habitsLoading, setHabitsLoading] = useState(false);
   const [habitsError, setHabitsError] = useState<string | null>(null);
+
+  // Memoize hasHabits - for consistency, though this is a very lightweight calculation
+  const hasHabits = useMemo(() => habits.length > 0, [habits]);
+
+  // Memoize defaultHabitActionValues
+  const defaultHabitActionValues = useMemo<JournalEntryHabit>(() => {
+    return hasHabits ? getHabitActionDefaultValues(habits) : {};
+  }, [habits, hasHabits]);
+
+  // Memoize defaultJournalEntryHabitActionValues
+  const defaultJournalEntryHabitActionValues =
+    useMemo<JournalEntryHabit>(() => {
+      return hasHabits
+        ? getHabitActionDefaultValues(habits, {
+            includeCurrentXp: true,
+          })
+        : {};
+    }, [habits, hasHabits]);
 
   useEffect(() => {
     if (!session?.user.id) return;
@@ -51,19 +69,6 @@ export function useUserHabits() {
       abortController.abort();
     };
   }, [session?.user.id]);
-
-  const hasHabits = habits.length > 0;
-
-  const defaultHabitActionValues: JournalEntryHabit = hasHabits
-    ? getHabitActionDefaultValues(habits)
-    : {};
-
-  // NOTE: current XP is required for Journal Entry habits
-  const defaultJournalEntryHabitActionValues: JournalEntryHabit = hasHabits
-    ? getHabitActionDefaultValues(habits, {
-        includeCurrentXp: true,
-      })
-    : {};
 
   return {
     habits,
