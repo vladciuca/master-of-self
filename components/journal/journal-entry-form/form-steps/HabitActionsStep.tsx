@@ -3,7 +3,7 @@ import { useFormContext } from "react-hook-form";
 import { FormStepTemplate } from "@/components/journal/journal-entry-form/form-steps/FormStepTemplate";
 import { HabitActions } from "@components/habits/habit-actions/HabitActions";
 import { SkeletonHabitAction } from "@components/skeletons/SkeletonHabitAction";
-import { useUserHabits } from "@/hooks/useUserHabits";
+import { useUserHabits } from "@hooks/habits/useUserHabits";
 import { calculateHabitsXpFromEntry } from "@lib/level";
 import { XP_COLORS } from "@lib/colors";
 import type { Habit, JournalEntry } from "@models/types";

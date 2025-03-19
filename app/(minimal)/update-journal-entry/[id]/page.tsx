@@ -6,7 +6,7 @@ import { FormStepController } from "@components/journal/journal-entry-form/FormS
 import { PageLogo } from "@components/PageLogo";
 import { HeaderTitle } from "@components/HeaderTitle";
 import { useUserSettings } from "@hooks/useUserSettings";
-import { useUserHabits } from "@hooks/useUserHabits";
+import { useUserHabits } from "@hooks/habits/useUserHabits";
 import { JournalEntry } from "@models/types";
 
 export default function UpdateJournalEntry() {

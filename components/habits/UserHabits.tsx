@@ -1,15 +1,16 @@
 "use client";
 
-import { useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { PageHeader } from "@components/PageHeader";
 import { HabitList } from "@components/habits/HabitList";
 import { SkeletonHabitCard } from "@components/skeletons/SkeletonHabitCard";
 import { Shell } from "lucide-react";
-import { useUserHabits } from "@hooks/useUserHabits";
+import { useUserHabits } from "@hooks/habits/useUserHabits";
 import { useTodayJournalEntry } from "@hooks/journal/useTodayJournalEntry";
 import { useLastJournalEntry } from "@hooks/journal/useLastJournalEntry";
 import { useCreateJournalEntry } from "@hooks/journal/useCreateJournalEntry";
+//NOTE: Move into hook?
+import { getHabitActionValuesFromEntry } from "@lib/level";
 import { Habit } from "@models/types";
 
 const NEW_HABIT_CARD_DETAILS = {
@@ -30,21 +31,31 @@ const skeletonCards = Array.from({ length: 3 }, (_, index) => (
 ));
 
 export function UserHabits() {
-  const { habits, habitsLoading, habitsError } = useUserHabits();
-  const { createJournalEntry, submittingJournalEntry } =
-    useCreateJournalEntry();
-  // NOTE: No error handling here
-  const { todayEntry, todayEntryLoading } = useTodayJournalEntry();
-  const { lastEntry, lastEntryLoading } = useLastJournalEntry();
   const router = useRouter();
 
-  const numberOfEntries = habitsLoading ? "?" : habits.length;
+  const { habits, defaultHabitActionValues, habitsLoading, habitsError } =
+    useUserHabits();
+  const { createJournalEntry, submittingJournalEntry } =
+    useCreateJournalEntry();
+
+  // *** NOTE: Here we only check if todayEntry exists !
+  const { todayEntry, todayEntryLoading, todayEntryError } =
+    useTodayJournalEntry();
+
+  // *** NOTE: lastEntry becomes todayEntry if todayEntry exists (dose not return null) !
+  // TODO: add getHabitActionValuesFromEntry as return value from this Hook?
+  const { lastEntry, lastEntryLoading, lastEntryError } = useLastJournalEntry();
+
+  const itemsCount = habitsLoading ? "?" : habits.length;
 
   const handleEdit = (habit: Habit) => {
     router.push(`/update-habit/${habit._id}`);
   };
 
   const handleActionUpdate = async (habitId: string) => {
+    if (todayEntryLoading) return;
+    if (todayEntryError) return;
+
     if (!todayEntry?._id) {
       try {
         const newEntryId = await createJournalEntry();
@@ -63,35 +74,23 @@ export function UserHabits() {
     }
   };
 
-  const habitActionsFromEntry = useMemo(() => {
-    if (todayEntryLoading || lastEntryLoading) {
-      return null;
-    }
-    return todayEntry?.habits || lastEntry?.habits || null;
-  }, [todayEntry, lastEntry, todayEntryLoading, lastEntryLoading]);
+  // *** NOTE: use ?? here to account for undefined values fallbacks
+  // const entryHabits =
+  //   !lastEntryLoading && !lastEntryError ? lastEntry?.habits ?? {} : {};
+  // const entryTotalWillpower =
+  //   !lastEntryLoading && !lastEntryError
+  //     ? (lastEntry?.dailyWillpower ?? 0) + (lastEntry?.bonusWillpower ?? 0)
+  //     : 0;
 
-  // NOTE: this is some fucked up logic here, i think it should be yesterday right? but last entry should be yday but for today
-  // aha, cause u haven't gotten the bonus yet, yea
-  const lastEntryWillpower = useMemo(() => {
-    if (todayEntryLoading || lastEntryLoading) {
-      return 0;
-    }
+  const isEntryValid = !lastEntryLoading && !lastEntryError;
 
-    // NOTE: im pretty sure it should be last entry here, NOT todayEntry
-    // FIGURE OUT WHY WAS(IS) TODAY HERE?
-    // What was the reason
-    // const lastEntryDailyWillpower = todayEntry?.dailyWillpower || 0;
-    // const lastEntryBonusWillpower = todayEntry?.bonusWillpower || 0;
-    const lastEntryDailyWillpower = lastEntry?.dailyWillpower || 0;
-    const lastEntryBonusWillpower = lastEntry?.bonusWillpower || 0;
+  const {
+    habits: entryHabits = {},
+    dailyWillpower = 0,
+    bonusWillpower = 0,
+  } = isEntryValid && lastEntry ? lastEntry : {};
 
-    const lastEntryTotalWillpower =
-      lastEntryDailyWillpower + lastEntryBonusWillpower;
-
-    return lastEntryTotalWillpower;
-  }, [todayEntry, lastEntry, todayEntryLoading, lastEntryLoading]);
-
-  const entryLoading = todayEntryLoading || lastEntryLoading;
+  const entryTotalWillpower = dailyWillpower + bonusWillpower;
 
   return (
     <div className="w-full">
@@ -99,7 +98,7 @@ export function UserHabits() {
         symbol={NEW_HABIT_CARD_DETAILS.symbol}
         title={NEW_HABIT_CARD_DETAILS.title}
         linkTo={NEW_HABIT_CARD_DETAILS.linkTo}
-        numberOfEntries={numberOfEntries}
+        itemsCount={itemsCount}
       />
 
       {habitsLoading ? (
@@ -107,14 +106,24 @@ export function UserHabits() {
       ) : habits.length > 0 ? (
         <HabitList
           habits={habits}
+          //NOTE: Default HABIT_ACTION_VALUES from habits hook
+          defaultHabitActionValues={defaultHabitActionValues}
           handleEdit={handleEdit}
-          // handleDelete={handleDelete}
-          entryLoading={entryLoading}
-          habitActionsFromEntry={habitActionsFromEntry || {}}
-          lastEntryWillpower={lastEntryWillpower}
+          // handleDelete={handleDelete} //NOTE: Test purposes
+          entryLoading={lastEntryLoading}
+          //NOTE: actionValues from TODAY_ENTRY else LAST_ENTRY
+          habitActionsValuesFromEntry={getHabitActionValuesFromEntry(
+            entryHabits
+          )}
+          //NOTE: WP from TODAY_ENTRY else LAST_ENTRY
+          entryTotalWillpower={entryTotalWillpower}
+          //NOTE: Check if TODAY_ENTRY exists!
+          hasNoEntryToday={
+            !todayEntryLoading && !todayEntryError && !todayEntry
+          }
+          //NOTE: for Disabling TAKE_ACTION button when creating a new Journal Entry
           submittingJournalEntry={submittingJournalEntry}
           handleActionUpdate={handleActionUpdate}
-          hasNoEntryToday={!todayEntry}
         />
       ) : (
         <div className="flex-grow flex items-center justify-center">

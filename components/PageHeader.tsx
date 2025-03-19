@@ -8,7 +8,7 @@ type PageHeaderProps = {
   symbol: JSX.Element;
   title: string;
   linkTo: string;
-  numberOfEntries: number | string;
+  itemsCount: number | string;
   disabled?: boolean;
 };
 
@@ -16,7 +16,7 @@ export function PageHeader({
   symbol,
   title,
   linkTo,
-  numberOfEntries,
+  itemsCount,
   disabled = false,
 }: PageHeaderProps) {
   const router = useRouter();
@@ -47,7 +47,7 @@ export function PageHeader({
         </div>
         <div className="text-4xl flex items-center font-bold">
           <span className="mr-2">{symbol}</span>
-          {numberOfEntries}
+          {itemsCount}
         </div>
       </div>
     </div>

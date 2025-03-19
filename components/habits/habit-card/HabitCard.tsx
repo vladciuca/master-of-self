@@ -19,7 +19,7 @@ type HabitCardProps = {
   // handleDelete: (habit: Habit) => Promise<void>;
   habitDefaultActionValues: JournalEntryHabitActions;
   habitActionValues: JournalEntryHabitActions;
-  lastEntryWillpower: number;
+  entryTotalWillpower: number;
   submittingJournalEntry: boolean;
   handleActionUpdate: (habitId: string) => void;
   hasNoEntryToday: boolean;
@@ -31,7 +31,7 @@ export function HabitCard({
   entryLoading,
   habitDefaultActionValues,
   habitActionValues,
-  lastEntryWillpower,
+  entryTotalWillpower,
   handleActionUpdate,
   submittingJournalEntry,
   hasNoEntryToday,
@@ -49,7 +49,7 @@ export function HabitCard({
             habit={habit}
             habitDefaultActionValues={habitDefaultActionValues}
             habitActionValues={habitActionValues}
-            lastEntryWillpower={lastEntryWillpower}
+            entryTotalWillpower={entryTotalWillpower}
             entryLoading={entryLoading}
             hasNoEntryToday={hasNoEntryToday}
           />

@@ -22,21 +22,19 @@ export function useYesterdayJournalEntry() {
     null
   );
 
-  const [willpowerScores, setWillpowerScores] = useState<WillpowerScores>({
-    howGreatToday: 0,
-    dailyHighlights: 0,
-    learnedToday: 0,
-  });
+  // Derive willpowerScores from yesterdayEntry
+  const willpowerScores = useMemo((): WillpowerScores => {
+    if (!yesterdayEntry || !yesterdayEntry.nightEntry) {
+      return {
+        howGreatToday: 0,
+        dailyHighlights: 0,
+        learnedToday: 0,
+      };
+    }
 
-  const bonusWillpower = useMemo(() => {
-    const { howGreatToday, dailyHighlights, learnedToday } = willpowerScores;
-    return howGreatToday + dailyHighlights + learnedToday;
-  }, [willpowerScores]);
+    const nightEntry = yesterdayEntry.nightEntry;
 
-  const calculateWillpowerScores = (
-    nightEntry: JournalEntry["nightEntry"]
-  ): WillpowerScores => {
-    // Use nullish coalescing to handle undefined/null values
+    // Calculate scores from nightEntry
     const howGreatToday = calculateWillpowerScore(
       nightEntry?.howGreatToday ?? []
     );
@@ -48,30 +46,25 @@ export function useYesterdayJournalEntry() {
     );
 
     return { howGreatToday, dailyHighlights, learnedToday };
-  };
+  }, [yesterdayEntry]);
 
-  // Helper function to reset states on error
-  const resetScoreStates = () => {
-    setWillpowerScores({
-      howGreatToday: 0,
-      dailyHighlights: 0,
-      learnedToday: 0,
-    });
-  };
+  // Derive bonusWillpower from willpowerScores
+  const bonusWillpower = useMemo(() => {
+    const { howGreatToday, dailyHighlights, learnedToday } = willpowerScores;
+    return howGreatToday + dailyHighlights + learnedToday;
+  }, [willpowerScores]);
 
   useEffect(() => {
-    if (!session?.user.id) {
-      return;
-    }
+    if (!session?.user.id) return;
 
     // Create abort controller for cleanup
     const abortController = new AbortController();
     const signal = abortController.signal;
 
-    const getYesterdayEntry = async () => {
-      setYesterdayEntryError(null);
-      setYesterdayEntryLoading(true);
+    setYesterdayEntryError(null);
+    setYesterdayEntryLoading(true);
 
+    const getYesterdayEntry = async () => {
       try {
         const yesterday = getYesterday();
         const url = `/api/users/${session.user.id}/journal-entries/yesterday?yesterday=${yesterday}`;
@@ -90,18 +83,6 @@ export function useYesterdayJournalEntry() {
         const entry = responseData?.yesterdaysJournalEntry ?? null;
 
         setYesterdayEntry(entry);
-
-        if (!entry) return;
-
-        // NOTE: fallback here to prevent unexpected or modified DB returns
-        const nightEntry = entry.nightEntry ?? {
-          dailyHighlights: [],
-          howGreatToday: [],
-          learnedToday: [],
-        };
-
-        const scores = calculateWillpowerScores(nightEntry);
-        setWillpowerScores(scores);
       } catch (error) {
         if ((error as Error).name === "AbortError") {
           console.warn("Fetch aborted");
@@ -110,8 +91,6 @@ export function useYesterdayJournalEntry() {
         console.error("Failed to fetch yesterday's journal entry", error);
 
         setYesterdayEntryError("Failed to fetch yesterday's journal entry");
-        // Reset state here to ensure consistency
-        resetScoreStates();
       } finally {
         // NOTE: If the request was aborted (signal.aborted === true), we skip updating loading = false to prevent incorrect state updates.
         if (!signal.aborted) {

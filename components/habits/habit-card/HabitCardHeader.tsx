@@ -14,7 +14,7 @@ type HabitCardHeaderProps = {
   entryLoading: boolean;
   habitDefaultActionValues: JournalEntryHabitActions;
   habitActionValues: JournalEntryHabitActions;
-  lastEntryWillpower: number;
+  entryTotalWillpower: number;
   hasNoEntryToday: boolean;
 };
 
@@ -23,7 +23,7 @@ export function HabitCardHeader({
   entryLoading,
   habitDefaultActionValues,
   habitActionValues,
-  lastEntryWillpower,
+  entryTotalWillpower,
   hasNoEntryToday,
 }: HabitCardHeaderProps) {
   const { name, icon, xp } = habit;
@@ -45,13 +45,14 @@ export function HabitCardHeader({
   //WPx is only applied to the real projected XP that will show up as already gained and not be bonusXp(XpGain)
   const projectedXp = applyWillpowerBonus(
     baseHabitXpFromActions,
-    lastEntryWillpower
+    entryTotalWillpower
   );
 
-  //XP from last entry will not be bonusXp(XpGain)
+  // XP from last entry will not be bonusXp(XpGain) if its not TODAY
   let lastEntryXp = xp;
   let lastEntryProjectedXp = projectedXp;
 
+  // If there is no todayEntry, we add
   if (hasNoEntryToday) {
     lastEntryXp = xp + projectedXp;
     lastEntryProjectedXp = defaultProjectedXp;
@@ -61,7 +62,7 @@ export function HabitCardHeader({
   if (!hasNoEntryToday && Object.keys(habitActionValues).length === 0) {
     const defaultProjectedXpForExistingEntryToday = applyWillpowerBonus(
       baseDefaultHabitXpFromActions,
-      lastEntryWillpower
+      entryTotalWillpower
     );
     lastEntryProjectedXp = defaultProjectedXpForExistingEntryToday;
   }

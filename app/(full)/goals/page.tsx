@@ -16,7 +16,7 @@ export default function Goals() {
         symbol={PAGE_HEADER_DETAILS.symbol}
         title={PAGE_HEADER_DETAILS.title}
         linkTo={PAGE_HEADER_DETAILS.linkTo}
-        numberOfEntries={0}
+        itemsCount={0}
         disabled={true}
       />
       <div className="flex-grow flex items-center justify-center">

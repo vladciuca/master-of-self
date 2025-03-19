@@ -18,10 +18,10 @@ export function useTodayJournalEntry() {
     const abortController = new AbortController();
     const signal = abortController.signal;
 
-    const getTodayEntry = async () => {
-      setTodayEntryError(null);
-      setTodayEntryLoading(true);
+    setTodayEntryError(null);
+    setTodayEntryLoading(true);
 
+    const getTodayEntry = async () => {
       try {
         const today = getToday();
         const url = `/api/users/${session?.user.id}/journal-entries/today?today=${today}`;

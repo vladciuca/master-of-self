@@ -1,12 +1,11 @@
 import { useState, useEffect, useRef } from "react";
 import { useSession } from "next-auth/react";
-import { Session, JournalEntryHabit } from "@models/types";
 import { useYesterdayJournalEntry } from "./useYesterdayJournalEntry";
 import { useLastJournalEntry } from "./useLastJournalEntry";
 import { useUpdateHabits } from "@hooks/habits/useUpdateHabits";
-import { useUserHabits } from "@hooks/useUserHabits";
+import { useUserHabits } from "@hooks/habits/useUserHabits";
 import { getToday } from "@lib/time";
-import { getHabitActionDefaultValues } from "@lib/level";
+import { Session } from "@models/types";
 
 export function useCreateJournalEntry() {
   const [submittingJournalEntry, setSubmittingJournalEntry] =
@@ -18,7 +17,12 @@ export function useCreateJournalEntry() {
   const { bonusWillpower, yesterdayEntryLoading, yesterdayEntryError } =
     useYesterdayJournalEntry();
 
-  const { habits, hasHabits, habitsLoading, habitsError } = useUserHabits();
+  const {
+    hasHabits,
+    defaultJournalEntryHabitActionValues,
+    habitsLoading,
+    habitsError,
+  } = useUserHabits();
 
   const { updateHabits, updateHabitsSubmitting, updateHabitsError } =
     useUpdateHabits();
@@ -83,8 +87,7 @@ export function useCreateJournalEntry() {
       // NOTE: Must not crete entry before updating the Habits XP
       // Parallel API updates
       await Promise.allSettled([
-        // NOTE: Might need to check vs hasHabits too to do the update here and also lastEntry
-        lastEntry && hasHabits
+        hasHabits && lastEntry
           ? updateHabits({
               habitsXpUpdates: habitsXp,
               habitActionsUpdates: lastEntry.habits,
@@ -93,11 +96,11 @@ export function useCreateJournalEntry() {
           : Promise.resolve(), // If lastEntry is null / the user doesn't have habits, resolve immediately
       ]);
 
-      const defaultJournalEntryActionValues: JournalEntryHabit = hasHabits
-        ? getHabitActionDefaultValues(habits, {
-            includeCurrentXp: true,
-          })
-        : {};
+      // const defaultJournalEntryActionValues: JournalEntryHabit = hasHabits
+      //   ? getHabitActionDefaultValues(habits, {
+      //       includeCurrentXp: true,
+      //     })
+      //   : {};
 
       const createNewEntryResponse = await fetch(
         `/api/journal-entry/new?today=${today}`,
@@ -110,9 +113,7 @@ export function useCreateJournalEntry() {
             userId: session.user.id,
             dailyWillpower: 0,
             bonusWillpower: bonusWillpower ?? 0,
-            // HERE might need a check if the user dosent have habits do not run this function
-            // But this should be encapsulated inside the useHabits hook right?! nigger
-            habits: defaultJournalEntryActionValues,
+            habits: defaultJournalEntryHabitActionValues,
           }),
           signal, // Attach signal to the request
         }
