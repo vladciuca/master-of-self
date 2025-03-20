@@ -12,6 +12,7 @@ type UpdateHabitsProps = {
 export function useUpdateHabits() {
   const { data: session } = useSession() as { data: Session | null };
 
+  //NOTE: names here can be a little confusing vs submittingHabitUpdate (for a single habit)
   const [updateHabitsSubmitting, setUpdateHabitsSubmitting] = useState(false);
   const [updateHabitsError, setUpdateHabitsError] = useState<string | null>(
     null

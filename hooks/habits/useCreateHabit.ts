@@ -4,11 +4,10 @@ import { HabitZodType } from "@models/habitFormSchema";
 import { Session } from "@models/types";
 
 export function useCreateHabit() {
-  // NOTE: do I need the user data here? / and why don't I use it in useCreateJournal
   const { data: session } = useSession() as { data: Session | null };
 
-  const [submitting, setSubmitting] = useState<boolean>(false);
-  const [createError, setCreateError] = useState<string | null>(null);
+  const [submittingHabit, setSubmittingHabit] = useState<boolean>(false);
+  const [createHabitError, setCreateHabitError] = useState<string | null>(null);
 
   // Ref for abort controller
   const createAbortControllerRef = useRef<AbortController | null>(null);
@@ -36,16 +35,11 @@ export function useCreateHabit() {
     createAbortControllerRef.current = new AbortController();
     const signal = createAbortControllerRef.current.signal;
 
-    setSubmitting(true);
-    setCreateError(null);
+    setSubmittingHabit(true);
+    setCreateHabitError(null);
 
     try {
       const { name, icon, actions } = habit;
-
-      //NOTE: where is it best to keep this return error!?
-      //   if (!session?.user?.id) {
-      //     throw new Error("User not authenticated");
-      //   }
 
       const response = await fetch("/api/habit/new", {
         method: "POST",
@@ -78,11 +72,11 @@ export function useCreateHabit() {
       }
 
       console.error("Error creating habit:", error);
-      setCreateError((error as Error).message || "Failed to create habit");
-      //   throw error; // Re-throw the error for the caller to handle
+      setCreateHabitError((error as Error).message || "Failed to create habit");
+      throw error; // Re-throw the error for the caller to handle
     } finally {
       if (!signal.aborted) {
-        setSubmitting(false);
+        setSubmittingHabit(false);
       }
 
       // Clear the ref after completion
@@ -97,8 +91,8 @@ export function useCreateHabit() {
 
   return {
     createHabit,
-    submitting,
-    createError,
-    isAuthenticated: !!session?.user?.id,
+    submittingHabit,
+    createHabitError,
+    // isAuthenticated: !!session?.user?.id,
   };
 }

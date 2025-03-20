@@ -13,7 +13,7 @@ export default function UpdateJournalEntry() {
   const { id } = params;
   const {
     journalEntryData,
-    submitting,
+    submittingJournalEntryUpdate,
     journalEntryError,
     journalEntryLoading,
     updateJournalEntry,
@@ -37,7 +37,7 @@ export default function UpdateJournalEntry() {
       {!isLoading && journalEntryData && (
         <FormStepController
           journalEntryData={journalEntryData}
-          submitting={submitting}
+          submitting={submittingJournalEntryUpdate}
           onSubmit={updateJournalEntry}
           userEveningTime={userEveningTime}
           hasGratitude={hasGratitude}

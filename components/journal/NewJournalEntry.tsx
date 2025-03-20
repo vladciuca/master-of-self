@@ -17,8 +17,11 @@ export function NewJournalEntry({ isEveningTime }: NewJournalEntryProps) {
   const { bonusWillpower = 0, yesterdayEntryLoading } =
     useYesterdayJournalEntry();
   const { todayEntry, todayEntryLoading } = useTodayJournalEntry();
-  const { createJournalEntry, submittingJournalEntry } =
-    useCreateJournalEntry();
+  const {
+    createJournalEntry,
+    submittingJournalEntry,
+    createJournalEntryError,
+  } = useCreateJournalEntry();
 
   const date = new Date();
   const day = date.getDate();
@@ -33,7 +36,10 @@ export function NewJournalEntry({ isEveningTime }: NewJournalEntryProps) {
 
       router.push(`/update-journal-entry/${newEntryId}`);
     } catch (error) {
-      console.error("Failed to create new journal entry:", error);
+      console.error(
+        "Failed to create new journal entry:",
+        createJournalEntryError
+      );
     }
   };
 

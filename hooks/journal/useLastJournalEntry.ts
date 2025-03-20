@@ -1,6 +1,9 @@
 import { useState, useEffect, useMemo } from "react";
 import { useSession } from "next-auth/react";
-import { calculateHabitsXpFromEntry } from "@/lib/level";
+import {
+  getHabitActionValuesFromEntry,
+  calculateHabitsXpFromEntry,
+} from "@/lib/level";
 import type { Session, JournalEntry } from "@models/types";
 
 export function useLastJournalEntry() {
@@ -10,25 +13,28 @@ export function useLastJournalEntry() {
   const [lastEntryLoading, setLastEntryLoading] = useState(false);
   const [lastEntryError, setLastEntryError] = useState<string | null>(null);
 
-  // Calculate habitsXp as a derived value using useMemo
-  const habitsXp = useMemo(() => {
-    if (!lastEntry) return {};
+  const { habitActionsValues, habitsXp, totalWillpower } = useMemo(() => {
+    if (!lastEntry)
+      return { habitActionsValues: {}, habitsXp: {}, totalWillpower: 0 };
 
     const habits = lastEntry.habits || {};
     const totalWillpower =
       (lastEntry.dailyWillpower || 0) + (lastEntry.bonusWillpower || 0);
 
-    if (
-      !habits ||
-      typeof habits !== "object" ||
-      Object.keys(habits).length === 0
-    )
-      return {};
+    if (typeof habits !== "object" || Object.keys(habits).length === 0) {
+      return { habitActionsValues: {}, habitsXp: {}, totalWillpower };
+    }
 
-    return calculateHabitsXpFromEntry({
-      entryHabits: habits,
-      entryWillpower: totalWillpower,
-    });
+    return {
+      // NOTE: returns journalEntry.habits without currentXp key
+      habitActionsValues: getHabitActionValuesFromEntry(habits),
+      // NOTE: Calculate habitsXp from action values in journalEntry.habits
+      habitsXp: calculateHabitsXpFromEntry({
+        entryHabits: habits,
+        entryWillpower: totalWillpower,
+      }),
+      totalWillpower,
+    };
   }, [lastEntry]);
 
   useEffect(() => {
@@ -82,6 +88,8 @@ export function useLastJournalEntry() {
     lastEntry,
     lastEntryLoading,
     lastEntryError,
+    totalWillpower,
+    habitActionsValues,
     habitsXp,
   };
 }

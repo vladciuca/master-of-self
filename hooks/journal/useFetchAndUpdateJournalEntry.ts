@@ -2,7 +2,8 @@ import { useState, useEffect, useRef } from "react";
 import { JournalEntry } from "@models/types";
 
 export function useFetchAndUpdateJournalEntry(id: string) {
-  const [submitting, setSubmitting] = useState(false);
+  const [submittingJournalEntryUpdate, setSubmittingJournalEntryUpdate] =
+    useState(false);
   const [journalEntryData, setJournalEntryData] = useState<JournalEntry | null>(
     null
   );
@@ -87,6 +88,10 @@ export function useFetchAndUpdateJournalEntry(id: string) {
 
   // Update journal entry function
   const updateJournalEntry = async (journalEntry: JournalEntry) => {
+    if (!id) {
+      throw new Error("Journal Entry ID not found");
+    }
+
     // Cancel any in-progress update
     if (updateAbortControllerRef.current) {
       updateAbortControllerRef.current.abort();
@@ -96,7 +101,7 @@ export function useFetchAndUpdateJournalEntry(id: string) {
     updateAbortControllerRef.current = new AbortController();
     const signal = updateAbortControllerRef.current.signal;
 
-    setSubmitting(true);
+    setSubmittingJournalEntryUpdate(true);
     try {
       const response = await fetch(`/api/journal-entry/${id}`, {
         method: "PATCH",
@@ -126,7 +131,7 @@ export function useFetchAndUpdateJournalEntry(id: string) {
       console.error("Error updating journal entry:", error);
     } finally {
       if (!signal.aborted) {
-        setSubmitting(false);
+        setSubmittingJournalEntryUpdate(false);
       }
 
       // Clear the ref after completion
@@ -142,7 +147,7 @@ export function useFetchAndUpdateJournalEntry(id: string) {
   //   // Function to abort an in-progress update
   //   // Keep in case I need to abort the update function for future scenarios
   //   const abortUpdate = () => {
-  //     if (updateAbortControllerRef.current && submitting) {
+  //     if (updateAbortControllerRef.current && submittingJournalEntryUpdate) {
   //       updateAbortControllerRef.current.abort();
   //       updateAbortControllerRef.current = null;
   //     }
@@ -153,6 +158,6 @@ export function useFetchAndUpdateJournalEntry(id: string) {
     journalEntryError,
     journalEntryLoading,
     updateJournalEntry,
-    submitting,
+    submittingJournalEntryUpdate,
   };
 }

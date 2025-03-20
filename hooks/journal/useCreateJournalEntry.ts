@@ -18,6 +18,9 @@ export function useCreateJournalEntry() {
   const [submittingJournalEntry, setSubmittingJournalEntry] =
     useState<boolean>(false);
   // NOTE: create submit error here
+  const [createJournalEntryError, setCreateJournalEntryError] = useState<
+    string | null
+  >(null);
 
   const {
     hasHabits,
@@ -80,6 +83,7 @@ export function useCreateJournalEntry() {
     const { signal } = abortControllerRef.current;
 
     setSubmittingJournalEntry(false);
+    setCreateJournalEntryError(null);
 
     try {
       setSubmittingJournalEntry(true);
@@ -87,7 +91,7 @@ export function useCreateJournalEntry() {
       const today = getToday();
       const todayDate = today.toISOString().split("T")[0];
 
-      // NOTE: Must not crete entry before updating the Habits XP
+      // NOTE: Must NOT create entry before updating the Habits XP
       // Parallel API updates
       await Promise.allSettled([
         hasHabits && lastEntry
@@ -138,9 +142,16 @@ export function useCreateJournalEntry() {
 
       console.error("Error creating new entry:", error);
       setSubmittingJournalEntry(false);
+      setCreateJournalEntryError(
+        (error as Error).message || "Failed to create habit"
+      );
       throw error;
     }
   };
 
-  return { createJournalEntry, submittingJournalEntry };
+  return {
+    createJournalEntry,
+    submittingJournalEntry,
+    createJournalEntryError,
+  };
 }

@@ -9,8 +9,6 @@ import { useUserHabits } from "@hooks/habits/useUserHabits";
 import { useTodayJournalEntry } from "@hooks/journal/useTodayJournalEntry";
 import { useLastJournalEntry } from "@hooks/journal/useLastJournalEntry";
 import { useCreateJournalEntry } from "@hooks/journal/useCreateJournalEntry";
-//NOTE: Move into hook?
-import { getHabitActionValuesFromEntry } from "@lib/level";
 import { Habit } from "@models/types";
 
 const NEW_HABIT_CARD_DETAILS = {
@@ -43,8 +41,14 @@ export function UserHabits() {
     useTodayJournalEntry();
 
   // *** NOTE: lastEntry becomes todayEntry if todayEntry exists (dose not return null) !
-  // TODO: add getHabitActionValuesFromEntry as return value from this Hook?
-  const { lastEntry, lastEntryLoading, lastEntryError } = useLastJournalEntry();
+  // NOTE: not using Loading & Error here!!!
+  const {
+    // lastEntry,
+    habitActionsValues,
+    totalWillpower,
+    lastEntryLoading,
+    lastEntryError,
+  } = useLastJournalEntry();
 
   const itemsCount = habitsLoading ? "?" : habits.length;
 
@@ -76,14 +80,6 @@ export function UserHabits() {
 
   const isEntryValid = !lastEntryLoading && !lastEntryError;
 
-  const {
-    habits: entryHabits = {},
-    dailyWillpower = 0,
-    bonusWillpower = 0,
-  } = isEntryValid && lastEntry ? lastEntry : {};
-
-  const entryTotalWillpower = dailyWillpower + bonusWillpower;
-
   return (
     <div className="w-full">
       <PageHeader
@@ -103,12 +99,10 @@ export function UserHabits() {
           handleEdit={handleEdit}
           // handleDelete={handleDelete} //NOTE: Test purposes
           entryLoading={lastEntryLoading}
-          //NOTE: actionValues from TODAY_ENTRY else LAST_ENTRY
-          habitActionsValuesFromEntry={getHabitActionValuesFromEntry(
-            entryHabits
-          )}
+          //NOTE: actionValues from LAST_ENTRY w/o currentXp key
+          habitActionsValuesFromEntry={isEntryValid ? habitActionsValues : {}}
           //NOTE: WP from TODAY_ENTRY else LAST_ENTRY
-          entryTotalWillpower={entryTotalWillpower}
+          entryTotalWillpower={isEntryValid ? totalWillpower : 0}
           //NOTE: Check if TODAY_ENTRY exists!
           hasNoEntryToday={
             !todayEntryLoading && !todayEntryError && !todayEntry

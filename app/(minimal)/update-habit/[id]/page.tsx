@@ -16,15 +16,20 @@ export default function UpdateHabit() {
 
   const {
     habitData,
-    submitting,
+    submittingHabitUpdate,
     habitDataLoading,
     updateHabit,
     habitDefaultXpValues,
   } = useFetchAndUpdateHabit(id);
 
-  const { todayEntry, todayEntryLoading } = useTodayJournalEntry();
-  const { lastEntry, lastEntryLoading } = useLastJournalEntry();
+  // NOTE: check the returns of last entry cause you may be just duplicating functions already existing in the hook!
+  // NOTE: Not using Error here!
+  const { todayEntry, todayEntryLoading, todayEntryError } =
+    useTodayJournalEntry();
+  const { lastEntry, lastEntryLoading, lastEntryError } = useLastJournalEntry();
 
+  // ***NOTE: Here use only LastEntry same as in UserHabits
+  // *** no need for today entry here(just for flag to display XP)
   const getHabitXpFromEntry = (
     entry: any,
     loading: boolean,
@@ -88,7 +93,7 @@ export default function UpdateHabit() {
           habit={habitData}
           xp={xp}
           projectedXp={projectedXp}
-          submitting={submitting}
+          submitting={submittingHabitUpdate}
           onSubmit={handleUpdateHabit}
         />
       )}

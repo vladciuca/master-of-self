@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { HabitZodType } from "@models/habitFormSchema";
 
 export function useFetchAndUpdateHabit(id: string) {
-  const [submitting, setSubmitting] = useState(false);
+  const [submittingHabitUpdate, setSubmittingHabitUpdate] = useState(false);
   const [habitData, setHabitData] = useState<HabitZodType | null>(null);
   const [habitDataLoading, setHabitDataLoading] = useState(true);
   const [habitDataError, setHabitDataError] = useState<string | null>(null);
@@ -102,7 +102,7 @@ export function useFetchAndUpdateHabit(id: string) {
     updateAbortControllerRef.current = new AbortController();
     const signal = updateAbortControllerRef.current.signal;
 
-    setSubmitting(true);
+    setSubmittingHabitUpdate(true);
     try {
       const { name, icon, actions } = habit;
 
@@ -138,7 +138,7 @@ export function useFetchAndUpdateHabit(id: string) {
       //   throw error; // Re-throw the error for the caller to handle
     } finally {
       if (!signal.aborted) {
-        setSubmitting(false);
+        setSubmittingHabitUpdate(false);
       }
 
       // Clear the ref after completion
@@ -166,6 +166,6 @@ export function useFetchAndUpdateHabit(id: string) {
     habitDataLoading,
     habitDataError,
     updateHabit,
-    submitting,
+    submittingHabitUpdate,
   };
 }
