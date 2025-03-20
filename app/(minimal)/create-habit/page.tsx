@@ -1,7 +1,7 @@
 "use client";
 
 // import { useState } from "react";
-import { useSession } from "next-auth/react";
+// import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { HabitForm } from "@components/habits/habit-form/HabitForm";
 import { HabitZodType } from "@models/habitFormSchema";
@@ -42,7 +42,7 @@ export default function CreateHabit() {
   //   }
   // };
 
-  // NOTE: what is the purpose of this handle functions?
+  // NOTE: handle navigation
   const handleCreateHabit = async (habit: HabitZodType) => {
     try {
       await createHabit(habit);

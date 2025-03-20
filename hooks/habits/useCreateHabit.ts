@@ -14,8 +14,6 @@ export function useCreateHabit() {
   const createAbortControllerRef = useRef<AbortController | null>(null);
 
   // Cleanup on unmount
-  // NOTE: move this to top of the file
-  // also check with other components that use abort.ref to make this func consistent
   useEffect(() => {
     return () => {
       if (createAbortControllerRef.current) {
@@ -27,6 +25,8 @@ export function useCreateHabit() {
 
   // Create habit function
   const createHabit = async (habit: HabitZodType) => {
+    if (!session?.user.id) throw new Error("User not authenticated");
+
     // Cancel any in-progress creation
     if (createAbortControllerRef.current) {
       createAbortControllerRef.current.abort();
@@ -42,9 +42,10 @@ export function useCreateHabit() {
     try {
       const { name, icon, actions } = habit;
 
-      if (!session?.user?.id) {
-        throw new Error("User not authenticated");
-      }
+      //NOTE: where is it best to keep this return error!?
+      //   if (!session?.user?.id) {
+      //     throw new Error("User not authenticated");
+      //   }
 
       const response = await fetch("/api/habit/new", {
         method: "POST",
@@ -68,6 +69,7 @@ export function useCreateHabit() {
       }
 
       const createdData = await response.json();
+      //NOTE: don't know if I need the data here other for updating TodayJournalEntry
       return createdData; // Return the created data for the caller
     } catch (error) {
       if ((error as Error).name === "AbortError") {

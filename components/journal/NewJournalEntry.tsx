@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Card } from "@components/ui/card";
 import { Button } from "@components/ui/button";
@@ -15,7 +14,7 @@ type NewJournalEntryProps = {
 export function NewJournalEntry({ isEveningTime }: NewJournalEntryProps) {
   const router = useRouter();
   // NOTE: No error handling!!!!
-  const { yesterdayEntryLoading, bonusWillpower = 0 } =
+  const { bonusWillpower = 0, yesterdayEntryLoading } =
     useYesterdayJournalEntry();
   const { todayEntry, todayEntryLoading } = useTodayJournalEntry();
   const { createJournalEntry, submittingJournalEntry } =
@@ -29,7 +28,7 @@ export function NewJournalEntry({ isEveningTime }: NewJournalEntryProps) {
 
   const handleCreateJournalEntry = async () => {
     try {
-      // NOTE: Figure out how the ID is returned form the createJournalEntry function
+      // NOTE: the createJournalEntry function returns NEW ENTRY ID after submit
       const newEntryId = await createJournalEntry();
 
       router.push(`/update-journal-entry/${newEntryId}`);
@@ -59,9 +58,6 @@ export function NewJournalEntry({ isEveningTime }: NewJournalEntryProps) {
                     +{bonusWillpower}
                   </span>
                 ) : (
-                  // NOTE: this dosen't work anymore! - NEEDS FIX
-                  // FLIPS FORM 0 to value
-                  // yesterdayEntryLoading is always FALSE
                   <span className="font-semibold">
                     {yesterdayEntryLoading ? "??" : 0}
                   </span>

@@ -8,14 +8,16 @@ import { getToday } from "@lib/time";
 import { Session } from "@models/types";
 
 export function useCreateJournalEntry() {
-  const [submittingJournalEntry, setSubmittingJournalEntry] =
-    useState<boolean>(false);
   const { data: session } = useSession() as { data: Session | null };
 
   const { lastEntry, lastEntryLoading, lastEntryError, habitsXp } =
     useLastJournalEntry();
   const { bonusWillpower, yesterdayEntryLoading, yesterdayEntryError } =
     useYesterdayJournalEntry();
+
+  const [submittingJournalEntry, setSubmittingJournalEntry] =
+    useState<boolean>(false);
+  // NOTE: create submit error here
 
   const {
     hasHabits,
