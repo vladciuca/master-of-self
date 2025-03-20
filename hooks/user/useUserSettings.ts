@@ -5,6 +5,8 @@ import { useSession } from "next-auth/react";
 import type { Session, UserSettings } from "@models/types";
 
 export function useUserSettings() {
+  const { data: session } = useSession() as { data: Session | null };
+
   const [userSettings, setUserSettings] = useState<UserSettings>({
     steps: {
       gratefulStep: false,
@@ -19,7 +21,6 @@ export function useUserSettings() {
   const [userSettingsError, setUserSettingsError] = useState<string | null>(
     null
   );
-  const { data: session } = useSession() as { data: Session | null };
 
   // Fetch user settings from the server
   const fetchUserSettings = useCallback(async () => {

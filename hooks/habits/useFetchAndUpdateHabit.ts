@@ -1,66 +1,68 @@
 import { useState, useEffect, useRef } from "react";
-import { JournalEntry } from "@models/types";
+import { HabitZodType } from "@models/habitFormSchema";
 
-export function useFetchAndUpdateJournalEntry(id: string) {
+export function useFetchAndUpdateHabit(id: string) {
   const [submitting, setSubmitting] = useState(false);
-  const [journalEntryData, setJournalEntryData] = useState<JournalEntry | null>(
-    null
-  );
-  const [journalEntryLoading, setJournalEntryLoading] = useState(false);
-  const [journalEntryError, setJournalEntryError] = useState<string | null>(
-    null
-  );
+  const [habitData, setHabitData] = useState<HabitZodType | null>(null);
+  const [habitDataLoading, setHabitDataLoading] = useState(true);
+  const [habitDataError, setHabitDataError] = useState<string | null>(null);
 
   // Refs for abort controllers
   const fetchAbortControllerRef = useRef<AbortController | null>(null);
   const updateAbortControllerRef = useRef<AbortController | null>(null);
 
-  // Fetch journal entry data
+  // Fetch habit data
   useEffect(() => {
     // Cancel any in-progress fetch
     if (fetchAbortControllerRef.current) {
       fetchAbortControllerRef.current.abort();
+      fetchAbortControllerRef.current = null;
     }
 
     // Create a new AbortController for this fetch
     fetchAbortControllerRef.current = new AbortController();
     const signal = fetchAbortControllerRef.current.signal;
 
-    const getJournalEntryData = async () => {
+    const getHabitData = async () => {
       if (!id) return;
 
-      setJournalEntryLoading(true);
+      setHabitDataLoading(true);
       try {
-        const response = await fetch(`/api/journal-entry/${id}`, {
-          method: "GET",
-          signal: signal,
+        const response = await fetch(`/api/habit/${id}`, {
+          signal,
         });
 
-        // NOTE: might add this early exit to all hooks
-        if (signal.aborted) return; // Exit if aborted during fetch
+        if (signal.aborted) return;
 
         if (!response.ok) {
-          throw new Error("Failed to fetch journal entry");
+          throw new Error("Failed to fetch habit data");
         }
+
         const data = await response.json();
-        setJournalEntryData(data);
+        setHabitData({
+          name: data.name,
+          icon: data.icon,
+          actions: data.actions,
+          xp: data.xp,
+        });
       } catch (error) {
         if ((error as Error).name === "AbortError") {
           console.log("Fetch aborted");
-          return; // Don't update state if aborted
+          return;
         }
 
-        console.error("Error fetching journal entry:", error);
-        setJournalEntryError("Failed to load journal entry. Please try again.");
+        console.error("Error fetching habit data", error);
+        setHabitDataError("Failed to load habit data. Please try again.");
       } finally {
         if (!signal.aborted) {
-          setJournalEntryLoading(false);
+          setHabitDataLoading(false);
         }
       }
     };
 
-    getJournalEntryData();
+    getHabitData();
 
+    // Cleanup function
     return () => {
       if (fetchAbortControllerRef.current) {
         fetchAbortControllerRef.current.abort();
@@ -69,8 +71,12 @@ export function useFetchAndUpdateJournalEntry(id: string) {
     };
   }, [id]);
 
-  // Update journal entry function
-  const updateJournalEntry = async (journalEntry: JournalEntry) => {
+  // Update habit function
+  const updateHabit = async (habit: HabitZodType) => {
+    if (!id) {
+      throw new Error("Habit ID not found");
+    }
+
     // Cancel any in-progress update
     if (updateAbortControllerRef.current) {
       updateAbortControllerRef.current.abort();
@@ -82,32 +88,38 @@ export function useFetchAndUpdateJournalEntry(id: string) {
 
     setSubmitting(true);
     try {
-      const response = await fetch(`/api/journal-entry/${id}`, {
+      const { name, icon, actions } = habit;
+
+      const response = await fetch(`/api/habit/${id}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(journalEntry),
-        signal: signal,
+        body: JSON.stringify({
+          name,
+          icon,
+          actions,
+        }),
+        signal,
       });
 
       if (signal.aborted) return;
 
       if (!response.ok) {
-        throw new Error("Failed to update journal entry");
+        throw new Error("Failed to update habit");
       }
-      const updatedData = await response.json();
-      setJournalEntryData(updatedData);
 
-      // NOTE: do not yet need to return anything from this update function
-      // return updatedData;
+      const updatedData = await response.json();
+      // NOTE: HERE we will use this data for the HabitSync hook
+      return updatedData; // Return the updated data for the caller
     } catch (error) {
       if ((error as Error).name === "AbortError") {
         console.log("Update aborted");
-        return; // Don't update state if aborted
+        return;
       }
 
-      console.error("Error updating journal entry:", error);
+      console.error("Error updating habit:", error);
+      //   throw error; // Re-throw the error for the caller to handle
     } finally {
       if (!signal.aborted) {
         setSubmitting(false);
@@ -123,14 +135,14 @@ export function useFetchAndUpdateJournalEntry(id: string) {
     }
   };
 
-  //   // Function to abort an in-progress update
-  //   // Keep in case I need to abort the update function for future scenarios
-  //   const abortUpdate = () => {
-  //     if (updateAbortControllerRef.current && submitting) {
-  //       updateAbortControllerRef.current.abort();
-  //       updateAbortControllerRef.current = null;
-  //     }
-  //   };
+  // Helper function to calculate default XP values
+  const habitDefaultXpValues = (habitData: HabitZodType) => {
+    return habitData?.actions.reduce(
+      (sum: number, action) =>
+        sum + (action.type === "break" ? action.dailyTarget : 0),
+      0
+    );
+  };
 
   // Cleanup on unmount
   useEffect(() => {
@@ -149,10 +161,11 @@ export function useFetchAndUpdateJournalEntry(id: string) {
   }, []);
 
   return {
-    journalEntryData,
-    journalEntryError,
-    journalEntryLoading,
-    updateJournalEntry,
+    habitData,
+    habitDefaultXpValues,
+    habitDataLoading,
+    habitDataError,
+    updateHabit,
     submitting,
   };
 }

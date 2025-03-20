@@ -1,30 +1,30 @@
 "use client";
-import { useEffect, useState } from "react";
+
+// import { useEffect, useState } from "react";
 import { useRouter, useParams } from "next/navigation";
 import { HabitForm } from "@components/habits/habit-form/HabitForm";
 import { HabitZodType } from "@models/habitFormSchema";
 import { SkeletonForm } from "@components/skeletons/SkeletonForm";
 import { useTodayJournalEntry } from "@hooks/journal/useTodayJournalEntry";
 import { useLastJournalEntry } from "@hooks/journal/useLastJournalEntry";
+import { useFetchAndUpdateHabit } from "@hooks/habits/useFetchAndUpdateHabit";
 import { calculateHabitsXpFromEntry } from "@lib/level";
 
 export default function UpdateHabit() {
-  const [submitting, setSubmitting] = useState(false);
-  const [habitData, setHabitData] = useState<HabitZodType | null>(null);
-  const [habitDataLoading, setHabitDataLoading] = useState(true);
-  const { todayEntry, todayEntryLoading } = useTodayJournalEntry();
-  const { lastEntry, lastEntryLoading } = useLastJournalEntry();
   const router = useRouter();
   const params = useParams<{ id: string }>();
   const { id } = params;
 
-  const habitDefaultXpValues = (habitData: HabitZodType) => {
-    return habitData?.actions.reduce(
-      (sum: number, action) =>
-        sum + (action.type === "break" ? action.dailyTarget : 0),
-      0
-    );
-  };
+  const {
+    habitData,
+    submitting,
+    habitDataLoading,
+    updateHabit,
+    habitDefaultXpValues,
+  } = useFetchAndUpdateHabit(id);
+
+  const { todayEntry, todayEntryLoading } = useTodayJournalEntry();
+  const { lastEntry, lastEntryLoading } = useLastJournalEntry();
 
   const getHabitXpFromEntry = (
     entry: any,
@@ -63,53 +63,13 @@ export default function UpdateHabit() {
     projectedXp = habitDefaultXp || 0;
   }
 
-  useEffect(() => {
-    const getHabitData = async () => {
-      try {
-        setHabitDataLoading(true);
-        const response = await fetch(`/api/habit/${id}`);
-        const data = await response.json();
-        setHabitData({
-          name: data.name,
-          icon: data.icon,
-          actions: data.actions,
-          xp: data.xp,
-        });
-      } catch (error) {
-        console.error("Error fetching habit data", error);
-      } finally {
-        setHabitDataLoading(false);
-      }
-    };
-
-    if (id) getHabitData();
-  }, [id]);
-
-  const updateHabit = async (habit: HabitZodType) => {
-    const { name, icon, actions } = habit;
-
-    setSubmitting(true);
-
-    if (!id) return alert("Habit ID not found");
-
+  const handleUpdateHabit = async (habit: HabitZodType) => {
     try {
-      const response = await fetch(`/api/habit/${id}`, {
-        method: "PATCH",
-        body: JSON.stringify({
-          name: name,
-          icon: icon,
-          actions: actions,
-        }),
-      });
-
-      if (response.ok) {
-        router.push("/habits");
-      }
+      await updateHabit(habit);
+      router.push("/habits");
     } catch (error) {
-      //NOTE: no console logs
-      console.log(error);
-    } finally {
-      setSubmitting(false);
+      console.error("Failed to update habit:", error);
+      // Handle error (e.g., show toast notification)
     }
   };
 
@@ -130,7 +90,7 @@ export default function UpdateHabit() {
           xp={xp}
           projectedXp={projectedXp}
           submitting={submitting}
-          onSubmit={updateHabit}
+          onSubmit={handleUpdateHabit}
         />
       )}
     </div>

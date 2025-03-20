@@ -4,19 +4,20 @@ import { useParams } from "next/navigation";
 import { FormStepController } from "@components/journal/journal-entry-form/FormStepController";
 import { PageLogo } from "@components/PageLogo";
 import { HeaderTitle } from "@components/HeaderTitle";
-import { useUserSettings } from "@hooks/useUserSettings";
+import { useUserSettings } from "@hooks/user/useUserSettings";
 import { useUserHabits } from "@hooks/habits/useUserHabits";
 import { useFetchAndUpdateJournalEntry } from "@hooks/journal/useFetchAndUpdateJournalEntry";
 
 export default function UpdateJournalEntry() {
   const params = useParams<{ id: string }>();
+  const { id } = params;
   const {
     journalEntryData,
     submitting,
     journalEntryError,
     journalEntryLoading,
     updateJournalEntry,
-  } = useFetchAndUpdateJournalEntry(params.id);
+  } = useFetchAndUpdateJournalEntry(id);
   const { userSettings, userSettingsLoading } = useUserSettings();
   const { hasHabits, habitsLoading } = useUserHabits();
 

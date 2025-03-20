@@ -3,7 +3,7 @@
 import { Card, CardDescription, CardTitle } from "@components/ui/card";
 import { Switch } from "@components/ui/switch";
 import { GiPrayer, GiBackup, GiPlayerTime } from "react-icons/gi";
-import { useUserSettings } from "@hooks/useUserSettings";
+import { useUserSettings } from "@hooks/user/useUserSettings";
 
 export function Routine() {
   const { userSettings, userSettingsLoading, handleRoutineChange } =
