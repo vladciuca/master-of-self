@@ -15,6 +15,22 @@ export function useFetchAndUpdateJournalEntry(id: string) {
   const fetchAbortControllerRef = useRef<AbortController | null>(null);
   const updateAbortControllerRef = useRef<AbortController | null>(null);
 
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => {
+      // Clean up both abort controllers on unmount
+      if (fetchAbortControllerRef.current) {
+        fetchAbortControllerRef.current.abort();
+        fetchAbortControllerRef.current = null;
+      }
+
+      if (updateAbortControllerRef.current) {
+        updateAbortControllerRef.current.abort();
+        updateAbortControllerRef.current = null;
+      }
+    };
+  }, []);
+
   // Fetch journal entry data
   useEffect(() => {
     // Cancel any in-progress fetch
@@ -131,22 +147,6 @@ export function useFetchAndUpdateJournalEntry(id: string) {
   //       updateAbortControllerRef.current = null;
   //     }
   //   };
-
-  // Cleanup on unmount
-  useEffect(() => {
-    return () => {
-      // Clean up both abort controllers on unmount
-      if (fetchAbortControllerRef.current) {
-        fetchAbortControllerRef.current.abort();
-        fetchAbortControllerRef.current = null;
-      }
-
-      if (updateAbortControllerRef.current) {
-        updateAbortControllerRef.current.abort();
-        updateAbortControllerRef.current = null;
-      }
-    };
-  }, []);
 
   return {
     journalEntryData,

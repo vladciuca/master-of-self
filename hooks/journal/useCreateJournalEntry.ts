@@ -34,6 +34,7 @@ export function useCreateJournalEntry() {
     return () => {
       if (abortControllerRef.current) {
         abortControllerRef.current.abort();
+        abortControllerRef.current = null;
       }
     };
   }, []);
