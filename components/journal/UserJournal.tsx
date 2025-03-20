@@ -3,7 +3,7 @@
 import { JournalEntryList } from "@components/journal/JournalEntryList";
 import { SkeletonJournalEntryCard } from "@components/skeletons/SkeletonJournalEntryCard";
 import { SkeletonJournalFilter } from "@components/skeletons/SkeletonJournalFilter";
-import { useUserJournal } from "@hooks/useUserJournal";
+import { useUserJournal } from "@hooks/journal/useUserJournal";
 
 const skeletonCards = Array.from({ length: 3 }, (_, index) => (
   <SkeletonJournalEntryCard key={index} />

@@ -56,9 +56,7 @@ export function useTodayJournalEntry() {
       }
     };
 
-    if (session?.user.id) {
-      getTodayEntry();
-    }
+    getTodayEntry();
 
     return () => {
       abortController.abort();
