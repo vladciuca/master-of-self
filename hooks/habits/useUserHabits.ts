@@ -46,6 +46,14 @@ export function useUserHabits() {
           }
         );
 
+        if (signal.aborted) return;
+
+        if (!userHabitsResponse.ok) {
+          throw new Error(
+            `Error fetching habits: ${userHabitsResponse.status}`
+          );
+        }
+
         const { habits } = await userHabitsResponse.json();
         setHabits(habits.reverse());
       } catch (error) {

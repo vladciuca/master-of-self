@@ -113,6 +113,8 @@ export function useCreateJournalEntry() {
         }
       );
 
+      if (signal.aborted) return;
+
       if (!createNewEntryResponse.ok) {
         const errorData = await createNewEntryResponse.json();
         throw new Error(`Failed to create new entry: ${errorData.error}`);

@@ -73,6 +73,8 @@ export function useYesterdayJournalEntry() {
           signal,
         });
 
+        if (signal.aborted) return;
+
         if (!yesterdayEntryResponse.ok) {
           throw new Error(
             `Error fetching yesterday's entry: ${yesterdayEntryResponse.status}`

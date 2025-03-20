@@ -65,6 +65,8 @@ export function useUpdateHabits() {
         }
       );
 
+      if (signal.aborted) return;
+
       if (!response.ok) {
         throw new Error("Failed to update habits");
       }
@@ -82,7 +84,10 @@ export function useUpdateHabits() {
       throw error;
     } finally {
       // Unlike GET requests, there’s no risk of an inconsistent UI caused by setting submitting = false after an abort.
-      setUpdateHabitsSubmitting(false);
+      // NOTE: added it for consistency, might remove it in the future
+      if (!signal.aborted) {
+        setUpdateHabitsSubmitting(false);
+      }
     }
   };
 

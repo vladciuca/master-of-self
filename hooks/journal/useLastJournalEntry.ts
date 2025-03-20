@@ -45,6 +45,8 @@ export function useLastJournalEntry() {
         const url = `/api/users/${session.user.id}/journal-entries/last`;
         const lastEntryResponse = await fetch(url, { signal });
 
+        if (signal.aborted) return;
+
         if (!lastEntryResponse.ok) {
           throw new Error(
             `Error fetching last entry: ${lastEntryResponse.status}`

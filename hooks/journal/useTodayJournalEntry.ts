@@ -28,6 +28,8 @@ export function useTodayJournalEntry() {
 
         const todayEntryResponse = await fetch(url, { signal });
 
+        if (signal.aborted) return;
+
         if (!todayEntryResponse.ok) {
           console.error(
             `Error fetching todays's entry: ${todayEntryResponse.status}`
