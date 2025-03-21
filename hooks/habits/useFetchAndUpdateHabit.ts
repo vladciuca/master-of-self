@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import { useUpdateJournalEntryHabits } from "@hooks/journal/useUpdateJournalEntryHabits";
 import { HabitZodType } from "@models/habitFormSchema";
 
 export function useFetchAndUpdateHabit(id: string) {
@@ -11,6 +12,13 @@ export function useFetchAndUpdateHabit(id: string) {
   // Refs for abort controllers
   const fetchAbortControllerRef = useRef<AbortController | null>(null);
   const updateAbortControllerRef = useRef<AbortController | null>(null);
+
+  const {
+    updateJournalEntryHabits,
+    //NOTE: these can be returned from this hook separately
+    // submittingJournalHabitsUpdate,
+    // updateJournalHabitsError,
+  } = useUpdateJournalEntryHabits();
 
   // Cleanup on unmount
   useEffect(() => {
@@ -126,9 +134,11 @@ export function useFetchAndUpdateHabit(id: string) {
         throw new Error("Failed to update habit");
       }
 
-      const updatedData = await response.json();
-      // NOTE: HERE we will use this data for the HabitSync hook
-      return updatedData; // Return the updated data for the caller
+      const updatedHabitData = await response.json();
+
+      await updateJournalEntryHabits(updatedHabitData);
+      // NOTE: No need to return data here as the user is redirected on success
+      // return updatedHabitData; // Return the updated data for the caller
     } catch (error) {
       if ((error as Error).name === "AbortError") {
         console.log("Update aborted");

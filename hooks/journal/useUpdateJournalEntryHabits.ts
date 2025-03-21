@@ -37,9 +37,7 @@ export function useUpdateJournalEntryHabits() {
       throw new Error(`Error fetching required data: ${todayEntryError}`);
     }
 
-    console.log("====BEFORE RETURN_ TODAY ENTRY", todayEntry);
     if (!todayEntry || !todayEntry._id) return;
-    console.log("====AFTER RETURN _TODAY ENTRY", todayEntry);
 
     if (abortControllerRef.current) {
       abortControllerRef.current.abort();
@@ -50,23 +48,15 @@ export function useUpdateJournalEntryHabits() {
     setSubmittingJournalHabitsUpdate(true);
     setUpdateJournalHabitsError(null);
     try {
+      // NOTE: the getHabitActionDefaultValues takes in an array of habits
+      // We must put the newly created habit inside an array
       const newHabitInArray = [habit];
-
-      console.log("====newHabitInArray", newHabitInArray);
-
       const defaultActionValuesFromHabit =
         getHabitActionDefaultValues(newHabitInArray);
 
-      console.log(
-        "====defaultActionValuesFromHabit",
-        defaultActionValuesFromHabit
-      );
-
-      //NOTE: .habits key will always exist
+      // NOTE: .habits key will always exist
       // as it is created with habit default values || 0 on any new journal entry
       const journalHabitValues = todayEntry.habits;
-
-      console.log("====journalHabitValues", journalHabitValues);
 
       const mergeHabitValuesParams = {
         journalValues: journalHabitValues,
@@ -76,8 +66,6 @@ export function useUpdateJournalEntryHabits() {
       const mergedHabitValues = !todayEntryLoading
         ? deepMergeHabitsWithNewDefaultValues(mergeHabitValuesParams)
         : {};
-
-      console.log("====mergedHabitValues", mergedHabitValues);
 
       const response = await fetch(
         `/api/journal-entry/${todayEntry._id}/update-habits`,
