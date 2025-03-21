@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { useSession } from "next-auth/react";
+import { useUpdateJournalEntryHabits } from "@hooks/journal/useUpdateJournalEntryHabits";
 import { HabitZodType } from "@models/habitFormSchema";
 import { Session } from "@models/types";
 
@@ -8,6 +9,13 @@ export function useCreateHabit() {
 
   const [submittingHabit, setSubmittingHabit] = useState<boolean>(false);
   const [createHabitError, setCreateHabitError] = useState<string | null>(null);
+
+  const {
+    updateJournalEntryHabits,
+    //NOTE: these can be returned from this hook separately
+    // submittingJournalHabitsUpdate,
+    // updateJournalHabitsError,
+  } = useUpdateJournalEntryHabits();
 
   // Ref for abort controller
   const createAbortControllerRef = useRef<AbortController | null>(null);
@@ -62,9 +70,13 @@ export function useCreateHabit() {
         throw new Error("Failed to create habit");
       }
 
-      const createdData = await response.json();
-      //NOTE: don't know if I need the data here other for updating TodayJournalEntry
-      return createdData; // Return the created data for the caller
+      const createdHabitData = await response.json();
+
+      //NOTE: Able to still create a Habit if no TodayEntryExists
+      await updateJournalEntryHabits(createdHabitData);
+
+      // NOTE: No need to return data here as the user is redirected on success
+      // return createdHabit; // Return the created data for the caller
     } catch (error) {
       if ((error as Error).name === "AbortError") {
         console.log("Create operation aborted");
