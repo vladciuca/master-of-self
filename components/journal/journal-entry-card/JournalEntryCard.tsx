@@ -51,7 +51,6 @@ JournalEntryCardProps) {
     .toLocaleString("default", { weekday: "short" })
     .toUpperCase();
 
-  //maybe check if it should not be empty WTF is this here
   const habitsXpFromActions = habits
     ? calculateHabitsXpFromEntry({
         entryHabits: habits,
@@ -166,22 +165,6 @@ JournalEntryCardProps) {
                 </div>
               </div>
             )}
-          {/* {habits && Object.keys(habits).length > 0 && (
-            <div className="mt-2 flex w-full">
-              <div className="flex-shrink-0 flex items-start mr-4">
-                <h2 className="flex items-center text-muted-foreground mt-1">
-                  <Shell className="mr-2 text-muted-foreground" size={"1rem"} />
-                  Habits:
-                </h2>
-              </div>
-              <div className="flex-grow flex flex-wrap items-start">
-                <JournalEntryHabits
-                  habitsXp={habitsXpFromActions}
-                  habits={habits}
-                />
-              </div>
-            </div>
-          )} */}
         </div>
 
         {isToday && (

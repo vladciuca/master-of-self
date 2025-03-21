@@ -101,10 +101,17 @@ export function ActionsField({ control, type }: ActionsFieldProps) {
           <FormLabel>Habit Actions</FormLabel>
           {type === "Create" && (
             <FormDescription className="text-xs">
-              Define specific, measurable actions you’ll take each day to build
+              {/* Define specific, measurable actions you’ll take each day to build
               or break a habit. These should be concrete and realistic—actions
               you can clearly track as completed or not completed—helping you
-              achieve mastery within your chosen category.
+              achieve mastery within your chosen category. */}
+              Define the specific daily actions that contribute to your habit.
+              Each habit can have multiple alternative actions, that can
+              ,categorized as either “Build Action" (reinforcing positive
+              behaviors) or “Break Action" (reducing unwanted behaviors). To
+              maintain consistency, actions come in three difficulty
+              levels—Easy, Medium, and Hard—so you can adjust based on your
+              capacity while keeping your 30-day habit streak alive.
             </FormDescription>
           )}
 

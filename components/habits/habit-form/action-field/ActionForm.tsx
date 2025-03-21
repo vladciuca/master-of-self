@@ -81,6 +81,16 @@ export function ActionForm({
     })();
   }, [form, handleActionSubmit, initialData, handleCloseDrawer]);
 
+  const actionTypePlaceholder =
+    form.watch("type") === "build"
+      ? "e.g., Do pushups, Read books, Meditate."
+      : "e.g., Skip workouts, Procrastinate, Overuse social media.";
+
+  const actionUnitPlaceholder =
+    form.watch("type") === "build"
+      ? "e.g., repetitions, pages, minutes"
+      : "e.g., missed sessions, hours wasted, times scrolled.";
+
   return (
     // Use Form component but without the form element
     <Form {...form}>
@@ -134,13 +144,13 @@ export function ActionForm({
                       <SelectItem value="build">
                         <span className="flex items-center">
                           <ActionIcon type="build" size={20} />
-                          <span className="ml-2">Build a habit</span>
+                          <span className="ml-2">Build a action</span>
                         </span>
                       </SelectItem>
                       <SelectItem value="break">
                         <span className="flex items-center">
                           <ActionIcon type="break" size={20} />
-                          <span className="ml-2">Break a habit</span>
+                          <span className="ml-2">Break a action</span>
                         </span>
                       </SelectItem>
                     </SelectContent>
@@ -163,7 +173,7 @@ export function ActionForm({
                   <FormControl>
                     <Input
                       className="text-base"
-                      placeholder="e.g., Do pushups, Read books, Meditate"
+                      placeholder={actionTypePlaceholder}
                       {...field}
                     />
                   </FormControl>
@@ -225,7 +235,7 @@ export function ActionForm({
                   <FormControl>
                     <Input
                       className="text-base"
-                      placeholder="e.g., repetitions, pages, minutes"
+                      placeholder={actionUnitPlaceholder}
                       {...field}
                     />
                   </FormControl>
