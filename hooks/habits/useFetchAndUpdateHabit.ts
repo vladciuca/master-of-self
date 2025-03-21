@@ -6,6 +6,7 @@ export function useFetchAndUpdateHabit(id: string) {
   const [habitData, setHabitData] = useState<HabitZodType | null>(null);
   const [habitDataLoading, setHabitDataLoading] = useState(true);
   const [habitDataError, setHabitDataError] = useState<string | null>(null);
+  //NOTE: no error for submitting? or its th same with habitDataError?
 
   // Refs for abort controllers
   const fetchAbortControllerRef = useRef<AbortController | null>(null);

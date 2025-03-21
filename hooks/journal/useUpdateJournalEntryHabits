@@ -1,0 +1,12 @@
+import { useState, useEffect, useRef } from "react";
+import { useSession } from "next-auth/react";
+import { useTodayJournalEntry } from "@hooks/journal/useTodayJournalEntry";
+// NOTE: weird error here when importing form @models/types
+import type { Session, Habit } from "@/models/types";
+
+// type UpdateJournalEntryHabitsPros = {
+//   habit: Habit;
+//   // journalEntryHabits: Habit[];
+// };
+
+export function useUpdateJournalEntryHabits(habit: Habit) {}

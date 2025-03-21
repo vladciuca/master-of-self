@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { useSession } from "next-auth/react";
 import { useYesterdayJournalEntry } from "./useYesterdayJournalEntry";
 import { useLastJournalEntry } from "./useLastJournalEntry";
-import { useUpdateHabits } from "@hooks/habits/useUpdateHabits";
+import { useUpdateHabits } from "@hooks/habits/useUpdateUserHabits";
 import { useUserHabits } from "@hooks/habits/useUserHabits";
 import { getToday } from "@lib/time";
 import { Session } from "@models/types";
@@ -29,7 +29,7 @@ export function useCreateJournalEntry() {
     habitsError,
   } = useUserHabits();
 
-  const { updateHabits, updateHabitsSubmitting, updateHabitsError } =
+  const { updateHabits, submittingUserHabitsUpdate, updateUserHabitsError } =
     useUpdateHabits();
 
   const abortControllerRef = useRef<AbortController | null>(null);
@@ -54,7 +54,7 @@ export function useCreateJournalEntry() {
       yesterdayEntryLoading ||
       habitsLoading ||
       lastEntryLoading ||
-      updateHabitsSubmitting
+      submittingUserHabitsUpdate
     ) {
       console.warn("Waiting for all dependent hooks to finish loading...");
       return;
@@ -65,14 +65,14 @@ export function useCreateJournalEntry() {
       yesterdayEntryError ||
       habitsError ||
       lastEntryError ||
-      updateHabitsError
+      updateUserHabitsError
     ) {
       throw new Error(
         `Error fetching required data: 
         Yesterday Entry: ${yesterdayEntryError}, 
         Habits: ${habitsError}, 
         Last Entry: ${lastEntryError}, 
-        Update Habits: ${updateHabitsError}`
+        Update Habits: ${updateUserHabitsError}`
       );
     }
 
