@@ -1,14 +1,12 @@
 import { useFormContext } from "react-hook-form";
 import { FormStepTemplate } from "@components/journal/journal-entry-form/form-steps/FormStepTemplate";
+import { StepScoreDisplay } from "./StepScoreDisplay";
 import { TextAreaList } from "@components/ui/textarea-list";
-import { FaBoltLightning } from "react-icons/fa6";
-import { JOURNAL_COLORS } from "@lib/colors";
 import type { JournalEntry } from "@models/types";
 
 export function GratefulFor() {
   const { watch, setValue } = useFormContext<JournalEntry>();
 
-  const dailyWillpower = watch("dailyWillpower");
   const gratefulFor = watch("dayEntry.gratefulFor");
 
   const handleTextAreaListChange = (newEntries: string[]) => {
@@ -35,14 +33,11 @@ export function GratefulFor() {
       title="What am I feeling grateful for?"
       description="Use details to describe what you're feeling grateful for and generate Willpower."
       scoreSection={
-        <>
-          <span className={`text-${JOURNAL_COLORS.day}`}>{dailyWillpower}</span>
-          <FaBoltLightning className="ml-2 text-3xl" />
-        </>
+        <StepScoreDisplay items={gratefulFor ?? []} scoreName="Positivity" />
       }
     >
       <TextAreaList
-        entryList={gratefulFor || []}
+        entryList={gratefulFor ?? []}
         onChange={handleTextAreaListChange}
       />
     </FormStepTemplate>

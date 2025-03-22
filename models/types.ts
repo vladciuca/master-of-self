@@ -37,18 +37,22 @@ export type JournalEntryHabit = {
   [key: string]: JournalEntryHabitActions & { currentXp?: number };
 };
 
+export type JournalDayEntry = {
+  greatToday?: string[];
+  gratefulFor?: string[];
+};
+
+export type JournalNightEntry = {
+  howGreatToday?: string[];
+  dailyHighlights?: string[];
+  learnedToday?: string[];
+};
+
 export type JournalEntry = {
   dailyWillpower: number;
   bonusWillpower: number;
-  dayEntry?: {
-    greatToday?: string[];
-    gratefulFor?: string[];
-  };
-  nightEntry?: {
-    howGreatToday?: string[];
-    dailyHighlights?: string[];
-    learnedToday?: string[];
-  };
+  dayEntry?: JournalDayEntry;
+  nightEntry?: JournalNightEntry;
   habits: JournalEntryHabit;
 };
 

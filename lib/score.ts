@@ -52,3 +52,15 @@ export function getActionValueColor(params: HabitActionValueParams): string {
 
   return "text-primary";
 }
+
+//Journal-Refactor
+
+export function calculateStepScore(entryList: string[]): number {
+  const totalEntries = entryList.length;
+  const totalLength = entryList.join("").length;
+  const baseScoreMultiplier = 5;
+  const scalingFactor = 10;
+  return Math.floor(
+    (totalEntries * baseScoreMultiplier + totalLength) / scalingFactor
+  );
+}

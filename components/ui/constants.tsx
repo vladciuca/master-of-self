@@ -91,7 +91,7 @@ export const stepStyles: { [key: string]: StepStyle } = {
     bgColor: `bg-${JOURNAL_COLORS.night}`,
   },
   // NIGHT STEP
-  // Reflection: +growth points
+  // Reflection: +resilience points
   reflection: {
     bgColor: `bg-${JOURNAL_COLORS.night}`,
   },

@@ -22,7 +22,7 @@ export function FormStepTemplate({
           <Label className="text-sm text-muted-foreground">{description}</Label>
         )}
         {scoreSection && (
-          <div className="text-4xl flex items-baseline justify-center font-semibold">
+          <div className="text-3xl flex items-baseline justify-center font-semibold">
             {scoreSection}
           </div>
         )}

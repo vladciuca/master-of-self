@@ -4,6 +4,7 @@ import Link from "next/link";
 import { JournalEntryIndicators } from "@/components/journal/journal-entry-card/JournalEntryIndicators";
 import { JournalEntryHabits } from "@/components/journal/journal-entry-card/JournalEntryHabits";
 import { JournalEntrySection } from "@/components/journal/journal-entry-card/JournalEntrySection";
+import { JournalEntryDiscipline } from "./JournalEntryDiscipline";
 import {
   AccordionContent,
   AccordionItem,
@@ -137,6 +138,12 @@ JournalEntryCardProps) {
             </div>
           </div>
         )}
+
+        {/* Discipline Points*/}
+        <JournalEntryDiscipline
+          dayEntry={dayEntry ?? {}}
+          nightEntry={nightEntry ?? {}}
+        />
 
         {/* Habit Actions */}
         <div className="flex-grow flex flex-col items-start">
