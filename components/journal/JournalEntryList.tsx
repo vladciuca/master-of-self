@@ -1,7 +1,6 @@
 import { useState, useMemo, useRef, useCallback, useEffect } from "react";
 import { NewJournalEntry } from "@components/journal/NewJournalEntry";
 import { JournalEntryCard } from "@components/journal/journal-entry-card/JournalEntryCard";
-import { Accordion } from "@components/ui/accordion";
 import { JournalEntryListFilters } from "@components/journal/JournalEntryListFilters";
 import {
   isEvening,
@@ -174,15 +173,14 @@ export function JournalEntryList({ journalEntries }: JournalEntryListProps) {
         className="relative"
       >
         {filteredEntries.length > 0 ? (
-          <Accordion type="single" collapsible className="pb-1">
+          <div className="pb-1">
             {filteredEntries.map((journalEntry, index) => (
               <JournalEntryCard
                 key={journalEntry._id}
                 journalEntry={journalEntry}
-                isEveningTime={isEveningTime}
               />
             ))}
-          </Accordion>
+          </div>
         ) : (
           <p className="text-center text-muted-foreground py-4">
             {getEmptyStateMessage(filter)}

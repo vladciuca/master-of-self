@@ -28,12 +28,12 @@ export function JournalEntrySection({
           bonusList ? "justify-center" : ""
         }`}
       >
-        {!bonusList &&
+        {/* {!bonusList &&
           IconElement &&
           React.cloneElement(IconElement as React.ReactElement, {
             className: "mr-2 text-muted-foreground",
             size: "1rem",
-          })}
+          })} */}
         <div className="text-sm text-muted-foreground">{title}</div>
       </div>
 

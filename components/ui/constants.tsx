@@ -27,6 +27,18 @@ export const stepIconMap: StepIconMap = {
   default: <GiEnlightenment size={"1.7rem"} />,
 };
 
+export type StepPoints = {
+  [key: string]: string;
+};
+
+export const stepPoints: StepPoints = {
+  gratitude: "Positivity",
+  day: "Motivation",
+  affirmations: "Confidence",
+  highlights: "Awareness",
+  reflection: "Resilience",
+};
+
 //JOURNAL STEPS STYLE
 export type StepStyle = {
   bgColor: string;
@@ -96,7 +108,6 @@ export const stepStyles: { [key: string]: StepStyle } = {
     bgColor: `bg-${JOURNAL_COLORS.night}`,
   },
   // CONDITIONAL STEP: active if habits exist
-  // RENAME: Habits - in HABIT-REFACTOR
   habits: {
     bgColor: `bg-${HABIT_COLORS.main}`,
   },
