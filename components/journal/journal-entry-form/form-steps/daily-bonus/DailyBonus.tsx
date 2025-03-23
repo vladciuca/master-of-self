@@ -2,7 +2,7 @@ import { useState, useEffect, useMemo } from "react";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Card, CardContent } from "@/components/ui/card";
 import { FormStepTemplate } from "@components/journal/journal-entry-form/form-steps/FormStepTemplate";
-import { JournalEntrySection } from "@components/journal/journal-entry-card/JournalEntrySection";
+import { JournalEntryDisciplineList } from "@components/journal/journal-entry-card/JournalEntryDisciplineList";
 import { FaBoltLightning } from "react-icons/fa6";
 import { useYesterdayJournalEntry } from "@hooks/journal/useYesterdayJournalEntry";
 import { stepIconMap } from "@components/ui/constants";
@@ -106,7 +106,7 @@ export function DailyBonus() {
             <TabsContent key={tab.stepType} value={tab.stepType}>
               <Card>
                 <CardContent className="p-4">
-                  <JournalEntrySection
+                  <JournalEntryDisciplineList
                     title={tab.title}
                     items={tab.items}
                     stepType={tab.stepType}

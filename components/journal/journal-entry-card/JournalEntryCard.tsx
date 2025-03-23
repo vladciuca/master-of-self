@@ -3,7 +3,7 @@ import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { JournalEntryIndicators } from "@/components/journal/journal-entry-card/JournalEntryIndicators";
 import { JournalEntryHabits } from "@/components/journal/journal-entry-card/JournalEntryHabits";
-import { JournalEntryDiscipline } from "./JournalEntryDiscipline";
+import { JournalEntryDisciplineSection } from "./JournalEntryDisciplineSection";
 import { Card } from "@components/ui/card";
 import { FaBoltLightning } from "react-icons/fa6";
 import { Shell } from "lucide-react";
@@ -52,34 +52,6 @@ JournalEntryCardProps) {
       })
     : {};
 
-  const completedDailyToDos = () => {
-    const dailyToDos = dayEntry?.greatToday || [];
-    const completedToDos = nightEntry?.howGreatToday || [];
-
-    return completedToDos.filter((item) => dailyToDos.includes(item));
-  };
-
-  // const uncompletedDailyToDos = () => {
-  //   const dailyToDos = dayEntry?.greatToday || [];
-  //   const completedToDos = new Set(nightEntry?.howGreatToday);
-
-  //   return dailyToDos.filter((item) => !completedToDos.has(item));
-  // };
-
-  const dayEntries =
-    (dayEntry?.gratefulFor?.length || 0) + (dayEntry?.greatToday?.length || 0);
-
-  const nightEntries =
-    (nightEntry?.dailyHighlights?.length || 0) +
-    (nightEntry?.learnedToday?.length || 0);
-
-  // const hasContent =
-  //   (dayEntry?.gratefulFor?.length ?? 0) > 0 ||
-  //   uncompletedDailyToDos().length > 0 ||
-  //   completedDailyToDos().length > 0 ||
-  //   (nightEntry?.dailyHighlights?.length ?? 0) > 0 ||
-  //   (nightEntry?.learnedToday?.length ?? 0) > 0;
-
   return (
     <Card className="p-4 mb-4 block">
       <div className="w-full">
@@ -91,9 +63,8 @@ JournalEntryCardProps) {
             </div>
 
             <JournalEntryIndicators
-              dayEntries={dayEntries}
-              completedDailyToDos={completedDailyToDos().length}
-              nightEntries={nightEntries}
+              dayEntry={dayEntry ?? {}}
+              nightEntry={nightEntry ?? {}}
             />
           </div>
 
@@ -145,14 +116,14 @@ JournalEntryCardProps) {
       )}
 
       {/* Habit Actions */}
-      <div className="flex-grow flex flex-col items-start mb-4">
+      <div className="flex-grow flex flex-col items-start">
         {habits &&
           Object.values(habits).some((habitActions) =>
             Object.entries(habitActions)
               .filter(([key, value]) => key !== "currentXp")
               .some(([_, value]) => value !== 0)
           ) && (
-            <div className="mt-2 flex w-full">
+            <div className="mt-2 flex w-full mb-4">
               <div className="flex-shrink-0 flex items-start mr-4">
                 <h2 className="flex items-center text-muted-foreground mt-1">
                   <Shell className="mr-2 text-muted-foreground" size={"1rem"} />
@@ -170,7 +141,7 @@ JournalEntryCardProps) {
       </div>
 
       {/* Discipline Points*/}
-      <JournalEntryDiscipline
+      <JournalEntryDisciplineSection
         dayEntry={dayEntry ?? {}}
         nightEntry={nightEntry ?? {}}
       />

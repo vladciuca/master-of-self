@@ -1,8 +1,8 @@
 import React from "react";
 import { SkeletonList } from "@components/skeletons/SkeletonList";
-import { getStepStyle, stepIconMap } from "@components/ui/constants";
+import { getStepStyle } from "@components/ui/constants";
 
-type EntrySectionProps = {
+type JournalEntryDisciplineListProps = {
   title: string;
   items?: string[];
   stepType: string;
@@ -10,30 +10,23 @@ type EntrySectionProps = {
   bonusList?: boolean;
 };
 
-export function JournalEntrySection({
+export function JournalEntryDisciplineList({
   title,
   items,
   stepType,
   contentLoading,
   bonusList,
-}: EntrySectionProps) {
+}: JournalEntryDisciplineListProps) {
   const { bgColor } = getStepStyle(stepType);
   const bulletPointPosition = bonusList ? "mt-2" : "mt-[6px]";
-  const IconElement = stepIconMap[stepType] || stepIconMap.default;
 
   return (
     <div>
       <div
-        className={`mb-2 flex items-center ${
+        className={`my-2 flex items-center ${
           bonusList ? "justify-center" : ""
         }`}
       >
-        {/* {!bonusList &&
-          IconElement &&
-          React.cloneElement(IconElement as React.ReactElement, {
-            className: "mr-2 text-muted-foreground",
-            size: "1rem",
-          })} */}
         <div className="text-sm text-muted-foreground">{title}</div>
       </div>
 

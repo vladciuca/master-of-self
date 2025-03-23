@@ -24,14 +24,15 @@ export const stepIconMap: StepIconMap = {
   gratitude: <GiPrayer size={"1.4rem"} />,
   reflection: <GiBackup size={"1.4rem"} />,
   habits: <GiPencilRuler size={"1.4rem"} />,
+  //This is bonus step
   default: <GiEnlightenment size={"1.7rem"} />,
 };
 
-export type StepPoints = {
+export type StepDisciplines = {
   [key: string]: string;
 };
 
-export const stepPoints: StepPoints = {
+export const stepDisciplines: StepDisciplines = {
   gratitude: "Positivity",
   day: "Motivation",
   affirmations: "Confidence",
