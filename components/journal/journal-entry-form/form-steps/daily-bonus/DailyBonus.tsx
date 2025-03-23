@@ -111,7 +111,7 @@ export function DailyBonus() {
               {tabData.map((tab) => (
                 <TabsTrigger
                   key={tab.stepType}
-                  className="w-[65px] h-[65px] flex flex-col items-center justify-center"
+                  className="p-0 w-[65px] h-[65px] flex flex-col items-center justify-center"
                   value={tab.stepType}
                   onClick={() => loadContent(tab.stepType)}
                 >

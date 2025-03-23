@@ -20,22 +20,26 @@ export const BonusStepTabHeader = ({
   disciplineScore,
 }: BonusStepTabHeaderProps) => {
   const { bgColor } = getStepStyle(stepType);
+
   return (
-    <div>
-      <div className="relative flex items-center justify-center">
+    <div className="relative">
+      <div className="flex items-center justify-center w-8 h-8">
         {icon}
-        <Badge
-          variant="outline"
-          className={`${bgColor} absolute -top-4 -right-6 text-[0.6rem] px-1 py-0 min-w-[1.2rem] h-[1.2rem] flex items-center justify-center text-white`}
-        >
-          {count}
-        </Badge>
+        {count !== undefined && (
+          <Badge
+            variant="outline"
+            className={`${bgColor} absolute -top-3 -right-6 text-[0.6rem] px-1 py-0 min-w-[1.2rem] h-[1.2rem] flex items-center justify-center text-white`}
+          >
+            {count}
+          </Badge>
+        )}
       </div>
 
-      <div className="flex items-center justify-center mt-2">
-        {disciplineScore}
-        {/* <FaBoltLightning className="ml-1" /> */}
-      </div>
+      {disciplineScore && (
+        <div className="flex items-center justify-center mt-1">
+          {disciplineScore}
+        </div>
+      )}
     </div>
   );
 };

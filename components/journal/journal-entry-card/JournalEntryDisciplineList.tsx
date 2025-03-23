@@ -33,7 +33,7 @@ export function JournalEntryDisciplineList({
       {contentLoading ? (
         <SkeletonList />
       ) : (
-        <ol className="mx-[3.5px]">
+        <ol className={`mx-[3.5px] ${bonusList ? "mt-4" : ""}`}>
           {items &&
             items.length > 0 &&
             items.map((item, index) => (
