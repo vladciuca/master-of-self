@@ -5,13 +5,13 @@ import { useRouter, useSearchParams } from "next/navigation";
 
 import { useForm, FormProvider, UseFormReturn } from "react-hook-form";
 
-import { DailyBonus } from "@components/journal/journal-entry-form/form-steps/daily-bonus/DailyBonus";
-import { GreatToday } from "@components/journal/journal-entry-form/form-steps/GreatToday";
-import { HowGreatWasToday } from "@components/journal/journal-entry-form/form-steps/HowGreatWasToday";
-import { GratefulFor } from "@components/journal/journal-entry-form/form-steps/GratefulFor";
-import { DailyHighlights } from "@components/journal/journal-entry-form/form-steps/DailyHighlights";
-import { LearnedToday } from "@components/journal/journal-entry-form/form-steps/LearnedToday";
-import { HabitActionsStep } from "@components/journal/journal-entry-form/form-steps/HabitActionsStep";
+import { Bonus } from "@components/journal/journal-entry-form/form-steps/steps/bonus/Bonus";
+import { Day } from "@components/journal/journal-entry-form/form-steps/steps/Day";
+import { Night } from "@components/journal/journal-entry-form/form-steps/steps/Night";
+import { Gratitude } from "@components/journal/journal-entry-form/form-steps/steps/Gratitude";
+import { Highlights } from "@components/journal/journal-entry-form/form-steps/steps/Highlights";
+import { Reflection } from "@components/journal/journal-entry-form/form-steps/steps/Reflection";
+import { HabitActionsStep } from "@components/journal/journal-entry-form/form-steps/steps/HabitActionsStep";
 import { FormStepProgress } from "./FormStepProgress";
 import { FormStepNavigation } from "./FormStepNavigation";
 import { JournalEntry } from "@models/types";
@@ -75,10 +75,13 @@ export function FormStepController({
   const gratefulFor = watch("dayEntry.gratefulFor");
 
   // Get daily WP form day step forms
+  //NOTE: for the new system this should be refactored in a simple calculation
   const calculateDailyWillpower = useCallback(
     (greatTodayList: string[], gratefulForList: string[]) => {
       const greatTodayScore = calculateWillpowerScore(greatTodayList || []);
       const gratefulForScore = calculateWillpowerScore(gratefulForList || []);
+      //NOTE: the multiplier here is not applied to yday entry when calculating WP
+      // when this becomes a constant multiply var should be added in the function itself
       return Math.floor((greatTodayScore + gratefulForScore) * 1.5);
     },
     []
@@ -135,38 +138,38 @@ export function FormStepController({
   const formSteps = useMemo(
     () => [
       {
-        type: "reward",
-        component: <DailyBonus />,
+        type: "bonus",
+        component: <Bonus />,
         isAvailable:
           SHOW_ALL_TEST ||
           (!isEvening(userEveningTime) && watch("bonusWillpower") > 0),
       },
       {
         type: "gratitude",
-        component: <GratefulFor />,
+        component: <Gratitude />,
         isAvailable:
           SHOW_ALL_TEST || (!isEvening(userEveningTime) && hasGratitude),
       },
       {
         type: "day",
-        component: <GreatToday />,
+        component: <Day />,
         isAvailable: SHOW_ALL_TEST || !isEvening(userEveningTime),
       },
       {
         type: "night",
-        component: <HowGreatWasToday />,
+        component: <Night />,
         isAvailable:
           SHOW_ALL_TEST ||
           (isEvening(userEveningTime) && greatToday?.length > 0),
       },
       {
         type: "highlights",
-        component: <DailyHighlights />,
+        component: <Highlights />,
         isAvailable: SHOW_ALL_TEST || isEvening(userEveningTime),
       },
       {
         type: "reflection",
-        component: <LearnedToday />,
+        component: <Reflection />,
         isAvailable:
           SHOW_ALL_TEST || (isEvening(userEveningTime) && hasReflection),
       },

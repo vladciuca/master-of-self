@@ -11,7 +11,7 @@ import { X, Plus } from "lucide-react";
 import { JOURNAL_COLORS } from "@lib/colors";
 import { calculateStepScore } from "@lib/score";
 
-export function DailyBonus() {
+export function Bonus() {
   // NOTE: again no error handling
   const {
     yesterdayEntry,

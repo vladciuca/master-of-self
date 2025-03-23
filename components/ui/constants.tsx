@@ -4,9 +4,10 @@ import {
   GiPrayer,
   GiBackup,
   // GiPlayerTime, // might be used for REFLECTION STEP in JOURNAL-REFACTOR
-  // GiAura,
+  GiAura,
   GiPencilRuler,
   GiEnlightenment,
+  GiHazardSign,
 } from "react-icons/gi";
 // import colors from "../../lib/colors";
 import { JOURNAL_COLORS, HABIT_COLORS } from "@lib/colors";
@@ -19,13 +20,14 @@ export type StepIconMap = {
 export const stepIconMap: StepIconMap = {
   day: <FaSun size={"1.3rem"} />,
   night: <FaMoon size={"1.4rem"} />,
-  // affirmations: <GiAura />,
+  affirmations: <GiAura size={"1.4rem"} />,
   highlights: <FaStar size={"1.4rem"} />,
   gratitude: <GiPrayer size={"1.4rem"} />,
   reflection: <GiBackup size={"1.4rem"} />,
   habits: <GiPencilRuler size={"1.4rem"} />,
+  bonus: <GiEnlightenment size={"1.7rem"} />,
   //This is bonus step
-  default: <GiEnlightenment size={"1.7rem"} />,
+  default: <GiHazardSign size={"1.4rem"} />,
 };
 
 export type StepDisciplines = {
@@ -45,21 +47,18 @@ export type StepStyle = {
   bgColor: string;
 };
 
-//NOTE* Steps will need to be renamed and refactor in JOURNAL-REFACTOR
 export const stepStyles: { [key: string]: StepStyle } = {
   // CONDITIONAL STEP: active if Night entries form yesterday's journal exist
-  // NOTE* This fallback is for the reward step
-  // RENAME: Rewards(Bonus Willpower) Step
+  // NOTE* This fallback is for the bonus step
   default: {
     bgColor: `bg-${JOURNAL_COLORS.day}`,
   },
-  // DAY STEP
-  // Gratitude: +positivity points
+  bonus: {
+    bgColor: `bg-${JOURNAL_COLORS.day}`,
+  },
   gratitude: {
     bgColor: `bg-${JOURNAL_COLORS.day}`,
   },
-  // DAY STEP
-  // RENAME: Daily Panning: +motivation points
   day: {
     bgColor: `bg-${JOURNAL_COLORS.day}`,
   },
@@ -69,9 +68,6 @@ export const stepStyles: { [key: string]: StepStyle } = {
   // affirmations: {
   //   bgColor: `bg-${JOURNAL_COLORS.day}`,
   // },
-  // NIGHT STEP
-  // NOTE* will probably be removed in JOURNAL-REFACTOR
-  // NOTE* right now it is a check list to complete for the current "day" step
   night: {
     bgColor: "bg-[linear-gradient(to_right,_#eab308_50%,_#a855f7_50%)]",
     // bgColor: `bg-[linear-gradient(to_right,_${JOURNAL_COLORS.dayHex}_50%,_${JOURNAL_COLORS.nightHex}_50%)]`,
@@ -98,17 +94,12 @@ export const stepStyles: { [key: string]: StepStyle } = {
     //   // ... other config
     // };
   },
-  // NIGHT STEP
-  // Highlights(Treasure Hunt): +awareness points
   highlights: {
     bgColor: `bg-${JOURNAL_COLORS.night}`,
   },
-  // NIGHT STEP
-  // Reflection: +resilience points
   reflection: {
     bgColor: `bg-${JOURNAL_COLORS.night}`,
   },
-  // CONDITIONAL STEP: active if habits exist
   habits: {
     bgColor: `bg-${HABIT_COLORS.main}`,
   },

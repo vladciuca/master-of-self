@@ -1,10 +1,10 @@
 import { useFormContext } from "react-hook-form";
 import { FormStepTemplate } from "@components/journal/journal-entry-form/form-steps/FormStepTemplate";
-import { StepScoreDisplay } from "./StepScoreDisplay";
+import { StepScoreDisplay } from "../StepScoreDisplay";
 import { TextAreaList } from "@components/ui/textarea-list";
 import type { JournalEntry } from "@models/types";
 
-export function GratefulFor() {
+export function Gratitude() {
   const { watch, setValue } = useFormContext<JournalEntry>();
 
   const gratefulFor = watch("dayEntry.gratefulFor");

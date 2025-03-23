@@ -1,33 +1,33 @@
 import { useFormContext } from "react-hook-form";
 import { FormStepTemplate } from "@components/journal/journal-entry-form/form-steps/FormStepTemplate";
+import { StepScoreDisplay } from "../StepScoreDisplay";
 import { TextAreaList } from "@components/ui/textarea-list";
-import { StepScoreDisplay } from "./StepScoreDisplay";
 // import { calculateStepScore } from "@lib/score";
 import type { JournalEntry } from "@models/types";
 
-export function GreatToday() {
+export function Reflection() {
   const { watch, setValue } = useFormContext<JournalEntry>();
 
-  const greatToday = watch("dayEntry.greatToday");
+  const learnedToday = watch("nightEntry.learnedToday");
 
-  // const score = calculateStepScore(greatToday || []);
+  // const score = calculateStepScore(learnedToday || []);
 
   const handleTextAreaListChange = (newEntries: string[]) => {
-    setValue("dayEntry.greatToday", newEntries, {
+    setValue("nightEntry.learnedToday", newEntries, {
       shouldDirty: true,
     });
   };
 
   return (
     <FormStepTemplate
-      title="What will I do to make today great?"
-      description="Write down meaningful and achievable goals for the day to build motivation and generate Willpower."
+      title="What have I learned today?"
+      description="If you could go back in time and change something, what would it be?"
       scoreSection={
-        <StepScoreDisplay items={greatToday ?? []} scoreName="Motivation" />
+        <StepScoreDisplay items={learnedToday ?? []} scoreName="Resilience" />
       }
     >
       <TextAreaList
-        entryList={greatToday ?? []}
+        entryList={learnedToday ?? []}
         onChange={handleTextAreaListChange}
       />
     </FormStepTemplate>

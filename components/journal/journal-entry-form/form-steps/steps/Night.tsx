@@ -2,13 +2,13 @@
 
 import { useFormContext } from "react-hook-form";
 import { FormStepTemplate } from "@components/journal/journal-entry-form/form-steps/FormStepTemplate";
-import { StepScoreDisplay } from "./StepScoreDisplay";
+import { StepScoreDisplay } from "../StepScoreDisplay";
 // import { Badge } from "@components/ui/badge";
 import { Checkbox } from "@components/ui/checkbox";
 import { useState, useEffect } from "react";
 import type { JournalEntry } from "@models/types";
 
-export function HowGreatWasToday() {
+export function Night() {
   const { watch, setValue } = useFormContext<JournalEntry>();
 
   const greatToday = watch("dayEntry.greatToday") || [];
