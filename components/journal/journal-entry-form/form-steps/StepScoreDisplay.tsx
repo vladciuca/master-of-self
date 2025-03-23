@@ -5,7 +5,7 @@ type StepScoreDisplay = { items: string[]; scoreName: string };
 export function StepScoreDisplay({ items, scoreName }: StepScoreDisplay) {
   const score = calculateStepScore(items ?? []);
   return (
-    <>
+    <div>
       <span className={`${score > 0 ? "text-green-500" : "text-primary"}`}>
         +
       </span>
@@ -15,6 +15,6 @@ export function StepScoreDisplay({ items, scoreName }: StepScoreDisplay) {
         <></>
       )}
       {scoreName}
-    </>
+    </div>
   );
 }

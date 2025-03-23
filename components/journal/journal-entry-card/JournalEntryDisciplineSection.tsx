@@ -181,7 +181,9 @@ export function JournalEntryDisciplineSection({
                   completedCount > 0 ? (
                     <span className="text-lg font-semibold text-green-500 flex items-center">
                       <Plus size={14} />
-                      {score} <X size={15} /> {completedCount}
+                      {/*NOTE: we always want to add +1 to this value so that when completing 1 task
+                      we always start form multiplying by x2 */}
+                      {score} <X size={15} /> {completedCount + 1}
                     </span>
                   ) : (
                     <span className="text-lg font-semibold text-green-500 flex items-center">

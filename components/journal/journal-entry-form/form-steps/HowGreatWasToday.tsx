@@ -2,6 +2,7 @@
 
 import { useFormContext } from "react-hook-form";
 import { FormStepTemplate } from "@components/journal/journal-entry-form/form-steps/FormStepTemplate";
+import { StepScoreDisplay } from "./StepScoreDisplay";
 import { Badge } from "@components/ui/badge";
 import { Checkbox } from "@components/ui/checkbox";
 import { useState, useEffect } from "react";
@@ -46,12 +47,25 @@ export function HowGreatWasToday() {
     <FormStepTemplate
       title="How great was today?"
       description="Mark the goals you dedicated Willpower to and completed today."
+      scoreSection={
+        <div className="flex items-center">
+          <StepScoreDisplay items={greatToday ?? []} scoreName="Motivation" />
+          {howGreatToday.length + 1 <= 1 ? (
+            <></>
+          ) : (
+            <span className="text-green-500 flex items-center">
+              <span className="ml-2 mr-[2px] text-2xl">x</span>
+              {howGreatToday.length + 1}
+            </span>
+          )}
+        </div>
+      }
     >
       <ol className="list-decimal py-2 mt-2 mx-4 space-y-3">
         {greatToday.map((item, index) => (
-          <li key={index} className="flex justify-between w-full">
-            <div className="inline-flex text-base w-5/6">
-              <div className="w-1/6">
+          <li key={index} className="flex w-full">
+            <div className="inline-flex text-base flex-grow w-[90%]">
+              {/* <div className="w-1/6">
                 <Badge
                   className={`h-[30px] w-[30px] text-base text-primary bg-transparent hover:bg-transparent ${
                     checkedItems[item]
@@ -63,12 +77,21 @@ export function HowGreatWasToday() {
                     {index + 1}.
                   </div>
                 </Badge>
+              </div> */}
+              <div
+                className={`mr-1 ${
+                  checkedItems[item] ? "text-green-500" : "text-primary"
+                }`}
+              >
+                <div className="h-full w-full flex justify-center items-start">
+                  {index + 1}.
+                </div>
               </div>
 
-              <span className="break-words w-5/6 text-left mt-1">{item}</span>
+              <span className="break-words w-5/6 text-left">{item}</span>
             </div>
 
-            <div className="flex justify-end w-1/6">
+            <div className="flex justify-end">
               <Checkbox
                 id={`checkbox-${index}`}
                 className="h-8 w-8"
