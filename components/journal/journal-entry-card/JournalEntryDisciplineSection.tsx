@@ -103,7 +103,11 @@ export function JournalEntryDisciplineSection({
   ];
 
   return (
-    <Accordion type="single" collapsible className="grid grid-cols-1 gap-3 p-0">
+    <Accordion
+      type="single"
+      collapsible
+      className="grid grid-cols-1 gap-3 p-0 m-0"
+    >
       {baseScoreData.map((item) => {
         const { stepType, score, data, title, completedCount, renderSections } =
           item;
