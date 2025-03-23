@@ -55,11 +55,11 @@ JournalEntryCardProps) {
 
   const hasJournalContent = () => {
     return (
-      (dayEntry?.gratefulFor?.length ?? 0) > 0 ||
-      (dayEntry?.greatToday?.length ?? 0) > 0 ||
-      (nightEntry?.howGreatToday?.length ?? 0) > 0 ||
-      (nightEntry?.dailyHighlights?.length ?? 0) > 0 ||
-      (nightEntry?.learnedToday?.length ?? 0) > 0
+      (dayEntry?.gratitude?.length ?? 0) > 0 ||
+      (dayEntry?.day?.length ?? 0) > 0 ||
+      (nightEntry?.night?.length ?? 0) > 0 ||
+      (nightEntry?.highlights?.length ?? 0) > 0 ||
+      (nightEntry?.reflection?.length ?? 0) > 0
     );
   };
 

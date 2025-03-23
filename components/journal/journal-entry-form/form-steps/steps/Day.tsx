@@ -2,18 +2,15 @@ import { useFormContext } from "react-hook-form";
 import { FormStepTemplate } from "@components/journal/journal-entry-form/form-steps/FormStepTemplate";
 import { TextAreaList } from "@components/ui/textarea-list";
 import { StepScoreDisplay } from "../StepScoreDisplay";
-// import { calculateStepScore } from "@lib/score";
 import type { JournalEntry } from "@models/types";
 
 export function Day() {
   const { watch, setValue } = useFormContext<JournalEntry>();
 
-  const greatToday = watch("dayEntry.greatToday");
-
-  // const score = calculateStepScore(greatToday || []);
+  const day = watch("dayEntry.day");
 
   const handleTextAreaListChange = (newEntries: string[]) => {
-    setValue("dayEntry.greatToday", newEntries, {
+    setValue("dayEntry.day", newEntries, {
       shouldDirty: true,
     });
   };
@@ -23,13 +20,10 @@ export function Day() {
       title="What will I do to make today great?"
       description="Write down meaningful and achievable goals for the day to build motivation and generate Willpower."
       scoreSection={
-        <StepScoreDisplay items={greatToday ?? []} scoreName="Motivation" />
+        <StepScoreDisplay items={day ?? []} scoreName="Motivation" />
       }
     >
-      <TextAreaList
-        entryList={greatToday ?? []}
-        onChange={handleTextAreaListChange}
-      />
+      <TextAreaList entryList={day ?? []} onChange={handleTextAreaListChange} />
     </FormStepTemplate>
   );
 }

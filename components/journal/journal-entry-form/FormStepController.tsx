@@ -53,13 +53,13 @@ export function FormStepController({
       dailyWillpower: journalEntryData?.dailyWillpower || 0,
       bonusWillpower: journalEntryData?.bonusWillpower || 0,
       dayEntry: {
-        greatToday: journalEntryData?.dayEntry?.greatToday || [],
-        gratefulFor: journalEntryData?.dayEntry?.gratefulFor || [],
+        day: journalEntryData?.dayEntry?.day || [],
+        gratitude: journalEntryData?.dayEntry?.gratitude || [],
       },
       nightEntry: {
-        howGreatToday: journalEntryData?.nightEntry?.howGreatToday || [],
-        dailyHighlights: journalEntryData?.nightEntry?.dailyHighlights || [],
-        learnedToday: journalEntryData?.nightEntry?.learnedToday || [],
+        night: journalEntryData?.nightEntry?.night || [],
+        highlights: journalEntryData?.nightEntry?.highlights || [],
+        reflection: journalEntryData?.nightEntry?.reflection || [],
       },
       habits: journalEntryData?.habits || {},
     },
@@ -71,18 +71,18 @@ export function FormStepController({
   // NOTE: TS type checking is static and happening at compile time, not runtime.
   // The TypeScript compiler doesn't know about the runtime behavior of React Hook Form
   // This is why we must set a fallback value to be able to use in isAvailable step condition
-  const greatToday = watch("dayEntry.greatToday") || [];
-  const gratefulFor = watch("dayEntry.gratefulFor");
+  const day = watch("dayEntry.day") || [];
+  const gratitude = watch("dayEntry.gratitude");
 
   // Get daily WP form day step forms
   //NOTE: for the new system this should be refactored in a simple calculation
   const calculateDailyWillpower = useCallback(
-    (greatTodayList: string[], gratefulForList: string[]) => {
-      const greatTodayScore = calculateWillpowerScore(greatTodayList || []);
-      const gratefulForScore = calculateWillpowerScore(gratefulForList || []);
+    (dayList: string[], gratitudeList: string[]) => {
+      const dayScore = calculateWillpowerScore(dayList || []);
+      const gratitudeScore = calculateWillpowerScore(gratitudeList || []);
       //NOTE: the multiplier here is not applied to yday entry when calculating WP
       // when this becomes a constant multiply var should be added in the function itself
-      return Math.floor((greatTodayScore + gratefulForScore) * 1.5);
+      return Math.floor((dayScore + gratitudeScore) * 1.5);
     },
     []
   );
@@ -95,28 +95,22 @@ export function FormStepController({
       setValue("bonusWillpower", journalEntryData.bonusWillpower || 0);
 
       if (journalEntryData.dayEntry) {
+        setValue("dayEntry.day", journalEntryData.dayEntry.day || []);
         setValue(
-          "dayEntry.greatToday",
-          journalEntryData.dayEntry.greatToday || []
-        );
-        setValue(
-          "dayEntry.gratefulFor",
-          journalEntryData.dayEntry.gratefulFor || []
+          "dayEntry.gratitude",
+          journalEntryData.dayEntry.gratitude || []
         );
       }
 
       if (journalEntryData.nightEntry) {
+        setValue("nightEntry.night", journalEntryData.nightEntry.night || []);
         setValue(
-          "nightEntry.howGreatToday",
-          journalEntryData.nightEntry.howGreatToday || []
+          "nightEntry.highlights",
+          journalEntryData.nightEntry.highlights || []
         );
         setValue(
-          "nightEntry.dailyHighlights",
-          journalEntryData.nightEntry.dailyHighlights || []
-        );
-        setValue(
-          "nightEntry.learnedToday",
-          journalEntryData.nightEntry.learnedToday || []
+          "nightEntry.reflection",
+          journalEntryData.nightEntry.reflection || []
         );
       }
 
@@ -128,12 +122,9 @@ export function FormStepController({
 
   // Update willpower when relevant fields change
   useEffect(() => {
-    const willpower = calculateDailyWillpower(
-      greatToday || [],
-      gratefulFor || []
-    );
+    const willpower = calculateDailyWillpower(day || [], gratitude || []);
     setValue("dailyWillpower", willpower);
-  }, [greatToday, gratefulFor, calculateDailyWillpower, setValue]);
+  }, [day, gratitude, calculateDailyWillpower, setValue]);
 
   const formSteps = useMemo(
     () => [
@@ -159,8 +150,7 @@ export function FormStepController({
         type: "night",
         component: <Night />,
         isAvailable:
-          SHOW_ALL_TEST ||
-          (isEvening(userEveningTime) && greatToday?.length > 0),
+          SHOW_ALL_TEST || (isEvening(userEveningTime) && day?.length > 0),
       },
       {
         type: "highlights",
@@ -297,17 +287,15 @@ export function FormStepController({
           currentStepType={currentStep}
           handleStepChange={handleStepChange}
           progressPercentage={progressPercentage}
-          greatTodayCount={watch("dayEntry.greatToday")?.length || 0}
+          dayCount={watch("dayEntry.day")?.length || 0}
           dailyGoalsCompleted={countMatchingElements(
-            watch("dayEntry.greatToday"),
-            watch("nightEntry.howGreatToday")
+            watch("dayEntry.day"),
+            watch("nightEntry.night")
           )}
-          gratefulForCount={watch("dayEntry.gratefulFor")?.length || 0}
-          dailyHighlightsCount={
-            watch("nightEntry.dailyHighlights")?.length || 0
-          }
+          gratitudeCount={watch("dayEntry.gratitude")?.length || 0}
+          highlightsCount={watch("nightEntry.highlights")?.length || 0}
+          reflectionCount={watch("nightEntry.reflection")?.length || 0}
           habitActionsCount={countNonZeroValues(habitXpValues)}
-          learnedTodayCount={watch("nightEntry.learnedToday")?.length || 0}
         />
 
         <div className="h-full overflow-hidden">{currentStepComponent}</div>

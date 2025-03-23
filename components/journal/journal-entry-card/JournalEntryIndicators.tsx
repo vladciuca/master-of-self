@@ -12,20 +12,20 @@ export function JournalEntryIndicators({
 }: JournalEntryIndicatorsProps) {
   // Calculate dayEntries
   const dayEntries =
-    (dayEntry?.gratefulFor?.length || 0) + (dayEntry?.greatToday?.length || 0);
+    (dayEntry?.gratitude?.length || 0) + (dayEntry?.day?.length || 0);
 
   // Calculate completedDailyToDos
   const completedDailyToDos = () => {
-    const dailyToDos = dayEntry?.greatToday || [];
-    const completedToDos = nightEntry?.howGreatToday || [];
+    const dailyToDos = dayEntry?.day || [];
+    const completedToDos = nightEntry?.night || [];
 
     return completedToDos.filter((item) => dailyToDos.includes(item));
   };
 
   // Calculate nightEntries
   const nightEntries =
-    (nightEntry?.dailyHighlights?.length || 0) +
-    (nightEntry?.learnedToday?.length || 0);
+    (nightEntry?.highlights?.length || 0) +
+    (nightEntry?.reflection?.length || 0);
 
   // Get the counts
   const completedDailyToDosCount = completedDailyToDos().length;

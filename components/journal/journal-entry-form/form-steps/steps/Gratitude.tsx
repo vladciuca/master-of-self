@@ -7,10 +7,10 @@ import type { JournalEntry } from "@models/types";
 export function Gratitude() {
   const { watch, setValue } = useFormContext<JournalEntry>();
 
-  const gratefulFor = watch("dayEntry.gratefulFor");
+  const gratitude = watch("dayEntry.gratitude");
 
   const handleTextAreaListChange = (newEntries: string[]) => {
-    setValue("dayEntry.gratefulFor", newEntries, {
+    setValue("dayEntry.gratitude", newEntries, {
       // NOTE: tracks user interactions, letting react-hook-form if changes were made and to what field
       shouldDirty: true,
       // This option marks the field as "dirty" (modified by the user) after its value is updated programmatically.
@@ -33,11 +33,11 @@ export function Gratitude() {
       title="What am I feeling grateful for?"
       description="Use details to describe what you're feeling grateful for and generate Willpower."
       scoreSection={
-        <StepScoreDisplay items={gratefulFor ?? []} scoreName="Positivity" />
+        <StepScoreDisplay items={gratitude ?? []} scoreName="Positivity" />
       }
     >
       <TextAreaList
-        entryList={gratefulFor ?? []}
+        entryList={gratitude ?? []}
         onChange={handleTextAreaListChange}
       />
     </FormStepTemplate>

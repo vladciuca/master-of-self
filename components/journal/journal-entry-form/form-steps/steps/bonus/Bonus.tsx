@@ -40,13 +40,13 @@ export function Bonus() {
           stepType: "night",
           // bonusWillpowerValue: howGreatTodayBonusWillpower,
           title: "What made yesterday great",
-          items: yesterdayEntry?.nightEntry?.howGreatToday || [],
+          items: yesterdayEntry?.nightEntry?.night || [],
           score: (
             <>
-              {stepScore(yesterdayEntry?.nightEntry?.howGreatToday || [])}
+              {stepScore(yesterdayEntry?.dayEntry?.day || [])}
               <span className="flex items-center text-green-500">
                 <X size={10} />
-                {(yesterdayEntry?.nightEntry?.howGreatToday || []).length + 1}
+                {(yesterdayEntry?.nightEntry?.night || []).length + 1}
               </span>
             </>
           ),
@@ -56,16 +56,16 @@ export function Bonus() {
           stepType: "highlights",
           // bonusWillpowerValue: dailyHighlightsBonusWillpower,
           title: "Yesterday's highlights",
-          items: yesterdayEntry?.nightEntry?.dailyHighlights || [],
-          score: stepScore(yesterdayEntry?.nightEntry?.dailyHighlights || []),
+          items: yesterdayEntry?.nightEntry?.highlights || [],
+          score: stepScore(yesterdayEntry?.nightEntry?.highlights || []),
         },
         {
           icon: stepIconMap.reflection,
           stepType: "reflection",
           // bonusWillpowerValue: learnedTodayBonusWillpower,
           title: "What I learned yesterday",
-          items: yesterdayEntry?.nightEntry?.learnedToday ?? [],
-          score: stepScore(yesterdayEntry?.nightEntry?.learnedToday || []),
+          items: yesterdayEntry?.nightEntry?.highlights ?? [],
+          score: stepScore(yesterdayEntry?.nightEntry?.highlights || []),
         },
       ].filter((tab) => tab.items.length > 0),
     [

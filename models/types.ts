@@ -38,19 +38,14 @@ export type JournalEntryHabit = {
 };
 
 export type JournalDayEntry = {
-  //day
-  greatToday?: string[];
-  //gratitude
-  gratefulFor?: string[];
+  day?: string[];
+  gratitude?: string[];
 };
 
 export type JournalNightEntry = {
-  //night
-  howGreatToday?: string[];
-  //highlights
-  dailyHighlights?: string[];
-  //reflection
-  learnedToday?: string[];
+  night?: string[];
+  highlights?: string[];
+  reflection?: string[];
 };
 
 export type JournalEntry = {

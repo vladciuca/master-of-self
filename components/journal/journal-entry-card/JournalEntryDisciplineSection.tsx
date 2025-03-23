@@ -37,15 +37,15 @@ export function JournalEntryDisciplineSection({
 }: JournalEntryDisciplineSectionProps) {
   // Functions to handle completed and uncompleted to-dos
   const completedDailyToDos = () => {
-    const dailyToDos = dayEntry?.greatToday || [];
-    const completedToDos = nightEntry?.howGreatToday || [];
+    const dailyToDos = dayEntry?.day || [];
+    const completedToDos = nightEntry?.night || [];
 
     return completedToDos.filter((item) => dailyToDos.includes(item));
   };
 
   const uncompletedDailyToDos = () => {
-    const dailyToDos = dayEntry?.greatToday || [];
-    const completedToDos = new Set(nightEntry?.howGreatToday);
+    const dailyToDos = dayEntry?.day || [];
+    const completedToDos = new Set(nightEntry?.night);
 
     return dailyToDos.filter((item) => !completedToDos.has(item));
   };
@@ -59,8 +59,8 @@ export function JournalEntryDisciplineSection({
   const baseScoreData: ScoreDataItem[] = [
     {
       stepType: "gratitude",
-      score: calculateStepScore(dayEntry?.gratefulFor || []),
-      data: dayEntry?.gratefulFor || [],
+      score: calculateStepScore(dayEntry?.gratitude || []),
+      data: dayEntry?.gratitude || [],
       title: "What I am grateful for today...",
     },
     {
@@ -90,14 +90,14 @@ export function JournalEntryDisciplineSection({
     },
     {
       stepType: "highlights",
-      score: calculateStepScore(nightEntry?.dailyHighlights || []),
-      data: nightEntry?.dailyHighlights || [],
+      score: calculateStepScore(nightEntry?.highlights || []),
+      data: nightEntry?.highlights || [],
       title: "Today's highlights...",
     },
     {
       stepType: "reflection",
-      score: calculateStepScore(nightEntry?.learnedToday || []),
-      data: nightEntry?.learnedToday || [],
+      score: calculateStepScore(nightEntry?.reflection || []),
+      data: nightEntry?.reflection || [],
       title: "What have I learned today...",
     },
   ];

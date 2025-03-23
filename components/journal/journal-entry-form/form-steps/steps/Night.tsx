@@ -11,30 +11,30 @@ import type { JournalEntry } from "@models/types";
 export function Night() {
   const { watch, setValue } = useFormContext<JournalEntry>();
 
-  const greatToday = watch("dayEntry.greatToday") || [];
-  const howGreatToday = watch("nightEntry.howGreatToday") || [];
+  const day = watch("dayEntry.day") || [];
+  const night = watch("nightEntry.night") || [];
 
   const [checkedItems, setCheckedItems] = useState<{ [key: string]: boolean }>(
     {}
   );
 
   useEffect(() => {
-    const initialCheckedState = greatToday.reduce((acc, item) => {
-      acc[item] = howGreatToday.includes(item);
+    const initialCheckedState = day.reduce((acc, item) => {
+      acc[item] = night.includes(item);
       return acc;
     }, {} as { [key: string]: boolean });
     setCheckedItems(initialCheckedState);
-  }, [greatToday, howGreatToday]);
+  }, [day, night]);
 
   const handleCheckboxChange = (item: string) => {
     setCheckedItems((prev) => {
       const newCheckedItems = { ...prev, [item]: !prev[item] };
 
-      const newHowGreatToday = greatToday.filter(
-        (greatItem) => newCheckedItems[greatItem]
+      const newHowGreatToday = day.filter(
+        (dayItem) => newCheckedItems[dayItem]
       );
 
-      setValue("nightEntry.howGreatToday", newHowGreatToday, {
+      setValue("nightEntry.night", newHowGreatToday, {
         // shouldValidate: true,
         shouldDirty: true,
       });
@@ -49,20 +49,20 @@ export function Night() {
       description="Mark the goals you dedicated Willpower to and completed today."
       scoreSection={
         <div className="flex items-center">
-          <StepScoreDisplay items={greatToday ?? []} scoreName="Motivation" />
-          {howGreatToday.length + 1 <= 1 ? (
+          <StepScoreDisplay items={day ?? []} scoreName="Motivation" />
+          {night.length + 1 <= 1 ? (
             <></>
           ) : (
             <span className="text-green-500 flex items-center">
               <span className="ml-2 mr-[2px] text-2xl">x</span>
-              {howGreatToday.length + 1}
+              {night.length + 1}
             </span>
           )}
         </div>
       }
     >
       <ol className="list-decimal py-2 mt-2 mx-4 space-y-3">
-        {greatToday.map((item, index) => (
+        {day.map((item, index) => (
           <li key={index} className="flex w-full">
             <div className="inline-flex text-base flex-grow w-[90%]">
               {/* <div className="w-1/6">

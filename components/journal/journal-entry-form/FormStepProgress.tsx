@@ -15,12 +15,13 @@ type FormStepProgressProps = {
   currentStepType: string;
   handleStepChange: (stepType: string) => void;
   progressPercentage: number;
-  greatTodayCount: number;
+  //Step count
+  dayCount: number;
   dailyGoalsCompleted: number;
-  gratefulForCount: number;
-  dailyHighlightsCount: number;
+  gratitudeCount: number;
+  highlightsCount: number;
+  reflectionCount: number;
   habitActionsCount: number;
-  learnedTodayCount: number;
 };
 
 export function FormStepProgress({
@@ -28,27 +29,29 @@ export function FormStepProgress({
   currentStepType,
   handleStepChange,
   progressPercentage,
-  greatTodayCount,
+  //Step counts
+  dayCount,
   dailyGoalsCompleted,
-  gratefulForCount,
-  dailyHighlightsCount,
+  gratitudeCount,
+  highlightsCount,
+  reflectionCount,
   habitActionsCount,
-  learnedTodayCount,
 }: FormStepProgressProps) {
   const getCount = (stepType: string): number => {
     switch (stepType) {
       case "day":
-        return greatTodayCount;
+        return dayCount;
       case "night":
         return dailyGoalsCompleted;
       case "gratitude":
-        return gratefulForCount;
+        return gratitudeCount;
       case "highlights":
-        return dailyHighlightsCount;
+        return highlightsCount;
+      case "reflection":
+        return reflectionCount;
       case "habits":
         return habitActionsCount;
-      case "reflection":
-        return learnedTodayCount;
+
       default:
         return 0;
     }
