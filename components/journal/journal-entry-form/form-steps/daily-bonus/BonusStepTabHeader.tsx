@@ -1,21 +1,23 @@
 import { Badge } from "@/components/ui/badge";
-import { FaBoltLightning } from "react-icons/fa6";
+// import { FaBoltLightning } from "react-icons/fa6";
 import { getStepStyle } from "@components/ui/constants";
-import { JOURNAL_COLORS } from "@lib/colors";
+// import { JOURNAL_COLORS } from "@lib/colors";
 import type React from "react";
 
 type BonusStepTabHeaderProps = {
   icon: React.ReactNode;
   count: number;
   stepType: string;
-  bonusWillpowerValue: number;
+  // bonusWillpowerValue: number;
+  disciplineScore: React.ReactNode;
 };
 
 export const BonusStepTabHeader = ({
   icon,
   count,
   stepType,
-  bonusWillpowerValue,
+  // bonusWillpowerValue,
+  disciplineScore,
 }: BonusStepTabHeaderProps) => {
   const { bgColor } = getStepStyle(stepType);
   return (
@@ -30,11 +32,9 @@ export const BonusStepTabHeader = ({
         </Badge>
       </div>
 
-      <div className="flex items-center justify-center mt-1">
-        <span className={`text-${JOURNAL_COLORS.night} font-semibold`}>
-          +{bonusWillpowerValue}
-        </span>
-        <FaBoltLightning className="ml-1" />
+      <div className="flex items-center justify-center mt-2">
+        {disciplineScore}
+        {/* <FaBoltLightning className="ml-1" /> */}
       </div>
     </div>
   );
