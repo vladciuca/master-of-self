@@ -15,7 +15,9 @@ interface UserSettingsContextType {
   userSettings: UserSettings;
   userSettingsLoading: boolean;
   userSettingsError: string | null;
-  handleRoutineChange: (step: "gratefulStep" | "reflectionStep") => void;
+  handleRoutineChange: (
+    step: "gratefulStep" | "reflectionStep" | "affirmationsStep"
+  ) => void;
   handleTimeChange: (period: "morning" | "evening", value: string) => void;
 }
 
@@ -26,9 +28,12 @@ const UserSettingsContext = createContext<UserSettingsContextType | undefined>(
 
 // Create a provider component
 export function UserSettingsProvider({ children }: { children: ReactNode }) {
+  const { data: session } = useSession() as { data: Session | null };
+
   const [userSettings, setUserSettings] = useState<UserSettings>({
     steps: {
       gratefulStep: false,
+      affirmationsStep: false,
       reflectionStep: false,
     },
     journalStartTime: {
@@ -40,7 +45,6 @@ export function UserSettingsProvider({ children }: { children: ReactNode }) {
   const [userSettingsError, setUserSettingsError] = useState<string | null>(
     null
   );
-  const { data: session } = useSession() as { data: Session | null };
 
   // Fetch user settings from the server
   useEffect(() => {
@@ -95,7 +99,9 @@ export function UserSettingsProvider({ children }: { children: ReactNode }) {
   };
 
   // Handle routine change
-  const handleRoutineChange = (step: "gratefulStep" | "reflectionStep") => {
+  const handleRoutineChange = (
+    step: "gratefulStep" | "reflectionStep" | "affirmationsStep"
+  ) => {
     const newValue = !userSettings.steps[step];
     updateSetting("steps", {
       ...userSettings.steps,

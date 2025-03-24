@@ -16,6 +16,7 @@ export interface User extends NextAuthUser {
 export type UserSettings = {
   steps: {
     gratefulStep: boolean;
+    affirmationsStep: boolean;
     reflectionStep: boolean;
   };
   journalStartTime: {
@@ -28,6 +29,17 @@ export type UserMetadata = User & UserSettings;
 export interface Session extends NextAuthSession {
   user: User;
 }
+
+// PROFILE TYPES -----------------------------------------------------
+
+export type RoutineStepProps = {
+  icon: React.ReactNode;
+  title: string;
+  description: string;
+  stepKey: "gratefulStep" | "affirmationsStep" | "reflectionStep";
+};
+
+// JOURNAL TYPES -----------------------------------------------------
 
 export type JournalEntryHabitActions = {
   [key: string]: number;
@@ -62,6 +74,8 @@ export type JournalEntryMetadata = JournalEntry & {
   createDate: Date;
   creatorId: string;
 };
+
+// HABIT TYPES ------------------------------------------------------
 
 export type HabitAction = {
   id: string;

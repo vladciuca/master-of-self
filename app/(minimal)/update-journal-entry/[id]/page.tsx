@@ -4,7 +4,7 @@ import { useParams } from "next/navigation";
 import { FormStepController } from "@components/journal/journal-entry-form/FormStepController";
 import { PageLogo } from "@components/PageLogo";
 import { HeaderTitle } from "@components/HeaderTitle";
-import { useUserSettings } from "@hooks/user/useUserSettings";
+import { useUserSettings } from "@context/UserSettingsContext";
 import { useUserHabits } from "@hooks/habits/useUserHabits";
 import { useFetchAndUpdateJournalEntry } from "@hooks/journal/useFetchAndUpdateJournalEntry";
 
@@ -23,6 +23,7 @@ export default function UpdateJournalEntry() {
 
   const userSteps = userSettings?.steps;
   const hasGratitude = userSteps?.gratefulStep;
+  const hasAffirmations = userSteps?.affirmationsStep;
   const hasReflection = userSteps?.reflectionStep;
   const userEveningTime = userSettings?.journalStartTime.evening;
 
@@ -41,6 +42,7 @@ export default function UpdateJournalEntry() {
           onSubmit={updateJournalEntry}
           userEveningTime={userEveningTime}
           hasGratitude={hasGratitude}
+          hasAffirmations={hasAffirmations}
           hasReflection={hasReflection}
           hasHabits={hasHabits}
         />

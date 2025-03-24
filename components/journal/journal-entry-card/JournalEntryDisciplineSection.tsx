@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { JournalEntryDisciplineList } from "@components/journal/journal-entry-card/JournalEntryDisciplineList";
 import {
   stepDisciplines,
@@ -166,12 +166,12 @@ export function JournalEntryDisciplineSection({
           <AccordionItem
             key={stepType}
             value={stepType}
-            className="border rounded-lg overflow-hidden py-0 pl-2 pr-4 mb-0"
+            className="border-none bg-muted/40 rounded-lg overflow-hidden py-0 pl-2 pr-4 mb-0"
           >
             <AccordionTrigger className="hover:no-underline py-2">
               <div className="flex items-center justify-between w-full">
                 <div className="flex items-center gap-3">
-                  <div className="flex items-center justify-center text-primary rounded-full w-10">
+                  <div className="flex items-center justify-center text-primary w-10">
                     {mergeIconProps(IconElement as React.ReactElement, {
                       className: "mb-0",
                     })}
@@ -204,7 +204,7 @@ export function JournalEntryDisciplineSection({
                 </div>
               </div>
             </AccordionTrigger>
-            <AccordionContent className="pb-3 pt-0 px-1">
+            <AccordionContent className="pb-2 pt-0 px-1">
               {renderSections ? (
                 renderSections()
               ) : (

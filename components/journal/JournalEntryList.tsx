@@ -10,7 +10,7 @@ import {
   isSpecificMonthYear,
 } from "@lib/time";
 import type { JournalEntryMetadata } from "@models/types";
-import { useUserSettings } from "@hooks/user/useUserSettings";
+import { useUserSettings } from "@context/UserSettingsContext";
 
 type JournalEntryListProps = {
   journalEntries: JournalEntryMetadata[];
