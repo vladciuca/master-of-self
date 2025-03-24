@@ -87,6 +87,8 @@ export function mergeIconProps(
     // Override with explicit merges
     className,
     // For size, prefer original size if it exists
+    // NOTE: here do we rly want this? or we wanna overwrite with the new props
+    // meaning should be switched around?
     size: originalProps.size || newProps.size,
   };
 

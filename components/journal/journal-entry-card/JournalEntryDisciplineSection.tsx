@@ -68,7 +68,7 @@ export function JournalEntryDisciplineSection({
       stepType: "affirmations",
       score: calculateStepScore(dayEntry?.affirmations || []),
       data: dayEntry?.affirmations || [],
-      title: "Daily Affirmations",
+      title: "I am...",
     },
     {
       stepType: "day",
