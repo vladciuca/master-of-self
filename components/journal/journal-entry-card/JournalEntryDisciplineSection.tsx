@@ -3,6 +3,7 @@ import { JournalEntryDisciplineList } from "@components/journal/journal-entry-ca
 import {
   stepDisciplines,
   stepIconMap,
+  mergeIconProps,
   getStepStyle,
   stepStyles,
 } from "@components/ui/constants";
@@ -62,6 +63,12 @@ export function JournalEntryDisciplineSection({
       score: calculateStepScore(dayEntry?.gratitude || []),
       data: dayEntry?.gratitude || [],
       title: "What I am grateful for today...",
+    },
+    {
+      stepType: "affirmations",
+      score: calculateStepScore(dayEntry?.affirmations || []),
+      data: dayEntry?.affirmations || [],
+      title: "Daily Affirmations",
     },
     {
       stepType: "day",
@@ -164,10 +171,9 @@ export function JournalEntryDisciplineSection({
             <AccordionTrigger className="hover:no-underline py-2">
               <div className="flex items-center justify-between w-full">
                 <div className="flex items-center gap-3">
-                  <div className="flex items-center justify-center text-primary bg-muted rounded-full p-2">
-                    {React.cloneElement(IconElement as React.ReactElement, {
-                      className: "text-lg",
-                      size: "1.2rem",
+                  <div className="flex items-center justify-center text-primary rounded-full w-10">
+                    {mergeIconProps(IconElement as React.ReactElement, {
+                      className: "mb-0",
                     })}
                   </div>
                   <div className="flex flex-col">

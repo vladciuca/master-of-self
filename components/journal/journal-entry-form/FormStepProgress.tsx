@@ -19,6 +19,7 @@ type FormStepProgressProps = {
   dayCount: number;
   dailyGoalsCompleted: number;
   gratitudeCount: number;
+  affirmationsCount: number;
   highlightsCount: number;
   reflectionCount: number;
   habitActionsCount: number;
@@ -33,6 +34,7 @@ export function FormStepProgress({
   dayCount,
   dailyGoalsCompleted,
   gratitudeCount,
+  affirmationsCount,
   highlightsCount,
   reflectionCount,
   habitActionsCount,
@@ -45,6 +47,8 @@ export function FormStepProgress({
         return dailyGoalsCompleted;
       case "gratitude":
         return gratitudeCount;
+      case "affirmations":
+        return affirmationsCount;
       case "highlights":
         return highlightsCount;
       case "reflection":

@@ -40,6 +40,7 @@ export type JournalEntryHabit = {
 export type JournalDayEntry = {
   day?: string[];
   gratitude?: string[];
+  affirmations?: string[];
 };
 
 export type JournalNightEntry = {

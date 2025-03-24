@@ -1,30 +1,30 @@
 import { useFormContext } from "react-hook-form";
 import { FormStepTemplate } from "@components/journal/journal-entry-form/form-steps/FormStepTemplate";
-import { TextAreaList } from "@components/ui/textarea-list";
 import { StepScoreDisplay } from "../StepScoreDisplay";
+import { TextAreaList } from "@components/ui/textarea-list";
 import type { JournalEntry } from "@models/types";
 
-export function Highlights() {
+export function Affirmations() {
   const { watch, setValue } = useFormContext<JournalEntry>();
 
-  const highlights = watch("nightEntry.highlights");
+  const affirmations = watch("dayEntry.affirmations");
 
   const handleTextAreaListChange = (newEntries: string[]) => {
-    setValue("nightEntry.highlights", newEntries, {
+    setValue("dayEntry.affirmations", newEntries, {
       shouldDirty: true,
     });
   };
 
   return (
     <FormStepTemplate
-      title="What are today's highlights?"
-      description="Build momentum by capturing meaningful events and boost tomorrow's Willpower."
+      title="Daily Affirmations"
+      description="Use 'I am...' statements using powerful words and phrases to imprint on your subconscious mind."
       scoreSection={
-        <StepScoreDisplay items={highlights ?? []} scoreName="Awareness" />
+        <StepScoreDisplay items={affirmations ?? []} scoreName="Confidence" />
       }
     >
       <TextAreaList
-        entryList={highlights ?? []}
+        entryList={affirmations ?? []}
         onChange={handleTextAreaListChange}
       />
     </FormStepTemplate>

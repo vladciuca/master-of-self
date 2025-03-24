@@ -9,6 +9,7 @@ import { Bonus } from "@components/journal/journal-entry-form/form-steps/steps/b
 import { Day } from "@components/journal/journal-entry-form/form-steps/steps/Day";
 import { Night } from "@components/journal/journal-entry-form/form-steps/steps/Night";
 import { Gratitude } from "@components/journal/journal-entry-form/form-steps/steps/Gratitude";
+import { Affirmations } from "./form-steps/steps/Affirmations";
 import { Highlights } from "@components/journal/journal-entry-form/form-steps/steps/Highlights";
 import { Reflection } from "@components/journal/journal-entry-form/form-steps/steps/Reflection";
 import { HabitActionsStep } from "@components/journal/journal-entry-form/form-steps/steps/HabitActionsStep";
@@ -55,6 +56,7 @@ export function FormStepController({
       dayEntry: {
         day: journalEntryData?.dayEntry?.day || [],
         gratitude: journalEntryData?.dayEntry?.gratitude || [],
+        affirmations: journalEntryData?.dayEntry?.affirmations || [],
       },
       nightEntry: {
         night: journalEntryData?.nightEntry?.night || [],
@@ -73,13 +75,19 @@ export function FormStepController({
   // This is why we must set a fallback value to be able to use in isAvailable step condition
   const day = watch("dayEntry.day") || [];
   const gratitude = watch("dayEntry.gratitude");
+  const affirmations = watch("dayEntry.affirmations");
 
   // Get daily WP form day step forms
   //NOTE: for the new system this should be refactored in a simple calculation
   const calculateDailyWillpower = useCallback(
-    (dayList: string[], gratitudeList: string[]) => {
+    (
+      dayList: string[],
+      gratitudeList: string[],
+      affirmationsList: string[]
+    ) => {
       const dayScore = calculateWillpowerScore(dayList || []);
       const gratitudeScore = calculateWillpowerScore(gratitudeList || []);
+      const affirmationsScore = calculateWillpowerScore(affirmationsList || []);
       //NOTE: the multiplier here is not applied to yday entry when calculating WP
       // when this becomes a constant multiply var should be added in the function itself
       return Math.floor((dayScore + gratitudeScore) * 1.5);
@@ -99,6 +107,10 @@ export function FormStepController({
         setValue(
           "dayEntry.gratitude",
           journalEntryData.dayEntry.gratitude || []
+        );
+        setValue(
+          "dayEntry.gratitude",
+          journalEntryData.dayEntry.affirmations || []
         );
       }
 
@@ -122,9 +134,13 @@ export function FormStepController({
 
   // Update willpower when relevant fields change
   useEffect(() => {
-    const willpower = calculateDailyWillpower(day || [], gratitude || []);
+    const willpower = calculateDailyWillpower(
+      day || [],
+      gratitude || [],
+      affirmations || []
+    );
     setValue("dailyWillpower", willpower);
-  }, [day, gratitude, calculateDailyWillpower, setValue]);
+  }, [day, gratitude, affirmations, calculateDailyWillpower, setValue]);
 
   const formSteps = useMemo(
     () => [
@@ -145,6 +161,13 @@ export function FormStepController({
         type: "day",
         component: <Day />,
         isAvailable: SHOW_ALL_TEST || !isEvening(userEveningTime),
+      },
+      {
+        type: "affirmations",
+        component: <Affirmations />,
+        isAvailable: SHOW_ALL_TEST || !isEvening(userEveningTime),
+        // NOTE: need to ad affirmations flag to the user obj
+        // && hasAffirmations
       },
       {
         type: "night",
@@ -293,6 +316,7 @@ export function FormStepController({
             watch("nightEntry.night")
           )}
           gratitudeCount={watch("dayEntry.gratitude")?.length || 0}
+          affirmationsCount={watch("dayEntry.affirmations")?.length || 0}
           highlightsCount={watch("nightEntry.highlights")?.length || 0}
           reflectionCount={watch("nightEntry.reflection")?.length || 0}
           habitActionsCount={countNonZeroValues(habitXpValues)}
