@@ -47,8 +47,8 @@ export async function updateUserSettings(
   id: string,
   updateData: {
     steps?: {
-      gratefulStep?: boolean;
-      reflectionStep?: boolean;
+      gratitude?: boolean;
+      reflection?: boolean;
     };
     journalStartTime?: {
       morning?: string;

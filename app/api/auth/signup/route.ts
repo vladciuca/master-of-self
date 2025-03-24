@@ -26,8 +26,8 @@ import { NextResponse } from "next/server";
 //       name,
 //       settings: {
 //         steps: {
-//           gratefulStep: false,
-//           reflectionStep: false,
+//           gratitude: false,
+//           reflection: false,
 //         },
 //         journalStartTime: {
 //           morning: "08:00",

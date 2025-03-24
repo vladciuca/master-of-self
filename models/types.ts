@@ -15,9 +15,9 @@ export interface User extends NextAuthUser {
 
 export type UserSettings = {
   steps: {
-    gratefulStep: boolean;
-    affirmationsStep: boolean;
-    reflectionStep: boolean;
+    gratitude: boolean;
+    affirmations: boolean;
+    reflection: boolean;
   };
   journalStartTime: {
     morning: string;
@@ -33,10 +33,10 @@ export interface Session extends NextAuthSession {
 // PROFILE TYPES -----------------------------------------------------
 
 export type RoutineStepProps = {
-  icon: React.ReactNode;
+  icon: React.ReactElement;
   title: string;
   description: string;
-  stepKey: "gratefulStep" | "affirmationsStep" | "reflectionStep";
+  stepKey: "gratitude" | "affirmations" | "reflection";
 };
 
 // JOURNAL TYPES -----------------------------------------------------

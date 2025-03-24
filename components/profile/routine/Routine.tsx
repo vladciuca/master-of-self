@@ -1,37 +1,40 @@
 "use client";
 
+import React from "react";
 import { RoutineStep } from "./RoutineStep";
 import { Card, CardDescription, CardTitle } from "@components/ui/card";
-import {
-  GiPrayer,
-  GiAura,
-  GiBackup,
-  // GiPlayerTime
-} from "react-icons/gi";
+import { stepIconMap, mergeIconProps } from "@components/ui/constants";
 import { RoutineStepProps } from "@models/types";
 
 export function Routine() {
   const routineSteps: RoutineStepProps[] = [
     {
-      icon: <GiPrayer size={"2.7rem"} />,
+      icon: mergeIconProps(stepIconMap.gratitude as React.ReactElement, {
+        size: "2.5rem",
+      }),
       title: "Gratitude",
       description:
         "Unlock this step in your daily morning routine to gain Positivity.",
-      stepKey: "gratefulStep",
+      stepKey: "gratitude",
     },
     {
-      icon: <GiAura size={"3.5rem"} />,
+      icon: mergeIconProps(stepIconMap.affirmations as React.ReactElement, {
+        className: "mb-0",
+        size: "3.2rem",
+      }),
       title: "Affirmations",
       description:
         "Unlock this step in your daily morning routine to gain Confidence.",
-      stepKey: "affirmationsStep",
+      stepKey: "affirmations",
     },
     {
-      icon: <GiBackup size={"2.7rem"} />,
+      icon: mergeIconProps(stepIconMap.reflection as React.ReactElement, {
+        size: "2.5rem",
+      }),
       title: "Reflection",
       description:
         "Unlock this step in your daily evening routine to gain Resilience.",
-      stepKey: "reflectionStep",
+      stepKey: "reflection",
     },
   ];
 

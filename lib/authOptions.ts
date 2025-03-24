@@ -47,8 +47,8 @@ export const authOptions: NextAuthOptions = {
           $set: {
             settings: {
               steps: {
-                gratefulStep: false,
-                reflectionStep: false,
+                gratitude: false,
+                reflection: false,
               },
               journalStartTime: {
                 morning: "08:00",

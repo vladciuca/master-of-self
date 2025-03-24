@@ -22,9 +22,9 @@ export default function UpdateJournalEntry() {
   const { hasHabits, habitsLoading } = useUserHabits();
 
   const userSteps = userSettings?.steps;
-  const hasGratitude = userSteps?.gratefulStep;
-  const hasAffirmations = userSteps?.affirmationsStep;
-  const hasReflection = userSteps?.reflectionStep;
+  const hasGratitude = userSteps?.gratitude;
+  const hasAffirmations = userSteps?.affirmations;
+  const hasReflection = userSteps?.reflection;
   const userEveningTime = userSettings?.journalStartTime.evening;
 
   const isLoading =

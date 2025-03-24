@@ -166,7 +166,7 @@ export function JournalEntryDisciplineSection({
           <AccordionItem
             key={stepType}
             value={stepType}
-            className="border-none bg-muted/40 rounded-lg overflow-hidden py-0 pl-2 pr-4 mb-0"
+            className="border-none bg-muted/30 rounded-lg overflow-hidden py-0 pl-2 pr-4 mb-0"
           >
             <AccordionTrigger className="hover:no-underline py-2">
               <div className="flex items-center justify-between w-full">

@@ -16,7 +16,7 @@ interface UserSettingsContextType {
   userSettingsLoading: boolean;
   userSettingsError: string | null;
   handleRoutineChange: (
-    step: "gratefulStep" | "reflectionStep" | "affirmationsStep"
+    step: "gratitude" | "reflection" | "affirmations"
   ) => void;
   handleTimeChange: (period: "morning" | "evening", value: string) => void;
 }
@@ -32,9 +32,9 @@ export function UserSettingsProvider({ children }: { children: ReactNode }) {
 
   const [userSettings, setUserSettings] = useState<UserSettings>({
     steps: {
-      gratefulStep: false,
-      affirmationsStep: false,
-      reflectionStep: false,
+      gratitude: false,
+      affirmations: false,
+      reflection: false,
     },
     journalStartTime: {
       morning: "08:00",
@@ -100,7 +100,7 @@ export function UserSettingsProvider({ children }: { children: ReactNode }) {
 
   // Handle routine change
   const handleRoutineChange = (
-    step: "gratefulStep" | "reflectionStep" | "affirmationsStep"
+    step: "gratitude" | "reflection" | "affirmations"
   ) => {
     const newValue = !userSettings.steps[step];
     updateSetting("steps", {
