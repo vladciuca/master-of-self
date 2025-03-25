@@ -48,7 +48,8 @@ export function Night() {
   return (
     <FormStepTemplate
       title="How great was today?"
-      description="Mark the goals you dedicated Willpower to and completed today."
+      // description="Mark the goals you dedicated Willpower to and completed today."
+      description="Follow through with your daily goals to exponentially increase Motivation."
       scoreSection={
         <div className="flex items-center">
           <StepScoreDisplay items={day ?? []} scoreName="Motivation" />
