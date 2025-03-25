@@ -191,7 +191,12 @@ export async function updateHabitsXpAndActions(
   habitActionUpdates: HabitActionUpdate,
   //NOTE: updates Habits xpData[] for chart
   updateDate: string
-): Promise<{ updatedHabits: Habit[]; status: string }> {
+): Promise<{
+  updatedHabits: Habit[] | null;
+  status: "success" | "no_change";
+  // | "already_updated"
+  error?: string;
+}> {
   try {
     if (!habits) await init();
 
@@ -233,7 +238,7 @@ export async function updateHabitsXpAndActions(
     if (xpBulkOps.length === 0 && actionBulkOps.length === 0) {
       return {
         updatedHabits: [],
-        status: "no_updates_needed",
+        status: "no_change",
       };
     }
 
@@ -279,6 +284,10 @@ export async function updateHabitsXpAndActions(
     };
   } catch (error) {
     console.error("Failed to update habits", error);
-    throw new Error("Failed to update habits");
+    return {
+      updatedHabits: null,
+      status: "no_change",
+      error: "Failed to update user disciplines",
+    };
   }
 }

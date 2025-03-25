@@ -104,17 +104,17 @@ export async function updateUserDisciplines(
     if (!users) await init();
 
     const query = { _id: new ObjectId(userId) };
-    const update: { $set: { [key: string]: any } } = { $set: {} };
+    const update: { $inc: { [key: string]: any } } = { $inc: {} };
 
     // Only update the specified disciplines
     Object.entries(disciplines).forEach(([key, value]) => {
       if (value !== undefined && value !== null) {
-        update.$set[`settings.disciplines.${key}`] = value;
+        update.$inc[`settings.disciplines.${key}`] = value;
       }
     });
 
     // If there's nothing to update, return early
-    if (Object.keys(update.$set).length === 0) {
+    if (Object.keys(update.$inc).length === 0) {
       return {
         user: null,
         status: "no_change",

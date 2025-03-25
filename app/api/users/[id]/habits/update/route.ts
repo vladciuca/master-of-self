@@ -9,7 +9,6 @@ type UpdateHabitsRequestBody = {
   updateDate: string;
 };
 
-// NOTE: This is update habit XP (with data array)
 export async function PATCH(req: NextRequest) {
   try {
     const {
@@ -25,11 +24,15 @@ export async function PATCH(req: NextRequest) {
       );
     }
 
-    const { updatedHabits, status } = await updateHabitsXpAndActions(
+    const { updatedHabits, status, error } = await updateHabitsXpAndActions(
       habitXpUpdates,
       habitActionsUpdates,
       updateDate
     );
+
+    if (error) {
+      return NextResponse.json({ error }, { status: 400 });
+    }
 
     const response = {
       habits: updatedHabits,
@@ -37,11 +40,12 @@ export async function PATCH(req: NextRequest) {
     };
 
     switch (status) {
-      case "already_updated":
-        response.message = "Habits were already updated today";
-        return NextResponse.json(response, { status: 200 });
+      // NOTE: might check after Date if it already exists to return specific error on retry
+      // case "already_updated":
+      //   response.message = "Habits were already updated today";
+      //   return NextResponse.json(response, { status: 200 });
 
-      case "no_updates_needed":
+      case "no_change":
         response.message = "No updates were needed";
         return NextResponse.json(response, { status: 200 });
 
