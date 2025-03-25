@@ -183,35 +183,23 @@ export async function getHabitsIcons(ids: string[]): Promise<{
   }
 }
 
-// UPDATE HABIT XP - [received an array and modified an object with the array] ==================
-// UPDATE HABIT ACTION VALUES ===================================================================
-// COMBINED UPDATE HABIT XP AND ACTIONS =========================================================
+// UPDATE HABIT =================================================================================
 export async function updateHabitsXpAndActions(
-  // userId: string,
+  //NOTE: updates habits XP
   habitXpUpdates: HabitUpdate[],
+  //NOTE: updates Habit Action Values
   habitActionUpdates: HabitActionUpdate,
+  //NOTE: updates Habits xpData[] for chart
   updateDate: string
 ): Promise<{ updatedHabits: Habit[]; status: string }> {
   try {
     if (!habits) await init();
-    // if (!habits || !users) await init();
-
-    // // Fetch the user's lastUpdateTime
-    // const user = await users.findOne({ _id: new ObjectId(userId) });
-    // const lastUpdateTime = user?.lastUpdateTime;
-
-    // // Check if the update should proceed
-    // if (lastUpdateTime && lastUpdateTime === updateDate) {
-    //   return {
-    //     updatedHabits: [],
-    //     status: "already_updated",
-    //   };
-    // }
 
     const date = new Date(updateDate).toISOString().slice(0, 10);
 
     // Prepare XP update operations
     const xpBulkOps = habitXpUpdates.map(([id, xp]) => {
+      //NOTE: xp chart data
       const xpData: XpData = [date, xp];
       return {
         updateOne: {
@@ -268,12 +256,6 @@ export async function updateHabitsXpAndActions(
         `Expected ${totalExpectedUpdates} updates, but ${result.modifiedCount} were modified.`
       );
     }
-
-    // Update the user's lastUpdateTime
-    // await users.updateOne(
-    //   { _id: new ObjectId(userId) },
-    //   { $set: { lastUpdateTime: updateDate } }
-    // );
 
     // Get all updated habits using a simple object to deduplicate IDs
     const xpHabitIds = habitXpUpdates.map(([id]) => id);

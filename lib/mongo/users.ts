@@ -92,38 +92,6 @@ export async function updateUserSettings(
 }
 
 // UPDATE USER DISCIPLINES =====================================================================
-// export async function updateUserDisciplines(
-//   id: string,
-//   disciplines: UserDisciplines
-// ): Promise<{
-//   user: User | null;
-//   error?: string;
-// }> {
-//   try {
-//     if (!users) await init();
-//     const query = { _id: new ObjectId(id) };
-//     const update: { $set: { [key: string]: any } } = { $set: {} };
-
-//     // Only update the specified disciplines
-//     Object.entries(disciplines).forEach(([key, value]) => {
-//       update.$set[`settings.disciplines.${key}`] = value;
-//     });
-
-//     const result = await users.findOneAndUpdate(query, update, {
-//       returnDocument: "after",
-//     });
-
-//     if (!result) {
-//       throw new Error("User not found");
-//     }
-
-//     return { user: result };
-//   } catch (error) {
-//     console.error("Error updating disciplines:", error);
-//     return { user: null, error: "Failed to update user disciplines" };
-//   }
-// }
-
 export async function updateUserDisciplines(
   userId: string,
   disciplines: UserDisciplines

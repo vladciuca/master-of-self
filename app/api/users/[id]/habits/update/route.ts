@@ -13,13 +13,12 @@ type UpdateHabitsRequestBody = {
 export async function PATCH(req: NextRequest) {
   try {
     const {
-      userId,
       habitXpUpdates,
       habitActionsUpdates,
       updateDate,
     }: UpdateHabitsRequestBody = await req.json();
 
-    if (!userId || !habitXpUpdates || !habitActionsUpdates || !updateDate) {
+    if (!habitXpUpdates || !habitActionsUpdates || !updateDate) {
       return NextResponse.json(
         { error: "Missing required fields" },
         { status: 400 }
@@ -27,7 +26,6 @@ export async function PATCH(req: NextRequest) {
     }
 
     const { updatedHabits, status } = await updateHabitsXpAndActions(
-      // userId,
       habitXpUpdates,
       habitActionsUpdates,
       updateDate

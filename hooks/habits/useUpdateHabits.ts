@@ -13,11 +13,10 @@ export function useUpdateHabits() {
   const { data: session } = useSession() as { data: Session | null };
 
   //NOTE: names here can be a little confusing vs submittingHabitUpdate (for a single habit)
-  const [submittingUserHabitsUpdate, setSubmittingUserHabitsUpdate] =
-    useState(false);
-  const [updateUserHabitsError, setUpdateUserHabitsError] = useState<
-    string | null
-  >(null);
+  const [submittingHabitsUpdate, setSubmittingHabitsUpdate] = useState(false);
+  const [updateHabitsError, setUpdateHabitsError] = useState<string | null>(
+    null
+  );
 
   const abortControllerRef = useRef<AbortController | null>(null);
 
@@ -45,8 +44,8 @@ export function useUpdateHabits() {
     abortControllerRef.current = new AbortController();
     const { signal } = abortControllerRef.current;
 
-    setSubmittingUserHabitsUpdate(true);
-    setUpdateUserHabitsError(null);
+    setSubmittingHabitsUpdate(true);
+    setUpdateHabitsError(null);
 
     try {
       const payload = {
@@ -83,16 +82,16 @@ export function useUpdateHabits() {
       }
 
       console.error("Error updating habits:", error);
-      setUpdateUserHabitsError("Failed to update habit XP");
+      setUpdateHabitsError("Failed to update habit XP");
       throw error;
     } finally {
       // Unlike GET requests, there’s no risk of an inconsistent UI caused by setting submitting = false after an abort.
       // NOTE: added it for consistency, might remove it in the future
       if (!signal.aborted) {
-        setSubmittingUserHabitsUpdate(false);
+        setSubmittingHabitsUpdate(false);
       }
     }
   };
 
-  return { updateHabits, submittingUserHabitsUpdate, updateUserHabitsError };
+  return { updateHabits, submittingHabitsUpdate, updateHabitsError };
 }

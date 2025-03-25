@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { useSession } from "next-auth/react";
 import { useYesterdayJournalEntry } from "./useYesterdayJournalEntry";
 import { useLastJournalEntry } from "./useLastJournalEntry";
-import { useUpdateHabits } from "@hooks/habits/useUpdateUserHabits";
+import { useUpdateHabits } from "@hooks/habits/useUpdateHabits";
 import { useUpdateDisciplines } from "@hooks/user/useUpdateDisciplines";
 import { useUserHabits } from "@hooks/habits/useUserHabits";
 import { getToday } from "@lib/time";
@@ -31,7 +31,7 @@ export function useCreateJournalEntry() {
     habitsError,
   } = useUserHabits();
 
-  const { updateHabits, submittingUserHabitsUpdate, updateUserHabitsError } =
+  const { updateHabits, submittingHabitsUpdate, updateHabitsError } =
     useUpdateHabits();
   const {
     updateDisciplines,
@@ -61,7 +61,7 @@ export function useCreateJournalEntry() {
       yesterdayEntryLoading ||
       habitsLoading ||
       lastEntryLoading ||
-      submittingUserHabitsUpdate ||
+      submittingHabitsUpdate ||
       submittingDisciplinesUpdate
     ) {
       console.warn("Waiting for all dependent hooks to finish loading...");
@@ -73,7 +73,7 @@ export function useCreateJournalEntry() {
       yesterdayEntryError ||
       habitsError ||
       lastEntryError ||
-      updateUserHabitsError ||
+      updateHabitsError ||
       updateDisciplinesError
     ) {
       throw new Error(
@@ -81,7 +81,7 @@ export function useCreateJournalEntry() {
         Yesterday Entry: ${yesterdayEntryError}, 
         Habits: ${habitsError}, 
         Last Entry: ${lastEntryError}, 
-        Update Habits: ${updateUserHabitsError},
+        Update Habits: ${updateHabitsError},
         Update Disciplines: ${updateDisciplinesError}`
       );
     }
