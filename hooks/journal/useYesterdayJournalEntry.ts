@@ -35,11 +35,12 @@ export function useYesterdayJournalEntry() {
     const nightEntry = yesterdayEntry.nightEntry;
 
     // Calculate scores from nightEntry
-    const howGreatToday = calculateWillpowerScore(nightEntry?.night ?? []);
-    const dailyHighlights = calculateWillpowerScore(
-      nightEntry?.highlights ?? []
-    );
-    const learnedToday = calculateWillpowerScore(nightEntry?.reflection ?? []);
+    const howGreatToday =
+      calculateWillpowerScore(nightEntry?.night ?? []) * 1.5;
+    const dailyHighlights =
+      calculateWillpowerScore(nightEntry?.highlights ?? []) * 1.5;
+    const learnedToday =
+      calculateWillpowerScore(nightEntry?.reflection ?? []) * 1.5;
 
     return { howGreatToday, dailyHighlights, learnedToday };
   }, [yesterdayEntry]);
