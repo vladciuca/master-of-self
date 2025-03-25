@@ -9,7 +9,6 @@ import {
   GiEnlightenment,
   GiHazardSign,
 } from "react-icons/gi";
-// import colors from "../../lib/colors";
 import { JOURNAL_COLORS, HABIT_COLORS } from "@lib/colors";
 
 //JOURNAL STEP ICONS
@@ -110,8 +109,6 @@ export type StepStyle = {
 };
 
 export const stepStyles: { [key: string]: StepStyle } = {
-  // CONDITIONAL STEP: active if Night entries form yesterday's journal exist
-  // NOTE* This fallback is for the bonus step
   default: {
     bgColor: `bg-${JOURNAL_COLORS.day}`,
   },
@@ -127,12 +124,6 @@ export const stepStyles: { [key: string]: StepStyle } = {
   day: {
     bgColor: `bg-${JOURNAL_COLORS.day}`,
   },
-  // DAY STEP
-  // Affirmations Step: +confidence points
-  // NOTE* Will be implemented in JOURNAL-REFACTOR
-  // affirmations: {
-  //   bgColor: `bg-${JOURNAL_COLORS.day}`,
-  // },
   night: {
     bgColor: "bg-[linear-gradient(to_right,_#eab308_50%,_#a855f7_50%)]",
     // bgColor: `bg-[linear-gradient(to_right,_${JOURNAL_COLORS.dayHex}_50%,_${JOURNAL_COLORS.nightHex}_50%)]`,
@@ -173,5 +164,3 @@ export const stepStyles: { [key: string]: StepStyle } = {
 export const getStepStyle = (stepType: string): StepStyle => {
   return stepStyles[stepType] || stepStyles.default;
 };
-
-//HABIT ICONS
