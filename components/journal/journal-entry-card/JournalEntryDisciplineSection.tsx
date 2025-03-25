@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { JournalEntryDisciplineList } from "@components/journal/journal-entry-card/JournalEntryDisciplineList";
 import {
   stepDisciplines,
@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/accordion";
 import { X, Plus } from "lucide-react";
 import { calculateStepScore } from "@lib/score";
+import { JOURNAL_COLORS } from "@lib/colors";
 import type { JournalDayEntry, JournalNightEntry } from "@models/types";
 
 type JournalEntryDisciplineSectionProps = {
@@ -189,14 +190,18 @@ export function JournalEntryDisciplineSection({
                   {stepType === "day" &&
                   typeof completedCount === "number" &&
                   completedCount > 0 ? (
-                    <span className="text-lg font-semibold text-green-500 flex items-center">
+                    <span
+                      className={`text-lg font-semibold text-${JOURNAL_COLORS.score} flex items-center`}
+                    >
                       <Plus size={14} />
                       {/*NOTE: we always want to add +1 to this value so that when completing 1 task
                       we always start form multiplying by x2 */}
                       {score} <X size={15} /> {completedCount + 1}
                     </span>
                   ) : (
-                    <span className="text-lg font-semibold text-green-500 flex items-center">
+                    <span
+                      className={`text-lg font-semibold text-${JOURNAL_COLORS.score} flex items-center`}
+                    >
                       <Plus size={14} />
                       {score}
                     </span>

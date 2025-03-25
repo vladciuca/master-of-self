@@ -1,11 +1,13 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { useFormContext } from "react-hook-form";
 import { FormStepTemplate } from "@components/journal/journal-entry-form/form-steps/FormStepTemplate";
 import { StepScoreDisplay } from "../StepScoreDisplay";
 // import { Badge } from "@components/ui/badge";
 import { Checkbox } from "@components/ui/checkbox";
-import { useState, useEffect } from "react";
+import { calculateStepScoreMultiplier } from "@lib/score";
+import { JOURNAL_COLORS } from "@lib/colors";
 import type { JournalEntry } from "@models/types";
 
 export function Night() {
@@ -53,9 +55,9 @@ export function Night() {
           {night.length + 1 <= 1 ? (
             <></>
           ) : (
-            <span className="text-green-500 flex items-center">
+            <span className={`text-${JOURNAL_COLORS.score} flex items-center`}>
               <span className="ml-2 mr-[2px] text-2xl">x</span>
-              {night.length + 1}
+              {calculateStepScoreMultiplier(night)}
             </span>
           )}
         </div>
@@ -80,7 +82,9 @@ export function Night() {
               </div> */}
               <div
                 className={`mr-1 ${
-                  checkedItems[item] ? "text-green-500" : "text-primary"
+                  checkedItems[item]
+                    ? `text-${JOURNAL_COLORS.score}`
+                    : "text-primary"
                 }`}
               >
                 <div className="h-full w-full flex justify-center items-start">

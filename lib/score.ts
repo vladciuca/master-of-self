@@ -64,3 +64,11 @@ export function calculateStepScore(entryList: string[]): number {
     (totalEntries * baseScoreMultiplier + totalLength) / scalingFactor
   );
 }
+
+// NOTE: currently only used in the NIGHT_JOURNAL_STEP for MOTIVATION discipline
+export function calculateStepScoreMultiplier(entryList: string[]): number {
+  //NOTE: this is used so that the multiplication defaults to 1 when [] is empty
+  // and starts from x2 when [] has 1 element
+  const baseMultiplier = 1;
+  return (entryList ?? []).length + baseMultiplier;
+}

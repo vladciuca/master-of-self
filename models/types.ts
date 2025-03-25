@@ -13,12 +13,23 @@ export interface User extends NextAuthUser {
   image?: string | null;
 }
 
+export type UserJournalSteps = {
+  gratitude: boolean;
+  affirmations: boolean;
+  reflection: boolean;
+};
+
+export type UserDisciplines = {
+  positivity?: number;
+  motivation?: number;
+  confidence?: number;
+  awareness?: number;
+  resilience?: number;
+};
+
 export type UserSettings = {
-  steps: {
-    gratitude: boolean;
-    affirmations: boolean;
-    reflection: boolean;
-  };
+  steps: UserJournalSteps;
+  disciplines: UserDisciplines;
   journalStartTime: {
     morning: string;
     evening: string;

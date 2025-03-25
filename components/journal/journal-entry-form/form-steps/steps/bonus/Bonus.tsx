@@ -25,7 +25,7 @@ export function Bonus() {
   const stepScore = (items: string[]) => {
     const score = calculateStepScore(items ?? []);
     return (
-      <span className="flex items-center text-green-500">
+      <span className={`flex items-center text-${JOURNAL_COLORS.score}`}>
         <Plus size={10} />
         {score}
       </span>
@@ -44,7 +44,9 @@ export function Bonus() {
           score: (
             <>
               {stepScore(yesterdayEntry?.dayEntry?.day || [])}
-              <span className="flex items-center text-green-500">
+              <span
+                className={`flex items-center text-${JOURNAL_COLORS.score}`}
+              >
                 <X size={10} />
                 {(yesterdayEntry?.nightEntry?.night || []).length + 1}
               </span>
