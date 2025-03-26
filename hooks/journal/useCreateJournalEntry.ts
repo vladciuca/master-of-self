@@ -6,8 +6,12 @@ import { useUpdateHabits } from "@hooks/habits/useUpdateHabits";
 import { useUpdateDisciplines } from "@hooks/user/useUpdateDisciplines";
 import { useUserHabits } from "@hooks/habits/useUserHabits";
 import { getToday } from "@lib/time";
-import { calculateStepScore, calculateStepScoreMultiplier } from "@lib/score";
-import { Session } from "@models/types";
+import {
+  calculateStepScore,
+  calculateStepScoreMultiplier,
+  getDisciplineScoreFromEntry,
+} from "@lib/score";
+import { Session, UserDisciplines } from "@models/types";
 
 export function useCreateJournalEntry() {
   const { data: session } = useSession() as { data: Session | null };
@@ -101,16 +105,20 @@ export function useCreateJournalEntry() {
       const today = getToday();
       const todayDate = today.toISOString().split("T")[0];
 
-      //NOTE: must create disciplines payload here then move into util file
-      const disciplinesPayload = {
-        positivity: calculateStepScore(lastEntry?.dayEntry?.gratitude ?? []),
-        motivation:
-          calculateStepScore(lastEntry?.dayEntry?.day ?? []) *
-          calculateStepScoreMultiplier(lastEntry?.nightEntry?.night ?? []),
-        confidence: calculateStepScore(lastEntry?.dayEntry?.affirmations ?? []),
-        awareness: calculateStepScore(lastEntry?.nightEntry?.highlights ?? []),
-        resilience: calculateStepScore(lastEntry?.nightEntry?.reflection ?? []),
-      };
+      //NOTE: they do not respect the other when saved in DB
+      // const disciplinesPayload = {
+      //   positivity: calculateStepScore(lastEntry?.dayEntry?.gratitude ?? []),
+      //   motivation:
+      //     calculateStepScore(lastEntry?.dayEntry?.day ?? []) *
+      //     calculateStepScoreMultiplier(lastEntry?.nightEntry?.night ?? []),
+      //   confidence: calculateStepScore(lastEntry?.dayEntry?.affirmations ?? []),
+      //   awareness: calculateStepScore(lastEntry?.nightEntry?.highlights ?? []),
+      //   resilience: calculateStepScore(lastEntry?.nightEntry?.reflection ?? []),
+      // };
+
+      const disciplinesPayload: UserDisciplines = lastEntry
+        ? getDisciplineScoreFromEntry(lastEntry)
+        : {};
 
       // NOTE: Must NOT create entry before updating the Habits XP
       // Parallel API updates

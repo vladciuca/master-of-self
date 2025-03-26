@@ -6,6 +6,7 @@ import React, {
   useState,
   useEffect,
   useRef,
+  useCallback,
   type ReactNode,
 } from "react";
 import { useSession } from "next-auth/react";
@@ -20,6 +21,7 @@ interface UserSettingsContextType {
     step: "gratitude" | "reflection" | "affirmations"
   ) => void;
   handleTimeChange: (period: "morning" | "evening", value: string) => void;
+  refetchUserSettings: () => void;
 }
 
 // Create the context
@@ -67,9 +69,65 @@ export function UserSettingsProvider({ children }: { children: ReactNode }) {
     };
   }, []);
 
-  // Fetch user settings from the server
-  useEffect(() => {
-    //NOTE: here should I move this stuff at before the try or after
+  // // Fetch user settings from the server
+  // useEffect(() => {
+  //   //NOTE: here should I move this stuff at before the try or after
+  //   if (!session?.user?.id) return;
+
+  //   // Cancel any in-progress fetch
+  //   if (fetchAbortControllerRef.current) {
+  //     fetchAbortControllerRef.current.abort();
+  //     fetchAbortControllerRef.current = null;
+  //   }
+
+  //   // Create a new AbortController for this fetch
+  //   fetchAbortControllerRef.current = new AbortController();
+  //   const { signal } = fetchAbortControllerRef.current;
+
+  //   setUserSettingsError(null);
+  //   setUserSettingsLoading(true);
+
+  //   const fetchUserSettings = async () => {
+  //     try {
+  //       const response = await fetch(`/api/users/${session.user.id}/settings`, {
+  //         signal,
+  //       });
+
+  //       if (signal.aborted) return;
+
+  //       if (!response.ok) {
+  //         throw new Error("Failed to fetch user settings");
+  //       }
+
+  //       const { settings } = await response.json();
+  //       setUserSettings(settings);
+  //     } catch (error) {
+  //       // Only set error if it's not an abort error
+  //       if (error instanceof Error && error.name !== "AbortError") {
+  //         console.error("Failed to fetch user settings", error);
+  //         setUserSettingsError("Failed to fetch user settings");
+  //       }
+  //     } finally {
+  //       // Only update loading state if the request wasn't aborted
+  //       if (!signal.aborted) {
+  //         setUserSettingsLoading(false);
+  //       }
+  //     }
+  //   };
+
+  //   fetchUserSettings();
+
+  //   // Cleanup function
+  //   return () => {
+  //     if (fetchAbortControllerRef.current) {
+  //       fetchAbortControllerRef.current.abort();
+  //       fetchAbortControllerRef.current = null;
+  //     }
+  //   };
+  // }, [session?.user?.id]);
+
+  // NOTE: Extracted the fetch function in a useCallback to be able to call a refetch
+  const fetchUserSettings = useCallback(async () => {
     if (!session?.user?.id) return;
 
     // Cancel any in-progress fetch
@@ -85,44 +143,37 @@ export function UserSettingsProvider({ children }: { children: ReactNode }) {
     setUserSettingsError(null);
     setUserSettingsLoading(true);
 
-    const fetchUserSettings = async () => {
-      try {
-        const response = await fetch(`/api/users/${session.user.id}/settings`, {
-          signal,
-        });
+    try {
+      const response = await fetch(`/api/users/${session.user.id}/settings`, {
+        signal,
+      });
 
-        if (signal.aborted) return;
+      if (signal.aborted) return;
 
-        if (!response.ok) {
-          throw new Error("Failed to fetch user settings");
-        }
-
-        const { settings } = await response.json();
-        setUserSettings(settings);
-      } catch (error) {
-        // Only set error if it's not an abort error
-        if (error instanceof Error && error.name !== "AbortError") {
-          console.error("Failed to fetch user settings", error);
-          setUserSettingsError("Failed to fetch user settings");
-        }
-      } finally {
-        // Only update loading state if the request wasn't aborted
-        if (!signal.aborted) {
-          setUserSettingsLoading(false);
-        }
+      if (!response.ok) {
+        throw new Error("Failed to fetch user settings");
       }
-    };
 
-    fetchUserSettings();
-
-    // Cleanup function
-    return () => {
-      if (fetchAbortControllerRef.current) {
-        fetchAbortControllerRef.current.abort();
-        fetchAbortControllerRef.current = null;
+      const { settings } = await response.json();
+      setUserSettings(settings);
+    } catch (error) {
+      // Only set error if it's not an abort error
+      if (error instanceof Error && error.name !== "AbortError") {
+        console.error("Failed to fetch user settings", error);
+        setUserSettingsError("Failed to fetch user settings");
       }
-    };
+    } finally {
+      // Only update loading state if the request wasn't aborted
+      if (!signal.aborted) {
+        setUserSettingsLoading(false);
+      }
+    }
   }, [session?.user?.id]);
+
+  // Existing useEffect for initial fetch
+  useEffect(() => {
+    fetchUserSettings();
+  }, [fetchUserSettings]);
 
   // Update a specific setting
   // NOTE: add proper values here
@@ -199,6 +250,7 @@ export function UserSettingsProvider({ children }: { children: ReactNode }) {
     userSettingsError,
     handleRoutineChange,
     handleTimeChange,
+    refetchUserSettings: fetchUserSettings,
   };
 
   // Provide the context to children components

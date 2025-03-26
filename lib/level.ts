@@ -1,5 +1,30 @@
 import { HABIT_TIER_COLORS } from "@lib/colors";
 
+// XP for Discipline
+export function xpForDisciplineLevel(level: number) {
+  let baseXP = 0;
+  let xpRequired = 25;
+
+  for (let i = 1; i < level; i++) {
+    baseXP += xpRequired;
+    xpRequired += 50;
+  }
+
+  return { baseXP, nextLevelXP: baseXP + xpRequired };
+}
+
+export function calculateDisciplineLevel(xp: number) {
+  let level = 1;
+
+  while (true) {
+    const { nextLevelXP } = xpForDisciplineLevel(level);
+    if (xp < nextLevelXP) {
+      return level;
+    }
+    level++;
+  }
+}
+
 // XP FOR CHAR
 export function xpForLevel(level: number) {
   let baseXP = 0;

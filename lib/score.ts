@@ -1,4 +1,5 @@
 import { HABIT_COLORS } from "@lib/colors";
+import type { JournalEntry, UserDisciplines } from "@models/types";
 
 // JOURNAL
 export function calculateWillpowerScore(stringArray: string[]): number {
@@ -71,4 +72,20 @@ export function calculateStepScoreMultiplier(entryList: string[]): number {
   // and starts from x2 when [] has 1 element
   const baseMultiplier = 1;
   return (entryList ?? []).length + baseMultiplier;
+}
+
+export function getDisciplineScoreFromEntry(
+  entry: JournalEntry | null | undefined
+): UserDisciplines {
+  if (!entry) return {};
+
+  return {
+    positivity: calculateStepScore(entry?.dayEntry?.gratitude ?? []),
+    motivation:
+      calculateStepScore(entry?.dayEntry?.day ?? []) *
+      calculateStepScoreMultiplier(entry?.nightEntry?.night ?? []),
+    confidence: calculateStepScore(entry?.dayEntry?.affirmations ?? []),
+    awareness: calculateStepScore(entry?.nightEntry?.highlights ?? []),
+    resilience: calculateStepScore(entry?.nightEntry?.reflection ?? []),
+  };
 }
