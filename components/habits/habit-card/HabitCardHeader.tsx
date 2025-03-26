@@ -1,6 +1,6 @@
 import { IconRenderer } from "@components/IconRenderer";
 import { ActionIcon } from "@components/habits/habit-actions/HabitActionIcons";
-import { HabitLevelIndicator } from "@components/habits/HabitLevelIndicator";
+import { LevelIndicator } from "@components/ui/level-indicator";
 import { CircularProgress } from "@components/ui/circular-progress";
 import { XpDisplay } from "@components/ui/xp-display";
 import { calculateHabitLevel, xpForHabitLevel } from "@lib/level";
@@ -72,6 +72,7 @@ export function HabitCardHeader({
   const level = calculateHabitLevel(xpGain);
   const currentLevel = calculateHabitLevel(lastEntryXp);
   const { baseXP, nextLevelXP } = xpForHabitLevel(level);
+
   const currentProgressPercentage = Math.min(
     ((lastEntryXp - baseXP) / (nextLevelXP - baseXP)) * 100,
     100
@@ -104,7 +105,7 @@ export function HabitCardHeader({
               <span className="ml-1 flex items-center text-primary">
                 {level}
               </span>
-              <HabitLevelIndicator currentLevel={currentLevel} level={level} />
+              <LevelIndicator currentLevel={currentLevel} level={level} />
             </div>
             <span className="mx-1 text-muted text-lg">|</span>
             <div className="font-normal text-xs text-muted-foreground">

@@ -50,50 +50,16 @@ export function Disciplines() {
         {Object.entries(disciplines || {})
           //   .filter(([_, value]) => value > 0) //filter out XP bars with 0 value
           .map(([key, value]) => {
+            const xp = value;
             const projectedXp = disciplinesProjectedXp[key] ?? 0;
-
-            // const effectiveXP = !todayEntry ? value + projectedXp : value;
-            const effectiveXP = todayEntry ? value : value + projectedXp;
-
-            // Calculate XP and level based on effective XP
-            const currentLevel = calculateDisciplineLevel(effectiveXP);
-            const { baseXP, nextLevelXP } = xpForDisciplineLevel(currentLevel);
-
-            // Calculate XP within the current level
-            const currentLevelXP = effectiveXP - baseXP;
-            const xpNeededForCurrentLevel = nextLevelXP - baseXP;
-
-            // const xpGain = !todayEntry ? 0 : projectedXp;
-            const xpGain = todayEntry ? projectedXp : 0;
 
             return (
               <div key={key} className="flex flex-col items-start">
-                <div className="flex items-baseline justify-between w-full mt-1">
-                  <h2 className="text-lg font-semibold capitalize mb-1">
-                    {key}
-                  </h2>
-
-                  {todayEntry && projectedXp > 0 && (
-                    <span className="text-lg font-semibold text-green-500">
-                      +{projectedXp}
-                    </span>
-                  )}
-                </div>
-
                 <DisciplineLevelBar
-                  currentXP={currentLevelXP}
-                  nextLevelXP={xpNeededForCurrentLevel}
-                  xpGain={xpGain}
+                  xp={xp}
+                  projectedXp={projectedXp}
+                  name={key}
                 />
-                <div className="flex items-baseline justify-between w-full mt-2">
-                  <span className="text-muted-foreground text-sm font-bold">
-                    Level {currentLevel}
-                  </span>
-
-                  <span className="text-muted-foreground text-sm font-bold">
-                    {currentLevelXP + projectedXp}/{xpNeededForCurrentLevel}
-                  </span>
-                </div>
               </div>
             );
           })}

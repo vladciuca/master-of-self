@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { HabitIconProgressBar } from "@components/habits/HabitIconProgressBar";
-import { HabitLevelIndicator } from "@components/habits/HabitLevelIndicator";
+import { LevelIndicator } from "@components/ui/level-indicator";
 import { HabitAction } from "@components/habits/habit-actions/HabitAction";
 import {
   Drawer,
@@ -170,10 +170,7 @@ export function HabitActions({
               Level
               <span className="text-primary ml-1 flex items-center">
                 {level}
-                <HabitLevelIndicator
-                  currentLevel={currentLevel}
-                  level={level}
-                />
+                <LevelIndicator currentLevel={currentLevel} level={level} />
               </span>
             </span>
             <span className="mx-1 text-muted text-lg">|</span>
