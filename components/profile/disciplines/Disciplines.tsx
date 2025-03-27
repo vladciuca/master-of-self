@@ -78,7 +78,7 @@ export function Disciplines() {
         ) : (
           <>
             {Object.entries(disciplines || {})
-              //   .filter(([_, value]) => value > 0) //filter out XP bars with 0 value
+              .filter(([key, value]) => value > 0 || key === "motivation") //filter out XP bars with 0 value
               .map(([key, value]) => {
                 let xp = value;
                 //last entry -> returns projected XP

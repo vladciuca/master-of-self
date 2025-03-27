@@ -35,12 +35,11 @@ export function useYesterdayJournalEntry() {
     const nightEntry = yesterdayEntry.nightEntry;
 
     // Calculate scores from nightEntry
-    const howGreatToday =
-      calculateWillpowerScore(nightEntry?.night ?? []) * 1.5;
-    const dailyHighlights =
-      calculateWillpowerScore(nightEntry?.highlights ?? []) * 1.5;
-    const learnedToday =
-      calculateWillpowerScore(nightEntry?.reflection ?? []) * 1.5;
+    const howGreatToday = calculateWillpowerScore(nightEntry?.night ?? []);
+    const dailyHighlights = calculateWillpowerScore(
+      nightEntry?.highlights ?? []
+    );
+    const learnedToday = calculateWillpowerScore(nightEntry?.reflection ?? []);
 
     return { howGreatToday, dailyHighlights, learnedToday };
   }, [yesterdayEntry]);
@@ -48,7 +47,7 @@ export function useYesterdayJournalEntry() {
   // Derive bonusWillpower from willpowerScores
   const bonusWillpower = useMemo(() => {
     const { howGreatToday, dailyHighlights, learnedToday } = willpowerScores;
-    return howGreatToday + dailyHighlights + learnedToday;
+    return Math.floor((howGreatToday + dailyHighlights + learnedToday) * 1.5);
   }, [willpowerScores]);
 
   useEffect(() => {

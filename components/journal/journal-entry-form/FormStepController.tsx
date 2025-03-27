@@ -21,7 +21,7 @@ import { calculateWillpowerScore } from "@lib/score";
 import { calculateHabitsXpFromEntry } from "@lib/level";
 
 // TEST_FLAG: used for enabling all forms steps
-const SHOW_ALL_TEST = true;
+const SHOW_ALL_TEST = false;
 
 type FormStepControllerProps = {
   submitting: boolean;
@@ -53,19 +53,19 @@ export function FormStepController({
   // Initialize React Hook Form with default values
   const methods = useForm<JournalEntry>({
     defaultValues: {
-      dailyWillpower: journalEntryData?.dailyWillpower || 0,
-      bonusWillpower: journalEntryData?.bonusWillpower || 0,
+      dailyWillpower: journalEntryData?.dailyWillpower ?? 0,
+      bonusWillpower: journalEntryData?.bonusWillpower ?? 0,
       dayEntry: {
-        day: journalEntryData?.dayEntry?.day || [],
-        gratitude: journalEntryData?.dayEntry?.gratitude || [],
-        affirmations: journalEntryData?.dayEntry?.affirmations || [],
+        day: journalEntryData?.dayEntry?.day ?? [],
+        gratitude: journalEntryData?.dayEntry?.gratitude ?? [],
+        affirmations: journalEntryData?.dayEntry?.affirmations ?? [],
       },
       nightEntry: {
-        night: journalEntryData?.nightEntry?.night || [],
-        highlights: journalEntryData?.nightEntry?.highlights || [],
-        reflection: journalEntryData?.nightEntry?.reflection || [],
+        night: journalEntryData?.nightEntry?.night ?? [],
+        highlights: journalEntryData?.nightEntry?.highlights ?? [],
+        reflection: journalEntryData?.nightEntry?.reflection ?? [],
       },
-      habits: journalEntryData?.habits || {},
+      habits: journalEntryData?.habits ?? {},
     },
   });
 
@@ -87,12 +87,12 @@ export function FormStepController({
       gratitudeList: string[],
       affirmationsList: string[]
     ) => {
-      const dayScore = calculateWillpowerScore(dayList || []);
-      const gratitudeScore = calculateWillpowerScore(gratitudeList || []);
-      const affirmationsScore = calculateWillpowerScore(affirmationsList || []);
+      const dayScore = calculateWillpowerScore(dayList ?? []);
+      const gratitudeScore = calculateWillpowerScore(gratitudeList ?? []);
+      const affirmationsScore = calculateWillpowerScore(affirmationsList ?? []);
       //NOTE: the multiplier here is not applied to yday entry when calculating WP
       // when this becomes a constant multiply var should be added in the function itself
-      return Math.floor((dayScore + gratitudeScore) * 1.5);
+      return Math.floor((dayScore + gratitudeScore + affirmationsScore) * 1.5);
     },
     []
   );
@@ -101,35 +101,35 @@ export function FormStepController({
   useEffect(() => {
     if (journalEntryData) {
       // Update all form fields with new data
-      setValue("dailyWillpower", journalEntryData.dailyWillpower || 0);
-      setValue("bonusWillpower", journalEntryData.bonusWillpower || 0);
+      setValue("dailyWillpower", journalEntryData.dailyWillpower ?? 0);
+      setValue("bonusWillpower", journalEntryData.bonusWillpower ?? 0);
 
       if (journalEntryData.dayEntry) {
-        setValue("dayEntry.day", journalEntryData.dayEntry.day || []);
+        setValue("dayEntry.day", journalEntryData.dayEntry.day ?? []);
         setValue(
           "dayEntry.gratitude",
-          journalEntryData.dayEntry.gratitude || []
+          journalEntryData.dayEntry.gratitude ?? []
         );
         setValue(
-          "dayEntry.gratitude",
-          journalEntryData.dayEntry.affirmations || []
+          "dayEntry.affirmations",
+          journalEntryData.dayEntry.affirmations ?? []
         );
       }
 
       if (journalEntryData.nightEntry) {
-        setValue("nightEntry.night", journalEntryData.nightEntry.night || []);
+        setValue("nightEntry.night", journalEntryData.nightEntry.night ?? []);
         setValue(
           "nightEntry.highlights",
-          journalEntryData.nightEntry.highlights || []
+          journalEntryData.nightEntry.highlights ?? []
         );
         setValue(
           "nightEntry.reflection",
-          journalEntryData.nightEntry.reflection || []
+          journalEntryData.nightEntry.reflection ?? []
         );
       }
 
       if (journalEntryData.habits) {
-        setValue("habits", journalEntryData.habits);
+        setValue("habits", journalEntryData.habits ?? {});
       }
     }
   }, [journalEntryData, setValue]);
