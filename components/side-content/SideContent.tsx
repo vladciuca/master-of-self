@@ -2,12 +2,23 @@
 
 import { useState } from "react";
 import { LandingPage } from "./landing-page/LandingPage";
+import { JournalPage } from "./journal-page/JournalPage";
 import { Button } from "@components/ui/button";
 import { FaEye } from "react-icons/fa";
+import {
+  // GiSpellBook,
+  GiBookCover,
+} from "react-icons/gi";
 import { useSideContent } from "@context/SideContentContext";
 
 const tabs = [
   { id: "landing", icon: FaEye, label: "Vision", component: LandingPage },
+  {
+    id: "journal",
+    icon: GiBookCover,
+    label: "Journal",
+    component: JournalPage,
+  },
   // { id: "vision", icon: FaEye, label: "Vision", component: VisionPage },
   // {
   //   id: "identity",
