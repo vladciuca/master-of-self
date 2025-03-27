@@ -90,9 +90,9 @@ export function BottomNav({ userSettings, userSettingsError }: BottomNavProps) {
   };
 
   const formatTime = (date: Date) => {
-    const hours = date.getUTCHours().toString().padStart(2, "0");
-    const minutes = date.getUTCMinutes().toString().padStart(2, "0");
-    return `${hours}h:${minutes}m`;
+    const hours = date.getUTCHours();
+    const minutes = date.getUTCMinutes();
+    return `${hours}h ${minutes}m`;
   };
 
   const iconClass = "w-8 h-8";
