@@ -9,6 +9,9 @@ export function JournalPage() {
         Journal Disciplines
       </div>
       <div>Steps you engage in journaling award Discipline Points</div>
+      <div>
+        Steps allow you to individually target and track your disciplines
+      </div>
       <MobileScreenBorder>
         <Image
           src="/assets/landing-page/discipline_1.png"

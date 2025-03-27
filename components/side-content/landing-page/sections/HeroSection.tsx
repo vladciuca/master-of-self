@@ -9,14 +9,13 @@ export function HeroSection() {
           They say life is a game
         </span>
 
-        <span className="w-full text-center flex justify-center">
-          <IoGameController size={80} className="mb-8" />
-        </span>
-
         <span className="text-4xl block uppercase font-semibold">
           But how do you play it !?
         </span>
       </motion.h1>
+      <span className="w-full text-center flex justify-center">
+        <IoGameController size={80} className="mt-24" />
+      </span>
     </section>
   );
 }
