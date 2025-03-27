@@ -18,7 +18,7 @@ export function Day() {
   return (
     <FormStepTemplate
       title="What will I do to make today great?"
-      description="Write down meaningful and achievable goals for the day to build motivation and generate Willpower."
+      description="Write down meaningful and achievable goals for the day to build Motivation."
       scoreSection={
         <StepScoreDisplay items={day ?? []} scoreName="Motivation" />
       }

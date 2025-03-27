@@ -106,7 +106,7 @@ export function DisciplineLevelBar({
       />
       <div className="flex items-center justify-between text-muted-foreground text-sm">
         <div className="flex items-center">
-          <span className="mr-1">Level</span>
+          <span className="mr-1">Rank</span>
           {level}
         </div>
         <div>

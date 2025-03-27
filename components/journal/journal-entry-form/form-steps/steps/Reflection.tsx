@@ -18,7 +18,7 @@ export function Reflection() {
   return (
     <FormStepTemplate
       title="What have I learned today?"
-      description="If you could go back in time and change something, what would it be?"
+      description="Reflect on today and gain Resilience. If you could change something what would it be?"
       scoreSection={
         <StepScoreDisplay items={reflection ?? []} scoreName="Resilience" />
       }

@@ -18,7 +18,7 @@ export function Affirmations() {
   return (
     <FormStepTemplate
       title="Daily Affirmations"
-      description="Use 'I am...' statements using powerful words and phrases to imprint on your subconscious mind."
+      description="Use statements using powerful words to imprint on your subconscious mind and build Confidence."
       scoreSection={
         <StepScoreDisplay items={affirmations ?? []} scoreName="Confidence" />
       }

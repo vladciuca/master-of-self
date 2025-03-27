@@ -31,7 +31,7 @@ export function Gratitude() {
   return (
     <FormStepTemplate
       title="What am I feeling grateful for?"
-      description="Use details to describe what you're feeling grateful for and generate Willpower."
+      description="Use details to describe what you're feeling grateful for and increase Positivity."
       scoreSection={
         <StepScoreDisplay items={gratitude ?? []} scoreName="Positivity" />
       }

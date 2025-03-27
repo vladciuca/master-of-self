@@ -1,9 +1,9 @@
 import React from "react";
 import { FaSun, FaMoon, FaStar } from "react-icons/fa6";
 import {
-  GiPrayer,
-  GiBackup,
+  GiHealing,
   // GiPlayerTime, // might be used for REFLECTION STEP in JOURNAL-REFACTOR
+  GiBackup,
   GiAura,
   GiPencilRuler,
   GiEnlightenment,
@@ -21,7 +21,7 @@ export const stepIconMap: StepIconMap = {
   night: <FaMoon size={"1.4rem"} />,
   affirmations: <GiAura size={"1.9rem"} className="mb-1" />,
   highlights: <FaStar size={"1.4rem"} />,
-  gratitude: <GiPrayer size={"1.4rem"} />,
+  gratitude: <GiHealing size={"1.65rem"} className="mb-1" />,
   reflection: <GiBackup size={"1.4rem"} />,
   habits: <GiPencilRuler size={"1.4rem"} />,
   bonus: <GiEnlightenment size={"1.7rem"} />,

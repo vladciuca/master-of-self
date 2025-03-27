@@ -18,7 +18,7 @@ export function Highlights() {
   return (
     <FormStepTemplate
       title="What are today's highlights?"
-      description="Build momentum by capturing meaningful events and boost tomorrow's Willpower."
+      description="Build momentum by capturing meaningful events and boost Awareness."
       scoreSection={
         <StepScoreDisplay items={highlights ?? []} scoreName="Awareness" />
       }
