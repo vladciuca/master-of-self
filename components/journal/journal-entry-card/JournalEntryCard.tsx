@@ -110,7 +110,7 @@ JournalEntryCardProps) {
         </div>
       )}
 
-      {bonusWillpower > 0 && (
+      {/* {bonusWillpower > 0 && (
         <div className="w-full text-muted-foreground">
           <div className="flex items-center">
             <div className="flex items-center">
@@ -124,7 +124,7 @@ JournalEntryCardProps) {
             </div>
           </div>
         </div>
-      )}
+      )} */}
 
       {/* Habit Actions */}
       {habits &&
@@ -134,12 +134,12 @@ JournalEntryCardProps) {
             .some(([_, value]) => value !== 0)
         ) && (
           <div className="flex w-full">
-            <div className="flex-shrink-0 flex items-start mr-4">
+            {/* <div className="flex-shrink-0 flex items-start mr-4">
               <h2 className="flex items-center text-muted-foreground mt-1">
                 <Shell className="mr-2 text-muted-foreground" size={"1rem"} />
                 Habits:
               </h2>
-            </div>
+            </div> */}
             <div className="flex-grow flex flex-wrap items-start">
               <JournalEntryHabits
                 habitsXp={habitsXpFromActions}

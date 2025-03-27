@@ -66,8 +66,8 @@ export function Bonus() {
           stepType: "reflection",
           // bonusWillpowerValue: learnedTodayBonusWillpower,
           title: "What I learned yesterday",
-          items: yesterdayEntry?.nightEntry?.highlights ?? [],
-          score: stepScore(yesterdayEntry?.nightEntry?.highlights || []),
+          items: yesterdayEntry?.nightEntry?.reflection ?? [],
+          score: stepScore(yesterdayEntry?.nightEntry?.reflection || []),
         },
       ].filter((tab) => tab.items.length > 0),
     [
@@ -100,7 +100,7 @@ export function Bonus() {
       scoreSection={
         <>
           <span className={`text-${JOURNAL_COLORS.night} text-bold`}>
-            +{bonusWillpower}
+            {yesterdayEntryLoading ? "??" : `+${bonusWillpower}`}
           </span>
           <FaBoltLightning className="ml-2 text-2xl" />
         </>
