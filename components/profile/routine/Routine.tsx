@@ -10,7 +10,7 @@ export function Routine() {
   const routineSteps: RoutineStepProps[] = [
     {
       icon: mergeIconProps(stepIconMap.gratitude as React.ReactElement, {
-        size: "2.5rem",
+        size: "2rem",
       }),
       title: "Gratitude",
       description:
@@ -20,7 +20,7 @@ export function Routine() {
     {
       icon: mergeIconProps(stepIconMap.affirmations as React.ReactElement, {
         className: "mb-0",
-        size: "3.2rem",
+        size: "2.5rem",
       }),
       title: "Affirmations",
       description:
@@ -29,7 +29,7 @@ export function Routine() {
     },
     {
       icon: mergeIconProps(stepIconMap.reflection as React.ReactElement, {
-        size: "2.5rem",
+        size: "2rem",
       }),
       title: "Reflection",
       description:

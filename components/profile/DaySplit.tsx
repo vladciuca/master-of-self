@@ -148,7 +148,7 @@ export function DaySplit() {
   };
 
   const getInputClassName = (isInvalid: boolean): string => {
-    return `max-w-fit mr-4 transition-all duration-200 ${
+    return `max-w-fit transition-all duration-200 ${
       isInvalid ? `border-${ERROR_COLOR}` : ""
     }`;
   };
@@ -164,12 +164,16 @@ export function DaySplit() {
       <Card>
         <div className="px-4 py-6 flex flex-col w-full space-y-6">
           <div>
-            <div className="flex items-center mb-2">
-              <FaSun className="text-3xl ml-3 mr-6" />
+            <div className="flex items-center mb-2 ml-3">
+              <span className="w-2/12 flex items-center">
+                <FaSun className="text-3xl" />
+              </span>
 
-              <div className="flex items-center justify-between w-full">
+              <span className="flex flex-grow">
                 <Label htmlFor="morning-start">Morning start hour</Label>
+              </span>
 
+              <span className="w-4/12 flex items-center justify-center">
                 <Input
                   type="time"
                   id="morning-start"
@@ -180,16 +184,21 @@ export function DaySplit() {
                   }
                   disabled={userSettingsLoading}
                 />
-              </div>
+              </span>
             </div>
           </div>
 
           <div>
-            <div className="flex items-center">
-              <FaMoon className="text-3xl ml-3 mr-6" />
+            <div className="flex items-center ml-3">
+              <span className="w-2/12 flex items-center">
+                <FaMoon className="text-3xl" />
+              </span>
 
-              <div className="flex items-center justify-between w-full">
+              <span className="flex flex-grow">
                 <Label htmlFor="evening-start">Evening start hour</Label>
+              </span>
+
+              <span className="w-4/12 flex items-center justify-center">
                 <Input
                   type="time"
                   id="evening-start"
@@ -200,7 +209,7 @@ export function DaySplit() {
                   }
                   disabled={userSettingsLoading}
                 />
-              </div>
+              </span>
             </div>
           </div>
           <AnimatePresence mode="wait">
@@ -212,7 +221,6 @@ export function DaySplit() {
                 exit={{ opacity: 0, y: -10 }}
                 transition={{ duration: 0.2 }}
               >
-                {/* // red-500 used as ERROR COLOR */}
                 <p className={`text-${ERROR_COLOR} mt-2 text-sm text-center`}>
                   {errorMessage}.
                 </p>

@@ -24,12 +24,13 @@ export function RoutineStep({
         </div>
       </div>
 
-      <span className="w-1/12"></span>
-      <Switch
-        checked={userSettings.steps[stepKey]}
-        onCheckedChange={() => handleRoutineChange(stepKey)}
-        disabled={userSettingsLoading}
-      />
+      <span className="w-3/12 flex items-center justify-center">
+        <Switch
+          checked={userSettings.steps[stepKey]}
+          onCheckedChange={() => handleRoutineChange(stepKey)}
+          disabled={userSettingsLoading}
+        />
+      </span>
     </div>
   );
 }
