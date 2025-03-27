@@ -38,21 +38,6 @@ export function Disciplines() {
   // Check for any errors
   const hasError = userSettingsError || todayEntryError || lastEntryError;
 
-  // Render error message if any error exists
-  if (hasError) {
-    return (
-      <div>
-        <span>Error:</span>
-        <div>
-          {userSettingsError ||
-            todayEntryError ||
-            lastEntryError ||
-            "There was an error loading your disciplines. Please try again later."}
-        </div>
-      </div>
-    );
-  }
-
   return (
     <div>
       <div className="mx-1 mb-4">
@@ -75,6 +60,16 @@ export function Disciplines() {
               </div>
             ))}
           </>
+        ) : !isLoading && hasError ? (
+          <div>
+            <span>Error:</span>
+            <div>
+              {userSettingsError ||
+                todayEntryError ||
+                lastEntryError ||
+                "There was an error loading your disciplines. Please try again later."}
+            </div>
+          </div>
         ) : (
           <>
             {Object.entries(disciplines || {})
