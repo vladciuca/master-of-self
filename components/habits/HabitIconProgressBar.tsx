@@ -24,7 +24,10 @@ export function HabitIconProgressBar({
   displayXpValues = false,
   displayLevelValues = false,
 }: HabitIconProgressBarProps) {
-  // Calculate XP and level
+  // NOTE: this part is consistent in all progress bars
+  // Should be integrated in util function?
+  // Calculate XP and level_PATTERN
+  // ===============================================================
   const xpGain = xp + projectedXp;
   const level = calculateHabitLevel(xpGain);
   const currentLevel = calculateHabitLevel(xp);
@@ -39,6 +42,7 @@ export function HabitIconProgressBar({
   );
   const xpForCurrentLevel = xpGain - baseXP;
   const xpToLevelUp = nextLevelXP - baseXP;
+  // ===============================================================
 
   const progressBarWidth = displayXpValues ? "[100px]" : "[70px]";
 

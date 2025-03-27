@@ -1,78 +1,92 @@
 import { HABIT_TIER_COLORS } from "@lib/colors";
 
-// XP for Discipline
-export function xpForDisciplineLevel(level: number) {
+// Generic XP calculation functions
+export function xpForLevel(
+  level: number,
+  initialXP: number,
+  increment: number
+) {
   let baseXP = 0;
-  let xpRequired = 25;
+  let xpRequired = initialXP;
 
   for (let i = 1; i < level; i++) {
     baseXP += xpRequired;
-    xpRequired += 50;
+    xpRequired += increment;
   }
 
   return { baseXP, nextLevelXP: baseXP + xpRequired };
+}
+
+export function calculateLevel(
+  xp: number,
+  initialXP: number,
+  increment: number
+) {
+  let level = 1;
+
+  while (true) {
+    const { nextLevelXP } = xpForLevel(level, initialXP, increment);
+    if (xp < nextLevelXP) {
+      return level;
+    }
+    level++;
+  }
+}
+
+// Constants for different entity types
+export const XP_CONFIG = {
+  DISCIPLINE: { initialXP: 25, increment: 25 },
+  CHARACTER: { initialXP: 50, increment: 50 },
+  HABIT: { initialXP: 10, increment: 5 },
+};
+
+// Helper functions to maintain backward compatibility
+export function xpForDisciplineLevel(level: number) {
+  return xpForLevel(
+    level,
+    XP_CONFIG.DISCIPLINE.initialXP,
+    XP_CONFIG.DISCIPLINE.increment
+  );
 }
 
 export function calculateDisciplineLevel(xp: number) {
-  let level = 1;
-
-  while (true) {
-    const { nextLevelXP } = xpForDisciplineLevel(level);
-    if (xp < nextLevelXP) {
-      return level;
-    }
-    level++;
-  }
+  return calculateLevel(
+    xp,
+    XP_CONFIG.DISCIPLINE.initialXP,
+    XP_CONFIG.DISCIPLINE.increment
+  );
 }
 
-// XP FOR CHAR
-export function xpForLevel(level: number) {
-  let baseXP = 0;
-  let xpRequired = 50;
-
-  for (let i = 1; i < level; i++) {
-    baseXP += xpRequired;
-    xpRequired += 50;
-  }
-
-  return { baseXP, nextLevelXP: baseXP + xpRequired };
+export function xpForCharacterLevel(level: number) {
+  return xpForLevel(
+    level,
+    XP_CONFIG.CHARACTER.initialXP,
+    XP_CONFIG.CHARACTER.increment
+  );
 }
 
-export function calculateLevel(xp: number) {
-  let level = 1;
-
-  while (true) {
-    const { nextLevelXP } = xpForLevel(level);
-    if (xp < nextLevelXP) {
-      return level;
-    }
-    level++;
-  }
+export function calculateCharacterLevel(xp: number) {
+  return calculateLevel(
+    xp,
+    XP_CONFIG.CHARACTER.initialXP,
+    XP_CONFIG.CHARACTER.increment
+  );
 }
 
-// XP FOR HABITS
 export function xpForHabitLevel(level: number) {
-  let baseXP = 0;
-  let xpRequired = 10;
-
-  for (let i = 1; i < level; i++) {
-    baseXP += xpRequired;
-    xpRequired += 5;
-  }
-
-  return { baseXP, nextLevelXP: baseXP + xpRequired };
+  return xpForLevel(
+    level,
+    XP_CONFIG.HABIT.initialXP,
+    XP_CONFIG.HABIT.increment
+  );
 }
 
 export function calculateHabitLevel(xp: number) {
-  let level = 1;
-
-  while (true) {
-    const { nextLevelXP } = xpForHabitLevel(level);
-    if (xp < nextLevelXP) {
-      return level;
-    }
-    level++;
-  }
+  return calculateLevel(
+    xp,
+    XP_CONFIG.HABIT.initialXP,
+    XP_CONFIG.HABIT.increment
+  );
 }
 
 export const getHabitRarity = (
@@ -163,22 +177,32 @@ export const calculateHabitsXpFromEntry = ({
   }, {} as Record<string, number>);
 };
 
-// NOTE: NEVER USED - should remove or use in conjunction with getHabitActionValues
-// if needed, because it DOESN'T REMOVE 'currentXp' key from Habits
-// GET HABIT XP SUM FROM ACTIONS - will need willpower multiplier here
-// export const calculateHabitXpFromActionValues = (
-//   actions: { [habitId: string]: { [actionId: string]: number } },
-//   willpower: number
-// ): { [habitId: string]: number } => {
-//   return Object.entries(actions).reduce((acc, [habitId, habitActions]) => {
-//     const baseXp = Object.values(habitActions).reduce(
-//       (sum, value) => sum + value,
-//       0
-//     );
-//     acc[habitId] = applyWillpowerBonus(baseXp, willpower);
-//     return acc;
-//   }, {} as { [habitId: string]: number });
-// };
+// GET DATA from JOURNAL ENTRY to calculateHabitsXpFromEntry
+type getHabitXpFromEntryProps = {
+  entry: any;
+  loading: boolean;
+  habitId: string;
+};
+
+export const getHabitXpFromEntry = ({
+  entry,
+  loading,
+  habitId,
+}: getHabitXpFromEntryProps): number => {
+  if (loading || !entry) return 0;
+
+  const dailyWillpower = entry?.dailyWillpower || 0;
+  const bonusWillpower = entry?.bonusWillpower || 0;
+  const totalWillpower = dailyWillpower + bonusWillpower;
+  const habits = entry?.habits || {};
+
+  const xpSums = calculateHabitsXpFromEntry({
+    entryHabits: habits,
+    entryWillpower: totalWillpower,
+  });
+
+  return xpSums[habitId] || 0;
+};
 
 // GET THE DEFAULT ACTION VALUES FOR HABITS - based on habit type
 // also includes option for current habit XP - used for useCreateJournalEntry hook

@@ -21,7 +21,7 @@ export function HabitActionsStep() {
   const totalWillpower = dailyWillpower + bonusWillpower;
   const todaysHabits = watch("habits");
 
-  const calculateProjectedXP = useCallback(
+  const calculateProjectedHabitXP = useCallback(
     (habit: Habit) => {
       const xpSums = calculateHabitsXpFromEntry({
         entryHabits: todaysHabits,
@@ -65,7 +65,7 @@ export function HabitActionsStep() {
               <li key={habit._id} className="mb-8">
                 <HabitActions
                   habit={habit}
-                  projectedHabitXp={calculateProjectedXP(habit)}
+                  projectedHabitXp={calculateProjectedHabitXP(habit)}
                   onChange={handleActionChange}
                   actionChanges={todaysHabits[habit._id]}
                   habitsLoading={habitsLoading}

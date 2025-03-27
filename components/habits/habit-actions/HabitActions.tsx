@@ -53,13 +53,16 @@ export function HabitActions({
   const habitContainerRef = useRef<HTMLDivElement>(null);
   const hasInteractedRef = useRef(false);
 
-  // Calculate XP and level
+  // NOTE: These are used to display the XP stats
+  // Calculate XP and level_PATTERN
+  // ===============================================================
   const xpGain = xp + projectedHabitXp;
   const level = calculateHabitLevel(xpGain);
   const currentLevel = calculateHabitLevel(xp);
   const { baseXP, nextLevelXP } = xpForHabitLevel(level);
   const xpForCurrentLevel = xpGain - baseXP;
   const xpToLevelUp = nextLevelXP - baseXP;
+  // ===============================================================
 
   const updateURL = useCallback(
     (open: boolean) => {

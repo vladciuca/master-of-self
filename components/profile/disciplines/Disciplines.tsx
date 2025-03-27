@@ -3,7 +3,6 @@
 import { useEffect } from "react";
 import { DisciplineLevelBar } from "./DisciplineLevelBar";
 import { Card, CardDescription, CardTitle } from "@components/ui/card";
-import { calculateDisciplineLevel, xpForDisciplineLevel } from "@lib/level";
 import { useTodayJournalEntry } from "@hooks/journal/useTodayJournalEntry";
 import { useLastJournalEntry } from "@hooks/journal/useLastJournalEntry";
 import { getDisciplineScoreFromEntry } from "@lib/score";
@@ -50,8 +49,17 @@ export function Disciplines() {
         {Object.entries(disciplines || {})
           //   .filter(([_, value]) => value > 0) //filter out XP bars with 0 value
           .map(([key, value]) => {
-            const xp = value;
-            const projectedXp = disciplinesProjectedXp[key] ?? 0;
+            let xp = value;
+            //last entry -> returns projected XP
+            let projectedXp = disciplinesProjectedXp[key] ?? 0;
+
+            // Check if there's no today's entry
+            if (!todayEntry) {
+              // Add projected XP to current XP
+              xp = xp + projectedXp;
+              // Reset projected XP to 0
+              projectedXp = 0;
+            }
 
             return (
               <div key={key} className="flex flex-col items-start">

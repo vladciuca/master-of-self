@@ -59,7 +59,8 @@ export function DisciplineLevelBar({
   projectedXp,
   name,
 }: DisciplineLevelBarProps) {
-  // Calculate XP and level
+  // Calculate XP and level_PATTERN
+  // ===============================================================
   const xpGain = xp + projectedXp;
   const level = calculateDisciplineLevel(xpGain);
   const currentLevel = calculateDisciplineLevel(xp);
@@ -74,6 +75,7 @@ export function DisciplineLevelBar({
   );
   const xpForCurrentLevel = xpGain - baseXP;
   const xpToLevelUp = nextLevelXP - baseXP;
+  // ===============================================================
 
   return (
     <div className="w-full space-y-1">

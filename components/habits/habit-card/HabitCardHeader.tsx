@@ -28,6 +28,27 @@ export function HabitCardHeader({
 }: HabitCardHeaderProps) {
   const { name, icon, xp } = habit;
 
+  //last entry ->
+
+  //xp = xp
+  //projected xp = projected xp
+
+  //!today entry ->
+
+  //xp = xp + projected xp
+  //projected xp = 0
+
+  // let xp = value;
+  // let projectedXp = disciplinesProjectedXp[key] ?? 0;
+
+  // // Check if there's no today's entry
+  // if (!todayEntry) {
+  //   // Add projected XP to current XP
+  //   xp = xp + projectedXp;
+  //   // Reset projected XP to 0
+  //   projectedXp = 0;
+  // }
+
   // Calculate default projected XP for Habits
   const baseDefaultHabitXpFromActions = Object.values(
     habitDefaultActionValues
@@ -67,7 +88,9 @@ export function HabitCardHeader({
     lastEntryProjectedXp = defaultProjectedXpForExistingEntryToday;
   }
 
-  // Calculate XP and level
+  // NOTE: code pattern is present before any progress bar
+  // Calculate XP and level_PATTERN
+  // ===============================================================
   const xpGain = lastEntryXp + lastEntryProjectedXp;
   const level = calculateHabitLevel(xpGain);
   const currentLevel = calculateHabitLevel(lastEntryXp);
@@ -83,6 +106,7 @@ export function HabitCardHeader({
   );
   const xpForCurrentLevel = xpGain - baseXP;
   const xpToLevelUp = nextLevelXP - baseXP;
+  // ===============================================================
 
   return (
     <div className="p-2 px-3 flex justify-between text-start w-full">
