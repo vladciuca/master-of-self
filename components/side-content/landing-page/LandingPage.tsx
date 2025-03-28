@@ -46,7 +46,7 @@ export function LandingPage({
             variants={sectionVariants}
             transition={{ duration: 0.3 }}
           >
-            <ScrollArea className="flex-grow my-2">
+            <ScrollArea className="flex-grow">
               <main className="min-h-screen px-6 py-12">
                 <HeroSection />
                 <IntroductionSection />

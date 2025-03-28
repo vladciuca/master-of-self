@@ -1,57 +1,59 @@
-import Image from "next/image";
+import { AnimatePresence, motion } from "framer-motion";
+import { HeroSection } from "./HeroSection";
+import { JournalStepsSection } from "./JournalStepsSection";
+import { JournalEntriesSection } from "./JournalEntriesSection";
+import { DisciplineScoresSection } from "./DisciplineScoresSection";
 import { ScrollArea } from "@components/ui/scroll-area";
-import { MobileScreenBorder } from "./MobileScreenBorder";
+import { X } from "lucide-react";
 
-export function JournalPage() {
+export const sectionVariants = {
+  hidden: { opacity: 0, y: 50 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { opacity: { delay: 0.2 }, duration: 0.8 },
+  },
+  exit: { opacity: 0, y: 50 },
+};
+
+type JournalPageProps = {
+  isDrawerOpen: boolean;
+  handleCloseDrawer: () => void;
+};
+
+export function JournalPage({
+  isDrawerOpen,
+  handleCloseDrawer,
+}: JournalPageProps) {
   return (
-    <ScrollArea className="h-full p-4">
-      <div className="w-full items-center justify-center text-center text-4xl">
-        Journal Disciplines
-      </div>
-      <div>Steps you engage in journaling award Discipline Points</div>
-      <div>
-        Steps allow you to individually target and track your disciplines
-      </div>
-      <MobileScreenBorder>
-        <Image
-          src="/assets/landing-page/discipline_1.png"
-          alt="Journal Image"
-          width={300}
-          height={522}
-        />
-      </MobileScreenBorder>
-
-      <MobileScreenBorder>
-        <Image
-          src="/assets/landing-page/discipline_2.png"
-          alt="Journal Image"
-          width={300}
-          height={522}
-        />
-      </MobileScreenBorder>
-
-      <div className="w-full items-center justify-center text-center text-4xl">
-        Track these daily
-      </div>
-      <MobileScreenBorder>
-        <Image
-          src="/assets/landing-page/discipline_3.png"
-          alt="Journal Image"
-          width={300}
-          height={522}
-        />
-      </MobileScreenBorder>
-      <div className="w-full items-center justify-center text-center text-4xl">
-        Track these via bars
-      </div>
-      <MobileScreenBorder>
-        <Image
-          src="/assets/landing-page/discipline_4.png"
-          alt="Journal Image"
-          width={300}
-          height={522}
-        />
-      </MobileScreenBorder>
-    </ScrollArea>
+    <AnimatePresence>
+      {isDrawerOpen && (
+        <>
+          <div
+            className="absolute top-4 right-4 z-10 cursor-pointer"
+            onClick={handleCloseDrawer}
+          >
+            <X />
+          </div>
+          <motion.div
+            className="h-full flex flex-col"
+            initial="hidden"
+            animate="visible"
+            exit="exit"
+            variants={sectionVariants}
+            transition={{ duration: 0.3 }}
+          >
+            <ScrollArea className="flex-grow">
+              <main className="min-h-screen px-6 py-12">
+                <HeroSection />
+                <JournalStepsSection />
+                <JournalEntriesSection />
+                <DisciplineScoresSection />
+              </main>
+            </ScrollArea>
+          </motion.div>
+        </>
+      )}
+    </AnimatePresence>
   );
 }
