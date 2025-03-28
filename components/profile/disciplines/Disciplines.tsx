@@ -46,7 +46,7 @@ export function Disciplines() {
         </CardTitle>
         <CardDescription>
           {
-            "Each discipline corresponds with a step in your journal. To level up your discipline, engage those particular journal steps."
+            "Each discipline corresponds with a step in your journal. To rank up your discipline, engage those particular journal steps."
           }
         </CardDescription>
       </div>
