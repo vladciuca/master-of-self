@@ -19,6 +19,10 @@ const cards = [
         key: "Setting Intentions:",
         text: "Define clear, meaningful, and achievable goals and stay motivated throughout the day.",
       },
+      {
+        key: "Empowering Affirmations:",
+        text: "Start your day with positive affirmations to build self-confidence, reinforce a growth mindset, and cultivate resilience against challenges.",
+      },
     ],
   },
   {
@@ -31,15 +35,15 @@ const cards = [
     list: [
       {
         key: "Goal Completion:",
-        text: "Mark off tasks you accomplished and recognize your daily wins.",
+        text: "Mark off tasks you accomplished and recognize your daily wins exponentially increasing motivation.",
       },
       {
         key: "Daily Highlights:",
-        text: "Capture meaningful moments that brought joy or taught valuable lessons.",
+        text: "Capture meaningful moments that brought joy or taught valuable lessons and bring awareness to the positive things in your life.",
       },
       {
         key: "Self-Improvement:",
-        text: "Reflect on what you'd change if you could relive the day, fostering growth and adaptability.",
+        text: "Reflect on what you'd change if you could relive the day, fostering growth, adaptability and resilience.",
       },
     ],
   },
