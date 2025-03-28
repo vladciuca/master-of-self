@@ -21,8 +21,9 @@ export function JournalStepsSection() {
           <Image
             src="/assets/landing-page/discipline_1.png"
             alt="Journal Image"
-            width={300}
-            height={522}
+            fill
+            sizes="(max-width: 300px) 100vw, 300px"
+            className="object-contain"
           />
         </MobileScreenBorder>
       </div>
@@ -35,8 +36,9 @@ export function JournalStepsSection() {
           <Image
             src="/assets/landing-page/discipline_2.png"
             alt="Journal Image"
-            width={300}
-            height={522}
+            fill
+            sizes="(max-width: 300px) 100vw, 300px"
+            className="object-contain"
           />
         </MobileScreenBorder>
       </div>

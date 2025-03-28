@@ -9,8 +9,9 @@ export function JournalEntriesSection() {
         <Image
           src="/assets/landing-page/discipline_3.png"
           alt="Journal Image"
-          width={300}
-          height={522}
+          fill
+          sizes="(max-width: 300px) 100vw, 300px"
+          className="object-contain"
         />
       </MobileScreenBorder>
       <div className="text-muted-foreground text-center mt-4 px-6 max-w-[600px]">
