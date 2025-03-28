@@ -3,7 +3,9 @@ import { motion } from "framer-motion";
 import { XP_HEX_COLORS } from "@lib/colors";
 
 interface CircularProgressProps extends React.HTMLAttributes<HTMLDivElement> {
+  // currentProgressPercentage
   value: number; // Between 1 and 100
+  // xpGainProgressPercentage
   xpGainValue?: number;
   strokeWidth: number;
   circleSize: number;

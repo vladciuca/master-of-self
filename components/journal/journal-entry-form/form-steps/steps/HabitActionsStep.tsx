@@ -1,6 +1,6 @@
 import { useCallback } from "react";
 import { useFormContext } from "react-hook-form";
-import { FormStepTemplate } from "@/components/journal/journal-entry-form/form-steps/FormStepTemplate";
+import { FormStepTemplate } from "@components/journal/journal-entry-form/form-steps/FormStepTemplate";
 import { HabitActions } from "@components/habits/habit-actions/HabitActions";
 import { SkeletonHabitAction } from "@components/skeletons/SkeletonHabitAction";
 import { useUserHabits } from "@hooks/habits/useUserHabits";
@@ -21,7 +21,7 @@ export function HabitActionsStep() {
   const totalWillpower = dailyWillpower + bonusWillpower;
   const todaysHabits = watch("habits");
 
-  const calculateProjectedXP = useCallback(
+  const calculateProjectedHabitXP = useCallback(
     (habit: Habit) => {
       const xpSums = calculateHabitsXpFromEntry({
         entryHabits: todaysHabits,
@@ -65,7 +65,7 @@ export function HabitActionsStep() {
               <li key={habit._id} className="mb-8">
                 <HabitActions
                   habit={habit}
-                  projectedHabitXp={calculateProjectedXP(habit)}
+                  projectedHabitXp={calculateProjectedHabitXP(habit)}
                   onChange={handleActionChange}
                   actionChanges={todaysHabits[habit._id]}
                   habitsLoading={habitsLoading}

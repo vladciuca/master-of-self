@@ -47,13 +47,21 @@ export const authOptions: NextAuthOptions = {
           $set: {
             settings: {
               steps: {
-                gratefulStep: false,
-                reflectionStep: false,
+                gratitude: false,
+                reflection: false,
+              },
+              disciplines: {
+                positivity: 0,
+                motivation: 0,
+                confidence: 0,
+                awareness: 0,
+                resilience: 0,
               },
               journalStartTime: {
                 morning: "08:00",
                 evening: "18:00",
               },
+              //NOTE: don't think this update time is used anywhere
               lastUpdateTime: null,
             },
           },

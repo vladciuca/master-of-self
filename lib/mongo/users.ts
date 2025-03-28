@@ -1,6 +1,7 @@
 import { MongoClient, Db, Collection, ObjectId } from "mongodb";
 import clientPromise from "./mongodb";
 import { User } from "@models/mongodb";
+import { UserDisciplines } from "@models/types";
 
 let client: MongoClient;
 let db: Db;
@@ -47,8 +48,8 @@ export async function updateUserSettings(
   id: string,
   updateData: {
     steps?: {
-      gratefulStep?: boolean;
-      reflectionStep?: boolean;
+      gratitude?: boolean;
+      reflection?: boolean;
     };
     journalStartTime?: {
       morning?: string;
@@ -90,6 +91,63 @@ export async function updateUserSettings(
   }
 }
 
+// UPDATE USER DISCIPLINES =====================================================================
+export async function updateUserDisciplines(
+  userId: string,
+  disciplines: UserDisciplines
+): Promise<{
+  user: User | null;
+  status: "success" | "no_change";
+  error?: string;
+}> {
+  try {
+    if (!users) await init();
+
+    const query = { _id: new ObjectId(userId) };
+    const update: { $inc: { [key: string]: any } } = { $inc: {} };
+
+    // Only update the specified disciplines
+    Object.entries(disciplines).forEach(([key, value]) => {
+      if (value !== undefined && value !== null) {
+        update.$inc[`settings.disciplines.${key}`] = value;
+      }
+    });
+
+    // If there's nothing to update, return early
+    if (Object.keys(update.$inc).length === 0) {
+      return {
+        user: null,
+        status: "no_change",
+      };
+    }
+
+    const result = await users.findOneAndUpdate(query, update, {
+      returnDocument: "after",
+    });
+
+    if (!result) {
+      return {
+        user: null,
+        status: "no_change",
+        error: "User not found",
+      };
+    }
+
+    return {
+      user: result,
+      status: "success",
+    };
+  } catch (error) {
+    console.error("Error updating disciplines:", error);
+    return {
+      user: null,
+      status: "no_change",
+      error: "Failed to update user disciplines",
+    };
+  }
+}
+
+// NOTE: check if this is still used!!!!
 // UPDATE USER HABITS CHECK =====================================================================
 export async function getUserLastUpdateTime(userId: string) {
   const client = await clientPromise;

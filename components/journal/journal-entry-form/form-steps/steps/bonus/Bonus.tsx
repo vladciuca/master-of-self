@@ -2,14 +2,16 @@ import { useState, useEffect, useMemo } from "react";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Card, CardContent } from "@/components/ui/card";
 import { FormStepTemplate } from "@components/journal/journal-entry-form/form-steps/FormStepTemplate";
-import { JournalEntrySection } from "@components/journal/journal-entry-card/JournalEntrySection";
+import { JournalEntryDisciplineList } from "@components/journal/journal-entry-card/JournalEntryDisciplineList";
 import { FaBoltLightning } from "react-icons/fa6";
 import { useYesterdayJournalEntry } from "@hooks/journal/useYesterdayJournalEntry";
 import { stepIconMap } from "@components/ui/constants";
 import { BonusStepTabHeader } from "./BonusStepTabHeader";
+import { X, Plus } from "lucide-react";
 import { JOURNAL_COLORS } from "@lib/colors";
+import { calculateStepScore } from "@lib/score";
 
-export function DailyBonus() {
+export function Bonus() {
   // NOTE: again no error handling
   const {
     yesterdayEntry,
@@ -20,29 +22,52 @@ export function DailyBonus() {
     learnedTodayBonusWillpower,
   } = useYesterdayJournalEntry();
 
+  const stepScore = (items: string[]) => {
+    const score = calculateStepScore(items ?? []);
+    return (
+      <span className={`flex items-center text-${JOURNAL_COLORS.score}`}>
+        <Plus size={10} />
+        {score}
+      </span>
+    );
+  };
+
   const tabData = useMemo(
     () =>
       [
         {
           icon: stepIconMap.night,
           stepType: "night",
-          bonusWillpowerValue: howGreatTodayBonusWillpower,
+          // bonusWillpowerValue: howGreatTodayBonusWillpower,
           title: "What made yesterday great",
-          items: yesterdayEntry?.nightEntry?.howGreatToday || [],
+          items: yesterdayEntry?.nightEntry?.night || [],
+          score: (
+            <>
+              {stepScore(yesterdayEntry?.dayEntry?.day || [])}
+              <span
+                className={`flex items-center text-${JOURNAL_COLORS.score}`}
+              >
+                <X size={10} />
+                {(yesterdayEntry?.nightEntry?.night || []).length + 1}
+              </span>
+            </>
+          ),
         },
         {
           icon: stepIconMap.highlights,
           stepType: "highlights",
-          bonusWillpowerValue: dailyHighlightsBonusWillpower,
+          // bonusWillpowerValue: dailyHighlightsBonusWillpower,
           title: "Yesterday's highlights",
-          items: yesterdayEntry?.nightEntry?.dailyHighlights || [],
+          items: yesterdayEntry?.nightEntry?.highlights || [],
+          score: stepScore(yesterdayEntry?.nightEntry?.highlights || []),
         },
         {
           icon: stepIconMap.reflection,
           stepType: "reflection",
-          bonusWillpowerValue: learnedTodayBonusWillpower,
+          // bonusWillpowerValue: learnedTodayBonusWillpower,
           title: "What I learned yesterday",
-          items: yesterdayEntry?.nightEntry?.learnedToday || [],
+          items: yesterdayEntry?.nightEntry?.reflection ?? [],
+          score: stepScore(yesterdayEntry?.nightEntry?.reflection || []),
         },
       ].filter((tab) => tab.items.length > 0),
     [
@@ -74,10 +99,10 @@ export function DailyBonus() {
       title={"Willpower Bonus"}
       scoreSection={
         <>
-          <span className={`text-${JOURNAL_COLORS.night}`}>
-            +{bonusWillpower}
+          <span className={`text-${JOURNAL_COLORS.night} text-bold`}>
+            {yesterdayEntryLoading ? "??" : `+${bonusWillpower}`}
           </span>
-          <FaBoltLightning className="ml-2 text-3xl" />
+          <FaBoltLightning className="ml-2 text-2xl" />
         </>
       }
     >
@@ -88,7 +113,7 @@ export function DailyBonus() {
               {tabData.map((tab) => (
                 <TabsTrigger
                   key={tab.stepType}
-                  className="w-[75px] h-[65px] flex flex-col items-center justify-center"
+                  className="p-0 w-[65px] h-[65px] flex flex-col items-center justify-center"
                   value={tab.stepType}
                   onClick={() => loadContent(tab.stepType)}
                 >
@@ -96,7 +121,8 @@ export function DailyBonus() {
                     icon={tab.icon}
                     count={tab.items.length}
                     stepType={tab.stepType}
-                    bonusWillpowerValue={tab.bonusWillpowerValue}
+                    // bonusWillpowerValue={tab.bonusWillpowerValue}
+                    disciplineScore={tab.score}
                   />
                 </TabsTrigger>
               ))}
@@ -106,7 +132,7 @@ export function DailyBonus() {
             <TabsContent key={tab.stepType} value={tab.stepType}>
               <Card>
                 <CardContent className="p-4">
-                  <JournalEntrySection
+                  <JournalEntryDisciplineList
                     title={tab.title}
                     items={tab.items}
                     stepType={tab.stepType}

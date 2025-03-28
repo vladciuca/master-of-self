@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import { useTotalWillpowerBeforeToday } from "@hooks/useTotalWillpowerBeforeToday";
 import { useTodayJournalEntry } from "@hooks/journal/useTodayJournalEntry";
-import { calculateLevel, xpForLevel } from "@lib/level";
+import { calculateCharacterLevel, xpForCharacterLevel } from "@lib/level";
 import { JOURNAL_COLORS } from "@lib/colors";
 
 export function UserWillpowerLevelBar() {
@@ -20,8 +20,8 @@ export function UserWillpowerLevelBar() {
   const bonusXP = bonusWillpower;
   const projectedXP = dailyWillpower;
 
-  const level = calculateLevel(totalWillpowerBeforeToday);
-  const { nextLevelXP } = xpForLevel(level);
+  const level = calculateCharacterLevel(totalWillpowerBeforeToday);
+  const { nextLevelXP } = xpForCharacterLevel(level);
 
   const isLoading = totalWillpowerBeforeTodayLoading || todayEntryLoading;
 

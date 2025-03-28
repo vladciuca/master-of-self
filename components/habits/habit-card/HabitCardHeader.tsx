@@ -1,6 +1,6 @@
 import { IconRenderer } from "@components/IconRenderer";
 import { ActionIcon } from "@components/habits/habit-actions/HabitActionIcons";
-import { HabitLevelIndicator } from "@components/habits/HabitLevelIndicator";
+import { LevelIndicator } from "@components/ui/level-indicator";
 import { CircularProgress } from "@components/ui/circular-progress";
 import { XpDisplay } from "@components/ui/xp-display";
 import { calculateHabitLevel, xpForHabitLevel } from "@lib/level";
@@ -26,36 +26,38 @@ export function HabitCardHeader({
   entryTotalWillpower,
   hasNoEntryToday,
 }: HabitCardHeaderProps) {
-  const { name, icon, xp } = habit;
+  const { name, icon, xp: habitXp } = habit;
 
+  //habit ->
   // Calculate default projected XP for Habits
   const baseDefaultHabitXpFromActions = Object.values(
     habitDefaultActionValues
   ).reduce((sum, value) => sum + value, 0);
+  //WE DO NOT WANT TO APPLY WPx to Projected values if hasNoEntryToday
+  const defaultProjectedXp = baseDefaultHabitXpFromActions;
 
+  //last entry ->
   // Calculate projected XP from last entry Action Values
   const baseHabitXpFromActions = Object.values(habitActionValues).reduce(
     (sum, value) => sum + value,
     0
   );
-
-  //WE DO NOT WANT TO APPLY WPx to Projected values if hasNoEntryToday
-  const defaultProjectedXp = baseDefaultHabitXpFromActions;
-
-  //WPx is only applied to the real projected XP that will show up as already gained and not be bonusXp(XpGain)
-  const projectedXp = applyWillpowerBonus(
+  const projectedHabitXp = applyWillpowerBonus(
     baseHabitXpFromActions,
     entryTotalWillpower
   );
 
-  // XP from last entry will not be bonusXp(XpGain) if its not TODAY
-  let lastEntryXp = xp;
-  let lastEntryProjectedXp = projectedXp;
+  //xp = xp
+  let xp = habitXp;
+  //projected xp = projected xp
+  let projectedXp = projectedHabitXp;
 
   // If there is no todayEntry, we add
   if (hasNoEntryToday) {
-    lastEntryXp = xp + projectedXp;
-    lastEntryProjectedXp = defaultProjectedXp;
+    //xp = xp + projected xp
+    xp = xp + projectedXp;
+    //projected xp = habit default xp || 0
+    projectedXp = defaultProjectedXp;
   }
 
   // if habitActionValues from today's Journal Entry is an empty {} need to use defaultValues with WPx
@@ -64,16 +66,19 @@ export function HabitCardHeader({
       baseDefaultHabitXpFromActions,
       entryTotalWillpower
     );
-    lastEntryProjectedXp = defaultProjectedXpForExistingEntryToday;
+    projectedXp = defaultProjectedXpForExistingEntryToday;
   }
 
-  // Calculate XP and level
-  const xpGain = lastEntryXp + lastEntryProjectedXp;
+  // NOTE: code pattern is present before any progress bar
+  // Calculate XP and level_PATTERN
+  // ===============================================================
+  const xpGain = xp + projectedXp;
   const level = calculateHabitLevel(xpGain);
-  const currentLevel = calculateHabitLevel(lastEntryXp);
+  const currentLevel = calculateHabitLevel(xp);
   const { baseXP, nextLevelXP } = xpForHabitLevel(level);
+
   const currentProgressPercentage = Math.min(
-    ((lastEntryXp - baseXP) / (nextLevelXP - baseXP)) * 100,
+    ((xp - baseXP) / (nextLevelXP - baseXP)) * 100,
     100
   );
   const xpGainProgressPercentage = Math.min(
@@ -82,6 +87,7 @@ export function HabitCardHeader({
   );
   const xpForCurrentLevel = xpGain - baseXP;
   const xpToLevelUp = nextLevelXP - baseXP;
+  // ===============================================================
 
   return (
     <div className="p-2 px-3 flex justify-between text-start w-full">
@@ -104,7 +110,7 @@ export function HabitCardHeader({
               <span className="ml-1 flex items-center text-primary">
                 {level}
               </span>
-              <HabitLevelIndicator currentLevel={currentLevel} level={level} />
+              <LevelIndicator currentLevel={currentLevel} level={level} />
             </div>
             <span className="mx-1 text-muted text-lg">|</span>
             <div className="font-normal text-xs text-muted-foreground">
@@ -149,7 +155,7 @@ export function HabitCardHeader({
             xpGainValue={xpGainProgressPercentage}
             strokeWidth={6}
             circleSize={73}
-            projectedXp={lastEntryProjectedXp}
+            projectedXp={projectedXp}
           />
           <div className="absolute w-full flex flex-col justify-center items-center">
             <div className="flex flex-col items-center justify-center text-xs">
@@ -162,7 +168,7 @@ export function HabitCardHeader({
                 <div>
                   <span className="text-base">
                     <XpDisplay
-                      xpValue={lastEntryProjectedXp}
+                      xpValue={projectedXp}
                       // xpValue={lastEntryProjectedXp || defaultProjectedXp}
                     />
                   </span>

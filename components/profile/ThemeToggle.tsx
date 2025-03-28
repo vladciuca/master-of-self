@@ -20,7 +20,7 @@ export function ThemeToggle() {
         ) : (
           <Lightbulb className="h-8 w-8" />
         )}
-        <span className="text-sm font-medium pl-1">
+        <span className="text-sm font-medium pl-4">
           {theme === "dark" ? "Dark" : "Light"} Mode
         </span>
       </div>
@@ -28,7 +28,6 @@ export function ThemeToggle() {
         checked={!(theme === "dark")}
         onCheckedChange={toggleTheme}
         aria-label="Toggle theme"
-        className="mr-4"
       />
     </Card>
   );

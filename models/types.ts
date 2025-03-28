@@ -13,11 +13,23 @@ export interface User extends NextAuthUser {
   image?: string | null;
 }
 
+export type UserJournalSteps = {
+  gratitude: boolean;
+  affirmations: boolean;
+  reflection: boolean;
+};
+
+export type UserDisciplines = {
+  positivity?: number;
+  motivation?: number;
+  confidence?: number;
+  awareness?: number;
+  resilience?: number;
+};
+
 export type UserSettings = {
-  steps: {
-    gratefulStep: boolean;
-    reflectionStep: boolean;
-  };
+  steps: UserJournalSteps;
+  disciplines: UserDisciplines;
   journalStartTime: {
     morning: string;
     evening: string;
@@ -29,6 +41,17 @@ export interface Session extends NextAuthSession {
   user: User;
 }
 
+// PROFILE TYPES -----------------------------------------------------
+
+export type RoutineStepProps = {
+  icon: React.ReactElement;
+  title: string;
+  description: string;
+  stepKey: "gratitude" | "affirmations" | "reflection";
+};
+
+// JOURNAL TYPES -----------------------------------------------------
+
 export type JournalEntryHabitActions = {
   [key: string]: number;
 };
@@ -37,18 +60,23 @@ export type JournalEntryHabit = {
   [key: string]: JournalEntryHabitActions & { currentXp?: number };
 };
 
+export type JournalDayEntry = {
+  day?: string[];
+  gratitude?: string[];
+  affirmations?: string[];
+};
+
+export type JournalNightEntry = {
+  night?: string[];
+  highlights?: string[];
+  reflection?: string[];
+};
+
 export type JournalEntry = {
   dailyWillpower: number;
   bonusWillpower: number;
-  dayEntry?: {
-    greatToday?: string[];
-    gratefulFor?: string[];
-  };
-  nightEntry?: {
-    howGreatToday?: string[];
-    dailyHighlights?: string[];
-    learnedToday?: string[];
-  };
+  dayEntry?: JournalDayEntry;
+  nightEntry?: JournalNightEntry;
   habits: JournalEntryHabit;
 };
 
@@ -57,6 +85,8 @@ export type JournalEntryMetadata = JournalEntry & {
   createDate: Date;
   creatorId: string;
 };
+
+// HABIT TYPES ------------------------------------------------------
 
 export type HabitAction = {
   id: string;

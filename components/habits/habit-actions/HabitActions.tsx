@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { HabitIconProgressBar } from "@components/habits/HabitIconProgressBar";
-import { HabitLevelIndicator } from "@components/habits/HabitLevelIndicator";
+import { LevelIndicator } from "@components/ui/level-indicator";
 import { HabitAction } from "@components/habits/habit-actions/HabitAction";
 import {
   Drawer,
@@ -53,13 +53,16 @@ export function HabitActions({
   const habitContainerRef = useRef<HTMLDivElement>(null);
   const hasInteractedRef = useRef(false);
 
-  // Calculate XP and level
+  // NOTE: These are used to display the XP stats
+  // Calculate XP and level_PATTERN
+  // ===============================================================
   const xpGain = xp + projectedHabitXp;
   const level = calculateHabitLevel(xpGain);
   const currentLevel = calculateHabitLevel(xp);
   const { baseXP, nextLevelXP } = xpForHabitLevel(level);
   const xpForCurrentLevel = xpGain - baseXP;
   const xpToLevelUp = nextLevelXP - baseXP;
+  // ===============================================================
 
   const updateURL = useCallback(
     (open: boolean) => {
@@ -170,10 +173,7 @@ export function HabitActions({
               Level
               <span className="text-primary ml-1 flex items-center">
                 {level}
-                <HabitLevelIndicator
-                  currentLevel={currentLevel}
-                  level={level}
-                />
+                <LevelIndicator currentLevel={currentLevel} level={level} />
               </span>
             </span>
             <span className="mx-1 text-muted text-lg">|</span>

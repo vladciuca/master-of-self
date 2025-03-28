@@ -5,13 +5,14 @@ import { useRouter, useSearchParams } from "next/navigation";
 
 import { useForm, FormProvider, UseFormReturn } from "react-hook-form";
 
-import { DailyBonus } from "@components/journal/journal-entry-form/form-steps/daily-bonus/DailyBonus";
-import { GreatToday } from "@components/journal/journal-entry-form/form-steps/GreatToday";
-import { HowGreatWasToday } from "@components/journal/journal-entry-form/form-steps/HowGreatWasToday";
-import { GratefulFor } from "@components/journal/journal-entry-form/form-steps/GratefulFor";
-import { DailyHighlights } from "@components/journal/journal-entry-form/form-steps/DailyHighlights";
-import { LearnedToday } from "@components/journal/journal-entry-form/form-steps/LearnedToday";
-import { HabitActionsStep } from "@components/journal/journal-entry-form/form-steps/HabitActionsStep";
+import { Bonus } from "@components/journal/journal-entry-form/form-steps/steps/bonus/Bonus";
+import { Day } from "@components/journal/journal-entry-form/form-steps/steps/Day";
+import { Night } from "@components/journal/journal-entry-form/form-steps/steps/Night";
+import { Gratitude } from "@components/journal/journal-entry-form/form-steps/steps/Gratitude";
+import { Affirmations } from "./form-steps/steps/Affirmations";
+import { Highlights } from "@components/journal/journal-entry-form/form-steps/steps/Highlights";
+import { Reflection } from "@components/journal/journal-entry-form/form-steps/steps/Reflection";
+import { HabitActionsStep } from "@components/journal/journal-entry-form/form-steps/steps/HabitActionsStep";
 import { FormStepProgress } from "./FormStepProgress";
 import { FormStepNavigation } from "./FormStepNavigation";
 import { JournalEntry } from "@models/types";
@@ -29,6 +30,7 @@ type FormStepControllerProps = {
   userEveningTime?: string;
   hasHabits?: boolean;
   hasGratitude?: boolean;
+  hasAffirmations?: boolean;
   hasReflection?: boolean;
 };
 
@@ -39,9 +41,10 @@ export function FormStepController({
   submitting,
   onSubmit,
   userEveningTime = "18:00",
-  hasGratitude = true,
-  hasReflection = true,
-  hasHabits = true,
+  hasGratitude = false,
+  hasAffirmations = false,
+  hasReflection = false,
+  hasHabits = false,
 }: FormStepControllerProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -50,18 +53,19 @@ export function FormStepController({
   // Initialize React Hook Form with default values
   const methods = useForm<JournalEntry>({
     defaultValues: {
-      dailyWillpower: journalEntryData?.dailyWillpower || 0,
-      bonusWillpower: journalEntryData?.bonusWillpower || 0,
+      dailyWillpower: journalEntryData?.dailyWillpower ?? 0,
+      bonusWillpower: journalEntryData?.bonusWillpower ?? 0,
       dayEntry: {
-        greatToday: journalEntryData?.dayEntry?.greatToday || [],
-        gratefulFor: journalEntryData?.dayEntry?.gratefulFor || [],
+        day: journalEntryData?.dayEntry?.day ?? [],
+        gratitude: journalEntryData?.dayEntry?.gratitude ?? [],
+        affirmations: journalEntryData?.dayEntry?.affirmations ?? [],
       },
       nightEntry: {
-        howGreatToday: journalEntryData?.nightEntry?.howGreatToday || [],
-        dailyHighlights: journalEntryData?.nightEntry?.dailyHighlights || [],
-        learnedToday: journalEntryData?.nightEntry?.learnedToday || [],
+        night: journalEntryData?.nightEntry?.night ?? [],
+        highlights: journalEntryData?.nightEntry?.highlights ?? [],
+        reflection: journalEntryData?.nightEntry?.reflection ?? [],
       },
-      habits: journalEntryData?.habits || {},
+      habits: journalEntryData?.habits ?? {},
     },
   });
 
@@ -71,15 +75,24 @@ export function FormStepController({
   // NOTE: TS type checking is static and happening at compile time, not runtime.
   // The TypeScript compiler doesn't know about the runtime behavior of React Hook Form
   // This is why we must set a fallback value to be able to use in isAvailable step condition
-  const greatToday = watch("dayEntry.greatToday") || [];
-  const gratefulFor = watch("dayEntry.gratefulFor");
+  const day = watch("dayEntry.day") || [];
+  const gratitude = watch("dayEntry.gratitude");
+  const affirmations = watch("dayEntry.affirmations");
 
   // Get daily WP form day step forms
+  //NOTE: for the new system this should be refactored in a simple calculation
   const calculateDailyWillpower = useCallback(
-    (greatTodayList: string[], gratefulForList: string[]) => {
-      const greatTodayScore = calculateWillpowerScore(greatTodayList || []);
-      const gratefulForScore = calculateWillpowerScore(gratefulForList || []);
-      return Math.floor((greatTodayScore + gratefulForScore) * 1.5);
+    (
+      dayList: string[],
+      gratitudeList: string[],
+      affirmationsList: string[]
+    ) => {
+      const dayScore = calculateWillpowerScore(dayList ?? []);
+      const gratitudeScore = calculateWillpowerScore(gratitudeList ?? []);
+      const affirmationsScore = calculateWillpowerScore(affirmationsList ?? []);
+      //NOTE: the multiplier here is not applied to yday entry when calculating WP
+      // when this becomes a constant multiply var should be added in the function itself
+      return Math.floor((dayScore + gratitudeScore + affirmationsScore) * 1.5);
     },
     []
   );
@@ -88,37 +101,35 @@ export function FormStepController({
   useEffect(() => {
     if (journalEntryData) {
       // Update all form fields with new data
-      setValue("dailyWillpower", journalEntryData.dailyWillpower || 0);
-      setValue("bonusWillpower", journalEntryData.bonusWillpower || 0);
+      setValue("dailyWillpower", journalEntryData.dailyWillpower ?? 0);
+      setValue("bonusWillpower", journalEntryData.bonusWillpower ?? 0);
 
       if (journalEntryData.dayEntry) {
+        setValue("dayEntry.day", journalEntryData.dayEntry.day ?? []);
         setValue(
-          "dayEntry.greatToday",
-          journalEntryData.dayEntry.greatToday || []
+          "dayEntry.gratitude",
+          journalEntryData.dayEntry.gratitude ?? []
         );
         setValue(
-          "dayEntry.gratefulFor",
-          journalEntryData.dayEntry.gratefulFor || []
+          "dayEntry.affirmations",
+          journalEntryData.dayEntry.affirmations ?? []
         );
       }
 
       if (journalEntryData.nightEntry) {
+        setValue("nightEntry.night", journalEntryData.nightEntry.night ?? []);
         setValue(
-          "nightEntry.howGreatToday",
-          journalEntryData.nightEntry.howGreatToday || []
+          "nightEntry.highlights",
+          journalEntryData.nightEntry.highlights ?? []
         );
         setValue(
-          "nightEntry.dailyHighlights",
-          journalEntryData.nightEntry.dailyHighlights || []
-        );
-        setValue(
-          "nightEntry.learnedToday",
-          journalEntryData.nightEntry.learnedToday || []
+          "nightEntry.reflection",
+          journalEntryData.nightEntry.reflection ?? []
         );
       }
 
       if (journalEntryData.habits) {
-        setValue("habits", journalEntryData.habits);
+        setValue("habits", journalEntryData.habits ?? {});
       }
     }
   }, [journalEntryData, setValue]);
@@ -126,47 +137,53 @@ export function FormStepController({
   // Update willpower when relevant fields change
   useEffect(() => {
     const willpower = calculateDailyWillpower(
-      greatToday || [],
-      gratefulFor || []
+      day || [],
+      gratitude || [],
+      affirmations || []
     );
     setValue("dailyWillpower", willpower);
-  }, [greatToday, gratefulFor, calculateDailyWillpower, setValue]);
+  }, [day, gratitude, affirmations, calculateDailyWillpower, setValue]);
 
   const formSteps = useMemo(
     () => [
       {
-        type: "reward",
-        component: <DailyBonus />,
+        type: "bonus",
+        component: <Bonus />,
         isAvailable:
           SHOW_ALL_TEST ||
           (!isEvening(userEveningTime) && watch("bonusWillpower") > 0),
       },
       {
         type: "gratitude",
-        component: <GratefulFor />,
+        component: <Gratitude />,
         isAvailable:
           SHOW_ALL_TEST || (!isEvening(userEveningTime) && hasGratitude),
       },
       {
         type: "day",
-        component: <GreatToday />,
+        component: <Day />,
         isAvailable: SHOW_ALL_TEST || !isEvening(userEveningTime),
       },
       {
-        type: "night",
-        component: <HowGreatWasToday />,
+        type: "affirmations",
+        component: <Affirmations />,
         isAvailable:
-          SHOW_ALL_TEST ||
-          (isEvening(userEveningTime) && greatToday?.length > 0),
+          SHOW_ALL_TEST || (!isEvening(userEveningTime) && hasAffirmations),
+      },
+      {
+        type: "night",
+        component: <Night />,
+        isAvailable:
+          SHOW_ALL_TEST || (isEvening(userEveningTime) && day?.length > 0),
       },
       {
         type: "highlights",
-        component: <DailyHighlights />,
+        component: <Highlights />,
         isAvailable: SHOW_ALL_TEST || isEvening(userEveningTime),
       },
       {
         type: "reflection",
-        component: <LearnedToday />,
+        component: <Reflection />,
         isAvailable:
           SHOW_ALL_TEST || (isEvening(userEveningTime) && hasReflection),
       },
@@ -294,17 +311,16 @@ export function FormStepController({
           currentStepType={currentStep}
           handleStepChange={handleStepChange}
           progressPercentage={progressPercentage}
-          greatTodayCount={watch("dayEntry.greatToday")?.length || 0}
+          dayCount={watch("dayEntry.day")?.length || 0}
           dailyGoalsCompleted={countMatchingElements(
-            watch("dayEntry.greatToday"),
-            watch("nightEntry.howGreatToday")
+            watch("dayEntry.day"),
+            watch("nightEntry.night")
           )}
-          gratefulForCount={watch("dayEntry.gratefulFor")?.length || 0}
-          dailyHighlightsCount={
-            watch("nightEntry.dailyHighlights")?.length || 0
-          }
+          gratitudeCount={watch("dayEntry.gratitude")?.length || 0}
+          affirmationsCount={watch("dayEntry.affirmations")?.length || 0}
+          highlightsCount={watch("nightEntry.highlights")?.length || 0}
+          reflectionCount={watch("nightEntry.reflection")?.length || 0}
           habitActionsCount={countNonZeroValues(habitXpValues)}
-          learnedTodayCount={watch("nightEntry.learnedToday")?.length || 0}
         />
 
         <div className="h-full overflow-hidden">{currentStepComponent}</div>

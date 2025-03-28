@@ -2,10 +2,16 @@ import { useState, useEffect, useRef } from "react";
 import { useSession } from "next-auth/react";
 import { useYesterdayJournalEntry } from "./useYesterdayJournalEntry";
 import { useLastJournalEntry } from "./useLastJournalEntry";
-import { useUpdateHabits } from "@hooks/habits/useUpdateUserHabits";
+import { useUpdateHabits } from "@hooks/habits/useUpdateHabits";
+import { useUpdateDisciplines } from "@hooks/user/useUpdateDisciplines";
 import { useUserHabits } from "@hooks/habits/useUserHabits";
 import { getToday } from "@lib/time";
-import { Session } from "@models/types";
+import {
+  calculateStepScore,
+  calculateStepScoreMultiplier,
+  getDisciplineScoreFromEntry,
+} from "@lib/score";
+import { Session, UserDisciplines } from "@models/types";
 
 export function useCreateJournalEntry() {
   const { data: session } = useSession() as { data: Session | null };
@@ -29,8 +35,13 @@ export function useCreateJournalEntry() {
     habitsError,
   } = useUserHabits();
 
-  const { updateHabits, submittingUserHabitsUpdate, updateUserHabitsError } =
+  const { updateHabits, submittingHabitsUpdate, updateHabitsError } =
     useUpdateHabits();
+  const {
+    updateDisciplines,
+    submittingDisciplinesUpdate,
+    updateDisciplinesError,
+  } = useUpdateDisciplines();
 
   const abortControllerRef = useRef<AbortController | null>(null);
 
@@ -54,7 +65,8 @@ export function useCreateJournalEntry() {
       yesterdayEntryLoading ||
       habitsLoading ||
       lastEntryLoading ||
-      submittingUserHabitsUpdate
+      submittingHabitsUpdate ||
+      submittingDisciplinesUpdate
     ) {
       console.warn("Waiting for all dependent hooks to finish loading...");
       return;
@@ -65,14 +77,16 @@ export function useCreateJournalEntry() {
       yesterdayEntryError ||
       habitsError ||
       lastEntryError ||
-      updateUserHabitsError
+      updateHabitsError ||
+      updateDisciplinesError
     ) {
       throw new Error(
         `Error fetching required data: 
         Yesterday Entry: ${yesterdayEntryError}, 
         Habits: ${habitsError}, 
         Last Entry: ${lastEntryError}, 
-        Update Habits: ${updateUserHabitsError}`
+        Update Habits: ${updateHabitsError},
+        Update Disciplines: ${updateDisciplinesError}`
       );
     }
 
@@ -91,9 +105,26 @@ export function useCreateJournalEntry() {
       const today = getToday();
       const todayDate = today.toISOString().split("T")[0];
 
+      //NOTE: they do not respect the other when saved in DB
+      // const disciplinesPayload = {
+      //   positivity: calculateStepScore(lastEntry?.dayEntry?.gratitude ?? []),
+      //   motivation:
+      //     calculateStepScore(lastEntry?.dayEntry?.day ?? []) *
+      //     calculateStepScoreMultiplier(lastEntry?.nightEntry?.night ?? []),
+      //   confidence: calculateStepScore(lastEntry?.dayEntry?.affirmations ?? []),
+      //   awareness: calculateStepScore(lastEntry?.nightEntry?.highlights ?? []),
+      //   resilience: calculateStepScore(lastEntry?.nightEntry?.reflection ?? []),
+      // };
+
+      const disciplinesPayload: UserDisciplines = lastEntry
+        ? getDisciplineScoreFromEntry(lastEntry)
+        : {};
+
       // NOTE: Must NOT create entry before updating the Habits XP
       // Parallel API updates
       await Promise.allSettled([
+        lastEntry ? updateDisciplines(disciplinesPayload) : Promise.resolve(),
+
         hasHabits && lastEntry
           ? updateHabits({
               habitsXpUpdates: habitsXp,

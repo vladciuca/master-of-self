@@ -7,7 +7,7 @@ import { SkeletonForm } from "@components/skeletons/SkeletonForm";
 import { useTodayJournalEntry } from "@hooks/journal/useTodayJournalEntry";
 import { useLastJournalEntry } from "@hooks/journal/useLastJournalEntry";
 import { useFetchAndUpdateHabit } from "@hooks/habits/useFetchAndUpdateHabit";
-import { calculateHabitsXpFromEntry } from "@lib/level";
+import { getHabitXpFromEntry } from "@lib/level";
 
 export default function UpdateHabit() {
   const router = useRouter();
@@ -22,48 +22,31 @@ export default function UpdateHabit() {
     habitDefaultXpValues,
   } = useFetchAndUpdateHabit(id);
 
-  // NOTE: check the returns of last entry cause you may be just duplicating functions already existing in the hook!
   // NOTE: Not using Error here!
   const { todayEntry, todayEntryLoading, todayEntryError } =
     useTodayJournalEntry();
   const { lastEntry, lastEntryLoading, lastEntryError } = useLastJournalEntry();
 
-  // ***NOTE: Here use only LastEntry same as in UserHabits
-  // *** no need for today entry here(just for flag to display XP)
-  const getHabitXpFromEntry = (
-    entry: any,
-    loading: boolean,
-    habitId: string
-  ) => {
-    if (loading || !entry) return 0;
-
-    const dailyWillpower = entry?.dailyWillpower || 0;
-    const bonusWillpower = entry?.bonusWillpower || 0;
-    const totalWillpower = dailyWillpower + bonusWillpower;
-    const habits = entry?.habits || {};
-
-    const xpSums = calculateHabitsXpFromEntry({
-      entryHabits: habits,
-      entryWillpower: totalWillpower,
-    });
-
-    return xpSums[habitId] || 0;
-  };
-
-  const projectedHabitXp = getHabitXpFromEntry(
-    todayEntry,
-    todayEntryLoading,
-    id
-  );
-  const unSubmittedXp = getHabitXpFromEntry(lastEntry, lastEntryLoading, id);
+  //habit ->
   const habitDefaultXp = habitData && habitDefaultXpValues(habitData);
+  //last entry ->
+  const projectedHabitXp = getHabitXpFromEntry({
+    entry: lastEntry,
+    loading: lastEntryLoading,
+    habitId: id,
+  });
 
+  //xp = xp
   // ?? nullish operator so that XP will only be 0 if habit data is null or undefined
   let xp = habitData?.xp ?? 0;
+  //projected xp = projected xp
   let projectedXp = projectedHabitXp;
 
+  //!today entry ->
   if (!todayEntry) {
-    xp = xp + unSubmittedXp;
+    //xp = xp + projected xp
+    xp = xp + projectedHabitXp;
+    //projected xp = habit default xp || 0
     projectedXp = habitDefaultXp || 0;
   }
 

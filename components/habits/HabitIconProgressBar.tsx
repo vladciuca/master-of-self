@@ -1,5 +1,5 @@
 import { IconRenderer } from "@components/IconRenderer";
-import { HabitLevelIndicator } from "@components/habits/HabitLevelIndicator";
+import { LevelIndicator } from "@components/ui/level-indicator";
 import { CircularProgress } from "@components/ui/circular-progress";
 import { XpDisplay } from "@components/ui/xp-display";
 import { Badge } from "@components/ui/badge";
@@ -24,7 +24,10 @@ export function HabitIconProgressBar({
   displayXpValues = false,
   displayLevelValues = false,
 }: HabitIconProgressBarProps) {
-  // Calculate XP and level
+  // NOTE: this part is consistent in all progress bars
+  // Should be integrated in util function?
+  // Calculate XP and level_PATTERN
+  // ===============================================================
   const xpGain = xp + projectedXp;
   const level = calculateHabitLevel(xpGain);
   const currentLevel = calculateHabitLevel(xp);
@@ -39,6 +42,7 @@ export function HabitIconProgressBar({
   );
   const xpForCurrentLevel = xpGain - baseXP;
   const xpToLevelUp = nextLevelXP - baseXP;
+  // ===============================================================
 
   const progressBarWidth = displayXpValues ? "[100px]" : "[70px]";
 
@@ -80,7 +84,7 @@ export function HabitIconProgressBar({
           >
             <span className="mr-1">Level</span>
             {level}
-            <HabitLevelIndicator currentLevel={currentLevel} level={level} />
+            <LevelIndicator currentLevel={currentLevel} level={level} />
           </Badge>
           {/*HABIT RARITY*/}
           <Badge

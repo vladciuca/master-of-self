@@ -15,12 +15,14 @@ type FormStepProgressProps = {
   currentStepType: string;
   handleStepChange: (stepType: string) => void;
   progressPercentage: number;
-  greatTodayCount: number;
+  //Step count
+  dayCount: number;
   dailyGoalsCompleted: number;
-  gratefulForCount: number;
-  dailyHighlightsCount: number;
+  gratitudeCount: number;
+  affirmationsCount: number;
+  highlightsCount: number;
+  reflectionCount: number;
   habitActionsCount: number;
-  learnedTodayCount: number;
 };
 
 export function FormStepProgress({
@@ -28,27 +30,32 @@ export function FormStepProgress({
   currentStepType,
   handleStepChange,
   progressPercentage,
-  greatTodayCount,
+  //Step counts
+  dayCount,
   dailyGoalsCompleted,
-  gratefulForCount,
-  dailyHighlightsCount,
+  gratitudeCount,
+  affirmationsCount,
+  highlightsCount,
+  reflectionCount,
   habitActionsCount,
-  learnedTodayCount,
 }: FormStepProgressProps) {
   const getCount = (stepType: string): number => {
     switch (stepType) {
       case "day":
-        return greatTodayCount;
+        return dayCount;
       case "night":
         return dailyGoalsCompleted;
       case "gratitude":
-        return gratefulForCount;
+        return gratitudeCount;
+      case "affirmations":
+        return affirmationsCount;
       case "highlights":
-        return dailyHighlightsCount;
+        return highlightsCount;
+      case "reflection":
+        return reflectionCount;
       case "habits":
         return habitActionsCount;
-      case "reflection":
-        return learnedTodayCount;
+
       default:
         return 0;
     }
@@ -87,7 +94,7 @@ export function FormStepProgress({
                   {count}
                 </Badge>
               )}
-              {step.type === "reward" && (
+              {step.type === "bonus" && (
                 <Badge
                   variant="outline"
                   className={`${bgColor} absolute -top-1 -right-1 text-[0.6rem] px-1 py-0 min-w-[1.2rem] h-[1.2rem] flex items-center justify-center text-white`}
