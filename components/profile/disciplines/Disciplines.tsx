@@ -53,7 +53,7 @@ export function Disciplines() {
       <Card className="space-y-4 p-4">
         {isLoading ? (
           <>
-            {[1, 2].map((i) => (
+            {[1].map((i) => (
               <div key={i} className="flex flex-col items-start w-full">
                 <Skeleton className="h-5 w-24 mb-4 mt-2" />
                 <Skeleton className="h-4 w-full rounded-full mb-2" />

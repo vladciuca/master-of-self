@@ -29,6 +29,7 @@ export type UserDisciplines = {
 
 export type UserSettings = {
   steps: UserJournalSteps;
+  //get out into user object
   disciplines: UserDisciplines;
   journalStartTime: {
     morning: string;

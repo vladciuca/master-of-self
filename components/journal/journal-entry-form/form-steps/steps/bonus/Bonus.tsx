@@ -2,6 +2,7 @@ import { useState, useEffect, useMemo } from "react";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Card, CardContent } from "@/components/ui/card";
 import { FormStepTemplate } from "@components/journal/journal-entry-form/form-steps/FormStepTemplate";
+import { WillpowerScoreDisplay } from "@components/journal/journal-entry-form/form-steps/WillpowerScoreDisplay";
 import { JournalEntryDisciplineList } from "@components/journal/journal-entry-card/JournalEntryDisciplineList";
 import { FaBoltLightning } from "react-icons/fa6";
 import { useYesterdayJournalEntry } from "@hooks/journal/useYesterdayJournalEntry";
@@ -98,12 +99,17 @@ export function Bonus() {
     <FormStepTemplate
       title={"Willpower Bonus"}
       scoreSection={
-        <>
-          <span className={`text-${JOURNAL_COLORS.night} text-bold`}>
-            {yesterdayEntryLoading ? "??" : `+${bonusWillpower}`}
-          </span>
-          <FaBoltLightning className="ml-2 text-2xl" />
-        </>
+        //NOTE: can move this to its own component
+        // <div className="flex items-center">
+        //   <span className={`text-${JOURNAL_COLORS.night} text-bold text-5xl`}>
+        //     {yesterdayEntryLoading ? "??" : `+${bonusWillpower}`}
+        //   </span>
+        //   <FaBoltLightning className="ml-2 text-4xl" />
+        // </div>
+        <WillpowerScoreDisplay
+          willpower={yesterdayEntryLoading ? "??" : `+${bonusWillpower}`}
+          color={JOURNAL_COLORS.night}
+        />
       }
     >
       <div className="w-full max-w-md mx-auto p-4 pt-0">

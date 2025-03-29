@@ -110,7 +110,7 @@ JournalEntryCardProps) {
         </div>
       )}
 
-      {/* {bonusWillpower > 0 && (
+      {bonusWillpower > 0 && (
         <div className="w-full text-muted-foreground">
           <div className="flex items-center">
             <div className="flex items-center">
@@ -124,7 +124,7 @@ JournalEntryCardProps) {
             </div>
           </div>
         </div>
-      )} */}
+      )}
 
       {/* Habit Actions */}
       {habits &&

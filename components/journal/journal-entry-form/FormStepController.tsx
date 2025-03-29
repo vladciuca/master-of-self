@@ -12,6 +12,7 @@ import { Gratitude } from "@components/journal/journal-entry-form/form-steps/ste
 import { Affirmations } from "./form-steps/steps/Affirmations";
 import { Highlights } from "@components/journal/journal-entry-form/form-steps/steps/Highlights";
 import { Reflection } from "@components/journal/journal-entry-form/form-steps/steps/Reflection";
+import { Willpower } from "@components/journal/journal-entry-form/form-steps/steps/willpower/Willpower";
 import { HabitActionsStep } from "@components/journal/journal-entry-form/form-steps/steps/HabitActionsStep";
 import { FormStepProgress } from "./FormStepProgress";
 import { FormStepNavigation } from "./FormStepNavigation";
@@ -21,7 +22,7 @@ import { calculateWillpowerScore } from "@lib/score";
 import { calculateHabitsXpFromEntry } from "@lib/level";
 
 // TEST_FLAG: used for enabling all forms steps
-const SHOW_ALL_TEST = false;
+const SHOW_ALL_TEST = true;
 
 type FormStepControllerProps = {
   submitting: boolean;
@@ -186,6 +187,11 @@ export function FormStepController({
         component: <Reflection />,
         isAvailable:
           SHOW_ALL_TEST || (isEvening(userEveningTime) && hasReflection),
+      },
+      {
+        type: "willpower",
+        component: <Willpower />,
+        isAvailable: true,
       },
       {
         type: "habits",

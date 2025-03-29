@@ -87,6 +87,8 @@ export function UserHabits() {
         title={NEW_HABIT_CARD_DETAILS.title}
         linkTo={NEW_HABIT_CARD_DETAILS.linkTo}
         itemsCount={itemsCount}
+        //NOTE: DISABLE HABIT_CREATION
+        disabled={true}
       />
 
       {habitsLoading ? (
@@ -114,9 +116,12 @@ export function UserHabits() {
       ) : (
         <div className="flex-grow flex items-center justify-center">
           <section className="text-center mt-32">
-            <p className="leading-7 mt-6 mx-3">
+            {/* <p className="leading-7 mt-6 mx-3">
               Create habits that you can track daily and visualize your
               progress.
+            </p> */}
+            <p className="leading-7 mt-6 mx-3">
+              Habit creation is currently disabled for the Alpha.
             </p>
           </section>
         </div>
