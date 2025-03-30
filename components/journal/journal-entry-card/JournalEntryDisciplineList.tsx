@@ -22,18 +22,14 @@ export function JournalEntryDisciplineList({
 
   return (
     <div>
-      <div
-        className={`my-2 flex items-center ${
-          bonusList ? "justify-center" : ""
-        }`}
-      >
+      <div className="my-2 flex items-center">
         <div className="text-sm text-muted-foreground">{title}</div>
       </div>
 
       {contentLoading ? (
         <SkeletonList />
       ) : (
-        <ol className={`mx-[3.5px] ${bonusList ? "mt-4" : ""}`}>
+        <ol className="mx-[3.5px]">
           {items &&
             items.length > 0 &&
             items.map((item, index) => (

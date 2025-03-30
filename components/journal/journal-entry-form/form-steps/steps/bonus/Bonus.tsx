@@ -4,13 +4,12 @@ import { Card, CardContent } from "@/components/ui/card";
 import { FormStepTemplate } from "@components/journal/journal-entry-form/form-steps/FormStepTemplate";
 import { WillpowerScoreDisplay } from "@components/journal/journal-entry-form/form-steps/WillpowerScoreDisplay";
 import { JournalEntryDisciplineList } from "@components/journal/journal-entry-card/JournalEntryDisciplineList";
-import { FaBoltLightning } from "react-icons/fa6";
 import { useYesterdayJournalEntry } from "@hooks/journal/useYesterdayJournalEntry";
 import { stepIconMap } from "@components/ui/constants";
 import { BonusStepTabHeader } from "./BonusStepTabHeader";
-import { X, Plus } from "lucide-react";
+import { Plus } from "lucide-react";
 import { JOURNAL_COLORS } from "@lib/colors";
-import { calculateStepScore } from "@lib/score";
+import { calculateStepScore, calculateStepScoreMultiplier } from "@lib/score";
 
 export function Bonus() {
   // NOTE: again no error handling
@@ -23,10 +22,11 @@ export function Bonus() {
     learnedTodayBonusWillpower,
   } = useYesterdayJournalEntry();
 
-  const stepScore = (items: string[]) => {
-    const score = calculateStepScore(items ?? []);
+  const stepScore = (score: number) => {
     return (
-      <span className={`flex items-center text-${JOURNAL_COLORS.score}`}>
+      <span
+        className={`flex items-center text-${JOURNAL_COLORS.score} font-bold`}
+      >
         <Plus size={10} />
         {score}
       </span>
@@ -39,36 +39,34 @@ export function Bonus() {
         {
           icon: stepIconMap.night,
           stepType: "night",
-          // bonusWillpowerValue: howGreatTodayBonusWillpower,
-          title: "What made yesterday great",
-          items: yesterdayEntry?.nightEntry?.night || [],
-          score: (
-            <>
-              {stepScore(yesterdayEntry?.dayEntry?.day || [])}
-              <span
-                className={`flex items-center text-${JOURNAL_COLORS.score}`}
-              >
-                <X size={10} />
-                {(yesterdayEntry?.nightEntry?.night || []).length + 1}
-              </span>
-            </>
-          ),
+          title: "What made yesterday great!",
+          items: yesterdayEntry?.nightEntry?.night ?? [],
+          score:
+            calculateStepScore(yesterdayEntry?.dayEntry?.day ?? []) *
+            calculateStepScoreMultiplier(
+              yesterdayEntry?.nightEntry?.night ?? []
+            ),
+          scoreName: "Motivation",
         },
         {
           icon: stepIconMap.highlights,
           stepType: "highlights",
-          // bonusWillpowerValue: dailyHighlightsBonusWillpower,
-          title: "Yesterday's highlights",
+          title: "Yesterday's highlights!",
           items: yesterdayEntry?.nightEntry?.highlights || [],
-          score: stepScore(yesterdayEntry?.nightEntry?.highlights || []),
+          score: calculateStepScore(
+            yesterdayEntry?.nightEntry?.highlights ?? []
+          ),
+          scoreName: "Awareness",
         },
         {
           icon: stepIconMap.reflection,
           stepType: "reflection",
-          // bonusWillpowerValue: learnedTodayBonusWillpower,
-          title: "What I learned yesterday",
+          title: "What I learned yesterday!",
           items: yesterdayEntry?.nightEntry?.reflection ?? [],
-          score: stepScore(yesterdayEntry?.nightEntry?.reflection || []),
+          score: calculateStepScore(
+            yesterdayEntry?.nightEntry?.highlights ?? []
+          ),
+          scoreName: "Resilience",
         },
       ].filter((tab) => tab.items.length > 0),
     [
@@ -98,14 +96,8 @@ export function Bonus() {
   return (
     <FormStepTemplate
       title={"Willpower Bonus"}
+      description="Gain bonus Willpower from yesterday's evening journaling."
       scoreSection={
-        //NOTE: can move this to its own component
-        // <div className="flex items-center">
-        //   <span className={`text-${JOURNAL_COLORS.night} text-bold text-5xl`}>
-        //     {yesterdayEntryLoading ? "??" : `+${bonusWillpower}`}
-        //   </span>
-        //   <FaBoltLightning className="ml-2 text-4xl" />
-        // </div>
         <WillpowerScoreDisplay
           willpower={yesterdayEntryLoading ? "??" : `+${bonusWillpower}`}
           color={JOURNAL_COLORS.night}
@@ -115,11 +107,11 @@ export function Bonus() {
       <div className="w-full max-w-md mx-auto p-4 pt-0">
         <Tabs value={activeTab} className="w-full">
           <div className="sticky top-0 z-10 bg-background shadow-md">
-            <TabsList className="flex justify-around h-24">
+            <TabsList className="flex justify-around h-24 bg-background">
               {tabData.map((tab) => (
                 <TabsTrigger
                   key={tab.stepType}
-                  className="p-0 w-[65px] h-[65px] flex flex-col items-center justify-center"
+                  className="p-0 w-[45px] h-[45px] flex flex-col items-center justify-center rounded-full data-[state=active]:bg-muted"
                   value={tab.stepType}
                   onClick={() => loadContent(tab.stepType)}
                 >
@@ -127,8 +119,7 @@ export function Bonus() {
                     icon={tab.icon}
                     count={tab.items.length}
                     stepType={tab.stepType}
-                    // bonusWillpowerValue={tab.bonusWillpowerValue}
-                    disciplineScore={tab.score}
+                    disciplineScore={stepScore(tab.score)}
                   />
                 </TabsTrigger>
               ))}
@@ -136,8 +127,23 @@ export function Bonus() {
           </div>
           {tabData.map((tab) => (
             <TabsContent key={tab.stepType} value={tab.stepType}>
-              <Card>
+              <Card className="border-none bg-muted/30">
                 <CardContent className="p-4">
+                  <div className="mb-4">
+                    <div className="flex items-center justify-center">
+                      <div className="flex items-center mr-2">
+                        <div
+                          className={`text-${JOURNAL_COLORS.score} font-semibold text-lg`}
+                        >
+                          +{tab.score}
+                        </div>
+                      </div>
+                      <div className="flex items-center capitalize text-lg font-semibold">
+                        {tab.scoreName}
+                      </div>
+                    </div>
+                  </div>
+
                   <JournalEntryDisciplineList
                     title={tab.title}
                     items={tab.items}

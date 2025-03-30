@@ -156,9 +156,7 @@ export function JournalEntryDisciplineSection({
           return (
             <div
               key={index}
-              className={`${circleBgColor} w-2 h-2 rounded-full ${
-                index > 0 ? "ml-0.5" : ""
-              }`}
+              className={`${circleBgColor} w-2 h-2 rounded-full`}
             />
           );
         });
@@ -178,10 +176,11 @@ export function JournalEntryDisciplineSection({
                     })}
                   </div>
                   <div className="flex flex-col">
-                    <span className="font-medium text-muted-foreground">
+                    <span className="font-medium text-muted-foreground flex items-start">
                       {pointType}
                     </span>
-                    <div className="flex items-center mt-1 flex-wrap max-w-[200px] space-x-2">
+
+                    <div className="flex flex-wrap max-w-[180px] sm:max-w-[200px] gap-2">
                       {circles}
                     </div>
                   </div>
@@ -193,17 +192,15 @@ export function JournalEntryDisciplineSection({
                     <span
                       className={`text-lg font-semibold text-${JOURNAL_COLORS.score} flex items-center`}
                     >
-                      <Plus size={14} />
                       {/*NOTE: we always want to add +1 to this value so that when completing 1 task
                       we always start form multiplying by x2 */}
-                      {score} <X size={15} /> {completedCount + 1}
+                      +{score * (completedCount + 1)}
                     </span>
                   ) : (
                     <span
                       className={`text-lg font-semibold text-${JOURNAL_COLORS.score} flex items-center`}
                     >
-                      <Plus size={14} />
-                      {score}
+                      +{score}
                     </span>
                   )}
                 </div>
@@ -213,11 +210,13 @@ export function JournalEntryDisciplineSection({
               {renderSections ? (
                 renderSections()
               ) : (
-                <JournalEntryDisciplineList
-                  title={title}
-                  items={data}
-                  stepType={stepType}
-                />
+                <>
+                  <JournalEntryDisciplineList
+                    title={title}
+                    items={data}
+                    stepType={stepType}
+                  />
+                </>
               )}
             </AccordionContent>
           </AccordionItem>

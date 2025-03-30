@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { DisciplineLevelBar } from "./DisciplineLevelBar";
+import { DisciplineLevelBar } from "@components/profile/disciplines/DisciplineLevelBar";
 import { Skeleton } from "@components/ui/skeleton";
 import { Card, CardDescription, CardTitle } from "@components/ui/card";
 import { useTodayJournalEntry } from "@hooks/journal/useTodayJournalEntry";
@@ -96,6 +96,7 @@ export function Disciplines() {
                       xp={xp}
                       projectedXp={projectedXp}
                       name={key}
+                      showXpMetrics
                     />
                   </div>
                 );

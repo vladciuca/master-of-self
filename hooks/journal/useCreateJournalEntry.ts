@@ -7,8 +7,8 @@ import { useUpdateDisciplines } from "@hooks/user/useUpdateDisciplines";
 import { useUserHabits } from "@hooks/habits/useUserHabits";
 import { getToday } from "@lib/time";
 import {
-  calculateStepScore,
-  calculateStepScoreMultiplier,
+  // calculateStepScore,
+  // calculateStepScoreMultiplier,
   getDisciplineScoreFromEntry,
 } from "@lib/score";
 import { Session, UserDisciplines } from "@models/types";

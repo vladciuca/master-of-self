@@ -20,6 +20,8 @@ export function Night() {
     {}
   );
 
+  console.log("=========checkedItems", checkedItems);
+
   useEffect(() => {
     const initialCheckedState = day.reduce((acc, item) => {
       acc[item] = night.includes(item);
@@ -53,7 +55,7 @@ export function Night() {
       scoreSection={
         <div className="flex items-center">
           <StepScoreDisplay items={day ?? []} scoreName="Motivation" />
-          {night.length + 1 <= 1 ? (
+          {Object.values(checkedItems).filter(Boolean).length + 1 <= 1 ? (
             <></>
           ) : (
             <span className={`text-${JOURNAL_COLORS.score} flex items-center`}>
