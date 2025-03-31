@@ -97,7 +97,7 @@ export function Bonus() {
               {tabData.map((tab) => (
                 <TabsTrigger
                   key={tab.stepType}
-                  className="p-0 w-[45px] h-[45px] flex flex-col items-center justify-center rounded-full data-[state=active]:bg-muted"
+                  className="p-0 w-11 h-11 flex flex-col items-center justify-center rounded-full data-[state=active]:bg-muted"
                   value={tab.stepType}
                   onClick={() => loadContent(tab.stepType)}
                 >

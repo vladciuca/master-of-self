@@ -33,7 +33,7 @@ BonusStepTabHeaderProps) => {
         {count !== undefined && (
           <Badge
             variant="outline"
-            className={`${bgColor} absolute -top-2 -right-4 text-[0.6rem] px-1 py-0 min-w-[1.2rem] h-[1.2rem] flex items-center justify-center text-white`}
+            className={`${bgColor} absolute -top-2.5 -right-3 text-[0.6rem] px-1 py-0 min-w-[1.2rem] h-[1.2rem] flex items-center justify-center text-white`}
           >
             {count}
           </Badge>

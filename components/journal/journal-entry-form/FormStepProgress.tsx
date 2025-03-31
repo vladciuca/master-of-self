@@ -81,7 +81,7 @@ export function FormStepProgress({
                   step.type === currentStepType
                     ? "bg-secondary text-primary"
                     : "text-primary"
-                } h-10 w-10 rounded-full flex items-center justify-center`}
+                } w-11 h-11 rounded-full flex items-center justify-center`}
               >
                 {React.cloneElement(IconElement as React.ReactElement, {
                   size:
