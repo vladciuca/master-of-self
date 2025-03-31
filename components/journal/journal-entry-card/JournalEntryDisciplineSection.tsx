@@ -3,7 +3,6 @@ import { JournalEntryDisciplineList } from "@components/journal/journal-entry-ca
 import {
   stepDisciplines,
   stepIconMap,
-  mergeIconProps,
   getStepStyle,
   stepStyles,
 } from "@components/ui/constants";
@@ -13,8 +12,12 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { X, Plus } from "lucide-react";
-import { calculateStepScore } from "@lib/score";
+import {
+  calculateStepScore,
+  //NOTE: will need to integrate util function:
+  // getDisciplineScoreFromEntry
+  // do this in CustomStep(Page) refactor
+} from "@lib/score";
 import { JOURNAL_COLORS } from "@lib/colors";
 import type { JournalDayEntry, JournalNightEntry } from "@models/types";
 
@@ -171,8 +174,13 @@ export function JournalEntryDisciplineSection({
               <div className="flex items-center justify-between w-full">
                 <div className="flex items-center gap-3">
                   <div className="flex items-center justify-center text-primary w-10">
-                    {mergeIconProps(IconElement as React.ReactElement, {
-                      className: "mb-0",
+                    {React.cloneElement(IconElement as React.ReactElement, {
+                      size:
+                        stepType === "night" ||
+                        stepType === "day" ||
+                        stepType === "willpower"
+                          ? 22
+                          : 27,
                     })}
                   </div>
                   <div className="flex flex-col">

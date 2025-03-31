@@ -25,6 +25,7 @@ export type UserDisciplines = {
   confidence?: number;
   awareness?: number;
   resilience?: number;
+  // [key:string]: number;
 };
 
 export type UserSettings = {
@@ -45,7 +46,7 @@ export interface Session extends NextAuthSession {
 // PROFILE TYPES -----------------------------------------------------
 
 export type RoutineStepProps = {
-  icon: React.ReactElement;
+  icon?: React.ReactElement;
   title: string;
   description: string;
   stepKey: "gratitude" | "affirmations" | "reflection";

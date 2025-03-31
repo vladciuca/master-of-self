@@ -9,17 +9,15 @@ import { stepIconMap } from "@components/ui/constants";
 import { BonusStepTabHeader } from "./BonusStepTabHeader";
 import { Plus } from "lucide-react";
 import { JOURNAL_COLORS } from "@lib/colors";
-import { calculateStepScore, calculateStepScoreMultiplier } from "@lib/score";
 
+//NOTE: Add a loading state here.........
 export function Bonus() {
   // NOTE: again no error handling
   const {
     yesterdayEntry,
     yesterdayEntryLoading,
     bonusWillpower,
-    howGreatTodayBonusWillpower,
-    dailyHighlightsBonusWillpower,
-    learnedTodayBonusWillpower,
+    nightEntryDisciplineScores,
   } = useYesterdayJournalEntry();
 
   const stepScore = (score: number) => {
@@ -41,11 +39,8 @@ export function Bonus() {
           stepType: "night",
           title: "What made yesterday great!",
           items: yesterdayEntry?.nightEntry?.night ?? [],
-          score:
-            calculateStepScore(yesterdayEntry?.dayEntry?.day ?? []) *
-            calculateStepScoreMultiplier(
-              yesterdayEntry?.nightEntry?.night ?? []
-            ),
+          score: nightEntryDisciplineScores.motivation,
+          //NOTE: Here we can use the key as scoreName when building it to have dynamic steps
           scoreName: "Motivation",
         },
         {
@@ -53,9 +48,7 @@ export function Bonus() {
           stepType: "highlights",
           title: "Yesterday's highlights!",
           items: yesterdayEntry?.nightEntry?.highlights || [],
-          score: calculateStepScore(
-            yesterdayEntry?.nightEntry?.highlights ?? []
-          ),
+          score: nightEntryDisciplineScores.awareness,
           scoreName: "Awareness",
         },
         {
@@ -63,18 +56,11 @@ export function Bonus() {
           stepType: "reflection",
           title: "What I learned yesterday!",
           items: yesterdayEntry?.nightEntry?.reflection ?? [],
-          score: calculateStepScore(
-            yesterdayEntry?.nightEntry?.highlights ?? []
-          ),
+          score: nightEntryDisciplineScores.resilience,
           scoreName: "Resilience",
         },
       ].filter((tab) => tab.items.length > 0),
-    [
-      yesterdayEntry,
-      howGreatTodayBonusWillpower,
-      dailyHighlightsBonusWillpower,
-      learnedTodayBonusWillpower,
-    ]
+    [yesterdayEntry, nightEntryDisciplineScores]
   );
 
   const [activeTab, setActiveTab] = useState<string>("");
@@ -116,10 +102,13 @@ export function Bonus() {
                   onClick={() => loadContent(tab.stepType)}
                 >
                   <BonusStepTabHeader
-                    icon={tab.icon}
+                    //NOTE right now were are mapping over a const to get the icon
+                    // but after refactor with dynamic steps, we need to pass the icon
+                    // icon={tab.icon}
                     count={tab.items.length}
                     stepType={tab.stepType}
-                    disciplineScore={stepScore(tab.score)}
+                    //NOTE: here might add some loading state to the child
+                    // disciplineScore={stepScore(tab.score ?? 0)}
                   />
                 </TabsTrigger>
               ))}
@@ -133,9 +122,13 @@ export function Bonus() {
                     <div className="flex items-center justify-center">
                       <div className="flex items-center mr-2">
                         <div
-                          className={`text-${JOURNAL_COLORS.score} font-semibold text-lg`}
+                          className={`text-${JOURNAL_COLORS.score} font-semibold text-lg flex items-center`}
                         >
-                          +{tab.score}
+                          <span className="text-sm">
+                            {tab.scoreName === "Motivation" ? "x" : "+"}
+                          </span>
+
+                          {tab.score}
                         </div>
                       </div>
                       <div className="flex items-center capitalize text-lg font-semibold">

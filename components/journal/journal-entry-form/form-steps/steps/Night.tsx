@@ -20,8 +20,6 @@ export function Night() {
     {}
   );
 
-  console.log("=========checkedItems", checkedItems);
-
   useEffect(() => {
     const initialCheckedState = day.reduce((acc, item) => {
       acc[item] = night.includes(item);

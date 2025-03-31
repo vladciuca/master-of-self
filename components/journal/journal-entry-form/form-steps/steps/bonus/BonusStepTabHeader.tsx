@@ -1,26 +1,35 @@
+import React from "react";
 import { Badge } from "@/components/ui/badge";
-import { getStepStyle } from "@components/ui/constants";
-import type React from "react";
+import { getStepStyle, stepIconMap } from "@components/ui/constants";
 
 type BonusStepTabHeaderProps = {
-  icon: React.ReactNode;
+  icon?: React.ReactNode;
   count: number;
   stepType: string;
   disciplineScore?: React.ReactNode;
 };
 
 export const BonusStepTabHeader = ({
-  icon,
+  // icon,
   count,
   stepType,
-  disciplineScore,
-}: BonusStepTabHeaderProps) => {
+}: // disciplineScore,
+BonusStepTabHeaderProps) => {
   const { bgColor } = getStepStyle(stepType);
+
+  const IconElement = stepIconMap[stepType] || stepIconMap.default;
 
   return (
     <div className="relative">
       <div className="flex items-center justify-center w-8 h-8">
-        {icon}
+        {React.cloneElement(IconElement as React.ReactElement, {
+          size:
+            stepType === "night" ||
+            stepType === "day" ||
+            stepType === "willpower"
+              ? 25
+              : 30,
+        })}
         {count !== undefined && (
           <Badge
             variant="outline"

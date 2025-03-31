@@ -83,7 +83,14 @@ export function FormStepProgress({
                     : "text-primary"
                 } h-10 w-10 rounded-full flex items-center justify-center`}
               >
-                {React.cloneElement(IconElement as React.ReactElement)}
+                {React.cloneElement(IconElement as React.ReactElement, {
+                  size:
+                    step.type === "night" || step.type === "day"
+                      ? 25
+                      : step.type === "willpower"
+                      ? 23
+                      : 30,
+                })}
               </div>
 
               {count > 0 && (

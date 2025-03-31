@@ -1,13 +1,6 @@
 import { HABIT_COLORS } from "@lib/colors";
 import type { JournalEntry, UserDisciplines } from "@models/types";
 
-// JOURNAL
-export function calculateWillpowerScore(stringArray: string[]): number {
-  const totalEntries = stringArray.length;
-  const totalLength = stringArray.join("").length;
-  return Math.floor((totalEntries * 5 + totalLength) / 10);
-}
-
 // HABITS ACTION VALUES
 type HabitActionValueParams = {
   value: number;
@@ -54,7 +47,7 @@ export function getActionValueColor(params: HabitActionValueParams): string {
   return "text-primary";
 }
 
-//Journal-Refactor
+// JOURNAL
 
 export function calculateStepScore(entryList: string[]): number {
   const totalEntries = entryList.length;
@@ -74,18 +67,66 @@ export function calculateStepScoreMultiplier(entryList: string[]): number {
   return (entryList ?? []).length + baseMultiplier;
 }
 
+// Calculate discipline scores from day entry only
+export function getDayDisciplineScores(
+  dayEntry: any | null | undefined
+): Partial<UserDisciplines> {
+  if (!dayEntry) return {};
+
+  return {
+    positivity: calculateStepScore(dayEntry?.gratitude ?? []),
+    motivation: calculateStepScore(dayEntry?.day ?? []), // Base motivation without multiplier
+    confidence: calculateStepScore(dayEntry?.affirmations ?? []),
+  };
+}
+
+// Calculate discipline scores from night entry only
+export function getNightDisciplineScores(
+  nightEntry: any | null | undefined
+): Partial<UserDisciplines> {
+  if (!nightEntry) return {};
+
+  //NOTE: might use in the future
+  // Calculate night motivation score after multiplier if day motivation is provided
+  // const dayMotivation = calculateStepScore(dayEntry?.day ?? []);
+  // const motivationNightScore =
+  //   dayMotivation > 0
+  //     ? dayMotivation * calculateStepScoreMultiplier(nightEntry?.night ?? []) -
+  //       dayMotivation
+  //     : 0;
+
+  return {
+    // Add motivation multiplier effect (the additional motivation from night entry)
+    motivation: calculateStepScoreMultiplier(nightEntry?.night ?? []),
+    // motivation: nightEntry?.night ?? [],
+    awareness: calculateStepScore(nightEntry?.highlights ?? []),
+    resilience: calculateStepScore(nightEntry?.reflection ?? []),
+  };
+}
+
+// Combined function that uses both day and night functions
 export function getDisciplineScoreFromEntry(
   entry: JournalEntry | null | undefined
 ): UserDisciplines {
   if (!entry) return {};
 
+  // Get day scores
+  const dayScores = getDayDisciplineScores(entry?.dayEntry);
+
+  // Get night scores, passing the day motivation for proper multiplier calculation
+  const nightScores = getNightDisciplineScores(entry?.nightEntry);
+
+  // Combine the scores
   return {
-    positivity: calculateStepScore(entry?.dayEntry?.gratitude ?? []),
+    positivity: dayScores.positivity || 0,
+    // For motivation, if we have night entry, use the multiplied value, otherwise just day motivation
     motivation:
-      calculateStepScore(entry?.dayEntry?.day ?? []) *
-      calculateStepScoreMultiplier(entry?.nightEntry?.night ?? []),
-    confidence: calculateStepScore(entry?.dayEntry?.affirmations ?? []),
-    awareness: calculateStepScore(entry?.nightEntry?.highlights ?? []),
-    resilience: calculateStepScore(entry?.nightEntry?.reflection ?? []),
+      (entry?.nightEntry?.night?.length
+        ? calculateStepScore(entry?.dayEntry?.day ?? []) *
+          calculateStepScoreMultiplier(entry?.nightEntry?.night ?? [])
+        : dayScores.motivation) || 0,
+    confidence: dayScores.confidence || 0,
+    awareness: nightScores.awareness || 0,
+    resilience: nightScores.resilience || 0,
   };
 }

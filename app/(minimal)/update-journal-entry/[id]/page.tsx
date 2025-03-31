@@ -18,7 +18,13 @@ export default function UpdateJournalEntry() {
     journalEntryLoading,
     updateJournalEntry,
   } = useFetchAndUpdateJournalEntry(id);
-  const { userSettings, userSettingsLoading } = useUserSettings();
+  //NOTE: again no error handling
+  const {
+    willpowerMultiplier,
+    userSettings,
+    userSettingsLoading,
+    userSettingsError,
+  } = useUserSettings();
   const { hasHabits, habitsLoading } = useUserHabits();
 
   const userSteps = userSettings?.steps;
@@ -45,6 +51,7 @@ export default function UpdateJournalEntry() {
           hasAffirmations={hasAffirmations}
           hasReflection={hasReflection}
           hasHabits={hasHabits}
+          willpowerMultiplier={willpowerMultiplier}
         />
       )}
       {/* Since this is in the MINIMAL_LAYOUT, the UI of the FULL_LAYOUT needs to be recreated here
