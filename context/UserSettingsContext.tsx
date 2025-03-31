@@ -22,6 +22,7 @@ interface UserSettingsContextType {
   ) => void;
   handleTimeChange: (period: "morning" | "evening", value: string) => void;
   refetchUserSettings: () => void;
+  willpowerMultiplier: number;
 }
 
 // Create the context
@@ -52,6 +53,9 @@ export function UserSettingsProvider({ children }: { children: ReactNode }) {
 
   const fetchAbortControllerRef = useRef<AbortController | null>(null);
   const updateAbortControllerRef = useRef<AbortController | null>(null);
+
+  //NOTE: this will be added to the userSettings object after refactor to userProfile
+  const WILLPOWER_MULTIPLIER = 1.5;
 
   // Cleanup effect
   useEffect(() => {
@@ -251,6 +255,7 @@ export function UserSettingsProvider({ children }: { children: ReactNode }) {
     handleRoutineChange,
     handleTimeChange,
     refetchUserSettings: fetchUserSettings,
+    willpowerMultiplier: WILLPOWER_MULTIPLIER,
   };
 
   // Provide the context to children components

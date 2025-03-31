@@ -52,12 +52,14 @@ interface DisciplineLevelBarProps {
   xp: number;
   projectedXp: number;
   name: string;
+  showXpMetrics?: boolean;
 }
 
 export function DisciplineLevelBar({
   xp,
   projectedXp,
   name,
+  showXpMetrics = false,
 }: DisciplineLevelBarProps) {
   // Calculate XP and level_PATTERN
   // ===============================================================
@@ -104,17 +106,20 @@ export function DisciplineLevelBar({
         xpGainProgressPercentage={xpGainProgressPercentage}
         showBaseXpBar={currentLevel === level}
       />
-      <div className="flex items-center justify-between text-muted-foreground text-sm">
-        <div className="flex items-center">
-          <span className="mr-1">Rank</span>
-          {level}
+
+      {showXpMetrics && (
+        <div className="flex items-center justify-between text-muted-foreground text-sm">
+          <div className="flex items-center">
+            <span className="mr-1">Rank</span>
+            {level}
+          </div>
+          <div>
+            <span className="textColor">
+              {xpForCurrentLevel}/{xpToLevelUp}
+            </span>
+          </div>
         </div>
-        <div>
-          <span className="textColor">
-            {xpForCurrentLevel}/{xpToLevelUp}
-          </span>
-        </div>
-      </div>
+      )}
     </div>
   );
 }

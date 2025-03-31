@@ -25,10 +25,12 @@ export type UserDisciplines = {
   confidence?: number;
   awareness?: number;
   resilience?: number;
+  // [key:string]: number;
 };
 
 export type UserSettings = {
   steps: UserJournalSteps;
+  //get out into user object
   disciplines: UserDisciplines;
   journalStartTime: {
     morning: string;
@@ -44,7 +46,7 @@ export interface Session extends NextAuthSession {
 // PROFILE TYPES -----------------------------------------------------
 
 export type RoutineStepProps = {
-  icon: React.ReactElement;
+  icon?: React.ReactElement;
   title: string;
   description: string;
   stepKey: "gratitude" | "affirmations" | "reflection";

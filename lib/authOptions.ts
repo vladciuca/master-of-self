@@ -45,10 +45,18 @@ export const authOptions: NextAuthOptions = {
         { _id: new ObjectId(user.id) },
         {
           $set: {
+            // disciplines: {
+            //   positivity: 0,
+            //   motivation: 0,
+            //   confidence: 0,
+            //   awareness: 0,
+            //   resilience: 0,
+            // },
             settings: {
               steps: {
-                gratitude: false,
-                reflection: false,
+                gratitude: true,
+                reflection: true,
+                affirmations: true,
               },
               disciplines: {
                 positivity: 0,

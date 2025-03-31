@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { DisciplineLevelBar } from "./DisciplineLevelBar";
+import { DisciplineLevelBar } from "@components/profile/disciplines/DisciplineLevelBar";
 import { Skeleton } from "@components/ui/skeleton";
 import { Card, CardDescription, CardTitle } from "@components/ui/card";
 import { useTodayJournalEntry } from "@hooks/journal/useTodayJournalEntry";
@@ -53,7 +53,7 @@ export function Disciplines() {
       <Card className="space-y-4 p-4">
         {isLoading ? (
           <>
-            {[1, 2].map((i) => (
+            {[1].map((i) => (
               <div key={i} className="flex flex-col items-start w-full">
                 <Skeleton className="h-5 w-24 mb-4 mt-2" />
                 <Skeleton className="h-4 w-full rounded-full mb-2" />
@@ -96,6 +96,7 @@ export function Disciplines() {
                       xp={xp}
                       projectedXp={projectedXp}
                       name={key}
+                      showXpMetrics
                     />
                   </div>
                 );

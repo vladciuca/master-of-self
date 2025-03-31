@@ -59,7 +59,7 @@ export function NewJournalEntry({ isEveningTime }: NewJournalEntryProps) {
           <div className="ml-6">
             <div className="flex items-center">
               <div className="w-full flex items-center justify-center text-3xl">
-                {bonusWillpower > 0 ? (
+                {(bonusWillpower ?? 0) > 0 ? (
                   <span className={`text-${JOURNAL_COLORS.night} font-bold`}>
                     +{bonusWillpower}
                   </span>

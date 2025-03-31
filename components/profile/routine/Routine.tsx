@@ -3,35 +3,35 @@
 import React from "react";
 import { RoutineStep } from "./RoutineStep";
 import { Card, CardDescription, CardTitle } from "@components/ui/card";
-import { stepIconMap, mergeIconProps } from "@components/ui/constants";
+import { stepIconMap } from "@components/ui/constants";
 import { RoutineStepProps } from "@models/types";
 
 export function Routine() {
   const routineSteps: RoutineStepProps[] = [
     {
-      icon: mergeIconProps(stepIconMap.gratitude as React.ReactElement, {
-        className: "mb-0",
-        size: "2.3rem",
-      }),
+      // icon: mergeIconProps(stepIconMap.gratitude as React.ReactElement, {
+      //   className: "mb-0",
+      //   size: "2.3rem",
+      // }),
       title: "Gratitude",
       description:
         "Unlock this step in your daily morning routine to gain Positivity.",
       stepKey: "gratitude",
     },
     {
-      icon: mergeIconProps(stepIconMap.affirmations as React.ReactElement, {
-        className: "mb-0",
-        size: "2.5rem",
-      }),
+      // icon: mergeIconProps(stepIconMap.affirmations as React.ReactElement, {
+      //   className: "mb-0",
+      //   size: "2.5rem",
+      // }),
       title: "Affirmations",
       description:
         "Unlock this step in your daily morning routine to gain Confidence.",
       stepKey: "affirmations",
     },
     {
-      icon: mergeIconProps(stepIconMap.reflection as React.ReactElement, {
-        size: "2rem",
-      }),
+      // icon: mergeIconProps(stepIconMap.reflection as React.ReactElement, {
+      //   size: "2rem",
+      // }),
       title: "Reflection",
       description:
         "Unlock this step in your daily evening routine to gain Resilience.",
@@ -53,7 +53,7 @@ export function Routine() {
           {routineSteps.map((step, index) => (
             <RoutineStep
               key={index}
-              icon={step.icon}
+              // icon={step.icon}
               title={step.title}
               description={step.description}
               stepKey={step.stepKey}

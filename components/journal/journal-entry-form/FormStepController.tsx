@@ -12,12 +12,13 @@ import { Gratitude } from "@components/journal/journal-entry-form/form-steps/ste
 import { Affirmations } from "./form-steps/steps/Affirmations";
 import { Highlights } from "@components/journal/journal-entry-form/form-steps/steps/Highlights";
 import { Reflection } from "@components/journal/journal-entry-form/form-steps/steps/Reflection";
+import { Willpower } from "@components/journal/journal-entry-form/form-steps/steps/willpower/Willpower";
 import { HabitActionsStep } from "@components/journal/journal-entry-form/form-steps/steps/HabitActionsStep";
 import { FormStepProgress } from "./FormStepProgress";
 import { FormStepNavigation } from "./FormStepNavigation";
 import { JournalEntry } from "@models/types";
 import { isEvening } from "@lib/time";
-import { calculateWillpowerScore } from "@lib/score";
+import { getDayDisciplineScores } from "@lib/score";
 import { calculateHabitsXpFromEntry } from "@lib/level";
 
 // TEST_FLAG: used for enabling all forms steps
@@ -32,6 +33,7 @@ type FormStepControllerProps = {
   hasGratitude?: boolean;
   hasAffirmations?: boolean;
   hasReflection?: boolean;
+  willpowerMultiplier: number;
 };
 
 export type JournalFormContext = UseFormReturn<JournalEntry>;
@@ -45,6 +47,7 @@ export function FormStepController({
   hasAffirmations = false,
   hasReflection = false,
   hasHabits = false,
+  willpowerMultiplier,
 }: FormStepControllerProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -79,23 +82,29 @@ export function FormStepController({
   const gratitude = watch("dayEntry.gratitude");
   const affirmations = watch("dayEntry.affirmations");
 
-  // Get daily WP form day step forms
-  //NOTE: for the new system this should be refactored in a simple calculation
-  const calculateDailyWillpower = useCallback(
-    (
-      dayList: string[],
-      gratitudeList: string[],
-      affirmationsList: string[]
-    ) => {
-      const dayScore = calculateWillpowerScore(dayList ?? []);
-      const gratitudeScore = calculateWillpowerScore(gratitudeList ?? []);
-      const affirmationsScore = calculateWillpowerScore(affirmationsList ?? []);
-      //NOTE: the multiplier here is not applied to yday entry when calculating WP
-      // when this becomes a constant multiply var should be added in the function itself
-      return Math.floor((dayScore + gratitudeScore + affirmationsScore) * 1.5);
-    },
-    []
-  );
+  // Calculate DAY disciplines scores & set them to totalWP * WPx
+  // NOTE can use this object to calculate scores & display, but where?
+  // NOTE: should have a single source of truth for this, right now each step calculates it individually
+  // Might be better for dynamic step refactor
+  // BUT These are just the DAY ones to calc WP so its ok for now
+  const dayEntryDisciplineScores = useMemo(() => {
+    const currentEntry = getValues();
+    const disciplines = getDayDisciplineScores(currentEntry);
+
+    // Calculate total willpower by summing all discipline scores
+    const dailyWillpower = Object.values(disciplines).reduce(
+      (sum, score) => sum + (score || 0),
+      0
+    );
+
+    // Update the form value whenever disciplines change
+    setValue(
+      "dailyWillpower",
+      Math.floor(dailyWillpower * willpowerMultiplier)
+    );
+
+    return disciplines;
+  }, [day, gratitude, affirmations, setValue, getValues]);
 
   // Update form data when journalEntryData changes
   useEffect(() => {
@@ -133,16 +142,6 @@ export function FormStepController({
       }
     }
   }, [journalEntryData, setValue]);
-
-  // Update willpower when relevant fields change
-  useEffect(() => {
-    const willpower = calculateDailyWillpower(
-      day || [],
-      gratitude || [],
-      affirmations || []
-    );
-    setValue("dailyWillpower", willpower);
-  }, [day, gratitude, affirmations, calculateDailyWillpower, setValue]);
 
   const formSteps = useMemo(
     () => [
@@ -186,6 +185,11 @@ export function FormStepController({
         component: <Reflection />,
         isAvailable:
           SHOW_ALL_TEST || (isEvening(userEveningTime) && hasReflection),
+      },
+      {
+        type: "willpower",
+        component: <Willpower />,
+        isAvailable: true,
       },
       {
         type: "habits",
@@ -311,6 +315,7 @@ export function FormStepController({
           currentStepType={currentStep}
           handleStepChange={handleStepChange}
           progressPercentage={progressPercentage}
+          //NOTE: here too, should make it dynamic, should't be to hard
           dayCount={watch("dayEntry.day")?.length || 0}
           dailyGoalsCompleted={countMatchingElements(
             watch("dayEntry.day"),

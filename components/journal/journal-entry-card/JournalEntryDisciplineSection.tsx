@@ -3,7 +3,6 @@ import { JournalEntryDisciplineList } from "@components/journal/journal-entry-ca
 import {
   stepDisciplines,
   stepIconMap,
-  mergeIconProps,
   getStepStyle,
   stepStyles,
 } from "@components/ui/constants";
@@ -13,8 +12,12 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { X, Plus } from "lucide-react";
-import { calculateStepScore } from "@lib/score";
+import {
+  calculateStepScore,
+  //NOTE: will need to integrate util function:
+  // getDisciplineScoreFromEntry
+  // do this in CustomStep(Page) refactor
+} from "@lib/score";
 import { JOURNAL_COLORS } from "@lib/colors";
 import type { JournalDayEntry, JournalNightEntry } from "@models/types";
 
@@ -156,9 +159,7 @@ export function JournalEntryDisciplineSection({
           return (
             <div
               key={index}
-              className={`${circleBgColor} w-2 h-2 rounded-full ${
-                index > 0 ? "ml-0.5" : ""
-              }`}
+              className={`${circleBgColor} w-2 h-2 rounded-full`}
             />
           );
         });
@@ -173,15 +174,21 @@ export function JournalEntryDisciplineSection({
               <div className="flex items-center justify-between w-full">
                 <div className="flex items-center gap-3">
                   <div className="flex items-center justify-center text-primary w-10">
-                    {mergeIconProps(IconElement as React.ReactElement, {
-                      className: "mb-0",
+                    {React.cloneElement(IconElement as React.ReactElement, {
+                      size:
+                        stepType === "night" ||
+                        stepType === "day" ||
+                        stepType === "willpower"
+                          ? 22
+                          : 27,
                     })}
                   </div>
                   <div className="flex flex-col">
-                    <span className="font-medium text-muted-foreground">
+                    <span className="font-medium text-muted-foreground flex items-start">
                       {pointType}
                     </span>
-                    <div className="flex items-center mt-1 flex-wrap max-w-[200px] space-x-2">
+
+                    <div className="flex flex-wrap max-w-[180px] sm:max-w-[200px] gap-2">
                       {circles}
                     </div>
                   </div>
@@ -193,17 +200,15 @@ export function JournalEntryDisciplineSection({
                     <span
                       className={`text-lg font-semibold text-${JOURNAL_COLORS.score} flex items-center`}
                     >
-                      <Plus size={14} />
                       {/*NOTE: we always want to add +1 to this value so that when completing 1 task
                       we always start form multiplying by x2 */}
-                      {score} <X size={15} /> {completedCount + 1}
+                      +{score * (completedCount + 1)}
                     </span>
                   ) : (
                     <span
                       className={`text-lg font-semibold text-${JOURNAL_COLORS.score} flex items-center`}
                     >
-                      <Plus size={14} />
-                      {score}
+                      +{score}
                     </span>
                   )}
                 </div>
@@ -213,11 +218,13 @@ export function JournalEntryDisciplineSection({
               {renderSections ? (
                 renderSections()
               ) : (
-                <JournalEntryDisciplineList
-                  title={title}
-                  items={data}
-                  stepType={stepType}
-                />
+                <>
+                  <JournalEntryDisciplineList
+                    title={title}
+                    items={data}
+                    stepType={stepType}
+                  />
+                </>
               )}
             </AccordionContent>
           </AccordionItem>

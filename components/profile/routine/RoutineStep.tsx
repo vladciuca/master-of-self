@@ -1,20 +1,25 @@
+import React from "react";
 import { Switch } from "@components/ui/switch";
 import { useUserSettings } from "@context/UserSettingsContext";
 import { RoutineStepProps } from "@models/types";
+import { stepIconMap } from "@components/ui/constants";
 
 export function RoutineStep({
-  icon,
+  // icon,
   title,
   description,
   stepKey,
 }: RoutineStepProps) {
   const { userSettings, userSettingsLoading, handleRoutineChange } =
     useUserSettings();
+  const IconElement = stepIconMap[stepKey] || stepIconMap.default;
 
   return (
     <div className="my-4 flex justify-between items-center">
       <span className="w-3/12 flex items-center justify-center mr-4">
-        {icon}
+        {React.cloneElement(IconElement as React.ReactElement, {
+          size: 40,
+        })}
       </span>
 
       <div className="flex flex-grow">

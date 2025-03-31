@@ -1,13 +1,20 @@
 import React from "react";
-import { FaSun, FaMoon, FaStar } from "react-icons/fa6";
+import { FaSun, FaMoon, FaStar, FaBoltLightning } from "react-icons/fa6";
 import {
   GiHealing,
   // GiPlayerTime, // might be used for REFLECTION STEP in JOURNAL-REFACTOR
   GiBackup,
+  GiGuardedTower,
+  GiBeamsAura,
+  GiPsychicWaves,
+  GiAwareness,
   GiAura,
   GiPencilRuler,
   GiEnlightenment,
   GiHazardSign,
+  GiSun,
+  GiSpellBook,
+  GiDeadlyStrike,
 } from "react-icons/gi";
 import { JOURNAL_COLORS, HABIT_COLORS } from "@lib/colors";
 
@@ -17,79 +24,17 @@ export type StepIconMap = {
 };
 
 export const stepIconMap: StepIconMap = {
-  day: <FaSun size={"1.3rem"} />,
-  night: <FaMoon size={"1.4rem"} />,
-  affirmations: <GiAura size={"1.9rem"} className="mb-1" />,
-  highlights: <FaStar size={"1.4rem"} />,
-  gratitude: <GiHealing size={"1.65rem"} className="mb-1" />,
-  reflection: <GiBackup size={"1.4rem"} />,
-  habits: <GiPencilRuler size={"1.4rem"} />,
-  bonus: <GiEnlightenment size={"1.7rem"} />,
-  default: <GiHazardSign size={"1.4rem"} />,
+  day: <FaSun />,
+  night: <FaMoon />,
+  affirmations: <GiAura />,
+  highlights: <GiAwareness />,
+  gratitude: <GiHealing />,
+  reflection: <GiGuardedTower />,
+  habits: <GiPencilRuler />,
+  bonus: <GiEnlightenment />,
+  willpower: <FaBoltLightning />,
+  default: <GiHazardSign />,
 };
-
-// NOTE: very specific function that removes the conflicting mb- tailwind classes
-// Used in journal entry card - disciplines
-/**
- * Merges icon props while preserving original styles
- * @param icon The original icon element
- * @param newProps New props to apply
- * @returns A new React element with merged props
- */
-export function mergeIconProps(
-  icon: React.ReactElement,
-  newProps: Record<string, any>
-): React.ReactElement {
-  // Get the original props
-  const originalProps = icon.props;
-
-  // For className, we need to handle Tailwind conflicts
-  let className = "";
-
-  if (newProps.className && originalProps.className) {
-    // Extract utility classes that might conflict
-    const originalClasses = originalProps.className.split(" ");
-    const newClasses = newProps.className.split(" ");
-
-    // Find utility prefixes that exist in both sets (like 'mb-')
-    const conflictPrefixes = new Set();
-
-    // Identify potential conflicts by checking utility prefixes
-    originalClasses.forEach((cls: string) => {
-      const match = cls.match(/^([a-z]+-)/);
-      if (match) {
-        const prefix = match[1];
-        newClasses.forEach((newCls: string) => {
-          if (newCls.startsWith(prefix)) {
-            conflictPrefixes.add(prefix);
-          }
-        });
-      }
-    });
-
-    // Filter out original classes that have conflicting prefixes
-    const filteredOriginalClasses = originalClasses.filter((cls: string) => {
-      const match = cls.match(/^([a-z]+-)/);
-      return !(match && conflictPrefixes.has(match[1]));
-    });
-
-    // Combine filtered original classes with all new classes
-    className = [...filteredOriginalClasses, ...newClasses].join(" ");
-  } else {
-    className = newProps.className || originalProps.className;
-  }
-
-  // Create merged props object, prioritizing original props for size and other attributes
-  const mergedProps = {
-    ...originalProps,
-    ...newProps,
-    // Override with explicit merges
-    className,
-    size: newProps.size || originalProps.size,
-  };
-
-  return React.cloneElement(icon, mergedProps);
-}
 
 export type StepDisciplines = {
   [key: string]: string;
