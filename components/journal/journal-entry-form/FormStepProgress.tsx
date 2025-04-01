@@ -4,68 +4,63 @@ import { Badge } from "@/components/ui/badge";
 import { FaBoltLightning } from "react-icons/fa6";
 import { stepIconMap, getStepStyle } from "@components/ui/constants";
 
+// Update the Step type to be more flexible
 type Step = {
   type: string;
   component: React.ReactNode;
   isAvailable: boolean;
+  category?: "day" | "night" | "other";
+  icon?: React.ReactNode;
 };
 
 type FormStepProgressProps = {
-  availableSteps: Step[];
+  formSteps: Step[];
   currentStepType: string;
   handleStepChange: (stepType: string) => void;
   progressPercentage: number;
-  //Step count
-  dayCount: number;
-  dailyGoalsCompleted: number;
-  gratitudeCount: number;
-  affirmationsCount: number;
-  highlightsCount: number;
-  reflectionCount: number;
+  // Instead of requiring specific count props, accept any prop ending with "Count"
+  dailyGoalsCompleted?: number;
   habitActionsCount: number;
+  [key: `${string}Count`]: number;
 };
 
 export function FormStepProgress({
-  availableSteps,
+  formSteps,
   currentStepType,
   handleStepChange,
   progressPercentage,
-  //Step counts
-  dayCount,
   dailyGoalsCompleted,
-  gratitudeCount,
-  affirmationsCount,
-  highlightsCount,
-  reflectionCount,
   habitActionsCount,
+  ...countProps
 }: FormStepProgressProps) {
+  // This function gets the count for a step type from the countProps
   const getCount = (stepType: string): number => {
-    switch (stepType) {
-      case "day":
-        return dayCount;
-      case "night":
-        return dailyGoalsCompleted;
-      case "gratitude":
-        return gratitudeCount;
-      case "affirmations":
-        return affirmationsCount;
-      case "highlights":
-        return highlightsCount;
-      case "reflection":
-        return reflectionCount;
-      case "habits":
-        return habitActionsCount;
-
-      default:
-        return 0;
+    // Special cases first
+    if (stepType === "night" && dailyGoalsCompleted !== undefined) {
+      return dailyGoalsCompleted;
     }
+
+    if (stepType === "habits" && habitActionsCount !== undefined) {
+      return habitActionsCount;
+    }
+
+    // Look for a specific count prop for this step type
+    const countProp = `${stepType}Count` as keyof typeof countProps;
+
+    // If we have a specific count for this step type, use it
+    if (countProps[countProp] !== undefined) {
+      return countProps[countProp];
+    }
+
+    // Default to 0 if no count is found
+    return 0;
   };
 
   return (
     <div className="flex flex-col items-center w-full mb-4">
       <div className="flex items-center justify-around w-full mt-4 mb-3 px-4 sm:pt-4">
-        {availableSteps.map((step: Step, index: number) => {
-          const IconElement = stepIconMap[step.type] || stepIconMap.default;
+        {formSteps.map((step: Step, index: number) => {
+          const IconElement = step.icon;
           const { bgColor } = getStepStyle(step.type);
           const count = getCount(step.type);
           return (

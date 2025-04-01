@@ -64,14 +64,16 @@ export type JournalEntryHabit = {
 
 export type JournalDayEntry = {
   day?: string[];
-  gratitude?: string[];
-  affirmations?: string[];
+  // gratitude?: string[];
+  // affirmations?: string[];
+  [key: string]: string[] | undefined;
 };
 
 export type JournalNightEntry = {
   night?: string[];
-  highlights?: string[];
-  reflection?: string[];
+  // highlights?: string[];
+  // reflection?: string[];
+  [key: string]: string[] | undefined;
 };
 
 export type JournalEntry = {

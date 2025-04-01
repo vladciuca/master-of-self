@@ -47,11 +47,29 @@ export default function UpdateJournalEntry() {
           submitting={submittingJournalEntryUpdate}
           onSubmit={updateJournalEntry}
           userEveningTime={userEveningTime}
-          hasGratitude={hasGratitude}
-          hasAffirmations={hasAffirmations}
-          hasReflection={hasReflection}
-          hasHabits={hasHabits}
+          availableSteps={{
+            gratitude: hasGratitude,
+            affirmations: hasAffirmations,
+            reflection: hasReflection,
+            habits: hasHabits,
+          }}
           willpowerMultiplier={willpowerMultiplier}
+          customSteps={[
+            {
+              icon: <>icon</>,
+              type: "goals",
+              component: <>GOALS STEP - DAY</>,
+              category: "day",
+              isAvailable: true,
+            },
+            {
+              icon: <>icon</>,
+              type: "learnings",
+              component: <>LEARNING STEP - NIGHT</>,
+              category: "night",
+              isAvailable: true,
+            },
+          ]}
         />
       )}
       {/* Since this is in the MINIMAL_LAYOUT, the UI of the FULL_LAYOUT needs to be recreated here
