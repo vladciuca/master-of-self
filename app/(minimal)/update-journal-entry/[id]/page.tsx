@@ -8,7 +8,7 @@ import { useUserSettings } from "@context/UserSettingsContext";
 import { useUserHabits } from "@hooks/habits/useUserHabits";
 import { useFetchAndUpdateJournalEntry } from "@hooks/journal/useFetchAndUpdateJournalEntry";
 
-import { GiAura, GiHealing, GiAwareness } from "react-icons/gi";
+import { GiAura, GiHealing, GiAwareness, GiGuardedTower } from "react-icons/gi";
 import { JournalStep } from "@components/journal/journal-entry-form/form-steps/steps/JournalStep";
 import type { JournalStepConfig, JournalEntryCustomStep } from "@models/types";
 
@@ -39,6 +39,15 @@ const customStepConfigs: JournalStepConfig[] = [
     title: "What are today's highlights?",
     description:
       "Build momentum by capturing meaningful events and boost Awareness.",
+    isAvailable: true,
+  },
+  {
+    icon: <GiGuardedTower />,
+    type: "resilience",
+    category: "night",
+    title: "Could today have been better?",
+    description:
+      "If you could go back, what would you change? Recognize what’s in your control, accept what isn’t.",
     isAvailable: true,
   },
 ];

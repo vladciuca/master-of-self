@@ -8,10 +8,10 @@ import { FormStepNavigation } from "./FormStepNavigation";
 import { JournalEntry, JournalEntryCustomStep } from "@models/types";
 import { getDayDisciplineScores } from "@lib/score";
 import { calculateHabitsXpFromEntry } from "@lib/level";
-import { createBuiltInSteps } from "./form-steps/steps/StepConfig";
+import { createSteps } from "./form-steps/steps/StepConfig";
 
 // TEST_FLAG: used for enabling all forms steps
-const SHOW_ALL_TEST = true;
+const SHOW_ALL_TEST = false;
 
 // Define the known day and night fields for easier management
 const DAY_FIELDS = ["day"];
@@ -210,24 +210,15 @@ export function FormStepController({
 
   // Inside FormStepController component
   const formSteps = useMemo(() => {
-    // Get built-in steps
-    const steps = createBuiltInSteps(
+    const createStepsParams = {
       watch,
       userEveningTime,
+      // Maybe not even pass this, generate it in the stepConfig
       availableSteps,
-      SHOW_ALL_TEST
-    );
-
-    // Add custom steps
-    customSteps.forEach((customStep) => {
-      steps.push({
-        icon: customStep.icon,
-        type: customStep.type,
-        component: customStep.component,
-        isAvailable: customStep.isAvailable ?? true,
-        category: customStep.category,
-      });
-    });
+      SHOW_ALL_TEST,
+      customSteps,
+    };
+    const steps = createSteps(createStepsParams);
 
     return steps;
   }, [watch, userEveningTime, availableSteps, customSteps]);

@@ -54,10 +54,13 @@ export type RoutineStepProps = {
 };
 
 // JOURNAL STEP -----------------------------------------------------
+//Note: Rename these to StepType = "dayEntry" | "nightEntry"
 export type JournalCategory = "day" | "night" | "other";
 
 export type JournalStep = {
+  //rename the type to discipline
   type: string;
+  //rename category to type
   category: JournalCategory;
   title: string;
   description: string;
