@@ -1,5 +1,5 @@
 import { useFormContext } from "react-hook-form";
-import { FormStepTemplate } from "@components/journal/journal-entry-form/form-steps/FormStepTemplate";
+import { FormStepTemplate } from "@components/journal/journal-entry-form/form-steps/steps/journal-step/JournalStepTemplate";
 import { WillpowerScoreDisplay } from "@components/journal/journal-entry-form/form-steps/WillpowerScoreDisplay";
 import { DisciplineLevelBar } from "@components/profile/disciplines/DisciplineLevelBar";
 import { calculateStepScore, calculateStepScoreMultiplier } from "@lib/score";

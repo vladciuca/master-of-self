@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo } from "react";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Card, CardContent } from "@/components/ui/card";
-import { FormStepTemplate } from "@components/journal/journal-entry-form/form-steps/FormStepTemplate";
+import { FormStepTemplate } from "@components/journal/journal-entry-form/form-steps/steps/journal-step/JournalStepTemplate";
 import { WillpowerScoreDisplay } from "@components/journal/journal-entry-form/form-steps/WillpowerScoreDisplay";
 import { JournalEntryDisciplineList } from "@components/journal/journal-entry-card/JournalEntryDisciplineList";
 import { useYesterdayJournalEntry } from "@hooks/journal/useYesterdayJournalEntry";

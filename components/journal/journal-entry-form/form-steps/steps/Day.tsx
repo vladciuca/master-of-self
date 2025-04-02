@@ -1,5 +1,5 @@
 import { useFormContext } from "react-hook-form";
-import { FormStepTemplate } from "@components/journal/journal-entry-form/form-steps/FormStepTemplate";
+import { FormStepTemplate } from "@components/journal/journal-entry-form/form-steps/steps/journal-step/JournalStepTemplate";
 import { TextAreaList } from "@components/ui/textarea-list";
 import { StepScoreDisplay } from "../StepScoreDisplay";
 import type { JournalEntry } from "@models/types";

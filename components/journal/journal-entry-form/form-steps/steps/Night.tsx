@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useFormContext } from "react-hook-form";
-import { FormStepTemplate } from "@components/journal/journal-entry-form/form-steps/FormStepTemplate";
+import { FormStepTemplate } from "@components/journal/journal-entry-form/form-steps/steps/journal-step/JournalStepTemplate";
 import { StepScoreDisplay } from "../StepScoreDisplay";
 // import { Badge } from "@components/ui/badge";
 import { Checkbox } from "@components/ui/checkbox";

@@ -84,7 +84,9 @@ export function FormStepProgress({
               >
                 {React.cloneElement(IconElement as React.ReactElement, {
                   size:
-                    step.type === "night" || step.type === "day"
+                    step.type === "night" ||
+                    step.type === "day" ||
+                    step.type === "bonus"
                       ? 25
                       : step.type === "willpower"
                       ? 23

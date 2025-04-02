@@ -5,11 +5,11 @@ import { FormStepController } from "@components/journal/journal-entry-form/FormS
 import { PageLogo } from "@components/PageLogo";
 import { HeaderTitle } from "@components/HeaderTitle";
 import { useUserSettings } from "@context/UserSettingsContext";
-import { useUserHabits } from "@hooks/habits/useUserHabits";
+// import { useUserHabits } from "@hooks/habits/useUserHabits";
 import { useFetchAndUpdateJournalEntry } from "@hooks/journal/useFetchAndUpdateJournalEntry";
 
 import { GiAura, GiHealing, GiAwareness, GiGuardedTower } from "react-icons/gi";
-import { JournalStep } from "@components/journal/journal-entry-form/form-steps/steps/JournalStep";
+import { JournalStep } from "@components/journal/journal-entry-form/form-steps/steps/journal-step/JournalStep";
 import type { JournalStepConfig, JournalEntryCustomStep } from "@models/types";
 
 //NOTE: move this to hook when u make Step Collection
@@ -87,18 +87,15 @@ export default function UpdateJournalEntry() {
     userSettingsLoading,
     userSettingsError,
   } = useUserSettings();
-  const { hasHabits, habitsLoading } = useUserHabits();
+  //NOTE: WIP - Habits
+  // const { hasHabits, habitsLoading } = useUserHabits();
 
-  const userSteps = userSettings?.steps;
-  const hasGratitude = userSteps?.gratitude;
-  const hasAffirmations = userSteps?.affirmations;
-  const hasReflection = userSteps?.reflection;
   const userEveningTime = userSettings?.journalStartTime.evening;
 
   const isLoading =
     journalEntryLoading ||
     userSettingsLoading ||
-    habitsLoading ||
+    // habitsLoading ||
     !journalEntryData;
 
   return (
@@ -109,13 +106,6 @@ export default function UpdateJournalEntry() {
           submitting={submittingJournalEntryUpdate}
           onSubmit={updateJournalEntry}
           userEveningTime={userEveningTime}
-          //NOTE: will be moved to stepConfig
-          availableSteps={{
-            // gratitude: hasGratitude,
-            // affirmations: hasAffirmations,
-            // reflection: hasReflection,
-            habits: hasHabits,
-          }}
           willpowerMultiplier={willpowerMultiplier}
           //NOTE: need to make some kind of function that generates these
           customSteps={customSteps}

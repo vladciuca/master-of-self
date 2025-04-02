@@ -8,10 +8,10 @@ import { FormStepNavigation } from "./FormStepNavigation";
 import { JournalEntry, JournalEntryCustomStep } from "@models/types";
 import { getDayDisciplineScores } from "@lib/score";
 import { calculateHabitsXpFromEntry } from "@lib/level";
-import { createSteps } from "./form-steps/steps/StepConfig";
+import { createSteps } from "./form-steps/StepConfig";
 
 // TEST_FLAG: used for enabling all forms steps
-const SHOW_ALL_TEST = false;
+const SHOW_ALL_TEST = true;
 
 // Define the known day and night fields for easier management
 const DAY_FIELDS = ["day"];
@@ -22,8 +22,6 @@ type FormStepControllerProps = {
   onSubmit: (journalEntry: JournalEntry) => Promise<void>;
   journalEntryData?: JournalEntry;
   userEveningTime?: string;
-  //NOTE should have to find a better way to set availability
-  availableSteps?: Record<string, boolean>;
   willpowerMultiplier: number;
   customSteps?: JournalEntryCustomStep[];
 };
@@ -35,13 +33,6 @@ export function FormStepController({
   submitting,
   onSubmit,
   userEveningTime = "18:00",
-  //NOTE: will be moved to StepConfig
-  availableSteps = {
-    gratitude: false,
-    affirmations: false,
-    reflection: false,
-    habits: false,
-  },
   willpowerMultiplier,
   customSteps = [],
 }: FormStepControllerProps) {
@@ -109,11 +100,6 @@ export function FormStepController({
 
   // Get form values and methods
   const { watch, setValue, getValues } = methods;
-
-  // NOTE: TS type checking is static and happening at compile time, not runtime.
-  // The TypeScript compiler doesn't know about the runtime behavior of React Hook Form
-  // This is why we must set a fallback value to be able to use in isAvailable step condition
-  // const day = watch("dayEntry.day") || [];
 
   // Calculate DAY disciplines scores & set them to totalWP * WPx
   const dayEntryDisciplineScores = useMemo(() => {
@@ -213,15 +199,13 @@ export function FormStepController({
     const createStepsParams = {
       watch,
       userEveningTime,
-      // Maybe not even pass this, generate it in the stepConfig
-      availableSteps,
       SHOW_ALL_TEST,
       customSteps,
     };
     const steps = createSteps(createStepsParams);
 
     return steps;
-  }, [watch, userEveningTime, availableSteps, customSteps]);
+  }, [watch, userEveningTime, customSteps]);
 
   const filteredSteps = useMemo(
     () => formSteps.filter((step) => step.isAvailable),
@@ -257,7 +241,7 @@ export function FormStepController({
       setStep(initialStepType);
       setIsInitialized(true);
     }
-  }, [isInitialized, availableSteps, currentStepType, stepTypes, setStep]);
+  }, [isInitialized, currentStepType, stepTypes, setStep]);
 
   const handleStepChange = useCallback(
     (stepType: string, shouldSubmit = true) => {
