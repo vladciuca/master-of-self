@@ -2,42 +2,20 @@
 
 import React, { useState, useEffect, useCallback, useMemo } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-
 import { useForm, FormProvider, UseFormReturn } from "react-hook-form";
-
-// import { Bonus } from "@components/journal/journal-entry-form/form-steps/steps/bonus/Bonus";
-// import { Day } from "@components/journal/journal-entry-form/form-steps/steps/Day";
-// import { Night } from "@components/journal/journal-entry-form/form-steps/steps/Night";
-// import { Gratitude } from "@components/journal/journal-entry-form/form-steps/steps/Gratitude";
-// import { Affirmations } from "./form-steps/steps/Affirmations";
-// import { Highlights } from "@components/journal/journal-entry-form/form-steps/steps/Highlights";
-// import { Reflection } from "@components/journal/journal-entry-form/form-steps/steps/Reflection";
-// import { Willpower } from "@components/journal/journal-entry-form/form-steps/steps/willpower/Willpower";
-// import { HabitActionsStep } from "@components/journal/journal-entry-form/form-steps/steps/HabitActionsStep";
 import { FormStepProgress } from "./FormStepProgress";
 import { FormStepNavigation } from "./FormStepNavigation";
-import { JournalEntry } from "@models/types";
-// import { isEvening } from "@lib/time";
+import { JournalEntry, JournalEntryCustomStep } from "@models/types";
 import { getDayDisciplineScores } from "@lib/score";
 import { calculateHabitsXpFromEntry } from "@lib/level";
-
 import { createBuiltInSteps } from "./form-steps/steps/StepConfig";
 
 // TEST_FLAG: used for enabling all forms steps
 const SHOW_ALL_TEST = true;
 
 // Define the known day and night fields for easier management
-const DAY_FIELDS = ["day", "gratitude", "affirmations"];
-const NIGHT_FIELDS = ["night", "highlights", "reflection"];
-
-// Type for the form step configuration
-// type FormStep = {
-//   // icon?: React.ReactNode;
-//   type: string;
-//   component: JSX.Element;
-//   isAvailable: boolean;
-//   category?: "day" | "night" | "other";
-// };
+const DAY_FIELDS = ["day"];
+const NIGHT_FIELDS = ["night"];
 
 type FormStepControllerProps = {
   submitting: boolean;
@@ -47,13 +25,7 @@ type FormStepControllerProps = {
   //NOTE should have to find a better way to set availability
   availableSteps?: Record<string, boolean>;
   willpowerMultiplier: number;
-  customSteps?: Array<{
-    icon: React.ReactNode;
-    type: string;
-    component: JSX.Element;
-    category: "day" | "night" | "other";
-    isAvailable?: boolean;
-  }>;
+  customSteps?: JournalEntryCustomStep[];
 };
 
 export type JournalFormContext = UseFormReturn<JournalEntry>;
@@ -63,6 +35,7 @@ export function FormStepController({
   submitting,
   onSubmit,
   userEveningTime = "18:00",
+  //NOTE: will be moved to StepConfig
   availableSteps = {
     gratitude: false,
     affirmations: false,
@@ -235,87 +208,6 @@ export function FormStepController({
     }
   }, [journalEntryData, setValue, customSteps]);
 
-  // Build form steps dynamically
-  // const formSteps = useMemo(() => {
-  //   const steps: FormStep[] = [
-  //     {
-  //       type: "bonus",
-  //       component: <Bonus />,
-  //       isAvailable:
-  //         SHOW_ALL_TEST ||
-  //         (!isEvening(userEveningTime) && watch("bonusWillpower") > 0),
-  //       category: "other",
-  //     },
-  //     {
-  //       type: "gratitude",
-  //       component: <Gratitude />,
-  //       isAvailable:
-  //         SHOW_ALL_TEST ||
-  //         (!isEvening(userEveningTime) && availableSteps.gratitude),
-  //       category: "day",
-  //     },
-  //     {
-  //       type: "day",
-  //       component: <Day />,
-  //       isAvailable: SHOW_ALL_TEST || !isEvening(userEveningTime),
-  //       category: "day",
-  //     },
-  //     {
-  //       type: "affirmations",
-  //       component: <Affirmations />,
-  //       isAvailable:
-  //         SHOW_ALL_TEST ||
-  //         (!isEvening(userEveningTime) && availableSteps.affirmations),
-  //       category: "day",
-  //     },
-  //     {
-  //       type: "night",
-  //       component: <Night />,
-  //       isAvailable:
-  //         SHOW_ALL_TEST || (isEvening(userEveningTime) && day?.length > 0),
-  //       category: "night",
-  //     },
-  //     {
-  //       type: "highlights",
-  //       component: <Highlights />,
-  //       isAvailable: SHOW_ALL_TEST || isEvening(userEveningTime),
-  //       category: "night",
-  //     },
-  //     {
-  //       type: "reflection",
-  //       component: <Reflection />,
-  //       isAvailable:
-  //         SHOW_ALL_TEST ||
-  //         (isEvening(userEveningTime) && availableSteps.reflection),
-  //       category: "night",
-  //     },
-  //     {
-  //       type: "willpower",
-  //       component: <Willpower />,
-  //       isAvailable: true,
-  //       category: "other",
-  //     },
-  //     {
-  //       type: "habits",
-  //       component: <HabitActionsStep />,
-  //       isAvailable: availableSteps.habits ?? false,
-  //       category: "other",
-  //     },
-  //   ];
-
-  //   // Add custom steps
-  //   customSteps.forEach((customStep) => {
-  //     steps.push({
-  //       type: customStep.type,
-  //       component: customStep.component,
-  //       isAvailable: customStep.isAvailable ?? true,
-  //       category: customStep.category,
-  //     });
-  //   });
-
-  //   return steps;
-  // }, [watch, userEveningTime, availableSteps, customSteps]);
-
   // Inside FormStepController component
   const formSteps = useMemo(() => {
     // Get built-in steps
@@ -347,7 +239,7 @@ export function FormStepController({
 
   const stepTypes = useMemo(
     () => filteredSteps.map((step) => step.type),
-    [availableSteps]
+    [filteredSteps]
   );
 
   // Get the current step type from URL or use the first available step
@@ -475,15 +367,6 @@ export function FormStepController({
       return 0;
     }
   };
-
-  // First, update the progressProps type to allow for dynamic string keys
-  // Add this type definition before creating the progressProps object:
-  // type ProgressProps = {
-  //   dayCount: number;
-  //   dailyGoalsCompleted: number;
-  //   habitActionsCount: number;
-  //   [key: `${string}Count`]: number;
-  // };
 
   //NOTE??????? This cound function can it no be moved inside the FormStepProgress.tsx
   // why is it dose form here, we have the steps inside FormStepProgress

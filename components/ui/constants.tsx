@@ -106,6 +106,7 @@ export const stepStyles: { [key: string]: StepStyle } = {
   },
 };
 
+//NEW STEP STYLES to include dynamic steps
 export const getStepStyle = (stepType: string): StepStyle => {
   return stepStyles[stepType] || stepStyles.default;
 };

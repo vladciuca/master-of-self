@@ -8,8 +8,58 @@ import { useUserSettings } from "@context/UserSettingsContext";
 import { useUserHabits } from "@hooks/habits/useUserHabits";
 import { useFetchAndUpdateJournalEntry } from "@hooks/journal/useFetchAndUpdateJournalEntry";
 
-import { Fa1, Fa2 } from "react-icons/fa6";
+import { GiAura, GiHealing, GiAwareness } from "react-icons/gi";
 import { JournalStep } from "@components/journal/journal-entry-form/form-steps/steps/JournalStep";
+import type { JournalStepConfig, JournalEntryCustomStep } from "@models/types";
+
+//NOTE: move this to hook when u make Step Collection
+const customStepConfigs: JournalStepConfig[] = [
+  {
+    icon: <GiHealing />,
+    type: "positivity",
+    category: "day",
+    title: "What am I feeling grateful for?",
+    description:
+      "Use details to describe what you're feeling grateful for and increase Positivity.",
+    isAvailable: true,
+  },
+  {
+    icon: <GiAura />,
+    type: "confidence",
+    category: "day",
+    title: "Daily Affirmations",
+    description:
+      "Use statements using powerful words to imprint on your subconscious mind and build Confidence.",
+    isAvailable: true,
+  },
+  {
+    icon: <GiAwareness />,
+    type: "awareness",
+    category: "night",
+    title: "What are today's highlights?",
+    description:
+      "Build momentum by capturing meaningful events and boost Awareness.",
+    isAvailable: true,
+  },
+];
+
+const customSteps: JournalEntryCustomStep[] = customStepConfigs.map(
+  (config) => ({
+    icon: config.icon,
+    type: config.type,
+    component: (
+      <JournalStep
+        key={config.type}
+        type={config.type}
+        category={config.category}
+        title={config.title}
+        description={config.description}
+      />
+    ),
+    category: config.category,
+    isAvailable: config.isAvailable,
+  })
+);
 
 export default function UpdateJournalEntry() {
   const params = useParams<{ id: string }>();
@@ -50,45 +100,16 @@ export default function UpdateJournalEntry() {
           submitting={submittingJournalEntryUpdate}
           onSubmit={updateJournalEntry}
           userEveningTime={userEveningTime}
+          //NOTE: will be moved to stepConfig
           availableSteps={{
-            gratitude: hasGratitude,
-            affirmations: hasAffirmations,
-            reflection: hasReflection,
+            // gratitude: hasGratitude,
+            // affirmations: hasAffirmations,
+            // reflection: hasReflection,
             habits: hasHabits,
           }}
           willpowerMultiplier={willpowerMultiplier}
           //NOTE: need to make some kind of function that generates these
-          customSteps={[
-            {
-              icon: <Fa1 />,
-              type: "goals",
-              component: (
-                <JournalStep
-                  type={"goals"}
-                  category="day"
-                  title="Test step"
-                  description="test step desc"
-                />
-              ),
-              category: "day",
-              //NOTE: Here we will need to use isEvening to determine availability for night / day
-              isAvailable: true,
-            },
-            {
-              icon: <Fa2 />,
-              type: "learnings",
-              component: (
-                <JournalStep
-                  type={"learnings"}
-                  category="night"
-                  title="Test step"
-                  description="test step desc"
-                />
-              ),
-              category: "night",
-              isAvailable: true,
-            },
-          ]}
+          customSteps={customSteps}
         />
       )}
       {/* Since this is in the MINIMAL_LAYOUT, the UI of the FULL_LAYOUT needs to be recreated here

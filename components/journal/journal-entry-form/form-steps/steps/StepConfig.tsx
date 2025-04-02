@@ -7,14 +7,7 @@ import { isEvening } from "@lib/time";
 
 import { FaSun, FaMoon, FaStar, FaBoltLightning } from "react-icons/fa6";
 import { Target, Shell } from "lucide-react";
-
-export type FormStep = {
-  icon: React.ReactNode;
-  type: string;
-  component: React.ReactNode;
-  isAvailable: boolean;
-  category: "day" | "night" | "other";
-};
+import type { JournalEntryCustomStep } from "@models/types";
 
 // Function to create the built-in steps
 export function createBuiltInSteps(
@@ -22,7 +15,7 @@ export function createBuiltInSteps(
   userEveningTime: string,
   availableSteps: Record<string, boolean>,
   SHOW_ALL_TEST = false
-): FormStep[] {
+): JournalEntryCustomStep[] {
   // NOTE: TS type checking is static and happening at compile time, not runtime.
   // The TypeScript compiler doesn't know about the runtime behavior of React Hook Form
   // This is why we must set a fallback value to be able to use in isAvailable step condition

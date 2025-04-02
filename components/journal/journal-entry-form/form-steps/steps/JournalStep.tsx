@@ -2,29 +2,22 @@ import { useFormContext } from "react-hook-form";
 import { FormStepTemplate } from "@components/journal/journal-entry-form/form-steps/FormStepTemplate";
 import { TextAreaList } from "@components/ui/textarea-list";
 import { StepScoreDisplay } from "../StepScoreDisplay";
-import type { JournalEntry } from "@models/types";
-
-type JournalStepProps = {
-  //type is the discipline
-  type: string;
-  category: string;
-  title: string;
-  description: string;
-};
+import type { JournalEntry, JournalStep } from "@models/types";
 
 export function JournalStep({
   type,
   category,
   title,
   description,
-}: JournalStepProps) {
+}: JournalStep) {
   const { watch, setValue } = useFormContext<JournalEntry>();
 
   const entryCategory = category === "day" ? "dayEntry" : "nightEntry";
-  const items = watch(`${entryCategory}.${type}`);
+  const formPath = `${entryCategory}.${type}` as const;
+  const items = watch(formPath);
 
   const handleTextAreaListChange = (newEntries: string[]) => {
-    setValue(`${entryCategory}.${type}`, newEntries, {
+    setValue(formPath, newEntries, {
       shouldDirty: true,
     });
   };

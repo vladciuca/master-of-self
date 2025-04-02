@@ -3,18 +3,10 @@ import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
 import { FaBoltLightning } from "react-icons/fa6";
 import { getJournalStepStyle } from "@components/ui/constants";
-
-// Update the Step type to be more flexible
-type Step = {
-  type: string;
-  component: React.ReactNode;
-  isAvailable: boolean;
-  category?: "day" | "night" | "other";
-  icon?: React.ReactNode;
-};
+import type { JournalEntryCustomStep } from "@models/types";
 
 type FormStepProgressProps = {
-  formSteps: Step[];
+  formSteps: JournalEntryCustomStep[];
   currentStepType: string;
   handleStepChange: (stepType: string) => void;
   progressPercentage: number;
@@ -65,7 +57,7 @@ export function FormStepProgress({
   return (
     <div className="flex flex-col items-center w-full mb-4">
       <div className="flex items-center justify-around w-full mt-4 mb-3 px-4 sm:pt-4">
-        {formSteps.map((step: Step, index: number) => {
+        {formSteps.map((step: JournalEntryCustomStep, index: number) => {
           const IconElement = step.icon;
           const { bgColor } = getJournalStepStyle(
             step.category === "other"
