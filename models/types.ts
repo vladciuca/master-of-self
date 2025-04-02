@@ -68,7 +68,6 @@ export type JournalStep = {
 
 export type JournalStepConfig = JournalStep & {
   icon: ReactNode;
-  isAvailable: boolean;
 };
 
 export type JournalEntryCustomStep = {

@@ -1,5 +1,5 @@
 import { useFormContext } from "react-hook-form";
-import { FormStepTemplate } from "@components/journal/journal-entry-form/form-steps/steps/journal-step/JournalStepTemplate";
+import { JournalStepTemplate } from "@components/journal/journal-entry-form/form-steps/steps/journal-step/JournalStepTemplate";
 import { WillpowerScoreDisplay } from "@components/journal/journal-entry-form/form-steps/WillpowerScoreDisplay";
 import { DisciplineLevelBar } from "@components/profile/disciplines/DisciplineLevelBar";
 import { calculateStepScore, calculateStepScoreMultiplier } from "@lib/score";
@@ -45,7 +45,7 @@ export function Willpower() {
   const hasPositiveDisciplineScores = filteredDisciplineScores.length > 0;
 
   return (
-    <FormStepTemplate
+    <JournalStepTemplate
       title={"Willpower Generated"}
       description={
         "Increase your daily Willpower by working on your morning journaling."
@@ -90,6 +90,6 @@ export function Willpower() {
           )}
         </div>
       </div>
-    </FormStepTemplate>
+    </JournalStepTemplate>
   );
 }

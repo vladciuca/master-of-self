@@ -21,7 +21,6 @@ const customStepConfigs: JournalStepConfig[] = [
     title: "What am I feeling grateful for?",
     description:
       "Use details to describe what you're feeling grateful for and increase Positivity.",
-    isAvailable: true,
   },
   {
     icon: <GiAura />,
@@ -30,7 +29,6 @@ const customStepConfigs: JournalStepConfig[] = [
     title: "Daily Affirmations",
     description:
       "Use statements using powerful words to imprint on your subconscious mind and build Confidence.",
-    isAvailable: true,
   },
   {
     icon: <GiAwareness />,
@@ -39,7 +37,6 @@ const customStepConfigs: JournalStepConfig[] = [
     title: "What are today's highlights?",
     description:
       "Build momentum by capturing meaningful events and boost Awareness.",
-    isAvailable: true,
   },
   {
     icon: <GiGuardedTower />,
@@ -48,7 +45,6 @@ const customStepConfigs: JournalStepConfig[] = [
     title: "Could today have been better?",
     description:
       "If you could go back, what would you change? Recognize what’s in your control, accept what isn’t.",
-    isAvailable: true,
   },
 ];
 
@@ -66,7 +62,6 @@ const customSteps: JournalEntryCustomStep[] = customStepConfigs.map(
       />
     ),
     category: config.category,
-    isAvailable: config.isAvailable,
   })
 );
 

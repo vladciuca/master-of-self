@@ -1,6 +1,6 @@
 import { useCallback } from "react";
 import { useFormContext } from "react-hook-form";
-import { FormStepTemplate } from "@components/journal/journal-entry-form/form-steps/steps/journal-step/JournalStepTemplate";
+import { JournalStepTemplate } from "@components/journal/journal-entry-form/form-steps/steps/journal-step/JournalStepTemplate";
 import { HabitActions } from "@components/habits/habit-actions/HabitActions";
 import { SkeletonHabitAction } from "@components/skeletons/SkeletonHabitAction";
 import { useUserHabits } from "@hooks/habits/useUserHabits";
@@ -43,7 +43,7 @@ export function HabitActionsStep() {
   );
 
   return (
-    <FormStepTemplate
+    <JournalStepTemplate
       title="Habits"
       description="Track your progress on habits. Get 1% bonus XP for each Willpower point earned."
       scoreSection={
@@ -76,6 +76,6 @@ export function HabitActionsStep() {
           </ol>
         )}
       </div>
-    </FormStepTemplate>
+    </JournalStepTemplate>
   );
 }

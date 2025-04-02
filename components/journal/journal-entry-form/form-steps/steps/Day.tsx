@@ -1,5 +1,5 @@
 import { useFormContext } from "react-hook-form";
-import { FormStepTemplate } from "@components/journal/journal-entry-form/form-steps/steps/journal-step/JournalStepTemplate";
+import { JournalStepTemplate } from "@components/journal/journal-entry-form/form-steps/steps/journal-step/JournalStepTemplate";
 import { TextAreaList } from "@components/ui/textarea-list";
 import { StepScoreDisplay } from "../StepScoreDisplay";
 import type { JournalEntry } from "@models/types";
@@ -16,7 +16,7 @@ export function Day() {
   };
 
   return (
-    <FormStepTemplate
+    <JournalStepTemplate
       title="What will I do to make today great?"
       description="Write down meaningful and achievable goals for the day to build Motivation."
       scoreSection={
@@ -24,6 +24,6 @@ export function Day() {
       }
     >
       <TextAreaList entryList={day ?? []} onChange={handleTextAreaListChange} />
-    </FormStepTemplate>
+    </JournalStepTemplate>
   );
 }

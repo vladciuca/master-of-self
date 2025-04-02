@@ -19,7 +19,6 @@ export const NIGHT_FIELDS = ["night"];
 type CreateStepsParams = {
   watch: UseFormWatch<JournalEntry>;
   userEveningTime: string;
-  // availableSteps: Record<string, boolean>; //this will need to be moved some where else?!
   SHOW_ALL_TEST: boolean;
   customSteps: JournalEntryCustomStep[];
 };
