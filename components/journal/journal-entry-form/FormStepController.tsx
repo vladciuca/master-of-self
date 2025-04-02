@@ -377,12 +377,24 @@ export function FormStepController({
   }, [isInitialized, availableSteps, currentStepType, stepTypes, setStep]);
 
   const handleStepChange = useCallback(
-    (stepType: string) => {
+    (stepType: string, shouldSubmit = true) => {
+      // Default to true
       if (!submitting) {
-        setStep(stepType);
+        if (shouldSubmit) {
+          // Get current form data
+          const formData = getValues();
+          // Submit the form data
+          onSubmit(formData).then(() => {
+            // Then change the step
+            setStep(stepType);
+          });
+        } else {
+          // Just change the step without submitting
+          setStep(stepType);
+        }
       }
     },
-    [setStep, submitting]
+    [setStep, submitting, getValues, onSubmit]
   );
 
   const handleNextForm = useCallback(async () => {
@@ -391,14 +403,14 @@ export function FormStepController({
 
     if (nextIndex < filteredSteps.length) {
       await onSubmit(formData); // submits data after each step
-      handleStepChange(stepTypes[nextIndex]);
+      handleStepChange(stepTypes[nextIndex], false); // Don't submit again
     } else {
       await onSubmit(formData);
       router.push("/journal");
     }
   }, [
     currentStepIndex,
-    availableSteps.length,
+    filteredSteps.length,
     getValues,
     onSubmit,
     handleStepChange,
@@ -406,13 +418,16 @@ export function FormStepController({
     stepTypes,
   ]);
 
-  // Updated handlePrevForm to use stepTypes
-  const handlePrevForm = useCallback(() => {
+  const handlePrevForm = useCallback(async () => {
     const prevIndex = currentStepIndex - 1;
     if (prevIndex >= 0) {
-      handleStepChange(stepTypes[prevIndex]);
+      // Get current form data
+      const formData = getValues();
+      // Submit the form data before going back
+      await onSubmit(formData);
+      handleStepChange(stepTypes[prevIndex], false); // Don't submit again
     }
-  }, [currentStepIndex, handleStepChange, stepTypes]);
+  }, [currentStepIndex, handleStepChange, stepTypes, getValues, onSubmit]);
 
   const progressPercentage =
     ((currentStepIndex + 1) / filteredSteps.length) * 100;

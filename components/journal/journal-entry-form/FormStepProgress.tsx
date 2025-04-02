@@ -2,11 +2,7 @@ import React from "react";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
 import { FaBoltLightning } from "react-icons/fa6";
-import {
-  stepIconMap,
-  getStepStyle,
-  getJournalStepStyle,
-} from "@components/ui/constants";
+import { getJournalStepStyle } from "@components/ui/constants";
 
 // Update the Step type to be more flexible
 type Step = {
@@ -39,7 +35,6 @@ export function FormStepProgress({
   habitActionsCount,
   ...countProps
 }: FormStepProgressProps) {
-  console.log("========countProps", countProps);
   // This function gets the count for a step type from the countProps
   const getCount = (stepType: string): number => {
     // Special cases first
@@ -71,9 +66,6 @@ export function FormStepProgress({
     <div className="flex flex-col items-center w-full mb-4">
       <div className="flex items-center justify-around w-full mt-4 mb-3 px-4 sm:pt-4">
         {formSteps.map((step: Step, index: number) => {
-          // console.log("========step_cat", step.category);
-          // console.log("========step_type", step.type);
-
           const IconElement = step.icon;
           const { bgColor } = getJournalStepStyle(
             step.category === "other"
