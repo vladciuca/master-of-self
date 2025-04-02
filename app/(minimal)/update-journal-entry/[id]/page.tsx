@@ -8,6 +8,9 @@ import { useUserSettings } from "@context/UserSettingsContext";
 import { useUserHabits } from "@hooks/habits/useUserHabits";
 import { useFetchAndUpdateJournalEntry } from "@hooks/journal/useFetchAndUpdateJournalEntry";
 
+import { Fa1, Fa2 } from "react-icons/fa6";
+import { JournalStep } from "@components/journal/journal-entry-form/form-steps/steps/JournalStep";
+
 export default function UpdateJournalEntry() {
   const params = useParams<{ id: string }>();
   const { id } = params;
@@ -54,18 +57,34 @@ export default function UpdateJournalEntry() {
             habits: hasHabits,
           }}
           willpowerMultiplier={willpowerMultiplier}
+          //NOTE: need to make some kind of function that generates these
           customSteps={[
             {
-              icon: <>icon</>,
+              icon: <Fa1 />,
               type: "goals",
-              component: <>GOALS STEP - DAY</>,
+              component: (
+                <JournalStep
+                  type={"goals"}
+                  category="day"
+                  title="Test step"
+                  description="test step desc"
+                />
+              ),
               category: "day",
+              //NOTE: Here we will need to use isEvening to determine availability for night / day
               isAvailable: true,
             },
             {
-              icon: <>icon</>,
+              icon: <Fa2 />,
               type: "learnings",
-              component: <>LEARNING STEP - NIGHT</>,
+              component: (
+                <JournalStep
+                  type={"learnings"}
+                  category="night"
+                  title="Test step"
+                  description="test step desc"
+                />
+              ),
               category: "night",
               isAvailable: true,
             },

@@ -109,3 +109,31 @@ export const stepStyles: { [key: string]: StepStyle } = {
 export const getStepStyle = (stepType: string): StepStyle => {
   return stepStyles[stepType] || stepStyles.default;
 };
+
+export const journalStepStyle: { [key: string]: StepStyle } = {
+  default: {
+    bgColor: `bg-${JOURNAL_COLORS.day}`,
+  },
+  bonus: {
+    bgColor: `bg-${JOURNAL_COLORS.day}`,
+  },
+  day: {
+    bgColor: `bg-${JOURNAL_COLORS.day}`,
+  },
+  night: {
+    bgColor: "bg-[linear-gradient(to_right,_#eab308_50%,_#a855f7_50%)]",
+  },
+  habits: {
+    bgColor: `bg-${HABIT_COLORS.main}`,
+  },
+  dayEntry: {
+    bgColor: `bg-${JOURNAL_COLORS.day}`,
+  },
+  nightEntry: {
+    bgColor: `bg-${JOURNAL_COLORS.night}`,
+  },
+};
+
+export const getJournalStepStyle = (stepType: string): StepStyle => {
+  return journalStepStyle[stepType] || journalStepStyle.default;
+};

@@ -2,7 +2,11 @@ import React from "react";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
 import { FaBoltLightning } from "react-icons/fa6";
-import { stepIconMap, getStepStyle } from "@components/ui/constants";
+import {
+  stepIconMap,
+  getStepStyle,
+  getJournalStepStyle,
+} from "@components/ui/constants";
 
 // Update the Step type to be more flexible
 type Step = {
@@ -19,6 +23,7 @@ type FormStepProgressProps = {
   handleStepChange: (stepType: string) => void;
   progressPercentage: number;
   // Instead of requiring specific count props, accept any prop ending with "Count"
+  dailyGoals: number;
   dailyGoalsCompleted?: number;
   habitActionsCount: number;
   [key: `${string}Count`]: number;
@@ -29,13 +34,19 @@ export function FormStepProgress({
   currentStepType,
   handleStepChange,
   progressPercentage,
+  dailyGoals,
   dailyGoalsCompleted,
   habitActionsCount,
   ...countProps
 }: FormStepProgressProps) {
+  console.log("========countProps", countProps);
   // This function gets the count for a step type from the countProps
   const getCount = (stepType: string): number => {
     // Special cases first
+    if (stepType === "day" && dailyGoalsCompleted !== undefined) {
+      return dailyGoals;
+    }
+
     if (stepType === "night" && dailyGoalsCompleted !== undefined) {
       return dailyGoalsCompleted;
     }
@@ -60,8 +71,17 @@ export function FormStepProgress({
     <div className="flex flex-col items-center w-full mb-4">
       <div className="flex items-center justify-around w-full mt-4 mb-3 px-4 sm:pt-4">
         {formSteps.map((step: Step, index: number) => {
+          // console.log("========step_cat", step.category);
+          // console.log("========step_type", step.type);
+
           const IconElement = step.icon;
-          const { bgColor } = getStepStyle(step.type);
+          const { bgColor } = getJournalStepStyle(
+            step.category === "other"
+              ? step.type
+              : step.category === "day"
+              ? "dayEntry"
+              : "nightEntry"
+          );
           const count = getCount(step.type);
           return (
             <span

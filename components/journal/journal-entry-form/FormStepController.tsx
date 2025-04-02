@@ -474,10 +474,13 @@ export function FormStepController({
   // why is it dose form here, we have the steps inside FormStepProgress
   // Build progress props dynamically with all the counts
   const progressProps: {
+    dailyGoals: number;
     dailyGoalsCompleted: number;
     habitActionsCount: number;
     [key: `${string}Count`]: number;
   } = {
+    // Add the dailyGoals for the day step
+    dailyGoals: watch("dayEntry.day")?.length || 0,
     // Add the dailyGoalsCompleted for the night step
     dailyGoalsCompleted: countMatchingElements(
       watch("dayEntry.day"),

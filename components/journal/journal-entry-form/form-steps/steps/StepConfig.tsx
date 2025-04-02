@@ -23,9 +23,14 @@ export function createBuiltInSteps(
   availableSteps: Record<string, boolean>,
   SHOW_ALL_TEST = false
 ): FormStep[] {
+  // NOTE: TS type checking is static and happening at compile time, not runtime.
+  // The TypeScript compiler doesn't know about the runtime behavior of React Hook Form
+  // This is why we must set a fallback value to be able to use in isAvailable step condition
   const day = watch("dayEntry.day") || [];
 
   return [
+    // DAY ENTRY
+    //POSITION 1
     {
       icon: <FaStar />,
       type: "bonus",
@@ -35,21 +40,28 @@ export function createBuiltInSteps(
         (!isEvening(userEveningTime) && watch("bonusWillpower") > 0),
       category: "other",
     },
+    //POSITION 2
     {
       icon: <FaSun />,
       type: "day",
       component: <Day />,
       isAvailable: SHOW_ALL_TEST || !isEvening(userEveningTime),
-      category: "day",
+      category: "other",
     },
+    //NIGHT ENTRY
+    //POSITION 1
     {
       icon: <FaMoon />,
       type: "night",
       component: <Night />,
       isAvailable:
         SHOW_ALL_TEST || (isEvening(userEveningTime) && day?.length > 0),
-      category: "night",
+      category: "other",
     },
+    //NOTE: here must add night steps
+
+    //ALWAYS AVAILABLE
+    //POSITION LAST
     {
       icon: <FaBoltLightning />,
       type: "willpower",
@@ -57,6 +69,7 @@ export function createBuiltInSteps(
       isAvailable: true,
       category: "other",
     },
+    //POSITION LAST +1
     {
       icon: <Shell />,
       type: "habits",
