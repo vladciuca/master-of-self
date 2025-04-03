@@ -8,7 +8,7 @@ import { FormStepNavigation } from "./FormStepNavigation";
 import { JournalEntry, JournalEntryCustomStep } from "@models/types";
 import { getDayDisciplineScores } from "@lib/score";
 import { calculateHabitsXpFromEntry } from "@lib/level";
-import { createSteps } from "./form-steps/StepConfig";
+import { createSteps, creteFormDefaultValues } from "./form-steps/StepConfig";
 
 // TEST_FLAG: used for enabling all forms steps
 const SHOW_ALL_TEST = false;
@@ -40,62 +40,8 @@ export function FormStepController({
   const searchParams = useSearchParams();
   const [isInitialized, setIsInitialized] = useState(false);
 
-  // Create default values dynamically
-  const createDefaultValues = (): JournalEntry => {
-    const defaultValues: JournalEntry = {
-      dailyWillpower: journalEntryData?.dailyWillpower ?? 0,
-      bonusWillpower: journalEntryData?.bonusWillpower ?? 0,
-      dayEntry: { day: [] },
-      nightEntry: { night: [] },
-      habits: journalEntryData?.habits ?? {},
-    };
-
-    // Add default values for built-in day fields
-    if (journalEntryData?.dayEntry) {
-      defaultValues.dayEntry = {
-        ...defaultValues.dayEntry,
-        ...journalEntryData.dayEntry,
-      };
-    } else {
-      // Initialize with empty arrays for standard fields
-      DAY_FIELDS.forEach((field) => {
-        if (defaultValues.dayEntry) {
-          defaultValues.dayEntry[field] = [];
-        }
-      });
-    }
-
-    // Add default values for built-in night fields
-    if (journalEntryData?.nightEntry) {
-      defaultValues.nightEntry = {
-        ...defaultValues.nightEntry,
-        ...journalEntryData.nightEntry,
-      };
-    } else {
-      // Initialize with empty arrays for standard fields
-      NIGHT_FIELDS.forEach((field) => {
-        if (defaultValues.nightEntry) {
-          defaultValues.nightEntry[field] = [];
-        }
-      });
-    }
-
-    // Add any custom fields from customSteps
-    customSteps.forEach((step) => {
-      if (step.category === "day" && defaultValues.dayEntry) {
-        defaultValues.dayEntry[step.type] =
-          journalEntryData?.dayEntry?.[step.type] || [];
-      } else if (step.category === "night" && defaultValues.nightEntry) {
-        defaultValues.nightEntry[step.type] =
-          journalEntryData?.nightEntry?.[step.type] || [];
-      }
-    });
-
-    return defaultValues;
-  };
-
   const methods = useForm<JournalEntry>({
-    defaultValues: createDefaultValues(),
+    defaultValues: creteFormDefaultValues({ journalEntryData, customSteps }),
   });
 
   // Get form values and methods

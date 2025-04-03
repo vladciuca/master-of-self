@@ -90,3 +90,63 @@ export function createSteps(params: CreateStepsParams) {
 
   return formSteps;
 }
+
+type CreteDefaultValuesParams = {
+  journalEntryData?: JournalEntry;
+  customSteps: JournalEntryCustomStep[];
+};
+
+export function creteFormDefaultValues(params: CreteDefaultValuesParams) {
+  const { journalEntryData, customSteps } = params;
+
+  const defaultValues: JournalEntry = {
+    dailyWillpower: journalEntryData?.dailyWillpower ?? 0,
+    bonusWillpower: journalEntryData?.bonusWillpower ?? 0,
+    dayEntry: { day: [] },
+    nightEntry: { night: [] },
+    habits: journalEntryData?.habits ?? {},
+  };
+
+  // Add default values for built-in day fields
+  if (journalEntryData?.dayEntry) {
+    defaultValues.dayEntry = {
+      ...defaultValues.dayEntry,
+      ...journalEntryData.dayEntry,
+    };
+  } else {
+    // Initialize with empty arrays for standard fields
+    DAY_FIELDS.forEach((field) => {
+      if (defaultValues.dayEntry) {
+        defaultValues.dayEntry[field] = [];
+      }
+    });
+  }
+
+  // Add default values for built-in night fields
+  if (journalEntryData?.nightEntry) {
+    defaultValues.nightEntry = {
+      ...defaultValues.nightEntry,
+      ...journalEntryData.nightEntry,
+    };
+  } else {
+    // Initialize with empty arrays for standard fields
+    NIGHT_FIELDS.forEach((field) => {
+      if (defaultValues.nightEntry) {
+        defaultValues.nightEntry[field] = [];
+      }
+    });
+  }
+
+  // Add any custom fields from customSteps
+  customSteps.forEach((step) => {
+    if (step.category === "day" && defaultValues.dayEntry) {
+      defaultValues.dayEntry[step.type] =
+        journalEntryData?.dayEntry?.[step.type] || [];
+    } else if (step.category === "night" && defaultValues.nightEntry) {
+      defaultValues.nightEntry[step.type] =
+        journalEntryData?.nightEntry?.[step.type] || [];
+    }
+  });
+
+  return defaultValues;
+}
