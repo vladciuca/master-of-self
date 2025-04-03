@@ -9,13 +9,18 @@ import { isEvening } from "@lib/time";
 
 import { FaSun, FaMoon, FaStar, FaBoltLightning } from "react-icons/fa6";
 import { Target, Shell } from "lucide-react";
-import type { JournalEntry, JournalEntryCustomStep } from "@models/types";
+import type {
+  JournalEntry,
+  JournalEntryCustomStep,
+  JournalCategory,
+} from "@models/types";
 
 // Define common field groups for consistent initialization
 //NOTE: do we still need this?
 export const DAY_FIELDS = ["day"];
 export const NIGHT_FIELDS = ["night"];
 
+//NOTE: Creates a complete array of form steps by combining built-in and custom steps
 type CreateStepsParams = {
   watch: UseFormWatch<JournalEntry>;
   userEveningTime: string;
@@ -91,6 +96,7 @@ export function createSteps(params: CreateStepsParams) {
   return formSteps;
 }
 
+//NOTE: Helper function to create initial form values structure
 type CreteDefaultValuesParams = {
   journalEntryData?: JournalEntry;
   customSteps: JournalEntryCustomStep[];
@@ -149,4 +155,73 @@ export function creteFormDefaultValues(params: CreteDefaultValuesParams) {
   });
 
   return defaultValues;
+}
+
+//NOTE: Helper to get field counts for progress indicators
+type GetFieldCountParams = {
+  category: JournalCategory;
+  field: string;
+  watch: UseFormWatch<JournalEntry>;
+};
+// Dynamically get counts for any field
+// For the second error, update the getFieldCount function to handle the "other" category:
+export function getFieldCount(params: GetFieldCountParams): number {
+  const { category, field, watch } = params;
+  if (category === "day") {
+    return watch(`dayEntry.${field}`)?.length || 0;
+  } else if (category === "night") {
+    return watch(`nightEntry.${field}`)?.length || 0;
+  } else {
+    // For "other" category, we don't have a specific entry type
+    // Return 0 or handle it differently based on your requirements
+    return 0;
+  }
+}
+
+//NOTE: Creates progress props for the FormStepProgress component
+type CreateProgressPropsParams = {
+  formSteps: JournalEntryCustomStep[];
+  watch: UseFormWatch<JournalEntry>;
+  habitXpValues: Record<string, number>;
+};
+
+export function createProgressProps(params: CreateProgressPropsParams) {
+  const { formSteps, watch, habitXpValues } = params;
+  // Helper function to count matching elements
+  const countMatchingElements = (arr1: any[] = [], arr2: any[] = []) => {
+    const set1 = new Set(arr1);
+    return arr2.filter((element) => set1.has(element)).length;
+  };
+
+  // Helper to count non-zero values
+  const countNonZeroValues = (obj: Record<string, number>) =>
+    Object.values(obj).filter((value) => value !== 0).length;
+
+  const progressProps: {
+    dailyGoals: number;
+    dailyGoalsCompleted: number;
+    habitActionsCount: number;
+    [key: `${string}Count`]: number;
+  } = {
+    // Add the dailyGoals for the day step
+    dailyGoals: watch("dayEntry.day")?.length || 0,
+    // Add the dailyGoalsCompleted for the night step
+    dailyGoalsCompleted: countMatchingElements(
+      watch("dayEntry.day"),
+      watch("nightEntry.night")
+    ),
+    // Add habitActionsCount for the habits step
+    habitActionsCount: countNonZeroValues(habitXpValues),
+  };
+
+  // Add counts for all steps
+  formSteps.forEach((step) => {
+    progressProps[`${step.type}Count`] = getFieldCount({
+      category: step.category,
+      field: step.type,
+      watch,
+    });
+  });
+
+  return progressProps;
 }
