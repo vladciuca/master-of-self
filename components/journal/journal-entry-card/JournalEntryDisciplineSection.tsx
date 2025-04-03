@@ -60,18 +60,25 @@ export function JournalEntryDisciplineSection({
   const allTodos = [...uncompleted, ...completed];
   const completedCount = completed.length;
 
+  // console.log("==============dayEntry", dayEntry);
+  // console.log("==============nightEntry", nightEntry);
+
+  //map over every key in the DAY_ENTRY / NIGHT_ENTRY > each key represents a STEP_DISCIPLINE
+  const daySteps = {};
+  const nightSteps = {};
+
   // Create base score data with proper typing
   const baseScoreData: ScoreDataItem[] = [
     {
-      stepType: "gratitude",
-      score: calculateStepScore(dayEntry?.gratitude || []),
-      data: dayEntry?.gratitude || [],
+      stepType: "positivity",
+      score: calculateStepScore(dayEntry?.positivity || []),
+      data: dayEntry?.positivity || [],
       title: "What I am grateful for today...",
     },
     {
-      stepType: "affirmations",
-      score: calculateStepScore(dayEntry?.affirmations || []),
-      data: dayEntry?.affirmations || [],
+      stepType: "confidence",
+      score: calculateStepScore(dayEntry?.confidence || []),
+      data: dayEntry?.confidence || [],
       title: "I am...",
     },
     {
@@ -100,15 +107,15 @@ export function JournalEntryDisciplineSection({
       ),
     },
     {
-      stepType: "highlights",
-      score: calculateStepScore(nightEntry?.highlights || []),
-      data: nightEntry?.highlights || [],
+      stepType: "awareness",
+      score: calculateStepScore(nightEntry?.awareness || []),
+      data: nightEntry?.awareness || [],
       title: "Today's highlights...",
     },
     {
-      stepType: "reflection",
-      score: calculateStepScore(nightEntry?.reflection || []),
-      data: nightEntry?.reflection || [],
+      stepType: "resilience",
+      score: calculateStepScore(nightEntry?.resilience || []),
+      data: nightEntry?.resilience || [],
       title: "What have I learned today...",
     },
   ];

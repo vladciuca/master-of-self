@@ -55,13 +55,13 @@ export type RoutineStepProps = {
 
 // JOURNAL STEP -----------------------------------------------------
 //Note: Rename these to StepType = "dayEntry" | "nightEntry"
-export type JournalType = "dayEntry" | "nightEntry" | "other";
+export type JournalStepType = "dayEntry" | "nightEntry" | "other";
 
 export type JournalStep = {
   //rename the type to discipline
   discipline: string;
   //rename category to type
-  type: JournalType;
+  type: JournalStepType;
   title: string;
   description: string;
 };
@@ -75,7 +75,7 @@ export type JournalEntryCustomStep = {
   //should this be discipline?
   discipline: string;
   component: JSX.Element;
-  type: JournalType;
+  type: JournalStepType;
   isAvailable?: boolean;
 };
 

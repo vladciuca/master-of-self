@@ -13,7 +13,7 @@ import { Target, Shell } from "lucide-react";
 import type {
   JournalEntry,
   JournalEntryCustomStep,
-  JournalType,
+  JournalStepType,
 } from "@models/types";
 
 // Define common field groups for consistent initialization
@@ -154,11 +154,11 @@ export function creteFormDefaultValues(params: CreteDefaultValuesParams) {
   // Add any custom fields from customSteps
   customSteps.forEach((step) => {
     if (step.type === "dayEntry" && defaultValues.dayEntry) {
-      defaultValues.dayEntry[step.type] =
-        journalEntryData?.dayEntry?.[step.type] || [];
+      defaultValues.dayEntry[step.discipline] =
+        journalEntryData?.dayEntry?.[step.discipline] || [];
     } else if (step.type === "nightEntry" && defaultValues.nightEntry) {
-      defaultValues.nightEntry[step.type] =
-        journalEntryData?.nightEntry?.[step.type] || [];
+      defaultValues.nightEntry[step.discipline] =
+        journalEntryData?.nightEntry?.[step.discipline] || [];
     }
   });
 
@@ -167,7 +167,7 @@ export function creteFormDefaultValues(params: CreteDefaultValuesParams) {
 
 //NOTE: Helper to get field counts for progress indicators
 type GetFieldCountParams = {
-  type: JournalType;
+  type: JournalStepType;
   field: string;
   watch: UseFormWatch<JournalEntry>;
 };

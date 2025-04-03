@@ -53,15 +53,15 @@ JournalEntryCardProps) {
       })
     : {};
 
-  const hasJournalContent = () => {
-    return (
-      (dayEntry?.gratitude?.length ?? 0) > 0 ||
-      (dayEntry?.day?.length ?? 0) > 0 ||
-      (nightEntry?.night?.length ?? 0) > 0 ||
-      (nightEntry?.highlights?.length ?? 0) > 0 ||
-      (nightEntry?.reflection?.length ?? 0) > 0
-    );
-  };
+  // const hasJournalContent = () => {
+  //   return (
+  //     (dayEntry?.gratitude?.length ?? 0) > 0 ||
+  //     (dayEntry?.day?.length ?? 0) > 0 ||
+  //     (nightEntry?.night?.length ?? 0) > 0 ||
+  //     (nightEntry?.highlights?.length ?? 0) > 0 ||
+  //     (nightEntry?.reflection?.length ?? 0) > 0
+  //   );
+  // };
 
   return (
     <Card className="p-4 mb-4 space-y-4">
@@ -150,12 +150,12 @@ JournalEntryCardProps) {
         )}
 
       {/* Discipline Points*/}
-      {hasJournalContent() && (
-        <JournalEntryDisciplineSection
-          dayEntry={dayEntry ?? {}}
-          nightEntry={nightEntry ?? {}}
-        />
-      )}
+      {/* {hasJournalContent() && ( */}
+      <JournalEntryDisciplineSection
+        dayEntry={dayEntry ?? {}}
+        nightEntry={nightEntry ?? {}}
+      />
+      {/* )} */}
     </Card>
   );
 }

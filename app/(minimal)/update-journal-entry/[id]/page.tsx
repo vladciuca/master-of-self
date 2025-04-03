@@ -52,16 +52,17 @@ const customSteps: JournalEntryCustomStep[] = customStepConfigs.map(
   (config) => ({
     icon: config.icon,
     type: config.type,
+    discipline: config.discipline,
     component: (
       <JournalStep
-        key={config.type}
+        //NOTE: might need to use an id here to avoid duplicate Discipline names
+        key={config.discipline}
         type={config.type}
         discipline={config.discipline}
         title={config.title}
         description={config.description}
       />
     ),
-    discipline: config.discipline,
   })
 );
 

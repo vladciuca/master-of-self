@@ -29,7 +29,7 @@ export function JournalStep({
       scoreSection={
         <StepScoreDisplay
           items={items ?? []}
-          scoreName={type.charAt(0).toUpperCase() + type.slice(1)}
+          scoreName={discipline.charAt(0).toUpperCase() + discipline.slice(1)}
         />
       }
     >
