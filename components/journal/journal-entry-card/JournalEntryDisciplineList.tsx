@@ -1,9 +1,9 @@
 import React from "react";
 import { SkeletonList } from "@components/skeletons/SkeletonList";
-import { getStepStyle } from "@components/ui/constants";
+import { getJournalStepStyle } from "@components/ui/constants";
 
 type JournalEntryDisciplineListProps = {
-  title: string;
+  title?: string;
   items?: string[];
   stepType: string;
   contentLoading?: boolean;
@@ -17,19 +17,21 @@ export function JournalEntryDisciplineList({
   contentLoading,
   bonusList,
 }: JournalEntryDisciplineListProps) {
-  const { bgColor } = getStepStyle(stepType);
+  const { bgColor } = getJournalStepStyle(stepType);
   const bulletPointPosition = bonusList ? "mt-2" : "mt-[6px]";
 
   return (
     <div>
-      <div className="my-2 flex items-center">
-        <div className="text-sm text-muted-foreground">{title}</div>
-      </div>
+      {title && (
+        <div className="my-2 flex items-center">
+          <div className="text-sm text-muted-foreground">{title}</div>
+        </div>
+      )}
 
       {contentLoading ? (
         <SkeletonList />
       ) : (
-        <ol className="mx-[3.5px]">
+        <ol className="mr-[3.5px]">
           {items &&
             items.length > 0 &&
             items.map((item, index) => (

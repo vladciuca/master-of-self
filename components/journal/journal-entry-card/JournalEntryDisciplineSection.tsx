@@ -2,9 +2,8 @@ import React from "react";
 import { JournalEntryDisciplineList } from "@components/journal/journal-entry-card/JournalEntryDisciplineList";
 import {
   stepDisciplines,
-  stepIconMap,
-  getStepStyle,
-  stepStyles,
+  journalStepStyle,
+  getJournalStepStyle,
 } from "@components/ui/constants";
 import {
   Accordion,
@@ -12,46 +11,74 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import {
-  calculateStepScore,
-  //NOTE: will need to integrate util function:
-  // getDisciplineScoreFromEntry
-  // do this in CustomStep(Page) refactor
-} from "@lib/score";
+import { calculateStepScore } from "@lib/score";
 import { JOURNAL_COLORS } from "@lib/colors";
 import type { JournalDayEntry, JournalNightEntry } from "@models/types";
 
-type JournalEntryDisciplineSectionProps = {
-  dayEntry: JournalDayEntry;
-  nightEntry: JournalNightEntry;
-};
-
-// Define a type for the score data items
-type ScoreDataItem = {
+type StepData = {
   stepType: string;
   score: number;
   data: string[];
-  title: string;
-  completedCount?: number; // Make this optional
+  title?: string;
+  completedCount?: number;
   renderSections?: () => React.ReactNode;
+  source: "dayEntry" | "nightEntry";
+};
+
+type JournalEntryDisciplineSectionProps = {
+  dayEntry: JournalDayEntry | undefined;
+  nightEntry: JournalNightEntry | undefined;
 };
 
 export function JournalEntryDisciplineSection({
   dayEntry,
   nightEntry,
 }: JournalEntryDisciplineSectionProps) {
-  // Functions to handle completed and uncompleted to-dos
+  // Add state to track which accordion item is open
+  const [openItem, setOpenItem] = React.useState<string | undefined>(undefined);
+
+  // Handler for accordion value change
+  const handleAccordionChange = (value: string) => {
+    setOpenItem(value);
+  };
+
+  function getStepTitle(stepType: string): string {
+    // Capitalize first letter of the step type
+    return stepType.charAt(0).toUpperCase() + stepType.slice(1);
+  }
+
+  const daySteps: StepData[] = Object.entries(dayEntry || {})
+    .map(([key, value]) => {
+      return {
+        stepType: key,
+        score: calculateStepScore(value || []),
+        data: value || [],
+        source: "dayEntry" as const,
+      };
+    })
+    .filter((item) => item.data.length > 0);
+
+  const nightSteps: StepData[] = Object.entries(nightEntry || {})
+    .map(([key, value]) => {
+      return {
+        stepType: key,
+        score: calculateStepScore(value || []),
+        data: value || [],
+        source: "nightEntry" as const,
+      };
+    })
+    .filter((item) => item.data.length > 0);
+
+  // Special handling for day and night step types for Motivation
   const completedDailyToDos = () => {
     const dailyToDos = dayEntry?.day || [];
     const completedToDos = nightEntry?.night || [];
-
     return completedToDos.filter((item) => dailyToDos.includes(item));
   };
 
   const uncompletedDailyToDos = () => {
     const dailyToDos = dayEntry?.day || [];
     const completedToDos = new Set(nightEntry?.night);
-
     return dailyToDos.filter((item) => !completedToDos.has(item));
   };
 
@@ -60,97 +87,105 @@ export function JournalEntryDisciplineSection({
   const allTodos = [...uncompleted, ...completed];
   const completedCount = completed.length;
 
-  // console.log("==============dayEntry", dayEntry);
-  // console.log("==============nightEntry", nightEntry);
+  const motivationStep = {
+    stepType: "day",
+    score: calculateStepScore(allTodos),
+    data: allTodos,
+    completedCount: completedCount,
+    title: "Daily Goals",
+    source: "dayEntry" as const,
+    renderSections: () => (
+      <>
+        {uncompleted.length > 0 && (
+          <JournalEntryDisciplineList
+            title="What will make today great..."
+            items={uncompleted}
+            stepType="day"
+          />
+        )}
+        {completed.length > 0 && (
+          <JournalEntryDisciplineList
+            title="What made today great..."
+            items={completed}
+            stepType="night"
+          />
+        )}
+      </>
+    ),
+  };
 
-  //map over every key in the DAY_ENTRY / NIGHT_ENTRY > each key represents a STEP_DISCIPLINE
-  const daySteps = {};
-  const nightSteps = {};
+  // Create empty array for the final ordered steps
+  let orderedSteps: StepData[] = [];
 
-  // Create base score data with proper typing
-  const baseScoreData: ScoreDataItem[] = [
-    {
-      stepType: "positivity",
-      score: calculateStepScore(dayEntry?.positivity || []),
-      data: dayEntry?.positivity || [],
-      title: "What I am grateful for today...",
-    },
-    {
-      stepType: "confidence",
-      score: calculateStepScore(dayEntry?.confidence || []),
-      data: dayEntry?.confidence || [],
-      title: "I am...",
-    },
-    {
-      stepType: "day",
-      score: calculateStepScore(allTodos),
-      data: allTodos,
-      completedCount: completedCount,
-      title: "Daily Goals",
-      renderSections: () => (
-        <>
-          {uncompleted.length > 0 && (
-            <JournalEntryDisciplineList
-              title="What will make today great..."
-              items={uncompleted}
-              stepType="day"
-            />
-          )}
-          {completed.length > 0 && (
-            <JournalEntryDisciplineList
-              title="What made today great..."
-              items={completed}
-              stepType="night"
-            />
-          )}
-        </>
-      ),
-    },
-    {
-      stepType: "awareness",
-      score: calculateStepScore(nightEntry?.awareness || []),
-      data: nightEntry?.awareness || [],
-      title: "Today's highlights...",
-    },
-    {
-      stepType: "resilience",
-      score: calculateStepScore(nightEntry?.resilience || []),
-      data: nightEntry?.resilience || [],
-      title: "What have I learned today...",
-    },
-  ];
+  // 1. First add all regular day steps (filtering out the special "day" step)
+  daySteps.forEach((step) => {
+    if (step.stepType !== "day") {
+      orderedSteps.push(step);
+    }
+  });
+
+  // 2. Add the motivation step in the middle
+  if (allTodos.length > 0) {
+    orderedSteps.push(motivationStep);
+  }
+
+  // 3. Add all night steps (filtering out the special "night" step)
+  nightSteps.forEach((step) => {
+    if (step.stepType !== "night") {
+      // Check if this step type already exists in the ordered steps
+      const existingIndex = orderedSteps.findIndex(
+        (s) => s.stepType === step.stepType
+      );
+      if (existingIndex >= 0) {
+        // If step type exists, merge the data
+        orderedSteps[existingIndex].data = [
+          ...orderedSteps[existingIndex].data,
+          ...step.data,
+        ];
+        orderedSteps[existingIndex].score += step.score;
+        orderedSteps[existingIndex].source = "nightEntry";
+      } else {
+        // Otherwise add as a new step
+        orderedSteps.push(step);
+      }
+    }
+  });
 
   return (
     <Accordion
       type="single"
       collapsible
       className="grid grid-cols-1 gap-3 p-0 m-0"
+      value={openItem}
+      onValueChange={handleAccordionChange}
     >
-      {baseScoreData.map((item) => {
-        const { stepType, score, data, title, completedCount, renderSections } =
-          item;
+      {orderedSteps.map((item) => {
+        const {
+          stepType,
+          score,
+          data,
+          title,
+          source,
+          completedCount,
+          renderSections,
+        } = item;
 
         if (!data || data.length === 0) return null;
 
-        const pointType = stepDisciplines[stepType] || "Default";
+        const pointType = stepDisciplines[stepType] || getStepTitle(stepType);
 
-        // Determine which icon to use - use night icon for day step if there are completed todos
-        let IconElement;
-        if (
-          stepType === "day" &&
-          typeof completedCount === "number" &&
-          completedCount > 0
-        ) {
-          IconElement = stepIconMap["night"]; // Use night icon when there are completed todos
-        } else {
-          IconElement = stepIconMap[stepType] || stepIconMap.default;
+        let { bgColor } = getJournalStepStyle(stepType);
+
+        // For steps other than "day" and "night", use the source to determine color
+        if (stepType !== "day" && stepType !== "night") {
+          // Use getJournalStepStyle to get the appropriate color based on source
+          const sourceStyle = getJournalStepStyle(source);
+          bgColor = sourceStyle.bgColor;
         }
 
-        const { bgColor } = getStepStyle(stepType);
-
         // Get day and night colors directly from stepStyles
-        const dayBgColor = stepStyles.day.bgColor;
-        const nightBgColor = stepStyles.night.bgColor;
+        const dayBgColor = journalStepStyle.day.bgColor;
+        const nightBgColor = journalStepStyle.night.bgColor;
 
         // Create circles with different colors based on completion status
         const circles = Array.from({ length: data.length }).map((_, index) => {
@@ -175,29 +210,22 @@ export function JournalEntryDisciplineSection({
           <AccordionItem
             key={stepType}
             value={stepType}
-            className="border-none bg-muted/30 rounded-lg overflow-hidden py-0 pl-2 pr-4 mb-0"
+            className="border-none bg-muted/30 rounded-lg overflow-hidden py-0 pl-2 px-4 mb-0"
           >
             <AccordionTrigger className="hover:no-underline py-2">
               <div className="flex items-center justify-between w-full">
                 <div className="flex items-center gap-3">
-                  <div className="flex items-center justify-center text-primary w-10">
-                    {React.cloneElement(IconElement as React.ReactElement, {
-                      size:
-                        stepType === "night" ||
-                        stepType === "day" ||
-                        stepType === "willpower"
-                          ? 22
-                          : 27,
-                    })}
-                  </div>
                   <div className="flex flex-col">
                     <span className="font-medium text-muted-foreground flex items-start">
                       {pointType}
                     </span>
 
-                    <div className="flex flex-wrap max-w-[180px] sm:max-w-[200px] gap-2">
-                      {circles}
-                    </div>
+                    {/* Only show circles when this item is not open */}
+                    {openItem !== stepType && (
+                      <div className="flex flex-wrap max-w-[180px] sm:max-w-[200px] gap-2 mt-1">
+                        {circles}
+                      </div>
+                    )}
                   </div>
                 </div>
                 <div className="flex items-center">
@@ -207,8 +235,6 @@ export function JournalEntryDisciplineSection({
                     <span
                       className={`text-lg font-semibold text-${JOURNAL_COLORS.score} flex items-center`}
                     >
-                      {/*NOTE: we always want to add +1 to this value so that when completing 1 task
-                      we always start form multiplying by x2 */}
                       +{score * (completedCount + 1)}
                     </span>
                   ) : (
@@ -221,7 +247,7 @@ export function JournalEntryDisciplineSection({
                 </div>
               </div>
             </AccordionTrigger>
-            <AccordionContent className="pb-2 pt-0 px-1">
+            <AccordionContent className="pb-2 pt-0">
               {renderSections ? (
                 renderSections()
               ) : (
@@ -229,7 +255,7 @@ export function JournalEntryDisciplineSection({
                   <JournalEntryDisciplineList
                     title={title}
                     items={data}
-                    stepType={stepType}
+                    stepType={source}
                   />
                 </>
               )}

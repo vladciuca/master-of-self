@@ -7,9 +7,9 @@ import { JournalEntryDisciplineSection } from "./JournalEntryDisciplineSection";
 import { Card } from "@components/ui/card";
 import { Button } from "@components/ui/button";
 import { FaBoltLightning } from "react-icons/fa6";
-import { Shell } from "lucide-react";
+// import { Shell } from "lucide-react";
 import { calculateHabitsXpFromEntry } from "@/lib/level";
-import { JOURNAL_COLORS } from "@lib/colors";
+// import { JOURNAL_COLORS } from "@lib/colors";
 import { Session, JournalEntryMetadata } from "@models/types";
 
 type JournalEntryCardProps = {
@@ -52,16 +52,6 @@ JournalEntryCardProps) {
         entryWillpower: totalWillpower,
       })
     : {};
-
-  // const hasJournalContent = () => {
-  //   return (
-  //     (dayEntry?.gratitude?.length ?? 0) > 0 ||
-  //     (dayEntry?.day?.length ?? 0) > 0 ||
-  //     (nightEntry?.night?.length ?? 0) > 0 ||
-  //     (nightEntry?.highlights?.length ?? 0) > 0 ||
-  //     (nightEntry?.reflection?.length ?? 0) > 0
-  //   );
-  // };
 
   return (
     <Card className="p-4 mb-4 space-y-4">
@@ -150,12 +140,10 @@ JournalEntryCardProps) {
         )}
 
       {/* Discipline Points*/}
-      {/* {hasJournalContent() && ( */}
       <JournalEntryDisciplineSection
         dayEntry={dayEntry ?? {}}
         nightEntry={nightEntry ?? {}}
       />
-      {/* )} */}
     </Card>
   );
 }

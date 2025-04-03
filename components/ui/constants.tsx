@@ -133,19 +133,6 @@ export const journalStepStyle: { [key: string]: StepStyle } = {
   nightEntry: {
     bgColor: `bg-${JOURNAL_COLORS.night}`,
   },
-  //disciplines
-  positivity: {
-    bgColor: `bg-${JOURNAL_COLORS.day}`,
-  },
-  confidence: {
-    bgColor: `bg-${JOURNAL_COLORS.day}`,
-  },
-  awareness: {
-    bgColor: `bg-${JOURNAL_COLORS.night}`,
-  },
-  resilience: {
-    bgColor: `bg-${JOURNAL_COLORS.night}`,
-  },
 };
 
 export const getJournalStepStyle = (stepType: string): StepStyle => {
