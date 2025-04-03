@@ -7,7 +7,7 @@ import type { JournalEntryCustomStep } from "@models/types";
 
 type FormStepProgressProps = {
   formSteps: JournalEntryCustomStep[];
-  currentStep: string;
+  activeStep: string;
   handleStepChange: (stepType: string) => void;
   progressPercentage: number;
   // Instead of requiring specific count props, accept any prop ending with "Count"
@@ -19,7 +19,7 @@ type FormStepProgressProps = {
 
 export function FormStepProgress({
   formSteps,
-  currentStep,
+  activeStep,
   handleStepChange,
   progressPercentage,
   dailyGoals,
@@ -68,13 +68,13 @@ export function FormStepProgress({
             <span
               key={index}
               className={`relative cursor-pointer text-sm ${
-                step.discipline === currentStep ? "" : "text-muted-foreground"
+                step.discipline === activeStep ? "" : "text-muted-foreground"
               }`}
               onClick={() => handleStepChange(step.discipline)}
             >
               <div
                 className={`${
-                  step.discipline === currentStep
+                  step.discipline === activeStep
                     ? "bg-secondary text-primary"
                     : "text-primary"
                 } w-11 h-11 rounded-full flex items-center justify-center`}
