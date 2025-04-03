@@ -88,9 +88,9 @@ JournalEntryCardProps) {
       {isToday && (
         <div className="w-full flex">
           {session?.user?.id === creatorId && pathName === "/journal" && (
-            <div className="">
+            <div>
               <Link
-                className="mr-3 mt-1rounded-md py-2"
+                className="mr-3 mt-1 rounded-md py-2"
                 href={`/update-journal-entry/${_id}`}
               >
                 <Button size="sm">Continue today's journal</Button>

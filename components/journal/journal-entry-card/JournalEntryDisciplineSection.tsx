@@ -212,20 +212,13 @@ export function JournalEntryDisciplineSection({
             value={stepType}
             className="border-none bg-muted/30 rounded-lg overflow-hidden py-0 pl-2 px-4 mb-0"
           >
-            <AccordionTrigger className="hover:no-underline py-2">
+            <AccordionTrigger className="hover:no-underline py-2 flex flex-col items-start">
               <div className="flex items-center justify-between w-full">
                 <div className="flex items-center gap-3">
-                  <div className="flex flex-col">
+                  <div className="flex flex-col h-full">
                     <span className="font-medium text-muted-foreground flex items-start">
                       {pointType}
                     </span>
-
-                    {/* Only show circles when this item is not open */}
-                    {openItem !== stepType && (
-                      <div className="flex flex-wrap max-w-[180px] sm:max-w-[200px] gap-2 mt-1">
-                        {circles}
-                      </div>
-                    )}
                   </div>
                 </div>
                 <div className="flex items-center">
@@ -246,6 +239,14 @@ export function JournalEntryDisciplineSection({
                   )}
                 </div>
               </div>
+              {/* <div className="min-h-2 mt-1"> */}
+              {/* Only show circles when this item is not open */}
+              {openItem !== stepType && (
+                <div className="flex flex-wrap max-w-[180px] sm:max-w-[200px] gap-2">
+                  {circles}
+                </div>
+              )}
+              {/* </div> */}
             </AccordionTrigger>
             <AccordionContent className="pb-2 pt-0">
               {renderSections ? (
