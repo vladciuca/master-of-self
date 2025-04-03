@@ -5,15 +5,15 @@ import { StepScoreDisplay } from "../../StepScoreDisplay";
 import type { JournalEntry, JournalStep } from "@models/types";
 
 export function JournalStep({
+  discipline,
   type,
-  category,
   title,
   description,
 }: JournalStep) {
   const { watch, setValue } = useFormContext<JournalEntry>();
 
-  const entryCategory = category === "day" ? "dayEntry" : "nightEntry";
-  const formPath = `${entryCategory}.${type}` as const;
+  if (type === "other") return;
+  const formPath = `${type}.${discipline}` as const;
   const items = watch(formPath);
 
   const handleTextAreaListChange = (newEntries: string[]) => {

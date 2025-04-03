@@ -7,7 +7,7 @@ import type { JournalEntryCustomStep } from "@models/types";
 
 type FormStepProgressProps = {
   formSteps: JournalEntryCustomStep[];
-  currentStepType: string;
+  currentStep: string;
   handleStepChange: (stepType: string) => void;
   progressPercentage: number;
   // Instead of requiring specific count props, accept any prop ending with "Count"
@@ -19,7 +19,7 @@ type FormStepProgressProps = {
 
 export function FormStepProgress({
   formSteps,
-  currentStepType,
+  currentStep,
   handleStepChange,
   progressPercentage,
   dailyGoals,
@@ -28,22 +28,22 @@ export function FormStepProgress({
   ...countProps
 }: FormStepProgressProps) {
   // This function gets the count for a step type from the countProps
-  const getCount = (stepType: string): number => {
+  const getCount = (stepDiscipline: string): number => {
     // Special cases first
-    if (stepType === "day" && dailyGoalsCompleted !== undefined) {
+    if (stepDiscipline === "day" && dailyGoalsCompleted !== undefined) {
       return dailyGoals;
     }
 
-    if (stepType === "night" && dailyGoalsCompleted !== undefined) {
+    if (stepDiscipline === "night" && dailyGoalsCompleted !== undefined) {
       return dailyGoalsCompleted;
     }
 
-    if (stepType === "habits" && habitActionsCount !== undefined) {
+    if (stepDiscipline === "habits" && habitActionsCount !== undefined) {
       return habitActionsCount;
     }
 
     // Look for a specific count prop for this step type
-    const countProp = `${stepType}Count` as keyof typeof countProps;
+    const countProp = `${stepDiscipline}Count` as keyof typeof countProps;
 
     // If we have a specific count for this step type, use it
     if (countProps[countProp] !== undefined) {
@@ -59,36 +59,33 @@ export function FormStepProgress({
       <div className="flex items-center justify-around w-full mt-4 mb-3 px-4 sm:pt-4">
         {formSteps.map((step: JournalEntryCustomStep, index: number) => {
           const IconElement = step.icon;
-          const { bgColor } = getJournalStepStyle(
-            step.category === "other"
-              ? step.type
-              : step.category === "day"
-              ? "dayEntry"
-              : "nightEntry"
-          );
-          const count = getCount(step.type);
+
+          const discipline =
+            step.type === "other" ? step.discipline : step.type;
+          const { bgColor } = getJournalStepStyle(discipline);
+          const count = getCount(step.discipline);
           return (
             <span
               key={index}
               className={`relative cursor-pointer text-sm ${
-                step.type === currentStepType ? "" : "text-muted-foreground"
+                step.discipline === currentStep ? "" : "text-muted-foreground"
               }`}
-              onClick={() => handleStepChange(step.type)}
+              onClick={() => handleStepChange(step.discipline)}
             >
               <div
                 className={`${
-                  step.type === currentStepType
+                  step.discipline === currentStep
                     ? "bg-secondary text-primary"
                     : "text-primary"
                 } w-11 h-11 rounded-full flex items-center justify-center`}
               >
                 {React.cloneElement(IconElement as React.ReactElement, {
                   size:
-                    step.type === "night" ||
-                    step.type === "day" ||
-                    step.type === "bonus"
+                    step.discipline === "night" ||
+                    step.discipline === "day" ||
+                    step.discipline === "bonus"
                       ? 25
-                      : step.type === "willpower"
+                      : step.discipline === "willpower"
                       ? 23
                       : 30,
                 })}
@@ -102,7 +99,7 @@ export function FormStepProgress({
                   {count}
                 </Badge>
               )}
-              {step.type === "bonus" && (
+              {step.discipline === "bonus" && (
                 <Badge
                   variant="outline"
                   className={`${bgColor} absolute -top-1 -right-1 text-[0.6rem] px-1 py-0 min-w-[1.2rem] h-[1.2rem] flex items-center justify-center text-white`}

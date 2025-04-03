@@ -55,13 +55,13 @@ export type RoutineStepProps = {
 
 // JOURNAL STEP -----------------------------------------------------
 //Note: Rename these to StepType = "dayEntry" | "nightEntry"
-export type JournalCategory = "day" | "night" | "other";
+export type JournalType = "dayEntry" | "nightEntry" | "other";
 
 export type JournalStep = {
   //rename the type to discipline
-  type: string;
+  discipline: string;
   //rename category to type
-  category: JournalCategory;
+  type: JournalType;
   title: string;
   description: string;
 };
@@ -72,9 +72,10 @@ export type JournalStepConfig = JournalStep & {
 
 export type JournalEntryCustomStep = {
   icon: ReactNode;
-  type: string;
+  //should this be discipline?
+  discipline: string;
   component: JSX.Element;
-  category: JournalCategory;
+  type: JournalType;
   isAvailable?: boolean;
 };
 
@@ -90,15 +91,11 @@ export type JournalEntryHabit = {
 
 export type JournalDayEntry = {
   day?: string[];
-  // gratitude?: string[];
-  // affirmations?: string[];
   [key: string]: string[] | undefined;
 };
 
 export type JournalNightEntry = {
   night?: string[];
-  // highlights?: string[];
-  // reflection?: string[];
   [key: string]: string[] | undefined;
 };
 

@@ -13,7 +13,7 @@ import { Target, Shell } from "lucide-react";
 import type {
   JournalEntry,
   JournalEntryCustomStep,
-  JournalCategory,
+  JournalType,
 } from "@models/types";
 
 // Define common field groups for consistent initialization
@@ -42,23 +42,23 @@ export function createSteps(
     //=====DAY_ENTRY
     {
       icon: <FaStar />,
-      type: "bonus",
+      discipline: "bonus",
       component: <Bonus />,
       isAvailable:
         SHOW_ALL_TEST ||
         (!isEvening(userEveningTime) && watch("bonusWillpower") > 0),
-      category: "other",
+      type: "other",
     },
     {
       icon: <FaSun />,
-      type: "day",
+      discipline: "day",
       component: <Day />,
       isAvailable: SHOW_ALL_TEST || !isEvening(userEveningTime),
-      category: "other",
+      type: "other",
     },
     //=====ADD_DAY steps here
     ...customSteps
-      .filter((step) => step.category === "day")
+      .filter((step) => step.type === "dayEntry")
       .map((step) => ({
         ...step,
         isAvailable: SHOW_ALL_TEST || !isEvening(userEveningTime),
@@ -66,32 +66,32 @@ export function createSteps(
     //=====NIGHT_ENTRY
     {
       icon: <FaMoon />,
-      type: "night",
+      discipline: "night",
       component: <Night />,
       isAvailable:
         SHOW_ALL_TEST || (isEvening(userEveningTime) && day?.length > 0),
-      category: "other",
+      type: "other",
     },
     //=====ADD_NIGHT steps here
     ...customSteps
-      .filter((step) => step.category === "night")
+      .filter((step) => step.type === "nightEntry")
       .map((step) => ({
         ...step,
         isAvailable: SHOW_ALL_TEST || isEvening(userEveningTime),
       })),
     {
       icon: <FaBoltLightning />,
-      type: "willpower",
+      discipline: "willpower",
       component: <Willpower />,
       isAvailable: SHOW_ALL_TEST || true, //NOTE: Not yet decided on behavior
-      category: "other",
+      type: "other",
     },
     {
       icon: <Shell />,
-      type: "habits",
+      discipline: "habits",
       component: <HabitActionsStep />,
       isAvailable: SHOW_ALL_TEST || true, //NOTE: TEMP_ here we need to check if the user has habits
-      category: "other",
+      type: "other",
     },
   ];
 
@@ -153,10 +153,10 @@ export function creteFormDefaultValues(params: CreteDefaultValuesParams) {
 
   // Add any custom fields from customSteps
   customSteps.forEach((step) => {
-    if (step.category === "day" && defaultValues.dayEntry) {
+    if (step.type === "dayEntry" && defaultValues.dayEntry) {
       defaultValues.dayEntry[step.type] =
         journalEntryData?.dayEntry?.[step.type] || [];
-    } else if (step.category === "night" && defaultValues.nightEntry) {
+    } else if (step.type === "nightEntry" && defaultValues.nightEntry) {
       defaultValues.nightEntry[step.type] =
         journalEntryData?.nightEntry?.[step.type] || [];
     }
@@ -167,17 +167,17 @@ export function creteFormDefaultValues(params: CreteDefaultValuesParams) {
 
 //NOTE: Helper to get field counts for progress indicators
 type GetFieldCountParams = {
-  category: JournalCategory;
+  type: JournalType;
   field: string;
   watch: UseFormWatch<JournalEntry>;
 };
 // Dynamically get counts for any field
 // For the second error, update the getFieldCount function to handle the "other" category:
 export function getFieldCount(params: GetFieldCountParams): number {
-  const { category, field, watch } = params;
-  if (category === "day") {
+  const { type, field, watch } = params;
+  if (type === "dayEntry") {
     return watch(`dayEntry.${field}`)?.length || 0;
-  } else if (category === "night") {
+  } else if (type === "nightEntry") {
     return watch(`nightEntry.${field}`)?.length || 0;
   } else {
     // For "other" category, we don't have a specific entry type
@@ -232,9 +232,9 @@ export function createProgressProps(params: CreateProgressPropsParams) {
 
   // Add counts for all steps
   formSteps.forEach((step) => {
-    progressProps[`${step.type}Count`] = getFieldCount({
-      category: step.category,
-      field: step.type,
+    progressProps[`${step.discipline}Count`] = getFieldCount({
+      type: step.type,
+      field: step.discipline,
       watch,
     });
   });

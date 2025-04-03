@@ -16,32 +16,32 @@ import type { JournalStepConfig, JournalEntryCustomStep } from "@models/types";
 const customStepConfigs: JournalStepConfig[] = [
   {
     icon: <GiHealing />,
-    type: "positivity",
-    category: "day",
+    discipline: "positivity",
+    type: "dayEntry",
     title: "What am I feeling grateful for?",
     description:
       "Use details to describe what you're feeling grateful for and increase Positivity.",
   },
   {
     icon: <GiAura />,
-    type: "confidence",
-    category: "day",
+    discipline: "confidence",
+    type: "dayEntry",
     title: "Daily Affirmations",
     description:
       "Use statements using powerful words to imprint on your subconscious mind and build Confidence.",
   },
   {
     icon: <GiAwareness />,
-    type: "awareness",
-    category: "night",
+    discipline: "awareness",
+    type: "nightEntry",
     title: "What are today's highlights?",
     description:
       "Build momentum by capturing meaningful events and boost Awareness.",
   },
   {
     icon: <GiGuardedTower />,
-    type: "resilience",
-    category: "night",
+    discipline: "resilience",
+    type: "nightEntry",
     title: "Could today have been better?",
     description:
       "If you could go back, what would you change? Recognize what’s in your control, accept what isn’t.",
@@ -56,12 +56,12 @@ const customSteps: JournalEntryCustomStep[] = customStepConfigs.map(
       <JournalStep
         key={config.type}
         type={config.type}
-        category={config.category}
+        discipline={config.discipline}
         title={config.title}
         description={config.description}
       />
     ),
-    category: config.category,
+    discipline: config.discipline,
   })
 );
 

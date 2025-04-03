@@ -14,7 +14,7 @@ import {
 } from "./form-steps/StepConfig";
 
 // TEST_FLAG: used for enabling all forms steps
-const SHOW_ALL_TEST = false;
+const SHOW_ALL_TEST = true;
 
 type FormStepControllerProps = {
   submitting: boolean;
@@ -122,14 +122,17 @@ export function FormStepController({
 
   //NOTE: type will become discipline
   // Get array of step types
-  const stepTypes = useMemo(
-    () => filteredSteps.map((step) => step.type),
+  // HMMM SO STEP TYPES NOW BECAME DISCIPLINES, but for other pages they are they can be ?
+  //Just leave it STEP? or STEP_IDENTIFIER? something step is best I think
+  const step = useMemo(
+    () => filteredSteps.map((step) => step.discipline),
     [filteredSteps]
   );
 
   // Get the current step type from URL or use the first available step
+  //WTF do i rename this to and what its relation to
   const currentStepType = searchParams.get("step");
-  const currentStepIndex = stepTypes.indexOf(currentStepType || "");
+  const currentStepIndex = step.indexOf(currentStepType || "");
 
   // This function updates the URL with the new step
   const setStep = useCallback(
@@ -145,13 +148,13 @@ export function FormStepController({
   useEffect(() => {
     if (!isInitialized && filteredSteps.length > 0) {
       const initialStepType =
-        currentStepType && stepTypes.includes(currentStepType)
+        currentStepType && step.includes(currentStepType)
           ? currentStepType
-          : stepTypes[0];
+          : step[0];
       setStep(initialStepType);
       setIsInitialized(true);
     }
-  }, [isInitialized, currentStepType, stepTypes, setStep]);
+  }, [isInitialized, currentStepType, step, setStep]);
 
   const handleStepChange = useCallback(
     (stepType: string, shouldSubmit = true) => {
@@ -180,7 +183,7 @@ export function FormStepController({
 
     if (nextIndex < filteredSteps.length) {
       await onSubmit(formData); // submits data after each step
-      handleStepChange(stepTypes[nextIndex], false); // Don't submit again
+      handleStepChange(step[nextIndex], false); // Don't submit again
     } else {
       await onSubmit(formData);
       router.push("/journal");
@@ -192,7 +195,7 @@ export function FormStepController({
     onSubmit,
     handleStepChange,
     router,
-    stepTypes,
+    step,
   ]);
 
   const handlePrevForm = useCallback(async () => {
@@ -202,15 +205,16 @@ export function FormStepController({
       const formData = getValues();
       // Submit the form data before going back
       await onSubmit(formData);
-      handleStepChange(stepTypes[prevIndex], false); // Don't submit again
+      handleStepChange(step[prevIndex], false); // Don't submit again
     }
-  }, [currentStepIndex, handleStepChange, stepTypes, getValues, onSubmit]);
+  }, [currentStepIndex, handleStepChange, step, getValues, onSubmit]);
 
   const progressPercentage =
     ((currentStepIndex + 1) / filteredSteps.length) * 100;
 
-  const currentStep = stepTypes[currentStepIndex !== -1 ? currentStepIndex : 0];
+  const currentStep = step[currentStepIndex !== -1 ? currentStepIndex : 0];
 
+  //WTF do i rename this to and what its relation to
   const currentStepComponent =
     filteredSteps[currentStepIndex !== -1 ? currentStepIndex : 0]?.component;
 
@@ -225,7 +229,7 @@ export function FormStepController({
       <div className="grid grid-rows-[auto,1fr,auto] h-full">
         <FormStepProgress
           formSteps={filteredSteps}
-          currentStepType={currentStep}
+          currentStep={currentStep}
           handleStepChange={handleStepChange}
           progressPercentage={progressPercentage}
           {...progressProps}
