@@ -6,6 +6,7 @@ import { Night } from "./steps/Night";
 import { Willpower } from "./steps/willpower/Willpower";
 import { HabitActionsStep } from "./steps/HabitActionsStep";
 import { isEvening } from "@lib/time";
+import { calculateHabitsXpFromEntry } from "@lib/level";
 
 import { FaSun, FaMoon, FaStar, FaBoltLightning } from "react-icons/fa6";
 import { Target, Shell } from "lucide-react";
@@ -16,9 +17,9 @@ import type {
 } from "@models/types";
 
 // Define common field groups for consistent initialization
-//NOTE: do we still need this?
-export const DAY_FIELDS = ["day"];
-export const NIGHT_FIELDS = ["night"];
+//NOTE: Might we need this in the future to add more standard steps?
+// export const DAY_FIELDS = ["day"];
+// export const NIGHT_FIELDS = ["night"];
 
 //NOTE: Creates a complete array of form steps by combining built-in and custom steps
 type CreateStepsParams = {
@@ -28,8 +29,9 @@ type CreateStepsParams = {
   customSteps: JournalEntryCustomStep[];
 };
 
-// What dose this function return exactly?
-export function createSteps(params: CreateStepsParams) {
+export function createSteps(
+  params: CreateStepsParams
+): JournalEntryCustomStep[] {
   const { watch, userEveningTime, SHOW_ALL_TEST, customSteps } = params;
   // NOTE: TS type checking is static and happening at compile time, not runtime.
   // The TypeScript compiler doesn't know about the runtime behavior of React Hook Form
@@ -121,11 +123,14 @@ export function creteFormDefaultValues(params: CreteDefaultValuesParams) {
     };
   } else {
     // Initialize with empty arrays for standard fields
-    DAY_FIELDS.forEach((field) => {
-      if (defaultValues.dayEntry) {
-        defaultValues.dayEntry[field] = [];
-      }
-    });
+    // DAY_FIELDS.forEach((field) => {
+    //   if (defaultValues.dayEntry) {
+    //     defaultValues.dayEntry[field] = [];
+    //   }
+    // });
+    if (defaultValues.dayEntry) {
+      defaultValues.dayEntry.day = [];
+    }
   }
 
   // Add default values for built-in night fields
@@ -136,11 +141,14 @@ export function creteFormDefaultValues(params: CreteDefaultValuesParams) {
     };
   } else {
     // Initialize with empty arrays for standard fields
-    NIGHT_FIELDS.forEach((field) => {
-      if (defaultValues.nightEntry) {
-        defaultValues.nightEntry[field] = [];
-      }
-    });
+    // NIGHT_FIELDS.forEach((field) => {
+    //   if (defaultValues.nightEntry) {
+    //     defaultValues.nightEntry[field] = [];
+    //   }
+    // });
+    if (defaultValues.nightEntry) {
+      defaultValues.nightEntry.night = [];
+    }
   }
 
   // Add any custom fields from customSteps
@@ -182,11 +190,19 @@ export function getFieldCount(params: GetFieldCountParams): number {
 type CreateProgressPropsParams = {
   formSteps: JournalEntryCustomStep[];
   watch: UseFormWatch<JournalEntry>;
-  habitXpValues: Record<string, number>;
+  getValues: () => JournalEntry;
 };
 
 export function createProgressProps(params: CreateProgressPropsParams) {
-  const { formSteps, watch, habitXpValues } = params;
+  const { formSteps, watch, getValues } = params;
+
+  // Habit XP calculation
+  const formValues = getValues();
+  const habitXpValues = calculateHabitsXpFromEntry({
+    entryHabits: formValues.habits || {},
+    entryWillpower: formValues.dailyWillpower + formValues.bonusWillpower, // Fixed to use bonusWillpower instead of duplicating dailyWillpower
+  });
+
   // Helper function to count matching elements
   const countMatchingElements = (arr1: any[] = [], arr2: any[] = []) => {
     const set1 = new Set(arr1);

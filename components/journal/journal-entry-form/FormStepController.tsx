@@ -7,7 +7,6 @@ import { FormStepProgress } from "./FormStepProgress";
 import { FormStepNavigation } from "./FormStepNavigation";
 import { JournalEntry, JournalEntryCustomStep } from "@models/types";
 import { getDayDisciplineScores } from "@lib/score";
-import { calculateHabitsXpFromEntry } from "@lib/level";
 import {
   createSteps,
   creteFormDefaultValues,
@@ -40,6 +39,7 @@ export function FormStepController({
   const searchParams = useSearchParams();
   const [isInitialized, setIsInitialized] = useState(false);
 
+  // Create form with default values
   const methods = useForm<JournalEntry>({
     defaultValues: creteFormDefaultValues({ journalEntryData, customSteps }),
   });
@@ -66,84 +66,12 @@ export function FormStepController({
 
     return disciplines;
   }, [
-    // Watch all day entry fields dynamically
-    // ...DAY_FIELDS.map((field) => watch(`dayEntry.${field}`)),
-    // ...customSteps
-    //   .filter((step) => step.category === "day")
-    //   .map((step) => watch(`dayEntry.${step.type}`)),
-    // We'll use a proper dependency array
     watch("dayEntry"),
     watch("nightEntry"),
     setValue,
     getValues,
     willpowerMultiplier,
   ]);
-
-  // useEffect(() => {
-  //   if (journalEntryData) {
-  //     // Update basic fields
-  //     setValue("dailyWillpower", journalEntryData.dailyWillpower ?? 0);
-  //     setValue("bonusWillpower", journalEntryData.bonusWillpower ?? 0);
-
-  //     // Update day entry fields dynamically
-  //     if (journalEntryData.dayEntry) {
-  //       // Update core fields first
-  //       DAY_FIELDS.forEach((field) => {
-  //         if (journalEntryData.dayEntry?.[field] !== undefined) {
-  //           setValue(
-  //             `dayEntry.${field}`,
-  //             journalEntryData.dayEntry[field] ?? []
-  //           );
-  //         }
-  //       });
-
-  //       // Update any custom day fields
-  //       customSteps
-  //         .filter((step) => step.category === "day")
-  //         .forEach((step) => {
-  //           if (journalEntryData.dayEntry?.[step.type] !== undefined) {
-  //             setValue(
-  //               `dayEntry.${step.type}`,
-  //               journalEntryData.dayEntry[step.type] ?? []
-  //             );
-  //           }
-  //         });
-  //     }
-
-  //     // Update night entry fields dynamically
-  //     if (journalEntryData.nightEntry) {
-  //       // Update core fields first
-  //       NIGHT_FIELDS.forEach((field) => {
-  //         if (journalEntryData.nightEntry?.[field] !== undefined) {
-  //           setValue(
-  //             `nightEntry.${field}`,
-  //             journalEntryData.nightEntry[field] ?? []
-  //           );
-  //         }
-  //       });
-
-  //       //NOTE USING CUSTOM STEPS without the sending the prop causes infinite loop
-  //       // Update any custom night fields
-  //       customSteps
-  //         .filter((step) => step.category === "night")
-  //         .forEach((step) => {
-  //           if (journalEntryData.nightEntry?.[step.type] !== undefined) {
-  //             setValue(
-  //               `nightEntry.${step.type}`,
-  //               journalEntryData.nightEntry[step.type] ?? []
-  //             );
-  //           }
-  //         });
-  //     }
-
-  //     // Update habits
-  //     if (journalEntryData.habits) {
-  //       setValue("habits", journalEntryData.habits);
-  //     }
-  //   }
-  // }, [journalEntryData, setValue, customSteps]);
-
-  // Inside FormStepController component
 
   // Update form when data changes
   useEffect(() => {
@@ -174,23 +102,26 @@ export function FormStepController({
     }
   }, [journalEntryData, setValue]);
 
+  // Get all form steps
   const formSteps = useMemo(() => {
-    const createStepsParams = {
+    const steps = createSteps({
       watch,
       userEveningTime,
       SHOW_ALL_TEST,
       customSteps,
-    };
-    const steps = createSteps(createStepsParams);
+    });
 
     return steps;
   }, [watch, userEveningTime, customSteps]);
 
+  // Filter to available steps only
   const filteredSteps = useMemo(
     () => formSteps.filter((step) => step.isAvailable),
     [formSteps]
   );
 
+  //NOTE: type will become discipline
+  // Get array of step types
   const stepTypes = useMemo(
     () => filteredSteps.map((step) => step.type),
     [filteredSteps]
@@ -283,77 +214,10 @@ export function FormStepController({
   const currentStepComponent =
     filteredSteps[currentStepIndex !== -1 ? currentStepIndex : 0]?.component;
 
-  // TEMP UTIL FUNCTION
-  // NOTE: move to util when cleaning up this file
-  // function countMatchingElements(
-  //   arr1: string[] | undefined,
-  //   arr2: string[] | undefined
-  // ) {
-  //   const safeArr1 = arr1 || [];
-  //   const safeArr2 = arr2 || [];
-  //   const set1 = new Set(safeArr1);
-  //   return safeArr2.filter((element) => set1.has(element)).length;
-  // }
-
-  const formValues = getValues();
-  const habitXpValues = calculateHabitsXpFromEntry({
-    entryHabits: formValues.habits || {},
-    entryWillpower: formValues.dailyWillpower + formValues.dailyWillpower,
-  });
-
-  // // NOTE: move to util when cleaning up this file
-  // const countNonZeroValues = (obj: Record<string, number>) =>
-  //   Object.values(obj).filter((value) => value !== 0).length;
-
-  // // Dynamically get counts for any field
-  // // For the second error, update the getFieldCount function to handle the "other" category:
-  // const getFieldCount = (
-  //   category: "day" | "night" | "other",
-  //   field: string
-  // ): number => {
-  //   if (category === "day") {
-  //     return watch(`dayEntry.${field}`)?.length || 0;
-  //   } else if (category === "night") {
-  //     return watch(`nightEntry.${field}`)?.length || 0;
-  //   } else {
-  //     // For "other" category, we don't have a specific entry type
-  //     // Return 0 or handle it differently based on your requirements
-  //     return 0;
-  //   }
-  // };
-
-  // //NOTE??????? This cound function can it no be moved inside the FormStepProgress.tsx
-  // // why is it dose form here, we have the steps inside FormStepProgress
-  // // Build progress props dynamically with all the counts
-  // const progressProps: {
-  //   dailyGoals: number;
-  //   dailyGoalsCompleted: number;
-  //   habitActionsCount: number;
-  //   [key: `${string}Count`]: number;
-  // } = {
-  //   // Add the dailyGoals for the day step
-  //   dailyGoals: watch("dayEntry.day")?.length || 0,
-  //   // Add the dailyGoalsCompleted for the night step
-  //   dailyGoalsCompleted: countMatchingElements(
-  //     watch("dayEntry.day"),
-  //     watch("nightEntry.night")
-  //   ),
-  //   // Add habitActionsCount for the habits step
-  //   habitActionsCount: countNonZeroValues(habitXpValues),
-  // };
-
-  // // Add counts for all steps
-  // formSteps.forEach((step) => {
-  //   progressProps[`${step.type}Count`] = getFieldCount(
-  //     step.category || "other",
-  //     step.type
-  //   );
-  // });
-
   const progressProps = createProgressProps({
     formSteps,
     watch,
-    habitXpValues,
+    getValues,
   });
 
   return (
