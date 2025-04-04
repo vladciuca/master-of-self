@@ -7,7 +7,7 @@ import { JournalEntryDisciplineSection } from "./JournalEntryDisciplineSection";
 import { Card } from "@components/ui/card";
 import { Button } from "@components/ui/button";
 import { FaBoltLightning } from "react-icons/fa6";
-// import { Shell } from "lucide-react";
+import { Shell } from "lucide-react";
 import { calculateHabitsXpFromEntry } from "@/lib/level";
 // import { JOURNAL_COLORS } from "@lib/colors";
 import { Session, JournalEntryMetadata } from "@models/types";
