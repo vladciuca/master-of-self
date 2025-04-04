@@ -19,12 +19,12 @@ export function useYesterdayJournalEntry() {
   );
 
   // Derive discipline scores from yesterdayEntry using the new function
-  const nightEntryDisciplineScores = useMemo((): Partial<UserDisciplines> => {
+  const nightEntryDisciplineScores = useMemo((): Record<string, number> => {
     if (!yesterdayEntry || !yesterdayEntry.nightEntry) {
       return {};
     }
 
-    // Use the new function to calculate night discipline scores
+    // The updated function will process all keys in nightEntry as disciplines
     return getNightDisciplineScores(yesterdayEntry.nightEntry);
   }, [yesterdayEntry]);
 
@@ -41,6 +41,8 @@ export function useYesterdayJournalEntry() {
       return null; // Or some error indicator value, or fall back to a default
     }
 
+    //NOTE: here we are treating "night" with calculateStepScore() like every other step
+    // Do we need special treatment? To me and my shrink
     // Sum all the discipline scores
     const totalScore = Object.values(nightEntryDisciplineScores).reduce(
       (sum, score) => sum + (score || 0),
@@ -49,7 +51,12 @@ export function useYesterdayJournalEntry() {
 
     // Apply the same WP multiplier
     return Math.floor(totalScore * (willpowerMultiplier || 1.5));
-  }, [nightEntryDisciplineScores, willpowerMultiplier]);
+  }, [
+    nightEntryDisciplineScores,
+    willpowerMultiplier,
+    userSettingsLoading,
+    userSettingsError,
+  ]);
 
   useEffect(() => {
     if (!session?.user.id) return;

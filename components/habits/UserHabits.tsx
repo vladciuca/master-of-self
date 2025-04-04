@@ -88,7 +88,7 @@ export function UserHabits() {
         linkTo={NEW_HABIT_CARD_DETAILS.linkTo}
         itemsCount={itemsCount}
         //NOTE: DISABLE HABIT_CREATION
-        // disabled={true}
+        disabled={true}
       />
 
       {habitsLoading ? (

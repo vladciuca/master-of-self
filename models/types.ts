@@ -19,13 +19,18 @@ export type UserJournalSteps = {
   reflection: boolean;
 };
 
+// export type UserDisciplines = {
+//   positivity?: number;
+//   motivation?: number;
+//   confidence?: number;
+//   awareness?: number;
+//   resilience?: number;
+//   // [key:string]: number;
+// };
+
 export type UserDisciplines = {
-  positivity?: number;
-  motivation?: number;
-  confidence?: number;
-  awareness?: number;
-  resilience?: number;
-  // [key:string]: number;
+  motivation: number;
+  [key: string]: number;
 };
 
 export type UserSettings = {

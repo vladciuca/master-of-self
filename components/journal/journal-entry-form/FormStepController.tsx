@@ -47,10 +47,13 @@ export function FormStepController({
   // Get form values and methods
   const { watch, setValue, getValues } = methods;
 
+  // NOTE: need to do something with this function otherwise just use it for WP calc
   // Calculate DAY disciplines scores & set them to totalWP * WPx
   const dayEntryDisciplineScores = useMemo(() => {
     const currentEntry = getValues();
-    const disciplines = getDayDisciplineScores(currentEntry);
+
+    // Use the updated getDayDisciplineScores function that processes all keys
+    const disciplines = getDayDisciplineScores(currentEntry.dayEntry);
 
     // Calculate total willpower by summing all discipline scores
     const dailyWillpower = Object.values(disciplines).reduce(
@@ -67,7 +70,7 @@ export function FormStepController({
     return disciplines;
   }, [
     watch("dayEntry"),
-    watch("nightEntry"),
+    // watch("nightEntry"),
     setValue,
     getValues,
     willpowerMultiplier,

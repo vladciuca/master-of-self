@@ -116,14 +116,15 @@ export function useCreateJournalEntry() {
       //   resilience: calculateStepScore(lastEntry?.nightEntry?.reflection ?? []),
       // };
 
-      const disciplinesPayload: UserDisciplines = lastEntry
-        ? getDisciplineScoreFromEntry(lastEntry)
-        : {};
+      //NOTE: WIP first lets update the scoreCalc functions, then lets update the DB
+      // const disciplinesPayload: UserDisciplines = lastEntry
+      //   ? getDisciplineScoreFromEntry(lastEntry)
+      //   : {};
 
       // NOTE: Must NOT create entry before updating the Habits XP
       // Parallel API updates
       await Promise.allSettled([
-        lastEntry ? updateDisciplines(disciplinesPayload) : Promise.resolve(),
+        // lastEntry ? updateDisciplines(disciplinesPayload) : Promise.resolve(),
 
         hasHabits && lastEntry
           ? updateHabits({

@@ -47,11 +47,11 @@ export function getActionValueColor(params: HabitActionValueParams): string {
   return "text-primary";
 }
 
-// JOURNAL
+// JOURNAL DISCIPLINE SCORE FUNCTIONS
 
 export function calculateStepScore(entryList: string[]): number {
-  const totalEntries = entryList.length;
-  const totalLength = entryList.join("").length;
+  const totalEntries = entryList?.length || 0;
+  const totalLength = (entryList || []).join("").length;
   const baseScoreMultiplier = 5;
   const scalingFactor = 10;
   return Math.floor(
@@ -59,74 +59,87 @@ export function calculateStepScore(entryList: string[]): number {
   );
 }
 
-// NOTE: currently only used in the NIGHT_JOURNAL_STEP for MOTIVATION discipline
 export function calculateStepScoreMultiplier(entryList: string[]): number {
-  //NOTE: this is used so that the multiplication defaults to 1 when [] is empty
-  // and starts from x2 when [] has 1 element
   const baseMultiplier = 1;
-  return (entryList ?? []).length + baseMultiplier;
+  return (entryList || []).length + baseMultiplier;
 }
 
-// Calculate discipline scores from day entry only
+// Updated to process all keys in the entry object as disciplines
 export function getDayDisciplineScores(
   dayEntry: any | null | undefined
-): Partial<UserDisciplines> {
+): Record<string, number> {
   if (!dayEntry) return {};
 
-  return {
-    positivity: calculateStepScore(dayEntry?.gratitude ?? []),
-    motivation: calculateStepScore(dayEntry?.day ?? []), // Base motivation without multiplier
-    confidence: calculateStepScore(dayEntry?.affirmations ?? []),
-  };
+  const disciplines: Record<string, number> = {};
+
+  // Process all keys in dayEntry as disciplines
+  Object.entries(dayEntry).forEach(([key, value]) => {
+    // Skip non-array values
+    if (!Array.isArray(value)) return;
+
+    // Special handling for "day" key (motivation)
+    if (key === "day") {
+      disciplines.motivation = calculateStepScore(value);
+    } else {
+      // For all other keys, calculate score normally
+      disciplines[key] = calculateStepScore(value);
+    }
+  });
+
+  return disciplines;
 }
 
-// Calculate discipline scores from night entry only
+// Updated to process all keys in the entry object as disciplines
 export function getNightDisciplineScores(
   nightEntry: any | null | undefined
-): Partial<UserDisciplines> {
+): Record<string, number> {
   if (!nightEntry) return {};
 
-  //NOTE: might use in the future
-  // Calculate night motivation score after multiplier if day motivation is provided
-  // const dayMotivation = calculateStepScore(dayEntry?.day ?? []);
-  // const motivationNightScore =
-  //   dayMotivation > 0
-  //     ? dayMotivation * calculateStepScoreMultiplier(nightEntry?.night ?? []) -
-  //       dayMotivation
-  //     : 0;
+  const disciplines: Record<string, number> = {};
 
-  return {
-    // Add motivation multiplier effect (the additional motivation from night entry)
-    motivation: calculateStepScoreMultiplier(nightEntry?.night ?? []),
-    // motivation: nightEntry?.night ?? [],
-    awareness: calculateStepScore(nightEntry?.highlights ?? []),
-    resilience: calculateStepScore(nightEntry?.reflection ?? []),
-  };
+  // Process all keys in nightEntry as disciplines
+  Object.entries(nightEntry).forEach(([key, value]) => {
+    // Skip non-array values
+    if (!Array.isArray(value)) return;
+
+    // Special handling for "night" key (only returns: motivation multiplier)
+    if (key === "night") {
+      disciplines.motivation = calculateStepScoreMultiplier(value);
+    } else {
+      // For all other keys, calculate score normally
+      disciplines[key] = calculateStepScore(value);
+    }
+  });
+
+  return disciplines;
 }
 
 // Combined function that uses both day and night functions
 export function getDisciplineScoreFromEntry(
-  entry: JournalEntry | null | undefined
-): UserDisciplines {
+  entry: any | null | undefined
+): Record<string, number> {
   if (!entry) return {};
 
   // Get day scores
   const dayScores = getDayDisciplineScores(entry?.dayEntry);
 
-  // Get night scores, passing the day motivation for proper multiplier calculation
+  // Get night scores
   const nightScores = getNightDisciplineScores(entry?.nightEntry);
 
   // Combine the scores
-  return {
-    positivity: dayScores.positivity || 0,
-    // For motivation, if we have night entry, use the multiplied value, otherwise just day motivation
-    motivation:
-      (entry?.nightEntry?.night?.length
-        ? calculateStepScore(entry?.dayEntry?.day ?? []) *
-          calculateStepScoreMultiplier(entry?.nightEntry?.night ?? [])
-        : dayScores.motivation) || 0,
-    confidence: dayScores.confidence || 0,
-    awareness: nightScores.awareness || 0,
-    resilience: nightScores.resilience || 0,
-  };
+  const combinedScores: Record<string, number> = { ...dayScores };
+
+  // Add night scores
+  Object.entries(nightScores).forEach(([key, value]) => {
+    if (key === "motivation" && entry?.dayEntry?.day?.length) {
+      // Special handling for motivation with multiplier
+      combinedScores[key] = (dayScores.motivation || 0) * value;
+    } else if (!combinedScores[key]) {
+      // If the key doesn't exist in dayScores, add it
+      combinedScores[key] = value;
+    }
+    // If the key exists in both, we keep the dayScore value (except for motivation)
+  });
+
+  return combinedScores;
 }
