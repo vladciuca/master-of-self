@@ -210,7 +210,11 @@ export function JournalEntryDisciplineSection({
             value={step}
             className="border-none bg-muted/30 rounded-lg overflow-hidden py-0 pl-2 px-4 mb-0"
           >
-            <AccordionTrigger className="hover:no-underline py-2 flex flex-col items-start">
+            <AccordionTrigger
+              className={`hover:no-underline flex flex-col items-start pt-2 ${
+                openItem !== step ? "pb-2" : "pb-0"
+              }`}
+            >
               <div className="flex items-center justify-between w-full">
                 <div className="flex items-center gap-3">
                   <div className="flex flex-col h-full">

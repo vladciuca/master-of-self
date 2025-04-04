@@ -106,11 +106,11 @@ export const stepStyles: { [key: string]: StepStyle } = {
   },
 };
 
-//NEW STEP STYLES to include dynamic steps
 export const getStepStyle = (stepType: string): StepStyle => {
   return stepStyles[stepType] || stepStyles.default;
 };
 
+//NEW STEP STYLES to include dynamic steps
 export const journalStepStyle: { [key: string]: StepStyle } = {
   default: {
     bgColor: `bg-${JOURNAL_COLORS.day}`,
