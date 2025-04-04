@@ -16,13 +16,13 @@ import { JOURNAL_COLORS } from "@lib/colors";
 import type { JournalDayEntry, JournalNightEntry } from "@models/types";
 
 type StepData = {
-  stepType: string;
+  step: string;
   score: number;
   data: string[];
   title?: string;
   completedCount?: number;
   renderSections?: () => React.ReactNode;
-  source: "dayEntry" | "nightEntry";
+  stepType: "dayEntry" | "nightEntry";
 };
 
 type JournalEntryDisciplineSectionProps = {
@@ -42,18 +42,18 @@ export function JournalEntryDisciplineSection({
     setOpenItem(value);
   };
 
-  function getStepTitle(stepType: string): string {
+  function getStepTitle(step: string): string {
     // Capitalize first letter of the step type
-    return stepType.charAt(0).toUpperCase() + stepType.slice(1);
+    return step.charAt(0).toUpperCase() + step.slice(1);
   }
 
   const daySteps: StepData[] = Object.entries(dayEntry || {})
     .map(([key, value]) => {
       return {
-        stepType: key,
+        step: key,
         score: calculateStepScore(value || []),
         data: value || [],
-        source: "dayEntry" as const,
+        stepType: "dayEntry" as const,
       };
     })
     .filter((item) => item.data.length > 0);
@@ -61,10 +61,10 @@ export function JournalEntryDisciplineSection({
   const nightSteps: StepData[] = Object.entries(nightEntry || {})
     .map(([key, value]) => {
       return {
-        stepType: key,
+        step: key,
         score: calculateStepScore(value || []),
         data: value || [],
-        source: "nightEntry" as const,
+        stepType: "nightEntry" as const,
       };
     })
     .filter((item) => item.data.length > 0);
@@ -88,12 +88,12 @@ export function JournalEntryDisciplineSection({
   const completedCount = completed.length;
 
   const motivationStep = {
-    stepType: "day",
+    step: "day",
     score: calculateStepScore(allTodos),
     data: allTodos,
     completedCount: completedCount,
     title: "Daily Goals",
-    source: "dayEntry" as const,
+    stepType: "dayEntry" as const,
     renderSections: () => (
       <>
         {uncompleted.length > 0 && (
@@ -119,7 +119,7 @@ export function JournalEntryDisciplineSection({
 
   // 1. First add all regular day steps (filtering out the special "day" step)
   daySteps.forEach((step) => {
-    if (step.stepType !== "day") {
+    if (step.step !== "day") {
       orderedSteps.push(step);
     }
   });
@@ -131,11 +131,9 @@ export function JournalEntryDisciplineSection({
 
   // 3. Add all night steps (filtering out the special "night" step)
   nightSteps.forEach((step) => {
-    if (step.stepType !== "night") {
+    if (step.step !== "night") {
       // Check if this step type already exists in the ordered steps
-      const existingIndex = orderedSteps.findIndex(
-        (s) => s.stepType === step.stepType
-      );
+      const existingIndex = orderedSteps.findIndex((s) => s.step === step.step);
       if (existingIndex >= 0) {
         // If step type exists, merge the data
         orderedSteps[existingIndex].data = [
@@ -143,7 +141,7 @@ export function JournalEntryDisciplineSection({
           ...step.data,
         ];
         orderedSteps[existingIndex].score += step.score;
-        orderedSteps[existingIndex].source = "nightEntry";
+        orderedSteps[existingIndex].stepType = "nightEntry";
       } else {
         // Otherwise add as a new step
         orderedSteps.push(step);
@@ -161,26 +159,26 @@ export function JournalEntryDisciplineSection({
     >
       {orderedSteps.map((item) => {
         const {
-          stepType,
+          step,
           score,
           data,
           title,
-          source,
+          stepType,
           completedCount,
           renderSections,
         } = item;
 
         if (!data || data.length === 0) return null;
 
-        const pointType = stepDisciplines[stepType] || getStepTitle(stepType);
+        const pointType = stepDisciplines[step] || getStepTitle(step);
 
-        let { bgColor } = getJournalStepStyle(stepType);
+        let { bgColor } = getJournalStepStyle(step);
 
-        // For steps other than "day" and "night", use the source to determine color
-        if (stepType !== "day" && stepType !== "night") {
-          // Use getJournalStepStyle to get the appropriate color based on source
-          const sourceStyle = getJournalStepStyle(source);
-          bgColor = sourceStyle.bgColor;
+        // For steps other than "day" and "night", use the stepType to determine color
+        if (step !== "day" && step !== "night") {
+          // Use getJournalStepStyle to get the appropriate color based on stepType
+          const stepTypeStyle = getJournalStepStyle(stepType);
+          bgColor = stepTypeStyle.bgColor;
         }
 
         // Get day and night colors directly from stepStyles
@@ -189,10 +187,10 @@ export function JournalEntryDisciplineSection({
 
         // Create circles with different colors based on completion status
         const circles = Array.from({ length: data.length }).map((_, index) => {
-          // For the day stepType, use different colors for completed vs uncompleted
+          // For the day step, use different colors for completed vs uncompleted
           let circleBgColor = bgColor;
 
-          if (stepType === "day" && typeof completedCount === "number") {
+          if (step === "day" && typeof completedCount === "number") {
             // If this is a completed circle (index >= uncompleted count)
             circleBgColor =
               index >= data.length - completedCount ? nightBgColor : dayBgColor;
@@ -208,8 +206,8 @@ export function JournalEntryDisciplineSection({
 
         return (
           <AccordionItem
-            key={stepType}
-            value={stepType}
+            key={step}
+            value={step}
             className="border-none bg-muted/30 rounded-lg overflow-hidden py-0 pl-2 px-4 mb-0"
           >
             <AccordionTrigger className="hover:no-underline py-2 flex flex-col items-start">
@@ -222,7 +220,7 @@ export function JournalEntryDisciplineSection({
                   </div>
                 </div>
                 <div className="flex items-center">
-                  {stepType === "day" &&
+                  {step === "day" &&
                   typeof completedCount === "number" &&
                   completedCount > 0 ? (
                     <span
@@ -239,14 +237,12 @@ export function JournalEntryDisciplineSection({
                   )}
                 </div>
               </div>
-              {/* <div className="min-h-2 mt-1"> */}
               {/* Only show circles when this item is not open */}
-              {openItem !== stepType && (
+              {openItem !== step && (
                 <div className="flex flex-wrap max-w-[180px] sm:max-w-[200px] gap-2">
                   {circles}
                 </div>
               )}
-              {/* </div> */}
             </AccordionTrigger>
             <AccordionContent className="pb-2 pt-0">
               {renderSections ? (
@@ -256,7 +252,7 @@ export function JournalEntryDisciplineSection({
                   <JournalEntryDisciplineList
                     title={title}
                     items={data}
-                    stepType={source}
+                    stepType={stepType}
                   />
                 </>
               )}

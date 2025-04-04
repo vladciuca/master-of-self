@@ -117,19 +117,19 @@ JournalEntryCardProps) {
       )} */}
 
       {/* Habit Actions */}
-      {habits &&
+      {/* {habits &&
         Object.values(habits).some((habitActions) =>
           Object.entries(habitActions)
             .filter(([key, value]) => key !== "currentXp")
             .some(([_, value]) => value !== 0)
         ) && (
           <div className="flex w-full">
-            {/* <div className="flex-shrink-0 flex items-start mr-4">
+            <div className="flex-shrink-0 flex items-start mr-4">
               <h2 className="flex items-center text-muted-foreground mt-1">
                 <Shell className="mr-2 text-muted-foreground" size={"1rem"} />
                 Habits:
               </h2>
-            </div> */}
+            </div>
             <div className="flex-grow flex flex-wrap items-start">
               <JournalEntryHabits
                 habitsXp={habitsXpFromActions}
@@ -137,7 +137,7 @@ JournalEntryCardProps) {
               />
             </div>
           </div>
-        )}
+        )} */}
 
       {/* Discipline Points*/}
       <JournalEntryDisciplineSection
