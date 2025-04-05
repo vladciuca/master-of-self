@@ -2,92 +2,90 @@ import React from "react";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
 import { FaBoltLightning } from "react-icons/fa6";
-import { stepIconMap, getStepStyle } from "@components/ui/constants";
-
-type Step = {
-  type: string;
-  component: React.ReactNode;
-  isAvailable: boolean;
-};
+import { getJournalStepStyle } from "@components/ui/constants";
+import type { JournalEntryCustomStep } from "@models/types";
 
 type FormStepProgressProps = {
-  availableSteps: Step[];
-  currentStepType: string;
+  formSteps: JournalEntryCustomStep[];
+  activeStep: string;
   handleStepChange: (stepType: string) => void;
   progressPercentage: number;
-  //Step count
-  dayCount: number;
-  dailyGoalsCompleted: number;
-  gratitudeCount: number;
-  affirmationsCount: number;
-  highlightsCount: number;
-  reflectionCount: number;
+  // Instead of requiring specific count props, accept any prop ending with "Count"
+  dailyGoals: number;
+  dailyGoalsCompleted?: number;
   habitActionsCount: number;
+  [key: `${string}Count`]: number;
 };
 
 export function FormStepProgress({
-  availableSteps,
-  currentStepType,
+  formSteps,
+  activeStep,
   handleStepChange,
   progressPercentage,
-  //Step counts
-  dayCount,
+  dailyGoals,
   dailyGoalsCompleted,
-  gratitudeCount,
-  affirmationsCount,
-  highlightsCount,
-  reflectionCount,
   habitActionsCount,
+  ...countProps
 }: FormStepProgressProps) {
-  const getCount = (stepType: string): number => {
-    switch (stepType) {
-      case "day":
-        return dayCount;
-      case "night":
-        return dailyGoalsCompleted;
-      case "gratitude":
-        return gratitudeCount;
-      case "affirmations":
-        return affirmationsCount;
-      case "highlights":
-        return highlightsCount;
-      case "reflection":
-        return reflectionCount;
-      case "habits":
-        return habitActionsCount;
-
-      default:
-        return 0;
+  // This function gets the count for a step type from the countProps
+  const getCount = (stepDiscipline: string): number => {
+    // Special cases first
+    if (stepDiscipline === "day" && dailyGoalsCompleted !== undefined) {
+      return dailyGoals;
     }
+
+    if (stepDiscipline === "night" && dailyGoalsCompleted !== undefined) {
+      return dailyGoalsCompleted;
+    }
+
+    if (stepDiscipline === "habits" && habitActionsCount !== undefined) {
+      return habitActionsCount;
+    }
+
+    // Look for a specific count prop for this step type
+    const countProp = `${stepDiscipline}Count` as keyof typeof countProps;
+
+    // If we have a specific count for this step type, use it
+    if (countProps[countProp] !== undefined) {
+      return countProps[countProp];
+    }
+
+    // Default to 0 if no count is found
+    return 0;
   };
 
   return (
     <div className="flex flex-col items-center w-full mb-4">
       <div className="flex items-center justify-around w-full mt-4 mb-3 px-4 sm:pt-4">
-        {availableSteps.map((step: Step, index: number) => {
-          const IconElement = stepIconMap[step.type] || stepIconMap.default;
-          const { bgColor } = getStepStyle(step.type);
-          const count = getCount(step.type);
+        {formSteps.map((step: JournalEntryCustomStep, index: number) => {
+          const IconElement = step.icon;
+
+          const discipline =
+            step.type === "other" ? step.discipline : step.type;
+          const { bgColor } = getJournalStepStyle(discipline);
+          const count = getCount(step.discipline);
           return (
             <span
               key={index}
               className={`relative cursor-pointer text-sm ${
-                step.type === currentStepType ? "" : "text-muted-foreground"
+                step.discipline === activeStep ? "" : "text-muted-foreground"
               }`}
-              onClick={() => handleStepChange(step.type)}
+              onClick={() => handleStepChange(step.discipline)}
             >
               <div
                 className={`${
-                  step.type === currentStepType
+                  step.discipline === activeStep
                     ? "bg-secondary text-primary"
                     : "text-primary"
                 } w-11 h-11 rounded-full flex items-center justify-center`}
               >
                 {React.cloneElement(IconElement as React.ReactElement, {
                   size:
-                    step.type === "night" || step.type === "day"
+                    step.discipline === "night" ||
+                    step.discipline === "day" ||
+                    step.discipline === "bonus"
                       ? 25
-                      : step.type === "willpower"
+                      : step.discipline === "willpower"
                       ? 23
                       : 30,
                 })}
@@ -101,7 +99,7 @@ export function FormStepProgress({
                   {count}
                 </Badge>
               )}
-              {step.type === "bonus" && (
+              {step.discipline === "bonus" && (
                 <Badge
                   variant="outline"
                   className={`${bgColor} absolute -top-1 -right-1 text-[0.6rem] px-1 py-0 min-w-[1.2rem] h-[1.2rem] flex items-center justify-center text-white`}

@@ -1,19 +1,19 @@
 import React from "react";
 import { Label } from "@components/ui/label";
 
-type FormStepTemplateProps = {
+type JournalStepTemplateProps = {
   title: string;
   description?: string;
   scoreSection?: React.ReactNode;
   children: React.ReactNode;
 };
 
-export function FormStepTemplate({
+export function JournalStepTemplate({
   title,
   description,
   scoreSection,
   children,
-}: FormStepTemplateProps) {
+}: JournalStepTemplateProps) {
   return (
     <div className="flex flex-col h-full">
       <div className="space-y-4 text-center mx-2 sm:mx-4">

@@ -5,8 +5,66 @@ import { FormStepController } from "@components/journal/journal-entry-form/FormS
 import { PageLogo } from "@components/PageLogo";
 import { HeaderTitle } from "@components/HeaderTitle";
 import { useUserSettings } from "@context/UserSettingsContext";
-import { useUserHabits } from "@hooks/habits/useUserHabits";
+// import { useUserHabits } from "@hooks/habits/useUserHabits";
 import { useFetchAndUpdateJournalEntry } from "@hooks/journal/useFetchAndUpdateJournalEntry";
+
+import { GiAura, GiHealing, GiAwareness, GiGuardedTower } from "react-icons/gi";
+import { JournalStep } from "@components/journal/journal-entry-form/form-steps/steps/journal-step/JournalStep";
+import type { JournalStepConfig, JournalEntryCustomStep } from "@models/types";
+
+//NOTE: move this to hook when u make Step Collection
+const customStepConfigs: JournalStepConfig[] = [
+  {
+    icon: <GiHealing />,
+    discipline: "positivity",
+    type: "dayEntry",
+    title: "What am I feeling grateful for?",
+    description:
+      "Use details to describe what you're feeling grateful for and increase Positivity.",
+  },
+  {
+    icon: <GiAura />,
+    discipline: "confidence",
+    type: "dayEntry",
+    title: "Daily Affirmations",
+    description:
+      "Use statements using powerful words to imprint on your subconscious mind and build Confidence.",
+  },
+  {
+    icon: <GiAwareness />,
+    discipline: "awareness",
+    type: "nightEntry",
+    title: "What are today's highlights?",
+    description:
+      "Build momentum by capturing meaningful events and boost Awareness.",
+  },
+  {
+    icon: <GiGuardedTower />,
+    discipline: "resilience",
+    type: "nightEntry",
+    title: "Could today have been better?",
+    description:
+      "If you could go back, what would you change? Recognize what’s in your control, accept what isn’t.",
+  },
+];
+
+const customSteps: JournalEntryCustomStep[] = customStepConfigs.map(
+  (config) => ({
+    icon: config.icon,
+    type: config.type,
+    discipline: config.discipline,
+    component: (
+      <JournalStep
+        //NOTE: might need to use an id here to avoid duplicate Discipline names
+        key={config.discipline}
+        type={config.type}
+        discipline={config.discipline}
+        title={config.title}
+        description={config.description}
+      />
+    ),
+  })
+);
 
 export default function UpdateJournalEntry() {
   const params = useParams<{ id: string }>();
@@ -25,18 +83,15 @@ export default function UpdateJournalEntry() {
     userSettingsLoading,
     userSettingsError,
   } = useUserSettings();
-  const { hasHabits, habitsLoading } = useUserHabits();
+  //NOTE: WIP - Habits
+  // const { hasHabits, habitsLoading } = useUserHabits();
 
-  const userSteps = userSettings?.steps;
-  const hasGratitude = userSteps?.gratitude;
-  const hasAffirmations = userSteps?.affirmations;
-  const hasReflection = userSteps?.reflection;
   const userEveningTime = userSettings?.journalStartTime.evening;
 
   const isLoading =
     journalEntryLoading ||
     userSettingsLoading ||
-    habitsLoading ||
+    // habitsLoading ||
     !journalEntryData;
 
   return (
@@ -47,11 +102,9 @@ export default function UpdateJournalEntry() {
           submitting={submittingJournalEntryUpdate}
           onSubmit={updateJournalEntry}
           userEveningTime={userEveningTime}
-          hasGratitude={hasGratitude}
-          hasAffirmations={hasAffirmations}
-          hasReflection={hasReflection}
-          hasHabits={hasHabits}
           willpowerMultiplier={willpowerMultiplier}
+          //NOTE: need to make some kind of function that generates these
+          customSteps={customSteps}
         />
       )}
       {/* Since this is in the MINIMAL_LAYOUT, the UI of the FULL_LAYOUT needs to be recreated here
