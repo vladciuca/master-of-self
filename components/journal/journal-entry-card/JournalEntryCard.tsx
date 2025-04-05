@@ -88,12 +88,11 @@ JournalEntryCardProps) {
       {isToday && (
         <div className="w-full flex">
           {session?.user?.id === creatorId && pathName === "/journal" && (
-            <div>
-              <Link
-                className="mr-3 mt-1 rounded-md py-2"
-                href={`/update-journal-entry/${_id}`}
-              >
-                <Button size="sm">Continue today's journal</Button>
+            <div className="w-full">
+              <Link href={`/update-journal-entry/${_id}`}>
+                <Button size="sm" className="w-full rounded-md">
+                  Continue today's journaling session...
+                </Button>
               </Link>
             </div>
           )}
@@ -117,7 +116,7 @@ JournalEntryCardProps) {
       )} */}
 
       {/* Habit Actions */}
-      {/* {habits &&
+      {habits &&
         Object.values(habits).some((habitActions) =>
           Object.entries(habitActions)
             .filter(([key, value]) => key !== "currentXp")
@@ -137,7 +136,7 @@ JournalEntryCardProps) {
               />
             </div>
           </div>
-        )} */}
+        )}
 
       {(Object.keys(dayEntry ?? {}).length > 0 ||
         Object.keys(nightEntry ?? {}).length > 0) && (

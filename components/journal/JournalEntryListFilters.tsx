@@ -30,14 +30,6 @@ export function JournalEntryListFilters({
     }
   };
 
-  // const handleScroll = () => {
-  //   if (scrollContainerRef.current) {
-  //     const { scrollLeft, scrollWidth, clientWidth } =
-  //       scrollContainerRef.current;
-  //     setShowLeftArrow(scrollLeft > 0);
-  //     setShowRightArrow(scrollLeft < scrollWidth - clientWidth - 1);
-  //   }
-  // };
   const handleScroll = useCallback(() => {
     if (scrollContainerRef.current) {
       const { scrollLeft, scrollWidth, clientWidth } =

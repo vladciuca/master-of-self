@@ -93,7 +93,7 @@ export function NewJournalEntry({ isEveningTime }: NewJournalEntryProps) {
       <div className="w-full flex mt-4">
         <Button
           size="sm"
-          className="py-3"
+          className="w-full rounded-md"
           onClick={handleCreateJournalEntry}
           disabled={
             submittingJournalEntry || todayEntryLoading || hasTodayEntry
@@ -102,8 +102,8 @@ export function NewJournalEntry({ isEveningTime }: NewJournalEntryProps) {
           {submittingJournalEntry
             ? "Creating..."
             : hasTodayEntry
-            ? "Entry already exists"
-            : "Start today's journal"}
+            ? "Entry already exists!"
+            : "Start today's journaling session..."}
         </Button>
       </div>
     </Card>
