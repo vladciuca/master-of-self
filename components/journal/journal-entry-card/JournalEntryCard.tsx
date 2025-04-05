@@ -139,11 +139,13 @@ JournalEntryCardProps) {
           </div>
         )} */}
 
-      {/* Discipline Points*/}
-      <JournalEntryDisciplineSection
-        dayEntry={dayEntry ?? {}}
-        nightEntry={nightEntry ?? {}}
-      />
+      {(Object.keys(dayEntry ?? {}).length > 0 ||
+        Object.keys(nightEntry ?? {}).length > 0) && (
+        <JournalEntryDisciplineSection
+          dayEntry={dayEntry ?? {}}
+          nightEntry={nightEntry ?? {}}
+        />
+      )}
     </Card>
   );
 }

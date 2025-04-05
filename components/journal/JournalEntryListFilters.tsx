@@ -88,7 +88,7 @@ export function JournalEntryListFilters({
   };
 
   return (
-    <div className="relative w-full mb-4 px-1">
+    <div className="relative w-full mb-2 px-1">
       {showLeftArrow && (
         <Button
           variant="secondary"
