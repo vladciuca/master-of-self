@@ -12,6 +12,8 @@ import { calculateHabitsXpFromEntry } from "@/lib/level";
 // import { JOURNAL_COLORS } from "@lib/colors";
 import { Session, JournalEntryMetadata } from "@models/types";
 
+import { JournalEntryActionButton } from "../JournalEntryActionButton";
+
 type JournalEntryCardProps = {
   journalEntry: JournalEntryMetadata;
   // handleDelete: (journalEntry: JournalEntryMetadata) => Promise<void>;
@@ -90,9 +92,16 @@ JournalEntryCardProps) {
           {session?.user?.id === creatorId && pathName === "/journal" && (
             <div className="w-full">
               <Link href={`/update-journal-entry/${_id}`}>
-                <Button size="sm" className="rounded-md">
+                {/* <Button
+                  size="sm"
+                  variant="outline"
+                  className="rounded-full border-purple-500/40 hover:bg-purple-500/90 font-normal w-full sm:w-auto sm:px-6 py-5"
+                >
                   Continue today's journaling session
-                </Button>
+                </Button> */}
+                <JournalEntryActionButton
+                  text={"Continue today's journaling session"}
+                />
               </Link>
             </div>
           )}
