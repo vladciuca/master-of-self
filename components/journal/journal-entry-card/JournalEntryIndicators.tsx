@@ -10,13 +10,26 @@ export function JournalEntryIndicators({
   dayEntry,
   nightEntry,
 }: JournalEntryIndicatorsProps) {
-  // Calculate dayEntries by counting all entries in dayEntry object
+  // Calculate uncompleted todos
+  const uncompletedTodos = () => {
+    const dailyToDos = dayEntry?.day || [];
+    const completedToDos = nightEntry?.night || [];
+
+    return dailyToDos.filter((item) => !completedToDos.includes(item));
+  };
+
+  const uncompletedTodosCount = uncompletedTodos().length;
+
+  // Calculate dayEntries by counting all entries in dayEntry object (excluding "day")
   const dayEntries = Object.entries(dayEntry || {})
     .filter(
       ([key, value]) =>
         key !== "day" && Array.isArray(value) && value.length > 0
     )
     .reduce((total, [_, value]) => total + (value?.length || 0), 0);
+
+  // Add uncompleted todos to dayEntries
+  const totalDayEntries = dayEntries + uncompletedTodosCount;
 
   // Calculate completedDailyToDos
   const completedDailyToDos = () => {
@@ -38,12 +51,12 @@ export function JournalEntryIndicators({
   const completedDailyToDosCount = completedDailyToDos().length;
 
   return (
-    <div className="h-full flex items-start ml-4 space-x-2 text-white">
-      {dayEntries > 0 && (
+    <div className="h-full ml-4 flex items-start space-x-2 text-white">
+      {totalDayEntries > 0 && (
         <div
           className={`w-[26px] h-[26px] rounded-full flex items-center justify-center ${journalStepStyle.dayEntry.bgColor}`}
         >
-          {dayEntries}
+          {totalDayEntries}
         </div>
       )}
       {completedDailyToDosCount > 0 && (
