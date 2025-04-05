@@ -243,10 +243,10 @@ export function JournalEntryDisciplineSection({
               </div>
               {/* Only show circles when this item is not open */}
               <div
-                className={`flex flex-wrap max-w-[180px] sm:max-w-[200px] gap-2 transition-all duration-700 ${
+                className={`overflow-hidden flex flex-wrap max-w-[180px] sm:max-w-[200px] gap-2 transition-all duration-100 ${
                   openItem === step
-                    ? "opacity-0 h-0 overflow-hidden"
-                    : "opacity-100 h-auto"
+                    ? "opacity-0 max-h-0"
+                    : "transition-[max-height] delay-100 duration-200 opacity-100 max-h-[500px]"
                 }`}
               >
                 {circles}
