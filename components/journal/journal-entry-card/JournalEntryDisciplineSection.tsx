@@ -242,11 +242,15 @@ export function JournalEntryDisciplineSection({
                 </div>
               </div>
               {/* Only show circles when this item is not open */}
-              {openItem !== step && (
-                <div className="flex flex-wrap max-w-[180px] sm:max-w-[200px] gap-2">
-                  {circles}
-                </div>
-              )}
+              <div
+                className={`flex flex-wrap max-w-[180px] sm:max-w-[200px] gap-2 transition-all duration-300 ${
+                  openItem === step
+                    ? "opacity-0 h-0 overflow-hidden"
+                    : "opacity-100 h-auto"
+                }`}
+              >
+                {circles}
+              </div>
             </AccordionTrigger>
             <AccordionContent className="pb-2 pt-0">
               {renderSections ? (

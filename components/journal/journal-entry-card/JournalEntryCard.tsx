@@ -116,7 +116,7 @@ JournalEntryCardProps) {
       )} */}
 
       {/* Habit Actions */}
-      {habits &&
+      {/* {habits &&
         Object.values(habits).some((habitActions) =>
           Object.entries(habitActions)
             .filter(([key, value]) => key !== "currentXp")
@@ -136,7 +136,7 @@ JournalEntryCardProps) {
               />
             </div>
           </div>
-        )}
+        )} */}
 
       {(Object.keys(dayEntry ?? {}).length > 0 ||
         Object.keys(nightEntry ?? {}).length > 0) && (

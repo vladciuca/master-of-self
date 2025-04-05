@@ -54,21 +54,21 @@ export function JournalEntryIndicators({
     <div className="h-full ml-4 flex items-start space-x-2 text-white">
       {totalDayEntries > 0 && (
         <div
-          className={`w-[26px] h-[26px] rounded-full flex items-center justify-center ${journalStepStyle.dayEntry.bgColor}`}
+          className={`w-[22px] h-[22px] rounded-full flex items-center justify-center ${journalStepStyle.dayEntry.bgColor}`}
         >
           {totalDayEntries}
         </div>
       )}
       {completedDailyToDosCount > 0 && (
         <div
-          className={`w-[26px] h-[26px] rounded-full flex items-center justify-center ${journalStepStyle.night.bgColor}`}
+          className={`w-[22px] h-[22px] rounded-full flex items-center justify-center ${journalStepStyle.night.bgColor}`}
         >
           {completedDailyToDosCount}
         </div>
       )}
       {nightEntries > 0 && (
         <div
-          className={`w-[26px] h-[26px] rounded-full flex items-center justify-center ${journalStepStyle.nightEntry.bgColor}`}
+          className={`w-[22px] h-[22px] rounded-full flex items-center justify-center ${journalStepStyle.nightEntry.bgColor}`}
         >
           {nightEntries}
         </div>
