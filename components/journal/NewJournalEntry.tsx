@@ -93,21 +93,6 @@ export function NewJournalEntry({ isEveningTime }: NewJournalEntryProps) {
       </div> */}
 
       <div className="w-full flex mt-4">
-        {/* <Button
-          size="sm"
-          variant="outline"
-          className="rounded-full border-purple-500/40 hover:bg-purple-500/90 font-normal w-full sm:w-auto sm:px-6 py-5"
-          onClick={handleCreateJournalEntry}
-          disabled={
-            submittingJournalEntry || todayEntryLoading || hasTodayEntry
-          }
-        >
-          {submittingJournalEntry
-            ? "Creating..."
-            : hasTodayEntry
-            ? "Entry for today already exists!"
-            : "Start today's journaling session"}
-        </Button> */}
         <JournalEntryActionButton
           text={
             submittingJournalEntry

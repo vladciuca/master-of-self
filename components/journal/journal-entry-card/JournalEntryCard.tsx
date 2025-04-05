@@ -55,6 +55,12 @@ JournalEntryCardProps) {
       })
     : {};
 
+  const hasDisciplineEntries =
+    (dayEntry?.Object?.entries &&
+      Object.keys(dayEntry.Object.entries).length > 0) ||
+    (nightEntry?.Object?.entries &&
+      Object.keys(nightEntry.Object.entries).length > 0);
+
   return (
     <Card className="p-4 mb-4 space-y-4">
       <div className="w-full">
@@ -92,13 +98,6 @@ JournalEntryCardProps) {
           {session?.user?.id === creatorId && pathName === "/journal" && (
             <div className="w-full">
               <Link href={`/update-journal-entry/${_id}`}>
-                {/* <Button
-                  size="sm"
-                  variant="outline"
-                  className="rounded-full border-purple-500/40 hover:bg-purple-500/90 font-normal w-full sm:w-auto sm:px-6 py-5"
-                >
-                  Continue today's journaling session
-                </Button> */}
                 <JournalEntryActionButton
                   text={"Continue today's journaling session"}
                 />
@@ -147,8 +146,10 @@ JournalEntryCardProps) {
           </div>
         )} */}
 
-      {(Object.keys(dayEntry ?? {}).length > 0 ||
-        Object.keys(nightEntry ?? {}).length > 0) && (
+      {(Object.values(dayEntry ?? {}).some((arr) => (arr ?? []).length > 0) ||
+        Object.values(nightEntry ?? {}).some(
+          (arr) => (arr ?? []).length > 0
+        )) && (
         <JournalEntryDisciplineSection
           dayEntry={dayEntry ?? {}}
           nightEntry={nightEntry ?? {}}
