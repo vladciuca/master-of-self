@@ -65,7 +65,10 @@ export const Willpower = () => {
       const xp = userSettings.disciplines[disciplineKey] ?? 0;
 
       return (
-        <div key={`${sectionKey}-${key}`} className="flex flex-col items-start">
+        <div
+          key={`${sectionKey}-${key}`}
+          className="flex flex-col items-start mb-4"
+        >
           <DisciplineLevelBar xp={xp} projectedXp={projectedXp} name={key} />
         </div>
       );

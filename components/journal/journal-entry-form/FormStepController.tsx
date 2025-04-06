@@ -47,30 +47,30 @@ export function FormStepController({
   // Get form values and methods
   const { watch, setValue, getValues } = methods;
 
-  // NOTE: need to do something with this function otherwise just use it for WP calc
-  // Calculate DAY disciplines scores & set them to totalWP * WPx
-  const dayEntryDisciplineScores = useMemo(() => {
+  // Create a separate effect to update willpower whenever dayEntry changes
+  useEffect(() => {
     const currentEntry = getValues();
 
-    // Use the updated getDayDisciplineScores function that processes all keys
+    // Calculate discipline scores
     const disciplines = getDayDisciplineScores(currentEntry.dayEntry);
 
-    // Calculate total willpower by summing all discipline scores
+    // Calculate total willpower
     const dailyWillpower = Object.values(disciplines).reduce(
       (sum, score) => sum + (score || 0),
       0
     );
 
-    // Update the form value whenever disciplines change
+    // Update the form value
     setValue(
       "dailyWillpower",
       Math.floor(dailyWillpower * willpowerMultiplier)
     );
-
-    return disciplines;
   }, [
-    watch("dayEntry"),
-    // watch("nightEntry"),
+    // watch("dayEntry") doesn't work for this use case since the values are deeply nested
+    ...Object.keys(getValues().dayEntry || {}).map((key) =>
+      watch(`dayEntry.${key}`)
+    ),
+    ,
     setValue,
     getValues,
     willpowerMultiplier,
