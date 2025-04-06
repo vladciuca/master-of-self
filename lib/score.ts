@@ -1,5 +1,9 @@
 import { HABIT_COLORS } from "@lib/colors";
-import type { JournalEntry, UserDisciplines } from "@models/types";
+import type {
+  JournalEntry,
+  JournalDayEntry,
+  JournalNightEntry,
+} from "@models/types";
 
 // HABITS ACTION VALUES
 type HabitActionValueParams = {
@@ -66,7 +70,7 @@ export function calculateStepScoreMultiplier(entryList: string[]): number {
 
 // Updated to process all keys in the entry object as disciplines
 export function getDayDisciplineScores(
-  dayEntry: any | null | undefined
+  dayEntry: JournalDayEntry | null | undefined
 ): Record<string, number> {
   if (!dayEntry) return {};
 
@@ -91,7 +95,7 @@ export function getDayDisciplineScores(
 
 // Updated to process all keys in the entry object as disciplines
 export function getNightDisciplineScores(
-  nightEntry: any | null | undefined
+  nightEntry: JournalNightEntry | null | undefined
 ): Record<string, number> {
   if (!nightEntry) return {};
 
@@ -116,7 +120,7 @@ export function getNightDisciplineScores(
 
 // Combined function that uses both day and night functions
 export function getDisciplineScoreFromEntry(
-  entry: any | null | undefined
+  entry: JournalEntry | null | undefined
 ): Record<string, number> {
   if (!entry) return {};
 

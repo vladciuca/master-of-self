@@ -13,6 +13,7 @@ export interface User extends NextAuthUser {
   image?: string | null;
 }
 
+//NOTE:  this have to be refactored
 export type UserJournalSteps = {
   gratitude: boolean;
   affirmations: boolean;

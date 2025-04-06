@@ -40,7 +40,9 @@ export function UserSettingsProvider({ children }: { children: ReactNode }) {
       affirmations: false,
       reflection: false,
     },
-    disciplines: {},
+    disciplines: {
+      motivation: 0,
+    },
     journalStartTime: {
       morning: "08:00",
       evening: "18:00",

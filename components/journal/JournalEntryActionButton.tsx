@@ -19,6 +19,7 @@ export function JournalEntryActionButton({
   handleClick = () => {},
   handleDisabled = false,
 }: JournalEntryActionButtonProps) {
+  //NOTE: no error handling
   const { userSettings, userSettingsLoading } = useUserSettings();
 
   const isEveningTime = isEvening(userSettings.journalStartTime.evening);

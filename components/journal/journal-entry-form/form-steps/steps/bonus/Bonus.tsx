@@ -39,7 +39,7 @@ export function Bonus() {
           disciplineKey === "motivation" ? "night" : disciplineKey;
         return (
           Array.isArray(nightEntry[entryKey]) &&
-          nightEntry[entryKey]?.length > 0
+          (nightEntry[entryKey] as string[]).length > 0
         );
       })
       .map((disciplineKey) => {

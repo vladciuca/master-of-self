@@ -4,7 +4,6 @@ import React from "react";
 import { motion } from "framer-motion";
 import { LevelIndicator } from "@components/ui/level-indicator";
 import { calculateDisciplineLevel, xpForDisciplineLevel } from "@lib/level";
-
 import { JOURNAL_COLORS } from "@lib/colors";
 
 function ProgressBar({
