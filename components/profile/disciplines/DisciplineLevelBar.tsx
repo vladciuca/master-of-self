@@ -11,13 +11,17 @@ function ProgressBar({
   currentProgressPercentage,
   xpGainProgressPercentage,
   showBaseXpBar,
+  height,
 }: {
   currentProgressPercentage: number;
   xpGainProgressPercentage: number;
   showBaseXpBar: boolean;
+  height?: number;
 }) {
   return (
-    <div className="w-full h-4 bg-muted rounded-full overflow-hidden">
+    <div
+      className={`w-full min-h-4 h-${height} bg-muted rounded-full overflow-hidden`}
+    >
       <div className="h-full flex relative">
         {/* XP Fill */}
         <motion.div
@@ -105,6 +109,7 @@ export function DisciplineLevelBar({
         currentProgressPercentage={currentProgressPercentage}
         xpGainProgressPercentage={xpGainProgressPercentage}
         showBaseXpBar={currentLevel === level}
+        height={4}
       />
 
       {showXpMetrics && (

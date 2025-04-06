@@ -35,12 +35,12 @@ export function JournalEntryActionButton({
       variant="outline"
       className={cn(
         `group border-${eveningColor}/40 hover:bg-${eveningColor}/90`,
-        "hover:text-white rounded-full font-normal w-full sm:w-auto sm:px-6 py-5"
+        "hover:text-white rounded-md font-normal w-full sm:w-auto py-5"
       )}
     >
       {React.cloneElement(IconElement as React.ReactElement, {
         className: cn(
-          `mr-2 sm:mr-4 text-${eveningColor}`,
+          `mr-3 text-${eveningColor}`,
           "group-hover:text-white transition-colors"
         ),
         size: 20,
