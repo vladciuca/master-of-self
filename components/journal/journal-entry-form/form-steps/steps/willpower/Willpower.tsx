@@ -77,7 +77,8 @@ export const Willpower = () => {
 
   return (
     <JournalStepTemplate
-      title={"Willpower Generated"}
+      title={"Willpower Generated Today"}
+      description={"Generate Willpower from your morning journaling."}
       scoreSection={
         <div className="flex flex-col items-center">
           <WillpowerScoreDisplay
@@ -94,7 +95,7 @@ export const Willpower = () => {
           </h2>
           <div className="flex flex-col w-full">
             {/* Always show Motivation section before the current disciplines section */}
-            <h4 className="text-xl font-semibold mb-8">{sectionTitle}</h4>
+            {/* <h4 className="text-xl font-semibold mb-8">{sectionTitle}</h4> */}
             {motivationScore > 0 && (
               <div className="">
                 <div className="flex flex-col items-start mb-4">
