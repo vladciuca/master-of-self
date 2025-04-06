@@ -75,6 +75,8 @@ export const Willpower = () => {
     });
   };
 
+  //TODO:
+  //NOTE: The EVENING MOTIVATION bar should only be displayed if the NightStep.length > 0
   return (
     <JournalStepTemplate
       title={"Willpower Generated Today"}

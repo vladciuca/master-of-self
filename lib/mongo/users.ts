@@ -91,7 +91,64 @@ export async function updateUserSettings(
   }
 }
 
-// UPDATE USER DISCIPLINES =====================================================================
+// This one used to increment the values in a PREDEFINED discipline{}
+// // UPDATE USER DISCIPLINES =====================================================================
+// export async function updateUserDisciplines(
+//   userId: string,
+//   disciplines: UserDisciplines
+// ): Promise<{
+//   user: User | null;
+//   status: "success" | "no_change";
+//   error?: string;
+// }> {
+//   try {
+//     if (!users) await init();
+
+//     const query = { _id: new ObjectId(userId) };
+//     const update: { $inc: { [key: string]: any } } = { $inc: {} };
+
+//     // Only update the specified disciplines
+//     Object.entries(disciplines).forEach(([key, value]) => {
+//       if (value !== undefined && value !== null) {
+//         update.$inc[`settings.disciplines.${key}`] = value;
+//       }
+//     });
+
+//     // If there's nothing to update, return early
+//     if (Object.keys(update.$inc).length === 0) {
+//       return {
+//         user: null,
+//         status: "no_change",
+//       };
+//     }
+
+//     const result = await users.findOneAndUpdate(query, update, {
+//       returnDocument: "after",
+//     });
+
+//     if (!result) {
+//       return {
+//         user: null,
+//         status: "no_change",
+//         error: "User not found",
+//       };
+//     }
+
+//     return {
+//       user: result,
+//       status: "success",
+//     };
+//   } catch (error) {
+//     console.error("Error updating disciplines:", error);
+//     return {
+//       user: null,
+//       status: "no_change",
+//       error: "Failed to update user disciplines",
+//     };
+//   }
+// }
+
+//This one increments existing discipline{} values, and sets one that do not exist
 export async function updateUserDisciplines(
   userId: string,
   disciplines: UserDisciplines
@@ -104,17 +161,50 @@ export async function updateUserDisciplines(
     if (!users) await init();
 
     const query = { _id: new ObjectId(userId) };
-    const update: { $inc: { [key: string]: any } } = { $inc: {} };
 
-    // Only update the specified disciplines
+    // First, fetch the current user to check existing disciplines
+    const currentUser = await users.findOne(query);
+    if (!currentUser) {
+      return {
+        user: null,
+        status: "no_change",
+        error: "User not found",
+      };
+    }
+
+    const incUpdate: { [key: string]: number } = {};
+    const setUpdate: { [key: string]: number } = {};
+
+    // Check each discipline to determine if we need to increment or set
     Object.entries(disciplines).forEach(([key, value]) => {
       if (value !== undefined && value !== null) {
-        update.$inc[`settings.disciplines.${key}`] = value;
+        // Check if this discipline exists in the user's settings
+        const disciplinePath = `settings.disciplines.${key}`;
+        const exists =
+          currentUser.settings?.disciplines &&
+          currentUser.settings.disciplines[key] !== undefined;
+
+        if (exists) {
+          // Use $inc for existing disciplines
+          incUpdate[disciplinePath] = value;
+        } else {
+          // Use $set for new disciplines
+          setUpdate[disciplinePath] = value;
+        }
       }
     });
 
+    // Prepare the update object with $inc and $set operations
+    const update: any = {};
+    if (Object.keys(incUpdate).length > 0) {
+      update.$inc = incUpdate;
+    }
+    if (Object.keys(setUpdate).length > 0) {
+      update.$set = setUpdate;
+    }
+
     // If there's nothing to update, return early
-    if (Object.keys(update.$inc).length === 0) {
+    if (Object.keys(update).length === 0) {
       return {
         user: null,
         status: "no_change",

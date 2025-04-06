@@ -22,7 +22,9 @@ export function useUpdateDisciplines() {
     };
   }, []);
 
-  const updateDisciplines = async (disciplineUpdates: UserDisciplines) => {
+  const updateDisciplines = async (
+    disciplineUpdates: Record<string, number>
+  ) => {
     if (!session?.user.id) {
       return { success: false, error: "User not authenticated" };
     }

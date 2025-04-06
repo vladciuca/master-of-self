@@ -26,7 +26,6 @@ export type UserJournalSteps = {
 //   confidence?: number;
 //   awareness?: number;
 //   resilience?: number;
-//   // [key:string]: number;
 // };
 
 export type UserDisciplines = {
