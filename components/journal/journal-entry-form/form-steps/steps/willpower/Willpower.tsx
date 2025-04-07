@@ -75,8 +75,6 @@ export const Willpower = () => {
     });
   };
 
-  //TODO:
-  //NOTE: The EVENING MOTIVATION bar should only be displayed if the NightStep.length > 0
   return (
     <JournalStepTemplate
       title={"Willpower Generated Today"}
@@ -98,7 +96,11 @@ export const Willpower = () => {
           <div className="flex flex-col w-full">
             {/* Always show Motivation section before the current disciplines section */}
             {/* <h4 className="text-xl font-semibold mb-8">{sectionTitle}</h4> */}
-            {motivationScore > 0 && (
+
+            {((!isEveningTime && motivationScore > 0) ||
+              (isEveningTime &&
+                motivationScore > 0 &&
+                motivationNightScore > 1)) && (
               <div className="">
                 <div className="flex flex-col items-start mb-4">
                   <DisciplineLevelBar
