@@ -237,28 +237,3 @@ export async function updateUserDisciplines(
     };
   }
 }
-
-// NOTE: check if this is still used!!!!
-// UPDATE USER HABITS CHECK =====================================================================
-export async function getUserLastUpdateTime(userId: string) {
-  const client = await clientPromise;
-  const db = client.db();
-  const user = await db
-    .collection("users")
-    .findOne({ _id: new ObjectId(userId) });
-  return user?.lastUpdateTime;
-}
-
-export async function updateUserLastUpdateTime(
-  userId: string,
-  updateTime: string
-) {
-  const client = await clientPromise;
-  const db = client.db();
-  await db
-    .collection("users")
-    .updateOne(
-      { _id: new ObjectId(userId) },
-      { $set: { lastUpdateTime: updateTime } }
-    );
-}

@@ -58,8 +58,6 @@ export const authOptions: NextAuthOptions = {
                 morning: "08:00",
                 evening: "18:00",
               },
-              //NOTE: don't think this update time is used anywhere
-              lastUpdateTime: null,
             },
           },
         }
