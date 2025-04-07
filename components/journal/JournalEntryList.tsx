@@ -10,7 +10,7 @@ import {
   isSpecificMonthYear,
 } from "@lib/time";
 import type { JournalEntryMetadata } from "@models/types";
-import { useUserSettings } from "@context/UserSettingsContext";
+import { useUserProfile } from "@context/UserProfileContext";
 
 type JournalEntryListProps = {
   journalEntries: JournalEntryMetadata[];
@@ -19,9 +19,9 @@ type JournalEntryListProps = {
 type FilterOption = "This Week" | "This Month" | string;
 
 export function JournalEntryList({ journalEntries }: JournalEntryListProps) {
-  const { userSettings, userSettingsLoading } = useUserSettings();
+  const { userProfile, userProfileLoading } = useUserProfile();
   const [filter, setFilter] = useState<FilterOption>("This Week");
-  const isEveningTime = isEvening(userSettings?.journalStartTime.evening);
+  const isEveningTime = isEvening(userProfile?.journalStartTime.evening);
   const listRef = useRef<HTMLDivElement>(null);
   const headerRef = useRef<HTMLDivElement>(null);
   const [headerHeight, setHeaderHeight] = useState(0);

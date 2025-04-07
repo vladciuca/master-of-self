@@ -1,6 +1,6 @@
 // import React from "react";
 // import { Switch } from "@components/ui/switch";
-// import { useUserSettings } from "@context/UserSettingsContext";
+// import { useUserProfile } from "@context/UserProfileContext";
 // import { RoutineStepProps } from "@models/types";
 // import { stepIconMap } from "@components/ui/constants";
 
@@ -10,8 +10,8 @@
 //   description,
 //   stepKey,
 // }: RoutineStepProps) {
-//   const { userSettings, userSettingsLoading, handleRoutineChange } =
-//     useUserSettings();
+//   const { userProfile, userProfileLoading, handleRoutineChange } =
+//     useUserProfile();
 //   const IconElement = stepIconMap[stepKey] || stepIconMap.default;
 
 //   return (
@@ -31,9 +31,9 @@
 
 //       <span className="w-3/12 flex items-center justify-center">
 //         <Switch
-//           checked={userSettings.steps[stepKey]}
+//           checked={userProfile.steps[stepKey]}
 //           onCheckedChange={() => handleRoutineChange(stepKey)}
-//           disabled={userSettingsLoading}
+//           disabled={userProfileLoading}
 //         />
 //       </span>
 //     </div>

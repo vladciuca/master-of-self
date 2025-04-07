@@ -2,13 +2,13 @@ import { useState, useEffect, useMemo } from "react";
 import { useSession } from "next-auth/react";
 import { getYesterday } from "@/lib/time";
 import { getNightDisciplineScores } from "@/lib/score";
-import { useUserSettings } from "@context/UserSettingsContext";
+import { useUserProfile } from "@context/UserProfileContext";
 import type { Session, JournalEntry, UserDisciplines } from "@models/types";
 
 export function useYesterdayJournalEntry() {
   const { data: session } = useSession() as { data: Session | null };
-  const { willpowerMultiplier, userSettingsLoading, userSettingsError } =
-    useUserSettings();
+  const { willpowerMultiplier, userProfileLoading, userProfileError } =
+    useUserProfile();
 
   const [yesterdayEntry, setYesterdayEntry] = useState<JournalEntry | null>(
     null
@@ -31,13 +31,13 @@ export function useYesterdayJournalEntry() {
   // Derive bonusWillpower from discipline scores
   const bonusWillpower = useMemo(() => {
     // Handle loading state
-    if (userSettingsLoading) {
+    if (userProfileLoading) {
       return null; // Or some loading indicator value
     }
 
     // Handle error state
-    if (userSettingsError) {
-      console.error("Error loading willpower multiplier:", userSettingsError);
+    if (userProfileError) {
+      console.error("Error loading willpower multiplier:", userProfileError);
       return null; // Or some error indicator value, or fall back to a default
     }
 
@@ -54,8 +54,8 @@ export function useYesterdayJournalEntry() {
   }, [
     nightEntryDisciplineScores,
     willpowerMultiplier,
-    userSettingsLoading,
-    userSettingsError,
+    userProfileLoading,
+    userProfileError,
   ]);
 
   useEffect(() => {
@@ -115,7 +115,7 @@ export function useYesterdayJournalEntry() {
 
   return {
     yesterdayEntry,
-    yesterdayEntryLoading: yesterdayEntryLoading || userSettingsLoading,
+    yesterdayEntryLoading: yesterdayEntryLoading || userProfileLoading,
     yesterdayEntryError,
     nightEntryDisciplineScores,
     bonusWillpower,

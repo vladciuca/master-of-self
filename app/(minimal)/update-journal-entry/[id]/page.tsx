@@ -4,7 +4,7 @@ import { useParams } from "next/navigation";
 import { FormStepController } from "@components/journal/journal-entry-form/FormStepController";
 import { PageLogo } from "@components/PageLogo";
 import { HeaderTitle } from "@components/HeaderTitle";
-import { useUserSettings } from "@context/UserSettingsContext";
+import { useUserProfile } from "@context/UserProfileContext";
 // import { useUserHabits } from "@hooks/habits/useUserHabits";
 import { useFetchAndUpdateJournalEntry } from "@hooks/journal/useFetchAndUpdateJournalEntry";
 
@@ -79,18 +79,18 @@ export default function UpdateJournalEntry() {
   //NOTE: again no error handling
   const {
     willpowerMultiplier,
-    userSettings,
-    userSettingsLoading,
-    userSettingsError,
-  } = useUserSettings();
+    userProfile,
+    userProfileLoading,
+    userProfileError,
+  } = useUserProfile();
   //NOTE: WIP - Habits
   // const { hasHabits, habitsLoading } = useUserHabits();
 
-  const userEveningTime = userSettings?.journalStartTime.evening;
+  const userEveningTime = userProfile?.journalStartTime.evening;
 
   const isLoading =
     journalEntryLoading ||
-    userSettingsLoading ||
+    userProfileLoading ||
     // habitsLoading ||
     !journalEntryData;
 

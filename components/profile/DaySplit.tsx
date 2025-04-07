@@ -6,7 +6,7 @@ import { Card, CardDescription, CardTitle } from "@components/ui/card";
 import { Label } from "@components/ui/label";
 import { Input } from "@components/ui/input";
 import { FaSun, FaMoon } from "react-icons/fa6";
-import { useUserSettings } from "@context/UserSettingsContext";
+import { useUserProfile } from "@context/UserProfileContext";
 import { ERROR_COLOR } from "@lib/colors";
 
 interface InvalidFields {
@@ -36,8 +36,8 @@ export function DaySplit() {
     evening: false,
   });
 
-  const { userSettings, userSettingsLoading, handleTimeChange } =
-    useUserSettings();
+  const { userProfile, userProfileLoading, handleTimeChange } =
+    useUserProfile();
 
   const timeToMinutes = (timeStr: string): number => {
     const [hours, minutes] = timeStr.split(":").map(Number);
@@ -130,9 +130,9 @@ export function DaySplit() {
   ): void => {
     const updatedTimes = {
       morning:
-        period === "morning" ? newTime : userSettings?.journalStartTime.morning,
+        period === "morning" ? newTime : userProfile?.journalStartTime.morning,
       evening:
-        period === "evening" ? newTime : userSettings?.journalStartTime.evening,
+        period === "evening" ? newTime : userProfile?.journalStartTime.evening,
     };
 
     const validation = validateTimes(
@@ -178,11 +178,11 @@ export function DaySplit() {
                   type="time"
                   id="morning-start"
                   className={getInputClassName(invalidFields.morning)}
-                  value={userSettings?.journalStartTime.morning}
+                  value={userProfile?.journalStartTime.morning}
                   onChange={(e) =>
                     handleTimeWithValidation("morning", e.target.value)
                   }
-                  disabled={userSettingsLoading}
+                  disabled={userProfileLoading}
                 />
               </span>
             </div>
@@ -203,11 +203,11 @@ export function DaySplit() {
                   type="time"
                   id="evening-start"
                   className={getInputClassName(invalidFields.evening)}
-                  value={userSettings?.journalStartTime.evening}
+                  value={userProfile?.journalStartTime.evening}
                   onChange={(e) =>
                     handleTimeWithValidation("evening", e.target.value)
                   }
-                  disabled={userSettingsLoading}
+                  disabled={userProfileLoading}
                 />
               </span>
             </div>

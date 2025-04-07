@@ -12,17 +12,17 @@ import { JOURNAL_COLORS } from "@lib/colors";
 import type { UserProfile } from "@models/types";
 
 type BottomNavProps = {
-  userSettings: UserProfile;
-  userSettingsError: string | null;
+  userProfile: UserProfile;
+  userProfileError: string | null;
 };
 
-export function BottomNav({ userSettings, userSettingsError }: BottomNavProps) {
+export function BottomNav({ userProfile, userProfileError }: BottomNavProps) {
   const [currentTime, setCurrentTime] = useState(new Date());
   const [timerDisplay, setTimerDisplay] = useState("--:--");
   const [isNightMode, setIsNightMode] = useState(false);
 
-  const userMorningTime = userSettings?.journalStartTime.morning;
-  const userEveningTime = userSettings?.journalStartTime.evening;
+  const userMorningTime = userProfile?.journalStartTime.morning;
+  const userEveningTime = userProfile?.journalStartTime.evening;
 
   // Update current time every 30 seconds
   useEffect(() => {
@@ -129,7 +129,7 @@ export function BottomNav({ userSettings, userSettingsError }: BottomNavProps) {
           <div className="text-xs mt-1">Habits</div>
         </NavButton>
       </Link>
-      {/* {userSettingsError && <div>{userSettingsError}</div>} */}
+      {/* {userProfileError && <div>{userProfileError}</div>} */}
     </nav>
   );
 }

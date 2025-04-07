@@ -4,7 +4,7 @@ import "@styles/global.css";
 import { Provider } from "@context/provider";
 import { ThemeProvider } from "@context/theme-provider";
 import { SideContentProvider } from "@context/SideContentContext";
-import { UserSettingsProvider } from "@context/UserSettingsContext";
+import { UserProfileProvider } from "@context/UserProfileContext";
 import { Poppins } from "next/font/google";
 import { Layout } from "@models/types";
 import { SideContent } from "components/side-content/SideContent";
@@ -39,7 +39,7 @@ export default async function RootLayout({ children }: Layout) {
             enableSystem
             disableTransitionOnChange
           >
-            <UserSettingsProvider>
+            <UserProfileProvider>
               <SideContentProvider>
                 <div className="w-full phone_container sm:h-screen flex bg-background relative">
                   <div className="absolute inset-0 opacity-35 bg-gradient-to-br from-[#a6d9ff] via-[#bcb4ff] to-purple-300"></div>
@@ -56,7 +56,7 @@ export default async function RootLayout({ children }: Layout) {
                   </div>
                 </div>
               </SideContentProvider>
-            </UserSettingsProvider>
+            </UserProfileProvider>
           </ThemeProvider>
         </Provider>
       </body>
