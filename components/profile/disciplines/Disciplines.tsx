@@ -72,35 +72,45 @@ export function Disciplines() {
           </div>
         ) : (
           <>
-            {Object.entries(disciplines || {})
-              .filter(([key, value]) => {
-                const projectedXp = disciplinesProjectedXp[key] ?? 0;
-                return value > 0 || projectedXp > 0 || key === "motivation";
-              })
-              .map(([key, value]) => {
-                let xp = value;
-                //last entry -> returns projected XP
-                let projectedXp = disciplinesProjectedXp[key] ?? 0;
+            {(() => {
+              // Create a set of all discipline keys from both objects
+              const allDisciplineKeys = new Set([
+                ...Object.keys(disciplines || {}),
+                ...Object.keys(disciplinesProjectedXp || {}),
+              ]);
 
-                // Check if there's no today's entry
-                if (!todayEntry) {
-                  // Add projected XP to current XP
-                  xp = xp + projectedXp;
-                  // Reset projected XP to 0
-                  projectedXp = 0;
-                }
+              return Array.from(allDisciplineKeys)
+                .filter((key) => {
+                  const currentXp = disciplines?.[key] ?? 0;
+                  const projectedXp = disciplinesProjectedXp[key] ?? 0;
+                  return (
+                    currentXp > 0 || projectedXp > 0 || key === "motivation"
+                  );
+                })
+                .map((key) => {
+                  let xp = disciplines?.[key] ?? 0;
+                  let projectedXp = disciplinesProjectedXp[key] ?? 0;
 
-                return (
-                  <div key={key} className="flex flex-col items-start">
-                    <DisciplineLevelBar
-                      xp={xp}
-                      projectedXp={projectedXp}
-                      name={key}
-                      showXpMetrics
-                    />
-                  </div>
-                );
-              })}
+                  // Check if there's no today's entry
+                  if (!todayEntry) {
+                    // Add projected XP to current XP
+                    xp = xp + projectedXp;
+                    // Reset projected XP to 0
+                    projectedXp = 0;
+                  }
+
+                  return (
+                    <div key={key} className="flex flex-col items-start">
+                      <DisciplineLevelBar
+                        xp={xp}
+                        projectedXp={projectedXp}
+                        name={key}
+                        showXpMetrics
+                      />
+                    </div>
+                  );
+                });
+            })()}
           </>
         )}
       </Card>
