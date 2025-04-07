@@ -43,8 +43,8 @@ export async function getUser(id: string): Promise<{
   }
 }
 
-// UPDATE USER SETTINGS =========================================================================
-export async function updateUserSettings(
+// UPDATE USER PROFILE JOURNAL TIMES ======================================================
+export async function updateUserProfile(
   id: string,
   updateData: {
     // steps?: {
@@ -68,13 +68,13 @@ export async function updateUserSettings(
     //NOTE: Will be refactor after collections.step will be created
     // if (updateData.steps) {
     //   Object.entries(updateData.steps).forEach(([key, value]) => {
-    //     update.$set[`settings.steps.${key}`] = value;
+    //     update.$set[`profile.steps.${key}`] = value;
     //   });
     // }
 
     if (updateData.journalStartTime) {
       Object.entries(updateData.journalStartTime).forEach(([key, value]) => {
-        update.$set[`settings.journalStartTime.${key}`] = value;
+        update.$set[`profile.journalStartTime.${key}`] = value;
       });
     }
 
@@ -88,7 +88,7 @@ export async function updateUserSettings(
 
     return { user: result };
   } catch (error) {
-    return { user: null, error: "Failed to update user settings" };
+    return { user: null, error: "Failed to update user profile" };
   }
 }
 
@@ -111,7 +111,7 @@ export async function updateUserSettings(
 //     // Only update the specified disciplines
 //     Object.entries(disciplines).forEach(([key, value]) => {
 //       if (value !== undefined && value !== null) {
-//         update.$inc[`settings.disciplines.${key}`] = value;
+//         update.$inc[`profile.disciplines.${key}`] = value;
 //       }
 //     });
 
@@ -179,8 +179,8 @@ export async function updateUserDisciplines(
     // Check each discipline to determine if we need to increment or set
     Object.entries(disciplines).forEach(([key, value]) => {
       if (value !== undefined && value !== null) {
-        // Check if this discipline exists in the user's settings
-        const disciplinePath = `settings.disciplines.${key}`;
+        // Check if this discipline exists in the user's profile
+        const disciplinePath = `profile.disciplines.${key}`;
         const exists =
           currentUser.profile?.disciplines &&
           currentUser.profile.disciplines[key] !== undefined;

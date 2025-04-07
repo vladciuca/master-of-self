@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getUser, updateUserSettings } from "@lib/mongo/users";
+import { getUser, updateUserProfile } from "@lib/mongo/users";
 
 export const GET = async (
   req: NextRequest,
@@ -18,9 +18,9 @@ export const GET = async (
 
     return new NextResponse(JSON.stringify(user), { status: 200 });
   } catch (error) {
-    console.error("Failed to fetch user settings:", error);
+    console.error("Failed to fetch user profile:", error);
     return new NextResponse(
-      JSON.stringify({ message: "Failed to fetch user settings" }),
+      JSON.stringify({ message: "Failed to fetch user profile" }),
       { status: 500 }
     );
   }
@@ -34,7 +34,7 @@ export const PATCH = async (
     const userId = params.id;
     const updateData = await req.json();
 
-    const { user, error } = await updateUserSettings(userId, updateData);
+    const { user, error } = await updateUserProfile(userId, updateData);
 
     if (error) {
       return new NextResponse(JSON.stringify({ message: error }), {
@@ -52,9 +52,9 @@ export const PATCH = async (
       status: 200,
     });
   } catch (error) {
-    console.error("Failed to update user settings:", error);
+    console.error("Failed to update user profile:", error);
     return new NextResponse(
-      JSON.stringify({ message: "Failed to update user settings" }),
+      JSON.stringify({ message: "Failed to update user profile" }),
       { status: 500 }
     );
   }

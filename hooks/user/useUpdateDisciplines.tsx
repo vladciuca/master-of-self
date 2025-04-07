@@ -1,7 +1,10 @@
 // hooks/settings/useUpdateDisciplines.ts
 import { useState, useEffect, useRef } from "react";
 import { useSession } from "next-auth/react";
-import type { Session, UserDisciplines } from "@models/types";
+import type {
+  Session,
+  // UserDisciplines //NOTE: try and use this type instead of Record<string, number>
+} from "@models/types";
 
 export function useUpdateDisciplines() {
   const { data: session } = useSession() as { data: Session | null };

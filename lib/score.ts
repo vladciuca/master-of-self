@@ -135,20 +135,26 @@ export function getDisciplineScoreFromEntry(
 
   // Add night scores
   Object.entries(nightScores).forEach(([key, value]) => {
-    if (
-      key === "motivation" &&
-      Array.isArray(entry?.dayEntry?.day) &&
-      entry.dayEntry.day.length > 0
-    ) {
-      // Number(dayScores.motivation) will convert an empty string to 0 and ensure you're working with actual numbers
+    if (key === "motivation") {
+      // Special handling for motivation
       const dayMotivation = Number(dayScores.motivation);
-      // isNaN(...) catches any weird non-numeric edge cases
-      if (isNaN(dayMotivation) || dayMotivation === 0) {
-        // If dayMotivation isn't a real value, just return 0 instead of multiplying
-        combinedScores[key] = 0;
-      } else {
+
+      // Check if day motivation exists and is valid
+      if (
+        !isNaN(dayMotivation) &&
+        dayMotivation > 0 &&
+        Array.isArray(entry?.dayEntry?.day) &&
+        entry.dayEntry.day.length > 0
+      ) {
+        // Only multiply if day motivation is valid
         combinedScores[key] = dayMotivation * value;
+      } else {
+        // Otherwise set to 0
+        combinedScores[key] = 0;
       }
+    } else {
+      // Add all other night scores directly
+      combinedScores[key] = value;
     }
   });
 
