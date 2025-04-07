@@ -1,13 +1,11 @@
 import { useRouter } from "next/navigation";
+import { JournalEntryActionButton } from "./JournalEntryActionButton";
 import { Card } from "@components/ui/card";
-import { Button } from "@components/ui/button";
 import { FaBoltLightning } from "react-icons/fa6";
 import { JOURNAL_COLORS } from "@lib/colors";
 import { useYesterdayJournalEntry } from "@hooks/journal/useYesterdayJournalEntry";
 import { useTodayJournalEntry } from "@hooks/journal/useTodayJournalEntry";
 import { useCreateJournalEntry } from "@hooks/journal/useCreateJournalEntry";
-
-import { JournalEntryActionButton } from "./JournalEntryActionButton";
 
 type NewJournalEntryProps = {
   isEveningTime: boolean;

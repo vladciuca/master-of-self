@@ -25,17 +25,8 @@ export type UserDisciplines = {
   [key: string]: number;
 };
 
-// export type UserSettings = {
-//   //get out into user object
-//   //availability will be determined by the discipline[] that will be constructed in FormStepController
-//   // steps: UserJournalSteps;
-//   journalStartTime: {
-//     morning: string;
-//     evening: string;
-//   };
-// };
-
 export type UserProfile = {
+  willpowerSMultiplier: number;
   disciplines: UserDisciplines;
   journalStartTime: {
     morning: string;
@@ -60,13 +51,10 @@ export interface Session extends NextAuthSession {
 // };
 
 // JOURNAL STEP -----------------------------------------------------
-//Note: Rename these to StepType = "dayEntry" | "nightEntry"
 export type JournalStepType = "dayEntry" | "nightEntry" | "other";
 
 export type JournalStep = {
-  //rename the type to discipline
   discipline: string;
-  //rename category to type
   type: JournalStepType;
   title: string;
   description: string;
@@ -78,7 +66,6 @@ export type JournalStepConfig = JournalStep & {
 
 export type JournalEntryCustomStep = {
   icon: ReactNode;
-  //should this be discipline?
   discipline: string;
   component: JSX.Element;
   type: JournalStepType;

@@ -22,7 +22,6 @@ interface UserProfileContextType {
   // ) => void;
   handleTimeChange: (period: "morning" | "evening", value: string) => void;
   refetchUserProfile: () => void;
-  willpowerMultiplier: number;
 }
 
 // Create the context
@@ -40,6 +39,7 @@ export function UserProfileProvider({ children }: { children: ReactNode }) {
     //   affirmations: false,
     //   reflection: false,
     // },
+    willpowerSMultiplier: 1.5,
     disciplines: {
       motivation: 0,
     },
@@ -53,9 +53,6 @@ export function UserProfileProvider({ children }: { children: ReactNode }) {
 
   const fetchAbortControllerRef = useRef<AbortController | null>(null);
   const updateAbortControllerRef = useRef<AbortController | null>(null);
-
-  //NOTE: this will be added to the userProfile object after refactor to userProfile
-  const WILLPOWER_MULTIPLIER = 1.5;
 
   // Cleanup effect
   useEffect(() => {
@@ -255,7 +252,6 @@ export function UserProfileProvider({ children }: { children: ReactNode }) {
     // handleRoutineChange,
     handleTimeChange,
     refetchUserProfile: fetchUserProfile,
-    willpowerMultiplier: WILLPOWER_MULTIPLIER,
   };
 
   // Provide the context to children components

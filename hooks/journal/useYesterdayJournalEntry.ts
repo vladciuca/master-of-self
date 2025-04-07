@@ -3,11 +3,17 @@ import { useSession } from "next-auth/react";
 import { getYesterday } from "@/lib/time";
 import { getNightDisciplineScores } from "@/lib/score";
 import { useUserProfile } from "@context/UserProfileContext";
-import type { Session, JournalEntry, UserDisciplines } from "@models/types";
+import type {
+  Session,
+  JournalEntry,
+  //NOTE: this has the "motivation" key as default
+  //Try to find a way to use UserDisciplines type instead of Record<string, number>
+  // UserDisciplines
+} from "@models/types";
 
 export function useYesterdayJournalEntry() {
   const { data: session } = useSession() as { data: Session | null };
-  const { willpowerMultiplier, userProfileLoading, userProfileError } =
+  const { userProfile, userProfileLoading, userProfileError } =
     useUserProfile();
 
   const [yesterdayEntry, setYesterdayEntry] = useState<JournalEntry | null>(
@@ -50,10 +56,10 @@ export function useYesterdayJournalEntry() {
     );
 
     // Apply the same WP multiplier
-    return Math.floor(totalScore * (willpowerMultiplier || 1.5));
+    return Math.floor(totalScore * (userProfile?.willpowerSMultiplier || 1.5));
   }, [
     nightEntryDisciplineScores,
-    willpowerMultiplier,
+    userProfile?.willpowerSMultiplier,
     userProfileLoading,
     userProfileError,
   ]);

@@ -4,13 +4,12 @@ import { useParams } from "next/navigation";
 import { FormStepController } from "@components/journal/journal-entry-form/FormStepController";
 import { PageLogo } from "@components/PageLogo";
 import { HeaderTitle } from "@components/HeaderTitle";
-import { useUserProfile } from "@context/UserProfileContext";
-// import { useUserHabits } from "@hooks/habits/useUserHabits";
-import { useFetchAndUpdateJournalEntry } from "@hooks/journal/useFetchAndUpdateJournalEntry";
-
 import { GiAura, GiHealing, GiAwareness, GiGuardedTower } from "react-icons/gi";
 import { JournalStep } from "@components/journal/journal-entry-form/form-steps/steps/journal-step/JournalStep";
 import type { JournalStepConfig, JournalEntryCustomStep } from "@models/types";
+import { useUserProfile } from "@context/UserProfileContext";
+// import { useUserHabits } from "@hooks/habits/useUserHabits";
+import { useFetchAndUpdateJournalEntry } from "@hooks/journal/useFetchAndUpdateJournalEntry";
 
 //NOTE: move this to hook when u make Step Collection
 const customStepConfigs: JournalStepConfig[] = [
@@ -77,16 +76,13 @@ export default function UpdateJournalEntry() {
     updateJournalEntry,
   } = useFetchAndUpdateJournalEntry(id);
   //NOTE: again no error handling
-  const {
-    willpowerMultiplier,
-    userProfile,
-    userProfileLoading,
-    userProfileError,
-  } = useUserProfile();
+  const { userProfile, userProfileLoading, userProfileError } =
+    useUserProfile();
   //NOTE: WIP - Habits
   // const { hasHabits, habitsLoading } = useUserHabits();
 
   const userEveningTime = userProfile?.journalStartTime.evening;
+  const willpowerMultiplier = userProfile?.willpowerSMultiplier;
 
   const isLoading =
     journalEntryLoading ||
