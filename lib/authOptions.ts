@@ -51,6 +51,8 @@ export const authOptions: NextAuthOptions = {
               //   reflection: true,
               //   affirmations: true,
               // },
+              //ADD WP SCORE X to DB
+              // willpowerScoreMultiplier: 1.5,
               disciplines: {
                 motivation: 0,
               },

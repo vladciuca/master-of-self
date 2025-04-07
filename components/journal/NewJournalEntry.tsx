@@ -105,6 +105,7 @@ export function NewJournalEntry({ isEveningTime }: NewJournalEntryProps) {
           handleDisabled={
             submittingJournalEntry || todayEntryLoading || hasTodayEntry
           }
+          isSubmitting={submittingJournalEntry}
         />
       </div>
     </Card>
