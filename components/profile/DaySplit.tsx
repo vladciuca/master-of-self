@@ -130,9 +130,9 @@ export function DaySplit() {
   ): void => {
     const updatedTimes = {
       morning:
-        period === "morning" ? newTime : userSettings.journalStartTime.morning,
+        period === "morning" ? newTime : userSettings?.journalStartTime.morning,
       evening:
-        period === "evening" ? newTime : userSettings.journalStartTime.evening,
+        period === "evening" ? newTime : userSettings?.journalStartTime.evening,
     };
 
     const validation = validateTimes(
@@ -178,7 +178,7 @@ export function DaySplit() {
                   type="time"
                   id="morning-start"
                   className={getInputClassName(invalidFields.morning)}
-                  value={userSettings.journalStartTime.morning}
+                  value={userSettings?.journalStartTime.morning}
                   onChange={(e) =>
                     handleTimeWithValidation("morning", e.target.value)
                   }
@@ -203,7 +203,7 @@ export function DaySplit() {
                   type="time"
                   id="evening-start"
                   className={getInputClassName(invalidFields.evening)}
-                  value={userSettings.journalStartTime.evening}
+                  value={userSettings?.journalStartTime.evening}
                   onChange={(e) =>
                     handleTimeWithValidation("evening", e.target.value)
                   }

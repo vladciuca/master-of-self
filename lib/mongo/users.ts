@@ -47,10 +47,10 @@ export async function getUser(id: string): Promise<{
 export async function updateUserSettings(
   id: string,
   updateData: {
-    steps?: {
-      gratitude?: boolean;
-      reflection?: boolean;
-    };
+    // steps?: {
+    //   gratitude?: boolean;
+    //   reflection?: boolean;
+    // };
     journalStartTime?: {
       morning?: string;
       evening?: string;
@@ -65,11 +65,12 @@ export async function updateUserSettings(
     const query = { _id: new ObjectId(id) };
     const update: { $set: { [key: string]: any } } = { $set: {} };
 
-    if (updateData.steps) {
-      Object.entries(updateData.steps).forEach(([key, value]) => {
-        update.$set[`settings.steps.${key}`] = value;
-      });
-    }
+    //NOTE: Will be refactor after collections.step will be created
+    // if (updateData.steps) {
+    //   Object.entries(updateData.steps).forEach(([key, value]) => {
+    //     update.$set[`settings.steps.${key}`] = value;
+    //   });
+    // }
 
     if (updateData.journalStartTime) {
       Object.entries(updateData.journalStartTime).forEach(([key, value]) => {
@@ -181,8 +182,8 @@ export async function updateUserDisciplines(
         // Check if this discipline exists in the user's settings
         const disciplinePath = `settings.disciplines.${key}`;
         const exists =
-          currentUser.settings?.disciplines &&
-          currentUser.settings.disciplines[key] !== undefined;
+          currentUser.profile?.disciplines &&
+          currentUser.profile.disciplines[key] !== undefined;
 
         if (exists) {
           // Use $inc for existing disciplines

@@ -21,7 +21,7 @@ type FilterOption = "This Week" | "This Month" | string;
 export function JournalEntryList({ journalEntries }: JournalEntryListProps) {
   const { userSettings, userSettingsLoading } = useUserSettings();
   const [filter, setFilter] = useState<FilterOption>("This Week");
-  const isEveningTime = isEvening(userSettings.journalStartTime.evening);
+  const isEveningTime = isEvening(userSettings?.journalStartTime.evening);
   const listRef = useRef<HTMLDivElement>(null);
   const headerRef = useRef<HTMLDivElement>(null);
   const [headerHeight, setHeaderHeight] = useState(0);

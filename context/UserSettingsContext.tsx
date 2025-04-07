@@ -10,16 +10,16 @@ import React, {
   type ReactNode,
 } from "react";
 import { useSession } from "next-auth/react";
-import type { Session, UserSettings } from "@models/types";
+import type { Session, UserProfile } from "@models/types";
 
 // Define the shape of our context
 interface UserSettingsContextType {
-  userSettings: UserSettings;
+  userSettings: UserProfile;
   userSettingsLoading: boolean;
   userSettingsError: string | null;
-  handleRoutineChange: (
-    step: "gratitude" | "reflection" | "affirmations"
-  ) => void;
+  // handleRoutineChange: (
+  //   step: "gratitude" | "reflection" | "affirmations"
+  // ) => void;
   handleTimeChange: (period: "morning" | "evening", value: string) => void;
   refetchUserSettings: () => void;
   willpowerMultiplier: number;
@@ -34,12 +34,12 @@ const UserSettingsContext = createContext<UserSettingsContextType | undefined>(
 export function UserSettingsProvider({ children }: { children: ReactNode }) {
   const { data: session } = useSession() as { data: Session | null };
 
-  const [userSettings, setUserSettings] = useState<UserSettings>({
-    steps: {
-      gratitude: false,
-      affirmations: false,
-      reflection: false,
-    },
+  const [userSettings, setUserSettings] = useState<UserProfile>({
+    // steps: {
+    //   gratitude: false,
+    //   affirmations: false,
+    //   reflection: false,
+    // },
     disciplines: {
       motivation: 0,
     },
@@ -95,7 +95,7 @@ export function UserSettingsProvider({ children }: { children: ReactNode }) {
 
   //   const fetchUserSettings = async () => {
   //     try {
-  //       const response = await fetch(`/api/users/${session.user.id}/settings`, {
+  //       const response = await fetch(`/api/users/${session.user.id}/profile`, {
   //         signal,
   //       });
 
@@ -150,7 +150,7 @@ export function UserSettingsProvider({ children }: { children: ReactNode }) {
     setUserSettingsLoading(true);
 
     try {
-      const response = await fetch(`/api/users/${session.user.id}/settings`, {
+      const response = await fetch(`/api/users/${session.user.id}/profile`, {
         signal,
       });
 
@@ -160,8 +160,8 @@ export function UserSettingsProvider({ children }: { children: ReactNode }) {
         throw new Error("Failed to fetch user settings");
       }
 
-      const { settings } = await response.json();
-      setUserSettings(settings);
+      const { profile } = await response.json();
+      setUserSettings(profile);
     } catch (error) {
       // Only set error if it's not an abort error
       if (error instanceof Error && error.name !== "AbortError") {
@@ -183,7 +183,7 @@ export function UserSettingsProvider({ children }: { children: ReactNode }) {
 
   // Update a specific setting
   // NOTE: add proper values here
-  const updateSetting = async (key: keyof UserSettings, value: any) => {
+  const updateSetting = async (key: keyof UserProfile, value: any) => {
     if (!session?.user?.id) return;
 
     // Cancel any in-progress update
@@ -196,7 +196,7 @@ export function UserSettingsProvider({ children }: { children: ReactNode }) {
     const { signal } = updateAbortControllerRef.current;
 
     try {
-      const response = await fetch(`/api/users/${session.user.id}/settings`, {
+      const response = await fetch(`/api/users/${session.user.id}/profile`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -231,15 +231,15 @@ export function UserSettingsProvider({ children }: { children: ReactNode }) {
   };
 
   // Handle routine change
-  const handleRoutineChange = (
-    step: "gratitude" | "reflection" | "affirmations"
-  ) => {
-    const newValue = !userSettings.steps[step];
-    updateSetting("steps", {
-      ...userSettings.steps,
-      [step]: newValue,
-    });
-  };
+  // const handleRoutineChange = (
+  //   step: "gratitude" | "reflection" | "affirmations"
+  // ) => {
+  //   const newValue = !userSettings.steps[step];
+  //   updateSetting("steps", {
+  //     ...userSettings.steps,
+  //     [step]: newValue,
+  //   });
+  // };
 
   // Handle time change
   const handleTimeChange = (period: "morning" | "evening", value: string) => {
@@ -254,7 +254,7 @@ export function UserSettingsProvider({ children }: { children: ReactNode }) {
     userSettings,
     userSettingsLoading,
     userSettingsError,
-    handleRoutineChange,
+    // handleRoutineChange,
     handleTimeChange,
     refetchUserSettings: fetchUserSettings,
     willpowerMultiplier: WILLPOWER_MULTIPLIER,

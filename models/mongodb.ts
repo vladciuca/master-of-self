@@ -1,5 +1,5 @@
 import { ObjectId } from "mongodb";
-import { UserSettings, JournalEntryHabit } from "./types";
+import { UserProfile, JournalEntryHabit } from "./types";
 
 // USER ===============================================================================
 
@@ -8,7 +8,8 @@ export type User = {
   name?: string | null;
   email?: string | null;
   image?: string | null;
-  settings: UserSettings;
+  profile: UserProfile;
+  //NOTE: is last update still used? need to remove
   lastUpdateTime: string | null;
 };
 

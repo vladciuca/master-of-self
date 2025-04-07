@@ -14,18 +14,10 @@ export interface User extends NextAuthUser {
 }
 
 //NOTE:  this have to be refactored
-export type UserJournalSteps = {
-  gratitude: boolean;
-  affirmations: boolean;
-  reflection: boolean;
-};
-
-// export type UserDisciplines = {
-//   positivity?: number;
-//   motivation?: number;
-//   confidence?: number;
-//   awareness?: number;
-//   resilience?: number;
+// export type UserJournalSteps = {
+//   gratitude: boolean;
+//   affirmations: boolean;
+//   reflection: boolean;
 // };
 
 export type UserDisciplines = {
@@ -33,16 +25,25 @@ export type UserDisciplines = {
   [key: string]: number;
 };
 
-export type UserSettings = {
-  steps: UserJournalSteps;
-  //get out into user object
+// export type UserSettings = {
+//   //get out into user object
+//   //availability will be determined by the discipline[] that will be constructed in FormStepController
+//   // steps: UserJournalSteps;
+//   journalStartTime: {
+//     morning: string;
+//     evening: string;
+//   };
+// };
+
+export type UserProfile = {
   disciplines: UserDisciplines;
   journalStartTime: {
     morning: string;
     evening: string;
   };
 };
-export type UserMetadata = User & UserSettings;
+
+export type UserMetadata = User & UserProfile;
 
 export interface Session extends NextAuthSession {
   user: User;
@@ -51,12 +52,12 @@ export interface Session extends NextAuthSession {
 // PROFILE TYPES -----------------------------------------------------
 
 //NOTE: WILL NEED REFACTOR since there are no more stepkeys
-export type RoutineStepProps = {
-  icon?: React.ReactElement;
-  title: string;
-  description: string;
-  stepKey: "gratitude" | "affirmations" | "reflection";
-};
+// export type RoutineStepProps = {
+//   icon?: React.ReactElement;
+//   title: string;
+//   description: string;
+//   stepKey: "gratitude" | "affirmations" | "reflection";
+// };
 
 // JOURNAL STEP -----------------------------------------------------
 //Note: Rename these to StepType = "dayEntry" | "nightEntry"

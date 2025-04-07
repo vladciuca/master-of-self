@@ -17,6 +17,7 @@ export function Disciplines() {
     refetchUserSettings,
   } = useUserSettings();
   const { disciplines } = userSettings;
+  // const disciplines = userSettings?.disciplines;
 
   const { todayEntry, todayEntryLoading, todayEntryError } =
     useTodayJournalEntry();

@@ -48,7 +48,7 @@ export function useUpdateDisciplines() {
       };
 
       const response = await fetch(
-        `/api/users/${session.user.id}/settings/disciplines`,
+        `/api/users/${session.user.id}/profile/disciplines`,
         {
           method: "PATCH",
           headers: {

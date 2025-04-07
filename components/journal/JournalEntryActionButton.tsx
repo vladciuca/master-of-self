@@ -22,7 +22,7 @@ export function JournalEntryActionButton({
   //NOTE: no error handling
   const { userSettings, userSettingsLoading } = useUserSettings();
 
-  const isEveningTime = isEvening(userSettings.journalStartTime.evening);
+  const isEveningTime = isEvening(userSettings?.journalStartTime.evening);
   const eveningColor = isEveningTime
     ? JOURNAL_COLORS.night
     : JOURNAL_COLORS.day;

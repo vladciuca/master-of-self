@@ -9,10 +9,10 @@ import { IoMoonSharp } from "react-icons/io5";
 import { GiNightSleep } from "react-icons/gi";
 import { isEvening } from "@lib/time";
 import { JOURNAL_COLORS } from "@lib/colors";
-import type { UserSettings } from "@models/types";
+import type { UserProfile } from "@models/types";
 
 type BottomNavProps = {
-  userSettings: UserSettings;
+  userSettings: UserProfile;
   userSettingsError: string | null;
 };
 
