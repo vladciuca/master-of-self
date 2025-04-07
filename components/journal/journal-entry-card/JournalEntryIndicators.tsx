@@ -1,4 +1,4 @@
-import { stepStyles } from "@components/ui/constants";
+import { journalStepStyle } from "@components/ui/constants";
 import type { JournalDayEntry, JournalNightEntry } from "@models/types";
 
 interface JournalEntryIndicatorsProps {
@@ -10,9 +10,26 @@ export function JournalEntryIndicators({
   dayEntry,
   nightEntry,
 }: JournalEntryIndicatorsProps) {
-  // Calculate dayEntries
-  const dayEntries =
-    (dayEntry?.gratitude?.length || 0) + (dayEntry?.day?.length || 0);
+  // Calculate uncompleted todos
+  const uncompletedTodos = () => {
+    const dailyToDos = dayEntry?.day || [];
+    const completedToDos = nightEntry?.night || [];
+
+    return dailyToDos.filter((item) => !completedToDos.includes(item));
+  };
+
+  const uncompletedTodosCount = uncompletedTodos().length;
+
+  // Calculate dayEntries by counting all entries in dayEntry object (excluding "day")
+  const dayEntries = Object.entries(dayEntry || {})
+    .filter(
+      ([key, value]) =>
+        key !== "day" && Array.isArray(value) && value.length > 0
+    )
+    .reduce((total, [_, value]) => total + (value?.length || 0), 0);
+
+  // Add uncompleted todos to dayEntries
+  const totalDayEntries = dayEntries + uncompletedTodosCount;
 
   // Calculate completedDailyToDos
   const completedDailyToDos = () => {
@@ -22,33 +39,36 @@ export function JournalEntryIndicators({
     return completedToDos.filter((item) => dailyToDos.includes(item));
   };
 
-  // Calculate nightEntries
-  const nightEntries =
-    (nightEntry?.highlights?.length || 0) +
-    (nightEntry?.reflection?.length || 0);
+  // Calculate nightEntries by counting all entries in nightEntry object
+  const nightEntries = Object.entries(nightEntry || {})
+    .filter(
+      ([key, value]) =>
+        key !== "night" && Array.isArray(value) && value.length > 0
+    )
+    .reduce((total, [_, value]) => total + (value?.length || 0), 0);
 
   // Get the counts
   const completedDailyToDosCount = completedDailyToDos().length;
 
   return (
-    <div className="h-full flex items-start ml-4 space-x-2 text-white">
-      {dayEntries > 0 && (
+    <div className="h-full ml-4 flex items-start space-x-2 text-white">
+      {totalDayEntries > 0 && (
         <div
-          className={`w-[20px] h-[20px] rounded-full flex items-center justify-center ${stepStyles.day.bgColor}`}
+          className={`w-[22px] h-[22px] rounded-full flex items-center justify-center ${journalStepStyle.dayEntry.bgColor}`}
         >
-          {dayEntries}
+          {totalDayEntries}
         </div>
       )}
       {completedDailyToDosCount > 0 && (
         <div
-          className={`w-[20px] h-[20px] rounded-full flex items-center justify-center ${stepStyles.night.bgColor}`}
+          className={`w-[22px] h-[22px] rounded-full flex items-center justify-center ${journalStepStyle.night.bgColor}`}
         >
           {completedDailyToDosCount}
         </div>
       )}
       {nightEntries > 0 && (
         <div
-          className={`w-[20px] h-[20px] rounded-full flex items-center justify-center ${stepStyles.reflection.bgColor}`}
+          className={`w-[22px] h-[22px] rounded-full flex items-center justify-center ${journalStepStyle.nightEntry.bgColor}`}
         >
           {nightEntries}
         </div>

@@ -1,18 +1,16 @@
+"use client";
+
 import { useState, useEffect, useMemo } from "react";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Card, CardContent } from "@/components/ui/card";
-import { FormStepTemplate } from "@components/journal/journal-entry-form/form-steps/FormStepTemplate";
+import { JournalStepTemplate } from "@components/journal/journal-entry-form/form-steps/steps/journal-step/JournalStepTemplate";
 import { WillpowerScoreDisplay } from "@components/journal/journal-entry-form/form-steps/WillpowerScoreDisplay";
 import { JournalEntryDisciplineList } from "@components/journal/journal-entry-card/JournalEntryDisciplineList";
 import { useYesterdayJournalEntry } from "@hooks/journal/useYesterdayJournalEntry";
-import { stepIconMap } from "@components/ui/constants";
 import { BonusStepTabHeader } from "./BonusStepTabHeader";
-import { Plus } from "lucide-react";
 import { JOURNAL_COLORS } from "@lib/colors";
 
-//NOTE: Add a loading state here.........
 export function Bonus() {
-  // NOTE: again no error handling
   const {
     yesterdayEntry,
     yesterdayEntryLoading,
@@ -20,54 +18,64 @@ export function Bonus() {
     nightEntryDisciplineScores,
   } = useYesterdayJournalEntry();
 
-  const stepScore = (score: number) => {
-    return (
-      <span
-        className={`flex items-center text-${JOURNAL_COLORS.score} font-bold`}
-      >
-        <Plus size={10} />
-        {score}
-      </span>
-    );
-  };
+  // Dynamically generate tab data from nightEntryDisciplineScores
+  const tabData = useMemo(() => {
+    // Early return if no data is available
+    if (
+      !yesterdayEntry ||
+      !yesterdayEntry.nightEntry ||
+      !nightEntryDisciplineScores
+    ) {
+      return [];
+    }
 
-  const tabData = useMemo(
-    () =>
-      [
-        {
-          icon: stepIconMap.night,
-          stepType: "night",
-          title: "What made yesterday great!",
-          items: yesterdayEntry?.nightEntry?.night ?? [],
-          score: nightEntryDisciplineScores.motivation,
-          //NOTE: Here we can use the key as scoreName when building it to have dynamic steps
-          scoreName: "Motivation",
-        },
-        {
-          icon: stepIconMap.highlights,
-          stepType: "highlights",
-          title: "Yesterday's highlights!",
-          items: yesterdayEntry?.nightEntry?.highlights || [],
-          score: nightEntryDisciplineScores.awareness,
-          scoreName: "Awareness",
-        },
-        {
-          icon: stepIconMap.reflection,
-          stepType: "reflection",
-          title: "What I learned yesterday!",
-          items: yesterdayEntry?.nightEntry?.reflection ?? [],
-          score: nightEntryDisciplineScores.resilience,
-          scoreName: "Resilience",
-        },
-      ].filter((tab) => tab.items.length > 0),
-    [yesterdayEntry, nightEntryDisciplineScores]
-  );
+    const nightEntry = yesterdayEntry.nightEntry;
+
+    // Get all discipline keys from nightEntryDisciplineScores
+    return Object.keys(nightEntryDisciplineScores)
+      .filter((disciplineKey) => {
+        // Make sure the corresponding entry exists in nightEntry and is not empty
+        const entryKey =
+          disciplineKey === "motivation" ? "night" : disciplineKey;
+        return (
+          Array.isArray(nightEntry[entryKey]) &&
+          (nightEntry[entryKey] as string[]).length > 0
+        );
+      })
+      .map((disciplineKey) => {
+        // Special case for "motivation" discipline (maps to "night" entry)
+        const isMotivation = disciplineKey === "motivation";
+        const entryKey = isMotivation ? "night" : disciplineKey;
+        const type = isMotivation ? "night" : "nightEntry";
+
+        console.log(entryKey);
+
+        // Generate title based on discipline
+        const title = isMotivation ? "What made yesterday great!" : "";
+
+        // Get the score
+        const score = nightEntryDisciplineScores[disciplineKey] || 0;
+
+        // Format the score name (capitalize first letter)
+        const scoreName =
+          disciplineKey.charAt(0).toUpperCase() + disciplineKey.slice(1);
+
+        return {
+          step: entryKey, // Use the entry key for the tab value
+          title,
+          items: nightEntry[entryKey] || [],
+          score,
+          scoreName,
+          type,
+        };
+      });
+  }, [yesterdayEntry, nightEntryDisciplineScores]);
 
   const [activeTab, setActiveTab] = useState<string>("");
 
   useEffect(() => {
     if (tabData.length > 0 && activeTab === "") {
-      setActiveTab(tabData[0].stepType);
+      setActiveTab(tabData[0].step);
     }
   }, [tabData, activeTab]);
 
@@ -80,12 +88,12 @@ export function Bonus() {
   }
 
   return (
-    <FormStepTemplate
+    <JournalStepTemplate
       title={"Willpower Bonus"}
       description="Gain bonus Willpower from yesterday's evening journaling."
       scoreSection={
         <WillpowerScoreDisplay
-          willpower={yesterdayEntryLoading ? "??" : `+${bonusWillpower}`}
+          willpower={yesterdayEntryLoading ? "??" : `+${bonusWillpower || 0}`}
           color={JOURNAL_COLORS.night}
         />
       }
@@ -96,26 +104,22 @@ export function Bonus() {
             <TabsList className="flex justify-around h-24 bg-background">
               {tabData.map((tab) => (
                 <TabsTrigger
-                  key={tab.stepType}
+                  key={tab.step}
                   className="p-0 w-11 h-11 flex flex-col items-center justify-center rounded-full data-[state=active]:bg-muted"
-                  value={tab.stepType}
-                  onClick={() => loadContent(tab.stepType)}
+                  value={tab.step}
+                  onClick={() => loadContent(tab.step)}
                 >
                   <BonusStepTabHeader
-                    //NOTE right now were are mapping over a const to get the icon
-                    // but after refactor with dynamic steps, we need to pass the icon
-                    // icon={tab.icon}
                     count={tab.items.length}
-                    stepType={tab.stepType}
-                    //NOTE: here might add some loading state to the child
-                    // disciplineScore={stepScore(tab.score ?? 0)}
+                    stepType={tab.type}
+                    stepDiscipline={tab.step}
                   />
                 </TabsTrigger>
               ))}
             </TabsList>
           </div>
           {tabData.map((tab) => (
-            <TabsContent key={tab.stepType} value={tab.stepType}>
+            <TabsContent key={tab.step} value={tab.step}>
               <Card className="border-none bg-muted/30">
                 <CardContent className="p-4">
                   <div className="mb-4">
@@ -127,7 +131,6 @@ export function Bonus() {
                           <span className="text-sm">
                             {tab.scoreName === "Motivation" ? "x" : "+"}
                           </span>
-
                           {tab.score}
                         </div>
                       </div>
@@ -140,7 +143,7 @@ export function Bonus() {
                   <JournalEntryDisciplineList
                     title={tab.title}
                     items={tab.items}
-                    stepType={tab.stepType}
+                    stepType={tab.type}
                     contentLoading={yesterdayEntryLoading}
                     bonusList
                   />
@@ -150,6 +153,6 @@ export function Bonus() {
           ))}
         </Tabs>
       </div>
-    </FormStepTemplate>
+    </JournalStepTemplate>
   );
 }

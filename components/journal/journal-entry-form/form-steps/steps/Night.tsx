@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useFormContext } from "react-hook-form";
-import { FormStepTemplate } from "@components/journal/journal-entry-form/form-steps/FormStepTemplate";
+import { JournalStepTemplate } from "@components/journal/journal-entry-form/form-steps/steps/journal-step/JournalStepTemplate";
 import { StepScoreDisplay } from "../StepScoreDisplay";
 // import { Badge } from "@components/ui/badge";
 import { Checkbox } from "@components/ui/checkbox";
@@ -46,7 +46,7 @@ export function Night() {
   };
 
   return (
-    <FormStepTemplate
+    <JournalStepTemplate
       title="How great was today?"
       // description="Mark the goals you dedicated Willpower to and completed today."
       description="Follow through with your daily goals to exponentially increase Motivation."
@@ -107,6 +107,6 @@ export function Night() {
           </li>
         ))}
       </ol>
-    </FormStepTemplate>
+    </JournalStepTemplate>
   );
 }

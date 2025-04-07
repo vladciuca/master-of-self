@@ -1,34 +1,29 @@
 import React from "react";
 import { Badge } from "@/components/ui/badge";
-import { getStepStyle, stepIconMap } from "@components/ui/constants";
+import { getJournalStepStyle, stepIconMap } from "@components/ui/constants";
 
 type BonusStepTabHeaderProps = {
   icon?: React.ReactNode;
   count: number;
   stepType: string;
-  disciplineScore?: React.ReactNode;
+  stepDiscipline: string;
 };
 
 export const BonusStepTabHeader = ({
-  // icon,
+  icon,
   count,
   stepType,
-}: // disciplineScore,
-BonusStepTabHeaderProps) => {
-  const { bgColor } = getStepStyle(stepType);
+  stepDiscipline,
+}: BonusStepTabHeaderProps) => {
+  const { bgColor } = getJournalStepStyle(stepType);
 
-  const IconElement = stepIconMap[stepType] || stepIconMap.default;
+  const IconElement = stepIconMap[stepDiscipline] || stepIconMap.default;
 
   return (
     <div className="relative">
       <div className="flex items-center justify-center w-8 h-8">
         {React.cloneElement(IconElement as React.ReactElement, {
-          size:
-            stepType === "night" ||
-            stepType === "day" ||
-            stepType === "willpower"
-              ? 25
-              : 30,
+          size: stepType === "night" ? 25 : 30,
         })}
         {count !== undefined && (
           <Badge
@@ -39,12 +34,6 @@ BonusStepTabHeaderProps) => {
           </Badge>
         )}
       </div>
-
-      {/* {disciplineScore && (
-        <div className="flex items-center justify-center mt-1">
-          {disciplineScore}
-        </div>
-      )} */}
     </div>
   );
 };

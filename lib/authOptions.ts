@@ -1,6 +1,6 @@
 import { NextAuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
-import InstagramProvider from "next-auth/providers/instagram";
+// import InstagramProvider from "next-auth/providers/instagram";
 // import FacebookProvider from "next-auth/providers/facebook";
 // import TwitterProvider from "next-auth/providers/twitter";
 import GitHubProvider from "next-auth/providers/github";
@@ -59,11 +59,7 @@ export const authOptions: NextAuthOptions = {
                 affirmations: true,
               },
               disciplines: {
-                positivity: 0,
                 motivation: 0,
-                confidence: 0,
-                awareness: 0,
-                resilience: 0,
               },
               journalStartTime: {
                 morning: "08:00",

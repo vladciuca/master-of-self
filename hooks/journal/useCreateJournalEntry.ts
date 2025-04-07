@@ -105,18 +105,7 @@ export function useCreateJournalEntry() {
       const today = getToday();
       const todayDate = today.toISOString().split("T")[0];
 
-      //NOTE: they do not respect the other when saved in DB
-      // const disciplinesPayload = {
-      //   positivity: calculateStepScore(lastEntry?.dayEntry?.gratitude ?? []),
-      //   motivation:
-      //     calculateStepScore(lastEntry?.dayEntry?.day ?? []) *
-      //     calculateStepScoreMultiplier(lastEntry?.nightEntry?.night ?? []),
-      //   confidence: calculateStepScore(lastEntry?.dayEntry?.affirmations ?? []),
-      //   awareness: calculateStepScore(lastEntry?.nightEntry?.highlights ?? []),
-      //   resilience: calculateStepScore(lastEntry?.nightEntry?.reflection ?? []),
-      // };
-
-      const disciplinesPayload: UserDisciplines = lastEntry
+      const disciplinesPayload: Record<string, number> = lastEntry
         ? getDisciplineScoreFromEntry(lastEntry)
         : {};
 

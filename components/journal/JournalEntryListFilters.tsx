@@ -30,14 +30,6 @@ export function JournalEntryListFilters({
     }
   };
 
-  // const handleScroll = () => {
-  //   if (scrollContainerRef.current) {
-  //     const { scrollLeft, scrollWidth, clientWidth } =
-  //       scrollContainerRef.current;
-  //     setShowLeftArrow(scrollLeft > 0);
-  //     setShowRightArrow(scrollLeft < scrollWidth - clientWidth - 1);
-  //   }
-  // };
   const handleScroll = useCallback(() => {
     if (scrollContainerRef.current) {
       const { scrollLeft, scrollWidth, clientWidth } =
@@ -88,7 +80,7 @@ export function JournalEntryListFilters({
   };
 
   return (
-    <div className="relative w-full mb-4 px-1">
+    <div className="relative w-full mb-2 px-1">
       {showLeftArrow && (
         <Button
           variant="secondary"

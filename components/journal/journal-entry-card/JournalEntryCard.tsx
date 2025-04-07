@@ -9,8 +9,10 @@ import { Button } from "@components/ui/button";
 import { FaBoltLightning } from "react-icons/fa6";
 import { Shell } from "lucide-react";
 import { calculateHabitsXpFromEntry } from "@/lib/level";
-import { JOURNAL_COLORS } from "@lib/colors";
+// import { JOURNAL_COLORS } from "@lib/colors";
 import { Session, JournalEntryMetadata } from "@models/types";
+
+import { JournalEntryActionButton } from "../JournalEntryActionButton";
 
 type JournalEntryCardProps = {
   journalEntry: JournalEntryMetadata;
@@ -53,15 +55,11 @@ JournalEntryCardProps) {
       })
     : {};
 
-  const hasJournalContent = () => {
-    return (
-      (dayEntry?.gratitude?.length ?? 0) > 0 ||
-      (dayEntry?.day?.length ?? 0) > 0 ||
-      (nightEntry?.night?.length ?? 0) > 0 ||
-      (nightEntry?.highlights?.length ?? 0) > 0 ||
-      (nightEntry?.reflection?.length ?? 0) > 0
-    );
-  };
+  const hasDisciplineEntries =
+    (dayEntry?.Object?.entries &&
+      Object.keys(dayEntry.Object.entries).length > 0) ||
+    (nightEntry?.Object?.entries &&
+      Object.keys(nightEntry.Object.entries).length > 0);
 
   return (
     <Card className="p-4 mb-4 space-y-4">
@@ -98,12 +96,11 @@ JournalEntryCardProps) {
       {isToday && (
         <div className="w-full flex">
           {session?.user?.id === creatorId && pathName === "/journal" && (
-            <div className="">
-              <Link
-                className="mr-3 mt-1rounded-md py-2"
-                href={`/update-journal-entry/${_id}`}
-              >
-                <Button size="sm">Continue today's journal</Button>
+            <div className="w-full">
+              <Link href={`/update-journal-entry/${_id}`}>
+                <JournalEntryActionButton
+                  text={"Continue today's journaling session"}
+                />
               </Link>
             </div>
           )}
@@ -127,19 +124,19 @@ JournalEntryCardProps) {
       )} */}
 
       {/* Habit Actions */}
-      {habits &&
+      {/* {habits &&
         Object.values(habits).some((habitActions) =>
           Object.entries(habitActions)
             .filter(([key, value]) => key !== "currentXp")
             .some(([_, value]) => value !== 0)
         ) && (
           <div className="flex w-full">
-            {/* <div className="flex-shrink-0 flex items-start mr-4">
+            <div className="flex-shrink-0 flex items-start mr-4">
               <h2 className="flex items-center text-muted-foreground mt-1">
                 <Shell className="mr-2 text-muted-foreground" size={"1rem"} />
                 Habits:
               </h2>
-            </div> */}
+            </div>
             <div className="flex-grow flex flex-wrap items-start">
               <JournalEntryHabits
                 habitsXp={habitsXpFromActions}
@@ -147,10 +144,12 @@ JournalEntryCardProps) {
               />
             </div>
           </div>
-        )}
+        )} */}
 
-      {/* Discipline Points*/}
-      {hasJournalContent() && (
+      {(Object.values(dayEntry ?? {}).some((arr) => (arr ?? []).length > 0) ||
+        Object.values(nightEntry ?? {}).some(
+          (arr) => (arr ?? []).length > 0
+        )) && (
         <JournalEntryDisciplineSection
           dayEntry={dayEntry ?? {}}
           nightEntry={nightEntry ?? {}}

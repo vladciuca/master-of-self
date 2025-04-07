@@ -2,38 +2,27 @@
 
 import React, { useState, useEffect, useCallback, useMemo } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-
 import { useForm, FormProvider, UseFormReturn } from "react-hook-form";
-
-import { Bonus } from "@components/journal/journal-entry-form/form-steps/steps/bonus/Bonus";
-import { Day } from "@components/journal/journal-entry-form/form-steps/steps/Day";
-import { Night } from "@components/journal/journal-entry-form/form-steps/steps/Night";
-import { Gratitude } from "@components/journal/journal-entry-form/form-steps/steps/Gratitude";
-import { Affirmations } from "./form-steps/steps/Affirmations";
-import { Highlights } from "@components/journal/journal-entry-form/form-steps/steps/Highlights";
-import { Reflection } from "@components/journal/journal-entry-form/form-steps/steps/Reflection";
-import { Willpower } from "@components/journal/journal-entry-form/form-steps/steps/willpower/Willpower";
-import { HabitActionsStep } from "@components/journal/journal-entry-form/form-steps/steps/HabitActionsStep";
 import { FormStepProgress } from "./FormStepProgress";
 import { FormStepNavigation } from "./FormStepNavigation";
-import { JournalEntry } from "@models/types";
-import { isEvening } from "@lib/time";
+import { JournalEntry, JournalEntryCustomStep } from "@models/types";
 import { getDayDisciplineScores } from "@lib/score";
-import { calculateHabitsXpFromEntry } from "@lib/level";
+import {
+  createSteps,
+  creteFormDefaultValues,
+  createProgressProps,
+} from "./form-steps/StepConfig";
 
 // TEST_FLAG: used for enabling all forms steps
-const SHOW_ALL_TEST = false;
+const SHOW_ALL_TEST = true;
 
 type FormStepControllerProps = {
   submitting: boolean;
   onSubmit: (journalEntry: JournalEntry) => Promise<void>;
   journalEntryData?: JournalEntry;
   userEveningTime?: string;
-  hasHabits?: boolean;
-  hasGratitude?: boolean;
-  hasAffirmations?: boolean;
-  hasReflection?: boolean;
   willpowerMultiplier: number;
+  customSteps?: JournalEntryCustomStep[];
 };
 
 export type JournalFormContext = UseFormReturn<JournalEntry>;
@@ -43,209 +32,147 @@ export function FormStepController({
   submitting,
   onSubmit,
   userEveningTime = "18:00",
-  hasGratitude = false,
-  hasAffirmations = false,
-  hasReflection = false,
-  hasHabits = false,
   willpowerMultiplier,
+  customSteps = [],
 }: FormStepControllerProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [isInitialized, setIsInitialized] = useState(false);
 
-  // Initialize React Hook Form with default values
+  // Create form with default values
   const methods = useForm<JournalEntry>({
-    defaultValues: {
-      dailyWillpower: journalEntryData?.dailyWillpower ?? 0,
-      bonusWillpower: journalEntryData?.bonusWillpower ?? 0,
-      dayEntry: {
-        day: journalEntryData?.dayEntry?.day ?? [],
-        gratitude: journalEntryData?.dayEntry?.gratitude ?? [],
-        affirmations: journalEntryData?.dayEntry?.affirmations ?? [],
-      },
-      nightEntry: {
-        night: journalEntryData?.nightEntry?.night ?? [],
-        highlights: journalEntryData?.nightEntry?.highlights ?? [],
-        reflection: journalEntryData?.nightEntry?.reflection ?? [],
-      },
-      habits: journalEntryData?.habits ?? {},
-    },
+    defaultValues: creteFormDefaultValues({ journalEntryData, customSteps }),
   });
 
   // Get form values and methods
   const { watch, setValue, getValues } = methods;
 
-  // NOTE: TS type checking is static and happening at compile time, not runtime.
-  // The TypeScript compiler doesn't know about the runtime behavior of React Hook Form
-  // This is why we must set a fallback value to be able to use in isAvailable step condition
-  const day = watch("dayEntry.day") || [];
-  const gratitude = watch("dayEntry.gratitude");
-  const affirmations = watch("dayEntry.affirmations");
-
-  // Calculate DAY disciplines scores & set them to totalWP * WPx
-  // NOTE can use this object to calculate scores & display, but where?
-  // NOTE: should have a single source of truth for this, right now each step calculates it individually
-  // Might be better for dynamic step refactor
-  // BUT These are just the DAY ones to calc WP so its ok for now
-  const dayEntryDisciplineScores = useMemo(() => {
+  // Create a separate effect to update willpower whenever dayEntry changes
+  useEffect(() => {
     const currentEntry = getValues();
-    const disciplines = getDayDisciplineScores(currentEntry);
 
-    // Calculate total willpower by summing all discipline scores
+    // Calculate discipline scores
+    const disciplines = getDayDisciplineScores(currentEntry.dayEntry);
+
+    // Calculate total willpower
     const dailyWillpower = Object.values(disciplines).reduce(
       (sum, score) => sum + (score || 0),
       0
     );
 
-    // Update the form value whenever disciplines change
+    // Update the form value
     setValue(
       "dailyWillpower",
       Math.floor(dailyWillpower * willpowerMultiplier)
     );
+  }, [
+    // watch("dayEntry") doesn't work for this use case since the values are deeply nested
+    ...Object.keys(getValues().dayEntry || {}).map((key) =>
+      watch(`dayEntry.${key}`)
+    ),
+    ,
+    setValue,
+    getValues,
+    willpowerMultiplier,
+  ]);
 
-    return disciplines;
-  }, [day, gratitude, affirmations, setValue, getValues]);
-
-  // Update form data when journalEntryData changes
+  // Update form when data changes
   useEffect(() => {
     if (journalEntryData) {
-      // Update all form fields with new data
+      // Update basic fields
       setValue("dailyWillpower", journalEntryData.dailyWillpower ?? 0);
       setValue("bonusWillpower", journalEntryData.bonusWillpower ?? 0);
 
+      // Update day and night entries
       if (journalEntryData.dayEntry) {
-        setValue("dayEntry.day", journalEntryData.dayEntry.day ?? []);
-        setValue(
-          "dayEntry.gratitude",
-          journalEntryData.dayEntry.gratitude ?? []
-        );
-        setValue(
-          "dayEntry.affirmations",
-          journalEntryData.dayEntry.affirmations ?? []
-        );
+        Object.entries(journalEntryData.dayEntry).forEach(([field, value]) => {
+          setValue(`dayEntry.${field}`, value ?? []);
+        });
       }
 
       if (journalEntryData.nightEntry) {
-        setValue("nightEntry.night", journalEntryData.nightEntry.night ?? []);
-        setValue(
-          "nightEntry.highlights",
-          journalEntryData.nightEntry.highlights ?? []
-        );
-        setValue(
-          "nightEntry.reflection",
-          journalEntryData.nightEntry.reflection ?? []
+        Object.entries(journalEntryData.nightEntry).forEach(
+          ([field, value]) => {
+            setValue(`nightEntry.${field}`, value ?? []);
+          }
         );
       }
 
+      // Update habits
       if (journalEntryData.habits) {
-        setValue("habits", journalEntryData.habits ?? {});
+        setValue("habits", journalEntryData.habits);
       }
     }
   }, [journalEntryData, setValue]);
 
-  const formSteps = useMemo(
-    () => [
-      {
-        type: "bonus",
-        component: <Bonus />,
-        isAvailable:
-          SHOW_ALL_TEST ||
-          (!isEvening(userEveningTime) && watch("bonusWillpower") > 0),
-      },
-      {
-        type: "gratitude",
-        component: <Gratitude />,
-        isAvailable:
-          SHOW_ALL_TEST || (!isEvening(userEveningTime) && hasGratitude),
-      },
-      {
-        type: "day",
-        component: <Day />,
-        isAvailable: SHOW_ALL_TEST || !isEvening(userEveningTime),
-      },
-      {
-        type: "affirmations",
-        component: <Affirmations />,
-        isAvailable:
-          SHOW_ALL_TEST || (!isEvening(userEveningTime) && hasAffirmations),
-      },
-      {
-        type: "night",
-        component: <Night />,
-        isAvailable:
-          SHOW_ALL_TEST || (isEvening(userEveningTime) && day?.length > 0),
-      },
-      {
-        type: "highlights",
-        component: <Highlights />,
-        isAvailable: SHOW_ALL_TEST || isEvening(userEveningTime),
-      },
-      {
-        type: "reflection",
-        component: <Reflection />,
-        isAvailable:
-          SHOW_ALL_TEST || (isEvening(userEveningTime) && hasReflection),
-      },
-      {
-        type: "willpower",
-        component: <Willpower />,
-        isAvailable: true,
-      },
-      {
-        type: "habits",
-        component: <HabitActionsStep />,
-        isAvailable: hasHabits,
-      },
-    ],
-    [watch, userEveningTime, hasGratitude, hasReflection, hasHabits]
-  );
+  // Get all form steps
+  const formSteps = useMemo(() => {
+    const steps = createSteps({
+      watch,
+      userEveningTime,
+      SHOW_ALL_TEST,
+      customSteps,
+    });
 
+    return steps;
+  }, [watch, userEveningTime, customSteps]);
+
+  // Filter to available steps only
   const availableSteps = useMemo(
-    () => formSteps.filter((step) => step.isAvailable),
+    () => formSteps.filter((steps) => steps.isAvailable),
     [formSteps]
   );
 
-  const stepTypes = useMemo(
-    () => availableSteps.map((step) => step.type),
+  // Get step list to render
+  //NOTE: .discipline is basically the STEP.name
+  const steps = useMemo(
+    () => availableSteps.map((steps) => steps.discipline),
     [availableSteps]
   );
 
-  // Get the current step type from URL or use the first available step
-  const currentStepType = searchParams.get("step");
-  const currentStepIndex = stepTypes.indexOf(currentStepType || "");
+  // Get the current steps type from URL or use the first available steps
+  const currentStep = searchParams.get("steps");
+  const currentStepIndex = steps.indexOf(currentStep || "");
 
-  // Use a valid step index or default to 0
-  // const safeCurrentStepIndex = currentStepIndex !== -1 ? currentStepIndex : 0;
-
-  // This function updates the URL with the new step
+  // This function updates the URL with the new steps
   const setStep = useCallback(
-    (stepType: string) => {
+    (step: string) => {
       const newParams = new URLSearchParams(searchParams.toString());
-      newParams.set("step", stepType);
+      newParams.set("steps", step);
       router.replace(`?${newParams.toString()}`, { scroll: false });
     },
     [router, searchParams]
   );
 
-  // Initialize the form with the correct step
+  // Initialize the form with the correct steps
   useEffect(() => {
     if (!isInitialized && availableSteps.length > 0) {
-      const initialStepType =
-        currentStepType && stepTypes.includes(currentStepType)
-          ? currentStepType
-          : stepTypes[0];
-      setStep(initialStepType);
+      const initialStep =
+        currentStep && steps.includes(currentStep) ? currentStep : steps[0];
+      setStep(initialStep);
       setIsInitialized(true);
     }
-  }, [isInitialized, availableSteps, currentStepType, stepTypes, setStep]);
+  }, [isInitialized, currentStep, steps, setStep]);
 
   const handleStepChange = useCallback(
-    (stepType: string) => {
+    (step: string, shouldSubmit = true) => {
+      // Default to true
       if (!submitting) {
-        setStep(stepType);
+        if (shouldSubmit) {
+          // Get current form data
+          const formData = getValues();
+          // Submit the form data
+          onSubmit(formData).then(() => {
+            // Then change the steps
+            setStep(step);
+          });
+        } else {
+          // Just change the steps without submitting
+          setStep(step);
+        }
       }
     },
-    [setStep, submitting]
+    [setStep, submitting, getValues, onSubmit]
   );
 
   const handleNextForm = useCallback(async () => {
@@ -253,8 +180,8 @@ export function FormStepController({
     const nextIndex = currentStepIndex + 1;
 
     if (nextIndex < availableSteps.length) {
-      await onSubmit(formData); // submits data after each step
-      handleStepChange(stepTypes[nextIndex]);
+      await onSubmit(formData); // submits data after each steps
+      handleStepChange(steps[nextIndex], false); // Don't submit again
     } else {
       await onSubmit(formData);
       router.push("/journal");
@@ -266,69 +193,47 @@ export function FormStepController({
     onSubmit,
     handleStepChange,
     router,
-    stepTypes,
+    steps,
   ]);
 
-  // Updated handlePrevForm to use stepTypes
-  const handlePrevForm = useCallback(() => {
+  const handlePrevForm = useCallback(async () => {
     const prevIndex = currentStepIndex - 1;
     if (prevIndex >= 0) {
-      handleStepChange(stepTypes[prevIndex]);
+      // Get current form data
+      const formData = getValues();
+      // Submit the form data before going back
+      await onSubmit(formData);
+      handleStepChange(steps[prevIndex], false); // Don't submit again
     }
-  }, [currentStepIndex, handleStepChange, stepTypes]);
+  }, [currentStepIndex, handleStepChange, steps, getValues, onSubmit]);
 
   const progressPercentage =
     ((currentStepIndex + 1) / availableSteps.length) * 100;
 
-  const currentStep = stepTypes[currentStepIndex !== -1 ? currentStepIndex : 0];
+  const activeStep = steps[currentStepIndex !== -1 ? currentStepIndex : 0];
 
-  const currentStepComponent =
+  //WTF do i rename this to and what its relation to
+  const activeStepComponent =
     availableSteps[currentStepIndex !== -1 ? currentStepIndex : 0]?.component;
 
-  // TEMP UTIL FUNCTION
-  // NOTE: move to util when cleaning up this file
-  function countMatchingElements(
-    arr1: string[] | undefined,
-    arr2: string[] | undefined
-  ) {
-    const safeArr1 = arr1 || [];
-    const safeArr2 = arr2 || [];
-    const set1 = new Set(safeArr1);
-    return safeArr2.filter((element) => set1.has(element)).length;
-  }
-
-  const formValues = getValues();
-  const habitXpValues = calculateHabitsXpFromEntry({
-    entryHabits: formValues.habits || {},
-    entryWillpower: formValues.dailyWillpower + formValues.dailyWillpower,
+  const progressProps = createProgressProps({
+    formSteps,
+    watch,
+    getValues,
   });
-
-  // NOTE: move to util when cleaning up this file
-  const countNonZeroValues = (obj: Record<string, number>) =>
-    Object.values(obj).filter((value) => value !== 0).length;
 
   return (
     <FormProvider {...methods}>
       <div className="grid grid-rows-[auto,1fr,auto] h-full">
         <FormStepProgress
-          availableSteps={availableSteps}
-          currentStepType={currentStep}
+          formSteps={availableSteps}
+          activeStep={activeStep}
           handleStepChange={handleStepChange}
           progressPercentage={progressPercentage}
-          //NOTE: here too, should make it dynamic, should't be to hard
-          dayCount={watch("dayEntry.day")?.length || 0}
-          dailyGoalsCompleted={countMatchingElements(
-            watch("dayEntry.day"),
-            watch("nightEntry.night")
-          )}
-          gratitudeCount={watch("dayEntry.gratitude")?.length || 0}
-          affirmationsCount={watch("dayEntry.affirmations")?.length || 0}
-          highlightsCount={watch("nightEntry.highlights")?.length || 0}
-          reflectionCount={watch("nightEntry.reflection")?.length || 0}
-          habitActionsCount={countNonZeroValues(habitXpValues)}
+          {...progressProps}
         />
 
-        <div className="h-full overflow-hidden">{currentStepComponent}</div>
+        <div className="h-full overflow-hidden">{activeStepComponent}</div>
 
         <FormStepNavigation
           availableStepsLength={availableSteps.length}

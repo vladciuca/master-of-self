@@ -13,19 +13,24 @@ export interface User extends NextAuthUser {
   image?: string | null;
 }
 
+//NOTE:  this have to be refactored
 export type UserJournalSteps = {
   gratitude: boolean;
   affirmations: boolean;
   reflection: boolean;
 };
 
+// export type UserDisciplines = {
+//   positivity?: number;
+//   motivation?: number;
+//   confidence?: number;
+//   awareness?: number;
+//   resilience?: number;
+// };
+
 export type UserDisciplines = {
-  positivity?: number;
-  motivation?: number;
-  confidence?: number;
-  awareness?: number;
-  resilience?: number;
-  // [key:string]: number;
+  motivation: number;
+  [key: string]: number;
 };
 
 export type UserSettings = {
@@ -45,11 +50,38 @@ export interface Session extends NextAuthSession {
 
 // PROFILE TYPES -----------------------------------------------------
 
+//NOTE: WILL NEED REFACTOR since there are no more stepkeys
 export type RoutineStepProps = {
   icon?: React.ReactElement;
   title: string;
   description: string;
   stepKey: "gratitude" | "affirmations" | "reflection";
+};
+
+// JOURNAL STEP -----------------------------------------------------
+//Note: Rename these to StepType = "dayEntry" | "nightEntry"
+export type JournalStepType = "dayEntry" | "nightEntry" | "other";
+
+export type JournalStep = {
+  //rename the type to discipline
+  discipline: string;
+  //rename category to type
+  type: JournalStepType;
+  title: string;
+  description: string;
+};
+
+export type JournalStepConfig = JournalStep & {
+  icon: ReactNode;
+};
+
+export type JournalEntryCustomStep = {
+  icon: ReactNode;
+  //should this be discipline?
+  discipline: string;
+  component: JSX.Element;
+  type: JournalStepType;
+  isAvailable?: boolean;
 };
 
 // JOURNAL TYPES -----------------------------------------------------
@@ -64,14 +96,12 @@ export type JournalEntryHabit = {
 
 export type JournalDayEntry = {
   day?: string[];
-  gratitude?: string[];
-  affirmations?: string[];
+  [key: string]: string[] | undefined;
 };
 
 export type JournalNightEntry = {
   night?: string[];
-  highlights?: string[];
-  reflection?: string[];
+  [key: string]: string[] | undefined;
 };
 
 export type JournalEntry = {
