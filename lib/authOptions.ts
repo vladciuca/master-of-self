@@ -45,19 +45,12 @@ export const authOptions: NextAuthOptions = {
         { _id: new ObjectId(user.id) },
         {
           $set: {
-            // disciplines: {
-            //   positivity: 0,
-            //   motivation: 0,
-            //   confidence: 0,
-            //   awareness: 0,
-            //   resilience: 0,
-            // },
-            settings: {
-              steps: {
-                gratitude: true,
-                reflection: true,
-                affirmations: true,
-              },
+            profile: {
+              // steps: {
+              //   gratitude: true,
+              //   reflection: true,
+              //   affirmations: true,
+              // },
               disciplines: {
                 motivation: 0,
               },
@@ -65,8 +58,6 @@ export const authOptions: NextAuthOptions = {
                 morning: "08:00",
                 evening: "18:00",
               },
-              //NOTE: don't think this update time is used anywhere
-              lastUpdateTime: null,
             },
           },
         }

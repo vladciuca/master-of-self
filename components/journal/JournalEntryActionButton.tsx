@@ -6,7 +6,7 @@ import { stepIconMap } from "@/components/ui/constants";
 import { cn } from "@/lib/utils";
 import { isEvening } from "@/lib/time";
 import { JOURNAL_COLORS } from "@/lib/colors";
-import { useUserSettings } from "@/context/UserSettingsContext";
+import { useUserProfile } from "@context/UserProfileContext";
 
 type JournalEntryActionButtonProps = {
   text: string;
@@ -20,9 +20,9 @@ export function JournalEntryActionButton({
   handleDisabled = false,
 }: JournalEntryActionButtonProps) {
   //NOTE: no error handling
-  const { userSettings, userSettingsLoading } = useUserSettings();
+  const { userProfile, userProfileLoading } = useUserProfile();
 
-  const isEveningTime = isEvening(userSettings.journalStartTime.evening);
+  const isEveningTime = isEvening(userProfile?.journalStartTime.evening);
   const eveningColor = isEveningTime
     ? JOURNAL_COLORS.night
     : JOURNAL_COLORS.day;

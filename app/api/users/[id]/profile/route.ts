@@ -48,7 +48,7 @@ export const PATCH = async (
       });
     }
 
-    return new NextResponse(JSON.stringify({ settings: user.settings }), {
+    return new NextResponse(JSON.stringify({ profile: user.profile }), {
       status: 200,
     });
   } catch (error) {

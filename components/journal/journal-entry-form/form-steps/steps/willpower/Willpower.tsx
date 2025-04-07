@@ -5,15 +5,15 @@ import { DisciplineLevelBar } from "@components/profile/disciplines/DisciplineLe
 import { getDayDisciplineScores, getNightDisciplineScores } from "@lib/score";
 import { JOURNAL_COLORS } from "@lib/colors";
 import type { UserDisciplines } from "@models/types";
-import { useUserSettings } from "@context/UserSettingsContext";
+import { useUserProfile } from "@context/UserProfileContext";
 import { stepIconMap } from "@components/ui/constants";
 import { isEvening } from "@lib/time";
 
 export const Willpower = () => {
   const { watch } = useFormContext();
-  const { userSettings } = useUserSettings();
+  const { userProfile } = useUserProfile();
 
-  const userEveningTime = userSettings?.journalStartTime.evening;
+  const userEveningTime = userProfile?.journalStartTime.evening;
   const isEveningTime = isEvening(userEveningTime);
 
   const bonusWillpower = watch("bonusWillpower");
@@ -62,7 +62,7 @@ export const Willpower = () => {
     return disciplineScores.map(([key, value]) => {
       const disciplineKey = key as keyof UserDisciplines;
       const projectedXp = value;
-      const xp = userSettings.disciplines[disciplineKey] ?? 0;
+      const xp = userProfile.disciplines[disciplineKey] ?? 0;
 
       return (
         <div
@@ -109,7 +109,7 @@ export const Willpower = () => {
               <div className="">
                 <div className="flex flex-col items-start mb-4">
                   <DisciplineLevelBar
-                    xp={userSettings.disciplines.motivation ?? 0}
+                    xp={userProfile.disciplines.motivation ?? 0}
                     projectedXp={motivationScore}
                     name="motivation"
                     height={3}

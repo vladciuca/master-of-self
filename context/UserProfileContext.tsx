@@ -10,36 +10,36 @@ import React, {
   type ReactNode,
 } from "react";
 import { useSession } from "next-auth/react";
-import type { Session, UserSettings } from "@models/types";
+import type { Session, UserProfile } from "@models/types";
 
 // Define the shape of our context
-interface UserSettingsContextType {
-  userSettings: UserSettings;
-  userSettingsLoading: boolean;
-  userSettingsError: string | null;
-  handleRoutineChange: (
-    step: "gratitude" | "reflection" | "affirmations"
-  ) => void;
+interface UserProfileContextType {
+  userProfile: UserProfile;
+  userProfileLoading: boolean;
+  userProfileError: string | null;
+  // handleRoutineChange: (
+  //   step: "gratitude" | "reflection" | "affirmations"
+  // ) => void;
   handleTimeChange: (period: "morning" | "evening", value: string) => void;
-  refetchUserSettings: () => void;
+  refetchUserProfile: () => void;
   willpowerMultiplier: number;
 }
 
 // Create the context
-const UserSettingsContext = createContext<UserSettingsContextType | undefined>(
+const UserProfileContext = createContext<UserProfileContextType | undefined>(
   undefined
 );
 
 // Create a provider component
-export function UserSettingsProvider({ children }: { children: ReactNode }) {
+export function UserProfileProvider({ children }: { children: ReactNode }) {
   const { data: session } = useSession() as { data: Session | null };
 
-  const [userSettings, setUserSettings] = useState<UserSettings>({
-    steps: {
-      gratitude: false,
-      affirmations: false,
-      reflection: false,
-    },
+  const [userProfile, setUserProfile] = useState<UserProfile>({
+    // steps: {
+    //   gratitude: false,
+    //   affirmations: false,
+    //   reflection: false,
+    // },
     disciplines: {
       motivation: 0,
     },
@@ -48,15 +48,13 @@ export function UserSettingsProvider({ children }: { children: ReactNode }) {
       evening: "18:00",
     },
   });
-  const [userSettingsLoading, setUserSettingsLoading] = useState(true);
-  const [userSettingsError, setUserSettingsError] = useState<string | null>(
-    null
-  );
+  const [userProfileLoading, setUserProfileLoading] = useState(true);
+  const [userProfileError, setUserProfileError] = useState<string | null>(null);
 
   const fetchAbortControllerRef = useRef<AbortController | null>(null);
   const updateAbortControllerRef = useRef<AbortController | null>(null);
 
-  //NOTE: this will be added to the userSettings object after refactor to userProfile
+  //NOTE: this will be added to the userProfile object after refactor to userProfile
   const WILLPOWER_MULTIPLIER = 1.5;
 
   // Cleanup effect
@@ -75,7 +73,7 @@ export function UserSettingsProvider({ children }: { children: ReactNode }) {
     };
   }, []);
 
-  // // Fetch user settings from the server
+  // // Fetch user profile from the server
   // useEffect(() => {
   //   //NOTE: here should I move this stuff at before the try or after
   //   if (!session?.user?.id) return;
@@ -90,38 +88,38 @@ export function UserSettingsProvider({ children }: { children: ReactNode }) {
   //   fetchAbortControllerRef.current = new AbortController();
   //   const { signal } = fetchAbortControllerRef.current;
 
-  //   setUserSettingsError(null);
-  //   setUserSettingsLoading(true);
+  //   setUserProfileError(null);
+  //   setUserProfileLoading(true);
 
-  //   const fetchUserSettings = async () => {
+  //   const fetchUserProfile = async () => {
   //     try {
-  //       const response = await fetch(`/api/users/${session.user.id}/settings`, {
+  //       const response = await fetch(`/api/users/${session.user.id}/profile`, {
   //         signal,
   //       });
 
   //       if (signal.aborted) return;
 
   //       if (!response.ok) {
-  //         throw new Error("Failed to fetch user settings");
+  //         throw new Error("Failed to fetch user profile");
   //       }
 
-  //       const { settings } = await response.json();
-  //       setUserSettings(settings);
+  //       const { profile } = await response.json();
+  //       setUserProfile(profile);
   //     } catch (error) {
   //       // Only set error if it's not an abort error
   //       if (error instanceof Error && error.name !== "AbortError") {
-  //         console.error("Failed to fetch user settings", error);
-  //         setUserSettingsError("Failed to fetch user settings");
+  //         console.error("Failed to fetch user profile", error);
+  //         setUserProfileError("Failed to fetch user profile");
   //       }
   //     } finally {
   //       // Only update loading state if the request wasn't aborted
   //       if (!signal.aborted) {
-  //         setUserSettingsLoading(false);
+  //         setUserProfileLoading(false);
   //       }
   //     }
   //   };
 
-  //   fetchUserSettings();
+  //   fetchUserProfile();
 
   //   // Cleanup function
   //   return () => {
@@ -133,7 +131,7 @@ export function UserSettingsProvider({ children }: { children: ReactNode }) {
   // }, [session?.user?.id]);
 
   // NOTE: Extracted the fetch function in a useCallback to be able to call a refetch
-  const fetchUserSettings = useCallback(async () => {
+  const fetchUserProfile = useCallback(async () => {
     if (!session?.user?.id) return;
 
     // Cancel any in-progress fetch
@@ -146,44 +144,44 @@ export function UserSettingsProvider({ children }: { children: ReactNode }) {
     fetchAbortControllerRef.current = new AbortController();
     const { signal } = fetchAbortControllerRef.current;
 
-    setUserSettingsError(null);
-    setUserSettingsLoading(true);
+    setUserProfileError(null);
+    setUserProfileLoading(true);
 
     try {
-      const response = await fetch(`/api/users/${session.user.id}/settings`, {
+      const response = await fetch(`/api/users/${session.user.id}/profile`, {
         signal,
       });
 
       if (signal.aborted) return;
 
       if (!response.ok) {
-        throw new Error("Failed to fetch user settings");
+        throw new Error("Failed to fetch user profile");
       }
 
-      const { settings } = await response.json();
-      setUserSettings(settings);
+      const { profile } = await response.json();
+      setUserProfile(profile);
     } catch (error) {
       // Only set error if it's not an abort error
       if (error instanceof Error && error.name !== "AbortError") {
-        console.error("Failed to fetch user settings", error);
-        setUserSettingsError("Failed to fetch user settings");
+        console.error("Failed to fetch user profile", error);
+        setUserProfileError("Failed to fetch user profile");
       }
     } finally {
       // Only update loading state if the request wasn't aborted
       if (!signal.aborted) {
-        setUserSettingsLoading(false);
+        setUserProfileLoading(false);
       }
     }
   }, [session?.user?.id]);
 
   // Existing useEffect for initial fetch
   useEffect(() => {
-    fetchUserSettings();
-  }, [fetchUserSettings]);
+    fetchUserProfile();
+  }, [fetchUserProfile]);
 
   // Update a specific setting
   // NOTE: add proper values here
-  const updateSetting = async (key: keyof UserSettings, value: any) => {
+  const updateProfile = async (key: keyof UserProfile, value: any) => {
     if (!session?.user?.id) return;
 
     // Cancel any in-progress update
@@ -196,7 +194,7 @@ export function UserSettingsProvider({ children }: { children: ReactNode }) {
     const { signal } = updateAbortControllerRef.current;
 
     try {
-      const response = await fetch(`/api/users/${session.user.id}/settings`, {
+      const response = await fetch(`/api/users/${session.user.id}/profile`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -209,11 +207,11 @@ export function UserSettingsProvider({ children }: { children: ReactNode }) {
 
       if (response.ok) {
         // Update local state immediately
-        setUserSettings((prev) => ({ ...prev, [key]: value }));
+        setUserProfile((prev) => ({ ...prev, [key]: value }));
       } else {
-        console.error("Failed to update setting");
-        // Optionally, refetch settings to ensure consistency
-        // You could call fetchUserSettings() here if needed
+        console.error("Failed to update profile");
+        // Optionally, refetch profile to ensure consistency
+        // You could call fetchUserProfile() here if needed
       }
     } catch (error) {
       if (error instanceof Error && error.name !== "AbortError") {
@@ -231,49 +229,49 @@ export function UserSettingsProvider({ children }: { children: ReactNode }) {
   };
 
   // Handle routine change
-  const handleRoutineChange = (
-    step: "gratitude" | "reflection" | "affirmations"
-  ) => {
-    const newValue = !userSettings.steps[step];
-    updateSetting("steps", {
-      ...userSettings.steps,
-      [step]: newValue,
-    });
-  };
+  // const handleRoutineChange = (
+  //   step: "gratitude" | "reflection" | "affirmations"
+  // ) => {
+  //   const newValue = !userProfile.steps[step];
+  //   updateProfile("steps", {
+  //     ...userProfile.steps,
+  //     [step]: newValue,
+  //   });
+  // };
 
   // Handle time change
   const handleTimeChange = (period: "morning" | "evening", value: string) => {
-    updateSetting("journalStartTime", {
-      ...userSettings.journalStartTime,
+    updateProfile("journalStartTime", {
+      ...userProfile.journalStartTime,
       [period]: value,
     });
   };
 
   // Create the context value
-  const contextValue: UserSettingsContextType = {
-    userSettings,
-    userSettingsLoading,
-    userSettingsError,
-    handleRoutineChange,
+  const contextValue: UserProfileContextType = {
+    userProfile,
+    userProfileLoading,
+    userProfileError,
+    // handleRoutineChange,
     handleTimeChange,
-    refetchUserSettings: fetchUserSettings,
+    refetchUserProfile: fetchUserProfile,
     willpowerMultiplier: WILLPOWER_MULTIPLIER,
   };
 
   // Provide the context to children components
   return (
-    <UserSettingsContext.Provider value={contextValue}>
+    <UserProfileContext.Provider value={contextValue}>
       {children}
-    </UserSettingsContext.Provider>
+    </UserProfileContext.Provider>
   );
 }
 
-// Custom hook to use the UserSettingsContext
-export function useUserSettings() {
-  const context = useContext(UserSettingsContext);
+// Custom hook to use the UserProfileContext
+export function useUserProfile() {
+  const context = useContext(UserProfileContext);
   if (context === undefined) {
     throw new Error(
-      "useUserSettings must be used within a UserSettingsProvider"
+      "useUserProfile must be used within a UserSettingsProvider"
     );
   }
   return context;

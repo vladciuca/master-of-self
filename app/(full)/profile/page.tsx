@@ -1,7 +1,7 @@
 import { Disciplines } from "@components/profile/disciplines/Disciplines";
 import { TotalWillpower } from "@components/profile/TotalWillpower";
 import { WeeklyWillpowerChart } from "@components/profile/weekly-willpower-chart/WeeklyWillpowerChart";
-import { Routine } from "@components/profile/routine/Routine";
+// import { Routine } from "@components/profile/routine/Routine";
 import { DaySplit } from "@components/profile/DaySplit";
 import { ThemeToggle } from "@components/profile/ThemeToggle";
 import { SignOut } from "@components/profile/SignOut";
@@ -12,7 +12,7 @@ export default function Profile() {
       <Disciplines />
       {/* <TotalWillpower /> */}
       <WeeklyWillpowerChart />
-      <Routine />
+      {/* <Routine /> */}
       <DaySplit />
       <ThemeToggle />
       <SignOut />

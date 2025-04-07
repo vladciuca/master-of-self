@@ -7,16 +7,17 @@ import { Card, CardDescription, CardTitle } from "@components/ui/card";
 import { useTodayJournalEntry } from "@hooks/journal/useTodayJournalEntry";
 import { useLastJournalEntry } from "@hooks/journal/useLastJournalEntry";
 import { getDisciplineScoreFromEntry } from "@lib/score";
-import { useUserSettings } from "@context/UserSettingsContext";
+import { useUserProfile } from "@context/UserProfileContext";
 
 export function Disciplines() {
   const {
-    userSettings,
-    userSettingsLoading,
-    userSettingsError,
-    refetchUserSettings,
-  } = useUserSettings();
-  const { disciplines } = userSettings;
+    userProfile,
+    userProfileLoading,
+    userProfileError,
+    refetchUserProfile,
+  } = useUserProfile();
+  // const { disciplines } = userProfile;
+  const disciplines = userProfile?.disciplines;
 
   const { todayEntry, todayEntryLoading, todayEntryError } =
     useTodayJournalEntry();
@@ -25,18 +26,17 @@ export function Disciplines() {
   const disciplinesProjectedXp: { [key: string]: number | undefined } =
     lastEntry ? getDisciplineScoreFromEntry(lastEntry) : {};
 
-  // refetch const { disciplines } = userSettings; on mount
+  // refetch const { disciplines } = userProfile; on mount
   // Might change the dependency to something else
   useEffect(() => {
-    refetchUserSettings();
+    refetchUserProfile();
   }, []);
 
   // Check if any data is loading
-  const isLoading =
-    userSettingsLoading || todayEntryLoading || lastEntryLoading;
+  const isLoading = userProfileLoading || todayEntryLoading || lastEntryLoading;
 
   // Check for any errors
-  const hasError = userSettingsError || todayEntryError || lastEntryError;
+  const hasError = userProfileError || todayEntryError || lastEntryError;
 
   return (
     <div>
@@ -64,7 +64,7 @@ export function Disciplines() {
           <div>
             <span>Error:</span>
             <div>
-              {userSettingsError ||
+              {userProfileError ||
                 todayEntryError ||
                 lastEntryError ||
                 "There was an error loading your disciplines. Please try again later."}
