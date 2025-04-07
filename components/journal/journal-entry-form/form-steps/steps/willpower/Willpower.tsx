@@ -69,7 +69,12 @@ export const Willpower = () => {
           key={`${sectionKey}-${key}`}
           className="flex flex-col items-start mb-4"
         >
-          <DisciplineLevelBar xp={xp} projectedXp={projectedXp} name={key} />
+          <DisciplineLevelBar
+            xp={xp}
+            projectedXp={projectedXp}
+            name={key}
+            height={3}
+          />
         </div>
       );
     });
@@ -88,7 +93,7 @@ export const Willpower = () => {
         </div>
       }
     >
-      <div className="flex flex-col justify-center px-2 sm:px-6 mt-6">
+      <div className="flex flex-col justify-center px-4 sm:px-8 mt-6">
         <div className="text-center">
           <h2 className="text-muted w-full flex justify-center text-5xl font-semibold tracking-tight mb-8">
             {isEveningTime ? stepIconMap.night : stepIconMap.day}
@@ -107,6 +112,7 @@ export const Willpower = () => {
                     xp={userSettings.disciplines.motivation ?? 0}
                     projectedXp={motivationScore}
                     name="motivation"
+                    height={3}
                   />
                 </div>
               </div>

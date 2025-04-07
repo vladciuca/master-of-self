@@ -10,7 +10,7 @@ function ProgressBar({
   currentProgressPercentage,
   xpGainProgressPercentage,
   showBaseXpBar,
-  height,
+  height = 4,
 }: {
   currentProgressPercentage: number;
   xpGainProgressPercentage: number;
@@ -19,7 +19,7 @@ function ProgressBar({
 }) {
   return (
     <div
-      className={`w-full min-h-4 h-${height} bg-muted rounded-full overflow-hidden`}
+      className={`w-full min-h-2 h-${height} bg-muted rounded-full overflow-hidden`}
     >
       <div className="h-full flex relative">
         {/* XP Fill */}
@@ -56,6 +56,7 @@ interface DisciplineLevelBarProps {
   projectedXp: number;
   name: string;
   showXpMetrics?: boolean;
+  height?: number;
 }
 
 export function DisciplineLevelBar({
@@ -63,6 +64,7 @@ export function DisciplineLevelBar({
   projectedXp,
   name,
   showXpMetrics = false,
+  height,
 }: DisciplineLevelBarProps) {
   // Calculate XP and level_PATTERN
   // ===============================================================
@@ -108,7 +110,7 @@ export function DisciplineLevelBar({
         currentProgressPercentage={currentProgressPercentage}
         xpGainProgressPercentage={xpGainProgressPercentage}
         showBaseXpBar={currentLevel === level}
-        height={4}
+        height={height}
       />
 
       {showXpMetrics && (
