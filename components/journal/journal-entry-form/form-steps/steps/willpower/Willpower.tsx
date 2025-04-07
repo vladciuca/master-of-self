@@ -134,7 +134,7 @@ export const Willpower = () => {
                 </>
               ) : (
                 <>
-                  {motivationScore <= 0 && (
+                  {(motivationScore <= 0 || motivationNightScore <= 1) && (
                     <div className="flex items-center justify-center py-4">
                       <span className="text-md text-muted-foreground">
                         {emptyStateMessage}
