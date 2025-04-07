@@ -90,7 +90,7 @@ export function createSteps(
       icon: <Shell />,
       discipline: "habits",
       component: <HabitActionsStep />,
-      isAvailable: false, //NOTE: TEMP_ here we need to check if the user has habits
+      isAvailable: true, //NOTE: TEMP_ here we need to check if the user has habits
       type: "other",
     },
   ];
