@@ -12,7 +12,6 @@ import {
   creteFormDefaultValues,
   createProgressProps,
 } from "./form-steps/StepConfig";
-import { useUserHabits } from "@hooks/habits/useUserHabits";
 
 // TEST_FLAG: used for enabling all forms steps
 const SHOW_ALL_TEST = false;
@@ -24,6 +23,7 @@ type FormStepControllerProps = {
   userEveningTime?: string;
   willpowerMultiplier: number;
   customSteps?: JournalEntryCustomStep[];
+  hasHabits: boolean;
 };
 
 export type JournalFormContext = UseFormReturn<JournalEntry>;
@@ -35,11 +35,10 @@ export function FormStepController({
   userEveningTime = "18:00",
   willpowerMultiplier,
   customSteps = [],
+  hasHabits,
 }: FormStepControllerProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
-
-  const { hasHabits } = useUserHabits();
 
   const [isInitialized, setIsInitialized] = useState(false);
 

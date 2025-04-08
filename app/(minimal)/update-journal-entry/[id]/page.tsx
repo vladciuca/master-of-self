@@ -8,7 +8,7 @@ import { GiAura, GiHealing, GiAwareness, GiGuardedTower } from "react-icons/gi";
 import { JournalStep } from "@components/journal/journal-entry-form/form-steps/steps/journal-step/JournalStep";
 import type { JournalStepConfig, JournalEntryCustomStep } from "@models/types";
 import { useUserProfile } from "@context/UserProfileContext";
-// import { useUserHabits } from "@hooks/habits/useUserHabits";
+import { useUserHabits } from "@hooks/habits/useUserHabits";
 import { useFetchAndUpdateJournalEntry } from "@hooks/journal/useFetchAndUpdateJournalEntry";
 
 //NOTE: move this to hook when u make Step Collection
@@ -79,7 +79,7 @@ export default function UpdateJournalEntry() {
   const { userProfile, userProfileLoading, userProfileError } =
     useUserProfile();
   //NOTE: WIP - Habits
-  // const { hasHabits, habitsLoading } = useUserHabits();
+  const { hasHabits, habitsLoading } = useUserHabits();
 
   const userEveningTime = userProfile?.journalStartTime.evening;
   const willpowerMultiplier = userProfile?.willpowerSMultiplier;
@@ -87,7 +87,7 @@ export default function UpdateJournalEntry() {
   const isLoading =
     journalEntryLoading ||
     userProfileLoading ||
-    // habitsLoading ||
+    habitsLoading ||
     !journalEntryData;
 
   return (
@@ -101,6 +101,7 @@ export default function UpdateJournalEntry() {
           willpowerMultiplier={willpowerMultiplier}
           //NOTE: need to make some kind of function that generates these
           customSteps={customSteps}
+          hasHabits={hasHabits}
         />
       )}
       {/* Since this is in the MINIMAL_LAYOUT, the UI of the FULL_LAYOUT needs to be recreated here
