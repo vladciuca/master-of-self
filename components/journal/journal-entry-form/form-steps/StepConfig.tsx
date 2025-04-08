@@ -27,12 +27,15 @@ type CreateStepsParams = {
   userEveningTime: string;
   SHOW_ALL_TEST: boolean;
   customSteps: JournalEntryCustomStep[];
+  hasHabits: boolean;
 };
 
 export function createSteps(
   params: CreateStepsParams
 ): JournalEntryCustomStep[] {
-  const { watch, userEveningTime, SHOW_ALL_TEST, customSteps } = params;
+  const { watch, userEveningTime, SHOW_ALL_TEST, customSteps, hasHabits } =
+    params;
+
   // NOTE: TS type checking is static and happening at compile time, not runtime.
   // The TypeScript compiler doesn't know about the runtime behavior of React Hook Form
   // This is why we must set a fallback value to be able to use in isAvailable step condition
@@ -90,7 +93,7 @@ export function createSteps(
       icon: <Shell />,
       discipline: "habits",
       component: <HabitActionsStep />,
-      isAvailable: true, //NOTE: TEMP_ here we need to check if the user has habits
+      isAvailable: SHOW_ALL_TEST || hasHabits,
       type: "other",
     },
   ];

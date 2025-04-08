@@ -12,6 +12,7 @@ import {
   creteFormDefaultValues,
   createProgressProps,
 } from "./form-steps/StepConfig";
+import { useUserHabits } from "@hooks/habits/useUserHabits";
 
 // TEST_FLAG: used for enabling all forms steps
 const SHOW_ALL_TEST = false;
@@ -37,6 +38,9 @@ export function FormStepController({
 }: FormStepControllerProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
+
+  const { hasHabits } = useUserHabits();
+
   const [isInitialized, setIsInitialized] = useState(false);
 
   // Create form with default values
@@ -112,15 +116,15 @@ export function FormStepController({
       userEveningTime,
       SHOW_ALL_TEST,
       customSteps,
+      hasHabits,
     });
 
     return steps;
-  }, [watch, userEveningTime, customSteps]);
+  }, [watch, userEveningTime, customSteps, hasHabits]);
 
-  // Filter to available steps only
   const availableSteps = useMemo(
     () => formSteps.filter((steps) => steps.isAvailable),
-    [formSteps]
+    [formSteps, hasHabits]
   );
 
   // Get step list to render
