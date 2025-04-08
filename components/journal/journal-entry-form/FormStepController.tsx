@@ -124,7 +124,7 @@ export function FormStepController({
 
   const availableSteps = useMemo(
     () => formSteps.filter((steps) => steps.isAvailable),
-    [formSteps, hasHabits]
+    [formSteps]
   );
 
   // Get step list to render
@@ -135,28 +135,30 @@ export function FormStepController({
   );
 
   // Get the current steps type from URL or use the first available steps
-  const currentStep = searchParams.get("steps");
+  const currentStep = searchParams.get("step");
   const currentStepIndex = steps.indexOf(currentStep || "");
 
   // This function updates the URL with the new steps
   const setStep = useCallback(
     (step: string) => {
       const newParams = new URLSearchParams(searchParams.toString());
-      newParams.set("steps", step);
+      newParams.set("step", step);
       router.replace(`?${newParams.toString()}`, { scroll: false });
     },
     [router, searchParams]
   );
 
   // Initialize the form with the correct steps
+  //NOTE: Pass the availableSteps to the dependency array as hasHabits is false in the start
   useEffect(() => {
     if (!isInitialized && availableSteps.length > 0) {
-      const initialStep =
-        currentStep && steps.includes(currentStep) ? currentStep : steps[0];
-      setStep(initialStep);
+      // Only change the step if there's no step parameter in the URL
+      if (!currentStep) {
+        setStep(steps[0]);
+      }
       setIsInitialized(true);
     }
-  }, [isInitialized, currentStep, steps, setStep]);
+  }, [isInitialized, currentStep, steps, setStep, availableSteps.length]);
 
   const handleStepChange = useCallback(
     (step: string, shouldSubmit = true) => {
