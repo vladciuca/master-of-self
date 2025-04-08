@@ -82,8 +82,8 @@ export const Willpower = () => {
 
   return (
     <JournalStepTemplate
-      title={"Willpower Generated Today"}
-      description={"Generate Willpower from your morning journaling."}
+      title={"Willpower"}
+      description={"Generate Willpower for today from your morning journaling."}
       scoreSection={
         <div className="flex flex-col items-center">
           <WillpowerScoreDisplay
