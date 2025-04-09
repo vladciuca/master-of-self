@@ -3,10 +3,11 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { NavButton } from "@/components/ui/nav-button";
-import { Target, Shell } from "lucide-react";
+// import { Target, Shell } from "lucide-react";
 import { FaSun } from "react-icons/fa";
 import { IoMoonSharp } from "react-icons/io5";
 import { GiNightSleep } from "react-icons/gi";
+import { HiUser, HiUserGroup } from "react-icons/hi2";
 import { isEvening } from "@lib/time";
 import { JOURNAL_COLORS } from "@lib/colors";
 import type { UserProfile } from "@models/types";
@@ -99,10 +100,17 @@ export function BottomNav({ userProfile, userProfileError }: BottomNavProps) {
 
   return (
     <nav className="h-full w-full flex justify-around items-center space-x-2 px-2">
-      <Link href="/goals" className="flex-1">
+      {/* <Link href="/goals" className="flex-1">
         <NavButton>
           <Target className={iconClass} />
           <div className="text-xs mt-1">Goals</div>
+        </NavButton>
+      </Link> */}
+
+      <Link href="/profile" className="flex-1">
+        <NavButton>
+          <HiUser size={34} />
+          {/* <div className="text-xs mt-1">Self</div> */}
         </NavButton>
       </Link>
 
@@ -123,10 +131,17 @@ export function BottomNav({ userProfile, userProfileError }: BottomNavProps) {
         </NavButton>
       </Link>
 
-      <Link href="/habits" className="flex-1">
+      {/* <Link href="/habits" className="flex-1">
         <NavButton>
           <Shell className={iconClass} />
           <div className="text-xs mt-1">Habits</div>
+        </NavButton>
+      </Link> */}
+
+      <Link href="/" className="flex-1">
+        <NavButton>
+          <HiUserGroup size={40} />
+          {/* <div className="text-xs mt-1">Others</div> */}
         </NavButton>
       </Link>
       {/* {userProfileError && <div>{userProfileError}</div>} */}

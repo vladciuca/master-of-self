@@ -1,21 +1,32 @@
+"use client";
+
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
 import { Disciplines } from "@components/profile/disciplines/Disciplines";
-import { TotalWillpower } from "@components/profile/TotalWillpower";
 import { WeeklyWillpowerChart } from "@components/profile/weekly-willpower-chart/WeeklyWillpowerChart";
-// import { Routine } from "@components/profile/routine/Routine";
-import { DaySplit } from "@components/profile/DaySplit";
-import { ThemeToggle } from "@components/profile/ThemeToggle";
-import { SignOut } from "@components/profile/SignOut";
 
 export default function Profile() {
+  const [activeTab, setActiveTab] = useState("Disciplines");
+  const tabs = ["Disciplines", "Willpower"];
+
   return (
-    <div className="flex flex-col space-y-10 pb-4 mt-4">
-      <Disciplines />
-      {/* <TotalWillpower /> */}
-      <WeeklyWillpowerChart />
-      {/* <Routine /> */}
-      <DaySplit />
-      <ThemeToggle />
-      <SignOut />
+    <div className="flex flex-col space-y-4 pb-4 mt-4">
+      <div className="flex space-x-2">
+        {tabs.map((tab) => (
+          <Button
+            key={tab}
+            size="sm"
+            variant={activeTab === tab ? "default" : "outline"}
+            onClick={() => setActiveTab(tab)}
+            className="flex-shrink-0 text-xs rounded-full"
+          >
+            {tab}
+          </Button>
+        ))}
+      </div>
+
+      {activeTab === "Disciplines" && <Disciplines />}
+      {activeTab === "Willpower" && <WeeklyWillpowerChart />}
     </div>
   );
 }
