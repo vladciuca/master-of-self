@@ -1,30 +1,29 @@
 "use client";
 
 import { useEffect } from "react";
-import { DisciplineLevelBar } from "@components/profile/disciplines/DisciplineLevelBar";
 import { Skeleton } from "@components/ui/skeleton";
-import { Card, CardDescription, CardTitle } from "@components/ui/card";
+import { CardDescription, CardTitle } from "@components/ui/card";
 import { useTodayJournalEntry } from "@hooks/journal/useTodayJournalEntry";
 import { useLastJournalEntry } from "@hooks/journal/useLastJournalEntry";
-import { getDisciplineScoreFromEntry } from "@lib/score";
 import { useUserProfile } from "@context/UserProfileContext";
+
+import { customStepConfigs } from "@components/journal/journal-entry-form/form-steps/steps/CustomSteps";
+import { DisciplineStep } from "./DisciplineStep";
+import { FaSun, FaMoon } from "react-icons/fa";
+import { JOURNAL_COLORS } from "@lib/colors";
 
 export function Disciplines() {
   const {
-    userProfile,
+    // userProfile,
     userProfileLoading,
     userProfileError,
     refetchUserProfile,
   } = useUserProfile();
-  // const { disciplines } = userProfile;
-  const disciplines = userProfile?.disciplines;
 
+  //NOTE: should try and move the loading states inside the DisciplineStep?
   const { todayEntry, todayEntryLoading, todayEntryError } =
     useTodayJournalEntry();
   const { lastEntry, lastEntryLoading, lastEntryError } = useLastJournalEntry();
-
-  const disciplinesProjectedXp: { [key: string]: number | undefined } =
-    lastEntry ? getDisciplineScoreFromEntry(lastEntry) : {};
 
   // refetch const { disciplines } = userProfile; on mount
   // Might change the dependency to something else
@@ -39,18 +38,17 @@ export function Disciplines() {
   const hasError = userProfileError || todayEntryError || lastEntryError;
 
   return (
-    <div>
+    <>
       <div className="mx-1 mb-4">
         <CardTitle className="scroll-m-20 text-2xl font-semibold tracking-tight">
           {"Disciplines"}
         </CardTitle>
+
         <CardDescription>
-          {
-            "Each discipline corresponds with a step in your journal. To rank up your discipline, engage those particular journal steps."
-          }
+          {"You can only have 2 disciplines per morning or evening."}
         </CardDescription>
       </div>
-      <Card className="space-y-4 p-4">
+      <>
         {isLoading ? (
           <>
             {[1].map((i) => (
@@ -72,48 +70,82 @@ export function Disciplines() {
           </div>
         ) : (
           <>
-            {(() => {
-              // Create a set of all discipline keys from both objects
-              const allDisciplineKeys = new Set([
-                ...Object.keys(disciplines || {}),
-                ...Object.keys(disciplinesProjectedXp || {}),
-              ]);
+            <DisciplineStep
+              title="Motivation"
+              description="Your motivation level"
+              discipline="motivation"
+            />
 
-              return Array.from(allDisciplineKeys)
-                .filter((key) => {
-                  const currentXp = disciplines?.[key] ?? 0;
-                  const projectedXp = disciplinesProjectedXp[key] ?? 0;
-                  return (
-                    currentXp > 0 || projectedXp > 0 || key === "motivation"
-                  );
-                })
-                .map((key) => {
-                  let xp = disciplines?.[key] ?? 0;
-                  let projectedXp = disciplinesProjectedXp[key] ?? 0;
+            <div className="flex items-center justify-between px-2 mt-6 mb-2">
+              <CardTitle className="flex items-center scroll-m-20 text-md sm:text-md text-muted-foreground font-normal">
+                {"Morning Steps"}
+              </CardTitle>
+              <div className="flex items-center space-x-4 sm:space-x-6">
+                <div className="flex items-center space-x-2">
+                  <FaSun
+                    size={20}
+                    className={`mr-2 text-${JOURNAL_COLORS.day}`}
+                  />
+                  <span className="scroll-m-20 text-lg font-semibold tracking-tight">
+                    0
+                    <span className="font-thin mx-1 text-muted-foreground">
+                      /
+                    </span>
+                    <span className="text-muted-foreground">2</span>
+                  </span>
+                </div>
+              </div>
+            </div>
+            {customStepConfigs
+              .filter((step) => step.type === "dayEntry")
+              .map((step) => {
+                return (
+                  <DisciplineStep
+                    icon={step.icon}
+                    title={step.title}
+                    description={step.description}
+                    discipline={step.discipline}
+                    type={step.type}
+                  />
+                );
+              })}
 
-                  // Check if there's no today's entry
-                  if (!todayEntry) {
-                    // Add projected XP to current XP
-                    xp = xp + projectedXp;
-                    // Reset projected XP to 0
-                    projectedXp = 0;
-                  }
-
-                  return (
-                    <div key={key} className="flex flex-col items-start">
-                      <DisciplineLevelBar
-                        xp={xp}
-                        projectedXp={projectedXp}
-                        name={key}
-                        showXpMetrics
-                      />
-                    </div>
-                  );
-                });
-            })()}
+            <div className="flex items-center justify-between px-2 mt-6 mb-2">
+              <CardTitle className="flex items-center scroll-m-20 text-md sm:text-md text-muted-foreground font-normal">
+                {"Evening Steps"}
+              </CardTitle>
+              <div className="flex items-center space-x-4 sm:space-x-6">
+                <div className="flex items-center space-x-2">
+                  <FaMoon
+                    size={17}
+                    className={`mr-2 text-${JOURNAL_COLORS.night}`}
+                  />
+                  <span className="scroll-m-20 text-lg font-semibold tracking-tight">
+                    0
+                    <span className="font-thin mx-1 text-muted-foreground">
+                      /
+                    </span>
+                    <span className="text-muted-foreground">2</span>
+                  </span>
+                </div>
+              </div>
+            </div>
+            {customStepConfigs
+              .filter((step) => step.type === "nightEntry")
+              .map((step) => {
+                return (
+                  <DisciplineStep
+                    icon={step.icon}
+                    title={step.title}
+                    description={step.description}
+                    discipline={step.discipline}
+                    type={step.type}
+                  />
+                );
+              })}
           </>
         )}
-      </Card>
-    </div>
+      </>
+    </>
   );
 }
