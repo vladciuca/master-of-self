@@ -195,6 +195,11 @@ export function getTimeDifference(start: Date, end: Date): Date {
 export function formatTimeDifference(date: Date): string {
   const hours = date.getUTCHours();
   const minutes = date.getUTCMinutes();
+
+  if (hours === 0) {
+    return `${minutes}m`;
+  }
+
   return `${hours}h ${minutes}m`;
 }
 

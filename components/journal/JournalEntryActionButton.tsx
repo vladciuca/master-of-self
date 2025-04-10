@@ -2,10 +2,8 @@
 
 import React from "react";
 import { Button } from "@/components/ui/button";
-import { stepIconMap } from "@/components/ui/constants";
+import { getTimePeriodIconAndColor } from "@components/ui/constants";
 import { cn } from "@/lib/utils";
-// import { isEvening } from "@/lib/time";
-import { JOURNAL_COLORS } from "@/lib/colors";
 import { useUserProfile } from "@context/UserProfileContext";
 
 import { getCurrentTimePeriod } from "@lib/time";
@@ -31,30 +29,7 @@ export function JournalEntryActionButton({
     userProfile?.journalStartTime.evening
   );
 
-  // Determine icon and color based on time period
-  let periodColor;
-  let IconElement;
-
-  switch (timePeriod) {
-    case "sleep":
-      periodColor = JOURNAL_COLORS.sleep;
-      IconElement = stepIconMap.sleep;
-      break;
-    case "night":
-      periodColor = JOURNAL_COLORS.night;
-      IconElement = stepIconMap.night;
-      break;
-    default: // 'day'
-      periodColor = JOURNAL_COLORS.day;
-      IconElement = stepIconMap.day;
-      break;
-  }
-
-  // const isEveningTime = isEvening(userProfile?.journalStartTime.evening);
-  // const eveningColor = isEveningTime
-  //   ? JOURNAL_COLORS.night
-  //   : JOURNAL_COLORS.day;
-  // const IconElement = isEveningTime ? stepIconMap.night : stepIconMap.day;
+  const { periodColor, IconElement } = getTimePeriodIconAndColor(timePeriod);
 
   // Only apply special disabled styling when submitting
   const disabledClasses = isSubmitting

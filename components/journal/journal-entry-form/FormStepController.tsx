@@ -14,7 +14,7 @@ import {
 } from "./form-steps/StepConfig";
 
 // TEST_FLAG: used for enabling all forms steps
-const SHOW_ALL_TEST = true;
+const SHOW_ALL_TEST = false;
 
 type FormStepControllerProps = {
   submitting: boolean;

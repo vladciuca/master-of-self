@@ -64,3 +64,25 @@ export const journalStepStyle: { [key: string]: StepStyle } = {
 export const getJournalStepStyle = (stepType: string): StepStyle => {
   return journalStepStyle[stepType] || journalStepStyle.default;
 };
+
+export function getTimePeriodIconAndColor(
+  timePeriod: "day" | "night" | "sleep"
+) {
+  switch (timePeriod) {
+    case "day":
+      return {
+        periodColor: JOURNAL_COLORS.day,
+        IconElement: stepIconMap.day,
+      };
+    case "night":
+      return {
+        periodColor: JOURNAL_COLORS.night,
+        IconElement: stepIconMap.night,
+      };
+    default: // 'sleep'
+      return {
+        periodColor: JOURNAL_COLORS.sleep,
+        IconElement: stepIconMap.sleep,
+      };
+  }
+}
