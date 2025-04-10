@@ -1,30 +1,36 @@
 "use client";
 
+import React from "react";
 import { useEffect } from "react";
-import { DisciplineLevelBar } from "@components/profile/disciplines/DisciplineLevelBar";
 import { Skeleton } from "@components/ui/skeleton";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 import { Card, CardDescription, CardTitle } from "@components/ui/card";
 import { useTodayJournalEntry } from "@hooks/journal/useTodayJournalEntry";
 import { useLastJournalEntry } from "@hooks/journal/useLastJournalEntry";
-import { getDisciplineScoreFromEntry } from "@lib/score";
 import { useUserProfile } from "@context/UserProfileContext";
+
+import { customStepConfigs } from "@components/journal/journal-entry-form/form-steps/steps/CustomSteps";
+import { DisciplineStep } from "./DisciplineStep";
+import { DisciplineStepDescription } from "./DisciplineStepDescription";
+import { DisciplineSectionDelimiter } from "./DisciplineSectionDelimiter";
 
 export function Disciplines() {
   const {
-    userProfile,
+    // userProfile,
     userProfileLoading,
     userProfileError,
     refetchUserProfile,
   } = useUserProfile();
-  // const { disciplines } = userProfile;
-  const disciplines = userProfile?.disciplines;
 
+  //NOTE: should try and move the loading states inside the DisciplineStep?
   const { todayEntry, todayEntryLoading, todayEntryError } =
     useTodayJournalEntry();
   const { lastEntry, lastEntryLoading, lastEntryError } = useLastJournalEntry();
-
-  const disciplinesProjectedXp: { [key: string]: number | undefined } =
-    lastEntry ? getDisciplineScoreFromEntry(lastEntry) : {};
 
   // refetch const { disciplines } = userProfile; on mount
   // Might change the dependency to something else
@@ -39,25 +45,25 @@ export function Disciplines() {
   const hasError = userProfileError || todayEntryError || lastEntryError;
 
   return (
-    <div>
-      <div className="mx-1 mb-4">
+    <>
+      <div className="mx-1">
         <CardTitle className="scroll-m-20 text-2xl font-semibold tracking-tight">
           {"Disciplines"}
         </CardTitle>
+
         <CardDescription>
-          {
-            "Each discipline corresponds with a step in your journal. To rank up your discipline, engage those particular journal steps."
-          }
+          {"You can only have 2 disciplines per morning or evening."}
         </CardDescription>
       </div>
-      <Card className="space-y-4 p-4">
+
+      <>
         {isLoading ? (
           <>
-            {[1].map((i) => (
-              <div key={i} className="flex flex-col items-start w-full">
+            {[1, 2, 3].map((i) => (
+              <Card key={i} className="flex flex-col items-start w-full p-4">
                 <Skeleton className="h-5 w-24 mb-4 mt-2" />
                 <Skeleton className="h-4 w-full rounded-full mb-2" />
-              </div>
+              </Card>
             ))}
           </>
         ) : !isLoading && hasError ? (
@@ -72,48 +78,90 @@ export function Disciplines() {
           </div>
         ) : (
           <>
-            {(() => {
-              // Create a set of all discipline keys from both objects
-              const allDisciplineKeys = new Set([
-                ...Object.keys(disciplines || {}),
-                ...Object.keys(disciplinesProjectedXp || {}),
-              ]);
+            <Accordion type="single" collapsible>
+              <AccordionItem
+                key={"motivation"}
+                value={"motivation"}
+                className="p-0 px-2"
+              >
+                <AccordionTrigger className="pt-5 pb-3">
+                  <DisciplineStep discipline="motivation" />
+                </AccordionTrigger>
+                <AccordionContent>
+                  <DisciplineStepDescription
+                    title={"title"}
+                    description={"description"}
+                  />
+                </AccordionContent>
+              </AccordionItem>
 
-              return Array.from(allDisciplineKeys)
-                .filter((key) => {
-                  const currentXp = disciplines?.[key] ?? 0;
-                  const projectedXp = disciplinesProjectedXp[key] ?? 0;
+              <DisciplineSectionDelimiter
+                day={true}
+                activeSteps={0}
+                maxSteps={2}
+              />
+
+              {customStepConfigs
+                .filter((step) => step.type === "dayEntry")
+                .map((step) => {
                   return (
-                    currentXp > 0 || projectedXp > 0 || key === "motivation"
+                    <AccordionItem
+                      key={step.discipline}
+                      value={step.discipline}
+                      className="p-0 px-2 mb-3"
+                    >
+                      <AccordionTrigger className="pt-5 pb-3">
+                        <DisciplineStep
+                          icon={step.icon}
+                          discipline={step.discipline}
+                          type={step.type}
+                        />
+                      </AccordionTrigger>
+                      <AccordionContent>
+                        <DisciplineStepDescription
+                          title={step.title}
+                          description={step.description}
+                        />
+                      </AccordionContent>
+                    </AccordionItem>
                   );
-                })
-                .map((key) => {
-                  let xp = disciplines?.[key] ?? 0;
-                  let projectedXp = disciplinesProjectedXp[key] ?? 0;
+                })}
 
-                  // Check if there's no today's entry
-                  if (!todayEntry) {
-                    // Add projected XP to current XP
-                    xp = xp + projectedXp;
-                    // Reset projected XP to 0
-                    projectedXp = 0;
-                  }
+              <DisciplineSectionDelimiter
+                day={false}
+                activeSteps={0}
+                maxSteps={2}
+              />
 
+              {customStepConfigs
+                .filter((step) => step.type === "nightEntry")
+                .map((step) => {
                   return (
-                    <div key={key} className="flex flex-col items-start">
-                      <DisciplineLevelBar
-                        xp={xp}
-                        projectedXp={projectedXp}
-                        name={key}
-                        showXpMetrics
-                      />
-                    </div>
+                    <AccordionItem
+                      key={step.discipline}
+                      value={step.discipline}
+                      className="p-0 px-2 mb-3"
+                    >
+                      <AccordionTrigger className="pt-5 pb-3">
+                        <DisciplineStep
+                          icon={step.icon}
+                          discipline={step.discipline}
+                          type={step.type}
+                        />
+                      </AccordionTrigger>
+                      <AccordionContent>
+                        <DisciplineStepDescription
+                          title={step.title}
+                          description={step.description}
+                        />
+                      </AccordionContent>
+                    </AccordionItem>
                   );
-                });
-            })()}
+                })}
+            </Accordion>
           </>
         )}
-      </Card>
-    </div>
+      </>
+    </>
   );
 }
