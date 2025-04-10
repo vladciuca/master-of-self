@@ -2,6 +2,12 @@
 
 import { useEffect } from "react";
 import { Skeleton } from "@components/ui/skeleton";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 import { CardDescription, CardTitle } from "@components/ui/card";
 import { useTodayJournalEntry } from "@hooks/journal/useTodayJournalEntry";
 import { useLastJournalEntry } from "@hooks/journal/useLastJournalEntry";
@@ -9,8 +15,10 @@ import { useUserProfile } from "@context/UserProfileContext";
 
 import { customStepConfigs } from "@components/journal/journal-entry-form/form-steps/steps/CustomSteps";
 import { DisciplineStep } from "./DisciplineStep";
+import { DisciplineStepDescription } from "./DisciplineStepDescription";
 import { FaSun, FaMoon } from "react-icons/fa";
 import { JOURNAL_COLORS } from "@lib/colors";
+import { stepIconMap } from "@components/ui/constants";
 
 export function Disciplines() {
   const {
@@ -39,7 +47,7 @@ export function Disciplines() {
 
   return (
     <>
-      <div className="mx-1 mb-4">
+      <div className="mx-1">
         <CardTitle className="scroll-m-20 text-2xl font-semibold tracking-tight">
           {"Disciplines"}
         </CardTitle>
@@ -70,21 +78,31 @@ export function Disciplines() {
           </div>
         ) : (
           <>
-            <DisciplineStep
-              title="Motivation"
-              description="Your motivation level"
-              discipline="motivation"
-            />
+            <Accordion type="single" collapsible>
+              <AccordionItem
+                key={"motivation"}
+                value={"motivation"}
+                className="p-0 px-2"
+              >
+                <AccordionTrigger className="pt-5 pb-3">
+                  <DisciplineStep discipline="motivation" />
+                </AccordionTrigger>
+                <AccordionContent>
+                  <DisciplineStepDescription
+                    title={"title"}
+                    description={"description"}
+                  />
+                </AccordionContent>
+              </AccordionItem>
 
-            <div className="flex items-center justify-between px-2 mt-6 mb-2">
-              <CardTitle className="flex items-center scroll-m-20 text-md sm:text-md text-muted-foreground font-normal">
-                {"Morning Steps"}
-              </CardTitle>
-              <div className="flex items-center space-x-4 sm:space-x-6">
+              <div className="flex items-center justify-between px-2 mt-8 mb-2">
+                <CardTitle className="flex items-center scroll-m-20 text-md text-muted-foreground font-normal">
+                  {"Morning Steps"}
+                </CardTitle>
                 <div className="flex items-center space-x-2">
                   <FaSun
                     size={20}
-                    className={`mr-2 text-${JOURNAL_COLORS.day}`}
+                    className={`mr-1 text-${JOURNAL_COLORS.day}`}
                   />
                   <span className="scroll-m-20 text-lg font-semibold tracking-tight">
                     0
@@ -95,30 +113,41 @@ export function Disciplines() {
                   </span>
                 </div>
               </div>
-            </div>
-            {customStepConfigs
-              .filter((step) => step.type === "dayEntry")
-              .map((step) => {
-                return (
-                  <DisciplineStep
-                    icon={step.icon}
-                    title={step.title}
-                    description={step.description}
-                    discipline={step.discipline}
-                    type={step.type}
-                  />
-                );
-              })}
 
-            <div className="flex items-center justify-between px-2 mt-6 mb-2">
-              <CardTitle className="flex items-center scroll-m-20 text-md sm:text-md text-muted-foreground font-normal">
-                {"Evening Steps"}
-              </CardTitle>
-              <div className="flex items-center space-x-4 sm:space-x-6">
+              {customStepConfigs
+                .filter((step) => step.type === "dayEntry")
+                .map((step) => {
+                  return (
+                    <AccordionItem
+                      key={step.discipline}
+                      value={step.discipline}
+                      className="p-0 px-2 mb-3"
+                    >
+                      <AccordionTrigger className="pt-5 pb-3">
+                        <DisciplineStep
+                          icon={step.icon}
+                          discipline={step.discipline}
+                          type={step.type}
+                        />
+                      </AccordionTrigger>
+                      <AccordionContent>
+                        <DisciplineStepDescription
+                          title={step.title}
+                          description={step.description}
+                        />
+                      </AccordionContent>
+                    </AccordionItem>
+                  );
+                })}
+
+              <div className="flex items-center justify-between px-2 mt-8 mb-2">
+                <CardTitle className="flex items-center scroll-m-20 text-md text-muted-foreground font-normal">
+                  {"Evening Steps"}
+                </CardTitle>
                 <div className="flex items-center space-x-2">
                   <FaMoon
                     size={17}
-                    className={`mr-2 text-${JOURNAL_COLORS.night}`}
+                    className={`mr-1 text-${JOURNAL_COLORS.night}`}
                   />
                   <span className="scroll-m-20 text-lg font-semibold tracking-tight">
                     0
@@ -129,20 +158,33 @@ export function Disciplines() {
                   </span>
                 </div>
               </div>
-            </div>
-            {customStepConfigs
-              .filter((step) => step.type === "nightEntry")
-              .map((step) => {
-                return (
-                  <DisciplineStep
-                    icon={step.icon}
-                    title={step.title}
-                    description={step.description}
-                    discipline={step.discipline}
-                    type={step.type}
-                  />
-                );
-              })}
+
+              {customStepConfigs
+                .filter((step) => step.type === "nightEntry")
+                .map((step) => {
+                  return (
+                    <AccordionItem
+                      key={step.discipline}
+                      value={step.discipline}
+                      className="p-0 px-2 mb-3"
+                    >
+                      <AccordionTrigger className="pt-5 pb-3">
+                        <DisciplineStep
+                          icon={step.icon}
+                          discipline={step.discipline}
+                          type={step.type}
+                        />
+                      </AccordionTrigger>
+                      <AccordionContent>
+                        <DisciplineStepDescription
+                          title={step.title}
+                          description={step.description}
+                        />
+                      </AccordionContent>
+                    </AccordionItem>
+                  );
+                })}
+            </Accordion>
           </>
         )}
       </>
