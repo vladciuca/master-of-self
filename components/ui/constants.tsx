@@ -11,7 +11,7 @@ import { JOURNAL_COLORS, HABIT_COLORS } from "@lib/colors";
 
 //JOURNAL STEP ICONS
 export type StepIconMap = {
-  [key: string]: React.ReactNode;
+  [key: string]: React.ReactElement;
 };
 
 export const stepIconMap: StepIconMap = {

@@ -1,5 +1,6 @@
 "use client";
 
+import React from "react";
 import { useEffect } from "react";
 import { Skeleton } from "@components/ui/skeleton";
 import {
@@ -8,7 +9,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { CardDescription, CardTitle } from "@components/ui/card";
+import { Card, CardDescription, CardTitle } from "@components/ui/card";
 import { useTodayJournalEntry } from "@hooks/journal/useTodayJournalEntry";
 import { useLastJournalEntry } from "@hooks/journal/useLastJournalEntry";
 import { useUserProfile } from "@context/UserProfileContext";
@@ -16,9 +17,7 @@ import { useUserProfile } from "@context/UserProfileContext";
 import { customStepConfigs } from "@components/journal/journal-entry-form/form-steps/steps/CustomSteps";
 import { DisciplineStep } from "./DisciplineStep";
 import { DisciplineStepDescription } from "./DisciplineStepDescription";
-import { FaSun, FaMoon } from "react-icons/fa";
-import { JOURNAL_COLORS } from "@lib/colors";
-import { stepIconMap } from "@components/ui/constants";
+import { DisciplineSectionDelimiter } from "./DisciplineSectionDelimiter";
 
 export function Disciplines() {
   const {
@@ -56,14 +55,15 @@ export function Disciplines() {
           {"You can only have 2 disciplines per morning or evening."}
         </CardDescription>
       </div>
+
       <>
         {isLoading ? (
           <>
-            {[1].map((i) => (
-              <div key={i} className="flex flex-col items-start w-full">
+            {[1, 2, 3].map((i) => (
+              <Card key={i} className="flex flex-col items-start w-full p-4">
                 <Skeleton className="h-5 w-24 mb-4 mt-2" />
                 <Skeleton className="h-4 w-full rounded-full mb-2" />
-              </div>
+              </Card>
             ))}
           </>
         ) : !isLoading && hasError ? (
@@ -95,24 +95,11 @@ export function Disciplines() {
                 </AccordionContent>
               </AccordionItem>
 
-              <div className="flex items-center justify-between px-2 mt-8 mb-2">
-                <CardTitle className="flex items-center scroll-m-20 text-md text-muted-foreground font-normal">
-                  {"Morning Steps"}
-                </CardTitle>
-                <div className="flex items-center space-x-2">
-                  <FaSun
-                    size={20}
-                    className={`mr-1 text-${JOURNAL_COLORS.day}`}
-                  />
-                  <span className="scroll-m-20 text-lg font-semibold tracking-tight">
-                    0
-                    <span className="font-thin mx-1 text-muted-foreground">
-                      /
-                    </span>
-                    <span className="text-muted-foreground">2</span>
-                  </span>
-                </div>
-              </div>
+              <DisciplineSectionDelimiter
+                day={true}
+                activeSteps={0}
+                maxSteps={2}
+              />
 
               {customStepConfigs
                 .filter((step) => step.type === "dayEntry")
@@ -140,24 +127,11 @@ export function Disciplines() {
                   );
                 })}
 
-              <div className="flex items-center justify-between px-2 mt-8 mb-2">
-                <CardTitle className="flex items-center scroll-m-20 text-md text-muted-foreground font-normal">
-                  {"Evening Steps"}
-                </CardTitle>
-                <div className="flex items-center space-x-2">
-                  <FaMoon
-                    size={17}
-                    className={`mr-1 text-${JOURNAL_COLORS.night}`}
-                  />
-                  <span className="scroll-m-20 text-lg font-semibold tracking-tight">
-                    0
-                    <span className="font-thin mx-1 text-muted-foreground">
-                      /
-                    </span>
-                    <span className="text-muted-foreground">2</span>
-                  </span>
-                </div>
-              </div>
+              <DisciplineSectionDelimiter
+                day={false}
+                activeSteps={0}
+                maxSteps={2}
+              />
 
               {customStepConfigs
                 .filter((step) => step.type === "nightEntry")

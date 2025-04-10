@@ -99,7 +99,7 @@ export function BottomNav({ userProfile, userProfileError }: BottomNavProps) {
   const iconClass = "w-8 h-8";
 
   return (
-    <nav className="h-full w-full flex justify-around items-center space-x-2 px-2">
+    <nav className="h-full w-full flex justify-around items-center px-2">
       {/* <Link href="/goals" className="flex-1">
         <NavButton>
           <Target className={iconClass} />
@@ -107,14 +107,14 @@ export function BottomNav({ userProfile, userProfileError }: BottomNavProps) {
         </NavButton>
       </Link> */}
 
-      <Link href="/profile" className="flex-1">
+      <Link href="/profile" className="flex-1 flex justify-center w-full">
         <NavButton>
           <HiUser size={34} />
           {/* <div className="text-xs mt-1">Self</div> */}
         </NavButton>
       </Link>
 
-      <Link href="/journal" className="flex-1">
+      <Link href="/journal" className="flex-1 flex justify-center w-full">
         <NavButton>
           {isNightMode ? (
             <GiNightSleep
@@ -138,7 +138,7 @@ export function BottomNav({ userProfile, userProfileError }: BottomNavProps) {
         </NavButton>
       </Link> */}
 
-      <Link href="/" className="flex-1">
+      <Link href="/" className="flex-1 flex justify-center w-full">
         <NavButton>
           <HiUserGroup size={40} />
           {/* <div className="text-xs mt-1">Others</div> */}
