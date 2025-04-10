@@ -12,10 +12,13 @@ module.exports = {
   safelist: [
     "hover:bg-yellow-500/90",
     "hover:bg-purple-500/90",
+    "hover:bg-blue-500/90",
     "disabled:bg-yellow-500/90",
     "disabled:bg-purple-500/90",
+    "disabled:bg-blue-500/90",
     "border-yellow-500/40",
     "border-purple-500/40",
+    "border-blue-500/40",
     {
       pattern: new RegExp(
         `^(bg|text)-(${Object.values(colors.JOURNAL_COLORS).join("|")})$`

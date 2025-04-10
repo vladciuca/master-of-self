@@ -6,10 +6,11 @@ import {
   GiAwareness,
   GiAura,
   GiInnerSelf,
+  GiNightSleep,
 } from "react-icons/gi";
 import { JOURNAL_COLORS, HABIT_COLORS } from "@lib/colors";
 
-//JOURNAL STEP ICONS
+//JOURNAL ICONS
 export type StepIconMap = {
   [key: string]: React.ReactElement;
 };
@@ -17,6 +18,7 @@ export type StepIconMap = {
 export const stepIconMap: StepIconMap = {
   day: <FaSun />,
   night: <FaMoon />,
+  sleep: <GiNightSleep />,
   confidence: <GiAura />,
   awareness: <GiAwareness />,
   positivity: <GiHealing />,

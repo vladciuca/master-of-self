@@ -151,3 +151,123 @@ export function isSpecificMonthYear(date: Date, monthYear: string): boolean {
     monthYear
   );
 }
+
+//==============================================================
+
+/**
+ * Converts a time string (HH:MM) to a Date object with those hours and minutes
+ */
+export function getTimeFromString(timeString: string | undefined): Date {
+  if (!timeString) {
+    // Default fallback
+    const defaultTime = new Date();
+    defaultTime.setHours(0, 0, 0, 0);
+    return defaultTime;
+  }
+
+  const [hours, minutes] = timeString.split(":").map(Number);
+  const time = new Date();
+  time.setHours(hours || 0, minutes || 0, 0, 0);
+  return time;
+}
+
+/**
+ * Checks if the current date is before the given time
+ */
+export function isBeforeTime(date: Date, time: Date): boolean {
+  return (
+    date.getHours() < time.getHours() ||
+    (date.getHours() === time.getHours() &&
+      date.getMinutes() < time.getMinutes())
+  );
+}
+
+/**
+ * Calculate time difference between two dates
+ */
+export function getTimeDifference(start: Date, end: Date): Date {
+  return new Date(end.getTime() - start.getTime());
+}
+
+/**
+ * Format time difference as "Xh Ym"
+ */
+export function formatTimeDifference(date: Date): string {
+  const hours = date.getUTCHours();
+  const minutes = date.getUTCMinutes();
+  return `${hours}h ${minutes}m`;
+}
+
+/**
+ * Checks if current time is in sleep period (after evening time, before morning time)
+ */
+export function isSleepTime(
+  morningTime: string | undefined,
+  eveningTime: string | undefined
+): boolean {
+  if (!morningTime || !eveningTime) return false;
+
+  const now = new Date();
+  const morning = getTimeFromString(morningTime);
+  const evening = getTimeFromString(eveningTime);
+
+  return isBeforeTime(now, morning);
+}
+
+/**
+ * Gets the countdown time to the next time period
+ */
+export function getCountdownToNextPeriod(
+  morningTime: string | undefined,
+  eveningTime: string | undefined
+): string {
+  if (!morningTime || !eveningTime) return "--:--";
+
+  const now = new Date();
+  const morning = getTimeFromString(morningTime);
+  const evening = getTimeFromString(eveningTime);
+
+  if (isBeforeTime(now, morning)) {
+    // Countdown to morning
+    const diff = getTimeDifference(now, morning);
+    return formatTimeDifference(diff);
+  } else if (isBeforeTime(now, evening)) {
+    // Countdown to evening
+    const diff = getTimeDifference(now, evening);
+    return formatTimeDifference(diff);
+  } else {
+    // Countdown to midnight/next day's morning
+    const midnight = new Date(now);
+    midnight.setHours(24, 0, 0, 0);
+    const diff = getTimeDifference(now, midnight);
+    return formatTimeDifference(diff);
+  }
+}
+
+//=====================
+
+/**
+ * Determines the current time period based on user profile settings
+ * @returns 'day', 'night', or 'sleep'
+ */
+export function getCurrentTimePeriod(
+  morningTime: string | undefined,
+  eveningTime: string | undefined
+): "day" | "night" | "sleep" {
+  if (!morningTime || !eveningTime) return "day";
+
+  const now = new Date();
+  const morning = getTimeFromString(morningTime);
+  const evening = getTimeFromString(eveningTime);
+
+  if (isBeforeTime(now, morning)) {
+    // Before morning time (Sleep period)
+    return "sleep";
+  } else if (isBeforeTime(now, evening)) {
+    // Between morning and evening (Day period)
+    return "day";
+  } else {
+    // After evening time (Night period)
+    return "night";
+  }
+}
