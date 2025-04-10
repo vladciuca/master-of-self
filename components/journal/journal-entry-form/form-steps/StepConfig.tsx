@@ -8,8 +8,7 @@ import { HabitActionsStep } from "./steps/HabitActionsStep";
 import { isEvening } from "@lib/time";
 import { calculateHabitsXpFromEntry } from "@lib/level";
 
-import { FaSun, FaMoon, FaStar, FaBoltLightning } from "react-icons/fa6";
-import { Target, Shell } from "lucide-react";
+import { stepIconMap } from "@components/ui/constants";
 import type {
   JournalEntry,
   JournalEntryCustomStep,
@@ -44,7 +43,7 @@ export function createSteps(
   const formSteps: JournalEntryCustomStep[] = [
     //=====DAY_ENTRY
     {
-      icon: <FaStar />,
+      icon: stepIconMap.bonus,
       discipline: "bonus",
       component: <Bonus />,
       isAvailable:
@@ -53,7 +52,7 @@ export function createSteps(
       type: "other",
     },
     {
-      icon: <FaSun />,
+      icon: stepIconMap.day,
       discipline: "day",
       component: <Day />,
       isAvailable: SHOW_ALL_TEST || !isEvening(userEveningTime),
@@ -68,7 +67,7 @@ export function createSteps(
       })),
     //=====NIGHT_ENTRY
     {
-      icon: <FaMoon />,
+      icon: stepIconMap.night,
       discipline: "night",
       component: <Night />,
       isAvailable:
@@ -83,14 +82,14 @@ export function createSteps(
         isAvailable: SHOW_ALL_TEST || isEvening(userEveningTime),
       })),
     {
-      icon: <FaBoltLightning />,
+      icon: stepIconMap.willpower,
       discipline: "willpower",
       component: <Willpower />,
       isAvailable: SHOW_ALL_TEST || true, //NOTE: Not yet decided on behavior
       type: "other",
     },
     {
-      icon: <Shell />,
+      icon: stepIconMap.habits,
       discipline: "habits",
       component: <HabitActionsStep />,
       isAvailable: SHOW_ALL_TEST || hasHabits,

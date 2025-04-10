@@ -1,4 +1,5 @@
 import React from "react";
+import { Target, Shell } from "lucide-react";
 import { FaSun, FaMoon, FaBoltLightning, FaStar } from "react-icons/fa6";
 import {
   GiHealing,
@@ -19,6 +20,9 @@ export const stepIconMap: StepIconMap = {
   day: <FaSun />,
   night: <FaMoon />,
   sleep: <GiNightSleep />,
+  //Built-in step icons
+  habits: <Shell />,
+  goals: <Target />,
   confidence: <GiAura />,
   awareness: <GiAwareness />,
   positivity: <GiHealing />,
@@ -26,19 +30,6 @@ export const stepIconMap: StepIconMap = {
   willpower: <FaBoltLightning />,
   bonus: <FaStar />,
   default: <GiInnerSelf />,
-};
-
-//NOTE: WIP
-export type StepDisciplines = {
-  [key: string]: string;
-};
-
-export const stepDisciplines: StepDisciplines = {
-  gratitude: "Positivity",
-  day: "Motivation",
-  affirmations: "Confidence",
-  highlights: "Awareness",
-  reflection: "Resilience",
 };
 
 //JOURNAL STEPS STYLE

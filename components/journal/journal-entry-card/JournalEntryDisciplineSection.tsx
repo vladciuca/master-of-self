@@ -1,7 +1,6 @@
 import React from "react";
 import { JournalEntryDisciplineList } from "@components/journal/journal-entry-card/JournalEntryDisciplineList";
 import {
-  stepDisciplines,
   journalStepStyle,
   getJournalStepStyle,
 } from "@components/ui/constants";
@@ -170,8 +169,6 @@ export function JournalEntryDisciplineSection({
 
         if (!data || data.length === 0) return null;
 
-        const pointType = stepDisciplines[step] || getStepTitle(step);
-
         let { bgColor } = getJournalStepStyle(step);
 
         // For steps other than "day" and "night", use the stepType to determine color
@@ -218,8 +215,8 @@ export function JournalEntryDisciplineSection({
               <div className="flex items-center justify-between w-full">
                 <div className="flex items-center gap-3">
                   <div className="flex flex-col h-full">
-                    <span className="font-medium text-muted-foreground flex items-start">
-                      {pointType}
+                    <span className="font-medium text-muted-foreground flex items-start capitalize">
+                      {step}
                     </span>
                   </div>
                 </div>
