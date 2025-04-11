@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { Button } from "@components/ui/button";
 import { Plus } from "lucide-react";
+import { FaBoltLightning } from "@node_modules/react-icons/fa6";
 
 type ProfilePageHeaderProps = {
   symbol: JSX.Element;
@@ -55,6 +56,11 @@ export function ProfilePageHeader({
           <span className="mr-2">{symbol}</span>
           {itemsCount}
         </div>
+        {/* <div>
+          <Button variant="secondary">
+            Add new Discipline 100 <FaBoltLightning />
+          </Button>
+        </div> */}
       </div>
     </div>
   );

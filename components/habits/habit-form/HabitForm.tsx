@@ -83,7 +83,10 @@ export function HabitForm({
           >
             {type}
           </Button>
-          <Link href="/habits" className="w-full flex justify-center mb-4">
+          <Link
+            href="/profile?page=Habits"
+            className="w-full flex justify-center mb-4"
+          >
             <Button variant="outline" className="w-full">
               Cancel
             </Button>
