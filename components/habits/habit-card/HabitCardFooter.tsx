@@ -23,7 +23,8 @@ export function HabitCardFooter({
   entryLoading,
   submittingJournalEntry,
 }: HabitCardFooterProps) {
-  if (session?.user?.id !== habit.creatorId || pathName !== "/habits") {
+  //NOTE: so the buttons do not appear on other peoples habit cards
+  if (session?.user?.id !== habit.creatorId) {
     return null;
   }
 
