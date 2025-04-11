@@ -14,12 +14,12 @@ export default function Profile() {
   // Tab configuration object - contains name and component for each tab
   const tabConfig = [
     {
-      name: "Disciplines",
-      component: <Disciplines />,
-    },
-    {
       name: "Willpower",
       component: <WeeklyWillpowerChart />,
+    },
+    {
+      name: "Disciplines",
+      component: <Disciplines />,
     },
     {
       name: "Habits",
@@ -51,7 +51,7 @@ export default function Profile() {
   };
 
   return (
-    <div className="flex flex-col space-y-4 pb-4">
+    <div className="flex flex-col pb-4">
       <div className="sticky top-0 z-10 bg-background pt-0 shadow-sm">
         <div className="py-4 flex space-x-2">
           {tabConfig.map((tab) => (

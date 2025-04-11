@@ -43,7 +43,7 @@ export function HabitCard({
 
   return (
     <>
-      <AccordionItem value={habitId} className="my-4 p-0">
+      <AccordionItem value={habitId} className="p-0">
         <AccordionTrigger className="p-0 m-0 rounded-md flex flex-col">
           <HabitCardHeader
             habit={habit}

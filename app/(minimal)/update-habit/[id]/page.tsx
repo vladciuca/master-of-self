@@ -53,7 +53,7 @@ export default function UpdateHabit() {
   const handleUpdateHabit = async (habit: HabitZodType) => {
     try {
       await updateHabit(habit);
-      router.push("/habits");
+      router.push("/profile?page=Habits");
     } catch (error) {
       console.error("Failed to update habit:", error);
       // Handle error (e.g., show toast notification)

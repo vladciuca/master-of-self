@@ -28,7 +28,7 @@ export function HabitList({
   hasNoEntryToday,
 }: HabitListProps) {
   return (
-    <Accordion type="single" collapsible className="w-full pb-1">
+    <Accordion type="single" collapsible className="w-full pb-1 mt-2">
       {habits.map((habit: Habit) => {
         return (
           <HabitCard
