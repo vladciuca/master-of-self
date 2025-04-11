@@ -12,6 +12,7 @@ type DisciplineCardProps = {
   type?: string;
 };
 
+//NOTE: this can be DisciplineCardHeader to keep convention with Habits?
 export function DisciplineCard({
   icon,
   discipline,

@@ -85,9 +85,9 @@ export function DisciplineProgressBar({
   // ===============================================================
 
   return (
-    <div className="w-full space-y-1">
+    <div className="w-full">
       <div className="flex items-center justify-between">
-        <div className="flex items-center capitalize text-lg font-semibold">
+        <div className="flex items-center capitalize mb-1">
           {name}
           <LevelIndicator
             currentLevel={currentLevel}
@@ -114,10 +114,10 @@ export function DisciplineProgressBar({
       />
 
       {showXpMetrics && (
-        <div className="flex items-center justify-between text-muted-foreground text-sm">
+        <div className="flex items-center justify-between text-muted-foreground text-xs mt-2">
           <div className="flex items-center">
-            <span className="mr-1">Rank</span>
-            {level}
+            <span>Rank</span>
+            <span className="ml-1 flex items-center text-primary">{level}</span>
           </div>
           <div>
             <span className="textColor">

@@ -105,7 +105,7 @@ export function HabitCardHeader({
           <span>{name}</span>
 
           <div className="text-muted-foreground flex items-center">
-            <div className="font-semibold text-sm text-muted-foreground flex items-center">
+            <div className="text-xs text-muted-foreground flex items-center">
               Level
               <span className="ml-1 flex items-center text-primary">
                 {level}
@@ -113,7 +113,7 @@ export function HabitCardHeader({
               <LevelIndicator currentLevel={currentLevel} level={level} />
             </div>
             <span className="mx-1 text-muted text-lg">|</span>
-            <div className="font-normal text-xs text-muted-foreground">
+            <div className="text-xs text-muted-foreground">
               {formatNumberSuffixes(xpForCurrentLevel)}/
               {formatNumberSuffixes(xpToLevelUp)}
               <span className="text-primary ml-1">XP</span>
