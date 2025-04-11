@@ -2,7 +2,7 @@
 
 import React from "react";
 import { useEffect } from "react";
-import { PageHeader } from "@components/PageHeader";
+import { ProfilePageHeader } from "@components/profile/ProfilePageHeader";
 import { DisciplinesList } from "@components/disciplines/DisciplinesList";
 import { SkeletonDisciplineCard } from "@components/skeletons/SkeletonDisciplineCard";
 import { useTodayJournalEntry } from "@hooks/journal/useTodayJournalEntry";
@@ -53,7 +53,7 @@ export function UserDisciplines() {
 
   return (
     <>
-      <PageHeader
+      <ProfilePageHeader
         symbol={NEW_DISCIPLINE_CARD_DETAILS.symbol}
         title={NEW_DISCIPLINE_CARD_DETAILS.title}
         linkTo={NEW_DISCIPLINE_CARD_DETAILS.linkTo}

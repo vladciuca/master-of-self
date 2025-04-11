@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { PageHeader } from "@components/PageHeader";
+import { ProfilePageHeader } from "@components/profile/ProfilePageHeader";
 import { HabitList } from "@components/habits/HabitList";
 import { SkeletonHabitCard } from "@components/skeletons/SkeletonHabitCard";
 import { Shell } from "lucide-react";
@@ -82,7 +82,7 @@ export function UserHabits() {
 
   return (
     <div className="w-full">
-      <PageHeader
+      <ProfilePageHeader
         symbol={NEW_HABIT_CARD_DETAILS.symbol}
         title={NEW_HABIT_CARD_DETAILS.title}
         linkTo={NEW_HABIT_CARD_DETAILS.linkTo}

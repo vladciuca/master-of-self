@@ -1,7 +1,7 @@
 "use client";
 
 import { useSession } from "next-auth/react";
-import { ProfileHeader } from "@components/profile/profile-header/ProfileHeader";
+import { UserLevel } from "@components/profile/user-level/UserLevel";
 import { HeaderTitle } from "@components/HeaderTitle";
 import { Session } from "@models/types";
 
@@ -10,7 +10,7 @@ export function Header() {
 
   return (
     <div className="w-full">
-      {session?.user ? <ProfileHeader session={session} /> : <HeaderTitle />}
+      {session?.user ? <UserLevel session={session} /> : <HeaderTitle />}
     </div>
   );
 }

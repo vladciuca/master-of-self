@@ -11,8 +11,8 @@ export default function Profile() {
   const searchParams = useSearchParams();
   const router = useRouter();
 
-  // Tab configuration object - contains name and component for each tab
-  const tabConfig = [
+  // page tab configuration object - contains name and component for each page
+  const pageConfig = [
     {
       name: "Willpower",
       component: <WeeklyWillpowerChart />,
@@ -27,49 +27,49 @@ export default function Profile() {
     },
   ];
 
-  // Default tab the first tab in the config, unless specified in URL
-  const defaultTab = tabConfig[0].name;
-  const [activeTab, setActiveTab] = useState(defaultTab);
+  // Default page the first page in the config, unless specified in URL
+  const defaultPage = pageConfig[0].name;
+  const [activePage, setActivePage] = useState(defaultPage);
 
   useEffect(() => {
-    // Get tab from URL or use default
-    const tabFromUrl = searchParams.get("page");
-    const isValidTab = tabConfig.some((tab) => tab.name === tabFromUrl);
+    // Get page from URL or use default
+    const pageFromUrl = searchParams.get("page");
+    const isValidPage = pageConfig.some((page) => page.name === pageFromUrl);
 
-    if (tabFromUrl && isValidTab) {
-      setActiveTab(tabFromUrl);
+    if (pageFromUrl && isValidPage) {
+      setActivePage(pageFromUrl);
     } else {
-      setActiveTab(defaultTab);
+      setActivePage(defaultPage);
     }
   }, [searchParams]);
 
-  const handleTabChange = (tabName: string) => {
-    setActiveTab(tabName);
+  const handlePageChange = (pageName: string) => {
+    setActivePage(pageName);
 
-    // Update URL with the new tab
-    router.push(`?page=${tabName}`, { scroll: false });
+    // Update URL with the new page
+    router.push(`?page=${pageName}`, { scroll: false });
   };
 
   return (
     <div className="flex flex-col pb-4">
       <div className="sticky top-0 z-10 bg-background pt-0 shadow-sm">
         <div className="py-4 flex space-x-2">
-          {tabConfig.map((tab) => (
+          {pageConfig.map((page) => (
             <Button
-              key={tab.name}
+              key={page.name}
               size="sm"
-              variant={activeTab === tab.name ? "default" : "outline"}
-              onClick={() => handleTabChange(tab.name)}
+              variant={activePage === page.name ? "default" : "outline"}
+              onClick={() => handlePageChange(page.name)}
               className="flex-shrink-0 text-xs rounded-full"
             >
-              {tab.name}
+              {page.name}
             </Button>
           ))}
         </div>
       </div>
 
-      {/* Render the active tab's component */}
-      {tabConfig.find((tab) => tab.name === activeTab)?.component}
+      {/* Render the active page's component */}
+      {pageConfig.find((page) => page.name === activePage)?.component}
     </div>
   );
 }

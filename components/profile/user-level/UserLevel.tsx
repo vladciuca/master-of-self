@@ -1,15 +1,15 @@
 "use client";
 
 import Link from "next/link";
-import { UserWillpowerLevelBar } from "@components/profile/profile-header/UserWillpowerLevelBar";
+import { UserWillpowerLevelBar } from "@components/profile/user-level/UserWillpowerLevelBar";
 import { GiCharacter } from "react-icons/gi";
 import { Session } from "@models/types";
 
-type ProfileBarProps = {
+type UserLevelProps = {
   session: Session;
 };
 
-export function ProfileHeader({ session }: ProfileBarProps) {
+export function UserLevel({ session }: UserLevelProps) {
   // const name = session.user?.name || "";
   // const nameInitials = name
   //   ? name

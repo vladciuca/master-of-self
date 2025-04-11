@@ -1,11 +1,10 @@
-//NOTE: this should be moved in a relevant file
 "use client";
 
 import { useRouter } from "next/navigation";
 import { Button } from "@components/ui/button";
 import { Plus } from "lucide-react";
 
-type PageHeaderProps = {
+type ProfilePageHeaderProps = {
   symbol: JSX.Element;
   title: string;
   linkTo: string;
@@ -13,13 +12,13 @@ type PageHeaderProps = {
   disabled?: boolean;
 };
 
-export function PageHeader({
+export function ProfilePageHeader({
   symbol,
   title,
   linkTo,
   itemsCount,
   disabled = false,
-}: PageHeaderProps) {
+}: ProfilePageHeaderProps) {
   const router = useRouter();
 
   const handleClick = () => {
