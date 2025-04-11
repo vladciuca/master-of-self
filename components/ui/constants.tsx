@@ -8,10 +8,11 @@ import {
   GiAura,
   GiInnerSelf,
   GiNightSleep,
+  GiPencilRuler,
 } from "react-icons/gi";
 import { JOURNAL_COLORS, HABIT_COLORS } from "@lib/colors";
 
-//JOURNAL ICONS
+//ICONS
 export type StepIconMap = {
   [key: string]: React.ReactElement;
 };
@@ -21,7 +22,7 @@ export const stepIconMap: StepIconMap = {
   night: <FaMoon />,
   sleep: <GiNightSleep />,
   //Built-in step icons
-  habits: <Shell />,
+  habits: <GiPencilRuler />,
   goals: <Target />,
   confidence: <GiAura />,
   awareness: <GiAwareness />,

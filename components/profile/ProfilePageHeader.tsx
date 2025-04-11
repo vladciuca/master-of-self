@@ -3,7 +3,6 @@
 import { useRouter } from "next/navigation";
 import { Button } from "@components/ui/button";
 import { Plus } from "lucide-react";
-import { FaBoltLightning } from "@node_modules/react-icons/fa6";
 
 type ProfilePageHeaderProps = {
   symbol: JSX.Element;
@@ -30,37 +29,25 @@ export function ProfilePageHeader({
 
   return (
     <div className="sticky top-[68px] z-10 bg-background px-1 pb-2">
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-end">
+        {/* <div className="text-4xl flex items-center font-bold">
+          <span className="mr-2">{symbol}</span>
+          {itemsCount}
+        </div> */}
+
         <div className="flex items-center">
-          {/* <h1 className="scroll-m-20 text-4xl font-bold tracking-tight text-center">
-            
-          </h1> */}
-          <div className="mx-1 mb-4">
-            <h1 className="scroll-m-20 text-2xl font-semibold tracking-tight">
-              {title}
-            </h1>
-            {/* <CardDescription>{"Configure your daily routine."}</CardDescription> */}
-          </div>
+          <span className="scroll-m-20 tracking-tight">Add New {title}</span>
           <Button
             onClick={handleClick}
             disabled={disabled}
             variant="secondary"
             size="icon"
-            className="h-8 w-8 shrink-0 rounded-full mx-3"
+            className="h-8 w-8 shrink-0 rounded-full ml-3"
           >
             <Plus className="h-4 w-4" />
             <span className="sr-only">Add new {title}</span>
           </Button>
         </div>
-        <div className="text-4xl flex items-center font-bold">
-          <span className="mr-2">{symbol}</span>
-          {itemsCount}
-        </div>
-        {/* <div>
-          <Button variant="secondary">
-            Add new Discipline 100 <FaBoltLightning />
-          </Button>
-        </div> */}
       </div>
     </div>
   );

@@ -4,7 +4,6 @@ import { useRouter } from "next/navigation";
 import { ProfilePageHeader } from "@components/profile/ProfilePageHeader";
 import { HabitList } from "@components/habits/HabitList";
 import { SkeletonHabitCard } from "@components/skeletons/SkeletonHabitCard";
-import { Shell } from "lucide-react";
 import { useUserHabits } from "@hooks/habits/useUserHabits";
 import { useTodayJournalEntry } from "@hooks/journal/useTodayJournalEntry";
 import { useLastJournalEntry } from "@hooks/journal/useLastJournalEntry";
@@ -12,8 +11,8 @@ import { useCreateJournalEntry } from "@hooks/journal/useCreateJournalEntry";
 import { Habit } from "@models/types";
 
 const NEW_HABIT_CARD_DETAILS = {
-  symbol: <Shell size={"2rem"} />,
-  title: "Habits",
+  symbol: <></>,
+  title: "Habit",
   description: (
     <>
       These represent <span className="text-foreground">actions</span> that you

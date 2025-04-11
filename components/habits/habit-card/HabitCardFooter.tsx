@@ -1,7 +1,9 @@
 "use client";
 
+import React from "react";
 import { Button } from "@components/ui/button";
-import { GiPencilRuler } from "react-icons/gi";
+import { stepIconMap } from "@components/ui/constants";
+import { cn } from "@lib/utils";
 import { Session, Habit } from "@models/types";
 
 type HabitCardFooterProps = {
@@ -28,6 +30,8 @@ export function HabitCardFooter({
     return null;
   }
 
+  const IconElement = stepIconMap.habits;
+
   return (
     <div className="mt-10 flex space-x-4">
       <Button
@@ -45,7 +49,10 @@ export function HabitCardFooter({
         className="flex-1 w-full"
       >
         Take Action
-        <GiPencilRuler className="ml-2" size={"1.2rem"} />
+        {React.cloneElement(IconElement as React.ReactElement, {
+          className: cn("ml-2"),
+          size: 20,
+        })}
       </Button>
     </div>
   );

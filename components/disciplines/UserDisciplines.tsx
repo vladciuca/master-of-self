@@ -11,7 +11,7 @@ import { useUserProfile } from "@context/UserProfileContext";
 
 const NEW_DISCIPLINE_CARD_DETAILS = {
   symbol: <></>,
-  title: "Discipline Steps",
+  title: "Discipline",
   description: (
     <>
       These represent <span className="text-foreground">actions</span> that you
