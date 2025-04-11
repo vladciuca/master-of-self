@@ -2,24 +2,29 @@
 
 import React from "react";
 import { useEffect } from "react";
-import { Skeleton } from "@components/ui/skeleton";
-// import {
-//   Accordion,
-//   AccordionContent,
-//   AccordionItem,
-//   AccordionTrigger,
-// } from "@/components/ui/accordion";
-import { Card, CardDescription, CardTitle } from "@components/ui/card";
+import { PageHeader } from "@components/PageHeader";
+import { DisciplinesList } from "@components/disciplines/DisciplinesList";
+import { SkeletonDisciplineCard } from "@components/skeletons/SkeletonDisciplineCard";
 import { useTodayJournalEntry } from "@hooks/journal/useTodayJournalEntry";
 import { useLastJournalEntry } from "@hooks/journal/useLastJournalEntry";
 import { useUserProfile } from "@context/UserProfileContext";
 
-import { DisciplinesList } from "@components/disciplines/DisciplinesList";
+const NEW_DISCIPLINE_CARD_DETAILS = {
+  symbol: <></>,
+  title: "Disciplines",
+  description: (
+    <>
+      These represent <span className="text-foreground">actions</span> that you
+      can take daily to progress on your goals.
+    </>
+  ),
+  buttonText: "Create New Discipline",
+  linkTo: "/create-discipline",
+};
 
-// import { customStepConfigs } from "@components/journal/journal-entry-form/form-steps/steps/CustomSteps";
-// import { DisciplineStep } from "@components/profile/disciplines/DisciplineStep";
-// import { DisciplineStepDescription } from "@components/profile/disciplines/DisciplineStepDescription";
-// import { DisciplineSectionDelimiter } from "@components/profile/disciplines/DisciplineSectionDelimiter";
+const skeletonCards = Array.from({ length: 3 }, (_, index) => (
+  <SkeletonDisciplineCard key={index} />
+));
 
 export function UserDisciplines() {
   const {
@@ -48,26 +53,17 @@ export function UserDisciplines() {
 
   return (
     <>
-      <div className="mx-1">
-        <CardTitle className="scroll-m-20 text-2xl font-semibold tracking-tight">
-          {"Disciplines"}
-        </CardTitle>
-
-        <CardDescription>
-          {"You can only have 2 disciplines per morning or evening."}
-        </CardDescription>
-      </div>
+      <PageHeader
+        symbol={NEW_DISCIPLINE_CARD_DETAILS.symbol}
+        title={NEW_DISCIPLINE_CARD_DETAILS.title}
+        linkTo={NEW_DISCIPLINE_CARD_DETAILS.linkTo}
+        itemsCount={0}
+        disabled={true}
+      />
 
       <>
         {isLoading ? (
-          <>
-            {[1, 2, 3].map((i) => (
-              <Card key={i} className="flex flex-col items-start w-full p-4">
-                <Skeleton className="h-5 w-24 mb-4 mt-2" />
-                <Skeleton className="h-4 w-full rounded-full mb-2" />
-              </Card>
-            ))}
-          </>
+          <div className="mt-4 space-y-4">{skeletonCards}</div>
         ) : !isLoading && hasError ? (
           <div>
             <span>Error:</span>
@@ -81,87 +77,6 @@ export function UserDisciplines() {
         ) : (
           <>
             <DisciplinesList />
-            {/* <Accordion type="single" collapsible>
-              <AccordionItem
-                key={"motivation"}
-                value={"motivation"}
-                className="p-0 px-2"
-              >
-                <AccordionTrigger className="pt-5 pb-3">
-                  <DisciplineStep discipline="motivation" />
-                </AccordionTrigger>
-                <AccordionContent>
-                  <DisciplineStepDescription
-                    title={"title"}
-                    description={"description"}
-                  />
-                </AccordionContent>
-              </AccordionItem>
-
-              <DisciplineSectionDelimiter
-                day={true}
-                activeSteps={0}
-                maxSteps={2}
-              />
-
-              {customStepConfigs
-                .filter((step) => step.type === "dayEntry")
-                .map((step) => {
-                  return (
-                    <AccordionItem
-                      key={step.discipline}
-                      value={step.discipline}
-                      className="p-0 px-2 mb-3"
-                    >
-                      <AccordionTrigger className="pt-5 pb-3">
-                        <DisciplineStep
-                          icon={step.icon}
-                          discipline={step.discipline}
-                          type={step.type}
-                        />
-                      </AccordionTrigger>
-                      <AccordionContent>
-                        <DisciplineStepDescription
-                          title={step.title}
-                          description={step.description}
-                        />
-                      </AccordionContent>
-                    </AccordionItem>
-                  );
-                })}
-
-              <DisciplineSectionDelimiter
-                day={false}
-                activeSteps={0}
-                maxSteps={2}
-              />
-
-              {customStepConfigs
-                .filter((step) => step.type === "nightEntry")
-                .map((step) => {
-                  return (
-                    <AccordionItem
-                      key={step.discipline}
-                      value={step.discipline}
-                      className="p-0 px-2 mb-3"
-                    >
-                      <AccordionTrigger className="pt-5 pb-3">
-                        <DisciplineStep
-                          icon={step.icon}
-                          discipline={step.discipline}
-                          type={step.type}
-                        />
-                      </AccordionTrigger>
-                      <AccordionContent>
-                        <DisciplineStepDescription
-                          title={step.title}
-                          description={step.description}
-                        />
-                      </AccordionContent>
-                    </AccordionItem>
-                  );
-                })}
-            </Accordion> */}
           </>
         )}
       </>

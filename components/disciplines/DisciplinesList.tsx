@@ -11,7 +11,7 @@ import {
 
 export function DisciplinesList() {
   return (
-    <Accordion type="single" collapsible>
+    <Accordion type="single" collapsible className="mt-4">
       <AccordionItem
         key={"motivation"}
         value={"motivation"}
