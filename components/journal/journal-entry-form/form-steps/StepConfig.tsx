@@ -5,6 +5,7 @@ import { Day } from "./steps/Day";
 import { Night } from "./steps/Night";
 import { Willpower } from "./steps/willpower/Willpower";
 import { HabitActionsStep } from "./steps/HabitActionsStep";
+//NOTE: need to check how to use getCurrentTimePeriod() here
 import { isEvening } from "@lib/time";
 import { calculateHabitsXpFromEntry } from "@lib/level";
 

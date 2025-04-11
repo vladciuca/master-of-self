@@ -1,3 +1,4 @@
+//NOTE: try and use getCurrentTimePeriod instead of isEvening
 export function isEvening(startTime: string | undefined): boolean {
   if (!startTime) return false;
 
@@ -26,17 +27,6 @@ export function isEvening(startTime: string | undefined): boolean {
   // Convert both times to minutes since midnight
   const startTimeInMinutes = startHour * 60 + startMinute;
   const currentTimeInMinutes = currentHour * 60 + currentMinute;
-
-  // Check if the current time is after the start time
-  // If the start time is after midnight (e.g., "23:40"), we need to handle it differently
-  // if (startTimeInMinutes <= 24 * 60) {
-  //   return currentTimeInMinutes >= startTimeInMinutes;
-  // } else {
-  //   return (
-  //     currentTimeInMinutes >= startTimeInMinutes ||
-  //     currentTimeInMinutes < startTimeInMinutes % (24 * 60)
-  //   );
-  // }
 
   // If the start time is in the evening (e.g., 23:40), but the current time is after midnight, handle rollover
   if (startTimeInMinutes >= 18 * 60) {
@@ -107,11 +97,6 @@ export const getEndOfCurrentWeek = (): Date => {
  * Checks if a given date falls within the current week (Monday-Sunday)
  */
 export function isThisWeek(date: Date): boolean {
-  // const now = new Date();
-  // const weekStart = new Date(now.setDate(now.getDate() - now.getDay()));
-  // const weekEnd = new Date(now.setDate(now.getDate() - now.getDay() + 6));
-  // return date >= weekStart && date <= weekEnd;
-  // Get start and end of the current week
   const weekStart = getStartOfCurrentWeek();
   const weekEnd = getEndOfCurrentWeek();
 
@@ -151,8 +136,6 @@ export function isSpecificMonthYear(date: Date, monthYear: string): boolean {
     monthYear
   );
 }
-
-//==============================================================
 
 /**
  * Converts a time string (HH:MM) to a Date object with those hours and minutes
@@ -249,7 +232,21 @@ export function getCountdownToNextPeriod(
   }
 }
 
-//=====================
+//===============================================================================
+//NOTE: add constants for time periods
+// export const TIME_PERIODS = {
+//   DAY: 'day',
+//   NIGHT: 'night',
+//   SLEEP: 'sleep'
+// } as const;
+
+// // Then update your getCurrentTimePeriod return type
+// export function getCurrentTimePeriod(
+//   morningTime: string | undefined,
+//   eveningTime: string | undefined
+// ): typeof TIME_PERIODS[keyof typeof TIME_PERIODS] {
+//   // ...existing function...
+// }
 
 /**
  * Determines the current time period based on user profile settings
