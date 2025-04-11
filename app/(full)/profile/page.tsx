@@ -3,8 +3,8 @@
 import { useState, useEffect } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { Disciplines } from "@components/profile/disciplines/Disciplines";
 import { WeeklyWillpowerChart } from "@components/profile/weekly-willpower-chart/WeeklyWillpowerChart";
+import { UserDisciplines } from "@components/disciplines/UserDisciplines";
 import { UserHabits } from "@components/habits/UserHabits";
 
 export default function Profile() {
@@ -19,7 +19,7 @@ export default function Profile() {
     },
     {
       name: "Disciplines",
-      component: <Disciplines />,
+      component: <UserDisciplines />,
     },
     {
       name: "Habits",

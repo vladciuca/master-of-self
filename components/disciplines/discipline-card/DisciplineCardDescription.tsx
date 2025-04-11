@@ -1,12 +1,12 @@
-type DisciplineStepDescriptionProps = {
+type DisciplineCardDescriptionProps = {
   title: string;
   description: string;
 };
 
-export function DisciplineStepDescription({
+export function DisciplineCardDescription({
   title,
   description,
-}: DisciplineStepDescriptionProps) {
+}: DisciplineCardDescriptionProps) {
   return (
     <div className="w-full px-4 mt-4">
       <div className="font-semibold text-md mb-2">{title}</div>

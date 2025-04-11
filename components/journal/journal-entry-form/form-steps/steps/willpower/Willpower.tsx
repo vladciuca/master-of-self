@@ -1,7 +1,7 @@
 import { useFormContext } from "react-hook-form";
 import { JournalStepTemplate } from "@components/journal/journal-entry-form/form-steps/steps/journal-step/JournalStepTemplate";
 import { WillpowerScoreDisplay } from "@components/journal/journal-entry-form/form-steps/WillpowerScoreDisplay";
-import { DisciplineLevelBar } from "@components/profile/disciplines/DisciplineLevelBar";
+import { DisciplineProgressBar } from "@components/disciplines/DisciplineProgressBar";
 import { getDayDisciplineScores, getNightDisciplineScores } from "@lib/score";
 import { JOURNAL_COLORS } from "@lib/colors";
 import type { UserDisciplines } from "@models/types";
@@ -69,7 +69,7 @@ export const Willpower = () => {
           key={`${sectionKey}-${key}`}
           className="flex flex-col items-start mb-4"
         >
-          <DisciplineLevelBar
+          <DisciplineProgressBar
             xp={xp}
             projectedXp={projectedXp}
             name={key}
@@ -108,7 +108,7 @@ export const Willpower = () => {
                 motivationNightScore > 1)) && (
               <div className="">
                 <div className="flex flex-col items-start mb-4">
-                  <DisciplineLevelBar
+                  <DisciplineProgressBar
                     xp={userProfile.disciplines.motivation ?? 0}
                     projectedXp={motivationScore}
                     name="motivation"

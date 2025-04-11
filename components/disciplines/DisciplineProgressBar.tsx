@@ -51,7 +51,7 @@ function ProgressBar({
   );
 }
 
-interface DisciplineLevelBarProps {
+interface DisciplineProgressBarProps {
   xp: number;
   projectedXp: number;
   name: string;
@@ -59,13 +59,13 @@ interface DisciplineLevelBarProps {
   height?: number;
 }
 
-export function DisciplineLevelBar({
+export function DisciplineProgressBar({
   xp,
   projectedXp,
   name,
   showXpMetrics = false,
   height,
-}: DisciplineLevelBarProps) {
+}: DisciplineProgressBarProps) {
   // Calculate XP and level_PATTERN
   // ===============================================================
   const xpGain = xp + projectedXp;

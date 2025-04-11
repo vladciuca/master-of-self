@@ -1,3 +1,4 @@
+//NOTE: this should be moved in a relevant file
 "use client";
 
 import { useRouter } from "next/navigation";

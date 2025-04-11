@@ -2,7 +2,7 @@ import { Switch } from "@components/ui/switch";
 import { cn } from "@lib/utils";
 import { JOURNAL_COLORS } from "@lib/colors";
 
-type CustomSwitchProps = {
+type DisciplineSwitchProps = {
   type: string;
   checked: boolean;
   onCheckedChange: () => void;
@@ -10,12 +10,12 @@ type CustomSwitchProps = {
 };
 
 // Custom styled switch component
-export function DisciplineStepSwitch({
+export function DisciplineSwitch({
   type,
   checked,
   onCheckedChange,
   disabled,
-}: CustomSwitchProps) {
+}: DisciplineSwitchProps) {
   // Dynamic styles based on type
   const trackColorClass =
     type === "dayEntry"

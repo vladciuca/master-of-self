@@ -1,22 +1,22 @@
 import React, { ReactNode, useState } from "react";
-import { DisciplineLevelBar } from "@components/profile/disciplines/DisciplineLevelBar";
-import { DisciplineStepSwitch } from "@components/profile/disciplines/DisciplineStepSwitch";
+import { DisciplineProgressBar } from "@components/disciplines/DisciplineProgressBar";
+import { DisciplineSwitch } from "@components/disciplines/discipline-card/DisciplineSwitch";
 import { getDisciplineScoreFromEntry } from "@lib/score";
 import { useUserProfile } from "@context/UserProfileContext";
 import { useTodayJournalEntry } from "@hooks/journal/useTodayJournalEntry";
 import { useLastJournalEntry } from "@hooks/journal/useLastJournalEntry";
 
-type DisciplineStepProps = {
+type DisciplineCardProps = {
   icon?: ReactNode;
   discipline: string;
   type?: string;
 };
 
-export function DisciplineStep({
+export function DisciplineCard({
   icon,
   discipline,
   type,
-}: DisciplineStepProps) {
+}: DisciplineCardProps) {
   const {
     userProfile,
     userProfileLoading,
@@ -65,7 +65,7 @@ export function DisciplineStep({
       <div className={`${icon && type ? "w-8/12 px-2" : "w-full px-3"}`}>
         {/* Level Bar */}
         <div className="-mt-2">
-          <DisciplineLevelBar
+          <DisciplineProgressBar
             xp={xp}
             projectedXp={projectedXp}
             name={discipline}
@@ -78,7 +78,7 @@ export function DisciplineStep({
       {/* Toggle switch */}
       {type && (
         <div className="w-2/12 flex items-center justify-center mt-0">
-          <DisciplineStepSwitch
+          <DisciplineSwitch
             type={type}
             // checked={userProfile.steps[stepKey]}
             // onCheckedChange={() => handleRoutineChange(stepKey)}

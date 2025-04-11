@@ -3,23 +3,25 @@
 import React from "react";
 import { useEffect } from "react";
 import { Skeleton } from "@components/ui/skeleton";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
+// import {
+//   Accordion,
+//   AccordionContent,
+//   AccordionItem,
+//   AccordionTrigger,
+// } from "@/components/ui/accordion";
 import { Card, CardDescription, CardTitle } from "@components/ui/card";
 import { useTodayJournalEntry } from "@hooks/journal/useTodayJournalEntry";
 import { useLastJournalEntry } from "@hooks/journal/useLastJournalEntry";
 import { useUserProfile } from "@context/UserProfileContext";
 
-import { customStepConfigs } from "@components/journal/journal-entry-form/form-steps/steps/CustomSteps";
-import { DisciplineStep } from "./DisciplineStep";
-import { DisciplineStepDescription } from "./DisciplineStepDescription";
-import { DisciplineSectionDelimiter } from "./DisciplineSectionDelimiter";
+import { DisciplinesList } from "@components/disciplines/DisciplinesList";
 
-export function Disciplines() {
+// import { customStepConfigs } from "@components/journal/journal-entry-form/form-steps/steps/CustomSteps";
+// import { DisciplineStep } from "@components/profile/disciplines/DisciplineStep";
+// import { DisciplineStepDescription } from "@components/profile/disciplines/DisciplineStepDescription";
+// import { DisciplineSectionDelimiter } from "@components/profile/disciplines/DisciplineSectionDelimiter";
+
+export function UserDisciplines() {
   const {
     // userProfile,
     userProfileLoading,
@@ -78,7 +80,8 @@ export function Disciplines() {
           </div>
         ) : (
           <>
-            <Accordion type="single" collapsible>
+            <DisciplinesList />
+            {/* <Accordion type="single" collapsible>
               <AccordionItem
                 key={"motivation"}
                 value={"motivation"}
@@ -158,7 +161,7 @@ export function Disciplines() {
                     </AccordionItem>
                   );
                 })}
-            </Accordion>
+            </Accordion> */}
           </>
         )}
       </>
