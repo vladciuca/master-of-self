@@ -20,11 +20,16 @@ import { cn } from "@lib/utils";
 import { useIconPickerSearch } from "@hooks/useIconPickerSearch";
 import { useSideContentPosition } from "@hooks/useSideContentPosition";
 
+//NOTE: should create and move to separate disc icon render component
+import { IconRenderer } from "@components/IconRenderer";
+import { DISCIPLINE_ICONS } from "components/ui/constants";
+
 type IconPickerProps = {
   value?: string;
   onChange?: (iconName: string) => void;
   habitXp?: number;
   projectedXp?: number;
+  iconPickerType?: "habits" | "disciplines";
 };
 
 export function IconPicker({
@@ -32,6 +37,7 @@ export function IconPicker({
   onChange,
   habitXp,
   projectedXp,
+  iconPickerType,
 }: IconPickerProps) {
   const {
     searchTerm,
@@ -67,7 +73,29 @@ export function IconPicker({
     ? GiIcons[selectedIconName as keyof typeof GiIcons]
     : null;
 
-  const renderContent = () => {
+  const renderDisciplineIcons = () => {
+    if (isLoading) {
+      return Array.from({ length: 30 }).map((_, index) => (
+        <Skeleton key={index} className="h-12 w-12" />
+      ));
+    }
+
+    return DISCIPLINE_ICONS.map((name) => {
+      const Icon = GiIcons[name as keyof typeof GiIcons];
+      return (
+        <Button
+          key={name}
+          variant="outline"
+          className="h-12 w-12 p-0"
+          onClick={() => handleSelectIcon(name)}
+        >
+          <Icon className="h-8 w-8" />
+        </Button>
+      );
+    });
+  };
+
+  const renderHabitIcons = () => {
     if (isLoading || isSearching) {
       return Array.from({ length: 30 }).map((_, index) => (
         <Skeleton key={index} className="h-12 w-12" />
@@ -109,13 +137,25 @@ export function IconPicker({
         <DrawerTrigger asChild>
           <div className="inline-flex cursor-pointer">
             {SelectedIcon ? (
-              <HabitIconProgressBar
-                icon={selectedIconName || ""}
-                xp={habitXp || 0}
-                projectedXp={projectedXp}
-                displayXpValues
-                displayLevelValues
-              />
+              <>
+                {iconPickerType === "habits" && (
+                  <HabitIconProgressBar
+                    icon={selectedIconName || ""}
+                    xp={habitXp || 0}
+                    projectedXp={projectedXp}
+                    displayXpValues
+                    displayLevelValues
+                  />
+                )}
+                {iconPickerType === "disciplines" && (
+                  <>
+                    <IconRenderer
+                      iconName={selectedIconName || ""}
+                      className="text-6xl bg-transparent"
+                    />
+                  </>
+                )}
+              </>
             ) : (
               <CircleHelp className="h-14 w-14 text-muted-foreground" />
             )}
@@ -138,21 +178,25 @@ export function IconPicker({
           </DrawerDescription>
         </DrawerHeader>
         <div className="p-4 pt-0">
-          <Input
-            className={`text-base mb-2 ${cn(
-              "rounded-md focus:rounded-md active:rounded-md",
-              "appearance-none",
-              "safari-rounded-fix"
-            )}`}
-            type="search"
-            placeholder="Search icons..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
+          {/* Only show search input for habits */}
+          {iconPickerType === "habits" && (
+            <Input
+              className={`text-base mb-2 ${cn(
+                "rounded-md focus:rounded-md active:rounded-md",
+                "appearance-none",
+                "safari-rounded-fix"
+              )}`}
+              type="search"
+              placeholder="Search icons..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+          )}
 
           <div className="h-[40vh] mb-4 overflow-y-scroll">
             <div className="grid grid-cols-6 gap-2 place-items-center">
-              {renderContent()}
+              {iconPickerType === "disciplines" && renderDisciplineIcons()}
+              {iconPickerType === "habits" && renderHabitIcons()}
             </div>
           </div>
           <DrawerClose asChild>

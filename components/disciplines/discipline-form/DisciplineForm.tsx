@@ -4,8 +4,10 @@ import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
-// import { IconPickerField } from "@components/habits/habit-form/IconPickerField";
-// import { NameField } from "@components/habits/habit-form/NameField";
+import { DisciplineIconPickerField } from "@components/disciplines/discipline-form/DisciplineIconPickerField";
+import { DisciplineNameField } from "@components/disciplines/discipline-form/DisciplineNameField";
+import { DisciplineTitleField } from "@components/disciplines/discipline-form/DisciplineTitleField";
+import { DisciplineDescriptionField } from "@components/disciplines/discipline-form/DisciplineDescriptionField";
 import { Form } from "@/components/ui/form";
 import { ScrollArea } from "@components/ui/scroll-area";
 import { Button } from "@/components/ui/button";
@@ -59,19 +61,20 @@ export function DisciplineForm({
           <h1 className="scroll-m-20 text-4xl font-bold tracking-tight text-center">
             {type} Discipline
           </h1>
-          {/* <IconPickerField
+          <DisciplineIconPickerField
             control={form.control}
-            xp={xp}
-            projectedXp={projectedXp}
+            // xp={xp}
+            // projectedXp={projectedXp}
             type={type}
-          /> */}
+          />
         </div>
 
         <ScrollArea className="px-4 flex-grow">
-          {/* <div className="space-y-8 px-1">
-            <NameField control={form.control} type={type} />
-            <ActionsField control={form.control} type={type} />
-          </div> */}
+          <div className="space-y-8 px-1">
+            <DisciplineNameField control={form.control} type={type} />
+            <DisciplineTitleField control={form.control} type={type} />
+            <DisciplineDescriptionField control={form.control} type={type} />
+          </div>
         </ScrollArea>
 
         <div className="flex flex-col justify-center items-center mt-2 px-4">
