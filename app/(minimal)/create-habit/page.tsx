@@ -13,7 +13,8 @@ export default function CreateHabit() {
   const handleCreateHabit = async (habit: HabitZodType) => {
     try {
       await createHabit(habit);
-      router.push("/profile?page=Habits");
+      //NOTE: use constants for these
+      router.push("/profile?page=habits");
     } catch (error) {
       // Error is already handled in the hook
       console.error("Failed to create new journal entry:", createHabitError);

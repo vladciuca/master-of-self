@@ -58,7 +58,7 @@ export function UserDisciplines() {
         title={NEW_DISCIPLINE_CARD_DETAILS.title}
         linkTo={NEW_DISCIPLINE_CARD_DETAILS.linkTo}
         itemsCount={0}
-        disabled={true}
+        // disabled={true}
       />
 
       <>

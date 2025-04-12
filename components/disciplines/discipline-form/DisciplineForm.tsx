@@ -4,49 +4,48 @@ import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
-import { IconPickerField } from "@components/habits/habit-form/IconPickerField";
-import { NameField } from "@components/habits/habit-form/NameField";
-import { ActionsField } from "@components/habits/habit-form/action-field/ActionField";
+// import { IconPickerField } from "@components/habits/habit-form/IconPickerField";
+// import { NameField } from "@components/habits/habit-form/NameField";
 import { Form } from "@/components/ui/form";
 import { ScrollArea } from "@components/ui/scroll-area";
 import { Button } from "@/components/ui/button";
-import { type HabitZodType, habitFormSchema } from "@models/habitFormSchema";
+import {
+  type DisciplineZodType,
+  disciplineFormSchema,
+} from "@models/disciplineFormSchema";
 
-type HabitFormProps = {
+type DisciplineFormProps = {
   type: "Update" | "Create";
   submitting: boolean;
-  onSubmit: (habit: HabitZodType) => Promise<void>;
-  habit?: HabitZodType;
-  xp?: number;
-  projectedXp?: number;
+  onSubmit: (habit: DisciplineZodType) => Promise<void>;
+  discipline?: DisciplineZodType;
 };
 
-export function HabitForm({
+export function DisciplineForm({
   type,
   submitting,
   onSubmit,
-  habit,
-  xp,
-  projectedXp,
-}: HabitFormProps) {
-  const form = useForm<HabitZodType>({
-    resolver: zodResolver(habitFormSchema),
+  discipline,
+}: DisciplineFormProps) {
+  const form = useForm<DisciplineZodType>({
+    resolver: zodResolver(disciplineFormSchema),
     defaultValues: {
-      id: type === "Update" ? habit?.id : undefined,
-      name: type === "Update" ? habit?.name : "",
-      icon: type === "Update" ? habit?.icon : "",
-      xp: type === "Update" ? habit?.xp : 0,
-      actions: type === "Update" ? habit?.actions || [] : [],
+      id: type === "Update" ? discipline?.id : undefined,
+      discipline: type === "Update" ? discipline?.discipline : "",
+      icon: type === "Update" ? discipline?.icon : "",
+      type: type === "Update" ? discipline?.type : "dayEntry",
+      title: type === "Update" ? discipline?.title : "",
+      description: type === "Update" ? discipline?.description : "",
     },
   });
 
   useEffect(() => {
-    if (type === "Update" && habit) {
-      form.reset(habit);
+    if (type === "Update" && discipline) {
+      form.reset(discipline);
     }
-  }, [type, habit, form]);
+  }, [type, discipline, form]);
 
-  const handleHabitSubmit = (data: HabitZodType) => {
+  const handleHabitSubmit = (data: DisciplineZodType) => {
     onSubmit(data);
   };
 
@@ -58,21 +57,21 @@ export function HabitForm({
       >
         <div className="space-y-6 mb-4">
           <h1 className="scroll-m-20 text-4xl font-bold tracking-tight text-center">
-            {type} Habit
+            {type} Discipline
           </h1>
-          <IconPickerField
+          {/* <IconPickerField
             control={form.control}
             xp={xp}
             projectedXp={projectedXp}
             type={type}
-          />
+          /> */}
         </div>
 
         <ScrollArea className="px-4 flex-grow">
-          <div className="space-y-8 px-1">
+          {/* <div className="space-y-8 px-1">
             <NameField control={form.control} type={type} />
             <ActionsField control={form.control} type={type} />
-          </div>
+          </div> */}
         </ScrollArea>
 
         <div className="flex flex-col justify-center items-center mt-2 px-4">
@@ -84,8 +83,8 @@ export function HabitForm({
             {type}
           </Button>
           <Link
-            //NOTE: use constants for these
-            href="/profile?page=habits"
+            //NOTE: create constants for these
+            href="/profile?page=disciplines"
             className="w-full flex justify-center mb-4"
           >
             <Button variant="outline" className="w-full">

@@ -1,21 +1,16 @@
 import { useState, useRef, useEffect } from "react";
 import { useSession } from "next-auth/react";
-import { useUpdateJournalEntryHabits } from "@hooks/journal/useUpdateJournalEntryHabits";
-import { HabitZodType } from "@models/habitFormSchema";
+import { DisciplineZodType } from "@models/disciplineFormSchema";
 import { Session } from "@models/types";
 
-export function useCreateHabit() {
+export function useCreateDiscipline() {
   const { data: session } = useSession() as { data: Session | null };
 
-  const [submittingHabit, setSubmittingHabit] = useState<boolean>(false);
-  const [createHabitError, setCreateHabitError] = useState<string | null>(null);
-
-  const {
-    updateJournalEntryHabits,
-    //NOTE: these can be returned from this hook separately
-    // submittingJournalHabitsUpdate,
-    // updateJournalHabitsError,
-  } = useUpdateJournalEntryHabits();
+  const [submittingDiscipline, setSubmittingDiscipline] =
+    useState<boolean>(false);
+  const [createDisciplineError, setCreateDisciplineError] = useState<
+    string | null
+  >(null);
 
   // Ref for abort controller
   const createAbortControllerRef = useRef<AbortController | null>(null);
@@ -30,8 +25,8 @@ export function useCreateHabit() {
     };
   }, []);
 
-  // Create habit function
-  const createHabit = async (habit: HabitZodType) => {
+  // Create Discipline function //maybe rename this.... discipline.name?
+  const createDiscipline = async (disciplineStep: DisciplineZodType) => {
     if (!session?.user.id) throw new Error("User not authenticated");
 
     // Cancel any in-progress creation
@@ -43,23 +38,24 @@ export function useCreateHabit() {
     createAbortControllerRef.current = new AbortController();
     const signal = createAbortControllerRef.current.signal;
 
-    setSubmittingHabit(true);
-    setCreateHabitError(null);
+    setSubmittingDiscipline(true);
+    setCreateDisciplineError(null);
 
     try {
-      const { name, icon, actions } = habit;
+      const { discipline, icon, type, title, description } = disciplineStep;
 
-      const response = await fetch("/api/habit/new", {
+      const response = await fetch("/api/discipline/new", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
           userId: session.user.id,
-          name,
+          discipline,
           icon,
-          xp: 0,
-          actions,
+          type,
+          title,
+          description,
         }),
         signal: signal,
       });
@@ -67,28 +63,28 @@ export function useCreateHabit() {
       if (signal.aborted) return;
 
       if (!response.ok) {
-        throw new Error("Failed to create habit");
+        throw new Error("Failed to create discipline");
       }
 
-      const createdHabitData = await response.json();
-
-      //NOTE: Able to still create a Habit if no TodayEntryExists
-      await updateJournalEntryHabits(createdHabitData);
+      //NOTE: should we leave this in?
+      const createdDisciplineData = await response.json();
 
       // NOTE: No need to return data here as the user is redirected on success
-      // return createdHabitData; // Return the created data for the caller
+      // return createdDisciplineData; // Return the created data for the caller
     } catch (error) {
       if ((error as Error).name === "AbortError") {
         console.log("Create operation aborted");
         return;
       }
 
-      console.error("Error creating habit:", error);
-      setCreateHabitError((error as Error).message || "Failed to create habit");
+      console.error("Error creating discipline:", error);
+      setCreateDisciplineError(
+        (error as Error).message || "Failed to create discipline"
+      );
       throw error; // Re-throw the error for the caller to handle
     } finally {
       if (!signal.aborted) {
-        setSubmittingHabit(false);
+        setSubmittingDiscipline(false);
       }
 
       // Clear the ref after completion
@@ -102,9 +98,9 @@ export function useCreateHabit() {
   };
 
   return {
-    createHabit,
-    submittingHabit,
-    createHabitError,
+    createDiscipline,
+    submittingDiscipline,
+    createDisciplineError,
     // isAuthenticated: !!session?.user?.id,
   };
 }
