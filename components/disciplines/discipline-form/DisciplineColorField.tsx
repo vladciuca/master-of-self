@@ -29,6 +29,7 @@ const tailwindColors = [
   { name: "red", value: "bg-red-500" },
   { name: "orange", value: "bg-orange-500" },
   { name: "amber", value: "bg-amber-500" },
+  { name: "yellow", value: "bg-yellow-300" },
   { name: "lime", value: "bg-lime-500" },
   { name: "emerald", value: "bg-emerald-500" },
   { name: "teal", value: "bg-teal-500" },
