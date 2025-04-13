@@ -42,7 +42,8 @@ export function useCreateDiscipline() {
     setCreateDisciplineError(null);
 
     try {
-      const { discipline, icon, type, title, description } = disciplineStep;
+      const { discipline, icon, color, type, title, description } =
+        disciplineStep;
 
       const response = await fetch("/api/discipline/new", {
         method: "POST",
@@ -53,6 +54,7 @@ export function useCreateDiscipline() {
           userId: session.user.id,
           discipline,
           icon,
+          color,
           type,
           title,
           description,

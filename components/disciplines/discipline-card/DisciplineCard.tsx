@@ -9,6 +9,7 @@ import { useLastJournalEntry } from "@hooks/journal/useLastJournalEntry";
 
 type DisciplineCardProps = {
   icon?: string;
+  color?: string;
   discipline: string;
   type?: string;
 };
@@ -16,16 +17,18 @@ type DisciplineCardProps = {
 //NOTE: this can be DisciplineCardHeader to keep convention with Habits?
 export function DisciplineCard({
   icon,
+  color,
   discipline,
   type,
 }: DisciplineCardProps) {
   const { userProfile, userProfileLoading } = useUserProfile();
 
   const [isActive, setIsActive] = useState(false);
-
   // Get discipline data needed for the level bar
   const { todayEntry } = useTodayJournalEntry();
   const { lastEntry } = useLastJournalEntry();
+
+  console.log("=====color", color);
 
   // Get XP values
   const disciplines = userProfile?.disciplines || {};
@@ -46,7 +49,7 @@ export function DisciplineCard({
   }
 
   return (
-    <div className="flex flex-row w-full">
+    <div className={`flex flex-row w-full border-1 text-${color}`}>
       {/* Icon section */}
       {icon && (
         <div className="w-2/12 flex items-center justify-center mb-0">

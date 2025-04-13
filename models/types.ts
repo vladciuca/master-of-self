@@ -52,6 +52,7 @@ export type JournalStep = {
 
 export type JournalStepConfig = JournalStep & {
   icon: string;
+  color?: string;
 };
 
 export type JournalEntryCustomStep = {

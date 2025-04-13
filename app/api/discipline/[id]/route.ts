@@ -25,7 +25,8 @@ export async function PATCH(
   req: NextRequest,
   { params }: { params: { id: string } }
 ) {
-  const { discipline, icon, type, title, description } = await req.json();
+  const { discipline, icon, color, type, title, description } =
+    await req.json();
 
   try {
     //NOTE: inconsistent name: disciplineStep
@@ -36,6 +37,7 @@ export async function PATCH(
       //caused by 'discipline' key
       discipline,
       icon,
+      color,
       type,
       title,
       description

@@ -25,6 +25,13 @@ module.exports = {
       ),
     },
     {
+      pattern: new RegExp(
+        `^(bg|text|border)-(${Object.values(colors.DISCIPLINE_COLORS).join(
+          "|"
+        )})$`
+      ),
+    },
+    {
       //don't forget stroke- here!(in progress bar)
       pattern: new RegExp(
         `^(bg|text)-(${Object.values(colors.XP_COLORS).join("|")})$`

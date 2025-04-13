@@ -16,33 +16,17 @@ import {
 import { Control } from "react-hook-form";
 import { DisciplineZodType } from "@models/disciplineFormSchema";
 
+import { DISCIPLINE_COLORS } from "@lib/colors";
+
 type DisciplineColorFieldProps = {
   control: Control<DisciplineZodType>;
   type: "Create" | "Update";
 };
 
-// Tailwind colors at the 500 level
-const tailwindColors = [
-  { name: "slate", value: "bg-slate-500" },
-  //   { name: "gray", value: "bg-gray-500" },
-  { name: "stone", value: "bg-stone-500" },
-  { name: "red", value: "bg-red-500" },
-  { name: "orange", value: "bg-orange-500" },
-  { name: "amber", value: "bg-amber-500" },
-  { name: "yellow", value: "bg-yellow-300" },
-  { name: "lime", value: "bg-lime-500" },
-  { name: "emerald", value: "bg-emerald-500" },
-  { name: "teal", value: "bg-teal-500" },
-  { name: "cyan", value: "bg-cyan-500" },
-  { name: "sky", value: "bg-sky-500" },
-  { name: "blue", value: "bg-blue-500" },
-  { name: "indigo", value: "bg-indigo-500" },
-  { name: "violet", value: "bg-violet-500" },
-  { name: "purple", value: "bg-purple-400" },
-  { name: "fuchsia", value: "bg-fuchsia-500" },
-  { name: "pink", value: "bg-pink-500" },
-  { name: "rose", value: "bg-rose-500" },
-];
+const mapDisciplineColorsToTailwind = (colorsObj: Record<string, string>) =>
+  Object.entries(colorsObj).map(([name, value]) => ({ name, value }));
+
+const tailwindColors = mapDisciplineColorsToTailwind(DISCIPLINE_COLORS);
 
 export function DisciplineColorField({
   control,
@@ -71,11 +55,10 @@ export function DisciplineColorField({
                   {field.value && (
                     <div className="flex items-center">
                       <div
-                        className={`w-4 h-4 rounded-md mr-2 ${field.value}`}
+                        className={`w-4 h-4 rounded-md mr-2 bg-${field.value}`}
                       />
                       <span className="capitalize">
-                        {/* {field.value?.replace("bg-", "").replace("-500", "")} */}
-                        {field.value?.replace("bg-", "").replace(/-\d+$/, "")}
+                        {field.value?.replace(/-\d+$/, "")}
                       </span>
                     </div>
                   )}
@@ -93,7 +76,7 @@ export function DisciplineColorField({
                     >
                       <div className="relative flex items-center justify-center">
                         <div
-                          className={`w-8 h-8 rounded-md cursor-pointer ${color.value} hover:opacity-80 transition-opacity`}
+                          className={`w-8 h-8 rounded-md cursor-pointer bg-${color.value} hover:opacity-80 transition-opacity`}
                           title={color.name}
                         />
                         {field.value === color.value && (
