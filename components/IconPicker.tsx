@@ -82,6 +82,7 @@ export function IconPicker({
 
     return DISCIPLINE_ICONS.map((name) => {
       const Icon = GiIcons[name as keyof typeof GiIcons];
+
       return (
         <Button
           key={name}
@@ -89,7 +90,7 @@ export function IconPicker({
           className="h-12 w-12 p-0"
           onClick={() => handleSelectIcon(name)}
         >
-          <Icon className="h-8 w-8" />
+          <Icon className="h-12 w-12" />
         </Button>
       );
     });
@@ -119,7 +120,7 @@ export function IconPicker({
           className="h-12 w-12 p-0"
           onClick={() => handleSelectIcon(name)}
         >
-          <Icon className="h-8 w-8" />
+          <Icon className="h-10 w-10" />
         </Button>
       ));
     }
@@ -151,7 +152,8 @@ export function IconPicker({
                   <>
                     <IconRenderer
                       iconName={selectedIconName || ""}
-                      className="text-6xl bg-transparent"
+                      className="bg-transparent"
+                      size={60}
                     />
                   </>
                 )}

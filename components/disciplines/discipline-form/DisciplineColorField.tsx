@@ -24,8 +24,8 @@ type DisciplineColorFieldProps = {
 // Tailwind colors at the 500 level
 const tailwindColors = [
   { name: "slate", value: "bg-slate-500" },
-  { name: "zinc", value: "bg-zinc-500" },
-  { name: "neutral", value: "bg-neutral-500" },
+  //   { name: "gray", value: "bg-gray-500" },
+  { name: "stone", value: "bg-stone-500" },
   { name: "red", value: "bg-red-500" },
   { name: "orange", value: "bg-orange-500" },
   { name: "amber", value: "bg-amber-500" },
@@ -38,6 +38,7 @@ const tailwindColors = [
   { name: "blue", value: "bg-blue-500" },
   { name: "indigo", value: "bg-indigo-500" },
   { name: "violet", value: "bg-violet-500" },
+  { name: "purple", value: "bg-purple-400" },
   { name: "fuchsia", value: "bg-fuchsia-500" },
   { name: "pink", value: "bg-pink-500" },
   { name: "rose", value: "bg-rose-500" },
@@ -73,7 +74,8 @@ export function DisciplineColorField({
                         className={`w-4 h-4 rounded-md mr-2 ${field.value}`}
                       />
                       <span className="capitalize">
-                        {field.value?.replace("bg-", "").replace("-500", "")}
+                        {/* {field.value?.replace("bg-", "").replace("-500", "")} */}
+                        {field.value?.replace("bg-", "").replace(/-\d+$/, "")}
                       </span>
                     </div>
                   )}
