@@ -43,7 +43,18 @@ export default function UpdateJournalEntry() {
           onSubmit={updateJournalEntry}
           userEveningTime={userEveningTime}
           willpowerMultiplier={willpowerMultiplier}
-          //NOTE: need to make some kind of function that generates these
+          //NOTE: need to make a HOOK that generates these
+          //DO WE USE IDS HERE? add ids to stepConfig?
+          //and then where do you get them from?
+          // I need to make a filter for CustomSteps obj by id? in STEP CONFIG maybe
+
+          // BUILT IN - steps: the ones created in stepConfig
+          // CUSTOM STEPS - steps: array from CustomStep obj
+          // +
+          // USER STEPS - steps: from DB
+          // NOTE: we should send here:
+          // (customSteps prop that come in here must be a combination
+          // of USER STEPS and steps from CustomSteps obj)
           customSteps={customSteps}
           hasHabits={hasHabits}
         />

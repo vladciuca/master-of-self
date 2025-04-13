@@ -35,6 +35,7 @@ export type NewJournalEntry = Omit<JournalEntry, "_id">; // Lets mongo db assign
 export type Discipline = JournalStepConfig & {
   _id?: ObjectId;
   creatorId: ObjectId;
+  color: string;
 };
 
 export type NewDiscipline = Omit<Discipline, "_id">;

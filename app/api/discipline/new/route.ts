@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { createDiscipline } from "@lib/mongo/disciplines";
 
 export async function POST(req: NextRequest) {
-  const { userId, discipline, icon, type, title, description } =
+  const { userId, discipline, icon, color, type, title, description } =
     await req.json();
 
   try {
@@ -10,6 +10,7 @@ export async function POST(req: NextRequest) {
       userId,
       discipline,
       icon,
+      color,
       type,
       title,
       description

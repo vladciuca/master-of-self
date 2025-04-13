@@ -30,6 +30,7 @@ export async function createDiscipline(
   userId: string,
   discipline: string,
   icon: string,
+  color: string,
   type: JournalStepType,
   title: string,
   description: string
@@ -42,6 +43,7 @@ export async function createDiscipline(
       creatorId: new ObjectId(userId),
       discipline,
       icon,
+      color,
       type,
       title,
       description,
@@ -63,6 +65,7 @@ export async function createDiscipline(
 export async function updateDiscipline(
   id: string,
   discipline: string,
+  color: string,
   icon: string,
   type: JournalStepType,
   title: string,
@@ -79,6 +82,7 @@ export async function updateDiscipline(
       $set: {
         discipline,
         icon,
+        color,
         type,
         title,
         description,

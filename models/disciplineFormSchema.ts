@@ -11,6 +11,7 @@ export const disciplineFormSchema = z.object({
   description: z
     .string()
     .min(2, "Description must contain at least 2 characters"),
+  color: z.string().min(1, "Color is required"),
 });
 
 export type DisciplineZodType = z.infer<typeof disciplineFormSchema>;

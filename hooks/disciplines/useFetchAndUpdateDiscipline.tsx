@@ -63,6 +63,7 @@ export function useFetchAndUpdateDiscipline(id: string) {
         setDisciplineData({
           discipline: data.discipline,
           icon: data.icon,
+          color: data.color,
           type: data.type,
           title: data.title,
           description: data.description,
