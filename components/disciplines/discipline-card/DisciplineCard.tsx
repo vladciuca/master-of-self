@@ -28,8 +28,6 @@ export function DisciplineCard({
   const { todayEntry } = useTodayJournalEntry();
   const { lastEntry } = useLastJournalEntry();
 
-  console.log("=====color", color);
-
   // Get XP values
   const disciplines = userProfile?.disciplines || {};
   const disciplinesProjectedXp = lastEntry
@@ -49,7 +47,7 @@ export function DisciplineCard({
   }
 
   return (
-    <div className={`flex flex-row w-full border-1 text-${color}`}>
+    <div className="flex flex-row w-full">
       {/* Icon section */}
       {icon && (
         <div className="w-2/12 flex items-center justify-center mb-0">
@@ -67,6 +65,7 @@ export function DisciplineCard({
             name={discipline}
             showXpMetrics={true}
             height={3}
+            color={color}
           />
         </div>
       </div>

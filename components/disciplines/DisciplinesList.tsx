@@ -61,15 +61,14 @@ export function DisciplinesList({
           <AccordionItem
             key={step.discipline}
             value={step.discipline}
-            className={`p-0 px-2 mb-3 border-${step.color}`}
-            // className="p-0 px-2 mb-3"
+            className="p-0 px-2 mb-3"
           >
             <AccordionTrigger className="pt-5 pb-3">
               <DisciplineCard
                 icon={step.icon}
                 discipline={step.discipline}
                 type={step.type}
-                // color={step.color}
+                color={step.color}
               />
             </AccordionTrigger>
             <AccordionContent>
@@ -77,6 +76,7 @@ export function DisciplinesList({
                 title={step.title}
                 description={step.description}
               />
+              {/* <div>{step.creatorId}</div> */}
             </AccordionContent>
           </AccordionItem>
         );
@@ -89,14 +89,14 @@ export function DisciplinesList({
           <AccordionItem
             key={step.discipline}
             value={step.discipline}
-            // className="p-0 px-2 mb-3"
-            className={`p-0 px-2 mb-3 border-${step.color}`}
+            className="p-0 px-2 mb-3"
           >
             <AccordionTrigger className="pt-5 pb-3">
               <DisciplineCard
                 icon={step.icon}
                 discipline={step.discipline}
                 type={step.type}
+                color={step.color}
               />
             </AccordionTrigger>
             <AccordionContent>
