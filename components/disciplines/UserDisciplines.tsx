@@ -81,7 +81,6 @@ export function UserDisciplines() {
         ) : (
           <>
             <DisciplinesList userDisciplines={disciplines} />
-            {disciplines.map((discipline) => discipline.discipline)}
           </>
         )}
       </>
