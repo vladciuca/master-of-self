@@ -59,7 +59,7 @@ export async function createDiscipline(
   }
 }
 
-// UPDATE HABIT =================================================================================
+// UPDATE DISCIPLINE STEP =============================================================
 export async function updateDiscipline(
   id: string,
   discipline: string,
@@ -99,7 +99,7 @@ export async function updateDiscipline(
   }
 }
 
-// GET HABIT ====================================================================================
+// GET DISCIPLINE STEP ================================================================
 export async function getDiscipline(id: string): Promise<{
   discipline: Discipline | null;
   error?: string;
@@ -118,5 +118,22 @@ export async function getDiscipline(id: string): Promise<{
     return { discipline };
   } catch (error) {
     return { discipline: null, error: "Failed to fetch discipline" };
+  }
+}
+
+// GET USER DISCIPLINE STEPS =================================================
+export async function getDisciplines(userId: string): Promise<{
+  disciplines: Discipline[] | null;
+  error?: string;
+}> {
+  try {
+    if (!disciplines) await init();
+    const query = { creatorId: new ObjectId(userId) };
+
+    const result = await disciplines.find(query).toArray();
+
+    return { disciplines: result };
+  } catch (error) {
+    return { disciplines: null, error: "Failed to fetch habits" };
   }
 }

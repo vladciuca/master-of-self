@@ -6,6 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { DisciplineIconPickerField } from "@components/disciplines/discipline-form/DisciplineIconPickerField";
 import { DisciplineNameField } from "@components/disciplines/discipline-form/DisciplineNameField";
+import { DisciplineTypeField } from "@components/disciplines/discipline-form/DisciplineTypeField";
 import { DisciplineTitleField } from "@components/disciplines/discipline-form/DisciplineTitleField";
 import { DisciplineDescriptionField } from "@components/disciplines/discipline-form/DisciplineDescriptionField";
 import { Form } from "@/components/ui/form";
@@ -72,6 +73,7 @@ export function DisciplineForm({
         <ScrollArea className="px-4 flex-grow">
           <div className="space-y-8 px-1">
             <DisciplineNameField control={form.control} type={type} />
+            <DisciplineTypeField control={form.control} type={type} />
             <DisciplineTitleField control={form.control} type={type} />
             <DisciplineDescriptionField control={form.control} type={type} />
           </div>

@@ -193,7 +193,11 @@ export function IconPicker({
             />
           )}
 
-          <div className="h-[40vh] mb-4 overflow-y-scroll">
+          <div
+            className={`${
+              iconPickerType === "disciplines" ? "h-[50vh]" : "h-[40vh]"
+            } mb-4 overflow-y-scroll`}
+          >
             <div className="grid grid-cols-6 gap-2 place-items-center">
               {iconPickerType === "disciplines" && renderDisciplineIcons()}
               {iconPickerType === "habits" && renderHabitIcons()}

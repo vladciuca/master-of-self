@@ -8,6 +8,7 @@ import { SkeletonDisciplineCard } from "@components/skeletons/SkeletonDiscipline
 import { useTodayJournalEntry } from "@hooks/journal/useTodayJournalEntry";
 import { useLastJournalEntry } from "@hooks/journal/useLastJournalEntry";
 import { useUserProfile } from "@context/UserProfileContext";
+import { useUserDisciplines } from "@hooks/disciplines/useUserDisciplines";
 
 const NEW_DISCIPLINE_CARD_DETAILS = {
   symbol: <></>,
@@ -33,6 +34,8 @@ export function UserDisciplines() {
     userProfileError,
     refetchUserProfile,
   } = useUserProfile();
+  const { disciplines, disciplinesLoading, disciplinesError } =
+    useUserDisciplines();
 
   //NOTE: should try and move the loading states inside the DisciplineStep?
   const { todayEntry, todayEntryLoading, todayEntryError } =
@@ -77,6 +80,7 @@ export function UserDisciplines() {
         ) : (
           <>
             <DisciplinesList />
+            {disciplines.map((discipline) => discipline.discipline)}
           </>
         )}
       </>
