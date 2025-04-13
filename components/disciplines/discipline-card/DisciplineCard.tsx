@@ -1,13 +1,14 @@
 import React, { ReactNode, useState } from "react";
 import { DisciplineProgressBar } from "@components/disciplines/DisciplineProgressBar";
 import { DisciplineSwitch } from "@components/disciplines/discipline-card/DisciplineSwitch";
+import { IconRenderer } from "@components/IconRenderer";
 import { getDisciplineScoreFromEntry } from "@lib/score";
 import { useUserProfile } from "@context/UserProfileContext";
 import { useTodayJournalEntry } from "@hooks/journal/useTodayJournalEntry";
 import { useLastJournalEntry } from "@hooks/journal/useLastJournalEntry";
 
 type DisciplineCardProps = {
-  icon?: ReactNode;
+  icon?: string;
   discipline: string;
   type?: string;
 };
@@ -18,15 +19,9 @@ export function DisciplineCard({
   discipline,
   type,
 }: DisciplineCardProps) {
-  const {
-    userProfile,
-    userProfileLoading,
-    // handleRoutineChange
-  } = useUserProfile();
+  const { userProfile, userProfileLoading } = useUserProfile();
 
   const [isActive, setIsActive] = useState(false);
-
-  const IconElement = icon;
 
   // Get discipline data needed for the level bar
   const { todayEntry } = useTodayJournalEntry();
@@ -53,12 +48,9 @@ export function DisciplineCard({
   return (
     <div className="flex flex-row w-full">
       {/* Icon section */}
-      {IconElement && (
+      {icon && (
         <div className="w-2/12 flex items-center justify-center mb-0">
-          {React.cloneElement(IconElement as React.ReactElement, {
-            size: 40,
-            className: "text-primary",
-          })}
+          <IconRenderer iconName={icon} className={"text-primary"} size={40} />
         </div>
       )}
 
@@ -81,8 +73,8 @@ export function DisciplineCard({
         <div className="w-2/12 flex items-center justify-center mt-0">
           <DisciplineSwitch
             type={type}
-            // checked={userProfile.steps[stepKey]}
-            // onCheckedChange={() => handleRoutineChange(stepKey)}
+            // checked={}
+            // onCheckedChange={() => {}}
             checked={isActive} // Replace with your actual state
             onCheckedChange={() => setIsActive(!isActive)} // Replace with your actual handler
             disabled={userProfileLoading}

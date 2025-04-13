@@ -13,16 +13,13 @@ import { useSession } from "next-auth/react";
 import type { Session, UserProfile } from "@models/types";
 
 // Define the shape of our context
-interface UserProfileContextType {
+type UserProfileContextType = {
   userProfile: UserProfile;
   userProfileLoading: boolean;
   userProfileError: string | null;
-  // handleRoutineChange: (
-  //   step: "gratitude" | "reflection" | "affirmations"
-  // ) => void;
   handleTimeChange: (period: "morning" | "evening", value: string) => void;
   refetchUserProfile: () => void;
-}
+};
 
 // Create the context
 const UserProfileContext = createContext<UserProfileContextType | undefined>(
@@ -34,11 +31,6 @@ export function UserProfileProvider({ children }: { children: ReactNode }) {
   const { data: session } = useSession() as { data: Session | null };
 
   const [userProfile, setUserProfile] = useState<UserProfile>({
-    // steps: {
-    //   gratitude: false,
-    //   affirmations: false,
-    //   reflection: false,
-    // },
     willpowerSMultiplier: 1.5,
     disciplines: {
       motivation: 0,
@@ -225,17 +217,6 @@ export function UserProfileProvider({ children }: { children: ReactNode }) {
     }
   };
 
-  // Handle routine change
-  // const handleRoutineChange = (
-  //   step: "gratitude" | "reflection" | "affirmations"
-  // ) => {
-  //   const newValue = !userProfile.steps[step];
-  //   updateProfile("steps", {
-  //     ...userProfile.steps,
-  //     [step]: newValue,
-  //   });
-  // };
-
   // Handle time change
   const handleTimeChange = (period: "morning" | "evening", value: string) => {
     updateProfile("journalStartTime", {
@@ -249,7 +230,6 @@ export function UserProfileProvider({ children }: { children: ReactNode }) {
     userProfile,
     userProfileLoading,
     userProfileError,
-    // handleRoutineChange,
     handleTimeChange,
     refetchUserProfile: fetchUserProfile,
   };

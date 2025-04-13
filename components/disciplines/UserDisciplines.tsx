@@ -72,6 +72,7 @@ export function UserDisciplines() {
             <span>Error:</span>
             <div>
               {userProfileError ||
+                disciplinesLoading ||
                 todayEntryError ||
                 lastEntryError ||
                 "There was an error loading your disciplines. Please try again later."}
@@ -79,7 +80,7 @@ export function UserDisciplines() {
           </div>
         ) : (
           <>
-            <DisciplinesList />
+            <DisciplinesList userDisciplines={disciplines} />
             {disciplines.map((discipline) => discipline.discipline)}
           </>
         )}

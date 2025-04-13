@@ -51,13 +51,13 @@ function ProgressBar({
   );
 }
 
-interface DisciplineProgressBarProps {
+type DisciplineProgressBarProps = {
   xp: number;
   projectedXp: number;
   name: string;
   showXpMetrics?: boolean;
   height?: number;
-}
+};
 
 export function DisciplineProgressBar({
   xp,

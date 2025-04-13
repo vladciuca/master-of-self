@@ -1,10 +1,11 @@
 import { JournalStep } from "@components/journal/journal-entry-form/form-steps/steps/journal-step/JournalStep";
 import { stepIconMap } from "@components/ui/constants";
+import { stringFromIcon } from "@lib/utils";
 import type { JournalStepConfig, JournalEntryCustomStep } from "@models/types";
 
 export const customStepConfigs: JournalStepConfig[] = [
   {
-    icon: stepIconMap.positivity,
+    icon: stringFromIcon(stepIconMap.positivity),
     discipline: "positivity",
     type: "dayEntry",
     title: "What am I feeling grateful for?",
@@ -12,7 +13,7 @@ export const customStepConfigs: JournalStepConfig[] = [
       "Use details to describe what you're feeling grateful for and increase Positivity.",
   },
   {
-    icon: stepIconMap.confidence,
+    icon: stringFromIcon(stepIconMap.confidence),
     discipline: "confidence",
     type: "dayEntry",
     title: "Daily Affirmations",
@@ -20,7 +21,7 @@ export const customStepConfigs: JournalStepConfig[] = [
       "Use statements using powerful words to imprint on your subconscious mind and build Confidence.",
   },
   {
-    icon: stepIconMap.awareness,
+    icon: stringFromIcon(stepIconMap.awareness),
     discipline: "awareness",
     type: "nightEntry",
     title: "What are today's highlights?",
@@ -28,7 +29,7 @@ export const customStepConfigs: JournalStepConfig[] = [
       "Build momentum by capturing meaningful events and boost Awareness.",
   },
   {
-    icon: stepIconMap.resilience,
+    icon: stringFromIcon(stepIconMap.resilience),
     discipline: "resilience",
     type: "nightEntry",
     title: "Could today have been better?",

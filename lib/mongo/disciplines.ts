@@ -29,7 +29,7 @@ async function init() {
 export async function createDiscipline(
   userId: string,
   discipline: string,
-  icon: ReactNode,
+  icon: string,
   type: JournalStepType,
   title: string,
   description: string
@@ -63,7 +63,7 @@ export async function createDiscipline(
 export async function updateDiscipline(
   id: string,
   discipline: string,
-  icon: ReactNode,
+  icon: string,
   type: JournalStepType,
   title: string,
   description: string

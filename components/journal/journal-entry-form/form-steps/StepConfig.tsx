@@ -5,11 +5,11 @@ import { Day } from "./steps/Day";
 import { Night } from "./steps/Night";
 import { Willpower } from "./steps/willpower/Willpower";
 import { HabitActionsStep } from "./steps/HabitActionsStep";
+import { stepIconMap } from "@components/ui/constants";
 //NOTE: need to check how to use getCurrentTimePeriod() here
 import { isEvening } from "@lib/time";
 import { calculateHabitsXpFromEntry } from "@lib/level";
-
-import { stepIconMap } from "@components/ui/constants";
+import { stringFromIcon } from "@lib/utils";
 import type {
   JournalEntry,
   JournalEntryCustomStep,
@@ -44,7 +44,7 @@ export function createSteps(
   const formSteps: JournalEntryCustomStep[] = [
     //=====DAY_ENTRY
     {
-      icon: stepIconMap.bonus,
+      icon: stringFromIcon(stepIconMap.bonus),
       discipline: "bonus",
       component: <Bonus />,
       isAvailable:
@@ -53,7 +53,7 @@ export function createSteps(
       type: "other",
     },
     {
-      icon: stepIconMap.day,
+      icon: stringFromIcon(stepIconMap.day),
       discipline: "day",
       component: <Day />,
       isAvailable: SHOW_ALL_TEST || !isEvening(userEveningTime),
@@ -68,7 +68,7 @@ export function createSteps(
       })),
     //=====NIGHT_ENTRY
     {
-      icon: stepIconMap.night,
+      icon: stringFromIcon(stepIconMap.night),
       discipline: "night",
       component: <Night />,
       isAvailable:
@@ -83,14 +83,14 @@ export function createSteps(
         isAvailable: SHOW_ALL_TEST || isEvening(userEveningTime),
       })),
     {
-      icon: stepIconMap.willpower,
+      icon: stringFromIcon(stepIconMap.willpower),
       discipline: "willpower",
       component: <Willpower />,
       isAvailable: SHOW_ALL_TEST || true, //NOTE: Not yet decided on behavior
       type: "other",
     },
     {
-      icon: stepIconMap.habits,
+      icon: stringFromIcon(stepIconMap.habits),
       discipline: "habits",
       component: <HabitActionsStep />,
       isAvailable: SHOW_ALL_TEST || hasHabits,
