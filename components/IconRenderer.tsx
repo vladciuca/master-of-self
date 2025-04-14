@@ -15,7 +15,7 @@ export type IconRendererProps = {
 
 export function IconRenderer({
   iconName,
-  size,
+  size = 25,
   className = "",
   xp,
   isXpLoading,
@@ -35,7 +35,10 @@ export function IconRenderer({
 
   return (
     <div className={cn(bgColorClass, className)}>
-      <Icon className={cn(iconColorClass, "h-full w-full")} size={size} />
+      <Icon
+        className={cn(iconColorClass, "h-full w-full")}
+        size={Number(size)}
+      />
     </div>
   );
 }
