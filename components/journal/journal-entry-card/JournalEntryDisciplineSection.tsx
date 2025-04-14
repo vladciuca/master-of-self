@@ -205,10 +205,10 @@ export function JournalEntryDisciplineSection({
           <AccordionItem
             key={step}
             value={step}
-            className="border-none bg-muted/30 rounded-lg overflow-hidden py-0 pl-2 px-4 mb-0"
+            className="border-none bg-muted/30 rounded-lg overflow-hidden py-0 pl-2 pr-2.5 mb-0"
           >
             <AccordionTrigger
-              className={`hover:no-underline flex flex-col items-start pt-2 ${
+              className={`hover:no-underline flex flex-col items-start pt-1 ${
                 openItem !== step ? "pb-2" : "pb-0"
               }`}
             >

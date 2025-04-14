@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { motion } from "framer-motion";
+import { color, motion } from "framer-motion";
 import { LevelIndicator } from "@components/ui/level-indicator";
 import { calculateDisciplineLevel, xpForDisciplineLevel } from "@lib/level";
 import { JOURNAL_COLORS } from "@lib/colors";
@@ -51,13 +51,14 @@ function ProgressBar({
   );
 }
 
-interface DisciplineProgressBarProps {
+type DisciplineProgressBarProps = {
   xp: number;
   projectedXp: number;
   name: string;
   showXpMetrics?: boolean;
   height?: number;
-}
+  color?: string;
+};
 
 export function DisciplineProgressBar({
   xp,
@@ -65,6 +66,7 @@ export function DisciplineProgressBar({
   name,
   showXpMetrics = false,
   height,
+  color,
 }: DisciplineProgressBarProps) {
   // Calculate XP and level_PATTERN
   // ===============================================================
@@ -88,7 +90,8 @@ export function DisciplineProgressBar({
     <div className="w-full">
       <div className="flex items-center justify-between">
         <div className="flex items-center capitalize mb-1">
-          {name}
+          <span className={`text-${color}`}>{name}</span>
+
           <LevelIndicator
             currentLevel={currentLevel}
             level={level}

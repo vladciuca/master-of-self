@@ -84,7 +84,8 @@ export function HabitForm({
             {type}
           </Button>
           <Link
-            href="/profile?page=Habits"
+            //NOTE: use constants for these
+            href="/profile?page=habits"
             className="w-full flex justify-center mb-4"
           >
             <Button variant="outline" className="w-full">

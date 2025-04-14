@@ -14,15 +14,15 @@ export default function Profile() {
   // page tab configuration object - contains name and component for each page
   const pageConfig = [
     {
-      name: "Willpower",
+      name: "willpower",
       component: <WeeklyWillpowerChart />,
     },
     {
-      name: "Disciplines",
+      name: "disciplines",
       component: <UserDisciplines />,
     },
     {
-      name: "Habits",
+      name: "habits",
       component: <UserHabits />,
     },
   ];
@@ -60,7 +60,7 @@ export default function Profile() {
               size="sm"
               variant={activePage === page.name ? "default" : "outline"}
               onClick={() => handlePageChange(page.name)}
-              className="flex-shrink-0 text-xs rounded-full"
+              className="flex-shrink-0 text-xs rounded-full capitalize"
             >
               {page.name}
             </Button>

@@ -36,7 +36,7 @@ export function ProfilePageHeader({
         </div> */}
 
         <div className="flex items-center">
-          <span className="scroll-m-20 tracking-tight">Add New {title}</span>
+          <span className="scroll-m-20 tracking-tight">Create {title}</span>
           <Button
             onClick={handleClick}
             disabled={disabled}
@@ -45,7 +45,7 @@ export function ProfilePageHeader({
             className="h-8 w-8 shrink-0 rounded-full ml-3"
           >
             <Plus className="h-4 w-4" />
-            <span className="sr-only">Add new {title}</span>
+            <span className="sr-only">Create {title}</span>
           </Button>
         </div>
       </div>

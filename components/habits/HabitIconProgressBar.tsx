@@ -69,7 +69,8 @@ export function HabitIconProgressBar({
         >
           <IconRenderer
             iconName={icon}
-            className="text-4xl bg-transparent"
+            className="bg-transparent"
+            size={60}
             xp={xpGain}
           />
         </div>

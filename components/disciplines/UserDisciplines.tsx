@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { ProfilePageHeader } from "@components/profile/ProfilePageHeader";
 import { DisciplinesList } from "@components/disciplines/DisciplinesList";
@@ -8,6 +9,8 @@ import { SkeletonDisciplineCard } from "@components/skeletons/SkeletonDiscipline
 import { useTodayJournalEntry } from "@hooks/journal/useTodayJournalEntry";
 import { useLastJournalEntry } from "@hooks/journal/useLastJournalEntry";
 import { useUserProfile } from "@context/UserProfileContext";
+import { useUserDisciplines } from "@hooks/disciplines/useUserDisciplines";
+import { Discipline } from "@models/mongodb";
 
 const NEW_DISCIPLINE_CARD_DETAILS = {
   symbol: <></>,
@@ -27,17 +30,24 @@ const skeletonCards = Array.from({ length: 3 }, (_, index) => (
 ));
 
 export function UserDisciplines() {
+  const router = useRouter();
   const {
     // userProfile,
     userProfileLoading,
     userProfileError,
     refetchUserProfile,
   } = useUserProfile();
+  const { disciplines, disciplinesLoading, disciplinesError } =
+    useUserDisciplines();
 
   //NOTE: should try and move the loading states inside the DisciplineStep?
   const { todayEntry, todayEntryLoading, todayEntryError } =
     useTodayJournalEntry();
   const { lastEntry, lastEntryLoading, lastEntryError } = useLastJournalEntry();
+
+  const handleEdit = (discipline: Discipline) => {
+    router.push(`/update-discipline/${discipline._id}`);
+  };
 
   // refetch const { disciplines } = userProfile; on mount
   // Might change the dependency to something else
@@ -58,7 +68,7 @@ export function UserDisciplines() {
         title={NEW_DISCIPLINE_CARD_DETAILS.title}
         linkTo={NEW_DISCIPLINE_CARD_DETAILS.linkTo}
         itemsCount={0}
-        disabled={true}
+        // disabled={true}
       />
 
       <>
@@ -69,6 +79,7 @@ export function UserDisciplines() {
             <span>Error:</span>
             <div>
               {userProfileError ||
+                disciplinesLoading ||
                 todayEntryError ||
                 lastEntryError ||
                 "There was an error loading your disciplines. Please try again later."}
@@ -76,7 +87,10 @@ export function UserDisciplines() {
           </div>
         ) : (
           <>
-            <DisciplinesList />
+            <DisciplinesList
+              userDisciplines={disciplines}
+              handleEdit={handleEdit}
+            />
           </>
         )}
       </>

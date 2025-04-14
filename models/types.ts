@@ -40,16 +40,6 @@ export interface Session extends NextAuthSession {
   user: User;
 }
 
-// PROFILE TYPES -----------------------------------------------------
-
-//NOTE: WILL NEED REFACTOR since there are no more stepkeys
-// export type RoutineStepProps = {
-//   icon?: React.ReactElement;
-//   title: string;
-//   description: string;
-//   stepKey: "gratitude" | "affirmations" | "reflection";
-// };
-
 // JOURNAL STEP -----------------------------------------------------
 export type JournalStepType = "dayEntry" | "nightEntry" | "other";
 
@@ -61,11 +51,13 @@ export type JournalStep = {
 };
 
 export type JournalStepConfig = JournalStep & {
-  icon: ReactNode;
+  icon: string;
+  color?: string;
+  // creatorId?: string;
 };
 
 export type JournalEntryCustomStep = {
-  icon: ReactNode;
+  icon: string;
   discipline: string;
   component: JSX.Element;
   type: JournalStepType;

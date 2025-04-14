@@ -8,21 +8,21 @@ import {
 import { IconPicker } from "@components/IconPicker";
 // import { useIconRarityLevel } from "@hooks/useIconRarityLevel";
 import { Control } from "react-hook-form";
-import { HabitZodType } from "@models/habitFormSchema";
+import { DisciplineZodType } from "@models/disciplineFormSchema";
 
-type IconPickerFieldProps = {
-  control: Control<HabitZodType>;
-  xp?: number;
-  projectedXp?: number;
+type DisciplineIconPickerFieldProps = {
+  control: Control<DisciplineZodType>;
+  // xp?: number;
+  // projectedXp?: number;
   type: "Create" | "Update";
 };
 
-export function IconPickerField({
+export function DisciplineIconPickerField({
   control,
-  xp,
-  projectedXp,
+  // xp,
+  // projectedXp,
   type,
-}: IconPickerFieldProps) {
+}: DisciplineIconPickerFieldProps) {
   // const { iconColorClass, bgColorClass } = useIconRarityLevel(
   //   control._formValues.xp
   // );
@@ -35,19 +35,17 @@ export function IconPickerField({
         <FormItem>
           {type === "Create" && (
             <FormLabel className="w-full flex justify-center">
-              Habit Icon
+              Discipline Icon
             </FormLabel>
           )}
           <FormControl>
             <IconPicker
               value={field.value}
               onChange={(iconName) => field.onChange(iconName)}
-              iconPickerType="habits"
-              // iconColorClass={iconColorClass}
-              // bgColorClass={bgColorClass}
-              // habitXp={control._formValues.xp}
-              habitXp={xp}
-              projectedXp={projectedXp}
+              iconPickerType="disciplines"
+
+              // habitXp={xp}
+              // projectedXp={projectedXp}
             />
           </FormControl>
           <div className="text-center w-full">

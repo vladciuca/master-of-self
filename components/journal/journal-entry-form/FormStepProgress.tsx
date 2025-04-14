@@ -1,8 +1,9 @@
 import React from "react";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
-import { FaBoltLightning } from "react-icons/fa6";
+import { IconRenderer } from "@components/IconRenderer";
 import { getJournalStepStyle } from "@components/ui/constants";
+import { FaBoltLightning } from "react-icons/fa6";
 import type { JournalEntryCustomStep } from "@models/types";
 
 type FormStepProgressProps = {
@@ -58,8 +59,6 @@ export function FormStepProgress({
     <div className="flex flex-col items-center w-full mb-4">
       <div className="flex items-center justify-around w-full mt-4 mb-3 px-4 sm:pt-4">
         {formSteps.map((step: JournalEntryCustomStep, index: number) => {
-          const IconElement = step.icon;
-
           const discipline =
             step.type === "other" ? step.discipline : step.type;
           const { bgColor } = getJournalStepStyle(discipline);
@@ -79,16 +78,19 @@ export function FormStepProgress({
                     : "text-primary"
                 } w-11 h-11 rounded-full flex items-center justify-center`}
               >
-                {React.cloneElement(IconElement as React.ReactElement, {
-                  size:
+                <IconRenderer
+                  iconName={step.icon}
+                  size={
                     step.discipline === "night" ||
                     step.discipline === "day" ||
-                    step.discipline === "bonus"
+                    step.discipline === "bonus" ||
+                    step.discipline === "habits"
                       ? 25
                       : step.discipline === "willpower"
                       ? 23
-                      : 30,
-                })}
+                      : 30
+                  }
+                />
               </div>
 
               {count > 0 && (
