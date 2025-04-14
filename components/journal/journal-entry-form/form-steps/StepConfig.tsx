@@ -44,8 +44,8 @@ export function createSteps(
   const formSteps: JournalEntryCustomStep[] = [
     //=====DAY_ENTRY
     {
-      // icon: stringFromIcon(stepIconMap.bonus),
-      icon: "FaStar",
+      icon: stringFromIcon(stepIconMap.bonus),
+      // icon: "FaStar",
       discipline: "bonus",
       component: <Bonus />,
       isAvailable:
@@ -54,8 +54,8 @@ export function createSteps(
       type: "other",
     },
     {
-      // icon: stringFromIcon(stepIconMap.day),
-      icon: "FaSun",
+      icon: stringFromIcon(stepIconMap.day),
+      // icon: "FaSun",
       discipline: "day",
       component: <Day />,
       isAvailable: SHOW_ALL_TEST || !isEvening(userEveningTime),
@@ -70,8 +70,8 @@ export function createSteps(
       })),
     //=====NIGHT_ENTRY
     {
-      // icon: stringFromIcon(stepIconMap.night),
-      icon: "FaMoon",
+      icon: stringFromIcon(stepIconMap.night),
+      // icon: "FaMoon",
       discipline: "night",
       component: <Night />,
       isAvailable:
@@ -86,16 +86,16 @@ export function createSteps(
         isAvailable: SHOW_ALL_TEST || isEvening(userEveningTime),
       })),
     {
-      // icon: stringFromIcon(stepIconMap.willpower),
-      icon: "FaBoltLightning",
+      icon: stringFromIcon(stepIconMap.willpower),
+      // icon: "FaBoltLightning",
       discipline: "willpower",
       component: <Willpower />,
       isAvailable: SHOW_ALL_TEST || true, //NOTE: Not yet decided on behavior
       type: "other",
     },
     {
-      // icon: stringFromIcon(stepIconMap.habits),
-      icon: "GiPencilRuler",
+      icon: stringFromIcon(stepIconMap.habits),
+      // icon: "GiPencilRuler",
       discipline: "habits",
       component: <HabitActionsStep />,
       isAvailable: SHOW_ALL_TEST || hasHabits,
