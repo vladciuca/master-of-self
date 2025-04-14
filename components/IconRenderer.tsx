@@ -15,11 +15,12 @@ export type IconRendererProps = {
 
 export function IconRenderer({
   iconName,
-  size = 25,
+  size,
   className = "",
   xp,
   isXpLoading,
 }: IconRendererProps) {
+  console.log("=================", { iconName, size });
   const { iconColorClass, bgColorClass } = useIconRarityLevel(xp);
   const Icon =
     GiIcons[iconName as keyof typeof GiIcons] ||
