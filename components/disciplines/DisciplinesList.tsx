@@ -1,16 +1,17 @@
 import { DisciplineSectionDelimiter } from "@components/disciplines/DisciplineSectionDelimiter";
-// import { DisciplineCardHeader } from "@components/disciplines/discipline-card/DisciplineCardHeader";
-// import { DisciplineCardDescription } from "@components/disciplines/discipline-card/DisciplineCardDescription";
+import { DisciplineCardHeader } from "@components/disciplines/discipline-card/DisciplineCardHeader";
+import { DisciplineCardDescription } from "@components/disciplines/discipline-card/DisciplineCardDescription";
 import {
   Accordion,
-  // AccordionContent,
-  // AccordionItem,
-  // AccordionTrigger,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
 } from "@/components/ui/accordion";
 
 import { DisciplineCard } from "./discipline-card/DisciplineCard";
 import { customStepConfigs } from "@components/journal/journal-entry-form/form-steps/steps/CustomSteps";
 import { Discipline } from "@models/mongodb";
+import { description } from "@components/habits/HabitXpChart";
 
 type DisciplinesListProps = {
   userDisciplines: Discipline[];
@@ -41,10 +42,16 @@ export function DisciplinesList({
   //   (step) => step.type !== "dayEntry" && step.type !== "nightEntry"
   // );
 
+  const motivation = {
+    discipline: "motivation",
+    title: "titlu",
+    description: "descriere",
+  };
+
   return (
     <Accordion type="single" collapsible className="mt-4">
       {/* WTF DO I DO WITH THIS? create a separate object for this?*/}
-      {/* <AccordionItem
+      <AccordionItem
         key={"motivation"}
         value={"motivation"}
         className="p-0 px-2"
@@ -58,7 +65,7 @@ export function DisciplinesList({
             description={"description"}
           />
         </AccordionContent>
-      </AccordionItem> */}
+      </AccordionItem>
 
       <DisciplineSectionDelimiter day={true} activeSteps={0} maxSteps={2} />
 

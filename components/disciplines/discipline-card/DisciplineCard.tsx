@@ -5,7 +5,6 @@ import { DisciplineCardHeader } from "./DisciplineCardHeader";
 import { DisciplineCardDescription } from "./DisciplineCardDescription";
 import { DisciplineCardFooter } from "./DisciplineCardFooter";
 import {
-  //   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
@@ -29,36 +28,33 @@ export function DisciplineCard({ step, handleEdit }: DisciplineCardProps) {
   const pathName = usePathname();
 
   return (
-    <div>
-      <AccordionItem
-        key={step.discipline}
-        value={step.discipline}
-        className="p-0 px-2 mb-3"
-      >
-        <AccordionTrigger className="pt-5 pb-3">
-          <DisciplineCardHeader
-            icon={step.icon}
-            discipline={step.discipline}
-            type={step.type}
-            // color={step.color}
-            color={"color" in step ? step.color : undefined}
+    <AccordionItem
+      key={step.discipline}
+      value={step.discipline}
+      className="p-0 px-2 mb-3"
+    >
+      <AccordionTrigger className="pt-5 pb-3">
+        <DisciplineCardHeader
+          icon={step.icon}
+          discipline={step.discipline}
+          type={step.type}
+          color={"color" in step ? step.color : undefined}
+        />
+      </AccordionTrigger>
+      <AccordionContent>
+        <DisciplineCardDescription
+          title={step.title}
+          description={step.description}
+        />
+        {isUserDiscipline(step) && (
+          <DisciplineCardFooter
+            session={session}
+            pathName={pathName}
+            handleEdit={handleEdit}
+            discipline={step}
           />
-        </AccordionTrigger>
-        <AccordionContent>
-          <DisciplineCardDescription
-            title={step.title}
-            description={step.description}
-          />
-          {isUserDiscipline(step) && (
-            <DisciplineCardFooter
-              session={session}
-              pathName={pathName}
-              handleEdit={handleEdit}
-              discipline={step}
-            />
-          )}
-        </AccordionContent>
-      </AccordionItem>
-    </div>
+        )}
+      </AccordionContent>
+    </AccordionItem>
   );
 }

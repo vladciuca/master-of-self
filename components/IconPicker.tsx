@@ -30,6 +30,7 @@ type IconPickerProps = {
   habitXp?: number;
   projectedXp?: number;
   iconPickerType?: "habits" | "disciplines";
+  color?: string;
 };
 
 export function IconPicker({
@@ -38,6 +39,7 @@ export function IconPicker({
   habitXp,
   projectedXp,
   iconPickerType,
+  color,
 }: IconPickerProps) {
   const {
     searchTerm,
@@ -152,7 +154,7 @@ export function IconPicker({
                   <>
                     <IconRenderer
                       iconName={selectedIconName || ""}
-                      className="bg-transparent"
+                      className={`bg-transparent text-${color}`}
                       size={60}
                     />
                   </>

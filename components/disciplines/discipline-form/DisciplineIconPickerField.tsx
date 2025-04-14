@@ -1,3 +1,4 @@
+import { useWatch } from "react-hook-form";
 import {
   FormField,
   FormItem,
@@ -26,6 +27,10 @@ export function DisciplineIconPickerField({
   // const { iconColorClass, bgColorClass } = useIconRarityLevel(
   //   control._formValues.xp
   // );
+  const selectedColor = useWatch({
+    control,
+    name: "color",
+  });
 
   return (
     <FormField
@@ -43,6 +48,7 @@ export function DisciplineIconPickerField({
               value={field.value}
               onChange={(iconName) => field.onChange(iconName)}
               iconPickerType="disciplines"
+              color={selectedColor}
 
               // habitXp={xp}
               // projectedXp={projectedXp}

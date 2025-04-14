@@ -5,6 +5,8 @@ import { Button } from "@components/ui/button";
 import { Session, JournalStepConfig } from "@models/types";
 import type { Discipline } from "@models/mongodb";
 
+import { DisciplineCreator } from "./DisciplineCreator";
+
 type Step = JournalStepConfig | Discipline;
 
 type DisciplineCardFooterProps = {
@@ -30,18 +32,25 @@ DisciplineCardFooterProps) {
   //NOTE: so the buttons do not appear on other peoples habit cards
   // Only show for creator
   if (session?.user?.id !== discipline.creatorId.toString()) {
-    return null;
+    // return null;
+    return (
+      <div className="mt-4 flex items-center justify-end">
+        <DisciplineCreator />
+      </div>
+    );
   }
 
   return (
-    <div className="mt-10 flex space-x-4">
-      <Button
-        variant="outline"
-        onClick={() => handleEdit(discipline)}
-        className="flex-1 w-full"
-      >
-        Update Discipline
-      </Button>
+    <div className="px-2">
+      <div className="mt-6 flex space-x-4">
+        <Button
+          variant="outline"
+          onClick={() => handleEdit(discipline)}
+          className="flex-1 w-full"
+        >
+          Update Discipline
+        </Button>
+      </div>
     </div>
   );
 }

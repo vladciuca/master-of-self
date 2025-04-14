@@ -50,7 +50,7 @@ export function DisciplineCardHeader({
       {/* Icon section */}
       {icon && (
         <div className="w-2/12 flex items-center justify-center mb-0">
-          <IconRenderer iconName={icon} className={"text-primary"} size={40} />
+          <IconRenderer iconName={icon} className={`text-${color}`} size={40} />
         </div>
       )}
 
