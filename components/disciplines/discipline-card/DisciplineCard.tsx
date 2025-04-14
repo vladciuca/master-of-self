@@ -1,88 +1,64 @@
-import React, { ReactNode, useState } from "react";
-import { DisciplineProgressBar } from "@components/disciplines/DisciplineProgressBar";
-import { DisciplineSwitch } from "@components/disciplines/discipline-card/DisciplineSwitch";
-import { IconRenderer } from "@components/IconRenderer";
-import { getDisciplineScoreFromEntry } from "@lib/score";
-import { useUserProfile } from "@context/UserProfileContext";
-import { useTodayJournalEntry } from "@hooks/journal/useTodayJournalEntry";
-import { useLastJournalEntry } from "@hooks/journal/useLastJournalEntry";
+import React from "react";
+import { useSession } from "next-auth/react";
+import { usePathname } from "next/navigation";
+import { DisciplineCardHeader } from "./DisciplineCardHeader";
+import { DisciplineCardDescription } from "./DisciplineCardDescription";
+import { DisciplineCardFooter } from "./DisciplineCardFooter";
+import {
+  //   Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+import type { Session, JournalStepConfig } from "@models/types";
+import type { Discipline } from "@models/mongodb";
+
+type Step = JournalStepConfig | Discipline;
 
 type DisciplineCardProps = {
-  icon?: string;
-  color?: string;
-  discipline: string;
-  type?: string;
+  step: Step;
+  handleEdit: (habit: Discipline) => void;
 };
 
-//NOTE: this can be DisciplineCardHeader to keep convention with Habits?
-export function DisciplineCard({
-  icon,
-  color,
-  discipline,
-  type,
-}: DisciplineCardProps) {
-  const { userProfile, userProfileLoading } = useUserProfile();
+function isUserDiscipline(step: Step): step is Discipline {
+  return "creatorId" in step;
+}
 
-  const [isActive, setIsActive] = useState(false);
-  // Get discipline data needed for the level bar
-  const { todayEntry } = useTodayJournalEntry();
-  const { lastEntry } = useLastJournalEntry();
-
-  // Get XP values
-  const disciplines = userProfile?.disciplines || {};
-  const disciplinesProjectedXp = lastEntry
-    ? getDisciplineScoreFromEntry(lastEntry)
-    : {};
-
-  // Calculate XP values
-  let xp = disciplines[discipline] ?? 0;
-  let projectedXp = disciplinesProjectedXp[discipline] ?? 0;
-
-  // Check if there's no today's entry
-  if (!todayEntry) {
-    // Add projected XP to current XP
-    xp = xp + projectedXp;
-    // Reset projected XP to 0
-    projectedXp = 0;
-  }
+export function DisciplineCard({ step, handleEdit }: DisciplineCardProps) {
+  const { data: session } = useSession() as { data: Session | null };
+  const pathName = usePathname();
 
   return (
-    <div className="flex flex-row w-full">
-      {/* Icon section */}
-      {icon && (
-        <div className="w-2/12 flex items-center justify-center mb-0">
-          <IconRenderer iconName={icon} className={"text-primary"} size={40} />
-        </div>
-      )}
-
-      {/* Content section */}
-      <div className={`${icon && type ? "w-8/12 px-2" : "w-full px-3"}`}>
-        {/* Level Bar */}
-        <div className="-mt-2">
-          <DisciplineProgressBar
-            xp={xp}
-            projectedXp={projectedXp}
-            name={discipline}
-            showXpMetrics={true}
-            height={3}
-            color={color}
+    <div>
+      <AccordionItem
+        key={step.discipline}
+        value={step.discipline}
+        className="p-0 px-2 mb-3"
+      >
+        <AccordionTrigger className="pt-5 pb-3">
+          <DisciplineCardHeader
+            icon={step.icon}
+            discipline={step.discipline}
+            type={step.type}
+            // color={step.color}
+            color={"color" in step ? step.color : undefined}
           />
-        </div>
-      </div>
-
-      {/* Toggle switch */}
-      {type && (
-        <div className="w-2/12 flex items-center justify-center mt-0">
-          <DisciplineSwitch
-            type={type}
-            // checked={}
-            // onCheckedChange={() => {}}
-            checked={isActive} // Replace with your actual state
-            onCheckedChange={() => setIsActive(!isActive)} // Replace with your actual handler
-            disabled={userProfileLoading}
+        </AccordionTrigger>
+        <AccordionContent>
+          <DisciplineCardDescription
+            title={step.title}
+            description={step.description}
           />
-        </div>
-      )}
+          {isUserDiscipline(step) && (
+            <DisciplineCardFooter
+              session={session}
+              pathName={pathName}
+              handleEdit={handleEdit}
+              discipline={step}
+            />
+          )}
+        </AccordionContent>
+      </AccordionItem>
     </div>
   );
 }

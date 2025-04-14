@@ -6,12 +6,12 @@ export const disciplineFormSchema = z.object({
     .string()
     .min(3, "Discipline name must contain at least 3 characters"),
   icon: z.string().min(1, "Please select a icon"),
+  color: z.string().min(1, "Color is required"),
   type: z.enum(["dayEntry", "nightEntry"]),
   title: z.string().min(2, "Title must contain at least 2 characters"),
   description: z
     .string()
     .min(2, "Description must contain at least 2 characters"),
-  color: z.string().min(1, "Color is required"),
 });
 
 export type DisciplineZodType = z.infer<typeof disciplineFormSchema>;

@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { ProfilePageHeader } from "@components/profile/ProfilePageHeader";
 import { DisciplinesList } from "@components/disciplines/DisciplinesList";
@@ -9,6 +10,7 @@ import { useTodayJournalEntry } from "@hooks/journal/useTodayJournalEntry";
 import { useLastJournalEntry } from "@hooks/journal/useLastJournalEntry";
 import { useUserProfile } from "@context/UserProfileContext";
 import { useUserDisciplines } from "@hooks/disciplines/useUserDisciplines";
+import { Discipline } from "@models/mongodb";
 
 const NEW_DISCIPLINE_CARD_DETAILS = {
   symbol: <></>,
@@ -28,6 +30,7 @@ const skeletonCards = Array.from({ length: 3 }, (_, index) => (
 ));
 
 export function UserDisciplines() {
+  const router = useRouter();
   const {
     // userProfile,
     userProfileLoading,
@@ -41,6 +44,10 @@ export function UserDisciplines() {
   const { todayEntry, todayEntryLoading, todayEntryError } =
     useTodayJournalEntry();
   const { lastEntry, lastEntryLoading, lastEntryError } = useLastJournalEntry();
+
+  const handleEdit = (discipline: Discipline) => {
+    router.push(`/update-discipline/${discipline._id}`);
+  };
 
   // refetch const { disciplines } = userProfile; on mount
   // Might change the dependency to something else
@@ -80,7 +87,10 @@ export function UserDisciplines() {
           </div>
         ) : (
           <>
-            <DisciplinesList userDisciplines={disciplines} />
+            <DisciplinesList
+              userDisciplines={disciplines}
+              handleEdit={handleEdit}
+            />
           </>
         )}
       </>

@@ -1,21 +1,26 @@
 import { DisciplineSectionDelimiter } from "@components/disciplines/DisciplineSectionDelimiter";
-import { DisciplineCard } from "@components/disciplines/discipline-card/DisciplineCard";
-import { DisciplineCardDescription } from "@components/disciplines/discipline-card/DisciplineCardDescription";
+// import { DisciplineCardHeader } from "@components/disciplines/discipline-card/DisciplineCardHeader";
+// import { DisciplineCardDescription } from "@components/disciplines/discipline-card/DisciplineCardDescription";
 import {
   Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
+  // AccordionContent,
+  // AccordionItem,
+  // AccordionTrigger,
 } from "@/components/ui/accordion";
 
+import { DisciplineCard } from "./discipline-card/DisciplineCard";
 import { customStepConfigs } from "@components/journal/journal-entry-form/form-steps/steps/CustomSteps";
 import { Discipline } from "@models/mongodb";
 
+type DisciplinesListProps = {
+  userDisciplines: Discipline[];
+  handleEdit: (habit: Discipline) => void;
+};
+
 export function DisciplinesList({
   userDisciplines,
-}: {
-  userDisciplines: Discipline[];
-}) {
+  handleEdit,
+}: DisciplinesListProps) {
   // console.log("==========userDisciplines", userDisciplines);
 
   const mergedDisciplines = [...customStepConfigs, ...userDisciplines];
@@ -38,13 +43,14 @@ export function DisciplinesList({
 
   return (
     <Accordion type="single" collapsible className="mt-4">
-      <AccordionItem
+      {/* WTF DO I DO WITH THIS? create a separate object for this?*/}
+      {/* <AccordionItem
         key={"motivation"}
         value={"motivation"}
         className="p-0 px-2"
       >
         <AccordionTrigger className="pt-5 pb-3">
-          <DisciplineCard discipline="motivation" />
+          <DisciplineCardHeader discipline="motivation" />
         </AccordionTrigger>
         <AccordionContent>
           <DisciplineCardDescription
@@ -52,61 +58,18 @@ export function DisciplinesList({
             description={"description"}
           />
         </AccordionContent>
-      </AccordionItem>
+      </AccordionItem> */}
 
       <DisciplineSectionDelimiter day={true} activeSteps={0} maxSteps={2} />
 
       {dayEntries.map((step) => {
-        return (
-          <AccordionItem
-            key={step.discipline}
-            value={step.discipline}
-            className="p-0 px-2 mb-3"
-          >
-            <AccordionTrigger className="pt-5 pb-3">
-              <DisciplineCard
-                icon={step.icon}
-                discipline={step.discipline}
-                type={step.type}
-                color={step.color}
-              />
-            </AccordionTrigger>
-            <AccordionContent>
-              <DisciplineCardDescription
-                title={step.title}
-                description={step.description}
-              />
-              {/* <div>{step.creatorId}</div> */}
-            </AccordionContent>
-          </AccordionItem>
-        );
+        return <DisciplineCard step={step} handleEdit={handleEdit} />;
       })}
 
       <DisciplineSectionDelimiter day={false} activeSteps={0} maxSteps={2} />
 
       {nightEntries.map((step) => {
-        return (
-          <AccordionItem
-            key={step.discipline}
-            value={step.discipline}
-            className="p-0 px-2 mb-3"
-          >
-            <AccordionTrigger className="pt-5 pb-3">
-              <DisciplineCard
-                icon={step.icon}
-                discipline={step.discipline}
-                type={step.type}
-                color={step.color}
-              />
-            </AccordionTrigger>
-            <AccordionContent>
-              <DisciplineCardDescription
-                title={step.title}
-                description={step.description}
-              />
-            </AccordionContent>
-          </AccordionItem>
-        );
+        return <DisciplineCard step={step} handleEdit={handleEdit} />;
       })}
     </Accordion>
   );

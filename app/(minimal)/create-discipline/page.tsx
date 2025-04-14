@@ -1,11 +1,8 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-// import { HabitForm } from "@components/habits/habit-form/HabitForm";
-// import { HabitForm } from "@components/habits/habit-form/HabitForm";
 import { DisciplineForm } from "@components/disciplines/discipline-form/DisciplineForm";
 import { DisciplineZodType } from "@models/disciplineFormSchema";
-// import { useCreateHabit } from "@hooks/habits/useCreateHabit";
 import { useCreateDiscipline } from "@hooks/disciplines/useCreateDiscipline";
 
 export default function CreateDiscipline() {

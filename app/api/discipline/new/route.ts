@@ -5,7 +5,6 @@ export async function POST(req: NextRequest) {
   const { userId, discipline, icon, color, type, title, description } =
     await req.json();
 
-  console.log("===color", color);
   try {
     const { newDiscipline, error } = await createDiscipline(
       userId,

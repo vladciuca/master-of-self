@@ -113,7 +113,8 @@ export function useFetchAndUpdateDiscipline(id: string) {
 
     setSubmittingDisciplineUpdate(true);
     try {
-      const { discipline, icon, type, title, description } = disciplineStep;
+      const { discipline, icon, color, type, title, description } =
+        disciplineStep;
 
       const response = await fetch(`/api/discipline/${id}`, {
         method: "PATCH",
@@ -123,6 +124,7 @@ export function useFetchAndUpdateDiscipline(id: string) {
         body: JSON.stringify({
           discipline,
           icon,
+          color,
           type,
           title,
           description,

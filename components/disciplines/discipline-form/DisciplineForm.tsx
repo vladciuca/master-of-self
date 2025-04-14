@@ -37,10 +37,10 @@ export function DisciplineForm({
       id: type === "Update" ? discipline?.id : undefined,
       discipline: type === "Update" ? discipline?.discipline : "",
       icon: type === "Update" ? discipline?.icon : "",
+      color: type === "Update" ? discipline?.color : "",
       type: type === "Update" ? discipline?.type : "dayEntry",
       title: type === "Update" ? discipline?.title : "",
       description: type === "Update" ? discipline?.description : "",
-      color: type === "Update" ? discipline?.color : "",
     },
   });
 

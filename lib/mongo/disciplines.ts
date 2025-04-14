@@ -65,8 +65,8 @@ export async function createDiscipline(
 export async function updateDiscipline(
   id: string,
   discipline: string,
-  color: string,
   icon: string,
+  color: string,
   type: JournalStepType,
   title: string,
   description: string

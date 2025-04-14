@@ -44,11 +44,7 @@ export function DisciplineColorField({
               Select a color for your discipline
             </FormDescription>
           )}
-          <Select
-            onValueChange={field.onChange}
-            defaultValue={field.value}
-            value={field.value}
-          >
+          <Select onValueChange={field.onChange} value={field.value}>
             <FormControl>
               <SelectTrigger>
                 <SelectValue placeholder="Select a color">
