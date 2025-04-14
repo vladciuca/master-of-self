@@ -1,4 +1,3 @@
-import React from "react";
 import {
   FormField,
   FormItem,
@@ -14,12 +13,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { stepIconMap } from "@components/ui/constants";
+import { IconRenderer } from "@components/IconRenderer";
+import { JOURNAL_COLORS } from "@lib/colors";
 import { Control } from "react-hook-form";
 import { DisciplineZodType } from "@models/disciplineFormSchema";
-
-import { stepIconMap } from "@components/ui/constants";
-import { JOURNAL_COLORS } from "@lib/colors";
-import { cn } from "@lib/utils";
 
 type DisciplineTitleFieldProps = {
   control: Control<DisciplineZodType>;
@@ -55,19 +53,21 @@ export function DisciplineTypeField({
             <SelectContent>
               <SelectItem value="dayEntry">
                 <span className="flex items-center">
-                  {React.cloneElement(stepIconMap.day as React.ReactElement, {
-                    className: cn(`text-${JOURNAL_COLORS.day}`),
-                    size: 20,
-                  })}
+                  <IconRenderer
+                    iconName={stepIconMap.day}
+                    size={20}
+                    className={`mr-1 text-${JOURNAL_COLORS.day}`}
+                  />
                   <span className="ml-2">Morning</span>
                 </span>
               </SelectItem>
               <SelectItem value="nightEntry">
                 <span className="flex items-center">
-                  {React.cloneElement(stepIconMap.night as React.ReactElement, {
-                    className: cn(`text-${JOURNAL_COLORS.night}`),
-                    size: 20,
-                  })}
+                  <IconRenderer
+                    iconName={stepIconMap.night}
+                    size={20}
+                    className={`mr-1 text-${JOURNAL_COLORS.night}`}
+                  />
                   <span className="ml-2">Evening</span>
                 </span>
               </SelectItem>

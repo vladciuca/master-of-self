@@ -1,36 +1,23 @@
-import React from "react";
-import { Target, Shell } from "lucide-react";
-import { FaSun, FaMoon, FaBoltLightning, FaStar } from "react-icons/fa6";
-import {
-  GiHealing,
-  GiGuardedTower,
-  GiAwareness,
-  GiAura,
-  GiInnerSelf,
-  GiNightSleep,
-  GiPencilRuler,
-} from "react-icons/gi";
 import { JOURNAL_COLORS, HABIT_COLORS } from "@lib/colors";
 
-//ICONS
 export type StepIconMap = {
-  [key: string]: React.ReactElement;
+  [key: string]: string;
 };
 
 export const stepIconMap: StepIconMap = {
-  day: <FaSun />,
-  night: <FaMoon />,
-  sleep: <GiNightSleep />,
   //Built-in step icons
-  habits: <GiPencilRuler />,
-  goals: <Target />,
-  confidence: <GiAura />,
-  awareness: <GiAwareness />,
-  positivity: <GiHealing />,
-  resilience: <GiGuardedTower />,
-  willpower: <FaBoltLightning />,
-  bonus: <FaStar />,
-  default: <GiInnerSelf />,
+  day: "FaSun",
+  night: "FaMoon",
+  sleep: "GiNightSleep",
+  habits: "GiPencilRuler",
+  //Custom step icons
+  confidence: "GiAura",
+  awareness: "GiAwareness",
+  positivity: "GiHealing",
+  resilience: "GiGuardedTower",
+  willpower: "FaBoltLightning",
+  bonus: "FaStar",
+  default: "GiInnerSelf",
 };
 
 //JOURNAL STEPS STYLE
@@ -73,17 +60,17 @@ export function getTimePeriodIconAndColor(
     case "day":
       return {
         periodColor: JOURNAL_COLORS.day,
-        IconElement: stepIconMap.day,
+        iconName: stepIconMap.day,
       };
     case "night":
       return {
         periodColor: JOURNAL_COLORS.night,
-        IconElement: stepIconMap.night,
+        iconName: stepIconMap.night,
       };
     default: // 'sleep'
       return {
         periodColor: JOURNAL_COLORS.sleep,
-        IconElement: stepIconMap.sleep,
+        iconName: stepIconMap.sleep,
       };
   }
 }

@@ -1,4 +1,4 @@
-import React from "react";
+import { IconRenderer } from "@components/IconRenderer";
 import { stepIconMap } from "@components/ui/constants";
 import { JOURNAL_COLORS } from "@lib/colors";
 
@@ -13,8 +13,22 @@ export function DisciplineSectionDelimiter({
   activeSteps,
   maxSteps,
 }: DisciplineSectionDelimiterProps) {
-  const IconElement = day ? stepIconMap.day : stepIconMap.night;
   const iconColor = day ? JOURNAL_COLORS.day : JOURNAL_COLORS.night;
+  const dayIcon = (
+    <IconRenderer
+      iconName={stepIconMap.day}
+      size={20}
+      className={`mr-1 text-${iconColor}`}
+    />
+  );
+  const nightIcon = (
+    <IconRenderer
+      iconName={stepIconMap.night}
+      size={20}
+      className={`mr-1 text-${iconColor}`}
+    />
+  );
+  const IconElement = day ? dayIcon : nightIcon;
 
   return (
     <div className="flex items-center justify-between px-2 mt-4 mb-2">
@@ -22,10 +36,7 @@ export function DisciplineSectionDelimiter({
         {day ? "Morning" : "Evening"} Steps
       </div>
       <div className="flex items-center space-x-2">
-        {React.cloneElement(IconElement as React.ReactElement, {
-          size: 20,
-          className: `mr-1 text-${iconColor}`,
-        })}
+        {IconElement}
         <span className="scroll-m-20 text-lg font-semibold tracking-tight">
           {activeSteps}
           <span className="font-thin mx-1 text-muted-foreground">/</span>

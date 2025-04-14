@@ -9,7 +9,6 @@ import { stepIconMap } from "@components/ui/constants";
 //NOTE: need to check how to use getCurrentTimePeriod() here
 import { isEvening } from "@lib/time";
 import { calculateHabitsXpFromEntry } from "@lib/level";
-import { stringFromIcon } from "@lib/utils";
 import type {
   JournalEntry,
   JournalEntryCustomStep,
@@ -44,8 +43,7 @@ export function createSteps(
   const formSteps: JournalEntryCustomStep[] = [
     //=====DAY_ENTRY
     {
-      icon: stringFromIcon(stepIconMap.bonus),
-      // icon: "FaStar",
+      icon: stepIconMap.bonus,
       discipline: "bonus",
       component: <Bonus />,
       isAvailable:
@@ -54,8 +52,7 @@ export function createSteps(
       type: "other",
     },
     {
-      icon: stringFromIcon(stepIconMap.day),
-      // icon: "FaSun",
+      icon: stepIconMap.day,
       discipline: "day",
       component: <Day />,
       isAvailable: SHOW_ALL_TEST || !isEvening(userEveningTime),
@@ -70,8 +67,7 @@ export function createSteps(
       })),
     //=====NIGHT_ENTRY
     {
-      icon: stringFromIcon(stepIconMap.night),
-      // icon: "FaMoon",
+      icon: stepIconMap.night,
       discipline: "night",
       component: <Night />,
       isAvailable:
@@ -86,16 +82,14 @@ export function createSteps(
         isAvailable: SHOW_ALL_TEST || isEvening(userEveningTime),
       })),
     {
-      icon: stringFromIcon(stepIconMap.willpower),
-      // icon: "FaBoltLightning",
+      icon: stepIconMap.willpower,
       discipline: "willpower",
       component: <Willpower />,
       isAvailable: SHOW_ALL_TEST || true, //NOTE: Not yet decided on behavior
       type: "other",
     },
     {
-      icon: stringFromIcon(stepIconMap.habits),
-      // icon: "GiPencilRuler",
+      icon: stepIconMap.habits,
       discipline: "habits",
       component: <HabitActionsStep />,
       isAvailable: SHOW_ALL_TEST || hasHabits,

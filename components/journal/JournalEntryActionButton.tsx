@@ -1,12 +1,11 @@
 "use client";
 
-import React from "react";
-import { Button } from "@/components/ui/button";
+import { IconRenderer } from "@components/IconRenderer";
 import { getTimePeriodIconAndColor } from "@components/ui/constants";
+import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { useUserProfile } from "@context/UserProfileContext";
-
 import { getCurrentTimePeriod } from "@lib/time";
+import { useUserProfile } from "@context/UserProfileContext";
 
 type JournalEntryActionButtonProps = {
   text: string;
@@ -29,7 +28,7 @@ export function JournalEntryActionButton({
     userProfile?.journalStartTime.evening
   );
 
-  const { periodColor, IconElement } = getTimePeriodIconAndColor(timePeriod);
+  const { periodColor, iconName } = getTimePeriodIconAndColor(timePeriod);
 
   // Only apply special disabled styling when submitting
   const disabledClasses = isSubmitting
@@ -48,14 +47,15 @@ export function JournalEntryActionButton({
         "hover:text-white rounded-md font-normal w-full sm:w-auto py-5"
       )}
     >
-      {React.cloneElement(IconElement as React.ReactElement, {
-        className: cn(
+      <IconRenderer
+        iconName={iconName}
+        size={20}
+        className={cn(
           `mr-3 text-${periodColor}`,
           isSubmitting ? "group-disabled:text-white" : "",
           "group-hover:text-white transition-colors"
-        ),
-        size: 20,
-      })}
+        )}
+      />
       {text}
     </Button>
   );

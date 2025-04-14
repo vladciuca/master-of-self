@@ -20,7 +20,6 @@ export function IconRenderer({
   xp,
   isXpLoading,
 }: IconRendererProps) {
-  // console.log("=================", { iconName, size });
   const { iconColorClass, bgColorClass } = useIconRarityLevel(xp);
   const Icon =
     GiIcons[iconName as keyof typeof GiIcons] ||
@@ -33,10 +32,14 @@ export function IconRenderer({
 
   if (isXpLoading) return <Skeleton className={cn(className)} />;
 
-  console.log("===============ICON SIZE >>>", size, typeof size);
-
   return (
-    <div className={cn(bgColorClass, className)}>
+    <div
+      className={cn(
+        bgColorClass,
+        className,
+        "flex items-center justify-center"
+      )}
+    >
       <Icon className={cn(iconColorClass)} size={Number(size)} />
     </div>
   );

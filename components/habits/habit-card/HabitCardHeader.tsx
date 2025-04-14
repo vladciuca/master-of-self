@@ -92,12 +92,13 @@ export function HabitCardHeader({
   return (
     <div className="p-2 px-3 flex justify-between text-start w-full">
       <div className="flex flex-grow">
-        <div className="flex items-center">
+        <div className="flex items-center justify-center">
           <IconRenderer
             iconName={icon}
             className="rounded-md h-16 w-16 p-1"
             xp={xpGain}
             isXpLoading={entryLoading}
+            size={50}
           />
         </div>
 
@@ -167,10 +168,7 @@ export function HabitCardHeader({
               ) : (
                 <div>
                   <span className="text-base">
-                    <XpDisplay
-                      xpValue={projectedXp}
-                      // xpValue={lastEntryProjectedXp || defaultProjectedXp}
-                    />
+                    <XpDisplay xpValue={projectedXp} />
                   </span>
                   <span>XP</span>
                 </div>

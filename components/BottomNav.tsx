@@ -2,10 +2,10 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { NavButton } from "@/components/ui/nav-button";
+import { IconRenderer } from "@components/IconRenderer";
+import { NavButton } from "@components/ui/nav-button";
 import { getTimePeriodIconAndColor } from "@components/ui/constants";
 import { HiUser, HiUserGroup } from "react-icons/hi2";
-import { cn } from "@/lib/utils";
 import { getCurrentTimePeriod, getCountdownToNextPeriod } from "@lib/time";
 import type { UserProfile } from "@models/types";
 
@@ -55,7 +55,7 @@ export function BottomNav({ userProfile, userProfileError }: BottomNavProps) {
     userProfile?.journalStartTime.evening
   );
 
-  const { periodColor, IconElement } = getTimePeriodIconAndColor(timePeriod);
+  const { periodColor, iconName } = getTimePeriodIconAndColor(timePeriod);
 
   return (
     <nav className="h-full w-full flex justify-around items-center px-2">
@@ -67,10 +67,11 @@ export function BottomNav({ userProfile, userProfileError }: BottomNavProps) {
 
       <Link href="/journal" className="flex-1 flex justify-center w-full">
         <NavButton>
-          {React.cloneElement(IconElement as React.ReactElement, {
-            className: cn(`text-${periodColor}`),
-            size: 28,
-          })}
+          <IconRenderer
+            iconName={iconName}
+            size={28}
+            className={`text-${periodColor}`}
+          />
           <div className="text-xs mt-1">{timerDisplay}</div>
         </NavButton>
       </Link>

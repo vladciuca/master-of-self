@@ -1,5 +1,6 @@
 import React from "react";
 import { Badge } from "@/components/ui/badge";
+import { IconRenderer } from "@components/IconRenderer";
 import { getJournalStepStyle, stepIconMap } from "@components/ui/constants";
 
 type BonusStepTabHeaderProps = {
@@ -17,14 +18,14 @@ export const BonusStepTabHeader = ({
 }: BonusStepTabHeaderProps) => {
   const { bgColor } = getJournalStepStyle(stepType);
 
-  const IconElement = stepIconMap[stepDiscipline] || stepIconMap.default;
-
   return (
     <div className="relative">
       <div className="flex items-center justify-center w-8 h-8">
-        {React.cloneElement(IconElement as React.ReactElement, {
-          size: stepType === "night" ? 25 : 30,
-        })}
+        <IconRenderer
+          iconName={stepIconMap[stepDiscipline] || stepIconMap.default}
+          size={stepType === "night" ? 25 : 30}
+          className="ml-2"
+        />
         {count !== undefined && (
           <Badge
             variant="outline"

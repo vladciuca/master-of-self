@@ -2,12 +2,14 @@ import { useFormContext } from "react-hook-form";
 import { JournalStepTemplate } from "@components/journal/journal-entry-form/form-steps/steps/journal-step/JournalStepTemplate";
 import { WillpowerScoreDisplay } from "@components/journal/journal-entry-form/form-steps/WillpowerScoreDisplay";
 import { DisciplineProgressBar } from "@components/disciplines/DisciplineProgressBar";
+import { IconRenderer } from "@components/IconRenderer";
 import { getDayDisciplineScores, getNightDisciplineScores } from "@lib/score";
+//NOTE: might change to use getCurrentTimePeriod util function here
+import { isEvening } from "@lib/time";
 import { JOURNAL_COLORS } from "@lib/colors";
 import type { UserDisciplines } from "@models/types";
 import { useUserProfile } from "@context/UserProfileContext";
 import { stepIconMap } from "@components/ui/constants";
-import { isEvening } from "@lib/time";
 
 export const Willpower = () => {
   const { watch } = useFormContext();
@@ -96,7 +98,12 @@ export const Willpower = () => {
       <div className="flex flex-col justify-center px-4 sm:px-8 mt-6">
         <div className="text-center">
           <h2 className="text-muted w-full flex justify-center text-5xl font-semibold tracking-tight mb-8">
-            {isEveningTime ? stepIconMap.night : stepIconMap.day}
+            {}
+            <IconRenderer
+              iconName={isEveningTime ? stepIconMap.night : stepIconMap.day}
+              size={40}
+              // className={`text-primary`}
+            />
           </h2>
           <div className="flex flex-col w-full">
             {/* Always show Motivation section before the current disciplines section */}

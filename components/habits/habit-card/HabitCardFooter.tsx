@@ -1,9 +1,8 @@
 "use client";
 
-import React from "react";
-import { Button } from "@components/ui/button";
+import { IconRenderer } from "@components/IconRenderer";
 import { stepIconMap } from "@components/ui/constants";
-import { cn } from "@lib/utils";
+import { Button } from "@components/ui/button";
 import { Session, Habit } from "@models/types";
 
 type HabitCardFooterProps = {
@@ -30,8 +29,6 @@ export function HabitCardFooter({
     return null;
   }
 
-  const IconElement = stepIconMap.habits;
-
   return (
     <div className="mt-10 flex space-x-4">
       <Button
@@ -49,10 +46,11 @@ export function HabitCardFooter({
         className="flex-1 w-full"
       >
         Take Action
-        {React.cloneElement(IconElement as React.ReactElement, {
-          className: cn("ml-2"),
-          size: 20,
-        })}
+        <IconRenderer
+          iconName={stepIconMap.habits}
+          size={20}
+          className="ml-2"
+        />
       </Button>
     </div>
   );
