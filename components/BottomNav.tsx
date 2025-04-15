@@ -76,7 +76,7 @@ export function BottomNav({ userProfile, userProfileError }: BottomNavProps) {
         </NavButton>
       </Link>
 
-      <Link href="/" className="flex-1 flex justify-center w-full">
+      <Link href="/explore" className="flex-1 flex justify-center w-full">
         <NavButton>
           <HiUserGroup size={40} />
         </NavButton>

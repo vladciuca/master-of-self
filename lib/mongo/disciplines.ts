@@ -141,3 +141,42 @@ export async function getDisciplines(userId: string): Promise<{
     return { disciplines: null, error: "Failed to fetch habits" };
   }
 }
+
+// GET ALL DISCIPLINES (across all users) =========================================
+//NOTE: not used
+// export async function getAllDisciplines(): Promise<{
+//   disciplines: Discipline[] | null;
+//   error?: string;
+// }> {
+//   try {
+//     if (!disciplines) await init();
+
+//     // No query filter means get all documents
+//     const result = await disciplines.find({}).toArray();
+
+//     return { disciplines: result };
+//   } catch (error) {
+//     return { disciplines: null, error: "Failed to fetch all disciplines" };
+//   }
+// }
+
+// GET ALL DISCIPLINES (excluding specific user) =========================================
+export async function getAllDisciplinesExceptUser(
+  excludeUserId: string
+): Promise<{
+  disciplines: Discipline[] | null;
+  error?: string;
+}> {
+  try {
+    if (!disciplines) await init();
+
+    // Query that excludes the specified user
+    const query = { creatorId: { $ne: new ObjectId(excludeUserId) } };
+
+    const result = await disciplines.find(query).toArray();
+
+    return { disciplines: result };
+  } catch (error) {
+    return { disciplines: null, error: "Failed to fetch disciplines" };
+  }
+}
