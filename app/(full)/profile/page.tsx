@@ -14,12 +14,12 @@ export default function Profile() {
   // page tab configuration object - contains name and component for each page
   const pageConfig = [
     {
-      name: "willpower",
-      component: <WeeklyWillpowerChart />,
-    },
-    {
       name: "disciplines",
       component: <UserDisciplines />,
+    },
+    {
+      name: "willpower",
+      component: <WeeklyWillpowerChart />,
     },
     // {
     //   name: "habits",

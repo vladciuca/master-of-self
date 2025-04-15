@@ -13,7 +13,7 @@ export default function ExplorePage() {
   const { disciplines, loading, error } = useAllDisciplines();
 
   return (
-    <div className="my-4">
+    <div className="py-4">
       <div className="scroll-m-20 text-2xl font-semibold tracking-tight">
         Explore Disciplines
       </div>
