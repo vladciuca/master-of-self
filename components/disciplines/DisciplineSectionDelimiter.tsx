@@ -32,7 +32,7 @@ export function DisciplineSectionDelimiter({
 
   return (
     <div className="flex items-center justify-between px-2 mt-4 mb-2">
-      <div className="flex items-center scroll-m-20 text-md text-muted-foreground font-normal">
+      <div className="flex items-center scroll-m-20 text-md text-muted-foreground font-semibold">
         {day ? "Morning" : "Evening"} Steps
       </div>
       <div className="flex items-center space-x-2">
