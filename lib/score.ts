@@ -138,21 +138,41 @@ export function getDisciplineScoreFromEntry(
 
   // Add night scores
   Object.entries(nightScores).forEach(([key, value]) => {
-    if (key === "motivation") {
-      // Special handling for motivation
-      const dayMotivation = Number(dayScores.motivation);
+    // if (key === "motivation") {
+    //   // Special handling for motivation
+    //   const dayMotivation = Number(dayScores.motivation);
 
-      // Check if day motivation exists and is valid
-      if (
+    //   // Check if day motivation exists and is valid
+    //   if (
+    //     !isNaN(dayMotivation) &&
+    //     dayMotivation > 0 &&
+    //     Array.isArray(entry?.dayEntry?.day) &&
+    //     entry.dayEntry.day.length > 0
+    //   ) {
+    //     // Only multiply if day motivation is valid
+    //     combinedScores[key] = dayMotivation * value;
+    //   } else {
+    //     // Otherwise set to 0
+    //     combinedScores[key] = 0;
+    //   }
+    // }
+    if (key === "motivation") {
+      const dayMotivation = Number(dayScores.motivation);
+      const hasValidDayMotivation =
         !isNaN(dayMotivation) &&
         dayMotivation > 0 &&
         Array.isArray(entry?.dayEntry?.day) &&
-        entry.dayEntry.day.length > 0
-      ) {
-        // Only multiply if day motivation is valid
-        combinedScores[key] = dayMotivation * value;
+        entry.dayEntry.day.length > 0;
+
+      if (hasValidDayMotivation) {
+        const shouldDefaultNightMotivation =
+          Array.isArray(entry?.nightEntry?.night) &&
+          entry.nightEntry.night.length === 0;
+
+        const nightMotivation = shouldDefaultNightMotivation ? 1 : value;
+
+        combinedScores[key] = dayMotivation * nightMotivation;
       } else {
-        // Otherwise set to 0
         combinedScores[key] = 0;
       }
     } else {
