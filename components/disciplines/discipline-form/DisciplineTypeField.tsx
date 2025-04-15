@@ -15,7 +15,6 @@ import {
 } from "@/components/ui/select";
 import { stepIconMap } from "@components/ui/constants";
 import { IconRenderer } from "@components/IconRenderer";
-import { JOURNAL_COLORS } from "@lib/colors";
 import { Control } from "react-hook-form";
 import { DisciplineZodType } from "@models/disciplineFormSchema";
 
@@ -51,22 +50,28 @@ export function DisciplineTypeField({
               </SelectTrigger>
             </FormControl>
             <SelectContent>
-              <SelectItem value="dayEntry">
+              <SelectItem
+                value="dayEntry"
+                className="hover:bg-muted data-[highlighted]:bg-muted/30"
+              >
                 <span className="flex items-center">
                   <IconRenderer
                     iconName={stepIconMap.day}
                     size={20}
-                    className={`mr-1 text-${JOURNAL_COLORS.day}`}
+                    className="mr-1 text-muted"
                   />
                   <span className="ml-2">Morning</span>
                 </span>
               </SelectItem>
-              <SelectItem value="nightEntry">
+              <SelectItem
+                value="nightEntry"
+                className="hover:bg-muted data-[highlighted]:bg-muted/30"
+              >
                 <span className="flex items-center">
                   <IconRenderer
                     iconName={stepIconMap.night}
                     size={20}
-                    className={`mr-1 text-${JOURNAL_COLORS.night}`}
+                    className="mr-1 text-muted"
                   />
                   <span className="ml-2">Evening</span>
                 </span>

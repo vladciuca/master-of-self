@@ -14,9 +14,12 @@ export default function ExplorePage() {
 
   return (
     <div className="py-4">
-      <div className="scroll-m-20 text-2xl font-semibold tracking-tight">
+      <div className="scroll-m-20 text-2xl font-semibold tracking-tight w-full text-center">
         Explore Disciplines
       </div>
+      {/* <h1 className="scroll-m-20 text-4xl font-bold tracking-tight text-center">
+        Explore Disciplines
+      </h1> */}
       {loading ? (
         <div className="mt-4 space-y-4">{skeletonCards}</div>
       ) : !loading && error ? (

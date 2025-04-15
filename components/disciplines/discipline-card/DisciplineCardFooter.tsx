@@ -41,8 +41,8 @@ DisciplineCardFooterProps) {
   }
 
   return (
-    <div className="px-2">
-      <div className="mt-6 flex space-x-4">
+    <div className="mt-4 px-2">
+      <div className="flex space-x-4">
         <Button
           variant="outline"
           onClick={() => handleEdit(discipline)}

@@ -2,7 +2,7 @@ import React from "react";
 import { useSession } from "next-auth/react";
 import { usePathname } from "next/navigation";
 import { DisciplineCardHeader } from "./DisciplineCardHeader";
-import { DisciplineCardDescription } from "./DisciplineCardDescription";
+import { DisciplineCardContent } from "./DisciplineCardContent";
 import { DisciplineCardFooter } from "./DisciplineCardFooter";
 import {
   AccordionContent,
@@ -42,10 +42,9 @@ export function DisciplineCard({ step, handleEdit }: DisciplineCardProps) {
         />
       </AccordionTrigger>
       <AccordionContent>
-        <DisciplineCardDescription
+        <DisciplineCardContent
           title={step.title}
           description={step.description}
-          color={"color" in step ? step.color : undefined}
         />
         {isUserDiscipline(step) && (
           <DisciplineCardFooter

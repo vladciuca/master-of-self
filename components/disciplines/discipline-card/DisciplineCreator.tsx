@@ -16,7 +16,7 @@ export function DisciplineCreator() {
 
   return (
     <div className="flex items-end mx-2 text-xs">
-      <span className="text-muted-foreground"> Created by</span>
+      <span className="text-muted-foreground">Created by</span>
 
       <span className="ml-1 mr-2 font-semibold">{name}</span>
 

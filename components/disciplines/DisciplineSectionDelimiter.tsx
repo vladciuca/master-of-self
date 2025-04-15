@@ -1,6 +1,5 @@
 import { IconRenderer } from "@components/IconRenderer";
 import { stepIconMap } from "@components/ui/constants";
-import { JOURNAL_COLORS } from "@lib/colors";
 
 type DisciplineSectionDelimiterProps = {
   day: boolean;
@@ -13,30 +12,29 @@ export function DisciplineSectionDelimiter({
   activeSteps,
   maxSteps,
 }: DisciplineSectionDelimiterProps) {
-  const iconColor = day ? JOURNAL_COLORS.day : JOURNAL_COLORS.night;
   const dayIcon = (
     <IconRenderer
       iconName={stepIconMap.day}
       size={20}
-      className={`mr-1 text-${iconColor}`}
+      className="mr-1 text-muted"
     />
   );
   const nightIcon = (
     <IconRenderer
       iconName={stepIconMap.night}
       size={20}
-      className={`mr-1 text-${iconColor}`}
+      className="mr-1 text-muted"
     />
   );
   const IconElement = day ? dayIcon : nightIcon;
 
   return (
-    <div className="flex items-center justify-between px-2 mt-4 mb-2">
-      <div className="flex items-center scroll-m-20 text-md text-muted-foreground font-semibold">
-        {day ? "Morning" : "Evening"} Steps
+    <div className="flex items-center justify-between my-4 bg-muted/30 rounded-lg p-2 px-3">
+      <div className="scroll-m-20 text-muted-foreground font-semibold tracking-tight flex items-center">
+        <span className="mr-2">{IconElement}</span>
+        {day ? "Morning" : "Evening"}
       </div>
       <div className="flex items-center space-x-2">
-        {IconElement}
         <span className="scroll-m-20 text-lg font-semibold tracking-tight">
           {activeSteps}
           <span className="font-thin mx-1 text-muted-foreground">/</span>

@@ -1,6 +1,7 @@
 import React from "react";
 import { DisciplineFeedHeader } from "./DisciplineFeedHeader";
-import { DisciplineFeedContent } from "./DisciplineFeedContent";
+import { DisciplineFeedFooter } from "./DisciplineFeedFooter";
+import { DisciplineCardContent } from "@components/disciplines/discipline-card/DisciplineCardContent";
 import {
   AccordionContent,
   AccordionItem,
@@ -32,7 +33,11 @@ export function DisciplineFeedCard({ step }: DisciplineCardProps) {
         />
       </AccordionTrigger>
       <AccordionContent>
-        <DisciplineFeedContent description={step.description} />
+        <DisciplineCardContent
+          title={step.title}
+          description={step.description}
+        />
+        <DisciplineFeedFooter />
       </AccordionContent>
     </AccordionItem>
   );

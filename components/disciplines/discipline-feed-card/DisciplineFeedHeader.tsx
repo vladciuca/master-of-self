@@ -1,4 +1,4 @@
-import React from "react";
+import { DisciplineCreator } from "@components/disciplines/discipline-card/DisciplineCreator";
 import { IconRenderer } from "@components/IconRenderer";
 import { stepIconMap } from "@components/ui/constants";
 import { JOURNAL_COLORS } from "@lib/colors";
@@ -28,13 +28,14 @@ export function DisciplineFeedHeader({
       )}
 
       {/* Content section */}
-      <div className="flex flex-col items-start w-full px-3">
-        <span>{discipline}</span>
-        <span
+      <div className="flex flex-col items-start w-full mx-4">
+        <span className="mx-2">{discipline}</span>
+        {/* <span
           className={`scroll-m-20 text-lg font-semibold tracking-tight text-${color}`}
         >
           {title}
-        </span>
+        </span> */}
+        <DisciplineCreator />
       </div>
 
       {/* Toggle switch */}

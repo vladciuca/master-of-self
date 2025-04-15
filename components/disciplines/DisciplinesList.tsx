@@ -1,6 +1,6 @@
 import { DisciplineSectionDelimiter } from "@components/disciplines/DisciplineSectionDelimiter";
 import { DisciplineCardHeader } from "@components/disciplines/discipline-card/DisciplineCardHeader";
-import { DisciplineCardDescription } from "@components/disciplines/discipline-card/DisciplineCardDescription";
+import { DisciplineCardContent } from "@components/disciplines/discipline-card/DisciplineCardContent";
 import {
   Accordion,
   AccordionContent,
@@ -59,10 +59,7 @@ export function DisciplinesList({
           <DisciplineCardHeader discipline="motivation" />
         </AccordionTrigger>
         <AccordionContent>
-          <DisciplineCardDescription
-            title={"title"}
-            description={"description"}
-          />
+          <DisciplineCardContent title={"title"} description={"description"} />
         </AccordionContent>
       </AccordionItem>
 
