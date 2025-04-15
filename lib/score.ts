@@ -108,6 +108,9 @@ export function getNightDisciplineScores(
 
     // Special handling for "night" key (only returns: motivation multiplier)
     if (key === "night") {
+      //NOTE: hotfix to return 0 score when there are no elements in the night[]
+      //will refactor this logic in WILLPOWER refactor
+      if (value.length === 0) return (disciplines.motivation = 0);
       disciplines.motivation = calculateStepScoreMultiplier(value);
     } else {
       // For all other keys, calculate score normally

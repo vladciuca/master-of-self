@@ -30,6 +30,11 @@ export function useYesterdayJournalEntry() {
       return {};
     }
 
+    console.log(
+      "======NIGHT SCORE",
+      getNightDisciplineScores(yesterdayEntry.nightEntry)
+    );
+
     // The updated function will process all keys in nightEntry as disciplines
     return getNightDisciplineScores(yesterdayEntry.nightEntry);
   }, [yesterdayEntry]);
@@ -55,6 +60,8 @@ export function useYesterdayJournalEntry() {
       0
     );
 
+    // console.log("===============TS", totalScore);
+
     // Apply the same WP multiplier
     return Math.floor(totalScore * (userProfile?.willpowerSMultiplier || 1.5));
   }, [
@@ -63,6 +70,8 @@ export function useYesterdayJournalEntry() {
     userProfileLoading,
     userProfileError,
   ]);
+
+  // console.log("===============WP", bonusWillpower);
 
   useEffect(() => {
     if (!session?.user.id) return;
