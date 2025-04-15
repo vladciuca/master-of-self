@@ -11,7 +11,6 @@ import {
 import { DisciplineCard } from "./discipline-card/DisciplineCard";
 import { customStepConfigs } from "@components/journal/journal-entry-form/form-steps/steps/CustomSteps";
 import { Discipline } from "@models/mongodb";
-import { description } from "@components/habits/HabitXpChart";
 
 type DisciplinesListProps = {
   userDisciplines: Discipline[];

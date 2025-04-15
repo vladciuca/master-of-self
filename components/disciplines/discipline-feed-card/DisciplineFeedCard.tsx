@@ -1,6 +1,4 @@
 import React from "react";
-import { useSession } from "next-auth/react";
-import { usePathname } from "next/navigation";
 import { DisciplineFeedHeader } from "./DisciplineFeedHeader";
 import { DisciplineFeedContent } from "./DisciplineFeedContent";
 import {
@@ -8,24 +6,16 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import type { Session, JournalStepConfig } from "@models/types";
+import type { JournalStepConfig } from "@models/types";
 import type { Discipline } from "@models/mongodb";
 
 type Step = JournalStepConfig | Discipline;
 
 type DisciplineCardProps = {
   step: Step;
-  handleEdit: (habit: Discipline) => void;
 };
 
-function isUserDiscipline(step: Step): step is Discipline {
-  return "creatorId" in step;
-}
-
-export function DisciplineFeedCard({ step, handleEdit }: DisciplineCardProps) {
-  const { data: session } = useSession() as { data: Session | null };
-  const pathName = usePathname();
-
+export function DisciplineFeedCard({ step }: DisciplineCardProps) {
   return (
     <AccordionItem
       key={step.discipline}

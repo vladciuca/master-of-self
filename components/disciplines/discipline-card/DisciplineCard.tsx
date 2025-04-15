@@ -45,6 +45,7 @@ export function DisciplineCard({ step, handleEdit }: DisciplineCardProps) {
         <DisciplineCardDescription
           title={step.title}
           description={step.description}
+          color={"color" in step ? step.color : undefined}
         />
         {isUserDiscipline(step) && (
           <DisciplineCardFooter
