@@ -47,6 +47,11 @@ export function FormStepController({
     defaultValues: creteFormDefaultValues({ journalEntryData, customSteps }),
   });
 
+  console.log(
+    "=========defaultValues",
+    creteFormDefaultValues({ journalEntryData, customSteps })
+  );
+
   // Get form values and methods
   const { watch, setValue, getValues } = methods;
 
@@ -115,6 +120,7 @@ export function FormStepController({
       watch,
       userEveningTime,
       SHOW_ALL_TEST,
+      //NOTE: need to find better names for these steps
       customSteps,
       hasHabits,
     });
@@ -154,7 +160,7 @@ export function FormStepController({
     if (!isInitialized && availableSteps.length > 0) {
       // Only change the step if there's no step parameter in the URL
       if (!currentStep) {
-        setStep(steps[0]);
+        setStep(String(steps[0]));
       }
       setIsInitialized(true);
     }
@@ -187,7 +193,7 @@ export function FormStepController({
 
     if (nextIndex < availableSteps.length) {
       await onSubmit(formData); // submits data after each steps
-      handleStepChange(steps[nextIndex], false); // Don't submit again
+      handleStepChange(String(steps[nextIndex]), false); // Don't submit again
     } else {
       await onSubmit(formData);
       router.push("/journal");
@@ -209,7 +215,7 @@ export function FormStepController({
       const formData = getValues();
       // Submit the form data before going back
       await onSubmit(formData);
-      handleStepChange(steps[prevIndex], false); // Don't submit again
+      handleStepChange(String(steps[prevIndex]), false); // Don't submit again
     }
   }, [currentStepIndex, handleStepChange, steps, getValues, onSubmit]);
 
@@ -233,7 +239,7 @@ export function FormStepController({
       <div className="grid grid-rows-[auto,1fr,auto] h-full">
         <FormStepProgress
           formSteps={availableSteps}
-          activeStep={activeStep} // this is now the STEP ID
+          activeStep={String(activeStep)} // this is now the STEP ID
           handleStepChange={handleStepChange}
           progressPercentage={progressPercentage}
           {...progressProps}

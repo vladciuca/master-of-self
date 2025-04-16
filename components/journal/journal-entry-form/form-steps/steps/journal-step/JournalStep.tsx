@@ -4,16 +4,21 @@ import { TextAreaList } from "@components/ui/textarea-list";
 import { StepScoreDisplay } from "../../StepScoreDisplay";
 import type { JournalEntry, JournalStep } from "@models/types";
 
+type JournalStepId = JournalStep & {
+  _id: string;
+};
+
 export function JournalStep({
+  _id,
   discipline,
   type,
   title,
   description,
-}: JournalStep) {
+}: JournalStepId) {
   const { watch, setValue } = useFormContext<JournalEntry>();
 
   if (type === "other") return;
-  const formPath = `${type}.${discipline}` as const;
+  const formPath = `${type}.${_id}` as const;
   const items = watch(formPath);
 
   const handleTextAreaListChange = (newEntries: string[]) => {

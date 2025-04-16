@@ -1,6 +1,7 @@
 import { JournalStep } from "@components/journal/journal-entry-form/form-steps/steps/journal-step/JournalStep";
 import { stepIconMap } from "@components/ui/constants";
 import type { JournalCustomStepConfig, JournalCustomStep } from "@models/types";
+import type { Discipline } from "@models/mongodb";
 
 export const customStepConfigs: JournalCustomStepConfig[] = [
   {
@@ -41,20 +42,25 @@ export const customStepConfigs: JournalCustomStepConfig[] = [
   },
 ];
 
-export const customSteps: JournalCustomStep[] = customStepConfigs.map(
-  (config) => ({
+export function generateCustomStepsFromConfig(
+  disciplineSteps: JournalCustomStepConfig[] | Discipline[]
+): JournalCustomStep[] {
+  return disciplineSteps.map((config) => ({
     _id: config._id,
     icon: config.icon,
     type: config.type,
     discipline: config.discipline,
     component: (
       <JournalStep
-        key={config._id}
+        key={String(config._id)}
+        _id={String(config._id)}
         type={config.type}
         discipline={config.discipline}
         title={config.title}
         description={config.description}
       />
     ),
-  })
-);
+  }));
+}
+
+export const customSteps = generateCustomStepsFromConfig(customStepConfigs);

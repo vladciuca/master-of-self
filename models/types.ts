@@ -1,3 +1,4 @@
+import { ObjectId } from "mongodb";
 import { ReactNode } from "react";
 import { Session as NextAuthSession, User as NextAuthUser } from "next-auth";
 import { XpData } from "./mongodb";
@@ -42,7 +43,7 @@ export type JournalStepData = {
 };
 
 export type JournalStepMetadata = {
-  _id: string;
+  _id?: string | ObjectId;
   icon: string;
   color?: string;
 };

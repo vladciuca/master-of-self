@@ -159,11 +159,11 @@ export function creteFormDefaultValues(params: CreteDefaultValuesParams) {
   // Add any custom fields from customSteps
   customSteps.forEach((step) => {
     if (step.type === "dayEntry" && defaultValues.dayEntry) {
-      defaultValues.dayEntry[step._id] =
-        journalEntryData?.dayEntry?.[step._id] || [];
+      defaultValues.dayEntry[String(step._id)] =
+        journalEntryData?.dayEntry?.[String(step._id)] || [];
     } else if (step.type === "nightEntry" && defaultValues.nightEntry) {
-      defaultValues.nightEntry[step._id] =
-        journalEntryData?.nightEntry?.[step._id] || [];
+      defaultValues.nightEntry[String(step._id)] =
+        journalEntryData?.nightEntry?.[String(step._id)] || [];
     }
   });
 
@@ -245,7 +245,7 @@ export function createProgressProps(params: CreateProgressPropsParams) {
   formSteps.forEach((step) => {
     progressProps[`${step._id}Count`] = getFieldCount({
       type: step.type,
-      _id: step._id,
+      _id: String(step._id),
       watch,
     });
   });

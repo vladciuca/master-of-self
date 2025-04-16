@@ -4,10 +4,15 @@ import { useParams } from "next/navigation";
 import { FormStepController } from "@components/journal/journal-entry-form/FormStepController";
 import { PageLogo } from "@components/PageLogo";
 import { HeaderTitle } from "@components/HeaderTitle";
-import { customSteps } from "@components/journal/journal-entry-form/form-steps/steps/CustomSteps";
+import {
+  customSteps,
+  generateCustomStepsFromConfig,
+} from "@components/journal/journal-entry-form/form-steps/steps/CustomSteps";
 import { useUserProfile } from "@context/UserProfileContext";
 import { useUserHabits } from "@hooks/habits/useUserHabits";
 import { useFetchAndUpdateJournalEntry } from "@hooks/journal/useFetchAndUpdateJournalEntry";
+
+import { useUserDisciplines } from "@hooks/disciplines/useUserDisciplines";
 
 export default function UpdateJournalEntry() {
   const params = useParams<{ id: string }>();
@@ -24,6 +29,13 @@ export default function UpdateJournalEntry() {
     useUserProfile();
   //NOTE: WIP - Habits
   const { hasHabits, habitsLoading } = useUserHabits();
+
+  const { disciplines } = useUserDisciplines();
+
+  const userDisciplineSteps = generateCustomStepsFromConfig(disciplines);
+
+  //NOTE: Testing purposes
+  const stepMerge = [...customSteps, ...userDisciplineSteps];
 
   const userEveningTime = userProfile?.journalStartTime.evening;
   const willpowerMultiplier = userProfile?.willpowerSMultiplier;
@@ -43,7 +55,7 @@ export default function UpdateJournalEntry() {
           onSubmit={updateJournalEntry}
           userEveningTime={userEveningTime}
           willpowerMultiplier={willpowerMultiplier}
-          customSteps={customSteps}
+          customSteps={stepMerge}
           hasHabits={hasHabits}
         />
         //NOTE: need to make a HOOK that generates these
