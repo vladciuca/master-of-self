@@ -159,11 +159,11 @@ export function creteFormDefaultValues(params: CreteDefaultValuesParams) {
   // Add any custom fields from customSteps
   customSteps.forEach((step) => {
     if (step.type === "dayEntry" && defaultValues.dayEntry) {
-      defaultValues.dayEntry[step.discipline] =
-        journalEntryData?.dayEntry?.[step.discipline] || [];
+      defaultValues.dayEntry[step._id] =
+        journalEntryData?.dayEntry?.[step._id] || [];
     } else if (step.type === "nightEntry" && defaultValues.nightEntry) {
-      defaultValues.nightEntry[step.discipline] =
-        journalEntryData?.nightEntry?.[step.discipline] || [];
+      defaultValues.nightEntry[step._id] =
+        journalEntryData?.nightEntry?.[step._id] || [];
     }
   });
 
@@ -172,18 +172,24 @@ export function creteFormDefaultValues(params: CreteDefaultValuesParams) {
 
 //NOTE: Helper to get field counts for progress indicators
 type GetFieldCountParams = {
+  _id: string;
   type: JournalStepType;
-  field: string;
+  // field: string; //NOTE: need to check if field name was the disc value, will need to remove
   watch: UseFormWatch<JournalEntry>;
 };
 // Dynamically get counts for any field
 // For the second error, update the getFieldCount function to handle the "other" category:
 export function getFieldCount(params: GetFieldCountParams): number {
-  const { type, field, watch } = params;
+  const {
+    _id,
+    type,
+    // field,
+    watch,
+  } = params;
   if (type === "dayEntry") {
-    return watch(`dayEntry.${field}`)?.length || 0;
+    return watch(`dayEntry.${_id}`)?.length || 0;
   } else if (type === "nightEntry") {
-    return watch(`nightEntry.${field}`)?.length || 0;
+    return watch(`nightEntry.${_id}`)?.length || 0;
   } else {
     // For "other" category, we don't have a specific entry type
     // Return 0 or handle it differently based on your requirements
@@ -237,9 +243,9 @@ export function createProgressProps(params: CreateProgressPropsParams) {
 
   // Add counts for all steps
   formSteps.forEach((step) => {
-    progressProps[`${step.discipline}Count`] = getFieldCount({
+    progressProps[`${step._id}Count`] = getFieldCount({
       type: step.type,
-      field: step.discipline,
+      _id: step._id,
       watch,
     });
   });

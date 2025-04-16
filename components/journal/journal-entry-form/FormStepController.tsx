@@ -55,6 +55,7 @@ export function FormStepController({
     const currentEntry = getValues();
 
     // Calculate discipline scores
+    //NOTE: this now need to iterate through ids?! Need to check
     const disciplines = getDayDisciplineScores(currentEntry.dayEntry);
 
     // Calculate total willpower
@@ -129,7 +130,7 @@ export function FormStepController({
   // Get step list to render
   //NOTE: .discipline is basically the STEP.name
   const steps = useMemo(
-    () => availableSteps.map((steps) => steps.discipline),
+    () => availableSteps.map((steps) => steps._id),
     [availableSteps]
   );
 
@@ -232,7 +233,7 @@ export function FormStepController({
       <div className="grid grid-rows-[auto,1fr,auto] h-full">
         <FormStepProgress
           formSteps={availableSteps}
-          activeStep={activeStep}
+          activeStep={activeStep} // this is now the STEP ID
           handleStepChange={handleStepChange}
           progressPercentage={progressPercentage}
           {...progressProps}

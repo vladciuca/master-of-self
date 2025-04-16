@@ -49,7 +49,7 @@ export const customSteps: JournalCustomStep[] = customStepConfigs.map(
     discipline: config.discipline,
     component: (
       <JournalStep
-        key={config.discipline}
+        key={config._id}
         type={config.type}
         discipline={config.discipline}
         title={config.title}
