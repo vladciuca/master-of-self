@@ -4,7 +4,9 @@ import { TextAreaList } from "@components/ui/textarea-list";
 import { StepScoreDisplay } from "../../StepScoreDisplay";
 import type { JournalEntry, JournalStep } from "@models/types";
 
-type JournalStepId = JournalStep & {
+//NOTE: consider restructuring JournalStep types
+//to include _id at base layer
+type JournalStepWithId = JournalStep & {
   _id: string;
 };
 
@@ -14,7 +16,7 @@ export function JournalStep({
   type,
   title,
   description,
-}: JournalStepId) {
+}: JournalStepWithId) {
   const { watch, setValue } = useFormContext<JournalEntry>();
 
   if (type === "other") return;
