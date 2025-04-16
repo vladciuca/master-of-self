@@ -59,7 +59,6 @@ export function FormStepProgress({
     <div className="flex flex-col items-center w-full mb-4">
       <div className="flex items-center justify-around w-full mt-4 mb-3 px-4 sm:pt-4">
         {formSteps.map((step: JournalCustomStep, index: number) => {
-          // console.log("===================color?", step.color);
           const stepId = step._id;
           const discipline =
             step.type === "other" ? step.discipline : step.type;

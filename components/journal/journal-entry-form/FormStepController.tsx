@@ -229,8 +229,6 @@ export function FormStepController({
     getValues,
   });
 
-  console.log("=================availableSteps", availableSteps);
-
   return (
     <FormProvider {...methods}>
       <div className="grid grid-rows-[auto,1fr,auto] h-full">
