@@ -1,5 +1,9 @@
 import { ObjectId } from "mongodb";
-import { UserProfile, JournalEntryHabit, JournalStepConfig } from "./types";
+import {
+  UserProfile,
+  JournalEntryHabit,
+  JournalCustomStepConfig,
+} from "./types";
 
 // USER ===============================================================================
 
@@ -32,7 +36,7 @@ export type NewJournalEntry = Omit<JournalEntry, "_id">; // Lets mongo db assign
 
 // DISCIPLINE STEPS ===================================================================
 
-export type Discipline = JournalStepConfig & {
+export type Discipline = Omit<JournalCustomStepConfig, "_id"> & {
   _id?: ObjectId;
   creatorId: ObjectId;
   color: string;

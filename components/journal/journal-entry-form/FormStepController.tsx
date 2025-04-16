@@ -5,7 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useForm, FormProvider, UseFormReturn } from "react-hook-form";
 import { FormStepProgress } from "./FormStepProgress";
 import { FormStepNavigation } from "./FormStepNavigation";
-import { JournalEntry, JournalEntryCustomStep } from "@models/types";
+import { JournalEntry, JournalCustomStep } from "@models/types";
 import { getDayDisciplineScores } from "@lib/score";
 import {
   createSteps,
@@ -22,7 +22,7 @@ type FormStepControllerProps = {
   journalEntryData?: JournalEntry;
   userEveningTime?: string;
   willpowerMultiplier: number;
-  customSteps?: JournalEntryCustomStep[];
+  customSteps?: JournalCustomStep[];
   hasHabits: boolean;
 };
 

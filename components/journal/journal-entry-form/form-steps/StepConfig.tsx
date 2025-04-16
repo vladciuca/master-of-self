@@ -11,7 +11,7 @@ import { isEvening } from "@lib/time";
 import { calculateHabitsXpFromEntry } from "@lib/level";
 import type {
   JournalEntry,
-  JournalEntryCustomStep,
+  JournalCustomStep,
   JournalStepType,
 } from "@models/types";
 
@@ -25,13 +25,11 @@ type CreateStepsParams = {
   watch: UseFormWatch<JournalEntry>;
   userEveningTime: string;
   SHOW_ALL_TEST: boolean;
-  customSteps: JournalEntryCustomStep[];
+  customSteps: JournalCustomStep[];
   hasHabits: boolean;
 };
 
-export function createSteps(
-  params: CreateStepsParams
-): JournalEntryCustomStep[] {
+export function createSteps(params: CreateStepsParams): JournalCustomStep[] {
   const { watch, userEveningTime, SHOW_ALL_TEST, customSteps, hasHabits } =
     params;
 
@@ -40,18 +38,20 @@ export function createSteps(
   // This is why we must set a fallback value to be able to use in isAvailable step condition
   const day = watch("dayEntry.day") || [];
 
-  const formSteps: JournalEntryCustomStep[] = [
+  const formSteps: JournalCustomStep[] = [
     //=====DAY_ENTRY
     {
+      _id: "bonus",
       icon: stepIconMap.bonus,
+      type: "other",
       discipline: "bonus",
       component: <Bonus />,
       isAvailable:
         SHOW_ALL_TEST ||
         (!isEvening(userEveningTime) && watch("bonusWillpower") > 0),
-      type: "other",
     },
     {
+      _id: "day",
       icon: stepIconMap.day,
       discipline: "day",
       component: <Day />,
@@ -67,6 +67,7 @@ export function createSteps(
       })),
     //=====NIGHT_ENTRY
     {
+      _id: "night",
       icon: stepIconMap.night,
       discipline: "night",
       component: <Night />,
@@ -82,6 +83,7 @@ export function createSteps(
         isAvailable: SHOW_ALL_TEST || isEvening(userEveningTime),
       })),
     {
+      _id: "willpower",
       icon: stepIconMap.willpower,
       discipline: "willpower",
       component: <Willpower />,
@@ -89,6 +91,7 @@ export function createSteps(
       type: "other",
     },
     {
+      _id: "habits",
       icon: stepIconMap.habits,
       discipline: "habits",
       component: <HabitActionsStep />,
@@ -103,7 +106,7 @@ export function createSteps(
 //NOTE: Helper function to create initial form values structure
 type CreteDefaultValuesParams = {
   journalEntryData?: JournalEntry;
-  customSteps: JournalEntryCustomStep[];
+  customSteps: JournalCustomStep[];
 };
 
 export function creteFormDefaultValues(params: CreteDefaultValuesParams) {
@@ -190,7 +193,7 @@ export function getFieldCount(params: GetFieldCountParams): number {
 
 //NOTE: Creates progress props for the FormStepProgress component
 type CreateProgressPropsParams = {
-  formSteps: JournalEntryCustomStep[];
+  formSteps: JournalCustomStep[];
   watch: UseFormWatch<JournalEntry>;
   getValues: () => JournalEntry;
 };

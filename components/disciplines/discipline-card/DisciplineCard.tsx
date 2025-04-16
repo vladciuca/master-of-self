@@ -9,10 +9,10 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import type { Session, JournalStepConfig } from "@models/types";
+import type { Session, JournalCustomStepConfig } from "@models/types";
 import type { Discipline } from "@models/mongodb";
 
-type Step = JournalStepConfig | Discipline;
+type Step = JournalCustomStepConfig | Discipline;
 
 type DisciplineCardProps = {
   step: Step;
