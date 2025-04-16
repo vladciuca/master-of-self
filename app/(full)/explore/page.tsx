@@ -14,7 +14,7 @@ export default function ExplorePage() {
 
   return (
     <div className="py-4">
-      <div className="scroll-m-20 text-2xl font-semibold tracking-tight w-full text-center">
+      <div className="scroll-m-20 text-3xl font-semibold tracking-tight w-full text-center pb-2">
         Explore Disciplines
       </div>
       {/* <h1 className="scroll-m-20 text-4xl font-bold tracking-tight text-center">

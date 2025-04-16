@@ -22,36 +22,35 @@ export function DisciplineFeedHeader({
     <div className="flex flex-row w-full pl-2">
       {/* Icon section */}
       {icon && (
-        <div className="w-2/12 flex items-center justify-center mb-0">
+        <div className="w-3/12 flex items-center justify-center mb-0">
           <IconRenderer iconName={icon} className={`text-${color}`} size={40} />
         </div>
       )}
 
       {/* Content section */}
-      <div className="flex flex-col items-start w-full mx-4">
-        <span className="mx-2">{discipline}</span>
-        {/* <span
-          className={`scroll-m-20 text-lg font-semibold tracking-tight text-${color}`}
-        >
-          {title}
-        </span> */}
+      <div className="flex flex-col items-start w-full">
+        <span className="px-2">{discipline}</span>
         <DisciplineCreator />
       </div>
 
       {/* Toggle switch */}
       {type && (
-        <div className="w-2/12 flex items-center justify-center mt-0">
+        <div className="w-3/12 flex items-center justify-center mt-0">
           {type === "dayEntry" ? (
             <IconRenderer
               iconName={stepIconMap.day}
-              //   className={`text-${JOURNAL_COLORS.day}`}
+              // className={`text-${JOURNAL_COLORS.day}`}
               className="text-muted"
+              // size={35}
+              size={25}
             />
           ) : (
             <IconRenderer
               iconName={stepIconMap.night}
-              //   className={`text-${JOURNAL_COLORS.night}`}
+              // className={`text-${JOURNAL_COLORS.night}`}
               className="text-muted"
+              // size={35}
+              size={25}
             />
           )}
         </div>
