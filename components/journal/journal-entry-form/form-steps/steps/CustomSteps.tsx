@@ -50,6 +50,7 @@ export function generateCustomStepsFromConfig(
     icon: config.icon,
     type: config.type,
     discipline: config.discipline,
+    color: config.color ?? "primary",
     component: (
       <JournalStep
         key={String(config._id)}

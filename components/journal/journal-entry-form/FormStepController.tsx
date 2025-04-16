@@ -47,11 +47,6 @@ export function FormStepController({
     defaultValues: creteFormDefaultValues({ journalEntryData, customSteps }),
   });
 
-  console.log(
-    "=========defaultValues",
-    creteFormDefaultValues({ journalEntryData, customSteps })
-  );
-
   // Get form values and methods
   const { watch, setValue, getValues } = methods;
 
@@ -233,6 +228,8 @@ export function FormStepController({
     watch,
     getValues,
   });
+
+  console.log("=================availableSteps", availableSteps);
 
   return (
     <FormProvider {...methods}>
