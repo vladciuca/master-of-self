@@ -3,6 +3,7 @@ import { useSession } from "next-auth/react";
 import type { Session } from "@models/types";
 import type { Discipline } from "@models/mongodb";
 
+//NOTE: This returns all disciplines in DB, except for current user disciplines
 export function useAllDisciplines() {
   const { data: session } = useSession() as { data: Session | null };
 

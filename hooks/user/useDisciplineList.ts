@@ -8,11 +8,17 @@ import {
 import { useUserDisciplines } from "@hooks/disciplines/useUserDisciplines";
 import { useActiveDisciplines } from "@hooks/user/useActiveDisciplines";
 
+import { useUserProfile } from "@context/UserProfileContext";
+
 export function useDisciplineList() {
   const { disciplines, disciplinesError, disciplinesLoading } =
     useUserDisciplines();
 
   const { activeDisciplines, isLoading, error } = useActiveDisciplines();
+
+  const { userProfile, userProfileLoading, userProfileError } =
+    useUserProfile();
+  const activeDisciplineIdList = userProfile.activeDisciplines;
 
   const usersDisciplinesSteps =
     !disciplinesLoading && !disciplinesError ? disciplines : [];
@@ -24,7 +30,15 @@ export function useDisciplineList() {
   //THIS IS FOR FORM STEP CONTROLLER - adds dynamic component to array
   const disciplineStepList = generateCustomStepsFromConfig(disciplineList);
 
-  const activeDisciplinesList = [...activeDisciplines, ...customAppSteps];
+  const activeCustomDisciplines = customAppSteps.filter(
+    (discipline) =>
+      discipline._id && activeDisciplineIdList.includes(String(discipline._id))
+  );
+
+  const activeDisciplinesList = [
+    ...activeDisciplines,
+    ...activeCustomDisciplines,
+  ];
   const activeDisciplinesStepList = generateCustomStepsFromConfig(
     activeDisciplinesList
   );

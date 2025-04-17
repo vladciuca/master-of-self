@@ -2,7 +2,7 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import { useSession } from "next-auth/react";
 import type { Session } from "@models/types";
 
-//NOTE: name this to updateActiveDisciplines hook?
+//NOTE: name this to handleActiveDisciplines hook?
 export function useUpdateActiveDisciplines() {
   const { data: session } = useSession() as { data: Session | null };
   const [activeDisciplines, setActiveDisciplines] = useState<string[]>([]);
