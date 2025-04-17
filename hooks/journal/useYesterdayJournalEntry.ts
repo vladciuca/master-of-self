@@ -56,10 +56,10 @@ export function useYesterdayJournalEntry() {
     );
 
     // Apply the same WP multiplier
-    return Math.floor(totalScore * (userProfile?.willpowerSMultiplier || 1.5));
+    return Math.floor(totalScore * (userProfile?.willpowerMultiplier || 1.5));
   }, [
     nightEntryDisciplineScores,
-    userProfile?.willpowerSMultiplier,
+    userProfile?.willpowerMultiplier,
     userProfileLoading,
     userProfileError,
   ]);

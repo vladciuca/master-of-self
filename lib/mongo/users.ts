@@ -92,63 +92,6 @@ export async function updateUserProfile(
   }
 }
 
-// This one used to increment the values in a PREDEFINED discipline{}
-// // UPDATE USER DISCIPLINES =====================================================================
-// export async function updateUserDisciplines(
-//   userId: string,
-//   disciplines: UserDisciplines
-// ): Promise<{
-//   user: User | null;
-//   status: "success" | "no_change";
-//   error?: string;
-// }> {
-//   try {
-//     if (!users) await init();
-
-//     const query = { _id: new ObjectId(userId) };
-//     const update: { $inc: { [key: string]: any } } = { $inc: {} };
-
-//     // Only update the specified disciplines
-//     Object.entries(disciplines).forEach(([key, value]) => {
-//       if (value !== undefined && value !== null) {
-//         update.$inc[`profile.disciplines.${key}`] = value;
-//       }
-//     });
-
-//     // If there's nothing to update, return early
-//     if (Object.keys(update.$inc).length === 0) {
-//       return {
-//         user: null,
-//         status: "no_change",
-//       };
-//     }
-
-//     const result = await users.findOneAndUpdate(query, update, {
-//       returnDocument: "after",
-//     });
-
-//     if (!result) {
-//       return {
-//         user: null,
-//         status: "no_change",
-//         error: "User not found",
-//       };
-//     }
-
-//     return {
-//       user: result,
-//       status: "success",
-//     };
-//   } catch (error) {
-//     console.error("Error updating disciplines:", error);
-//     return {
-//       user: null,
-//       status: "no_change",
-//       error: "Failed to update user disciplines",
-//     };
-//   }
-// }
-
 //This one increments existing discipline{} values, and sets one that do not exist
 export async function updateUserDisciplines(
   userId: string,
@@ -234,6 +177,60 @@ export async function updateUserDisciplines(
       user: null,
       status: "no_change",
       error: "Failed to update user disciplines",
+    };
+  }
+}
+
+// UPDATE USER ACTIVE DISCIPLINES ==========================================================
+export async function updateActiveDisciplines(
+  userId: string,
+  disciplineId: string,
+  action: "add" | "remove"
+): Promise<{
+  user: User | null;
+  status: "success" | "no_change";
+  error?: string;
+}> {
+  try {
+    if (!users) await init();
+
+    const query = { _id: new ObjectId(userId) };
+    let update: any = {};
+
+    if (action === "add") {
+      // Add disciplineId if it doesn't exist already
+      update = {
+        $addToSet: { "profile.activeDisciplines": disciplineId },
+      };
+    } else if (action === "remove") {
+      // Remove disciplineId from array
+      update = {
+        $pull: { "profile.activeDisciplines": disciplineId },
+      };
+    }
+
+    const result = await users.findOneAndUpdate(query, update, {
+      returnDocument: "after",
+    });
+
+    if (!result) {
+      return {
+        user: null,
+        status: "no_change",
+        error: "User not found",
+      };
+    }
+
+    return {
+      user: result,
+      status: "success",
+    };
+  } catch (error) {
+    console.error("Error updating active disciplines:", error);
+    return {
+      user: null,
+      status: "no_change",
+      error: "Failed to update user active disciplines",
     };
   }
 }

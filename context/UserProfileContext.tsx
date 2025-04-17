@@ -31,10 +31,11 @@ export function UserProfileProvider({ children }: { children: ReactNode }) {
   const { data: session } = useSession() as { data: Session | null };
 
   const [userProfile, setUserProfile] = useState<UserProfile>({
-    willpowerSMultiplier: 1.5,
+    willpowerMultiplier: 1.5,
     disciplines: {
       motivation: 0,
     },
+    activeDisciplines: [],
     journalStartTime: {
       morning: "08:00",
       evening: "18:00",

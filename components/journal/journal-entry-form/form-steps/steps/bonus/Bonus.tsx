@@ -32,6 +32,7 @@ export function Bonus() {
     const nightEntry = yesterdayEntry.nightEntry;
 
     // Get all discipline keys from nightEntryDisciplineScores
+    //NOTE: this are now IDs
     return Object.keys(nightEntryDisciplineScores)
       .filter((disciplineKey) => {
         // Make sure the corresponding entry exists in nightEntry and is not empty
@@ -47,8 +48,6 @@ export function Bonus() {
         const isMotivation = disciplineKey === "motivation";
         const entryKey = isMotivation ? "night" : disciplineKey;
         const type = isMotivation ? "night" : "nightEntry";
-
-        console.log(entryKey);
 
         // Generate title based on discipline
         const title = isMotivation ? "What made yesterday great!" : "";

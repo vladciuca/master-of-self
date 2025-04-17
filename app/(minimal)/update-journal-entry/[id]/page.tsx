@@ -27,10 +27,15 @@ export default function UpdateJournalEntry() {
   const { hasHabits, habitsLoading } = useUserHabits();
 
   //NOTE: WIP hook!
-  const { disciplineStepList, listLoading, listError } = useDisciplineList();
+  const {
+    disciplineStepList,
+    activeDisciplinesStepList,
+    listLoading,
+    listError,
+  } = useDisciplineList();
 
   const userEveningTime = userProfile?.journalStartTime.evening;
-  const willpowerMultiplier = userProfile?.willpowerSMultiplier;
+  const willpowerMultiplier = userProfile?.willpowerMultiplier;
 
   const isLoading =
     journalEntryLoading ||
@@ -50,7 +55,7 @@ export default function UpdateJournalEntry() {
           willpowerMultiplier={willpowerMultiplier}
           //NOTE: need to give better names to these: stepList
           // and for customSteps in maybe appSteps?
-          customSteps={disciplineStepList}
+          customSteps={activeDisciplinesStepList}
           hasHabits={hasHabits}
         />
       )}

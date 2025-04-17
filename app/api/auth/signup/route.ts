@@ -24,6 +24,7 @@ import { NextResponse } from "next/server";
 //       email,
 //       password: hashedPassword,
 //       name,
+// NOTE: not up to date==============================
 //       settings: {
 //         steps: {
 //           gratitude: false,

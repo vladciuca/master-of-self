@@ -13,8 +13,6 @@ export type User = {
   email?: string | null;
   image?: string | null;
   profile: UserProfile;
-  //NOTE: is last update still used? need to remove
-  lastUpdateTime: string | null;
 };
 
 // export type NewUser = Omit<User, "_id">; // Lets MongoDB assign the _id
@@ -49,7 +47,6 @@ export type NewDiscipline = Omit<Discipline, "_id">;
 export type HabitAction = {
   id: string;
   task: string;
-  // no unit key?
   unit: string;
   metric: "count" | "time";
   type: "build" | "break";

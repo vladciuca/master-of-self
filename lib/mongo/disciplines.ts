@@ -180,3 +180,32 @@ export async function getAllDisciplinesExceptUser(
     return { disciplines: null, error: "Failed to fetch disciplines" };
   }
 }
+
+// GET DISCIPLINES BY IDS ============================================================
+export async function getDisciplinesByIds(disciplineIds: string[]): Promise<{
+  disciplines: Discipline[] | null;
+  error?: string;
+}> {
+  try {
+    if (!disciplines) await init();
+
+    // Convert string IDs to ObjectId array, filtering out any invalid IDs
+    const objectIds = disciplineIds
+      .filter((id) => ObjectId.isValid(id))
+      .map((id) => new ObjectId(id));
+
+    // If no valid IDs, return empty array
+    if (objectIds.length === 0) {
+      return { disciplines: [] };
+    }
+
+    // Use proper type for query
+    const query = { _id: { $in: objectIds } as any };
+    const result = await disciplines.find(query).toArray();
+
+    return { disciplines: result };
+  } catch (error) {
+    console.error("Error fetching disciplines by IDs:", error);
+    return { disciplines: null, error: "Failed to fetch disciplines by IDs" };
+  }
+}
