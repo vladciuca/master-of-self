@@ -1,5 +1,9 @@
 import { ObjectId } from "mongodb";
-import { UserProfile, JournalEntryHabit, JournalStepConfig } from "./types";
+import {
+  UserProfile,
+  JournalEntryHabit,
+  JournalCustomStepConfig,
+} from "./types";
 
 // USER ===============================================================================
 
@@ -9,8 +13,6 @@ export type User = {
   email?: string | null;
   image?: string | null;
   profile: UserProfile;
-  //NOTE: is last update still used? need to remove
-  lastUpdateTime: string | null;
 };
 
 // export type NewUser = Omit<User, "_id">; // Lets MongoDB assign the _id
@@ -32,7 +34,7 @@ export type NewJournalEntry = Omit<JournalEntry, "_id">; // Lets mongo db assign
 
 // DISCIPLINE STEPS ===================================================================
 
-export type Discipline = JournalStepConfig & {
+export type Discipline = Omit<JournalCustomStepConfig, "_id"> & {
   _id?: ObjectId;
   creatorId: ObjectId;
   color: string;
@@ -45,7 +47,6 @@ export type NewDiscipline = Omit<Discipline, "_id">;
 export type HabitAction = {
   id: string;
   task: string;
-  // no unit key?
   unit: string;
   metric: "count" | "time";
   type: "build" | "break";

@@ -46,15 +46,11 @@ export const authOptions: NextAuthOptions = {
         {
           $set: {
             profile: {
-              // steps: {
-              //   gratitude: true,
-              //   reflection: true,
-              //   affirmations: true,
-              // },
-              willpowerSMultiplier: 1.5,
+              willpowerMultiplier: 1.5,
               disciplines: {
                 motivation: 0,
               },
+              // activeDisciplines: [],
               journalStartTime: {
                 morning: "08:00",
                 evening: "18:00",

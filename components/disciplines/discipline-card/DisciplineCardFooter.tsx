@@ -2,12 +2,12 @@
 
 import React from "react";
 import { Button } from "@components/ui/button";
-import { Session, JournalStepConfig } from "@models/types";
+import { Session, JournalCustomStepConfig } from "@models/types";
 import type { Discipline } from "@models/mongodb";
 
 import { DisciplineCreator } from "./DisciplineCreator";
 
-type Step = JournalStepConfig | Discipline;
+type Step = JournalCustomStepConfig | Discipline;
 
 type DisciplineCardFooterProps = {
   session: Session | null;

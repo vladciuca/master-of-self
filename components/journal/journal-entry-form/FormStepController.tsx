@@ -5,7 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useForm, FormProvider, UseFormReturn } from "react-hook-form";
 import { FormStepProgress } from "./FormStepProgress";
 import { FormStepNavigation } from "./FormStepNavigation";
-import { JournalEntry, JournalEntryCustomStep } from "@models/types";
+import { JournalEntry, JournalCustomStep } from "@models/types";
 import { getDayDisciplineScores } from "@lib/score";
 import {
   createSteps,
@@ -22,7 +22,7 @@ type FormStepControllerProps = {
   journalEntryData?: JournalEntry;
   userEveningTime?: string;
   willpowerMultiplier: number;
-  customSteps?: JournalEntryCustomStep[];
+  customSteps?: JournalCustomStep[];
   hasHabits: boolean;
 };
 
@@ -42,6 +42,17 @@ export function FormStepController({
 
   const [isInitialized, setIsInitialized] = useState(false);
 
+  //NOTE: Fix(might be temp) for making the isEvening flag reactive
+  const [now, setNow] = useState(new Date());
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setNow(new Date());
+    }, 60000); // every minute
+
+    return () => clearInterval(interval);
+  }, []);
+
   // Create form with default values
   const methods = useForm<JournalEntry>({
     defaultValues: creteFormDefaultValues({ journalEntryData, customSteps }),
@@ -55,6 +66,7 @@ export function FormStepController({
     const currentEntry = getValues();
 
     // Calculate discipline scores
+    //NOTE: this now need to iterate through ids?! Need to check
     const disciplines = getDayDisciplineScores(currentEntry.dayEntry);
 
     // Calculate total willpower
@@ -112,14 +124,16 @@ export function FormStepController({
   const formSteps = useMemo(() => {
     const steps = createSteps({
       watch,
+      now,
       userEveningTime,
       SHOW_ALL_TEST,
+      //NOTE: need to find better names for these steps
       customSteps,
       hasHabits,
     });
 
     return steps;
-  }, [watch, userEveningTime, customSteps, hasHabits]);
+  }, [watch, now, userEveningTime, customSteps, hasHabits]);
 
   const availableSteps = useMemo(
     () => formSteps.filter((steps) => steps.isAvailable),
@@ -129,7 +143,7 @@ export function FormStepController({
   // Get step list to render
   //NOTE: .discipline is basically the STEP.name
   const steps = useMemo(
-    () => availableSteps.map((steps) => steps.discipline),
+    () => availableSteps.map((steps) => steps._id),
     [availableSteps]
   );
 
@@ -153,7 +167,7 @@ export function FormStepController({
     if (!isInitialized && availableSteps.length > 0) {
       // Only change the step if there's no step parameter in the URL
       if (!currentStep) {
-        setStep(steps[0]);
+        setStep(String(steps[0]));
       }
       setIsInitialized(true);
     }
@@ -186,7 +200,7 @@ export function FormStepController({
 
     if (nextIndex < availableSteps.length) {
       await onSubmit(formData); // submits data after each steps
-      handleStepChange(steps[nextIndex], false); // Don't submit again
+      handleStepChange(String(steps[nextIndex]), false); // Don't submit again
     } else {
       await onSubmit(formData);
       router.push("/journal");
@@ -208,7 +222,7 @@ export function FormStepController({
       const formData = getValues();
       // Submit the form data before going back
       await onSubmit(formData);
-      handleStepChange(steps[prevIndex], false); // Don't submit again
+      handleStepChange(String(steps[prevIndex]), false); // Don't submit again
     }
   }, [currentStepIndex, handleStepChange, steps, getValues, onSubmit]);
 
@@ -232,7 +246,7 @@ export function FormStepController({
       <div className="grid grid-rows-[auto,1fr,auto] h-full">
         <FormStepProgress
           formSteps={availableSteps}
-          activeStep={activeStep}
+          activeStep={String(activeStep)} // this is now the STEP ID
           handleStepChange={handleStepChange}
           progressPercentage={progressPercentage}
           {...progressProps}

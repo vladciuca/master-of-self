@@ -5,7 +5,7 @@ import { JOURNAL_COLORS } from "@lib/colors";
 type DisciplineSwitchProps = {
   type: string;
   checked: boolean;
-  onCheckedChange: () => void;
+  onCheckedChange: (checked: boolean) => void;
   disabled: boolean;
 };
 

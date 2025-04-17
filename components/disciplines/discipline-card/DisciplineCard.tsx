@@ -9,10 +9,10 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import type { Session, JournalStepConfig } from "@models/types";
+import type { Session, JournalCustomStepConfig } from "@models/types";
 import type { Discipline } from "@models/mongodb";
 
-type Step = JournalStepConfig | Discipline;
+type Step = JournalCustomStepConfig | Discipline;
 
 type DisciplineCardProps = {
   step: Step;
@@ -29,12 +29,13 @@ export function DisciplineCard({ step, handleEdit }: DisciplineCardProps) {
 
   return (
     <AccordionItem
-      key={step.discipline}
-      value={step.discipline}
+      key={String(step._id)}
+      value={String(step._id)}
       className="p-0 px-2 mb-3"
     >
       <AccordionTrigger className="pt-5 pb-3">
         <DisciplineCardHeader
+          disciplineId={String(step._id)}
           icon={step.icon}
           discipline={step.discipline}
           type={step.type}

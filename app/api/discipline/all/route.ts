@@ -3,6 +3,7 @@ import { getAllDisciplinesExceptUser } from "@lib/mongo/disciplines";
 // import { getServerSession } from "next-auth/next";
 // import { authOptions } from "@lib/authOptions";
 
+//NOTE:MIGHT NEED TO MOVE THIS to /users/[id]?
 export async function GET(
   request: NextRequest,
   { params }: { params: { id: string } }

@@ -1,3 +1,4 @@
+import { ObjectId } from "mongodb";
 import { ReactNode } from "react";
 import { Session as NextAuthSession, User as NextAuthUser } from "next-auth";
 import { XpData } from "./mongodb";
@@ -13,21 +14,16 @@ export interface User extends NextAuthUser {
   image?: string | null;
 }
 
-//NOTE:  this have to be refactored
-// export type UserJournalSteps = {
-//   gratitude: boolean;
-//   affirmations: boolean;
-//   reflection: boolean;
-// };
-
 export type UserDisciplines = {
   motivation: number;
   [key: string]: number;
 };
 
 export type UserProfile = {
-  willpowerSMultiplier: number;
+  willpowerMultiplier: number;
   disciplines: UserDisciplines;
+  //NOTE: active discipline list
+  activeDisciplines: string[];
   journalStartTime: {
     morning: string;
     evening: string;
@@ -43,26 +39,37 @@ export interface Session extends NextAuthSession {
 // JOURNAL STEP -----------------------------------------------------
 export type JournalStepType = "dayEntry" | "nightEntry" | "other";
 
-export type JournalStep = {
+export type JournalStepData = {
   discipline: string;
   type: JournalStepType;
+};
+
+export type JournalStepMetadata = {
+  _id?: string | ObjectId;
+  icon: string;
+  color?: string;
+};
+
+export type JournalStepContent = {
   title: string;
   description: string;
 };
 
-export type JournalStepConfig = JournalStep & {
-  icon: string;
-  color?: string;
-  // creatorId?: string;
-};
+export type JournalStep = JournalStepData & JournalStepContent;
 
-export type JournalEntryCustomStep = {
-  icon: string;
-  discipline: string;
-  component: JSX.Element;
-  type: JournalStepType;
-  isAvailable?: boolean;
-};
+export type JournalCustomStepConfig = JournalStep & JournalStepMetadata;
+
+export type JournalCustomStep = JournalStepMetadata &
+  JournalStepData & {
+    component: JSX.Element;
+    isAvailable?: boolean; //this gets added when the Form Steps are built
+
+    // discipline: string;
+    // type: JournalStepType; // from JournalStepData
+
+    // _id: string;
+    // icon: string; // from JournalStepMetadata
+  };
 
 // JOURNAL TYPES -----------------------------------------------------
 

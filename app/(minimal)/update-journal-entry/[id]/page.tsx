@@ -4,10 +4,11 @@ import { useParams } from "next/navigation";
 import { FormStepController } from "@components/journal/journal-entry-form/FormStepController";
 import { PageLogo } from "@components/PageLogo";
 import { HeaderTitle } from "@components/HeaderTitle";
-import { customSteps } from "@components/journal/journal-entry-form/form-steps/steps/CustomSteps";
 import { useUserProfile } from "@context/UserProfileContext";
 import { useUserHabits } from "@hooks/habits/useUserHabits";
 import { useFetchAndUpdateJournalEntry } from "@hooks/journal/useFetchAndUpdateJournalEntry";
+
+import { useDisciplineList } from "@hooks/user/useDisciplineList";
 
 export default function UpdateJournalEntry() {
   const params = useParams<{ id: string }>();
@@ -25,13 +26,22 @@ export default function UpdateJournalEntry() {
   //NOTE: WIP - Habits
   const { hasHabits, habitsLoading } = useUserHabits();
 
+  //NOTE: WIP hook!
+  const {
+    disciplineStepList,
+    activeDisciplinesStepList,
+    listLoading,
+    listError,
+  } = useDisciplineList();
+
   const userEveningTime = userProfile?.journalStartTime.evening;
-  const willpowerMultiplier = userProfile?.willpowerSMultiplier;
+  const willpowerMultiplier = userProfile?.willpowerMultiplier;
 
   const isLoading =
     journalEntryLoading ||
     userProfileLoading ||
     habitsLoading ||
+    listLoading ||
     !journalEntryData;
 
   return (
@@ -43,19 +53,9 @@ export default function UpdateJournalEntry() {
           onSubmit={updateJournalEntry}
           userEveningTime={userEveningTime}
           willpowerMultiplier={willpowerMultiplier}
-          //NOTE: need to make a HOOK that generates these
-          //DO WE USE IDS HERE? add ids to stepConfig?
-          //and then where do you get them from?
-          // I need to make a filter for CustomSteps obj by id? in STEP CONFIG maybe
-
-          // BUILT IN - steps: the ones created in stepConfig
-          // CUSTOM STEPS - steps: array from CustomStep obj
-          // +
-          // USER STEPS - steps: from DB
-          // NOTE: we should send here:
-          // (customSteps prop that come in here must be a combination
-          // of USER STEPS and steps from CustomSteps obj)
-          customSteps={customSteps}
+          //NOTE: need to give better names to these: stepList
+          // and for customSteps in maybe appSteps?
+          customSteps={activeDisciplinesStepList}
           hasHabits={hasHabits}
         />
       )}

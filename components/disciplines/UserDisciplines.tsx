@@ -9,7 +9,7 @@ import { SkeletonDisciplineCard } from "@components/skeletons/SkeletonDiscipline
 import { useTodayJournalEntry } from "@hooks/journal/useTodayJournalEntry";
 import { useLastJournalEntry } from "@hooks/journal/useLastJournalEntry";
 import { useUserProfile } from "@context/UserProfileContext";
-import { useUserDisciplines } from "@hooks/disciplines/useUserDisciplines";
+import { useDisciplineList } from "@hooks/user/useDisciplineList";
 import { Discipline } from "@models/mongodb";
 
 const NEW_DISCIPLINE_CARD_DETAILS = {
@@ -37,8 +37,7 @@ export function UserDisciplines() {
     userProfileError,
     refetchUserProfile,
   } = useUserProfile();
-  const { disciplines, disciplinesLoading, disciplinesError } =
-    useUserDisciplines();
+  const { disciplineList, listLoading, listError } = useDisciplineList();
 
   //NOTE: should try and move the loading states inside the DisciplineStep?
   const { todayEntry, todayEntryLoading, todayEntryError } =
@@ -79,7 +78,7 @@ export function UserDisciplines() {
             <span>Error:</span>
             <div>
               {userProfileError ||
-                disciplinesLoading ||
+                listLoading ||
                 todayEntryError ||
                 lastEntryError ||
                 "There was an error loading your disciplines. Please try again later."}
@@ -88,7 +87,7 @@ export function UserDisciplines() {
         ) : (
           <>
             <DisciplinesList
-              userDisciplines={disciplines}
+              disciplineList={disciplineList}
               handleEdit={handleEdit}
             />
           </>

@@ -1,4 +1,3 @@
-import React, { ReactNode, useState } from "react";
 import { DisciplineProgressBar } from "@components/disciplines/DisciplineProgressBar";
 import { DisciplineSwitch } from "@components/disciplines/discipline-card/DisciplineSwitch";
 import { IconRenderer } from "@components/IconRenderer";
@@ -6,8 +5,10 @@ import { getDisciplineScoreFromEntry } from "@lib/score";
 import { useUserProfile } from "@context/UserProfileContext";
 import { useTodayJournalEntry } from "@hooks/journal/useTodayJournalEntry";
 import { useLastJournalEntry } from "@hooks/journal/useLastJournalEntry";
+import { useUpdateActiveDisciplines } from "@hooks/user/useUpdateActiveDisciplines";
 
 type DisciplineCardProps = {
+  disciplineId: string;
   icon?: string;
   color?: string;
   discipline: string;
@@ -15,14 +16,16 @@ type DisciplineCardProps = {
 };
 
 export function DisciplineCardHeader({
+  disciplineId,
   icon,
   color,
   discipline,
   type,
 }: DisciplineCardProps) {
   const { userProfile, userProfileLoading } = useUserProfile();
+  const { isDisciplineActive, toggleActiveDiscipline, isLoading } =
+    useUpdateActiveDisciplines();
 
-  const [isActive, setIsActive] = useState(false);
   // Get discipline data needed for the level bar
   const { todayEntry } = useTodayJournalEntry();
   const { lastEntry } = useLastJournalEntry();
@@ -34,8 +37,8 @@ export function DisciplineCardHeader({
     : {};
 
   // Calculate XP values
-  let xp = disciplines[discipline] ?? 0;
-  let projectedXp = disciplinesProjectedXp[discipline] ?? 0;
+  let xp = disciplines[disciplineId] ?? 0;
+  let projectedXp = disciplinesProjectedXp[disciplineId] ?? 0;
 
   // Check if there's no today's entry
   if (!todayEntry) {
@@ -44,6 +47,10 @@ export function DisciplineCardHeader({
     // Reset projected XP to 0
     projectedXp = 0;
   }
+
+  const handleToggle = (checked: boolean) => {
+    toggleActiveDiscipline(disciplineId, checked);
+  };
 
   return (
     <div className="flex flex-row w-full">
@@ -74,11 +81,9 @@ export function DisciplineCardHeader({
         <div className="w-2/12 flex items-center justify-center mt-0">
           <DisciplineSwitch
             type={type}
-            // checked={}
-            // onCheckedChange={() => {}}
-            checked={isActive} // Replace with your actual state
-            onCheckedChange={() => setIsActive(!isActive)} // Replace with your actual handler
-            disabled={userProfileLoading}
+            checked={isDisciplineActive(disciplineId)}
+            onCheckedChange={handleToggle}
+            disabled={userProfileLoading || isLoading}
           />
         </div>
       )}

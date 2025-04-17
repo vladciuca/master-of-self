@@ -1,9 +1,11 @@
 import { JournalStep } from "@components/journal/journal-entry-form/form-steps/steps/journal-step/JournalStep";
 import { stepIconMap } from "@components/ui/constants";
-import type { JournalStepConfig, JournalEntryCustomStep } from "@models/types";
+import type { JournalCustomStepConfig, JournalCustomStep } from "@models/types";
+import type { Discipline } from "@models/mongodb";
 
-export const customStepConfigs: JournalStepConfig[] = [
+export const customStepConfigs: JournalCustomStepConfig[] = [
   {
+    _id: "positivity",
     icon: stepIconMap.positivity,
     discipline: "positivity",
     type: "dayEntry",
@@ -12,6 +14,7 @@ export const customStepConfigs: JournalStepConfig[] = [
       "Use details to describe what you're feeling grateful for and increase Positivity.",
   },
   {
+    _id: "confidence",
     icon: stepIconMap.confidence,
     discipline: "confidence",
     type: "dayEntry",
@@ -20,6 +23,7 @@ export const customStepConfigs: JournalStepConfig[] = [
       "Use statements using powerful words to imprint on your subconscious mind and build Confidence.",
   },
   {
+    _id: "awareness",
     icon: stepIconMap.awareness,
     discipline: "awareness",
     type: "nightEntry",
@@ -28,6 +32,7 @@ export const customStepConfigs: JournalStepConfig[] = [
       "Build momentum by capturing meaningful events and boost Awareness.",
   },
   {
+    _id: "resilience",
     icon: stepIconMap.resilience,
     discipline: "resilience",
     type: "nightEntry",
@@ -37,20 +42,26 @@ export const customStepConfigs: JournalStepConfig[] = [
   },
 ];
 
-export const customSteps: JournalEntryCustomStep[] = customStepConfigs.map(
-  (config) => ({
+export function generateCustomStepsFromConfig(
+  disciplineSteps: JournalCustomStepConfig[] | Discipline[]
+): JournalCustomStep[] {
+  return disciplineSteps.map((config) => ({
+    _id: config._id,
     icon: config.icon,
     type: config.type,
     discipline: config.discipline,
+    color: config.color ?? "primary",
     component: (
       <JournalStep
-        //NOTE: might need to use an id here to avoid duplicate Discipline names
-        key={config.discipline}
+        key={String(config._id)}
+        _id={String(config._id)}
         type={config.type}
         discipline={config.discipline}
         title={config.title}
         description={config.description}
       />
     ),
-  })
-);
+  }));
+}
+
+export const customSteps = generateCustomStepsFromConfig(customStepConfigs);

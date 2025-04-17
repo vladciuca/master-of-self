@@ -11,11 +11,13 @@ function ProgressBar({
   xpGainProgressPercentage,
   showBaseXpBar,
   height = 4,
+  color = "primary",
 }: {
   currentProgressPercentage: number;
   xpGainProgressPercentage: number;
   showBaseXpBar: boolean;
   height?: number;
+  color?: string;
 }) {
   return (
     <div
@@ -36,7 +38,7 @@ function ProgressBar({
 
         {showBaseXpBar && (
           <motion.div
-            className="h-full bg-primary absolute top-0"
+            className={`h-full bg-${color} absolute top-0`}
             initial={{ width: 0 }}
             animate={{ width: `${currentProgressPercentage}%` }}
             transition={{ duration: 0.5, ease: "easeInOut" }}
@@ -115,6 +117,7 @@ export function DisciplineProgressBar({
         xpGainProgressPercentage={xpGainProgressPercentage}
         showBaseXpBar={currentLevel === level}
         height={height}
+        color={color}
       />
 
       {showXpMetrics && (

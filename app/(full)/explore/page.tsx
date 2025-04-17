@@ -2,7 +2,7 @@
 
 import { DisciplineFeedCard } from "@components/disciplines/discipline-feed-card/DisciplineFeedCard";
 import { Accordion } from "@/components/ui/accordion";
-import { useAllDisciplines } from "@/hooks/disciplines/useAllDisciplines";
+import { useAllDisciplines } from "@hooks/disciplines/useAllDisciplines";
 import { SkeletonDisciplineCard } from "@components/skeletons/SkeletonDisciplineCard";
 
 const skeletonCards = Array.from({ length: 3 }, (_, index) => (

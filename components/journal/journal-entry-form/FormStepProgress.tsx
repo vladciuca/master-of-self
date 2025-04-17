@@ -4,10 +4,10 @@ import { Badge } from "@/components/ui/badge";
 import { IconRenderer } from "@components/IconRenderer";
 import { getJournalStepStyle } from "@components/ui/constants";
 import { FaBoltLightning } from "react-icons/fa6";
-import type { JournalEntryCustomStep } from "@models/types";
+import type { JournalCustomStep } from "@models/types";
 
 type FormStepProgressProps = {
-  formSteps: JournalEntryCustomStep[];
+  formSteps: JournalCustomStep[];
   activeStep: string;
   handleStepChange: (stepType: string) => void;
   progressPercentage: number;
@@ -29,22 +29,22 @@ export function FormStepProgress({
   ...countProps
 }: FormStepProgressProps) {
   // This function gets the count for a step type from the countProps
-  const getCount = (stepDiscipline: string): number => {
+  const getCount = (stepId: string): number => {
     // Special cases first
-    if (stepDiscipline === "day" && dailyGoalsCompleted !== undefined) {
+    if (stepId === "day" && dailyGoalsCompleted !== undefined) {
       return dailyGoals;
     }
 
-    if (stepDiscipline === "night" && dailyGoalsCompleted !== undefined) {
+    if (stepId === "night" && dailyGoalsCompleted !== undefined) {
       return dailyGoalsCompleted;
     }
 
-    if (stepDiscipline === "habits" && habitActionsCount !== undefined) {
+    if (stepId === "habits" && habitActionsCount !== undefined) {
       return habitActionsCount;
     }
 
     // Look for a specific count prop for this step type
-    const countProp = `${stepDiscipline}Count` as keyof typeof countProps;
+    const countProp = `${stepId}Count` as keyof typeof countProps;
 
     // If we have a specific count for this step type, use it
     if (countProps[countProp] !== undefined) {
@@ -58,22 +58,23 @@ export function FormStepProgress({
   return (
     <div className="flex flex-col items-center w-full mb-4">
       <div className="flex items-center justify-around w-full mt-4 mb-3 px-4 sm:pt-4">
-        {formSteps.map((step: JournalEntryCustomStep, index: number) => {
+        {formSteps.map((step: JournalCustomStep, index: number) => {
+          const stepId = step._id;
           const discipline =
             step.type === "other" ? step.discipline : step.type;
           const { bgColor } = getJournalStepStyle(discipline);
-          const count = getCount(step.discipline);
+          const count = getCount(String(stepId));
           return (
             <span
               key={index}
               className={`relative cursor-pointer text-sm ${
-                step.discipline === activeStep ? "" : "text-muted-foreground"
+                stepId === activeStep ? "" : "text-muted-foreground"
               }`}
-              onClick={() => handleStepChange(step.discipline)}
+              onClick={() => handleStepChange(String(stepId))}
             >
               <div
                 className={`${
-                  step.discipline === activeStep
+                  stepId === activeStep
                     ? "bg-secondary text-primary"
                     : "text-primary"
                 } w-11 h-11 rounded-full flex items-center justify-center`}
@@ -81,15 +82,16 @@ export function FormStepProgress({
                 <IconRenderer
                   iconName={step.icon}
                   size={
-                    step.discipline === "night" ||
-                    step.discipline === "day" ||
-                    step.discipline === "bonus" ||
-                    step.discipline === "habits"
+                    stepId === "night" ||
+                    stepId === "day" ||
+                    stepId === "bonus" ||
+                    stepId === "habits"
                       ? 25
-                      : step.discipline === "willpower"
+                      : stepId === "willpower"
                       ? 23
                       : 30
                   }
+                  className={step.color ? `text-${step.color}` : ""}
                 />
               </div>
 
@@ -101,7 +103,7 @@ export function FormStepProgress({
                   {count}
                 </Badge>
               )}
-              {step.discipline === "bonus" && (
+              {stepId === "bonus" && (
                 <Badge
                   variant="outline"
                   className={`${bgColor} absolute -top-1 -right-1 text-[0.6rem] px-1 py-0 min-w-[1.2rem] h-[1.2rem] flex items-center justify-center text-white`}
