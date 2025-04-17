@@ -4,15 +4,11 @@ import { useParams } from "next/navigation";
 import { FormStepController } from "@components/journal/journal-entry-form/FormStepController";
 import { PageLogo } from "@components/PageLogo";
 import { HeaderTitle } from "@components/HeaderTitle";
-import {
-  customSteps,
-  generateCustomStepsFromConfig,
-} from "@components/journal/journal-entry-form/form-steps/steps/CustomSteps";
 import { useUserProfile } from "@context/UserProfileContext";
 import { useUserHabits } from "@hooks/habits/useUserHabits";
 import { useFetchAndUpdateJournalEntry } from "@hooks/journal/useFetchAndUpdateJournalEntry";
 
-import { useUserDisciplines } from "@hooks/disciplines/useUserDisciplines";
+import { useDisciplineList } from "@hooks/user/useDisciplineList";
 
 export default function UpdateJournalEntry() {
   const params = useParams<{ id: string }>();
@@ -30,12 +26,8 @@ export default function UpdateJournalEntry() {
   //NOTE: WIP - Habits
   const { hasHabits, habitsLoading } = useUserHabits();
 
-  const { disciplines } = useUserDisciplines();
-
-  const userDisciplineSteps = generateCustomStepsFromConfig(disciplines);
-
-  //NOTE: Testing purposes
-  const stepMerge = [...customSteps, ...userDisciplineSteps];
+  //NOTE: WIP hook!
+  const { disciplineStepList, listLoading, listError } = useDisciplineList();
 
   const userEveningTime = userProfile?.journalStartTime.evening;
   const willpowerMultiplier = userProfile?.willpowerSMultiplier;
@@ -44,6 +36,7 @@ export default function UpdateJournalEntry() {
     journalEntryLoading ||
     userProfileLoading ||
     habitsLoading ||
+    listLoading ||
     !journalEntryData;
 
   return (
@@ -55,21 +48,11 @@ export default function UpdateJournalEntry() {
           onSubmit={updateJournalEntry}
           userEveningTime={userEveningTime}
           willpowerMultiplier={willpowerMultiplier}
-          customSteps={stepMerge}
+          //NOTE: need to give better names to these: stepList
+          // and for customSteps in maybe appSteps?
+          customSteps={disciplineStepList}
           hasHabits={hasHabits}
         />
-        //NOTE: need to make a HOOK that generates these
-        //DO WE USE IDS HERE? add ids to stepConfig?
-        //and then where do you get them from?
-        // I need to make a filter for CustomSteps obj by id? in STEP CONFIG maybe
-
-        // BUILT IN - steps: the ones created in stepConfig
-        // CUSTOM STEPS - steps: array from CustomStep obj
-        // +
-        // USER STEPS - steps: from DB
-        // NOTE: we should send here:
-        // (customSteps prop that come in here must be a combination
-        // of USER STEPS and steps from CustomSteps obj)
       )}
       {/* Since this is in the MINIMAL_LAYOUT, the UI of the FULL_LAYOUT needs to be recreated here
       TODO: in UI-LAYOUT-REFACTOR - Possibility to import the FULL_LAYOUT here ?*/}

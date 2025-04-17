@@ -9,30 +9,21 @@ import {
 } from "@/components/ui/accordion";
 
 import { DisciplineCard } from "./discipline-card/DisciplineCard";
-import { customStepConfigs } from "@components/journal/journal-entry-form/form-steps/steps/CustomSteps";
 import { Discipline } from "@models/mongodb";
+import type { JournalCustomStepConfig } from "@models/types";
 
 type DisciplinesListProps = {
-  userDisciplines: Discipline[];
+  disciplineList: JournalCustomStepConfig[] | Discipline[];
   handleEdit: (habit: Discipline) => void;
 };
 
 export function DisciplinesList({
-  userDisciplines,
+  disciplineList,
   handleEdit,
 }: DisciplinesListProps) {
-  // console.log("==========userDisciplines", userDisciplines);
-
-  const mergedDisciplines = [...customStepConfigs, ...userDisciplines];
-
-  // console.log("=====customStepConfigs", customStepConfigs);
-  // console.log("=====userDisciplines", userDisciplines);
-
   // Get day and night entries separately
-  const dayEntries = mergedDisciplines.filter(
-    (step) => step.type === "dayEntry"
-  );
-  const nightEntries = mergedDisciplines.filter(
+  const dayEntries = disciplineList.filter((step) => step.type === "dayEntry");
+  const nightEntries = disciplineList.filter(
     (step) => step.type === "nightEntry"
   );
   //NOTE: this might be use to render the first category of Disciplines

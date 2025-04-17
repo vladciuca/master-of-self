@@ -1,5 +1,28 @@
-//disciplines from PROFILE, this need to have ids
+//CUSTOM STEPS & steps config
+import {
+  //   customSteps,
+  customStepConfigs,
+  generateCustomStepsFromConfig,
+} from "@components/journal/journal-entry-form/form-steps/steps/CustomSteps";
+//USER STEPS (hook)
+import { useUserDisciplines } from "@hooks/disciplines/useUserDisciplines";
 
-//disciplines created by the user, this take with user id, and then store their id in the list
+export function useDisciplineList() {
+  const { disciplines, disciplinesError, disciplinesLoading } =
+    useUserDisciplines();
 
-//discipline ids from other users
+  const usersDisciplinesSteps =
+    !disciplinesLoading && !disciplinesError ? disciplines : [];
+  //   const usersDisciplinesSteps = disciplines;
+  const customAppSteps = customStepConfigs;
+
+  const disciplineList = [...usersDisciplinesSteps, ...customAppSteps];
+
+  //THIS IS FOR FORM STEP CONTROLLER - adds dynamic component to array
+  const disciplineStepList = generateCustomStepsFromConfig(disciplineList);
+
+  const listLoading = disciplinesLoading;
+  const listError = disciplinesError;
+
+  return { disciplineList, disciplineStepList, listLoading, listError };
+}
