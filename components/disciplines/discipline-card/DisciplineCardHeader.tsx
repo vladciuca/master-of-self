@@ -8,6 +8,7 @@ import { useTodayJournalEntry } from "@hooks/journal/useTodayJournalEntry";
 import { useLastJournalEntry } from "@hooks/journal/useLastJournalEntry";
 
 type DisciplineCardProps = {
+  disciplineId: string;
   icon?: string;
   color?: string;
   discipline: string;
@@ -15,6 +16,7 @@ type DisciplineCardProps = {
 };
 
 export function DisciplineCardHeader({
+  disciplineId,
   icon,
   color,
   discipline,
@@ -34,8 +36,8 @@ export function DisciplineCardHeader({
     : {};
 
   // Calculate XP values
-  let xp = disciplines[discipline] ?? 0;
-  let projectedXp = disciplinesProjectedXp[discipline] ?? 0;
+  let xp = disciplines[disciplineId] ?? 0;
+  let projectedXp = disciplinesProjectedXp[disciplineId] ?? 0;
 
   // Check if there's no today's entry
   if (!todayEntry) {

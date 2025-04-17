@@ -23,6 +23,7 @@ import type {
 //NOTE: Creates a complete array of form steps by combining built-in and custom steps
 type CreateStepsParams = {
   watch: UseFormWatch<JournalEntry>;
+  now: Date;
   userEveningTime: string;
   SHOW_ALL_TEST: boolean;
   customSteps: JournalCustomStep[];
@@ -30,7 +31,7 @@ type CreateStepsParams = {
 };
 
 export function createSteps(params: CreateStepsParams): JournalCustomStep[] {
-  const { watch, userEveningTime, SHOW_ALL_TEST, customSteps, hasHabits } =
+  const { watch, now, userEveningTime, SHOW_ALL_TEST, customSteps, hasHabits } =
     params;
 
   // NOTE: TS type checking is static and happening at compile time, not runtime.
@@ -48,14 +49,14 @@ export function createSteps(params: CreateStepsParams): JournalCustomStep[] {
       component: <Bonus />,
       isAvailable:
         SHOW_ALL_TEST ||
-        (!isEvening(userEveningTime) && watch("bonusWillpower") > 0),
+        (!isEvening(userEveningTime, now) && watch("bonusWillpower") > 0),
     },
     {
       _id: "day",
       icon: stepIconMap.day,
       discipline: "day",
       component: <Day />,
-      isAvailable: SHOW_ALL_TEST || !isEvening(userEveningTime),
+      isAvailable: SHOW_ALL_TEST || !isEvening(userEveningTime, now),
       type: "other",
     },
     //=====ADD_DAY steps here
@@ -63,7 +64,7 @@ export function createSteps(params: CreateStepsParams): JournalCustomStep[] {
       .filter((step) => step.type === "dayEntry")
       .map((step) => ({
         ...step,
-        isAvailable: SHOW_ALL_TEST || !isEvening(userEveningTime),
+        isAvailable: SHOW_ALL_TEST || !isEvening(userEveningTime, now),
       })),
     //=====NIGHT_ENTRY
     {
@@ -72,7 +73,7 @@ export function createSteps(params: CreateStepsParams): JournalCustomStep[] {
       discipline: "night",
       component: <Night />,
       isAvailable:
-        SHOW_ALL_TEST || (isEvening(userEveningTime) && day?.length > 0),
+        SHOW_ALL_TEST || (isEvening(userEveningTime, now) && day?.length > 0),
       type: "other",
     },
     //=====ADD_NIGHT steps here
@@ -80,7 +81,7 @@ export function createSteps(params: CreateStepsParams): JournalCustomStep[] {
       .filter((step) => step.type === "nightEntry")
       .map((step) => ({
         ...step,
-        isAvailable: SHOW_ALL_TEST || isEvening(userEveningTime),
+        isAvailable: SHOW_ALL_TEST || isEvening(userEveningTime, now),
       })),
     {
       _id: "willpower",

@@ -41,12 +41,6 @@ export function DisciplinesList({
   //   (step) => step.type !== "dayEntry" && step.type !== "nightEntry"
   // );
 
-  const motivation = {
-    discipline: "motivation",
-    title: "titlu",
-    description: "descriere",
-  };
-
   return (
     <Accordion type="single" collapsible className="mt-4">
       {/* WTF DO I DO WITH THIS? create a separate object for this?*/}
@@ -56,7 +50,10 @@ export function DisciplinesList({
         className="p-0 px-2"
       >
         <AccordionTrigger className="pt-5 pb-3">
-          <DisciplineCardHeader discipline="motivation" />
+          <DisciplineCardHeader
+            discipline="motivation"
+            disciplineId="motivation"
+          />
         </AccordionTrigger>
         <AccordionContent>
           <DisciplineCardContent title={"title"} description={"description"} />

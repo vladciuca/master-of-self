@@ -42,6 +42,17 @@ export function FormStepController({
 
   const [isInitialized, setIsInitialized] = useState(false);
 
+  //NOTE: Fix(might be temp) for making the isEvening flag reactive
+  const [now, setNow] = useState(new Date());
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setNow(new Date());
+    }, 60000); // every minute
+
+    return () => clearInterval(interval);
+  }, []);
+
   // Create form with default values
   const methods = useForm<JournalEntry>({
     defaultValues: creteFormDefaultValues({ journalEntryData, customSteps }),
@@ -113,6 +124,7 @@ export function FormStepController({
   const formSteps = useMemo(() => {
     const steps = createSteps({
       watch,
+      now,
       userEveningTime,
       SHOW_ALL_TEST,
       //NOTE: need to find better names for these steps
@@ -121,7 +133,7 @@ export function FormStepController({
     });
 
     return steps;
-  }, [watch, userEveningTime, customSteps, hasHabits]);
+  }, [watch, now, userEveningTime, customSteps, hasHabits]);
 
   const availableSteps = useMemo(
     () => formSteps.filter((steps) => steps.isAvailable),

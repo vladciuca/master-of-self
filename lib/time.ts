@@ -1,5 +1,8 @@
 //NOTE: try and use getCurrentTimePeriod instead of isEvening
-export function isEvening(startTime: string | undefined): boolean {
+export function isEvening(
+  startTime: string | undefined,
+  now: Date = new Date()
+): boolean {
   if (!startTime) return false;
 
   // Extract hour and minute from the given start time (expected in HH:MM format)
@@ -20,7 +23,7 @@ export function isEvening(startTime: string | undefined): boolean {
   }
 
   // Get the current time
-  const now = new Date();
+  // const now = new Date();
   const currentHour = now.getHours();
   const currentMinute = now.getMinutes();
 
