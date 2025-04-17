@@ -1,19 +1,30 @@
-// hooks/disciplines/useActiveDisciplineDetails.ts
 import { useState, useEffect } from "react";
-import { useUpdateActiveDisciplines } from "@hooks/user/useUpdateActiveDisciplines";
+import { useUserProfile } from "@context/UserProfileContext";
 import type { Discipline } from "@models/mongodb";
 
-export function useActiveDisciplines() {
-  const { activeDisciplines: activeDisciplineIds, isLoading: idsLoading } =
-    useUpdateActiveDisciplines();
+//USE ACTIVE DISCIPLINE CONFIGS
+export function useActiveDisciplinesConfigs() {
+  const { userProfile, userProfileLoading, userProfileError } =
+    useUserProfile();
 
-  const [activeDisciplines, setActiveDisciplines] = useState<Discipline[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [activeDisciplinesConfigs, setActiveDisciplines] = useState<
+    Discipline[]
+  >([]);
+  const [
+    activeDisciplinesConfigsLoading,
+    setIsActiveDisciplinesConfigsLoading,
+  ] = useState(false);
+  const [activeDisciplinesConfigsError, setActiveDisciplinesConfigsError] =
+    useState<string | null>(null);
+
+  const activeDisciplineIds =
+    !userProfileLoading && !userProfileError
+      ? userProfile.activeDisciplines ?? []
+      : [];
 
   // Fetch active disciplines details whenever the IDs list changes
   useEffect(() => {
-    if (idsLoading || activeDisciplineIds.length === 0) {
+    if (userProfileLoading || activeDisciplineIds.length === 0) {
       // Clear disciplines if there are no active IDs
       if (activeDisciplineIds.length === 0) {
         setActiveDisciplines([]);
@@ -22,8 +33,8 @@ export function useActiveDisciplines() {
     }
 
     const fetchActiveDisciplines = async () => {
-      setIsLoading(true);
-      setError(null);
+      setIsActiveDisciplinesConfigsLoading(true);
+      setActiveDisciplinesConfigsError(null);
 
       try {
         const response = await fetch("/api/discipline/list", {
@@ -45,28 +56,29 @@ export function useActiveDisciplines() {
         setActiveDisciplines(data.disciplines || []);
       } catch (error) {
         console.error("Error loading active discipline details:", error);
-        setError(
+        setActiveDisciplinesConfigsError(
           (error as Error).message || "Failed to load active disciplines"
         );
       } finally {
-        setIsLoading(false);
+        setIsActiveDisciplinesConfigsLoading(false);
       }
     };
 
     fetchActiveDisciplines();
-  }, [activeDisciplineIds, idsLoading]);
+  }, [activeDisciplineIds, userProfileLoading]);
 
   // Function to get a specific discipline by ID
   const getDisciplineById = (id: string) => {
-    return activeDisciplines.find(
+    return activeDisciplinesConfigs.find(
       (discipline) => discipline._id && discipline._id.toString() === id
     );
   };
 
   return {
-    activeDisciplines,
-    isLoading: isLoading || idsLoading,
-    error,
+    activeDisciplinesConfigs,
+    activeDisciplinesConfigsLoading:
+      activeDisciplinesConfigsLoading || userProfileLoading,
+    activeDisciplinesConfigsError,
     getDisciplineById,
   };
 }

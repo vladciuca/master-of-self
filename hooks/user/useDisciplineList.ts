@@ -4,21 +4,36 @@ import {
   customStepConfigs,
   generateCustomStepsFromConfig,
 } from "@components/journal/journal-entry-form/form-steps/steps/CustomSteps";
-//USER STEPS (hook)
-import { useUserDisciplines } from "@hooks/disciplines/useUserDisciplines";
-import { useActiveDisciplines } from "@hooks/user/useActiveDisciplines";
 
+import { useUserDisciplines } from "@hooks/disciplines/useUserDisciplines";
+import { useActiveDisciplinesConfigs } from "@hooks/user/useActiveDisciplinesConfigs";
 import { useUserProfile } from "@context/UserProfileContext";
 
 export function useDisciplineList() {
   const { disciplines, disciplinesError, disciplinesLoading } =
     useUserDisciplines();
-
-  const { activeDisciplines, isLoading, error } = useActiveDisciplines();
+  const {
+    activeDisciplinesConfigs,
+    activeDisciplinesConfigsLoading,
+    activeDisciplinesConfigsError,
+  } = useActiveDisciplinesConfigs();
 
   const { userProfile, userProfileLoading, userProfileError } =
     useUserProfile();
-  const activeDisciplineIdList = userProfile.activeDisciplines;
+
+  //ACTIVE DISCIPLINES IDS!
+  const activeDisciplineIdList =
+    !userProfileLoading && !userProfileError
+      ? userProfile.activeDisciplines ?? []
+      : [];
+
+  // ALL ACTIVE DISCIPLINE CONFIGS!
+  const activeDisciplineSteps =
+    !activeDisciplinesConfigsLoading && !activeDisciplinesConfigsError
+      ? activeDisciplinesConfigs ?? []
+      : [];
+
+  //STEPS IS +COMPONENT
 
   const usersDisciplinesSteps =
     !disciplinesLoading && !disciplinesError ? disciplines : [];
@@ -35,10 +50,12 @@ export function useDisciplineList() {
       discipline._id && activeDisciplineIdList.includes(String(discipline._id))
   );
 
+  // ACTIVE DISCIPLINE CONFIGS + AVAILABLE CUSTOM DISCIPLINE CONFIGS
   const activeDisciplinesList = [
-    ...activeDisciplines,
+    ...activeDisciplinesConfigs,
     ...activeCustomDisciplines,
   ];
+
   const activeDisciplinesStepList = generateCustomStepsFromConfig(
     activeDisciplinesList
   );
@@ -47,7 +64,9 @@ export function useDisciplineList() {
   const listError = disciplinesError;
 
   return {
+    //RETURNS LIST OF IDS? or CONFIGS?
     disciplineList,
+    //RETURNS DISCIPLINE STEP (USER STEPS + APP STEPS(USER SELECTED) + OTHER USERS STEPS)
     disciplineStepList,
     activeDisciplinesStepList,
     listLoading,

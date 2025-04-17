@@ -18,6 +18,7 @@ type UserProfileContextType = {
   userProfileLoading: boolean;
   userProfileError: string | null;
   handleTimeChange: (period: "morning" | "evening", value: string) => void;
+  updateActiveDiscipline: (disciplineId: string, isActive: boolean) => void;
   refetchUserProfile: () => void;
 };
 
@@ -170,6 +171,7 @@ export function UserProfileProvider({ children }: { children: ReactNode }) {
   }, [fetchUserProfile]);
 
   // Update a specific setting
+  //NOTE: needs refactor, now only updates time
   // NOTE: add proper values here
   const updateProfile = async (key: keyof UserProfile, value: any) => {
     if (!session?.user?.id) return;
@@ -226,12 +228,69 @@ export function UserProfileProvider({ children }: { children: ReactNode }) {
     });
   };
 
+  // Updater for active disciplines with optimistic logic
+  const updateActiveDiscipline = async (
+    disciplineId: string,
+    isActive: boolean
+  ) => {
+    if (!userProfile) return;
+
+    const current = [...userProfile.activeDisciplines];
+    const nextDisciplines = isActive
+      ? [...current, disciplineId]
+      : current.filter((id) => id !== disciplineId);
+
+    // Optimistically update local state
+    setUserProfile({
+      ...userProfile,
+      activeDisciplines: nextDisciplines,
+    });
+
+    try {
+      const action = isActive ? "add" : "remove";
+      const response = await fetch(
+        `/api/users/${session?.user.id}/disciplines/active-disciplines`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ disciplineId, action }),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to update on server");
+      }
+
+      const data = await response.json();
+
+      // Optionally sync state from server if needed
+      setUserProfile((prev) => ({
+        ...prev!,
+        activeDisciplines: data.activeDisciplines,
+      }));
+    } catch (err) {
+      console.error("Error updating discipline:", err);
+
+      // Rollback optimistic update
+      setUserProfile({
+        ...userProfile,
+        activeDisciplines: current,
+      });
+
+      // Optionally show toast/error message
+    }
+  };
+
   // Create the context value
   const contextValue: UserProfileContextType = {
     userProfile,
     userProfileLoading,
     userProfileError,
     handleTimeChange,
+    updateActiveDiscipline,
+    //NOTE: might remove completely
     refetchUserProfile: fetchUserProfile,
   };
 

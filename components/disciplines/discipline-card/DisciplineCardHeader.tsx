@@ -5,7 +5,7 @@ import { getDisciplineScoreFromEntry } from "@lib/score";
 import { useUserProfile } from "@context/UserProfileContext";
 import { useTodayJournalEntry } from "@hooks/journal/useTodayJournalEntry";
 import { useLastJournalEntry } from "@hooks/journal/useLastJournalEntry";
-import { useUpdateActiveDisciplines } from "@hooks/user/useUpdateActiveDisciplines";
+// import { useUpdateActiveDisciplines } from "@hooks/user/useUpdateActiveDisciplines";
 
 type DisciplineCardProps = {
   disciplineId: string;
@@ -22,13 +22,26 @@ export function DisciplineCardHeader({
   discipline,
   type,
 }: DisciplineCardProps) {
-  const { userProfile, userProfileLoading } = useUserProfile();
-  const { isDisciplineActive, toggleActiveDiscipline, isLoading } =
-    useUpdateActiveDisciplines();
+  const {
+    userProfile,
+    updateActiveDiscipline,
+    userProfileLoading,
+    userProfileError,
+  } = useUserProfile();
+  // const { isDisciplineActive, toggleActiveDiscipline, isLoading } =
+  //   useUpdateActiveDisciplines();
 
   // Get discipline data needed for the level bar
   const { todayEntry } = useTodayJournalEntry();
   const { lastEntry } = useLastJournalEntry();
+
+  //Get ACTIVE_DISCIPLINE LIST
+  const handleToggle = (checked: boolean) => {
+    updateActiveDiscipline(disciplineId, checked);
+  };
+
+  const isActive =
+    userProfile?.activeDisciplines?.includes(disciplineId) ?? false;
 
   // Get XP values
   const disciplines = userProfile?.disciplines || {};
@@ -47,10 +60,6 @@ export function DisciplineCardHeader({
     // Reset projected XP to 0
     projectedXp = 0;
   }
-
-  const handleToggle = (checked: boolean) => {
-    toggleActiveDiscipline(disciplineId, checked);
-  };
 
   return (
     <div className="flex flex-row w-full">
@@ -81,9 +90,9 @@ export function DisciplineCardHeader({
         <div className="w-2/12 flex items-center justify-center mt-0">
           <DisciplineSwitch
             type={type}
-            checked={isDisciplineActive(disciplineId)}
+            checked={isActive}
             onCheckedChange={handleToggle}
-            disabled={userProfileLoading || isLoading}
+            disabled={userProfileLoading}
           />
         </div>
       )}
