@@ -67,7 +67,7 @@ export function UserDisciplines() {
 
       <>
         {isLoading ? (
-          <div className="mt-4 space-y-4">{skeletonCards}</div>
+          <div className="space-y-4">{skeletonCards}</div>
         ) : !isLoading && hasError ? (
           <div>
             <span>Error:</span>

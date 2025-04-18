@@ -51,7 +51,7 @@ export default function Profile() {
   };
 
   return (
-    <div className="flex flex-col pb-4">
+    <div className="flex flex-col pb-1">
       <div className="sticky top-0 z-10 bg-background pt-0 shadow-sm">
         <div className="py-4 flex space-x-2">
           {pageConfig.map((page) => (

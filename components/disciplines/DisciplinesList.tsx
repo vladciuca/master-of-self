@@ -11,7 +11,7 @@ import {
 import { DisciplineCard } from "./discipline-card/DisciplineCard";
 import { Discipline } from "@models/mongodb";
 import type { JournalCustomStepConfig } from "@models/types";
-import { NewDisciplineCard } from "./NewDisciplineCard";
+// import { NewDisciplineCard } from "./NewDisciplineCard";
 
 type DisciplinesListProps = {
   disciplineList: JournalCustomStepConfig[] | Discipline[];
@@ -29,7 +29,7 @@ export function DisciplinesList({
   );
 
   return (
-    <Accordion type="single" collapsible className="mt-4">
+    <Accordion type="single" collapsible>
       {/* <NewDisciplineCard /> */}
 
       {/* WTF DO I DO WITH THIS? create a separate object for this?*/}
