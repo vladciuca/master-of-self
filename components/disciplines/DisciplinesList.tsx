@@ -36,7 +36,7 @@ export function DisciplinesList({
       <AccordionItem
         key={"motivation"}
         value={"motivation"}
-        className="p-0 px-2"
+        className="p-0 px-2 mb-3"
       >
         <AccordionTrigger className="pt-5 pb-3">
           <DisciplineCardHeader
@@ -52,7 +52,7 @@ export function DisciplinesList({
       <AccordionItem
         key={"new-discipline"}
         value={"new-discipline"}
-        className="p-0 px-2"
+        className="p-0 px-2 mb-3"
       >
         <AccordionTrigger className="pt-5 pb-3">
           <DisciplineCardHeader
