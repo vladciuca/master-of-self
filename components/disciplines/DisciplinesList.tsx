@@ -11,6 +11,7 @@ import {
 import { DisciplineCard } from "./discipline-card/DisciplineCard";
 import { Discipline } from "@models/mongodb";
 import type { JournalCustomStepConfig } from "@models/types";
+import { NewDisciplineCard } from "./NewDisciplineCard";
 
 type DisciplinesListProps = {
   disciplineList: JournalCustomStepConfig[] | Discipline[];
@@ -26,14 +27,11 @@ export function DisciplinesList({
   const nightEntries = disciplineList.filter(
     (step) => step.type === "nightEntry"
   );
-  //NOTE: this might be use to render the first category of Disciplines
-  //like Motivation, if we would have more
-  // const otherEntries = mergedDisciplines.filter(
-  //   (step) => step.type !== "dayEntry" && step.type !== "nightEntry"
-  // );
 
   return (
     <Accordion type="single" collapsible className="mt-4">
+      {/* <NewDisciplineCard /> */}
+
       {/* WTF DO I DO WITH THIS? create a separate object for this?*/}
       <AccordionItem
         key={"motivation"}
@@ -51,6 +49,24 @@ export function DisciplinesList({
         </AccordionContent>
       </AccordionItem>
 
+      <AccordionItem
+        key={"new-discipline"}
+        value={"new-discipline"}
+        className="p-0 px-2"
+      >
+        <AccordionTrigger className="pt-5 pb-3">
+          <DisciplineCardHeader
+            discipline="New Discipline"
+            disciplineId="new-discipline"
+            icon={"FaPersonCircleQuestion"}
+            color={"muted-foreground"}
+            addNew
+          />
+        </AccordionTrigger>
+        <AccordionContent>
+          <DisciplineCardContent title={"title"} description={"description"} />
+        </AccordionContent>
+      </AccordionItem>
       <DisciplineSectionDelimiter day={true} activeSteps={0} maxSteps={2} />
 
       {dayEntries.map((step) => {

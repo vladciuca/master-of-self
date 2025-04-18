@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { ProfilePageHeader } from "@components/profile/ProfilePageHeader";
+import { AddNewButton } from "@components/profile/AddNewButton";
 import { HabitList } from "@components/habits/HabitList";
 import { SkeletonHabitCard } from "@components/skeletons/SkeletonHabitCard";
 import { useUserHabits } from "@hooks/habits/useUserHabits";
@@ -10,18 +10,18 @@ import { useLastJournalEntry } from "@hooks/journal/useLastJournalEntry";
 import { useCreateJournalEntry } from "@hooks/journal/useCreateJournalEntry";
 import { Habit } from "@models/types";
 
-const NEW_HABIT_CARD_DETAILS = {
-  symbol: <></>,
-  title: "Habit",
-  description: (
-    <>
-      These represent <span className="text-foreground">actions</span> that you
-      can take daily to progress on your goals.
-    </>
-  ),
-  buttonText: "Create New Habit",
-  linkTo: "/create-habit",
-};
+// const NEW_HABIT_CARD_DETAILS = {
+//   symbol: <></>,
+//   title: "Habit",
+//   description: (
+//     <>
+//       These represent <span className="text-foreground">actions</span> that you
+//       can take daily to progress on your goals.
+//     </>
+//   ),
+//   buttonText: "Create New Habit",
+//   linkTo: "/create-habit",
+// };
 
 const skeletonCards = Array.from({ length: 3 }, (_, index) => (
   <SkeletonHabitCard key={index} />
@@ -81,14 +81,14 @@ export function UserHabits() {
 
   return (
     <div className="w-full">
-      <ProfilePageHeader
+      {/* <AddNewButton
         symbol={NEW_HABIT_CARD_DETAILS.symbol}
         title={NEW_HABIT_CARD_DETAILS.title}
         linkTo={NEW_HABIT_CARD_DETAILS.linkTo}
         itemsCount={itemsCount}
         //NOTE: DISABLE HABIT_CREATION
         // disabled={true}
-      />
+      /> */}
 
       {habitsLoading ? (
         skeletonCards

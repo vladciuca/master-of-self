@@ -10,6 +10,29 @@ module.exports = {
     "./src/**/*.{js,jsx,ts,tsx}",
   ],
   safelist: [
+    // // For dynamic text colors (if you're still using text-${color} elsewhere)
+    // {
+    //   pattern:
+    //     /text-(red|green|blue|yellow|purple|pink|indigo|gray|emerald|teal|cyan|orange|lime|rose|sky|fuchsia)-(100|200|300|400|500|600|700|800|900)/,
+    // },
+
+    // // For gradient backgrounds
+    // {
+    //   pattern: /bg-gradient-to-(r|l|t|b)/,
+    // },
+    // {
+    //   pattern:
+    //     /from-(red|yellow|green|blue|purple|pink|indigo|cyan|orange)-(400|500|600)/,
+    // },
+    // {
+    //   pattern:
+    //     /via-(red|yellow|green|blue|purple|pink|indigo|cyan|orange)-(400|500|600)/,
+    // },
+    // {
+    //   pattern:
+    //     /to-(red|yellow|green|blue|purple|pink|indigo|cyan|orange)-(400|500|600)/,
+    // },
+
     "hover:bg-yellow-500/90",
     "hover:bg-purple-500/90",
     "hover:bg-blue-500/90",

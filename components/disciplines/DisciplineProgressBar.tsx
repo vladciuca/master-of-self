@@ -92,7 +92,6 @@ export function DisciplineProgressBar({
     <div className="w-full">
       <div className="flex items-center justify-between">
         <div className="flex items-center capitalize mb-1">
-          {/* <span className={`text-${color}`}>{name}</span> */}
           <span className="text-primary">{name}</span>
 
           <LevelIndicator

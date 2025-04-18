@@ -1,6 +1,6 @@
 import React from "react";
 import { useRouter } from "next/navigation";
-import { ProfilePageHeader } from "@components/profile/ProfilePageHeader";
+import { AddNewButton } from "@components/profile/AddNewButton";
 import { DisciplinesList } from "@components/disciplines/DisciplinesList";
 import { SkeletonDisciplineCard } from "@components/skeletons/SkeletonDisciplineCard";
 import { useTodayJournalEntry } from "@hooks/journal/useTodayJournalEntry";
@@ -9,18 +9,18 @@ import { useLastJournalEntry } from "@hooks/journal/useLastJournalEntry";
 import { useDisciplineList } from "@hooks/user/useDisciplineList";
 import { Discipline } from "@models/mongodb";
 
-const NEW_DISCIPLINE_CARD_DETAILS = {
-  symbol: <></>,
-  title: "Discipline",
-  description: (
-    <>
-      These represent <span className="text-foreground">actions</span> that you
-      can take daily to progress on your goals.
-    </>
-  ),
-  buttonText: "Create New Discipline",
-  linkTo: "/create-discipline",
-};
+// const NEW_DISCIPLINE_CARD_DETAILS = {
+//   symbol: <></>,
+//   title: "Discipline",
+//   description: (
+//     <>
+//       These represent <span className="text-foreground">actions</span> that you
+//       can take daily to progress on your goals.
+//     </>
+//   ),
+//   buttonText: "Create New Discipline",
+//   linkTo: "/create-discipline",
+// };
 
 const skeletonCards = Array.from({ length: 3 }, (_, index) => (
   <SkeletonDisciplineCard key={index} />
@@ -57,13 +57,13 @@ export function UserDisciplines() {
 
   return (
     <>
-      <ProfilePageHeader
-        symbol={NEW_DISCIPLINE_CARD_DETAILS.symbol}
+      {/* <AddNewButton
+        // symbol={NEW_DISCIPLINE_CARD_DETAILS.symbol}
         title={NEW_DISCIPLINE_CARD_DETAILS.title}
         linkTo={NEW_DISCIPLINE_CARD_DETAILS.linkTo}
-        itemsCount={0}
+        // itemsCount={0}
         // disabled={true}
-      />
+      /> */}
 
       <>
         {isLoading ? (

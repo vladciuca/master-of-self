@@ -7,12 +7,15 @@ import { useTodayJournalEntry } from "@hooks/journal/useTodayJournalEntry";
 import { useLastJournalEntry } from "@hooks/journal/useLastJournalEntry";
 // import { useUpdateActiveDisciplines } from "@hooks/user/useUpdateActiveDisciplines";
 
+import { AddNewButton } from "@components/profile/AddNewButton";
+
 type DisciplineCardProps = {
   disciplineId: string;
   icon?: string;
   color?: string;
   discipline: string;
   type?: string;
+  addNew?: boolean;
 };
 
 export function DisciplineCardHeader({
@@ -21,6 +24,7 @@ export function DisciplineCardHeader({
   color,
   discipline,
   type,
+  addNew = false,
 }: DisciplineCardProps) {
   const {
     userProfile,
@@ -71,7 +75,7 @@ export function DisciplineCardHeader({
       )}
 
       {/* Content section */}
-      <div className={`${icon && type ? "w-8/12 px-2" : "w-full px-3"}`}>
+      <div className={`${icon ? "w-8/12 px-2" : "w-full px-3"}`}>
         {/* Level Bar */}
         <div className="-mt-2">
           <DisciplineProgressBar
@@ -93,6 +97,14 @@ export function DisciplineCardHeader({
             checked={isActive}
             onCheckedChange={handleToggle}
             disabled={userProfileLoading}
+          />
+        </div>
+      )}
+      {!type && addNew && (
+        <div className="w-2/12 flex items-center justify-center mt-0">
+          <AddNewButton
+            title="Create New Discipline"
+            linkTo="/create-discipline"
           />
         </div>
       )}

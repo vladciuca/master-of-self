@@ -14,7 +14,8 @@ import {
   DrawerTrigger,
 } from "@components/ui/drawer";
 import { Skeleton } from "@components/ui/skeleton";
-import { CircleHelp, SearchX } from "lucide-react";
+import { SearchX } from "lucide-react";
+import { FaPersonCircleQuestion } from "react-icons/fa6";
 import * as GiIcons from "react-icons/gi";
 import { cn } from "@lib/utils";
 import { useIconPickerSearch } from "@hooks/useIconPickerSearch";
@@ -161,7 +162,7 @@ export function IconPicker({
                 )}
               </>
             ) : (
-              <CircleHelp className="h-14 w-14 text-muted-foreground" />
+              <FaPersonCircleQuestion className="h-14 w-14 text-muted-foreground" />
             )}
           </div>
         </DrawerTrigger>
@@ -174,7 +175,7 @@ export function IconPicker({
             {SelectedIcon ? (
               <SelectedIcon className="h-16 w-16 my-4" />
             ) : (
-              <CircleHelp className="h-16 w-16 my-4" />
+              <FaPersonCircleQuestion className="h-16 w-16 my-4" />
             )}
           </DrawerTitle>
           <DrawerDescription className="w-full text-center">
