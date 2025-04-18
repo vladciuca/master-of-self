@@ -31,7 +31,7 @@ export function AddNewButton({
         disabled={disabled}
         // variant="primary"
         size="icon"
-        className="h-8 w-8 shrink-0 rounded-full"
+        className="h-6 w-6 shrink-0 rounded-full"
       >
         <Plus className="h-4 w-4" />
         <span className="sr-only">Add {title}</span>
