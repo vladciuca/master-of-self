@@ -43,14 +43,12 @@ export async function getUser(id: string): Promise<{
   }
 }
 
+// NOTE: THIS UPDATES USER SETTINGS
+// RIGHT NOW ONLY HANDLES JOURNAL TIMES
 // UPDATE USER PROFILE JOURNAL TIMES ======================================================
 export async function updateUserProfile(
   id: string,
   updateData: {
-    // steps?: {
-    //   gratitude?: boolean;
-    //   reflection?: boolean;
-    // };
     journalStartTime?: {
       morning?: string;
       evening?: string;
@@ -64,13 +62,6 @@ export async function updateUserProfile(
     if (!users) await init();
     const query = { _id: new ObjectId(id) };
     const update: { $set: { [key: string]: any } } = { $set: {} };
-
-    //NOTE: Will be refactor after collections.step will be created
-    // if (updateData.steps) {
-    //   Object.entries(updateData.steps).forEach(([key, value]) => {
-    //     update.$set[`profile.steps.${key}`] = value;
-    //   });
-    // }
 
     if (updateData.journalStartTime) {
       Object.entries(updateData.journalStartTime).forEach(([key, value]) => {
@@ -92,8 +83,10 @@ export async function updateUserProfile(
   }
 }
 
-//This one increments existing discipline{} values, and sets one that do not exist
-export async function updateUserDisciplines(
+// UPDATE DISCIPLINES VALUES =====================================================================
+// increments existing discipline{} key values, and sets keys that do not exist
+// key is discipline ID
+export async function updateUserDisciplinesValues(
   userId: string,
   disciplines: UserDisciplines
 ): Promise<{
@@ -181,7 +174,8 @@ export async function updateUserDisciplines(
   }
 }
 
-// UPDATE USER ACTIVE DISCIPLINES ==========================================================
+// UPDATE USER ACTIVE DISCIPLINES LIST =======================================================
+// Adds / Removes IDs for the list -> used for RENDERING JOURNAL STEPS
 export async function updateActiveDisciplines(
   userId: string,
   disciplineId: string,

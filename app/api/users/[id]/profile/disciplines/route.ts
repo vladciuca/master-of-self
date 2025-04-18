@@ -1,13 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
-import { updateUserDisciplines } from "@lib/mongo/users";
-import type {
-  // UserSettings,
-  UserDisciplines,
-} from "@models/types";
+import { updateUserDisciplinesValues } from "@lib/mongo/users";
+import type { UserDisciplines } from "@models/types";
 
 type UpdateDisciplinesRequestBody = {
   userId: string;
-  // disciplines: Partial<UserSettings["disciplines"]>;
   disciplines: UserDisciplines;
 };
 
@@ -31,7 +27,7 @@ export async function PATCH(req: NextRequest) {
       );
     }
 
-    const { user, status, error } = await updateUserDisciplines(
+    const { user, status, error } = await updateUserDisciplinesValues(
       userId,
       disciplines
     );

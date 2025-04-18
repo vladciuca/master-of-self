@@ -2,7 +2,6 @@ import { MongoClient, Db, Collection, ObjectId } from "mongodb";
 import clientPromise from "./mongodb";
 import type { User, Discipline, NewDiscipline } from "@models/mongodb";
 import type { JournalStepType } from "@models/types";
-import { ReactNode } from "@node_modules/@types/react";
 
 let client: MongoClient;
 let db: Db;

@@ -22,7 +22,7 @@ export type UserDisciplines = {
 export type UserProfile = {
   willpowerMultiplier: number;
   disciplines: UserDisciplines;
-  //NOTE: active discipline list
+  //NOTE: active discipline ID list
   activeDisciplines: string[];
   journalStartTime: {
     morning: string;

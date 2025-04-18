@@ -3,7 +3,7 @@ import { useSession } from "next-auth/react";
 import { useYesterdayJournalEntry } from "./useYesterdayJournalEntry";
 import { useLastJournalEntry } from "./useLastJournalEntry";
 import { useUpdateHabits } from "@hooks/habits/useUpdateHabits";
-import { useUpdateDisciplines } from "@hooks/user/useUpdateDisciplines";
+import { useUserProfile } from "@context/UserProfileContext";
 import { useUserHabits } from "@hooks/habits/useUserHabits";
 import { getToday } from "@lib/time";
 import {
@@ -11,7 +11,7 @@ import {
   // calculateStepScoreMultiplier,
   getDisciplineScoreFromEntry,
 } from "@lib/score";
-import { Session, UserDisciplines } from "@models/types";
+import { Session } from "@models/types";
 
 export function useCreateJournalEntry() {
   const { data: session } = useSession() as { data: Session | null };
@@ -37,11 +37,12 @@ export function useCreateJournalEntry() {
 
   const { updateHabits, submittingHabitsUpdate, updateHabitsError } =
     useUpdateHabits();
+
   const {
-    updateDisciplines,
-    submittingDisciplinesUpdate,
-    updateDisciplinesError,
-  } = useUpdateDisciplines();
+    updateDisciplinesValues,
+    submittingDisciplinesValuesUpdate,
+    updateDisciplinesValuesError,
+  } = useUserProfile();
 
   const abortControllerRef = useRef<AbortController | null>(null);
 
@@ -66,7 +67,7 @@ export function useCreateJournalEntry() {
       habitsLoading ||
       lastEntryLoading ||
       submittingHabitsUpdate ||
-      submittingDisciplinesUpdate
+      submittingDisciplinesValuesUpdate
     ) {
       console.warn("Waiting for all dependent hooks to finish loading...");
       return;
@@ -78,7 +79,7 @@ export function useCreateJournalEntry() {
       habitsError ||
       lastEntryError ||
       updateHabitsError ||
-      updateDisciplinesError
+      updateDisciplinesValuesError
     ) {
       throw new Error(
         `Error fetching required data: 
@@ -86,7 +87,7 @@ export function useCreateJournalEntry() {
         Habits: ${habitsError}, 
         Last Entry: ${lastEntryError}, 
         Update Habits: ${updateHabitsError},
-        Update Disciplines: ${updateDisciplinesError}`
+        Update Disciplines: ${updateDisciplinesValuesError}`
       );
     }
 
@@ -112,7 +113,9 @@ export function useCreateJournalEntry() {
       // NOTE: Must NOT create entry before updating the Habits XP
       // Parallel API updates
       await Promise.allSettled([
-        lastEntry ? updateDisciplines(disciplinesPayload) : Promise.resolve(),
+        lastEntry
+          ? updateDisciplinesValues(disciplinesPayload)
+          : Promise.resolve(),
 
         hasHabits && lastEntry
           ? updateHabits({

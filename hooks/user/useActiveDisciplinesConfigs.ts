@@ -3,6 +3,9 @@ import { useUserProfile } from "@context/UserProfileContext";
 import type { Discipline } from "@models/mongodb";
 
 //USE ACTIVE DISCIPLINE CONFIGS
+//NOTE: right now only gets configs from the DB regardless of user
+//These configs can be for BOTH: CURRENT USER & OTHER USERS disciplines
+//NOTE: doesn't interact with CustomSteps list hosted in project!
 export function useActiveDisciplinesConfigs() {
   const { userProfile, userProfileLoading, userProfileError } =
     useUserProfile();
