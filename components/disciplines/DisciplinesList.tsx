@@ -70,13 +70,25 @@ export function DisciplinesList({
       <DisciplineSectionDelimiter day={true} activeSteps={0} maxSteps={2} />
 
       {dayEntries.map((step) => {
-        return <DisciplineCard step={step} handleEdit={handleEdit} />;
+        return (
+          <DisciplineCard
+            key={String(step._id)}
+            step={step}
+            handleEdit={handleEdit}
+          />
+        );
       })}
 
       <DisciplineSectionDelimiter day={false} activeSteps={0} maxSteps={2} />
 
       {nightEntries.map((step) => {
-        return <DisciplineCard step={step} handleEdit={handleEdit} />;
+        return (
+          <DisciplineCard
+            key={String(step._id)}
+            step={step}
+            handleEdit={handleEdit}
+          />
+        );
       })}
     </Accordion>
   );

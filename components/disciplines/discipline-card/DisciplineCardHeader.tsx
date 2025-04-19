@@ -1,13 +1,11 @@
 import { DisciplineProgressBar } from "@components/disciplines/DisciplineProgressBar";
 import { DisciplineSwitch } from "@components/disciplines/discipline-card/DisciplineSwitch";
 import { IconRenderer } from "@components/IconRenderer";
+import { AddNewButton } from "@components/profile/AddNewButton";
 import { getDisciplineScoreFromEntry } from "@lib/score";
 import { useUserProfile } from "@context/UserProfileContext";
 import { useTodayJournalEntry } from "@hooks/journal/useTodayJournalEntry";
 import { useLastJournalEntry } from "@hooks/journal/useLastJournalEntry";
-// import { useUpdateActiveDisciplines } from "@hooks/user/useUpdateActiveDisciplines";
-
-import { AddNewButton } from "@components/profile/AddNewButton";
 
 type DisciplineCardProps = {
   disciplineId: string;
@@ -32,14 +30,12 @@ export function DisciplineCardHeader({
     userProfileLoading,
     userProfileError,
   } = useUserProfile();
-  // const { isDisciplineActive, toggleActiveDiscipline, isLoading } =
-  //   useUpdateActiveDisciplines();
 
   // Get discipline data needed for the level bar
   const { todayEntry } = useTodayJournalEntry();
   const { lastEntry } = useLastJournalEntry();
 
-  //Get ACTIVE_DISCIPLINE LIST
+  //add/remove IDS to ACTIVE_DISCIPLINE LIST
   const handleToggle = (checked: boolean) => {
     updateActiveDiscipline(disciplineId, checked);
   };

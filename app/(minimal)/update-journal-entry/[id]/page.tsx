@@ -26,12 +26,10 @@ export default function UpdateJournalEntry() {
   //NOTE: WIP - Habits
   const { hasHabits, habitsLoading } = useUserHabits();
 
-  //NOTE: WIP hook!
   const {
-    disciplineStepList,
-    activeDisciplinesStepList,
-    listLoading,
-    listError,
+    activeDisciplineSteps,
+    disciplinesConfigsLoading,
+    disciplinesConfigsError,
   } = useDisciplineList();
 
   const userEveningTime = userProfile?.journalStartTime.evening;
@@ -41,7 +39,7 @@ export default function UpdateJournalEntry() {
     journalEntryLoading ||
     userProfileLoading ||
     habitsLoading ||
-    listLoading ||
+    disciplinesConfigsLoading ||
     !journalEntryData;
 
   return (
@@ -55,7 +53,7 @@ export default function UpdateJournalEntry() {
           willpowerMultiplier={willpowerMultiplier}
           //NOTE: need to give better names to these: stepList
           // and for customSteps in maybe appSteps?
-          customSteps={activeDisciplinesStepList}
+          customSteps={activeDisciplineSteps}
           hasHabits={hasHabits}
         />
       )}
