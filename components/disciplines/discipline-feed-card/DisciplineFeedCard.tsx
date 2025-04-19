@@ -37,7 +37,7 @@ export function DisciplineFeedCard({ step }: DisciplineCardProps) {
           title={step.title}
           description={step.description}
         />
-        <DisciplineFeedFooter />
+        <DisciplineFeedFooter stepId={String(step._id)} />
       </AccordionContent>
     </AccordionItem>
   );

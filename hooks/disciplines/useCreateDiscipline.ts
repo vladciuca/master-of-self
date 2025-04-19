@@ -2,9 +2,16 @@ import { useState, useRef, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { DisciplineZodType } from "@models/disciplineFormSchema";
 import { Session } from "@models/types";
+import { useUserProfile } from "@context/UserProfileContext";
 
 export function useCreateDiscipline() {
   const { data: session } = useSession() as { data: Session | null };
+
+  const {
+    updateDisciplinesValues,
+    submittingDisciplinesValuesUpdate,
+    updateDisciplinesValuesError,
+  } = useUserProfile();
 
   const [submittingDiscipline, setSubmittingDiscipline] =
     useState<boolean>(false);
@@ -68,18 +75,32 @@ export function useCreateDiscipline() {
         throw new Error("Failed to create discipline");
       }
 
-      //NOTE: should we leave this in?
+      //NOTE: Takes the id from the response and added it to learned discipline list
       const createdDisciplineData = await response.json();
 
-      // NOTE: No need to return data here as the user is redirected on success
-      // return createdDisciplineData; // Return the created data for the caller
+      try {
+        await updateDisciplinesValues({
+          [String(createdDisciplineData._id)]: 0,
+        });
+      } catch (error) {
+        console.warn("Failed to initialize discipline value:", error);
+
+        // Optional: surface that to your local state/UI
+        setCreateDisciplineError(
+          (error as Error).message ?? "Something went wrong initializing value"
+        );
+      }
     } catch (error) {
       if ((error as Error).name === "AbortError") {
         console.log("Create operation aborted");
         return;
       }
 
-      console.error("Error creating discipline:", error);
+      console.error(
+        "Error learning newly created discipline:",
+        updateDisciplinesValuesError
+      );
+      //NOTE: might not need this, might use updateDisciplinesValuesError
       setCreateDisciplineError(
         (error as Error).message || "Failed to create discipline"
       );

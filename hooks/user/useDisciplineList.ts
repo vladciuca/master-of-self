@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import {
   //   customSteps,
+  //NOTE: I CAN MOVE THIS IN A SEPARATE FILE and import it here
   customStepConfigs,
   generateCustomStepsFromConfig,
 } from "@components/journal/journal-entry-form/form-steps/steps/CustomSteps";

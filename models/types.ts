@@ -15,7 +15,6 @@ export interface User extends NextAuthUser {
 }
 
 export type UserDisciplines = {
-  motivation: number;
   [key: string]: number;
 };
 

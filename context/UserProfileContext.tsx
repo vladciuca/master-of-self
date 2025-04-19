@@ -40,9 +40,7 @@ export function UserProfileProvider({ children }: { children: ReactNode }) {
 
   const [userProfile, setUserProfile] = useState<UserProfile>({
     willpowerMultiplier: 1.5,
-    disciplines: {
-      motivation: 0,
-    },
+    disciplines: {},
     activeDisciplines: [],
     journalStartTime: {
       morning: "08:00",
@@ -132,7 +130,18 @@ export function UserProfileProvider({ children }: { children: ReactNode }) {
         }
 
         const { profile } = await response.json();
-        setUserProfile(profile);
+        //FIX: 1
+        if (!profile.disciplines) {
+          console.warn(
+            "======⚠️ profile.disciplines missing from server response:",
+            profile
+          );
+        }
+        setUserProfile((prev) => ({
+          ...prev,
+          ...profile,
+          disciplines: profile.disciplines ?? prev.disciplines ?? {},
+        }));
       } catch (error) {
         // Only set error if it's not an abort error
         if (error instanceof Error && error.name !== "AbortError") {
@@ -276,11 +285,16 @@ export function UserProfileProvider({ children }: { children: ReactNode }) {
       }
 
       const result = await response.json();
-
-      // Update state with server response to ensure consistency
+      //FIX 2
+      if (!result?.disciplines) {
+        console.warn(
+          "=====⚠️ Missing disciplines in updateDisciplinesValues response:",
+          result
+        );
+      }
       setUserProfile((prev) => ({
         ...prev,
-        disciplines: result.disciplines,
+        disciplines: result.disciplines ?? prev.disciplines ?? {},
       }));
 
       return { success: true, data: result };
@@ -290,10 +304,13 @@ export function UserProfileProvider({ children }: { children: ReactNode }) {
         return;
       }
 
+      //FIX: 3
+      console.warn("=====Rolling back to:", currentDisciplines);
+
       // Rollback optimistic update on error
       setUserProfile((prev) => ({
         ...prev,
-        disciplines: currentDisciplines,
+        disciplines: currentDisciplines || {},
       }));
 
       console.error("Error updating disciplines:", error);
@@ -315,6 +332,24 @@ export function UserProfileProvider({ children }: { children: ReactNode }) {
       }
     }
   };
+
+  //TEST
+  useEffect(() => {
+    if (
+      !userProfile.disciplines ||
+      Object.keys(userProfile.disciplines).length === 0
+    ) {
+      console.warn(
+        "=========🛑 userProfile.disciplines is missing or empty!",
+        userProfile
+      );
+    } else {
+      console.log(
+        "=========✅ userProfile.disciplines updated",
+        userProfile.disciplines
+      );
+    }
+  }, [userProfile.disciplines]);
 
   //===============================================================================================
   // UPDATE ACTIVE DISCIPLINES LIST (steps to render in JOURNAL)
