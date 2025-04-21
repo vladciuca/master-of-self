@@ -100,7 +100,7 @@ export function DisciplineCardHeader({
         <div className="w-2/12 flex items-center justify-center mt-0">
           <AddNewButton
             title="Create New Discipline"
-            linkTo="/create-discipline"
+            linkTo="/explore-disciplines"
           />
         </div>
       )}
