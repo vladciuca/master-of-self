@@ -9,19 +9,13 @@ const skeletonCards = Array.from({ length: 3 }, (_, index) => (
   <SkeletonDisciplineCard key={index} />
 ));
 
-export default function ExplorePage() {
+export function Community() {
   const { disciplines, loading, error } = useAllDisciplines();
 
   return (
-    <div className="py-4">
-      <div className="scroll-m-20 text-3xl font-semibold tracking-tight w-full text-center pb-2">
-        Explore Disciplines
-      </div>
-      {/* <h1 className="scroll-m-20 text-4xl font-bold tracking-tight text-center">
-        Explore Disciplines
-      </h1> */}
+    <div className="mt-2">
       {loading ? (
-        <div className="mt-4 space-y-4">{skeletonCards}</div>
+        <div className="space-y-4">{skeletonCards}</div>
       ) : !loading && error ? (
         <div>
           <span>Error:</span>
@@ -32,7 +26,7 @@ export default function ExplorePage() {
         </div>
       ) : (
         <>
-          <Accordion type="single" collapsible className="mt-4">
+          <Accordion type="single" collapsible className="">
             {disciplines.map((discipline) => (
               <DisciplineFeedCard step={discipline} />
             ))}

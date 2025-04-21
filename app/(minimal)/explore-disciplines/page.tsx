@@ -8,13 +8,13 @@ const cardData = [
     title: "Custom Disciplines",
     description:
       "Dive into our curated set of disciplines designed to help you build strong habits from day one.",
-    href: "/default",
+    href: "/community?page=built-in",
   },
   {
     title: "Community Inspirations",
     description:
       "Discover what others are doing—gain insight, spark ideas, and tailor a discipline that fits your style.",
-    href: "/explore",
+    href: "/community?page=disciplines",
   },
   {
     title: "Create Your Own",
