@@ -28,7 +28,10 @@ export function Community() {
         <>
           <Accordion type="single" collapsible className="">
             {disciplines.map((discipline) => (
-              <DisciplineFeedCard step={discipline} />
+              <DisciplineFeedCard
+                key={String(discipline._id)}
+                step={discipline}
+              />
             ))}
           </Accordion>
         </>

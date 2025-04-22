@@ -1,7 +1,7 @@
 import { DisciplineCreator } from "@components/disciplines/discipline-card/DisciplineCreator";
 import { IconRenderer } from "@components/IconRenderer";
 import { stepIconMap } from "@components/ui/constants";
-import { JOURNAL_COLORS } from "@lib/colors";
+// import { JOURNAL_COLORS } from "@lib/colors";
 
 type DisciplineFeedHeaderProps = {
   icon?: string;
@@ -9,6 +9,7 @@ type DisciplineFeedHeaderProps = {
   discipline: string;
   title: string;
   type?: string;
+  creatorId?: string;
 };
 
 export function DisciplineFeedHeader({
@@ -17,6 +18,7 @@ export function DisciplineFeedHeader({
   discipline,
   title,
   type,
+  creatorId,
 }: DisciplineFeedHeaderProps) {
   return (
     <div className="flex flex-row w-full pl-2">
@@ -28,9 +30,10 @@ export function DisciplineFeedHeader({
       )}
 
       {/* Content section */}
+
       <div className="flex flex-col items-start w-full">
-        <span className="px-2">{discipline}</span>
-        <DisciplineCreator />
+        <span className="px-2 capitalize">{discipline}</span>
+        {creatorId && <DisciplineCreator creatorId={String(creatorId)} />}
       </div>
 
       {/* Toggle switch */}

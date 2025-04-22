@@ -45,6 +45,7 @@ export type JournalStepData = {
 
 export type JournalStepMetadata = {
   _id?: string | ObjectId;
+  creatorId?: string | ObjectId;
   icon: string;
   color?: string;
 };

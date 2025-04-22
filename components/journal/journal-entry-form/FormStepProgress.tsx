@@ -91,7 +91,7 @@ export function FormStepProgress({
       <div className="w-full">
         <div className="px-4 sm:pt-4">
           <div className="overflow-x-auto" ref={containerRef}>
-            <div className="flex items-center mt-4 mb-3 min-w-max">
+            <div className="flex justify-around items-center mt-4 mb-3 min-w-max">
               {formSteps.map((step: JournalCustomStep, index: number) => {
                 const stepId = step._id;
                 const discipline =

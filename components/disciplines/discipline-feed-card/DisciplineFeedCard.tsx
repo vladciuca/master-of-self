@@ -30,6 +30,7 @@ export function DisciplineFeedCard({ step }: DisciplineCardProps) {
           title={step.title}
           type={step.type}
           color={"color" in step ? step.color : undefined}
+          creatorId={step?.creatorId && String(step.creatorId)}
         />
       </AccordionTrigger>
       <AccordionContent>

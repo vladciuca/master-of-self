@@ -1,18 +1,35 @@
-import { useSession } from "next-auth/react";
-import { Session } from "@models/types";
-
 import { GiCharacter } from "react-icons/gi";
+import { useUserData } from "@hooks/user/useUserData"; // Update the import path as needed
 
-export function DisciplineCreator() {
-  const { data: session } = useSession() as { data: Session | null };
+type DisciplineCreatorProps = {
+  creatorId: string;
+};
 
-  const name = session?.user?.name || "";
+export function DisciplineCreator({ creatorId }: DisciplineCreatorProps) {
+  const { user, loading, error } = useUserData(creatorId);
+
+  // Get name from the profile
+  const name = user?.name || "";
   const nameInitials = name
     ? name
         .split(" ")
         .map((word: string) => word[0])
         .join("")
     : "";
+
+  if (loading) {
+    return (
+      <div className="flex items-end mx-2 text-xs">Loading creator info...</div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex items-end mx-2 text-xs text-red-500">
+        Error loading creator
+      </div>
+    );
+  }
 
   return (
     <div className="flex items-end mx-2 text-xs">

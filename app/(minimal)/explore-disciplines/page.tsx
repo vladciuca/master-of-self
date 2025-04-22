@@ -38,9 +38,9 @@ export default function ExploreDisciplines() {
           {cardData.map(({ href, title, description }, index) => (
             <Link key={index} href={href}>
               <Card
-                className={`bg-muted/30 p-2 py-4 sm:py-6 flex flex-col justify-center items-center
-                      transition-all duration-300 cursor-pointer hover:scale-105
-                      border-transparent
+                className={`cursor-pointer bg-muted/30 p-2 py-4 sm:py-6 flex flex-col justify-center items-center
+                      transition-all duration-300 
+                      border-transparent hover:border-primary
                       `}
               >
                 <CardTitle className="mb-2 text-base sm:text-lg text-center">

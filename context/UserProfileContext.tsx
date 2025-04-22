@@ -131,12 +131,12 @@ export function UserProfileProvider({ children }: { children: ReactNode }) {
 
         const { profile } = await response.json();
         //FIX: 1
-        if (!profile.disciplines) {
-          console.warn(
-            "======⚠️ profile.disciplines missing from server response:",
-            profile
-          );
-        }
+        // if (!profile.disciplines) {
+        //   console.warn(
+        //     "======⚠️ profile.disciplines missing from server response:",
+        //     profile
+        //   );
+        // }
         setUserProfile((prev) => ({
           ...prev,
           ...profile,
@@ -286,12 +286,12 @@ export function UserProfileProvider({ children }: { children: ReactNode }) {
 
       const result = await response.json();
       //FIX 2
-      if (!result?.disciplines) {
-        console.warn(
-          "=====⚠️ Missing disciplines in updateDisciplinesValues response:",
-          result
-        );
-      }
+      // if (!result?.disciplines) {
+      //   console.warn(
+      //     "=====⚠️ Missing disciplines in updateDisciplinesValues response:",
+      //     result
+      //   );
+      // }
       setUserProfile((prev) => ({
         ...prev,
         disciplines: result.disciplines ?? prev.disciplines ?? {},
@@ -305,7 +305,7 @@ export function UserProfileProvider({ children }: { children: ReactNode }) {
       }
 
       //FIX: 3
-      console.warn("=====Rolling back to:", currentDisciplines);
+      // console.warn("=====Rolling back to:", currentDisciplines);
 
       // Rollback optimistic update on error
       setUserProfile((prev) => ({
@@ -339,15 +339,15 @@ export function UserProfileProvider({ children }: { children: ReactNode }) {
       !userProfile.disciplines ||
       Object.keys(userProfile.disciplines).length === 0
     ) {
-      console.warn(
-        "=========🛑 userProfile.disciplines is missing or empty!",
-        userProfile
-      );
+      // console.warn(
+      //   "=========🛑 userProfile.disciplines is missing or empty!",
+      //   userProfile
+      // );
     } else {
-      console.log(
-        "=========✅ userProfile.disciplines updated",
-        userProfile.disciplines
-      );
+      // console.log(
+      //   "=========✅ userProfile.disciplines updated",
+      //   userProfile.disciplines
+      // );
     }
   }, [userProfile.disciplines]);
 
