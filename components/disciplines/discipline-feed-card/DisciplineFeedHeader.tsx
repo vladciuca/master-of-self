@@ -30,7 +30,6 @@ export function DisciplineFeedHeader({
       )}
 
       {/* Content section */}
-
       <div className="flex flex-col items-start w-full">
         <span className="px-2 capitalize">{discipline}</span>
         {creatorId && <DisciplineCreator creatorId={String(creatorId)} />}

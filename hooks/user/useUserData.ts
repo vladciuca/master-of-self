@@ -51,6 +51,11 @@ export function useUserData(userId: string) {
   const abortControllerRef = useRef<AbortController | null>(null);
 
   useEffect(() => {
+    // Cancel any in-progress operation from previous effects
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort();
+    }
+
     // Create a new AbortController for this operation
     abortControllerRef.current = new AbortController();
     const signal = abortControllerRef.current.signal;
@@ -59,12 +64,6 @@ export function useUserData(userId: string) {
       if (!userId) {
         setLoading(false);
         return;
-      }
-
-      // Cancel any in-progress operation
-      if (abortControllerRef.current) {
-        abortControllerRef.current.abort();
-        abortControllerRef.current = new AbortController();
       }
 
       try {
