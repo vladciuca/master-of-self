@@ -6,14 +6,12 @@ import { customStepConfigs } from "@components/journal/journal-entry-form/form-s
 
 export function BuiltIn() {
   return (
-    <div className="mt-2">
-      <>
-        <Accordion type="single" collapsible className="">
-          {customStepConfigs.map((discipline) => (
-            <DisciplineFeedCard step={discipline} />
-          ))}
-        </Accordion>
-      </>
-    </div>
+    <>
+      <Accordion type="single" collapsible className="">
+        {customStepConfigs.map((discipline) => (
+          <DisciplineFeedCard step={discipline} />
+        ))}
+      </Accordion>
+    </>
   );
 }

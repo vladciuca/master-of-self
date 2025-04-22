@@ -13,7 +13,7 @@ export function Community() {
   const { disciplines, loading, error } = useAllDisciplines();
 
   return (
-    <div className="mt-2">
+    <>
       {loading ? (
         <div className="space-y-4">{skeletonCards}</div>
       ) : !loading && error ? (
@@ -33,6 +33,6 @@ export function Community() {
           </Accordion>
         </>
       )}
-    </div>
+    </>
   );
 }

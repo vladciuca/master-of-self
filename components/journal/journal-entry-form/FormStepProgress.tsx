@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
 import { IconRenderer } from "@components/IconRenderer";
@@ -28,6 +28,11 @@ export function FormStepProgress({
   habitActionsCount,
   ...countProps
 }: FormStepProgressProps) {
+  // Create a ref for the container div
+  const containerRef = useRef<HTMLDivElement>(null);
+  // Create refs for each step icon
+  const stepRefs = useRef<Record<string, HTMLSpanElement | null>>({});
+
   // This function gets the count for a step type from the countProps
   const getCount = (stepId: string): number => {
     // Special cases first
@@ -55,71 +60,105 @@ export function FormStepProgress({
     return 0;
   };
 
-  return (
-    <div className="flex flex-col items-center w-full mb-4">
-      <div className="flex items-center justify-around w-full mt-4 mb-3 px-4 sm:pt-4">
-        {formSteps.map((step: JournalCustomStep, index: number) => {
-          const stepId = step._id;
-          const discipline =
-            step.type === "other" ? step.discipline : step.type;
-          const { bgColor } = getJournalStepStyle(discipline);
-          const count = getCount(String(stepId));
-          return (
-            <span
-              key={index}
-              className={`relative cursor-pointer text-sm ${
-                stepId === activeStep ? "" : "text-muted-foreground"
-              }`}
-              onClick={() => handleStepChange(String(stepId))}
-            >
-              <div
-                className={`${
-                  stepId === activeStep
-                    ? "bg-secondary text-primary"
-                    : "text-primary"
-                } w-11 h-11 rounded-full flex items-center justify-center`}
-              >
-                <IconRenderer
-                  iconName={step.icon}
-                  size={
-                    stepId === "night" ||
-                    stepId === "day" ||
-                    stepId === "bonus" ||
-                    stepId === "habits"
-                      ? 25
-                      : stepId === "willpower"
-                      ? 23
-                      : 30
-                  }
-                  className={step.color ? `text-${step.color}` : ""}
-                />
-              </div>
+  // Effect to scroll the active step into view when it changes
+  useEffect(() => {
+    if (activeStep && stepRefs.current[activeStep]) {
+      const activeStepElement = stepRefs.current[activeStep];
+      const container = containerRef.current;
 
-              {count > 0 && (
-                <Badge
-                  variant="outline"
-                  className={`${bgColor} absolute -top-1 -right-1 text-[0.6rem] px-1 py-0 min-w-[1.2rem] h-[1.2rem] flex items-center justify-center text-white`}
-                >
-                  {count}
-                </Badge>
-              )}
-              {stepId === "bonus" && (
-                <Badge
-                  variant="outline"
-                  className={`${bgColor} absolute -top-1 -right-1 text-[0.6rem] px-1 py-0 min-w-[1.2rem] h-[1.2rem] flex items-center justify-center text-white`}
-                >
-                  <FaBoltLightning />
-                </Badge>
-              )}
-            </span>
-          );
-        })}
-      </div>
-      <div className="flex items-center justify-between w-full">
-        <div className="flex-grow mx-4">
-          <Progress value={progressPercentage} className="w-full h-2" />
+      if (activeStepElement && container) {
+        // Calculate positions
+        const containerRect = container.getBoundingClientRect();
+        const stepRect = activeStepElement.getBoundingClientRect();
+
+        // Check if the step is not fully visible
+        const isStepLeftOfView = stepRect.left < containerRect.left;
+        const isStepRightOfView = stepRect.right > containerRect.right;
+
+        if (isStepLeftOfView) {
+          // If step is to the left of the visible area, scroll to make it visible
+          container.scrollLeft += stepRect.left - containerRect.left - 20; // Add some padding
+        } else if (isStepRightOfView) {
+          // If step is to the right of the visible area, scroll to make it visible
+          container.scrollLeft += stepRect.right - containerRect.right + 20; // Add some padding
+        }
+      }
+    }
+  }, [activeStep]);
+
+  return (
+    <>
+      <div className="w-full">
+        <div className="px-4 sm:pt-4">
+          <div className="overflow-x-auto" ref={containerRef}>
+            <div className="flex items-center mt-4 mb-3 min-w-max">
+              {formSteps.map((step: JournalCustomStep, index: number) => {
+                const stepId = step._id;
+                const discipline =
+                  step.type === "other" ? step.discipline : step.type;
+                const { bgColor } = getJournalStepStyle(discipline);
+                const count = getCount(String(stepId));
+                return (
+                  <span
+                    key={index}
+                    className={`relative cursor-pointer text-sm ${
+                      stepId === activeStep ? "" : "text-muted-foreground"
+                    }`}
+                    onClick={() => handleStepChange(String(stepId))}
+                    ref={(el) => {
+                      stepRefs.current[String(stepId)] = el;
+                    }}
+                  >
+                    <div
+                      className={`${
+                        stepId === activeStep
+                          ? "bg-secondary text-primary"
+                          : "text-primary"
+                      } w-11 h-11 rounded-full flex items-center justify-center`}
+                    >
+                      <IconRenderer
+                        iconName={step.icon}
+                        size={
+                          stepId === "night" ||
+                          stepId === "day" ||
+                          stepId === "bonus" ||
+                          stepId === "habits"
+                            ? 25
+                            : stepId === "willpower"
+                            ? 23
+                            : 30
+                        }
+                        className={step.color ? `text-${step.color}` : ""}
+                      />
+                    </div>
+
+                    {count > 0 && (
+                      <Badge
+                        variant="outline"
+                        className={`${bgColor} absolute -top-1 -right-1 text-[0.6rem] px-1 py-0 min-w-[1.2rem] h-[1.2rem] flex items-center justify-center text-white`}
+                      >
+                        {count}
+                      </Badge>
+                    )}
+                    {stepId === "bonus" && (
+                      <Badge
+                        variant="outline"
+                        className={`${bgColor} absolute -top-1 -right-1 text-[0.6rem] px-1 py-0 min-w-[1.2rem] h-[1.2rem] flex items-center justify-center text-white`}
+                      >
+                        <FaBoltLightning />
+                      </Badge>
+                    )}
+                  </span>
+                );
+              })}
+            </div>
+          </div>
         </div>
       </div>
-    </div>
+
+      <div className="mb-4 mx-4">
+        <Progress value={progressPercentage} className="w-full h-2" />
+      </div>
+    </>
   );
 }

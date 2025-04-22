@@ -243,7 +243,7 @@ export function FormStepController({
 
   return (
     <FormProvider {...methods}>
-      <div className="grid grid-rows-[auto,1fr,auto] h-full">
+      <div className="flex flex-col h-full">
         <FormStepProgress
           formSteps={availableSteps}
           activeStep={String(activeStep)} // this is now the STEP ID
