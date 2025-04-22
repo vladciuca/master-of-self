@@ -67,7 +67,10 @@ export function DisciplinesList({
           <DisciplineCardContent title={"title"} description={"description"} />
         </AccordionContent>
       </AccordionItem>
-      <DisciplineSectionDelimiter day={true} activeSteps={0} maxSteps={2} />
+
+      {dayEntries.length !== 0 && (
+        <DisciplineSectionDelimiter day={true} activeSteps={0} maxSteps={2} />
+      )}
 
       {dayEntries.map((step) => {
         return (
@@ -79,7 +82,9 @@ export function DisciplinesList({
         );
       })}
 
-      <DisciplineSectionDelimiter day={false} activeSteps={0} maxSteps={2} />
+      {nightEntries.length !== 0 && (
+        <DisciplineSectionDelimiter day={false} activeSteps={0} maxSteps={2} />
+      )}
 
       {nightEntries.map((step) => {
         return (

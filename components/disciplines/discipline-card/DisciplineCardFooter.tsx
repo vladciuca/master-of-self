@@ -32,8 +32,6 @@ DisciplineCardFooterProps) {
   //NOTE: so the buttons do not appear on other peoples habit cards
   // Only show for creator
   if (session?.user?.id !== discipline.creatorId.toString()) {
-    // console.log(discipline.creatorId.toString());
-    // return null;
     return (
       <div className="mt-4 flex items-center justify-end">
         <DisciplineCreator creatorId={discipline.creatorId.toString()} />
