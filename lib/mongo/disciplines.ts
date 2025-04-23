@@ -208,3 +208,35 @@ export async function getDisciplinesByIds(disciplineIds: string[]): Promise<{
     return { disciplines: null, error: "Failed to fetch disciplines by IDs" };
   }
 }
+
+export async function getDisciplinesInfo(ids: string[]): Promise<{
+  infoMap: Record<
+    string,
+    { name: string; icon: string; title?: string; color?: string }
+  >;
+  error?: string;
+}> {
+  try {
+    if (!disciplines) await init();
+
+    const disciplineIds = ids.map((id) => new ObjectId(id));
+    const result = await disciplines
+      .find({ _id: { $in: disciplineIds } })
+      .toArray();
+
+    const infoMap = result.reduce((acc, discipline) => {
+      acc[discipline._id.toString()] = {
+        name: discipline.discipline,
+        icon: discipline.icon,
+        title: discipline.title || discipline.discipline,
+        color: discipline.color || "primary",
+      };
+      return acc;
+    }, {} as Record<string, { name: string; icon: string; title?: string; color?: string }>);
+
+    return { infoMap };
+  } catch (error) {
+    console.error("Failed to fetch discipline info:", error);
+    return { infoMap: {}, error: "Failed to fetch discipline info" };
+  }
+}
