@@ -71,18 +71,16 @@ JournalEntryCardProps) {
               <div className="text-3xl font-semibold">{day}</div>
             </div>
 
-            <JournalEntryIndicators
+            {/* <JournalEntryIndicators
               dayEntry={dayEntry ?? {}}
               nightEntry={nightEntry ?? {}}
-            />
+            /> */}
           </div>
 
-          <div className="ml-6 flex flex-col justify-center">
-            <div className="flex items-center">
-              <div className="w-full flex items-center justify-center text-3xl font-bold">
-                {totalWillpower}
-                <FaBoltLightning className="ml-1 text-2xl" />
-              </div>
+          <div className="ml-6 flex flex-col justify-start items-center">
+            <div className="w-full flex items-center justify-center text-3xl font-bold">
+              {totalWillpower}
+              <FaBoltLightning className="ml-1 text-2xl" />
             </div>
             <div className="flex justify-end">
               <div className="text-xs mt-1 text-muted-foreground">

@@ -111,7 +111,9 @@ export function getNightDisciplineScores(
       //NOTE: hotfix to return 0 score when there are no elements in the night[]
       //will refactor this logic in WILLPOWER refactor
       if (value.length === 0) return (disciplines.motivation = 0);
-      disciplines.motivation = calculateStepScoreMultiplier(value);
+      disciplines.motivationMultiplier = calculateStepScoreMultiplier(value);
+    } else if (key === "highlights") {
+      disciplines.motivation = calculateStepScore(value);
     } else {
       // For all other keys, calculate score normally
       disciplines[key] = calculateStepScore(value);
@@ -138,40 +140,27 @@ export function getDisciplineScoreFromEntry(
 
   // Add night scores
   Object.entries(nightScores).forEach(([key, value]) => {
-    // if (key === "motivation") {
-    //   // Special handling for motivation
-    //   const dayMotivation = Number(dayScores.motivation);
-
-    //   // Check if day motivation exists and is valid
-    //   if (
-    //     !isNaN(dayMotivation) &&
-    //     dayMotivation > 0 &&
-    //     Array.isArray(entry?.dayEntry?.day) &&
-    //     entry.dayEntry.day.length > 0
-    //   ) {
-    //     // Only multiply if day motivation is valid
-    //     combinedScores[key] = dayMotivation * value;
-    //   } else {
-    //     // Otherwise set to 0
-    //     combinedScores[key] = 0;
-    //   }
-    // }
     if (key === "motivation") {
       const dayMotivation = Number(dayScores.motivation);
+      const nightMotivation = Number(nightScores.motivation);
+      const motivationMultiplier = Number(nightScores.motivationMultiplier);
+
+      //VALIDATIONS
       const hasValidDayMotivation =
         !isNaN(dayMotivation) &&
         dayMotivation > 0 &&
         Array.isArray(entry?.dayEntry?.day) &&
         entry.dayEntry.day.length > 0;
 
-      if (hasValidDayMotivation) {
-        const shouldDefaultNightMotivation =
-          Array.isArray(entry?.nightEntry?.night) &&
-          entry.nightEntry.night.length === 0;
+      const hasValidNightMotivation =
+        !isNaN(nightMotivation) &&
+        nightMotivation > 0 &&
+        Array.isArray(entry?.dayEntry?.highlights) &&
+        entry.dayEntry.highlights.length > 0;
 
-        const nightMotivation = shouldDefaultNightMotivation ? 1 : value;
-
-        combinedScores[key] = dayMotivation * nightMotivation;
+      if (hasValidDayMotivation || hasValidNightMotivation) {
+        combinedScores[key] =
+          (dayMotivation + nightMotivation) * motivationMultiplier;
       } else {
         combinedScores[key] = 0;
       }

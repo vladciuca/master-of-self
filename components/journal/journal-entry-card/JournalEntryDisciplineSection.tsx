@@ -70,18 +70,6 @@ export function JournalEntryDisciplineSection({
     return step.charAt(0).toUpperCase() + step.slice(1);
   }
 
-  // Helper function to get step title
-  function getStepTitle(step: string): string {
-    if (
-      isDisciplineId(step) &&
-      disciplineData[step] &&
-      disciplineData[step].title
-    ) {
-      return disciplineData[step].title || "";
-    }
-    return "";
-  }
-
   const daySteps: StepData[] = Object.entries(dayEntry || {})
     .map(([key, value]) => {
       const isDiscipline = isDisciplineId(key);
@@ -107,7 +95,13 @@ export function JournalEntryDisciplineSection({
         data: value || [],
         stepType: "nightEntry" as const,
         displayName: isDiscipline ? disciplineData[key]?.name : undefined,
-        icon: isDiscipline ? disciplineData[key]?.icon : undefined,
+        // icon: isDiscipline ? disciplineData[key]?.icon : undefined,
+        icon:
+          key === "highlights"
+            ? stepIconMap.highlights
+            : isDiscipline
+            ? disciplineData[key]?.icon
+            : undefined,
         title: isDiscipline ? disciplineData[key]?.title : undefined,
         color: isDiscipline ? disciplineData[key]?.color : undefined,
       };
@@ -280,9 +274,16 @@ export function JournalEntryDisciplineSection({
                     <div className="h-6 w-6 flex items-center justify-center">
                       {/* Render icon here - you might need to adjust based on how icons are stored */}
                       <IconRenderer
-                        iconName={icon}
+                        // iconName={icon}
+                        iconName={
+                          step === "highlights" ? stepIconMap.highlights : icon
+                        }
                         className={color ? `text-${color}` : "text-primary"}
-                        size={step === "motivation" ? 20 : 25}
+                        size={
+                          step === "motivation" || step === "highlights"
+                            ? 20
+                            : 25
+                        }
                       />
                     </div>
                   )}
@@ -312,7 +313,7 @@ export function JournalEntryDisciplineSection({
               </div>
               {/* Only show circles when this item is not open */}
               <div
-                className={`mt-2 overflow-hidden flex flex-wrap max-w-[90%] gap-2 transition-all duration-100 ${
+                className={`mt-2 overflow-hidden flex flex-wrap max-w-[60%] gap-2 transition-all duration-100 ${
                   openItem === step
                     ? "opacity-0 max-h-0"
                     : "transition-[max-height] delay-100 duration-200 opacity-100 max-h-[500px]"

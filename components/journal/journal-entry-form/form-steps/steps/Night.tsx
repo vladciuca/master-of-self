@@ -52,7 +52,8 @@ export function Night() {
       description="Follow through with your daily goals to exponentially increase Motivation."
       scoreSection={
         <div className="flex items-center">
-          <StepScoreDisplay items={day ?? []} scoreName="Motivation" />
+          {/* <StepScoreDisplay items={[]} scoreName="Motivation" /> */}
+          <div>Motivation</div>
           {Object.values(checkedItems).filter(Boolean).length + 1 <= 1 ? (
             <></>
           ) : (

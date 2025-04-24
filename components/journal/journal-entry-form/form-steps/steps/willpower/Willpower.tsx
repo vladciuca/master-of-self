@@ -1,6 +1,6 @@
 import { useFormContext } from "react-hook-form";
 import { JournalStepTemplate } from "@components/journal/journal-entry-form/form-steps/steps/journal-step/JournalStepTemplate";
-import { WillpowerScoreDisplay } from "@components/journal/journal-entry-form/form-steps/WillpowerScoreDisplay";
+// import { WillpowerScoreDisplay } from "@components/journal/journal-entry-form/form-steps/WillpowerScoreDisplay";
 import { DisciplineProgressBar } from "@components/disciplines/DisciplineProgressBar";
 import { IconRenderer } from "@components/IconRenderer";
 import { getDayDisciplineScores, getNightDisciplineScores } from "@lib/score";
@@ -18,9 +18,9 @@ export const Willpower = () => {
   const userEveningTime = userProfile?.journalStartTime.evening;
   const isEveningTime = isEvening(userEveningTime);
 
-  const bonusWillpower = watch("bonusWillpower");
-  const dailyWillpower = watch("dailyWillpower");
-  const totalWillpower = bonusWillpower + dailyWillpower;
+  // const bonusWillpower = watch("bonusWillpower");
+  // const dailyWillpower = watch("dailyWillpower");
+  // const totalWillpower = bonusWillpower + dailyWillpower;
 
   const dayEntry = watch("dayEntry");
   const nightEntry = watch("nightEntry");
@@ -40,8 +40,11 @@ export const Willpower = () => {
 
   // Calculate motivation score (multiply day and night values)
   const motivationDayScore = dayDisciplines.motivation || 0;
-  const motivationNightScore = nightDisciplines.motivation || 0;
-  const motivationScore = motivationDayScore * motivationNightScore;
+  const motivationNightScore = nightDisciplines.motivation ?? 0;
+  const motivationMultiplier = nightDisciplines.motivationMultiplier || 1;
+
+  const motivationScore =
+    (motivationDayScore + motivationNightScore) * motivationMultiplier;
 
   // Check if there are any discipline scores with values > 0
   const hasPositiveDayDisciplineScores = filteredDayDisciplineScores.length > 0;
@@ -86,14 +89,14 @@ export const Willpower = () => {
     <JournalStepTemplate
       title={"Willpower"}
       description={"Generate Willpower for today from your morning journaling."}
-      scoreSection={
-        <div className="flex flex-col items-center">
-          <WillpowerScoreDisplay
-            willpower={totalWillpower}
-            color={JOURNAL_COLORS.day}
-          />
-        </div>
-      }
+      // scoreSection={
+      //   <div className="flex flex-col items-center">
+      //     <WillpowerScoreDisplay
+      //       willpower={totalWillpower}
+      //       color={JOURNAL_COLORS.day}
+      //     />
+      //   </div>
+      // }
     >
       <div className="flex flex-col justify-center px-4 sm:px-8 mt-6">
         <div className="text-center">

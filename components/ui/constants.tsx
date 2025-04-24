@@ -15,8 +15,9 @@ export const stepIconMap: StepIconMap = {
   awareness: "GiAwareness",
   positivity: "GiHealing",
   resilience: "GiGuardedTower",
+  highlights: "FaStar",
   willpower: "FaBoltLightning",
-  bonus: "FaStar",
+  bonus: "FaBoltLightning",
   default: "GiInnerSelf",
 };
 
@@ -37,6 +38,9 @@ export const journalStepStyle: { [key: string]: StepStyle } = {
   },
   night: {
     bgColor: "bg-[linear-gradient(to_right,_#eab308_50%,_#a855f7_50%)]",
+  },
+  highlights: {
+    bgColor: `bg-${JOURNAL_COLORS.night}`,
   },
   habits: {
     bgColor: `bg-${HABIT_COLORS.main}`,

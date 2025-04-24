@@ -14,6 +14,7 @@ type FormStepProgressProps = {
   // Instead of requiring specific count props, accept any prop ending with "Count"
   dailyGoals: number;
   dailyGoalsCompleted?: number;
+  dailyHighlights: number;
   habitActionsCount: number;
   [key: `${string}Count`]: number;
 };
@@ -25,6 +26,7 @@ export function FormStepProgress({
   progressPercentage,
   dailyGoals,
   dailyGoalsCompleted,
+  dailyHighlights,
   habitActionsCount,
   ...countProps
 }: FormStepProgressProps) {
@@ -42,6 +44,10 @@ export function FormStepProgress({
 
     if (stepId === "night" && dailyGoalsCompleted !== undefined) {
       return dailyGoalsCompleted;
+    }
+
+    if (stepId === "highlights" && dailyGoalsCompleted !== undefined) {
+      return dailyHighlights;
     }
 
     if (stepId === "habits" && habitActionsCount !== undefined) {
@@ -121,10 +127,11 @@ export function FormStepProgress({
                         size={
                           stepId === "night" ||
                           stepId === "day" ||
-                          stepId === "bonus" ||
+                          stepId === "highlights" ||
+                          stepId === "willpower" ||
                           stepId === "habits"
                             ? 25
-                            : stepId === "willpower"
+                            : stepId === "bonus"
                             ? 23
                             : 30
                         }

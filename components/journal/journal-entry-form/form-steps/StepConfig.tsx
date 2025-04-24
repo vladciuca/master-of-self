@@ -3,6 +3,7 @@ import { UseFormWatch } from "react-hook-form";
 import { Bonus } from "./steps/bonus/Bonus";
 import { Day } from "./steps/Day";
 import { Night } from "./steps/Night";
+import { Highlights } from "./steps/Highlights";
 import { Willpower } from "./steps/willpower/Willpower";
 import { HabitActionsStep } from "./steps/HabitActionsStep";
 import { stepIconMap } from "@components/ui/constants";
@@ -14,11 +15,6 @@ import type {
   JournalCustomStep,
   JournalStepType,
 } from "@models/types";
-
-// Define common field groups for consistent initialization
-//NOTE: Might we need this in the future to add more standard steps?
-// export const DAY_FIELDS = ["day"];
-// export const NIGHT_FIELDS = ["night"];
 
 //NOTE: Creates a complete array of form steps by combining built-in and custom steps
 type CreateStepsParams = {
@@ -54,6 +50,7 @@ export function createSteps(params: CreateStepsParams): JournalCustomStep[] {
     {
       _id: "day",
       icon: stepIconMap.day,
+      //NOTE: should they add to motivation?
       discipline: "day",
       component: <Day />,
       isAvailable: SHOW_ALL_TEST || !isEvening(userEveningTime, now),
@@ -76,6 +73,14 @@ export function createSteps(params: CreateStepsParams): JournalCustomStep[] {
         SHOW_ALL_TEST || (isEvening(userEveningTime, now) && day?.length > 0),
       type: "other",
     },
+    {
+      _id: "highlights",
+      icon: stepIconMap.highlights,
+      discipline: "highlights",
+      component: <Highlights />,
+      isAvailable: SHOW_ALL_TEST || isEvening(userEveningTime, now),
+      type: "other",
+    },
     //=====ADD_NIGHT steps here
     ...customSteps
       .filter((step) => step.type === "nightEntry")
@@ -83,6 +88,7 @@ export function createSteps(params: CreateStepsParams): JournalCustomStep[] {
         ...step,
         isAvailable: SHOW_ALL_TEST || isEvening(userEveningTime, now),
       })),
+
     {
       _id: "willpower",
       icon: stepIconMap.willpower,
@@ -128,12 +134,6 @@ export function creteFormDefaultValues(params: CreteDefaultValuesParams) {
       ...journalEntryData.dayEntry,
     };
   } else {
-    // Initialize with empty arrays for standard fields
-    // DAY_FIELDS.forEach((field) => {
-    //   if (defaultValues.dayEntry) {
-    //     defaultValues.dayEntry[field] = [];
-    //   }
-    // });
     if (defaultValues.dayEntry) {
       defaultValues.dayEntry.day = [];
     }
@@ -146,12 +146,6 @@ export function creteFormDefaultValues(params: CreteDefaultValuesParams) {
       ...journalEntryData.nightEntry,
     };
   } else {
-    // Initialize with empty arrays for standard fields
-    // NIGHT_FIELDS.forEach((field) => {
-    //   if (defaultValues.nightEntry) {
-    //     defaultValues.nightEntry[field] = [];
-    //   }
-    // });
     if (defaultValues.nightEntry) {
       defaultValues.nightEntry.night = [];
     }
@@ -228,6 +222,7 @@ export function createProgressProps(params: CreateProgressPropsParams) {
   const progressProps: {
     dailyGoals: number;
     dailyGoalsCompleted: number;
+    dailyHighlights: number;
     habitActionsCount: number;
     [key: `${string}Count`]: number;
   } = {
@@ -238,6 +233,7 @@ export function createProgressProps(params: CreateProgressPropsParams) {
       watch("dayEntry.day"),
       watch("nightEntry.night")
     ),
+    dailyHighlights: watch("nightEntry.highlights")?.length || 0,
     // Add habitActionsCount for the habits step
     habitActionsCount: countNonZeroValues(habitXpValues),
   };
