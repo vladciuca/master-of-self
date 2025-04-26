@@ -95,13 +95,7 @@ export function JournalEntryDisciplineSection({
         data: value || [],
         stepType: "nightEntry" as const,
         displayName: isDiscipline ? disciplineData[key]?.name : undefined,
-        // icon: isDiscipline ? disciplineData[key]?.icon : undefined,
-        icon:
-          key === "highlights"
-            ? stepIconMap.highlights
-            : isDiscipline
-            ? disciplineData[key]?.icon
-            : undefined,
+        icon: isDiscipline ? disciplineData[key]?.icon : undefined,
         title: isDiscipline ? disciplineData[key]?.title : undefined,
         color: isDiscipline ? disciplineData[key]?.color : undefined,
       };
@@ -125,33 +119,49 @@ export function JournalEntryDisciplineSection({
   const uncompleted = uncompletedDailyToDos();
   const allTodos = [...uncompleted, ...completed];
   const completedCount = completed.length;
+  const highlights = nightEntry?.highlights || [];
 
   const motivationStep = {
     step: "motivation",
     score: calculateStepScore(allTodos),
-    data: allTodos,
+    data: [...allTodos, ...highlights],
     completedCount: completedCount,
+    highlightsCount: highlights.length,
     title: "Daily Goals",
     stepType: "dayEntry" as const,
-    icon: completed.length > 0 ? stepIconMap.night : stepIconMap.day,
-    renderSections: () => (
-      <>
-        {uncompleted.length > 0 && (
-          <JournalEntryDisciplineList
-            title="What will make today great..."
-            items={uncompleted}
-            stepType="day"
-          />
-        )}
-        {completed.length > 0 && (
-          <JournalEntryDisciplineList
-            title="What made today great..."
-            items={completed}
-            stepType="night"
-          />
-        )}
-      </>
-    ),
+    icon:
+      highlights.length > 0
+        ? stepIconMap.highlights
+        : completed.length > 0
+        ? stepIconMap.night
+        : stepIconMap.day,
+    renderSections: () => {
+      return (
+        <>
+          {uncompleted.length > 0 && (
+            <JournalEntryDisciplineList
+              title="What will make today great..."
+              items={uncompleted}
+              stepType="day"
+            />
+          )}
+          {completed.length > 0 && (
+            <JournalEntryDisciplineList
+              title="What made today great..."
+              items={completed}
+              stepType="night"
+            />
+          )}
+          {highlights.length > 0 && (
+            <JournalEntryDisciplineList
+              title="What else made today great..."
+              items={highlights}
+              stepType="highlights"
+            />
+          )}
+        </>
+      );
+    },
   };
 
   // Create empty array for the final ordered steps
@@ -165,13 +175,13 @@ export function JournalEntryDisciplineSection({
   });
 
   // 2. Add the motivation step in the middle
-  if (allTodos.length > 0) {
+  if (allTodos.length > 0 || highlights.length > 0) {
     orderedSteps.push(motivationStep);
   }
 
   // 3. Add all night steps (filtering out the special "night" step)
   nightSteps.forEach((step) => {
-    if (step.step !== "night") {
+    if (step.step !== "night" && step.step !== "highlights") {
       // Skip adding night steps that match the motivation step
       if (step.step === motivationStep.step) return;
 
@@ -212,7 +222,7 @@ export function JournalEntryDisciplineSection({
           data,
           title,
           stepType,
-          completedCount,
+          // completedCount,
           renderSections,
           displayName,
           icon,
@@ -222,28 +232,33 @@ export function JournalEntryDisciplineSection({
         if (!data || data.length === 0) return null;
 
         let { bgColor } = getJournalStepStyle(step);
-
-        //NOTE: day night step do not exist in the step list, name is "motivation"
-        // For steps other than "day" and "night", use the stepType to determine color
-        // if (step !== "day" && step !== "night") {
-        //   // Use getJournalStepStyle to get the appropriate color based on stepType
-        //   const stepTypeStyle = getJournalStepStyle(stepType);
-        //   bgColor = stepTypeStyle.bgColor;
-        // }
-
         // Get day and night colors directly from stepStyles
         const dayBgColor = journalStepStyle.day.bgColor;
         const nightBgColor = journalStepStyle.night.bgColor;
+        const highlightsBgColor = journalStepStyle.highlights.bgColor;
 
         // Create circles with different colors based on completion status
         const circles = Array.from({ length: data.length }).map((_, index) => {
           // For the day step, use different colors for completed vs uncompleted
           let circleBgColor = bgColor;
 
-          if (step === "motivation" && typeof completedCount === "number") {
-            // If this is a completed circle (index >= uncompleted count)
-            circleBgColor =
-              index >= data.length - completedCount ? nightBgColor : dayBgColor;
+          if (step === "motivation") {
+            // Calculate the distribution of different types of data
+            const uncomp = uncompleted.length;
+            const comp = completed.length;
+            // const high = highlights.length;
+
+            // Determine which type this index belongs to
+            if (index < uncomp) {
+              // Day items (uncompleted) are first
+              circleBgColor = dayBgColor;
+            } else if (index < uncomp + comp) {
+              // Completed items are next
+              circleBgColor = nightBgColor;
+            } else {
+              // Highlights are last
+              circleBgColor = highlightsBgColor;
+            }
           }
 
           return (
@@ -293,14 +308,32 @@ export function JournalEntryDisciplineSection({
                     </span>
                   </div>
                 </div>
+
                 <div className="flex items-center">
-                  {step === "motivation" &&
-                  typeof completedCount === "number" &&
-                  completedCount > 0 ? (
+                  {step === "motivation" ? (
                     <span
                       className={`text-lg font-semibold text-${JOURNAL_COLORS.score} flex items-center`}
                     >
-                      +{score * (completedCount + 1)}
+                      {/* Calculate score according to (day + highlights) * night formula */}
+                      +
+                      {(() => {
+                        const dayScore = calculateStepScore(
+                          dayEntry?.day || []
+                        );
+                        const highlightsScore = calculateStepScore(
+                          nightEntry?.highlights || []
+                        );
+                        const baseScore = dayScore + highlightsScore;
+
+                        // Get night multiplier
+                        const nightItems = nightEntry?.night || [];
+                        const nightMultiplier =
+                          nightItems.length > 0
+                            ? nightItems.length + 1 // Based on your calculateStepScoreMultiplier
+                            : 1; // Default multiplier
+
+                        return baseScore * nightMultiplier;
+                      })()}
                     </span>
                   ) : (
                     <span
