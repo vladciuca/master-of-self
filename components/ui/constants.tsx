@@ -1,3 +1,4 @@
+import { Willpower } from "@components/journal/journal-entry-form/form-steps/steps/willpower/Willpower";
 import { JOURNAL_COLORS, HABIT_COLORS } from "@lib/colors";
 
 export type StepIconMap = {
@@ -16,7 +17,8 @@ export const stepIconMap: StepIconMap = {
   positivity: "GiHealing",
   resilience: "GiGuardedTower",
   highlights: "FaStar",
-  willpower: "FaBoltLightning",
+  willpower: "GiPencilRuler",
+  // willpower: "IoAccessibility",
   bonus: "FaBoltLightning",
   default: "GiInnerSelf",
 };

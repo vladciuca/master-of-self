@@ -110,7 +110,6 @@ export function useCreateJournalEntry() {
         ? getDisciplineScoreFromEntry(lastEntry)
         : {};
 
-      console.log("====disciplinesPayload", disciplinesPayload);
       // NOTE: Must NOT create entry before updating the Habits XP
       // Parallel API updates
       await Promise.allSettled([
