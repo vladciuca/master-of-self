@@ -88,6 +88,7 @@ export type JournalDayEntry = {
 
 export type JournalNightEntry = {
   night?: string[];
+  // highlights: string[];
   [key: string]: string[] | undefined;
 };
 

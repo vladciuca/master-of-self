@@ -88,7 +88,6 @@ export function createSteps(params: CreateStepsParams): JournalCustomStep[] {
         ...step,
         isAvailable: SHOW_ALL_TEST || isEvening(userEveningTime, now),
       })),
-
     {
       _id: "willpower",
       icon: stepIconMap.willpower,
