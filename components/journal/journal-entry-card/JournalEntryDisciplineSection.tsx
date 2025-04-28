@@ -14,7 +14,7 @@ import { calculateStepScore } from "@lib/score";
 import { JOURNAL_COLORS } from "@lib/colors";
 import type { JournalDayEntry, JournalNightEntry } from "@models/types";
 import { useDisciplinesData } from "@hooks/disciplines/useDisciplineData";
-import { Skeleton } from "@/components/ui/skeleton"; // Import Skeleton component
+import { Skeleton } from "@components/ui/skeleton"; // Import Skeleton component
 import { IconRenderer } from "@components/IconRenderer";
 import { stepIconMap } from "@components/ui/constants";
 
@@ -231,16 +231,19 @@ export function JournalEntryDisciplineSection({
 
         if (!data || data.length === 0) return null;
 
-        let { bgColor } = getJournalStepStyle(step);
+        let { bgColor } = getJournalStepStyle(stepType);
         // Get day and night colors directly from stepStyles
         const dayBgColor = journalStepStyle.day.bgColor;
         const nightBgColor = journalStepStyle.night.bgColor;
+
         const highlightsBgColor = journalStepStyle.highlights.bgColor;
 
         // Create circles with different colors based on completion status
         const circles = Array.from({ length: data.length }).map((_, index) => {
           // For the day step, use different colors for completed vs uncompleted
           let circleBgColor = bgColor;
+
+          // console.log("========circleBgColor", circleBgColor);
 
           if (step === "motivation") {
             // Calculate the distribution of different types of data

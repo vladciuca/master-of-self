@@ -5,6 +5,7 @@ type LevelIndicatorProps = {
   level: number;
   positiveColor?: string;
   negativeColor?: string;
+  size?: number;
 };
 
 export function LevelIndicator({
@@ -12,14 +13,21 @@ export function LevelIndicator({
   level,
   positiveColor = "lime-500",
   negativeColor = "rose-500",
+  size = 16,
 }: LevelIndicatorProps) {
   return (
     <div>
       {currentLevel < level && (
-        <PiArrowFatLinesUpFill className={`text-${positiveColor} ml-1`} />
+        <PiArrowFatLinesUpFill
+          className={`text-${positiveColor} ml-1`}
+          size={size}
+        />
       )}
       {currentLevel > level && (
-        <PiArrowFatLinesDownFill className={`text-${negativeColor} ml-1`} />
+        <PiArrowFatLinesDownFill
+          className={`text-${negativeColor} ml-1`}
+          size={size}
+        />
       )}
     </div>
   );

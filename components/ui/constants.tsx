@@ -1,4 +1,3 @@
-import { Willpower } from "@components/journal/journal-entry-form/form-steps/steps/willpower/Willpower";
 import { JOURNAL_COLORS, HABIT_COLORS } from "@lib/colors";
 
 export type StepIconMap = {

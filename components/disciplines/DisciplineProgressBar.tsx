@@ -91,15 +91,18 @@ export function DisciplineProgressBar({
   return (
     <div className="w-full">
       <div className="flex items-center justify-between">
-        <div className="flex items-center capitalize mb-1">
+        <div className="flex items-baseline capitalize mb-1">
           <span className="text-primary">{name}</span>
 
           <LevelIndicator
             currentLevel={currentLevel}
             level={level}
-            positiveColor={JOURNAL_COLORS.score}
+            // positiveColor={JOURNAL_COLORS.score}
+            positiveColor={color}
+            size={16}
           />
         </div>
+
         <div className="flex items-center">
           {projectedXp > 0 && (
             <div
@@ -111,13 +114,31 @@ export function DisciplineProgressBar({
         </div>
       </div>
 
-      <ProgressBar
-        currentProgressPercentage={currentProgressPercentage}
-        xpGainProgressPercentage={xpGainProgressPercentage}
-        showBaseXpBar={currentLevel === level}
-        height={height}
-        color={color}
-      />
+      {!showXpMetrics && (
+        <div className="absolute z-10 ml-3 mt-1 w-[76%] sm:w-[72%]">
+          <div className="w-full flex justify-between items-center">
+            <div className="flex items-baseline">
+              <span>Rank</span>
+              <span className="ml-1 flex items-center text-primary text-2xl font-bold">
+                {level}
+              </span>
+            </div>
+            <div className="text-sm">
+              {xpForCurrentLevel}/{xpToLevelUp}
+            </div>
+          </div>
+        </div>
+      )}
+
+      <div className="relative">
+        <ProgressBar
+          currentProgressPercentage={currentProgressPercentage}
+          xpGainProgressPercentage={xpGainProgressPercentage}
+          showBaseXpBar={currentLevel === level}
+          height={height}
+          color={color}
+        />
+      </div>
 
       {showXpMetrics && (
         <div className="flex items-center justify-between text-muted-foreground text-xs mt-2">
