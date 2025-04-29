@@ -44,7 +44,7 @@ export function JournalEntryActionButton({
       className={cn(
         `group border-${periodColor}/40 hover:bg-${periodColor}/90`,
         disabledClasses,
-        "hover:text-white rounded-md font-normal w-full sm:w-auto py-5"
+        "hover:text-white rounded-md font-normal w-full py-5"
       )}
     >
       <IconRenderer

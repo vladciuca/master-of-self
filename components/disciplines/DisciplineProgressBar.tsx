@@ -143,7 +143,16 @@ export const DisciplineProgressBar = ({
                   }`}
                 >
                   <div className="flex items-center">
-                    <span className="capitalize text-lg font-medium">
+                    <span
+                      className={`capitalize text-lg font-medium 
+                        ${
+                          // currentProgressPercentage > 50 || leveledUp
+                          //   ? "text-muted"
+                          //   :
+                          textColor
+                        }
+                      `}
+                    >
                       {name}
                     </span>
                     {/* <div className="text-sm ml-1 mt-1">
