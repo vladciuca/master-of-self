@@ -85,6 +85,7 @@ export const DisciplineProgressBar = ({
   );
   const xpForCurrentLevel = xpGain - baseXP;
   const xpToLevelUp = nextLevelXP - baseXP;
+  const leveledUp = level > currentLevel;
 
   return (
     <div className="w-full">
@@ -119,7 +120,7 @@ export const DisciplineProgressBar = ({
               currentLevel={currentLevel}
               level={level}
               positiveColor={color ? color : "primary"}
-              size={30}
+              size={25}
             />
           </div>
 
@@ -137,19 +138,27 @@ export const DisciplineProgressBar = ({
             <div className="absolute inset-0 flex items-center pointer-events-none">
               <div className="w-full px-3">
                 <div
-                  className={`w-full flex justify-between items-center ${textColor}`}
+                  className={`w-full flex justify-between items-center ${
+                    leveledUp ? "text-primary" : textColor
+                  }`}
                 >
                   <div className="flex items-center">
-                    <span className="capitalize text-lg font-semibold">
+                    <span className="capitalize text-lg font-medium">
                       {name}
                     </span>
                     {/* <div className="text-sm ml-1 mt-1">
                       ({xpForCurrentLevel}/{xpToLevelUp})
                     </div> */}
                   </div>
-                  <span className="flex items-baseline">
+                  <span
+                    className={`flex items-baseline ${
+                      xpGainProgressPercentage < 75 || leveledUp
+                        ? "text-primary"
+                        : textColor
+                    }`}
+                  >
                     Rank
-                    <span className="ml-1 flex items-center text-2xl font-bold">
+                    <span className="ml-1 flex items-center text-2xl font-semibold">
                       {level}
                     </span>
                   </span>

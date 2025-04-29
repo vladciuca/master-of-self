@@ -136,7 +136,7 @@ export const DisciplineOverview = () => {
             projectedXp={projectedXp}
             name={displayName}
             color={color}
-            height={10}
+            height={8}
             textColor={textColor}
           />
         </div>
@@ -179,10 +179,7 @@ export const DisciplineOverview = () => {
       <div className="flex flex-col justify-center pr-2 mt-6 sm:mt-12">
         <div className="text-center">
           <div className="flex flex-col w-full">
-            {((!isEveningTime && motivationScore > 0) ||
-              (isEveningTime &&
-                motivationScore > 0 &&
-                motivationNightScore > 1)) && (
+            {motivationScore > 0 && (
               <div className="flex items-center justify-center">
                 {/* <IconRenderer
                   // iconName={getDisciplineIcon("motivation")}
@@ -195,7 +192,7 @@ export const DisciplineOverview = () => {
                   xp={userProfile.disciplines.motivation ?? 0}
                   projectedXp={motivationScore}
                   name="motivation"
-                  height={10}
+                  height={8}
                   textColor="text-muted-foreground"
                 />
               </div>
@@ -218,7 +215,7 @@ export const DisciplineOverview = () => {
               ) : (
                 <>
                   {(motivationScore <= 0 || motivationNightScore <= 1) && (
-                    <div className="flex items-center justify-center py-4">
+                    <div className="flex items-center justify-center py-4 px-2 sm:px-4">
                       <span className="text-md text-muted-foreground">
                         {emptyStateMessage}
                       </span>

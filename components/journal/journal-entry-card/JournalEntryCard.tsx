@@ -71,10 +71,10 @@ JournalEntryCardProps) {
               <div className="text-3xl font-semibold">{day}</div>
             </div>
 
-            {/* <JournalEntryIndicators
+            <JournalEntryIndicators
               dayEntry={dayEntry ?? {}}
               nightEntry={nightEntry ?? {}}
-            /> */}
+            />
           </div>
 
           <div className="ml-6 flex flex-col justify-start items-center">

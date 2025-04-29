@@ -71,11 +71,11 @@ export function NewJournalEntry({ isEveningTime }: NewJournalEntryProps) {
                 <FaBoltLightning className="ml-1 text-2xl" />
               </div>
             </div>
-            <div className="flex justify-end">
+            {/* <div className="flex justify-end">
               <div className="text-xs mt-1 text-muted-foreground">
                 {"Willpower"}
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
