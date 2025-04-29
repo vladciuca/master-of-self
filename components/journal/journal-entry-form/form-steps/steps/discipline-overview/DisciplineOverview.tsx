@@ -151,12 +151,12 @@ export const DisciplineOverview = () => {
         <div className="flex flex-col justify-center pr-2">
           <div className="text-center">
             <h2 className="text-muted w-full flex justify-center text-5xl font-semibold tracking-tight mb-8">
-              <div className="animate-pulse bg-muted h-14 w-14 rounded-full"></div>
+              <div className="animate-pulse bg-muted h-12 w-12 rounded-full"></div>
             </h2>
             <div className="animate-pulse space-y-8 mt-4 sm:mt-12 px-6">
-              <div className="h-10 bg-muted rounded-full w-full"></div>
-              <div className="h-10 bg-muted rounded-full w-full"></div>
-              <div className="h-10 bg-muted rounded-full w-full"></div>
+              <div className="h-8 bg-muted rounded-full w-full" />
+              <div className="h-8 bg-muted rounded-full w-full" />
+              <div className="h-8 bg-muted rounded-full w-full" />
             </div>
           </div>
         </div>
