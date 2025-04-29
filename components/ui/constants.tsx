@@ -16,7 +16,7 @@ export const stepIconMap: StepIconMap = {
   positivity: "GiHealing",
   resilience: "GiGuardedTower",
   highlights: "FaStar",
-  willpower: "GiPencilRuler",
+  overview: "GiPencilRuler",
   // willpower: "IoAccessibility",
   bonus: "FaBoltLightning",
   default: "GiInnerSelf",

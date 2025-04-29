@@ -4,7 +4,7 @@ import { Bonus } from "./steps/bonus/Bonus";
 import { Day } from "./steps/Day";
 import { Night } from "./steps/Night";
 import { Highlights } from "./steps/Highlights";
-import { Willpower } from "./steps/willpower/Willpower";
+import { DisciplineOverview } from "./steps/discipline-overview/DisciplineOverview";
 import { HabitActionsStep } from "./steps/HabitActionsStep";
 import { stepIconMap } from "@components/ui/constants";
 //NOTE: need to check how to use getCurrentTimePeriod() here
@@ -89,10 +89,10 @@ export function createSteps(params: CreateStepsParams): JournalCustomStep[] {
         isAvailable: SHOW_ALL_TEST || isEvening(userEveningTime, now),
       })),
     {
-      _id: "willpower",
-      icon: stepIconMap.willpower,
-      discipline: "willpower",
-      component: <Willpower />,
+      _id: "overview",
+      icon: stepIconMap.overview,
+      discipline: "overview",
+      component: <DisciplineOverview />,
       isAvailable: SHOW_ALL_TEST || true, //NOTE: Not yet decided on behavior
       type: "other",
     },

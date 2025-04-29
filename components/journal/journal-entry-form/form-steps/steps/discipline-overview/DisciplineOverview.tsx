@@ -10,7 +10,7 @@ import { useUserProfile } from "@context/UserProfileContext";
 import { stepIconMap } from "@components/ui/constants";
 import { useDisciplinesData } from "@hooks/disciplines/useDisciplineData";
 
-export const Willpower = () => {
+export const DisciplineOverview = () => {
   const { watch } = useFormContext();
   const { userProfile } = useUserProfile();
 

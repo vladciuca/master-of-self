@@ -128,7 +128,7 @@ export function FormStepProgress({
                           stepId === "night" ||
                           stepId === "day" ||
                           stepId === "highlights" ||
-                          stepId === "willpower" ||
+                          stepId === "overview" ||
                           stepId === "habits"
                             ? 25
                             : stepId === "bonus"
