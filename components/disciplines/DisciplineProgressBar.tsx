@@ -1,5 +1,3 @@
-"use client";
-
 import React from "react";
 import { motion } from "framer-motion";
 import { LevelIndicator } from "@components/ui/level-indicator";
@@ -60,16 +58,18 @@ type DisciplineProgressBarProps = {
   showXpMetrics?: boolean;
   height?: number;
   color?: string;
+  textColor?: string;
 };
 
-export function DisciplineProgressBar({
+export const DisciplineProgressBar = ({
   xp,
   projectedXp,
   name,
   showXpMetrics = false,
-  height,
+  height = 4,
   color,
-}: DisciplineProgressBarProps) {
+  textColor = "text-primary",
+}: DisciplineProgressBarProps) => {
   // Calculate XP and level
   const xpGain = xp + projectedXp;
   const level = calculateDisciplineLevel(xpGain);
@@ -88,70 +88,84 @@ export function DisciplineProgressBar({
 
   return (
     <div className="w-full">
-      <div
-        className={`flex items-center justify-between ${
-          showXpMetrics ? "px-0" : "px-2"
-        }`}
-      >
-        <div className={`flex items-baseline capitalize mb-1 `}>
-          <span className="text-primary">{name}</span>
+      {/* Show discipline name only when showXpMetrics is true */}
+      {showXpMetrics && (
+        <div className="flex justify-between items-center">
+          <div className="flex items-baseline capitalize mb-1">
+            <span className="text-primary">{name}</span>
+            <LevelIndicator
+              currentLevel={currentLevel}
+              level={level}
+              positiveColor={color ? color : "primary"}
+              size={16}
+            />
+          </div>
 
-          <LevelIndicator
-            currentLevel={currentLevel}
-            level={level}
-            positiveColor={color}
-            size={16}
-          />
-        </div>
-
-        <div className="flex items-center">
           {projectedXp > 0 && (
             <div
-              className={`text-${JOURNAL_COLORS.score} font-semibold text-lg`}
+              className={`text-${JOURNAL_COLORS.score} font-semibold text-lg flex-shrink-0`}
             >
               +{projectedXp}
             </div>
           )}
         </div>
-      </div>
+      )}
 
-      {!showXpMetrics && (
-        <div className="relative mb-2">
-          {/* Progress bar */}
-          <ProgressBar
-            currentProgressPercentage={currentProgressPercentage}
-            xpGainProgressPercentage={xpGainProgressPercentage}
-            showBaseXpBar={currentLevel === level}
-            height={height}
-            color={color}
-          />
+      {!showXpMetrics ? (
+        <div className="grid grid-cols-[auto_1fr_auto] gap-2 mb-2 items-center">
+          {/* Col 1: Level Indicator (fixed width column) */}
+          <div className="flex justify-center items-center w-7">
+            <LevelIndicator
+              currentLevel={currentLevel}
+              level={level}
+              positiveColor={color ? color : "primary"}
+              size={30}
+            />
+          </div>
 
-          {/* Overlay text that stays in place when scrolling */}
-          <div className="absolute inset-0 flex items-center pointer-events-none">
-            <div className="w-full px-3">
-              <div
-                className={`w-full flex justify-between items-center ${
-                  name === "motivation"
-                    ? "text-muted-foreground"
-                    : "text-primary"
-                }`}
-              >
-                <div className={`flex items-baseline`}>
-                  <span>Rank</span>
-                  <span className="ml-1 flex items-center text-2xl font-bold">
-                    {level}
+          {/* Col 2: Progress Bar with Overlay Text (flexible width column) */}
+          <div className="relative w-full">
+            <ProgressBar
+              currentProgressPercentage={currentProgressPercentage}
+              xpGainProgressPercentage={xpGainProgressPercentage}
+              showBaseXpBar={currentLevel === level}
+              height={height}
+              color={color}
+            />
+
+            {/* Overlay text */}
+            <div className="absolute inset-0 flex items-center pointer-events-none">
+              <div className="w-full px-3">
+                <div
+                  className={`w-full flex justify-between items-center ${textColor}`}
+                >
+                  <div className="flex items-center">
+                    <span className="capitalize text-lg font-semibold">
+                      {name}
+                    </span>
+                    {/* <div className="text-sm ml-1 mt-1">
+                      ({xpForCurrentLevel}/{xpToLevelUp})
+                    </div> */}
+                  </div>
+                  <span className="flex items-baseline">
+                    Rank
+                    <span className="ml-1 flex items-center text-2xl font-bold">
+                      {level}
+                    </span>
                   </span>
-                </div>
-                <div className="text-sm">
-                  {xpForCurrentLevel}/{xpToLevelUp}
                 </div>
               </div>
             </div>
           </div>
-        </div>
-      )}
 
-      {showXpMetrics && (
+          {/* Col 3: Projected XP (fixed width column that's always present) */}
+          <div
+            className={`text-${JOURNAL_COLORS.score} font-semibold text-lg w-8 flex justify-end`}
+          >
+            {projectedXp > 0 && `+${projectedXp}`}
+          </div>
+        </div>
+      ) : (
         <div className="relative">
           <ProgressBar
             currentProgressPercentage={currentProgressPercentage}
@@ -178,4 +192,4 @@ export function DisciplineProgressBar({
       )}
     </div>
   );
-}
+};
