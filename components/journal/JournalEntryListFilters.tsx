@@ -103,7 +103,7 @@ export function JournalEntryListFilters({
               if (el) buttonRefs.current[option] = el;
             }}
             size="sm"
-            variant={activeFilter === option ? "default" : "outline"}
+            variant={activeFilter === option ? "secondary" : "outline"}
             onClick={() => handleFilterChange(option)}
             className="flex-shrink-0 text-xs rounded-full"
           >

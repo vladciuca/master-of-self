@@ -53,7 +53,7 @@ export default function Profile() {
             <Button
               key={page.name}
               size="sm"
-              variant={activePage === page.name ? "default" : "outline"}
+              variant={activePage === page.name ? "secondary" : "outline"}
               onClick={() => handlePageChange(page.name)}
               className="flex-shrink-0 text-xs rounded-full capitalize"
             >
