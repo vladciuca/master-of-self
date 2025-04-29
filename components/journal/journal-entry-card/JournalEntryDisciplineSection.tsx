@@ -243,8 +243,6 @@ export function JournalEntryDisciplineSection({
           // For the day step, use different colors for completed vs uncompleted
           let circleBgColor = bgColor;
 
-          // console.log("========circleBgColor", circleBgColor);
-
           if (step === "motivation") {
             // Calculate the distribution of different types of data
             const uncomp = uncompleted.length;
@@ -282,14 +280,12 @@ export function JournalEntryDisciplineSection({
             className="border-none bg-muted/30 rounded-lg overflow-hidden py-0 pl-2 pr-2.5 mb-0"
           >
             <AccordionTrigger
-              className={`hover:no-underline flex flex-col items-start pt-1 ${
-                openItem !== step ? "pb-2" : "pb-0"
-              }`}
+              className={`hover:no-underline flex flex-col items-start py-1.5`}
             >
               <div className="flex items-center justify-between w-full">
                 <div className="flex items-center gap-3">
                   {icon && (
-                    <div className="h-6 w-6 flex items-center justify-center">
+                    <div className="w-10 flex items-center justify-center">
                       {/* Render icon here - you might need to adjust based on how icons are stored */}
                       <IconRenderer
                         // iconName={icon}
@@ -299,20 +295,30 @@ export function JournalEntryDisciplineSection({
                         className={color ? `text-${color}` : "text-primary"}
                         size={
                           step === "motivation" || step === "highlights"
-                            ? 20
-                            : 25
+                            ? 25
+                            : 30
                         }
                       />
                     </div>
                   )}
-                  <div className="flex flex-col h-full">
+                  <div className="flex flex-col h-full w-full">
                     <span className="font-medium text-muted-foreground flex items-start capitalize">
                       {stepDisplayText}
                     </span>
+                    {/* Only show circles when this item is not open */}
+                    <div
+                      className={`overflow-hidden flex flex-wrap max-w-[90%] gap-1.5 transition-all duration-100 ${
+                        openItem === step
+                          ? "opacity-0"
+                          : "delay-100 duration-200 opacity-100"
+                      }`}
+                    >
+                      {circles}
+                    </div>
                   </div>
                 </div>
 
-                <div className="flex items-center">
+                <div className="flex items-start h-full">
                   {step === "motivation" ? (
                     <span
                       className={`text-lg font-semibold text-${JOURNAL_COLORS.score} flex items-center`}
@@ -347,18 +353,11 @@ export function JournalEntryDisciplineSection({
                   )}
                 </div>
               </div>
-              {/* Only show circles when this item is not open */}
-              <div
-                className={`mt-2 overflow-hidden flex flex-wrap max-w-[60%] gap-2 transition-all duration-100 ${
-                  openItem === step
-                    ? "opacity-0 max-h-0"
-                    : "transition-[max-height] delay-100 duration-200 opacity-100 max-h-[500px]"
-                }`}
-              >
-                {circles}
-              </div>
             </AccordionTrigger>
-            <AccordionContent className="pb-2 pt-0">
+            <AccordionContent
+              className="pb-2 pt-0 px-2"
+              // className="transition-all duration-300 ease-in-out pb-2 pt-0 px-2"
+            >
               {renderSections ? (
                 renderSections()
               ) : (
@@ -387,21 +386,14 @@ function DisciplineSectionSkeleton({ stepCount = 3 }: { stepCount?: number }) {
         .map((_, index) => (
           <div
             key={index}
-            className="border-none bg-muted/30 rounded-lg py-2 px-3"
+            className="border-none bg-muted/30 rounded-lg py-2 px-2"
           >
             <div className="flex items-center justify-between w-full">
               <div className="flex items-center gap-3">
-                <Skeleton className="h-6 w-6 rounded-full" />
+                <Skeleton className="h-8 w-8 rounded-full" />
                 <Skeleton className="h-4 w-24" />
               </div>
               <Skeleton className="h-6 w-10" />
-            </div>
-            <div className="mt-2 flex gap-2">
-              {Array(5)
-                .fill(0)
-                .map((_, i) => (
-                  <Skeleton key={i} className="w-2 h-2 rounded-full" />
-                ))}
             </div>
           </div>
         ))}
