@@ -160,7 +160,6 @@
 //     </JournalStepTemplate>
 //   );
 // };
-import { useState, useEffect } from "react";
 import { useFormContext } from "react-hook-form";
 import { JournalStepTemplate } from "@components/journal/journal-entry-form/form-steps/steps/journal-step/JournalStepTemplate";
 import { DisciplineProgressBar } from "@components/disciplines/DisciplineProgressBar";
@@ -200,12 +199,18 @@ export const Willpower = () => {
 
   const filteredNightDisciplineScores = Object.entries(
     nightDisciplines || {}
-  ).filter(([key, value]) => key !== "motivation" && value > 0);
+  ).filter(
+    ([key, value]) =>
+      key !== "motivation" &&
+      key !== "_motivationMultiplier" &&
+      key !== "_highlightsScore" &&
+      value > 0
+  );
 
   // Calculate motivation score (multiply day and night values)
   const motivationDayScore = dayDisciplines.motivation || 0;
-  const motivationNightScore = nightDisciplines.motivation ?? 0;
-  const motivationMultiplier = nightDisciplines.motivationMultiplier || 1;
+  const motivationNightScore = nightDisciplines._highlightsScore ?? 0;
+  const motivationMultiplier = nightDisciplines._motivationMultiplier || 1;
 
   const motivationScore =
     (motivationDayScore + motivationNightScore) * motivationMultiplier;
@@ -267,7 +272,7 @@ export const Willpower = () => {
       return (
         <div
           key={`${sectionKey}-${key}`}
-          className="flex items-center justify-center mb-6"
+          className="flex items-center justify-center mb-4"
         >
           {/* {icon && (
             <IconRenderer
@@ -295,7 +300,7 @@ export const Willpower = () => {
         <div className="flex flex-col justify-center px-4 sm:px-8 mt-6">
           <div className="text-center">
             <h2 className="text-muted w-full flex justify-center text-5xl font-semibold tracking-tight mb-8">
-              <div className="animate-pulse bg-muted h-16 w-16 rounded-full"></div>
+              <div className="animate-pulse bg-muted h-14 w-14 rounded-full"></div>
             </h2>
             <div className="animate-pulse space-y-12 mt-12">
               <div className="h-10 bg-muted rounded-full w-full"></div>
@@ -315,14 +320,14 @@ export const Willpower = () => {
         <h2 className="text-muted w-full flex justify-center">
           <IconRenderer
             iconName={isEveningTime ? stepIconMap.night : stepIconMap.day}
-            size={60}
+            size={45}
           />
         </h2>
       }
     >
       <div className="flex flex-col justify-center px-4 sm:px-8 mt-6">
         <div className="text-center">
-          <div className="flex flex-col w-full space-y-8">
+          <div className="flex flex-col w-full">
             {((!isEveningTime && motivationScore > 0) ||
               (isEveningTime &&
                 motivationScore > 0 &&
@@ -344,7 +349,7 @@ export const Willpower = () => {
               </div>
             )}
 
-            <div className="">
+            <div className="mt-4">
               {(
                 isEveningTime
                   ? hasPositiveNightDisciplineScores
