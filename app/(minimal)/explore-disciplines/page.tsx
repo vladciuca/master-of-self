@@ -28,20 +28,17 @@ export default function ExploreDisciplines() {
   return (
     <div className="h-full flex flex-col">
       <div className="h-[20vh] flex flex-col justify-center items-center">
-        <Compass className="h-10 w-10 text-primary mt-2 mb-4" />
         <h1 className="scroll-m-20 text-4xl font-bold tracking-tight text-center">
           Explore Disciplines
         </h1>
+        <Compass className="h-10 w-10 text-primary mt-4" />
       </div>
       <div className="flex-grow px-6">
         <div className="h-full flex flex-col items-center justify-center space-y-4 sm:space-y-6">
           {cardData.map(({ href, title, description }, index) => (
             <Link key={index} href={href}>
               <Card
-                className={`cursor-pointer bg-muted/30 p-2 py-4 sm:py-6 flex flex-col justify-center items-center
-                      transition-all duration-300 
-                      border-transparent hover:border-primary
-                      `}
+                className={`cursor-pointer bg-muted/30 p-2 py-4 sm:py-6 flex flex-col justify-center items-center border-transparent`}
               >
                 <CardTitle className="mb-2 text-base sm:text-lg text-center">
                   {title}
