@@ -59,7 +59,6 @@ type DisciplineProgressBarProps = {
   height?: number;
   color?: string;
   textColor?: string;
-  isProfileDiscipline?: boolean;
 };
 
 export const DisciplineProgressBar = ({
@@ -70,7 +69,6 @@ export const DisciplineProgressBar = ({
   height = 4,
   color,
   textColor = "text-primary",
-  isProfileDiscipline,
 }: DisciplineProgressBarProps) => {
   // Calculate XP and level
   const xpGain = xp + projectedXp;
@@ -153,17 +151,12 @@ export const DisciplineProgressBar = ({
                           //   :
                           textColor
                         }
-                        ${isProfileDiscipline ? "text-md" : "text-lg"}
+                        text-md"
                       `}
                     >
                       {name}
                     </span>
-                    {/* {isProfileDiscipline && ( */}
-                    <div
-                      className={`ml-1  ${
-                        isProfileDiscipline ? "text-xs" : "text-sm"
-                      }`}
-                    >
+                    <div className={`ml-1 text-xs`}>
                       ({xpForCurrentLevel}/{xpToLevelUp})
                     </div>
                     {/* )} */}
@@ -174,13 +167,12 @@ export const DisciplineProgressBar = ({
                         ? "text-primary"
                         : textColor
                     }
-                    ${isProfileDiscipline ? "text-sm" : ""}`}
+                    text-sm`}
                   >
                     Rank
                     <span
-                      className={`ml-1 flex items-center font-semibold ${
-                        isProfileDiscipline ? "text-lg" : "text-2xl"
-                      }`}
+                      className={`ml-1 flex items-center font-semibold 
+                        text-lg`}
                     >
                       {level}
                     </span>

@@ -3,20 +3,11 @@ import { useUserProfile } from "@context/UserProfileContext";
 import { useDisciplinesData } from "@hooks/disciplines/useDisciplineData";
 import { UserDisciplines } from "@models/types";
 import { IconRenderer } from "@components/IconRenderer";
+import { Skeleton } from "@components/ui/skeleton";
 
 export function ProfileDisciplines() {
   const { userProfile, userProfileLoading, userProfileError } =
     useUserProfile();
-
-  // Early return if user profile is loading or has error
-  if (userProfileLoading)
-    return <div className="py-4">Loading disciplines...</div>;
-  if (userProfileError)
-    return (
-      <div className="py-4 text-red-500">
-        Error loading profile: {userProfileError}
-      </div>
-    );
 
   // Make sure disciplines exist before proceeding
   const disciplines = userProfile?.disciplines || {};
@@ -60,16 +51,6 @@ export function ProfileDisciplines() {
   const getTextColor = (key: string): string =>
     isDisciplineId(key) ? "text-primary" : "text-muted-foreground";
 
-  // Handle loading and error states from discipline data
-  if (isLoading)
-    return <div className="py-4">Loading discipline details...</div>;
-  if (error)
-    return (
-      <div className="py-4 text-red-500">
-        Error loading disciplines: {error}
-      </div>
-    );
-
   // Safe check for disciplines data
   if (!disciplineData && ids.length > 0) {
     return <div className="py-4">No discipline data available</div>;
@@ -93,12 +74,33 @@ export function ProfileDisciplines() {
               color={getColor(key)}
               height={8}
               textColor={getTextColor(key)}
-              isProfileDiscipline
             />
           </div>
         );
       });
   };
+
+  if (userProfileLoading || isLoading) {
+    return (
+      <div className="space-y-3 mx-2">
+        {[1, 2, 3, 4].map((i) => (
+          <div key={`skeleton-${i}`} className="flex items-center mb-3">
+            <Skeleton className="h-8 w-8 rounded-full mr-2" />
+            <div className="flex-1">
+              <Skeleton className="h-8 w-full rounded-full" />
+            </div>
+          </div>
+        ))}
+      </div>
+    );
+  }
+
+  if (userProfileError || error)
+    return (
+      <div className="py-4 text-red-500">
+        Error loading: {userProfileError || error}
+      </div>
+    );
 
   return (
     <div className="discipline-progress-container">
