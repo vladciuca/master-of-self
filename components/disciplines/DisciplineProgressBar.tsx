@@ -89,8 +89,6 @@ export const DisciplineProgressBar = ({
   const xpToLevelUp = nextLevelXP - baseXP;
   const leveledUp = level > currentLevel;
 
-  console.log("=====================COLOR", color);
-
   return (
     <div className="w-full">
       {/* Show discipline name only when showXpMetrics is true */}
@@ -117,9 +115,7 @@ export const DisciplineProgressBar = ({
       )}
 
       {!showXpMetrics ? (
-        <div
-          className={`grid grid-cols-[auto_1fr_auto] gap-2 mb-2 items-center`}
-        >
+        <div className={`grid grid-cols-[auto_1fr_auto] gap-2 items-center`}>
           {/* Col 1: Level Indicator (fixed width column) */}
           <div className="flex justify-center items-center">
             <LevelIndicator

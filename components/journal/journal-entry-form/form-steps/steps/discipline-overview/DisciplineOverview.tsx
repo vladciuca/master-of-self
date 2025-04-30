@@ -59,11 +59,6 @@ export const DisciplineOverview = () => {
     filteredNightDisciplineScores.length > 0;
 
   // Helper function to check if a key is a discipline ID
-  // const isDisciplineId = (key: string): boolean => {
-  //   console.log("========KEY", key);
-  //   return /^[a-f\d]{24}$/i.test(key) || disciplineData[key] !== undefined;
-  // };
-  // Helper function to check if a key is a discipline ID
   const isDisciplineId = (key: string): boolean => {
     // Check if it matches MongoDB ObjectId format (24 hex chars)
     const isObjectId = /^[a-f\d]{24}$/i.test(key);
