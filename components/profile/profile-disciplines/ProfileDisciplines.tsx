@@ -4,8 +4,13 @@ import { useDisciplinesData } from "@hooks/disciplines/useDisciplineData";
 import { UserDisciplines } from "@models/types";
 import { IconRenderer } from "@components/IconRenderer";
 import { Skeleton } from "@components/ui/skeleton";
+import { useState, useEffect } from "react";
 
 export function ProfileDisciplines() {
+  // State to control the stable loading experience
+  const [isStableLoading, setIsStableLoading] = useState(true);
+
+  // Fetch user profile data
   const { userProfile, userProfileLoading, userProfileError } =
     useUserProfile();
 
@@ -17,11 +22,28 @@ export function ProfileDisciplines() {
     /^[a-f\d]{24}$/i.test(key)
   );
 
-  const { disciplineData, isLoading, error } = useDisciplinesData(
-    undefined,
-    undefined,
-    ids
-  );
+  // Fetch discipline data
+  const {
+    disciplineData,
+    isLoading: isDisciplineLoading,
+    error: disciplineError,
+  } = useDisciplinesData(undefined, undefined, ids);
+
+  // Use an effect to manage the stable loading state
+  useEffect(() => {
+    // Start with loading state
+    setIsStableLoading(true);
+
+    // Create a timer to prevent rapid loading state changes
+    const loadingTimer = setTimeout(() => {
+      // Only turn off loading when both data sources are ready
+      if (!userProfileLoading && !isDisciplineLoading) {
+        setIsStableLoading(false);
+      }
+    }, 300); // Small delay to prevent flickering
+
+    return () => clearTimeout(loadingTimer);
+  }, [userProfileLoading, isDisciplineLoading]);
 
   const isDisciplineId = (key: string): boolean => /^[a-f\d]{24}$/i.test(key);
 
@@ -51,11 +73,6 @@ export function ProfileDisciplines() {
   const getTextColor = (key: string): string =>
     isDisciplineId(key) ? "text-primary" : "text-muted-foreground";
 
-  // Safe check for disciplines data
-  if (!disciplineData && ids.length > 0) {
-    return <div className="py-4">No discipline data available</div>;
-  }
-
   const renderDisciplineBars = (disciplines: UserDisciplines) => {
     return Object.entries(disciplines)
       .filter(([key]) => key !== "motivationMultiplier") // Filter out unwanted keys
@@ -80,31 +97,46 @@ export function ProfileDisciplines() {
       });
   };
 
-  if (userProfileLoading || isLoading) {
-    return (
-      <div className="space-y-3 mx-2">
-        {[1, 2, 3, 4].map((i) => (
-          <div key={`skeleton-${i}`} className="flex items-center mb-3">
-            <Skeleton className="h-8 w-8 rounded-full mr-2" />
-            <div className="flex-1">
-              <Skeleton className="h-8 w-full rounded-full" />
-            </div>
+  // Render the loading skeletons
+  const renderSkeletons = () => (
+    <div className="space-y-3 mx-2">
+      {[1, 2, 3, 4].map((i) => (
+        <div key={`skeleton-${i}`} className="flex items-center mb-3">
+          <Skeleton className="h-8 w-8 rounded-full mr-2" />
+          <div className="flex-1">
+            <Skeleton className="h-8 w-full rounded-full" />
           </div>
-        ))}
+        </div>
+      ))}
+    </div>
+  );
+
+  // Show stable loading state
+  if (isStableLoading) {
+    return renderSkeletons();
+  }
+
+  // Handle errors
+  if (userProfileError || disciplineError) {
+    return (
+      <div className="py-4 text-red-500">
+        Error loading: {userProfileError || disciplineError}
       </div>
     );
   }
 
-  if (userProfileError || error)
-    return (
-      <div className="py-4 text-red-500">
-        Error loading: {userProfileError || error}
-      </div>
-    );
+  // Only render discipline bars when disciplines exist AND disciplineData is loaded
+  const hasDisciplines = Object.keys(disciplines).length > 0;
+  const hasDisciplineData = Object.keys(disciplineData).length > 0;
+
+  // Extra safety check to make sure we have data
+  if (hasDisciplines && !hasDisciplineData) {
+    return renderSkeletons();
+  }
 
   return (
     <div className="discipline-progress-container">
-      {Object.keys(disciplines).length === 0 ? (
+      {!hasDisciplines ? (
         <div className="py-4 text-muted-foreground">No disciplines found</div>
       ) : (
         renderDisciplineBars(disciplines)

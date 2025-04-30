@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import type { JournalDayEntry, JournalNightEntry } from "@models/types";
 import { customStepConfigs } from "@components/journal/journal-entry-form/form-steps/steps/CustomSteps";
 
@@ -19,8 +19,19 @@ export function useDisciplinesData(
   const [disciplineData, setDisciplineData] = useState<{
     [key: string]: DisciplineData;
   }>({});
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
+  // Use a ref to compare disciplineIds across renders
+  const prevDisciplineIdsRef = useRef<string[] | undefined>();
+
+  // Function to check if arrays of ids are different
+  const idsAreDifferent = (prevIds?: string[], newIds?: string[]): boolean => {
+    if (!prevIds && !newIds) return false;
+    if (!prevIds || !newIds) return true;
+    if (prevIds.length !== newIds.length) return true;
+    return prevIds.some((id, index) => id !== newIds[index]);
+  };
 
   // Extract all unique discipline IDs from both day and night entries
   const getDisciplineIds = useCallback(() => {
@@ -51,13 +62,10 @@ export function useDisciplinesData(
     }
 
     return Array.from(ids);
-  }, [dayEntry, nightEntry]);
+  }, [dayEntry, nightEntry, disciplineIds]);
 
   const fetchDisciplineData = useCallback(async () => {
     const disciplineIds = getDisciplineIds();
-
-    setIsLoading(true);
-    setError(null);
 
     try {
       // Only fetch from API if there are discipline IDs to fetch
@@ -83,12 +91,10 @@ export function useDisciplinesData(
           name: config.discipline,
           icon: config.icon,
           title: config.title,
-          // Add any other properties you need
         };
       });
 
       // Combine API data and custom data
-      // Custom data will override API data if there are duplicates
       setDisciplineData({ ...apiData, ...customData });
     } catch (error) {
       console.error("Failed to fetch discipline data:", error);
@@ -99,8 +105,29 @@ export function useDisciplinesData(
   }, [getDisciplineIds]);
 
   useEffect(() => {
-    fetchDisciplineData();
-  }, [fetchDisciplineData]);
+    const currentIds = getDisciplineIds();
+
+    // Only refetch if the IDs have actually changed
+    if (idsAreDifferent(prevDisciplineIdsRef.current, currentIds)) {
+      setIsLoading(true);
+      fetchDisciplineData();
+      // Update ref with current ids
+      prevDisciplineIdsRef.current = currentIds;
+    }
+
+    // Initial load when there are no IDs yet
+    if (!prevDisciplineIdsRef.current) {
+      setIsLoading(true);
+      fetchDisciplineData();
+      prevDisciplineIdsRef.current = currentIds;
+    }
+  }, [
+    dayEntry,
+    nightEntry,
+    disciplineIds,
+    getDisciplineIds,
+    fetchDisciplineData,
+  ]);
 
   return { disciplineData, isLoading, error };
 }
