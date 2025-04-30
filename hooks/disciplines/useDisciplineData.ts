@@ -13,7 +13,8 @@ export type DisciplineData = {
 
 export function useDisciplinesData(
   dayEntry?: JournalDayEntry,
-  nightEntry?: JournalNightEntry
+  nightEntry?: JournalNightEntry,
+  disciplineIds?: string[]
 ) {
   const [disciplineData, setDisciplineData] = useState<{
     [key: string]: DisciplineData;
@@ -24,6 +25,10 @@ export function useDisciplinesData(
   // Extract all unique discipline IDs from both day and night entries
   const getDisciplineIds = useCallback(() => {
     const ids = new Set<string>();
+
+    if (disciplineIds?.length) {
+      disciplineIds.forEach((id: string) => ids.add(id));
+    }
 
     // Process day entries
     if (dayEntry) {

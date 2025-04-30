@@ -59,6 +59,7 @@ type DisciplineProgressBarProps = {
   height?: number;
   color?: string;
   textColor?: string;
+  isProfileDiscipline?: boolean;
 };
 
 export const DisciplineProgressBar = ({
@@ -69,6 +70,7 @@ export const DisciplineProgressBar = ({
   height = 4,
   color,
   textColor = "text-primary",
+  isProfileDiscipline,
 }: DisciplineProgressBarProps) => {
   // Calculate XP and level
   const xpGain = xp + projectedXp;
@@ -86,6 +88,8 @@ export const DisciplineProgressBar = ({
   const xpForCurrentLevel = xpGain - baseXP;
   const xpToLevelUp = nextLevelXP - baseXP;
   const leveledUp = level > currentLevel;
+
+  console.log("=====================COLOR", color);
 
   return (
     <div className="w-full">
@@ -113,9 +117,11 @@ export const DisciplineProgressBar = ({
       )}
 
       {!showXpMetrics ? (
-        <div className="grid grid-cols-[auto_1fr_auto] gap-2 mb-2 items-center">
+        <div
+          className={`grid grid-cols-[auto_1fr_auto] gap-2 mb-2 items-center`}
+        >
           {/* Col 1: Level Indicator (fixed width column) */}
-          <div className="flex justify-center items-center w-7">
+          <div className="flex justify-center items-center">
             <LevelIndicator
               currentLevel={currentLevel}
               level={level}
@@ -144,30 +150,42 @@ export const DisciplineProgressBar = ({
                 >
                   <div className="flex items-center">
                     <span
-                      className={`capitalize text-lg font-medium 
+                      className={`capitalize font-medium 
                         ${
                           // currentProgressPercentage > 50 || leveledUp
                           //   ? "text-muted"
                           //   :
                           textColor
                         }
+                        ${isProfileDiscipline ? "text-md" : "text-lg"}
                       `}
                     >
                       {name}
                     </span>
-                    {/* <div className="text-sm ml-1 mt-1">
+                    {/* {isProfileDiscipline && ( */}
+                    <div
+                      className={`ml-1  ${
+                        isProfileDiscipline ? "text-xs" : "text-sm"
+                      }`}
+                    >
                       ({xpForCurrentLevel}/{xpToLevelUp})
-                    </div> */}
+                    </div>
+                    {/* )} */}
                   </div>
                   <span
                     className={`flex items-baseline ${
                       xpGainProgressPercentage < 75 || leveledUp
                         ? "text-primary"
                         : textColor
-                    }`}
+                    }
+                    ${isProfileDiscipline ? "text-sm" : ""}`}
                   >
                     Rank
-                    <span className="ml-1 flex items-center text-2xl font-semibold">
+                    <span
+                      className={`ml-1 flex items-center font-semibold ${
+                        isProfileDiscipline ? "text-lg" : "text-2xl"
+                      }`}
+                    >
                       {level}
                     </span>
                   </span>
@@ -178,7 +196,8 @@ export const DisciplineProgressBar = ({
 
           {/* Col 3: Projected XP (fixed width column that's always present) */}
           <div
-            className={`text-${JOURNAL_COLORS.score} font-semibold text-lg w-8 flex justify-end`}
+            className={`text-${JOURNAL_COLORS.score} font-semibold text-lg
+             flex justify-end`}
           >
             {projectedXp > 0 && `+${projectedXp}`}
           </div>
