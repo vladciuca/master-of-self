@@ -31,7 +31,7 @@ export function DisciplineSectionDelimiter({
   const IconElement = day ? dayIcon : nightIcon;
 
   return (
-    <div className="flex items-center justify-between my-4 bg-muted/30 rounded-full p-2 px-3">
+    <div className="flex items-center justify-between my-4 bg-muted/30 rounded-md p-2 px-3">
       <div className="scroll-m-20 text-muted-foreground font-semibold tracking-tight flex items-center ml-2">
         {day ? "Morning" : "Evening"}
       </div>

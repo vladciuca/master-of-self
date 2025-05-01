@@ -38,14 +38,12 @@ export function DisciplinesList({
 
   return (
     <Accordion type="single" collapsible>
-      {/* WTF DO I DO WITH THIS? create a separate object for this?*/}
-
       <AccordionItem
         key={"new-discipline"}
         value={"new-discipline"}
-        className="p-0 px-2 mb-3"
+        className="p-0 mb-3 border-transparent"
       >
-        <AccordionTrigger className="pt-4 pb-2">
+        <AccordionTrigger className="py-2">
           <DisciplineCardHeader
             discipline="New Discipline"
             disciplineId="new-discipline"
@@ -58,13 +56,13 @@ export function DisciplinesList({
           <DisciplineCardContent title={"title"} description={"description"} />
         </AccordionContent>
       </AccordionItem>
-
+      {/* WTF DO I DO WITH THIS? create a separate object for this?*/}
       <AccordionItem
         key={"motivation"}
         value={"motivation"}
-        className="p-0 px-2 mb-3"
+        className="p-0 mb-3 border-transparent"
       >
-        <AccordionTrigger className="pt-4 pb-2">
+        <AccordionTrigger className="py-2">
           <DisciplineCardHeader
             discipline="motivation"
             disciplineId="motivation"

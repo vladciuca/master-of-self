@@ -31,9 +31,9 @@ export function DisciplineCard({ step, handleEdit }: DisciplineCardProps) {
     <AccordionItem
       key={String(step._id)}
       value={String(step._id)}
-      className="p-0 px-2 mb-3"
+      className="p-0 mb-3 border-transparent"
     >
-      <AccordionTrigger className="pt-4 pb-2">
+      <AccordionTrigger className="py-2">
         <DisciplineCardHeader
           disciplineId={String(step._id)}
           icon={step.icon}

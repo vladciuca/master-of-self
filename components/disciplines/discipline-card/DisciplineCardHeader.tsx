@@ -60,34 +60,36 @@ export function DisciplineCardHeader({
     // Reset projected XP to 0
     projectedXp = 0;
   }
+  const isDisciplineId = (key: string): boolean => /^[a-f\d]{24}$/i.test(key);
+  const getTextColor = (key: string): string =>
+    isDisciplineId(key) ? "text-primary" : "text-muted-foreground";
 
   return (
     <div className="flex flex-row w-full">
       {/* Icon section */}
       {icon && (
-        <div className="w-2/12 flex items-center justify-center mb-0">
-          <IconRenderer iconName={icon} className={`text-${color}`} size={40} />
+        <div className="w-1/12 flex items-center justify-center mb-0">
+          <IconRenderer iconName={icon} className={`text-${color}`} size={30} />
         </div>
       )}
 
       {/* Content section */}
-      <div className={`${icon ? "w-8/12 px-2" : "w-full px-3"}`}>
+      <div className={`${icon ? "flex-grow" : "w-full px-3"}`}>
         {/* Level Bar */}
-        <div className="-mt-2">
-          <DisciplineProgressBar
-            xp={xp}
-            projectedXp={projectedXp}
-            name={discipline}
-            showXpMetrics={true}
-            height={2}
-            color={color}
-          />
-        </div>
+        <DisciplineProgressBar
+          xp={xp}
+          projectedXp={projectedXp}
+          name={discipline}
+          // showXpMetrics={true}
+          height={8}
+          color={color}
+          textColor={getTextColor(disciplineId)}
+        />
       </div>
 
       {/* Toggle switch */}
       {type && (
-        <div className="w-2/12 flex items-center justify-center mt-0">
+        <div className="ml-2 flex items-center justify-center mt-0">
           <DisciplineSwitch
             type={type}
             checked={isActive}
@@ -97,7 +99,7 @@ export function DisciplineCardHeader({
         </div>
       )}
       {!type && addNew && (
-        <div className="w-2/12 flex items-center justify-center mt-0">
+        <div className="ml-2 flex items-center justify-center mt-0">
           <AddNewButton
             title="Create New Discipline"
             linkTo="/explore-disciplines"

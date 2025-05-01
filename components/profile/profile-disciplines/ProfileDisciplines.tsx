@@ -59,8 +59,8 @@ export function ProfileDisciplines() {
     if (disciplineData && disciplineData[key]?.icon) {
       return disciplineData[key].icon;
     }
-    // Default icons based on key name
-    return "";
+    // Default icon: *Motivation icon
+    return "IoAccessibility";
   };
 
   const getColor = (key: string): string | undefined => {
