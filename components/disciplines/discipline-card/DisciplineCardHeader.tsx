@@ -79,7 +79,7 @@ export function DisciplineCardHeader({
             projectedXp={projectedXp}
             name={discipline}
             showXpMetrics={true}
-            height={3}
+            height={2}
             color={color}
           />
         </div>

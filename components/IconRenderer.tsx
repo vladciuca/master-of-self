@@ -1,7 +1,7 @@
 import React from "react";
 import * as GiIcons from "react-icons/gi";
 import * as FaIcons from "react-icons/fa6";
-// import * as IoIcons from "react-icons/io5";
+import * as IoIcons from "react-icons/io5";
 import { useIconRarityLevel } from "@hooks/useIconRarityLevel";
 import { Skeleton } from "./ui/skeleton";
 import { cn } from "@lib/utils";
@@ -24,9 +24,8 @@ export function IconRenderer({
   const { iconColorClass, bgColorClass } = useIconRarityLevel(xp);
   const Icon =
     GiIcons[iconName as keyof typeof GiIcons] ||
-    FaIcons[iconName as keyof typeof FaIcons];
-  // ||
-  // IoIcons[iconName as keyof typeof IoIcons];
+    FaIcons[iconName as keyof typeof FaIcons] ||
+    IoIcons[iconName as keyof typeof IoIcons];
 
   if (!Icon) {
     console.warn(`Icon ${iconName} not found`);
