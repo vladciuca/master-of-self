@@ -1,7 +1,7 @@
 import React from "react";
 import { useRouter } from "next/navigation";
 import { DisciplinesList } from "@components/disciplines/DisciplinesList";
-import { SkeletonDisciplineCard } from "@components/skeletons/SkeletonDisciplineCard";
+// import { SkeletonDisciplineCard } from "@components/skeletons/SkeletonDisciplineCard";
 import { useTodayJournalEntry } from "@hooks/journal/useTodayJournalEntry";
 import { useLastJournalEntry } from "@hooks/journal/useLastJournalEntry";
 import { useDisciplineList } from "@hooks/user/useDisciplineList";
@@ -32,7 +32,7 @@ export function UserDisciplines() {
 
   // Render the loading skeletons
   const renderSkeletons = () => (
-    <div className="space-y-8 mx-2 mt-2">
+    <div className="space-y-8 mt-2">
       {[1, 2, 3, 4].map((i) => (
         <div key={`skeleton-${i}`} className="flex items-center mb-3">
           <Skeleton className="h-8 w-8 rounded-full mr-2" />
@@ -67,7 +67,7 @@ export function UserDisciplines() {
         </div>
       ) : (
         <>
-          {/* {renderSkeletons()} */}
+          {renderSkeletons()}
           <DisciplinesList
             disciplineList={learnedDisciplineList}
             activeDisciplineList={activeDisciplineSteps}
