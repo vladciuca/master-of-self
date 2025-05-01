@@ -7,9 +7,11 @@ import { useLastJournalEntry } from "@hooks/journal/useLastJournalEntry";
 import { useDisciplineList } from "@hooks/user/useDisciplineList";
 import { Discipline } from "@models/mongodb";
 
-const skeletonCards = Array.from({ length: 3 }, (_, index) => (
-  <SkeletonDisciplineCard key={index} />
-));
+import { Skeleton } from "@components/ui/skeleton";
+
+// const skeletonCards = Array.from({ length: 3 }, (_, index) => (
+//   <SkeletonDisciplineCard key={index} />
+// ));
 
 export function UserDisciplines() {
   const router = useRouter();
@@ -28,6 +30,20 @@ export function UserDisciplines() {
     router.push(`/update-discipline/${discipline._id}`);
   };
 
+  // Render the loading skeletons
+  const renderSkeletons = () => (
+    <div className="space-y-8 mx-2 mt-2">
+      {[1, 2, 3, 4].map((i) => (
+        <div key={`skeleton-${i}`} className="flex items-center mb-3">
+          <Skeleton className="h-8 w-8 rounded-full mr-2" />
+          <div className="flex-1">
+            <Skeleton className="h-8 w-full rounded-full" />
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+
   // Check if any data is loading
   const isLoading =
     disciplinesConfigsLoading || todayEntryLoading || lastEntryLoading;
@@ -38,7 +54,7 @@ export function UserDisciplines() {
   return (
     <>
       {isLoading ? (
-        <div className="space-y-4">{skeletonCards}</div>
+        <div className="space-y-4">{renderSkeletons()}</div>
       ) : hasError ? (
         <div>
           <span>Error:</span>
@@ -50,11 +66,14 @@ export function UserDisciplines() {
           </div>
         </div>
       ) : (
-        <DisciplinesList
-          disciplineList={learnedDisciplineList}
-          activeDisciplineList={activeDisciplineSteps}
-          handleEdit={handleEdit}
-        />
+        <>
+          {/* {renderSkeletons()} */}
+          <DisciplinesList
+            disciplineList={learnedDisciplineList}
+            activeDisciplineList={activeDisciplineSteps}
+            handleEdit={handleEdit}
+          />
+        </>
       )}
     </>
   );
