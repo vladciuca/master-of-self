@@ -67,7 +67,7 @@ export function UserDisciplines() {
         </div>
       ) : (
         <>
-          {renderSkeletons()}
+          {/* {renderSkeletons()} */}
           <DisciplinesList
             disciplineList={learnedDisciplineList}
             activeDisciplineList={activeDisciplineSteps}
