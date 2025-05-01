@@ -19,13 +19,19 @@ export function UserOverview() {
   return (
     <>
       <div className="flex items-start mx-2">
-        <div className="overflow-hidden avatar text-xl font-semibold bg-muted text-primary rounded-full h-12 w-12 flex justify-center items-center">
-          {/* {nameInitials} */}
-          <GiCharacter size={50} className="mt-2" />
-        </div>
-        <span className="text-muted-foreground ml-4">{name}</span>
+        <span className="text-muted-foreground text-3xl">{name}</span>
       </div>
-      <ProfileDisciplines />
+      <div>
+        <div className="mx-1 mb-4">
+          <div className="scroll-m-20 text-2xl font-semibold tracking-tight">
+            {"Disciplines"}
+          </div>
+          <div className="text-sm text-muted-foreground">
+            {"Set your daily journaling hours."}
+          </div>
+        </div>
+        <ProfileDisciplines />
+      </div>
     </>
   );
 }

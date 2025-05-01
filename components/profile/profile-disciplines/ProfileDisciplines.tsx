@@ -135,7 +135,7 @@ export function ProfileDisciplines() {
   }
 
   return (
-    <div className="discipline-progress-container">
+    <div>
       {!hasDisciplines ? (
         <div className="py-4 text-muted-foreground">No disciplines found</div>
       ) : (

@@ -3,8 +3,9 @@
 import { useState } from "react";
 import { LandingPage } from "./landing-page/LandingPage";
 import { JournalPage } from "./journal-page/JournalPage";
+import { CTAPage } from "./call-to-action-page/CTAPage";
 import { Button } from "@components/ui/button";
-import { FaEye } from "react-icons/fa";
+import { FaEye, FaBrain } from "react-icons/fa";
 import {
   // GiSpellBook,
   GiBookCover,
@@ -12,11 +13,17 @@ import {
 import { useSideContent } from "@context/SideContentContext";
 
 const tabs = [
-  { id: "landing", icon: FaEye, label: "Vision", component: LandingPage },
+  {
+    id: "cta",
+    icon: FaEye,
+    label: "NEW GAME",
+    component: CTAPage,
+  },
+  { id: "landing", icon: FaBrain, label: "VISION", component: LandingPage },
   {
     id: "journal",
     icon: GiBookCover,
-    label: "Journal",
+    label: "JOURNAL",
     component: JournalPage,
   },
   // { id: "vision", icon: FaEye, label: "Vision", component: VisionPage },
