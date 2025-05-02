@@ -63,7 +63,7 @@ export default function UserProfilePage() {
         />
       </div>
 
-      <ScrollArea className="flex-grow">
+      <ScrollArea className="flex-grow pl-1">
         <ProfileDisciplines disciplines={user.profile.disciplines || {}} />
       </ScrollArea>
 

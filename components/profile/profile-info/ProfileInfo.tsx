@@ -31,12 +31,12 @@ export function ProfileInfo({ name, email, image }: ProfileInfoProps) {
       </div>
 
       {/* Add more user details here based on your User type */}
-      {email && (
+      {/* {email && (
         <div className="mb-4">
           <h2 className="text-xl font-semibold mb-2">Bio</h2>
           <p className="text-muted-foreground">{email}</p>
         </div>
-      )}
+      )} */}
     </div>
   );
 }
