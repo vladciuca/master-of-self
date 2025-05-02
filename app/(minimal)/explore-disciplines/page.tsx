@@ -51,7 +51,7 @@ export default function ExploreDisciplines() {
           ))}
         </div>
       </div>
-      <div className="h-[10vh] flex justify-center items-center px-6">
+      <div className="h-[10vh] flex justify-center items-center px-4">
         <Link href="profile?page=disciplines" className="w-full">
           <Button variant="secondary" className="w-full">
             Cancel

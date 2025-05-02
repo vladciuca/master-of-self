@@ -7,6 +7,8 @@ import { useUserData } from "@/hooks/user/useUserData";
 import { Button } from "@components/ui/button";
 import { ScrollArea } from "@components/ui/scroll-area";
 
+import { RxChevronLeft, RxChevronRight } from "react-icons/rx";
+
 export default function UserProfilePage() {
   const router = useRouter();
   const params = useParams();
@@ -67,12 +69,13 @@ export default function UserProfilePage() {
         <ProfileDisciplines disciplines={user.profile.disciplines || {}} />
       </ScrollArea>
 
-      <div className="flex flex-col justify-center items-center mt-2 px-3 h-[10vh]">
+      <div className="flex flex-col justify-center items-center mt-2 h-[10vh]">
         <Button
           variant="secondary"
           className="w-full mt-3 mb-4"
           onClick={() => router.back()}
         >
+          <RxChevronLeft />
           Back
         </Button>
       </div>
