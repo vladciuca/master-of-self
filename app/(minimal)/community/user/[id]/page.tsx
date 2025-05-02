@@ -68,7 +68,11 @@ export default function UserProfilePage() {
       </ScrollArea>
 
       <div className="flex flex-col justify-center items-center mt-2 px-3 h-[10vh]">
-        <Button className="w-full mt-3 mb-4" onClick={() => router.back()}>
+        <Button
+          variant="secondary"
+          className="w-full mt-3 mb-4"
+          onClick={() => router.back()}
+        >
           Back
         </Button>
       </div>
