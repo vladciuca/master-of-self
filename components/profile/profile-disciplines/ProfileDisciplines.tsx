@@ -3,17 +3,15 @@ import { DisciplineProgressBar } from "@components/disciplines/DisciplineProgres
 import { IconRenderer } from "@components/IconRenderer";
 import { Skeleton } from "@components/ui/skeleton";
 import { useDisciplinesData } from "@hooks/disciplines/useDisciplineData";
-import { useUserData } from "@hooks/user/useUserData";
 import { UserDisciplines } from "@models/types";
 
-export function ProfileDisciplines({ userId }: { userId: string }) {
+type ProfileDisciplinesProps = {
+  disciplines: UserDisciplines;
+};
+
+export function ProfileDisciplines({ disciplines }: ProfileDisciplinesProps) {
   // State to control the stable loading experience
   const [isStableLoading, setIsStableLoading] = useState(true);
-
-  const { user, loading, error } = useUserData(userId);
-
-  // Make sure disciplines exist before proceeding
-  const disciplines = user?.profile?.disciplines || {};
 
   // Extract valid MongoDB ObjectId strings (24 hex chars)
   const ids = Object.keys(disciplines).filter((key) =>
@@ -35,13 +33,13 @@ export function ProfileDisciplines({ userId }: { userId: string }) {
     // Create a timer to prevent rapid loading state changes
     const loadingTimer = setTimeout(() => {
       // Only turn off loading when both data sources are ready
-      if (!loading && !isDisciplineLoading) {
+      if (!isDisciplineLoading) {
         setIsStableLoading(false);
       }
     }, 300); // Small delay to prevent flickering
 
     return () => clearTimeout(loadingTimer);
-  }, [loading, isDisciplineLoading]);
+  }, [isDisciplineLoading]);
 
   const isDisciplineId = (key: string): boolean => /^[a-f\d]{24}$/i.test(key);
 
@@ -115,11 +113,9 @@ export function ProfileDisciplines({ userId }: { userId: string }) {
   }
 
   // Handle errors
-  if (error || disciplineError) {
+  if (disciplineError) {
     return (
-      <div className="py-4 text-red-500">
-        Error loading: {error || disciplineError}
-      </div>
+      <div className="py-4 text-red-500">Error loading: {disciplineError}</div>
     );
   }
 

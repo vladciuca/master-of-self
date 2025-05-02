@@ -1,11 +1,9 @@
-// app/(minimal)/community/user/[id]/page.tsx
 "use client";
 
-import { useUserData } from "@/hooks/user/useUserData";
 import { useParams, useRouter } from "next/navigation";
-import Link from "next/link";
-
+import { ProfileInfo } from "@components/profile/profile-info/ProfileInfo";
 import { ProfileDisciplines } from "@components/profile/profile-disciplines/ProfileDisciplines";
+import { useUserData } from "@/hooks/user/useUserData";
 
 export default function UserProfilePage() {
   const router = useRouter();
@@ -61,40 +59,12 @@ export default function UserProfilePage() {
       >
         ← Back to Community
       </button>
-
-      <div className="px-2">
-        <div className="flex items-center gap-4 mb-6">
-          {user.image ? (
-            <img
-              src={user.image}
-              alt={`${user.name}'s profile`}
-              className="w-24 h-24 rounded-full object-cover"
-            />
-          ) : (
-            <div className="w-24 h-24 rounded-full flex items-center justify-center">
-              <span className="text-2xl text-muted-foreground">
-                {user.name?.charAt(0)}
-              </span>
-            </div>
-          )}
-
-          <div>
-            <h1 className="text-2xl font-bold">{user.name}</h1>
-            <p className="text-muted-foreground">{user.email}</p>
-          </div>
-        </div>
-
-        {/* Add more user details here based on your User type */}
-        {user.email && (
-          <div className="mb-4">
-            <h2 className="text-xl font-semibold mb-2">Bio</h2>
-            <p className="text-muted-foreground">{user.email}</p>
-          </div>
-        )}
-
-        {/* You can add more sections here as needed */}
-      </div>
-      <ProfileDisciplines userId={userId} />
+      <ProfileInfo
+        name={user.name || ""}
+        email={user.email || ""}
+        image={user.image || ""}
+      />
+      <ProfileDisciplines disciplines={user.profile.disciplines || {}} />
     </div>
   );
 }
