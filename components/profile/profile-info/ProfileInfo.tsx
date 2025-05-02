@@ -26,7 +26,7 @@ export function ProfileInfo({ name, email, image }: ProfileInfoProps) {
 
         <div>
           <h1 className="text-2xl font-bold">{name}</h1>
-          <p className="text-muted-foreground">{email}</p>
+          <p className="text-muted-foreground">{"Level 10"}</p>
         </div>
       </div>
 
@@ -37,8 +37,6 @@ export function ProfileInfo({ name, email, image }: ProfileInfoProps) {
           <p className="text-muted-foreground">{email}</p>
         </div>
       )}
-
-      {/* You can add more sections here as needed */}
     </div>
   );
 }

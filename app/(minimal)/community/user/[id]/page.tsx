@@ -4,6 +4,8 @@ import { useParams, useRouter } from "next/navigation";
 import { ProfileInfo } from "@components/profile/profile-info/ProfileInfo";
 import { ProfileDisciplines } from "@components/profile/profile-disciplines/ProfileDisciplines";
 import { useUserData } from "@/hooks/user/useUserData";
+import { Button } from "@components/ui/button";
+import { ScrollArea } from "@components/ui/scroll-area";
 
 export default function UserProfilePage() {
   const router = useRouter();
@@ -52,19 +54,24 @@ export default function UserProfilePage() {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <button
-        onClick={() => router.back()}
-        className="mb-8 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
-      >
-        ← Back to Community
-      </button>
-      <ProfileInfo
-        name={user.name || ""}
-        email={user.email || ""}
-        image={user.image || ""}
-      />
-      <ProfileDisciplines disciplines={user.profile.disciplines || {}} />
+    <div className="flex flex-col h-full justify-between px-4">
+      <div className="space-y-6 mb-4 pt-8">
+        <ProfileInfo
+          name={user.name || ""}
+          email={user.email || ""}
+          image={user.image || ""}
+        />
+      </div>
+
+      <ScrollArea className="flex-grow">
+        <ProfileDisciplines disciplines={user.profile.disciplines || {}} />
+      </ScrollArea>
+
+      <div className="flex flex-col justify-center items-center mt-2 px-4 h-[10vh]">
+        <Button className="w-full mt-3 mb-4" onClick={() => router.back()}>
+          Back
+        </Button>
+      </div>
     </div>
   );
 }
