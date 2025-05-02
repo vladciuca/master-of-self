@@ -95,7 +95,7 @@ export function DisciplineForm({
             href="/profile?page=disciplines"
             className="w-full flex justify-center mb-4"
           >
-            <Button variant="outline" className="w-full">
+            <Button variant="secondary" className="w-full">
               Cancel
             </Button>
           </Link>
