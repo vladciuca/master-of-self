@@ -55,7 +55,7 @@ export default function UserProfilePage() {
 
   return (
     <div className="flex flex-col h-full justify-between px-4">
-      <div className="space-y-6 mb-4 pt-8">
+      <div className="space-y-6 mb-2 pt-8">
         <ProfileInfo
           name={user.name || ""}
           email={user.email || ""}
@@ -67,7 +67,7 @@ export default function UserProfilePage() {
         <ProfileDisciplines disciplines={user.profile.disciplines || {}} />
       </ScrollArea>
 
-      <div className="flex flex-col justify-center items-center mt-2 px-4 h-[10vh]">
+      <div className="flex flex-col justify-center items-center mt-2 px-3 h-[10vh]">
         <Button className="w-full mt-3 mb-4" onClick={() => router.back()}>
           Back
         </Button>
