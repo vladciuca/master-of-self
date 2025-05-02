@@ -9,15 +9,15 @@ type ProfileInfoProps = {
 export function ProfileInfo({ name, email, image }: ProfileInfoProps) {
   return (
     <div className="px-2">
-      <div className="flex items-center gap-4 mb-6">
+      <div className="flex items-center gap-4 mb-4">
         {image ? (
           <img
             src={image}
             alt={`${name}'s profile`}
-            className="w-24 h-24 rounded-full object-cover"
+            className="w-20 h-20 rounded-full object-cover"
           />
         ) : (
-          <div className="w-24 h-24 rounded-full flex items-center justify-center">
+          <div className="w-20 h-20 rounded-full flex items-center justify-center">
             <span className="text-2xl text-muted-foreground">
               {name?.charAt(0)}
             </span>
@@ -26,7 +26,10 @@ export function ProfileInfo({ name, email, image }: ProfileInfoProps) {
 
         <div>
           <h1 className="text-2xl font-bold">{name}</h1>
-          <p className="text-muted-foreground">{"Level 10"}</p>
+          <p className="text-muted-foreground">
+            <span>Level</span>
+            <span className="ml-1 text-2xl text-primary font-bold">10</span>
+          </p>
         </div>
       </div>
 
