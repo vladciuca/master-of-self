@@ -29,7 +29,9 @@ export type UserProfile = {
   };
 };
 
-export type UserMetadata = User & UserProfile;
+export type UserMetadata = User & {
+  profile: UserProfile;
+};
 
 export interface Session extends NextAuthSession {
   user: User;

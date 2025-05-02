@@ -1,49 +1,8 @@
-// import { useState, useEffect } from "react";
-// import type { User } from "@models/types";
-
-// export function useUserData(userId: string) {
-//   const [user, setSetUser] = useState<User | null>(null);
-//   const [loading, setLoading] = useState<boolean>(true);
-//   const [error, setError] = useState<string | null>(null);
-
-//   useEffect(() => {
-//     const fetchUserProfile = async () => {
-//       if (!userId) {
-//         setLoading(false);
-//         return;
-//       }
-
-//       try {
-//         setLoading(true);
-//         const response = await fetch(`/api/users/${userId}/profile`);
-
-//         if (!response.ok) {
-//           throw new Error(`Failed to fetch user: ${response.statusText}`);
-//         }
-
-//         const userData = await response.json();
-
-//         setSetUser(userData);
-//         setError(null);
-//       } catch (err) {
-//         console.error("Error fetching user profile:", err);
-//         setError(err instanceof Error ? err.message : "Unknown error occurred");
-//         setSetUser(null);
-//       } finally {
-//         setLoading(false);
-//       }
-//     };
-
-//     fetchUserProfile();
-//   }, [userId]);
-
-//   return { user, loading, error };
-// }
 import { useState, useEffect, useRef } from "react";
-import type { User } from "@models/types";
+import type { UserMetadata } from "@models/types";
 
 export function useUserData(userId: string) {
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<UserMetadata | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 

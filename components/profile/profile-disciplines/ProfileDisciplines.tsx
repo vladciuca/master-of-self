@@ -1,21 +1,19 @@
+import { useState, useEffect } from "react";
 import { DisciplineProgressBar } from "@components/disciplines/DisciplineProgressBar";
-import { useUserProfile } from "@context/UserProfileContext";
-import { useDisciplinesData } from "@hooks/disciplines/useDisciplineData";
-import { UserDisciplines } from "@models/types";
 import { IconRenderer } from "@components/IconRenderer";
 import { Skeleton } from "@components/ui/skeleton";
-import { useState, useEffect } from "react";
+import { useDisciplinesData } from "@hooks/disciplines/useDisciplineData";
+import { useUserData } from "@hooks/user/useUserData";
+import { UserDisciplines } from "@models/types";
 
-export function ProfileDisciplines() {
+export function ProfileDisciplines({ userId }: { userId: string }) {
   // State to control the stable loading experience
   const [isStableLoading, setIsStableLoading] = useState(true);
 
-  // Fetch user profile data
-  const { userProfile, userProfileLoading, userProfileError } =
-    useUserProfile();
+  const { user, loading, error } = useUserData(userId);
 
   // Make sure disciplines exist before proceeding
-  const disciplines = userProfile?.disciplines || {};
+  const disciplines = user?.profile?.disciplines || {};
 
   // Extract valid MongoDB ObjectId strings (24 hex chars)
   const ids = Object.keys(disciplines).filter((key) =>
@@ -37,13 +35,13 @@ export function ProfileDisciplines() {
     // Create a timer to prevent rapid loading state changes
     const loadingTimer = setTimeout(() => {
       // Only turn off loading when both data sources are ready
-      if (!userProfileLoading && !isDisciplineLoading) {
+      if (!loading && !isDisciplineLoading) {
         setIsStableLoading(false);
       }
     }, 300); // Small delay to prevent flickering
 
     return () => clearTimeout(loadingTimer);
-  }, [userProfileLoading, isDisciplineLoading]);
+  }, [loading, isDisciplineLoading]);
 
   const isDisciplineId = (key: string): boolean => /^[a-f\d]{24}$/i.test(key);
 
@@ -78,7 +76,7 @@ export function ProfileDisciplines() {
       .filter(([key]) => key !== "motivationMultiplier") // Filter out unwanted keys
       .map(([key, value]) => {
         return (
-          <div key={`discipline-${key}`} className="flex items-center mb-3">
+          <div key={`discipline-${key}`} className="flex items-center mb-5">
             <IconRenderer
               iconName={getDisciplineIcon(key)}
               size={30}
@@ -99,7 +97,7 @@ export function ProfileDisciplines() {
 
   // Render the loading skeletons
   const renderSkeletons = () => (
-    <div className="space-y-3 mx-2">
+    <div className="space-y-5 mx-2">
       {[1, 2, 3, 4].map((i) => (
         <div key={`skeleton-${i}`} className="flex items-center mb-3">
           <Skeleton className="h-8 w-8 rounded-full mr-2" />
@@ -117,10 +115,10 @@ export function ProfileDisciplines() {
   }
 
   // Handle errors
-  if (userProfileError || disciplineError) {
+  if (error || disciplineError) {
     return (
       <div className="py-4 text-red-500">
-        Error loading: {userProfileError || disciplineError}
+        Error loading: {error || disciplineError}
       </div>
     );
   }

@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/accordion";
 import type { JournalCustomStepConfig } from "@models/types";
 import type { Discipline } from "@models/mongodb";
+import { DisciplineCreator } from "../discipline-card/DisciplineCreator";
 
 type Step = JournalCustomStepConfig | Discipline;
 
@@ -39,6 +40,9 @@ export function DisciplineFeedCard({ step }: DisciplineCardProps) {
           description={step.description}
         />
         <DisciplineFeedFooter stepId={String(step._id)} />
+        {step?.creatorId && (
+          <DisciplineCreator creatorId={String(step.creatorId)} />
+        )}
       </AccordionContent>
     </AccordionItem>
   );

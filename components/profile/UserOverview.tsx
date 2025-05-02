@@ -2,13 +2,12 @@
 
 import { useSession } from "next-auth/react";
 import { Session } from "@models/types";
-import { GiCharacter } from "react-icons/gi";
-import { ProfileDisciplines } from "./profile-disciplines/ProfileDisciplines";
 
 export function UserOverview() {
   const { data: session } = useSession() as { data: Session | null };
 
   const name = session?.user?.name || "";
+  const email = session?.user?.email || "";
   const nameInitials = name
     ? name
         .split(" ")
@@ -17,21 +16,9 @@ export function UserOverview() {
     : "";
 
   return (
-    <>
-      <div className="flex items-start mx-2">
-        <span className="text-muted-foreground text-3xl">{name}</span>
-      </div>
-      <div>
-        <div className="mx-1 mb-4">
-          <div className="scroll-m-20 text-2xl font-semibold tracking-tight">
-            {"Disciplines"}
-          </div>
-          <div className="text-sm text-muted-foreground">
-            {"Set your daily journaling hours."}
-          </div>
-        </div>
-        <ProfileDisciplines />
-      </div>
-    </>
+    <div>
+      <h1 className="text-2xl font-bold">{name}</h1>
+      <p className="text-muted-foreground">{email}</p>
+    </div>
   );
 }
