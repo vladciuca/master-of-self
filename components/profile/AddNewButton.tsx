@@ -8,12 +8,14 @@ type AddNewButtonProps = {
   title: string;
   linkTo: string;
   disabled?: boolean;
+  size?: number;
 };
 
 export function AddNewButton({
   title,
   linkTo,
   disabled = false,
+  size = 6,
 }: AddNewButtonProps) {
   const router = useRouter();
 
@@ -25,15 +27,15 @@ export function AddNewButton({
   };
 
   return (
-    <div>
+    <div className="h-full w-full">
       <Button
         onClick={handleClick}
         disabled={disabled}
         // variant="primary"
         size="icon"
-        className="h-6 w-6 shrink-0 rounded-full"
+        className={`h-${size} w-${size} shrink-0 rounded-full`}
       >
-        <Plus className="h-4 w-4" />
+        <Plus className={`h-${size - 2} w-${size - 2}`} />
         <span className="sr-only">Add {title}</span>
       </Button>
     </div>

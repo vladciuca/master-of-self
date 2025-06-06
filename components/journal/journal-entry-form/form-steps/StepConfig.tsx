@@ -89,19 +89,19 @@ export function createSteps(params: CreateStepsParams): JournalCustomStep[] {
         isAvailable: SHOW_ALL_TEST || isEvening(userEveningTime, now),
       })),
     {
-      _id: "overview",
-      icon: stepIconMap.overview,
-      discipline: "overview",
-      component: <DisciplineOverview />,
-      isAvailable: SHOW_ALL_TEST || true, //NOTE: Not yet decided on behavior
-      type: "other",
-    },
-    {
       _id: "habits",
       icon: stepIconMap.habits,
       discipline: "habits",
       component: <HabitActionsStep />,
       isAvailable: SHOW_ALL_TEST || hasHabits,
+      type: "other",
+    },
+    {
+      _id: "overview",
+      icon: stepIconMap.overview,
+      discipline: "overview",
+      component: <DisciplineOverview />,
+      isAvailable: SHOW_ALL_TEST || true, //NOTE: Not yet decided on behavior
       type: "other",
     },
   ];

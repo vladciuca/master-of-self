@@ -9,7 +9,7 @@ export const stepIconMap: StepIconMap = {
   day: "FaSun",
   night: "FaMoon",
   sleep: "GiNightSleep",
-  habits: "FaArrowRotateLeft",
+  habits: "GiSkills",
   //Custom step icons
   confidence: "GiAura",
   awareness: "GiAwareness",

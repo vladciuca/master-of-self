@@ -35,7 +35,7 @@ export function HabitList({
         habit={{
           _id: "new-habit",
           name: "New Habit",
-          icon: "FaArrowRotateLeft",
+          icon: "FaCircleQuestion",
           xp: 0,
           xpData: [],
           creatorId: "none",

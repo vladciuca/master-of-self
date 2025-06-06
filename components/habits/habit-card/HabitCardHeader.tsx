@@ -164,7 +164,11 @@ export function HabitCardHeader({
           <div className="absolute w-full flex flex-col justify-center items-center">
             {addNew ? (
               <div className="flex flex-col items-center justify-center mt-1">
-                <AddNewButton title="Create New Habit" linkTo="/create-habit" />
+                <AddNewButton
+                  title="Create New Habit"
+                  linkTo="/create-habit"
+                  size={8}
+                />
               </div>
             ) : (
               <div className="flex flex-col items-center justify-center text-xs">
