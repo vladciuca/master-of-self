@@ -90,13 +90,13 @@ export function UserHabits() {
       ) : (
         <div className="flex-grow flex items-center justify-center">
           <section className="text-center mt-32">
-            {/* <p className="leading-7 mt-6 mx-3">
+            <p className="leading-7 mt-6 mx-3">
               Create habits that you can track daily and visualize your
               progress.
-            </p> */}
-            <p className="leading-7 mt-6 mx-3">
-              Habit creation is currently disabled for the Alpha.
             </p>
+            {/* <p className="leading-7 mt-6 mx-3">
+              Habit creation is currently disabled for the Alpha.
+            </p> */}
           </section>
         </div>
       )}

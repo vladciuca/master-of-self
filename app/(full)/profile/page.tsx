@@ -5,7 +5,7 @@ import { useSearchParams, useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { WeeklyWillpowerChart } from "@components/profile/weekly-willpower-chart/WeeklyWillpowerChart";
 import { UserDisciplines } from "@components/disciplines/UserDisciplines";
-// import { UserHabits } from "@components/habits/UserHabits";
+import { UserHabits } from "@components/habits/UserHabits";
 
 export default function Profile() {
   const searchParams = useSearchParams();
@@ -18,13 +18,13 @@ export default function Profile() {
       component: <UserDisciplines />,
     },
     {
+      name: "habits",
+      component: <UserHabits />,
+    },
+    {
       name: "willpower",
       component: <WeeklyWillpowerChart />,
     },
-    // {
-    //   name: "habits",
-    //   component: <UserHabits />,
-    // },
   ];
 
   // Default page the first page in the config, unless specified in URL

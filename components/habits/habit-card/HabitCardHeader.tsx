@@ -2,6 +2,7 @@ import { IconRenderer } from "@components/IconRenderer";
 import { ActionIcon } from "@components/habits/habit-actions/HabitActionIcons";
 import { LevelIndicator } from "@components/ui/level-indicator";
 import { CircularProgress } from "@components/ui/circular-progress";
+import { AddNewButton } from "@components/profile/AddNewButton";
 import { XpDisplay } from "@components/ui/xp-display";
 import { calculateHabitLevel, xpForHabitLevel } from "@lib/level";
 import { formatNumberSuffixes } from "@lib/utils";
@@ -11,6 +12,7 @@ import type { Habit, JournalEntryHabitActions } from "@models/types";
 
 type HabitCardHeaderProps = {
   habit: Habit;
+  addNew?: boolean;
   entryLoading: boolean;
   habitDefaultActionValues: JournalEntryHabitActions;
   habitActionValues: JournalEntryHabitActions;
@@ -20,6 +22,7 @@ type HabitCardHeaderProps = {
 
 export function HabitCardHeader({
   habit,
+  addNew,
   entryLoading,
   habitDefaultActionValues,
   habitActionValues,
@@ -154,29 +157,35 @@ export function HabitCardHeader({
             className="ml-4"
             value={currentProgressPercentage}
             xpGainValue={xpGainProgressPercentage}
-            strokeWidth={6}
+            strokeWidth={addNew ? 0 : 6}
             circleSize={73}
             projectedXp={projectedXp}
           />
           <div className="absolute w-full flex flex-col justify-center items-center">
-            <div className="flex flex-col items-center justify-center text-xs">
-              {entryLoading ? (
-                <div className="text-muted">
-                  <span className="text-base">??</span>
-                  <span>XP</span>
-                </div>
-              ) : (
-                <div>
-                  <span className="text-base">
-                    <XpDisplay xpValue={projectedXp} />
-                  </span>
-                  <span>XP</span>
-                </div>
-              )}
-              {/* NOTE: this is a string but <XpDisplay/> accepts only numbers
-              This needs to be used if the XP value is to big and clips the XP circle
-              {formatNumberSuffixes(lastEntryProjectedXp)} */}
-            </div>
+            {addNew ? (
+              <div className="flex flex-col items-center justify-center mt-1">
+                <AddNewButton title="Create New Habit" linkTo="/create-habit" />
+              </div>
+            ) : (
+              <div className="flex flex-col items-center justify-center text-xs">
+                {entryLoading ? (
+                  <div className="text-muted">
+                    <span className="text-base">??</span>
+                    <span>XP</span>
+                  </div>
+                ) : (
+                  <div>
+                    <span className="text-base">
+                      <XpDisplay xpValue={projectedXp} />
+                    </span>
+                    <span>XP</span>
+                  </div>
+                )}
+                {/* NOTE: this is a string but <XpDisplay/> accepts only numbers
+                  This needs to be used if the XP value is to big and clips the XP circle
+                  {formatNumberSuffixes(lastEntryProjectedXp)} */}
+              </div>
+            )}
           </div>
         </div>
       </div>

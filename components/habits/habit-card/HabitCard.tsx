@@ -14,6 +14,7 @@ import { Session, Habit, JournalEntryHabitActions } from "@models/types";
 
 type HabitCardProps = {
   habit: Habit;
+  addNew?: boolean;
   entryLoading: boolean;
   handleEdit: (habit: Habit) => void;
   // handleDelete: (habit: Habit) => Promise<void>;
@@ -27,6 +28,7 @@ type HabitCardProps = {
 
 export function HabitCard({
   habit,
+  addNew,
   handleEdit,
   entryLoading,
   habitDefaultActionValues,
@@ -47,6 +49,7 @@ export function HabitCard({
         <AccordionTrigger className="p-0 m-0 rounded-md flex flex-col">
           <HabitCardHeader
             habit={habit}
+            addNew={addNew}
             habitDefaultActionValues={habitDefaultActionValues}
             habitActionValues={habitActionValues}
             entryTotalWillpower={entryTotalWillpower}
@@ -55,22 +58,28 @@ export function HabitCard({
           />
         </AccordionTrigger>
         <AccordionContent className="px-4">
-          <HabitCardActions
-            actions={actions}
-            habitDefaultActionValues={habitDefaultActionValues}
-            habitActionValues={habitActionValues}
-            hasNoEntryToday={hasNoEntryToday}
-          />
-          <HabitCardFooter
-            session={session}
-            habit={habit}
-            pathName={pathName}
-            handleEdit={handleEdit}
-            // handleDelete={handleDelete}
-            handleActionUpdate={handleActionUpdate}
-            entryLoading={entryLoading}
-            submittingJournalEntry={submittingJournalEntry}
-          />
+          {addNew ? (
+            <div>Create a new habit to track your progress.</div>
+          ) : (
+            <>
+              <HabitCardActions
+                actions={actions}
+                habitDefaultActionValues={habitDefaultActionValues}
+                habitActionValues={habitActionValues}
+                hasNoEntryToday={hasNoEntryToday}
+              />
+              <HabitCardFooter
+                session={session}
+                habit={habit}
+                pathName={pathName}
+                handleEdit={handleEdit}
+                // handleDelete={handleDelete}
+                handleActionUpdate={handleActionUpdate}
+                entryLoading={entryLoading}
+                submittingJournalEntry={submittingJournalEntry}
+              />
+            </>
+          )}
         </AccordionContent>
       </AccordionItem>
     </>

@@ -28,7 +28,28 @@ export function HabitList({
   hasNoEntryToday,
 }: HabitListProps) {
   return (
-    <Accordion type="single" collapsible className="w-full pb-1 mt-4">
+    <Accordion type="single" collapsible className="w-full pb-1 mt-1">
+      <HabitCard
+        key={"new-habit"}
+        addNew
+        habit={{
+          _id: "new-habit",
+          name: "New Habit",
+          icon: "FaArrowRotateLeft",
+          xp: 0,
+          xpData: [],
+          creatorId: "none",
+          actions: [],
+        }}
+        entryLoading={false}
+        habitDefaultActionValues={{}}
+        habitActionValues={{}}
+        entryTotalWillpower={0}
+        handleEdit={() => {}}
+        submittingJournalEntry={false}
+        handleActionUpdate={() => {}}
+        hasNoEntryToday={false}
+      />
       {habits.map((habit: Habit) => {
         return (
           <HabitCard
