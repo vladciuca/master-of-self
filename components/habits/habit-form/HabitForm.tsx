@@ -65,6 +65,7 @@ export function HabitForm({
             xp={xp}
             projectedXp={projectedXp}
             type={type}
+            isHabitPicker
           />
         </div>
 

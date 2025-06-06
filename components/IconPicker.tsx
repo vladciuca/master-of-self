@@ -15,7 +15,7 @@ import {
 } from "@components/ui/drawer";
 import { Skeleton } from "@components/ui/skeleton";
 import { SearchX } from "lucide-react";
-import { FaPersonCircleQuestion } from "react-icons/fa6";
+import { FaPersonCircleQuestion, FaCircleQuestion } from "react-icons/fa6";
 import * as GiIcons from "react-icons/gi";
 import { cn } from "@lib/utils";
 import { useIconPickerSearch } from "@hooks/useIconPickerSearch";
@@ -32,6 +32,7 @@ type IconPickerProps = {
   projectedXp?: number;
   iconPickerType?: "habits" | "disciplines";
   color?: string;
+  isHabitPicker?: boolean;
 };
 
 export function IconPicker({
@@ -41,6 +42,7 @@ export function IconPicker({
   projectedXp,
   iconPickerType,
   color,
+  isHabitPicker,
 }: IconPickerProps) {
   const {
     searchTerm,
@@ -175,7 +177,13 @@ export function IconPicker({
             {SelectedIcon ? (
               <SelectedIcon className="h-16 w-16 my-4" />
             ) : (
-              <FaPersonCircleQuestion className="h-16 w-16 my-4" />
+              <>
+                {isHabitPicker ? (
+                  <FaCircleQuestion className="h-16 w-16 my-4" />
+                ) : (
+                  <FaPersonCircleQuestion className="h-16 w-16 my-4" />
+                )}
+              </>
             )}
           </DrawerTitle>
           <DrawerDescription className="w-full text-center">
