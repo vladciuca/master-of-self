@@ -32,7 +32,6 @@ type IconPickerProps = {
   projectedXp?: number;
   iconPickerType?: "habits" | "disciplines";
   color?: string;
-  isHabitPicker?: boolean;
 };
 
 export function IconPicker({
@@ -42,7 +41,6 @@ export function IconPicker({
   projectedXp,
   iconPickerType,
   color,
-  isHabitPicker,
 }: IconPickerProps) {
   const {
     searchTerm,
@@ -131,6 +129,13 @@ export function IconPicker({
     }
   };
 
+  const defaultSearchIcon =
+    iconPickerType === "habits" ? (
+      <FaCircleQuestion className="h-16 w-16 my-4" />
+    ) : (
+      <FaPersonCircleQuestion className="h-16 w-16 my-4" />
+    );
+
   return (
     <Drawer
       open={isOpen}
@@ -164,7 +169,8 @@ export function IconPicker({
                 )}
               </>
             ) : (
-              <FaPersonCircleQuestion className="h-14 w-14 text-muted-foreground" />
+              // <FaPersonCircleQuestion className="h-14 w-14 text-muted-foreground" />
+              <>{defaultSearchIcon}</>
             )}
           </div>
         </DrawerTrigger>
@@ -177,13 +183,7 @@ export function IconPicker({
             {SelectedIcon ? (
               <SelectedIcon className="h-16 w-16 my-4" />
             ) : (
-              <>
-                {isHabitPicker ? (
-                  <FaCircleQuestion className="h-16 w-16 my-4" />
-                ) : (
-                  <FaPersonCircleQuestion className="h-16 w-16 my-4" />
-                )}
-              </>
+              <>{defaultSearchIcon}</>
             )}
           </DrawerTitle>
           <DrawerDescription className="w-full text-center">

@@ -15,7 +15,6 @@ type IconPickerFieldProps = {
   xp?: number;
   projectedXp?: number;
   type: "Create" | "Update";
-  isHabitPicker?: boolean;
 };
 
 export function IconPickerField({
@@ -23,7 +22,6 @@ export function IconPickerField({
   xp,
   projectedXp,
   type,
-  isHabitPicker,
 }: IconPickerFieldProps) {
   // const { iconColorClass, bgColorClass } = useIconRarityLevel(
   //   control._formValues.xp
@@ -42,7 +40,6 @@ export function IconPickerField({
           )}
           <FormControl>
             <IconPicker
-              isHabitPicker={isHabitPicker}
               value={field.value}
               onChange={(iconName) => field.onChange(iconName)}
               iconPickerType="habits"
