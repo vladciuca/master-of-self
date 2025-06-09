@@ -74,7 +74,7 @@ export default function UserProfilePage() {
       </div>
 
       {habits.length > 0 && !habitsLoading && !habitsError && (
-        <div className="flex gap-3 overflow-x-auto scrollbar-hide pb-2 w-full max-w-full h-28 mb-1 sm:mb-6">
+        <div className="flex gap-3 overflow-x-auto scrollbar-hide pb-2 w-full max-w-full h-28 mb-4 sm:mb-6">
           {habits.map((habit) => (
             <div key={habit._id} className="min-w-20">
               <HabitIconProgressBar
