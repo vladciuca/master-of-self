@@ -69,24 +69,26 @@ export default function UserProfilePage() {
         />
       </div>
 
-      <div className="mb-8">
+      <div className="mb-4 sm:mb-8">
         <WeeklyWillpowerChart displaySmall />
       </div>
-      <ScrollArea className="flex-grow pr-1">
-        {habits.length > 0 && !habitsLoading && !habitsError && (
-          <div className="grid grid-cols-4 gap-4 mb-8">
-            {habits.map((habit) => (
-              <div key={habit._id}>
-                <HabitIconProgressBar
-                  icon={habit.icon}
-                  xp={habit.xp}
-                  displaySmall
-                  name={habit.name}
-                />
-              </div>
-            ))}
-          </div>
-        )}
+
+      {habits.length > 0 && !habitsLoading && !habitsError && (
+        <div className="flex gap-3 overflow-x-auto scrollbar-hide pb-2 w-full max-w-full h-28 mb-1 sm:mb-6">
+          {habits.map((habit) => (
+            <div key={habit._id} className="min-w-20">
+              <HabitIconProgressBar
+                icon={habit.icon}
+                xp={habit.xp}
+                displaySmall
+                name={habit.name}
+              />
+            </div>
+          ))}
+        </div>
+      )}
+
+      <ScrollArea className="pr-1 flex-1">
         <ProfileDisciplines disciplines={user.profile.disciplines || {}} />
       </ScrollArea>
 

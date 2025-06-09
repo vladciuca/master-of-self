@@ -176,7 +176,7 @@ export function WeeklyWillpowerChart({
         <CardContent className={displaySmall ? "p-0" : "p-2"}>
           <ChartContainer
             config={chartConfig}
-            className={displaySmall ? "h-28 w-full" : "h-auto"}
+            className={displaySmall ? "h-20 sm:h-28 w-full" : "h-auto"}
           >
             <ResponsiveContainer width="100%">
               <BarChart data={willpowerData}>
