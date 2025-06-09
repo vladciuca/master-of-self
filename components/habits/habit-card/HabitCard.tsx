@@ -59,7 +59,10 @@ export function HabitCard({
         </AccordionTrigger>
         <AccordionContent className="px-4">
           {addNew ? (
-            <div>Create a new habit to track your progress.</div>
+            <div>
+              Create habits that you can track daily and visualize your
+              progress.
+            </div>
           ) : (
             <>
               <HabitCardActions

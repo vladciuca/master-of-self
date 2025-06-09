@@ -8,6 +8,7 @@ import { useUserHabits } from "@hooks/habits/useUserHabits";
 import { HabitIconProgressBar } from "@components/habits/HabitIconProgressBar";
 import { Button } from "@components/ui/button";
 import { ScrollArea } from "@components/ui/scroll-area";
+import { WeeklyWillpowerChart } from "@components/profile/weekly-willpower-chart/WeeklyWillpowerChart";
 
 import { RxChevronLeft, RxChevronRight } from "react-icons/rx";
 
@@ -68,9 +69,12 @@ export default function UserProfilePage() {
         />
       </div>
 
+      <div className="mb-8">
+        <WeeklyWillpowerChart displaySmall />
+      </div>
       <ScrollArea className="flex-grow pr-1">
         {habits.length > 0 && !habitsLoading && !habitsError && (
-          <div className="grid grid-cols-4 gap-4 my-8">
+          <div className="grid grid-cols-4 gap-4 mb-8">
             {habits.map((habit) => (
               <div key={habit._id}>
                 <HabitIconProgressBar

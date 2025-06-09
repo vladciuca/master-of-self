@@ -72,7 +72,11 @@ function chartTimePeriod(willpowerData: { date: string }[]) {
   }
 }
 
-export function WeeklyWillpowerChart() {
+export function WeeklyWillpowerChart({
+  displaySmall = false,
+}: {
+  displaySmall?: boolean;
+}) {
   const { data: session } = useSession() as { data: Session | null };
   const [isLoading, setIsLoading] = useState(false);
   const [willpowerData, setWillpowerData] = useState<WeeklyWillpowerData[]>([]);
@@ -125,18 +129,29 @@ export function WeeklyWillpowerChart() {
   return (
     <div>
       <div className="mx-1">
-        <CardTitle className="scroll-m-20 text-2xl font-semibold tracking-tight flex items-center">
-          <span>{"Weekly Willpower"}</span>
-        </CardTitle>
+        {!displaySmall && (
+          <>
+            <CardTitle className="scroll-m-20 text-2xl font-semibold tracking-tight flex items-center">
+              <span>{"Weekly Willpower"}</span>
+            </CardTitle>
 
-        <CardDescription>
-          {"Your daily and bonus Willpower generated for the current week."}
-        </CardDescription>
+            <CardDescription>
+              {"Your daily and bonus Willpower generated for the current week."}
+            </CardDescription>
+          </>
+        )}
+
         <CardTitle className="flex items-baseline justify-between my-1 mt-2">
-          <span className="text-muted-foreground">
-            {chartTimePeriod(willpowerData)}
+          <span
+            className={`text-muted-foreground ${displaySmall ? "text-sm" : ""}`}
+          >
+            {displaySmall ? "Current week" : chartTimePeriod(willpowerData)}
           </span>
-          <span className="flex items-center text-3xl font-bold">
+          <span
+            className={`flex items-center ${
+              displaySmall ? "text-4xl" : "text-3xl"
+            } font-bold`}
+          >
             {/* {!isLoading && totalWillpower.bonus > 0 && (
               <span className={`text-${JOURNAL_COLORS.night}`}>
                 +{totalWillpower.bonus}
@@ -150,15 +165,20 @@ export function WeeklyWillpowerChart() {
               // </span>
               <span>{totalWillpower.generated + totalWillpower.bonus}</span>
             )}
-            <FaBoltLightning className="ml-1 text-2xl" />
+            <FaBoltLightning
+              className={`ml-1 ${displaySmall ? "text-3xl" : "text-2xl"}`}
+            />
           </span>
         </CardTitle>
       </div>
 
-      <Card>
-        <CardContent className="p-2">
-          <ChartContainer config={chartConfig}>
-            <ResponsiveContainer width="100%" height={300}>
+      <Card className={displaySmall ? "border-none" : ""}>
+        <CardContent className={displaySmall ? "p-0" : "p-2"}>
+          <ChartContainer
+            config={chartConfig}
+            className={displaySmall ? "h-28 w-full" : "h-auto"}
+          >
+            <ResponsiveContainer width="100%">
               <BarChart data={willpowerData}>
                 <XAxis
                   dataKey="date"
@@ -186,33 +206,35 @@ export function WeeklyWillpowerChart() {
               </BarChart>
             </ResponsiveContainer>
           </ChartContainer>
-          <div className="w-full grid grid-cols-7 gap-2 px-2">
-            {willpowerData.map(
-              ({ generatedWillpower, bonusWillpower }, index) => {
-                return (
-                  <div
-                    key={index}
-                    className="flex flex-col items-center justify-center p-2"
-                    aria-label={`Day ${index + 1} willpower`}
-                  >
-                    {generatedWillpower === 0 && bonusWillpower === 0 ? (
-                      <></>
-                    ) : (
-                      <div className="text-center font-semibold text-xs">
-                        <span className={`text-${JOURNAL_COLORS.night}`}>
-                          +{bonusWillpower}
-                        </span>
-                        <span className="font-thin">/</span>
-                        <span className={`text-${JOURNAL_COLORS.day}`}>
-                          {generatedWillpower}
-                        </span>
-                      </div>
-                    )}
-                  </div>
-                );
-              }
-            )}
-          </div>
+          {!displaySmall && (
+            <div className="w-full grid grid-cols-7 gap-2 px-2">
+              {willpowerData.map(
+                ({ generatedWillpower, bonusWillpower }, index) => {
+                  return (
+                    <div
+                      key={index}
+                      className="flex flex-col items-center justify-center p-2"
+                      aria-label={`Day ${index + 1} willpower`}
+                    >
+                      {generatedWillpower === 0 && bonusWillpower === 0 ? (
+                        <></>
+                      ) : (
+                        <div className="text-center font-semibold text-xs">
+                          <span className={`text-${JOURNAL_COLORS.night}`}>
+                            +{bonusWillpower}
+                          </span>
+                          <span className="font-thin">/</span>
+                          <span className={`text-${JOURNAL_COLORS.day}`}>
+                            {generatedWillpower}
+                          </span>
+                        </div>
+                      )}
+                    </div>
+                  );
+                }
+              )}
+            </div>
+          )}
         </CardContent>
       </Card>
     </div>

@@ -67,7 +67,7 @@ export function UserHabits() {
     <div className="w-full">
       {habitsLoading ? (
         skeletonCards
-      ) : habits.length > 0 ? (
+      ) : (
         <HabitList
           habits={habits}
           //NOTE: Default HABIT_ACTION_VALUES from habits hook
@@ -87,18 +87,6 @@ export function UserHabits() {
           submittingJournalEntry={submittingJournalEntry}
           handleActionUpdate={handleActionUpdate}
         />
-      ) : (
-        <div className="flex-grow flex items-center justify-center">
-          <section className="text-center mt-32">
-            <p className="leading-7 mt-6 mx-3">
-              Create habits that you can track daily and visualize your
-              progress.
-            </p>
-            {/* <p className="leading-7 mt-6 mx-3">
-              Habit creation is currently disabled for the Alpha.
-            </p> */}
-          </section>
-        </div>
       )}
 
       {habitsError && <p>Error: {habitsError}</p>}
