@@ -1,4 +1,5 @@
 import React from "react";
+import { GiCharacter } from "react-icons/gi";
 
 type ProfileInfoProps = {
   name: string;
@@ -10,7 +11,7 @@ export function ProfileInfo({ name, email, image }: ProfileInfoProps) {
   return (
     <div className="px-2">
       <div className="flex items-center gap-4 mb-4">
-        {image ? (
+        {/* {image ? (
           <img
             src={image}
             alt={`${name}'s profile`}
@@ -22,7 +23,10 @@ export function ProfileInfo({ name, email, image }: ProfileInfoProps) {
               {name?.charAt(0)}
             </span>
           </div>
-        )}
+        )} */}
+        <div className="overflow-hidden avatar text-xl font-semibold bg-muted text-primary rounded-full h-14 w-14 flex justify-center items-center">
+          <GiCharacter size={60} className="mt-2" />
+        </div>
 
         <div>
           <h1 className="text-2xl font-bold">{name}</h1>

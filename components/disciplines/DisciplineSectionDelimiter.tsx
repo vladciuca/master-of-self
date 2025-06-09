@@ -38,8 +38,8 @@ export function DisciplineSectionDelimiter({
       <div className="flex items-center space-x-2">
         <span className="scroll-m-20 text-xl font-semibold tracking-tight flex items-center">
           {activeSteps}
-          <span className="font-thin mx-1 text-muted-foreground">/</span>
-          <span className="text-muted-foreground">{maxSteps}</span>
+          {/* <span className="font-thin mx-1 text-muted-foreground">/</span>
+          <span className="text-muted-foreground">{maxSteps}</span> */}
           <span className="ml-2">{IconElement}</span>
         </span>
       </div>

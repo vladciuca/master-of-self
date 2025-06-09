@@ -3,8 +3,11 @@ import { useSession } from "next-auth/react";
 import { getHabitActionDefaultValues } from "@lib/level";
 import { Session, Habit, JournalEntryHabit } from "@models/types";
 
-export function useUserHabits() {
+export function useUserHabits(userId?: string) {
   const { data: session } = useSession() as { data: Session | null };
+
+  // Determine which user ID to use
+  const targetUserId = userId || session?.user.id;
 
   const [habits, setHabits] = useState<Habit[]>([]);
   const [habitsLoading, setHabitsLoading] = useState(false);
@@ -29,7 +32,12 @@ export function useUserHabits() {
     }, [habits, hasHabits]);
 
   useEffect(() => {
-    if (!session?.user.id) return;
+    // if (!targetUserId) return;
+    // Early return if no user ID is available
+    if (!targetUserId) {
+      setHabitsLoading(false);
+      return;
+    }
 
     const abortController = new AbortController();
     const signal = abortController.signal;
@@ -40,7 +48,7 @@ export function useUserHabits() {
     const getUserHabits = async () => {
       try {
         const userHabitsResponse = await fetch(
-          `/api/users/${session?.user.id}/habits`,
+          `/api/users/${targetUserId}/habits`,
           {
             signal,
           }
@@ -76,7 +84,7 @@ export function useUserHabits() {
     return () => {
       abortController.abort();
     };
-  }, [session?.user.id]);
+  }, [targetUserId]);
 
   return {
     habits,
@@ -85,5 +93,7 @@ export function useUserHabits() {
     defaultJournalEntryHabitActionValues,
     habitsLoading,
     habitsError,
+    // targetUserId, // Optional: return which user ID is being used
+    // isCurrentUser: targetUserId === session?.user.id, // Optional: flag if viewing own habits
   };
 }

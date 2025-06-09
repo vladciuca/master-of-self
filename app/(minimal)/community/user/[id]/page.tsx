@@ -4,6 +4,8 @@ import { useParams, useRouter } from "next/navigation";
 import { ProfileInfo } from "@components/profile/profile-info/ProfileInfo";
 import { ProfileDisciplines } from "@components/profile/profile-disciplines/ProfileDisciplines";
 import { useUserData } from "@/hooks/user/useUserData";
+import { useUserHabits } from "@hooks/habits/useUserHabits";
+import { HabitIconProgressBar } from "@components/habits/HabitIconProgressBar";
 import { Button } from "@components/ui/button";
 import { ScrollArea } from "@components/ui/scroll-area";
 
@@ -15,6 +17,7 @@ export default function UserProfilePage() {
   const userId = params.id as string;
 
   const { user, loading, error } = useUserData(userId);
+  const { habits, habitsLoading, habitsError } = useUserHabits(userId);
 
   // Handle loading state
   if (loading) {
@@ -66,6 +69,20 @@ export default function UserProfilePage() {
       </div>
 
       <ScrollArea className="flex-grow pr-1">
+        {habits.length > 0 && !habitsLoading && !habitsError && (
+          <div className="grid grid-cols-4 gap-4 my-8">
+            {habits.map((habit) => (
+              <div key={habit._id}>
+                <HabitIconProgressBar
+                  icon={habit.icon}
+                  xp={habit.xp}
+                  displaySmall
+                  name={habit.name}
+                />
+              </div>
+            ))}
+          </div>
+        )}
         <ProfileDisciplines disciplines={user.profile.disciplines || {}} />
       </ScrollArea>
 
