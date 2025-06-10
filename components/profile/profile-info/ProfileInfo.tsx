@@ -1,13 +1,21 @@
 import React from "react";
 import { GiCharacter } from "react-icons/gi";
+import { useTotalWillpowerBeforeToday } from "@hooks/useTotalWillpowerBeforeToday";
+import { calculateCharacterLevel } from "@lib/level";
 
 type ProfileInfoProps = {
   name: string;
   email: string;
   image: string;
+  userId?: string;
 };
 
-export function ProfileInfo({ name, email, image }: ProfileInfoProps) {
+export function ProfileInfo({ name, email, image, userId }: ProfileInfoProps) {
+  const { totalWillpowerBeforeToday, totalWillpowerBeforeTodayLoading } =
+    useTotalWillpowerBeforeToday(userId);
+
+  const characterLevel = calculateCharacterLevel(totalWillpowerBeforeToday);
+
   return (
     <div className="px-2">
       <div className="flex items-center gap-4 mb-4">
@@ -32,7 +40,9 @@ export function ProfileInfo({ name, email, image }: ProfileInfoProps) {
           <h1 className="text-2xl font-bold">{name}</h1>
           <p className="text-muted-foreground">
             <span>Level</span>
-            <span className="ml-1 text-2xl text-primary font-bold">10</span>
+            <span className="ml-1 text-2xl text-primary font-bold">
+              {characterLevel}
+            </span>
           </p>
         </div>
       </div>

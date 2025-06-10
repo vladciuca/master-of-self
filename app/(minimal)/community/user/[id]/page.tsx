@@ -66,6 +66,7 @@ export default function UserProfilePage() {
           name={user.name || ""}
           email={user.email || ""}
           image={user.image || ""}
+          userId={userId}
         />
       </div>
 

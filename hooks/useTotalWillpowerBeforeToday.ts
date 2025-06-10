@@ -3,7 +3,7 @@ import { useSession } from "next-auth/react";
 import { getToday } from "@lib/time";
 import { Session } from "@models/types";
 
-export function useTotalWillpowerBeforeToday() {
+export function useTotalWillpowerBeforeToday(userId?: string) {
   const [totalWillpowerBeforeToday, setTotalWillpowerBeforeToday] = useState(0);
   const [
     totalWillpowerBeforeTodayLoading,
@@ -13,7 +13,14 @@ export function useTotalWillpowerBeforeToday() {
     useState<string | null>(null);
   const { data: session } = useSession() as { data: Session | null };
 
+  const targetUserId = userId || session?.user.id;
+
   useEffect(() => {
+    if (!targetUserId) {
+      setTotalWillpowerBeforeTodayLoading(false);
+      return;
+    }
+
     const fetchCurrentWillpower = async () => {
       setTotalWillpowerBeforeTodayError(null);
       setTotalWillpowerBeforeTodayLoading(true);
@@ -22,7 +29,7 @@ export function useTotalWillpowerBeforeToday() {
         const today = getToday();
 
         const response = await fetch(
-          `/api/users/${session?.user?.id}/total-willpower-before-today?today=${today}`
+          `/api/users/${targetUserId}/total-willpower-before-today?today=${today}`
         );
         const { totalWillpowerBeforeToday } = await response.json();
 
