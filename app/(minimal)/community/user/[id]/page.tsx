@@ -70,7 +70,7 @@ export default function UserProfilePage() {
       </div>
 
       <div className="mb-4 sm:mb-8">
-        <WeeklyWillpowerChart displaySmall />
+        <WeeklyWillpowerChart displaySmall userId={userId} />
       </div>
 
       {habits.length > 0 && !habitsLoading && !habitsError && (

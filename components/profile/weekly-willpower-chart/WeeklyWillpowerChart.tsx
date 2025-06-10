@@ -74,12 +74,16 @@ function chartTimePeriod(willpowerData: { date: string }[]) {
 
 export function WeeklyWillpowerChart({
   displaySmall = false,
+  userId,
 }: {
   displaySmall?: boolean;
+  userId?: string;
 }) {
   const { data: session } = useSession() as { data: Session | null };
   const [isLoading, setIsLoading] = useState(false);
   const [willpowerData, setWillpowerData] = useState<WeeklyWillpowerData[]>([]);
+
+  const targetUserId = userId || session?.user.id;
 
   const totalWillpower = willpowerData.reduce(
     (acc, curr) => {
@@ -103,6 +107,8 @@ export function WeeklyWillpowerChart({
 
   useEffect(() => {
     const fetchWillpowerData = async () => {
+      if (!targetUserId) return;
+
       try {
         setIsLoading(true);
 
@@ -110,7 +116,7 @@ export function WeeklyWillpowerChart({
         const endOfWeek = getEndOfCurrentWeek();
 
         const response = await fetch(
-          `/api/users/${session?.user.id}/weekly-willpower?startOfWeek=${startOfWeek}&endOfWeek=${endOfWeek}`
+          `/api/users/${targetUserId}/weekly-willpower?startOfWeek=${startOfWeek}&endOfWeek=${endOfWeek}`
         );
         if (!response.ok) throw new Error("Failed to fetch willpower data");
         const data = await response.json();
