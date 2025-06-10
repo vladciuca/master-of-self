@@ -1,6 +1,7 @@
 import { GiCharacter } from "react-icons/gi";
 import { useUserData } from "@hooks/user/useUserData"; // Update the import path as needed
 import Link from "next/link";
+import { Skeleton } from "@components/ui/skeleton";
 
 type DisciplineCreatorProps = {
   creatorId: string;
@@ -20,7 +21,13 @@ export function DisciplineCreator({ creatorId }: DisciplineCreatorProps) {
 
   if (loading) {
     return (
-      <div className="flex items-end mx-2 text-xs">Loading creator info...</div>
+      <div className="flex items-center mx-2 text-xs">
+        <Skeleton className="ml-1 mr-2 font-semibold w-12 h-3" />
+
+        <div className="overflow-hidden avatar text-xl font-semibold bg-muted text-primary rounded-full h-6 w-6 flex justify-center items-center">
+          <GiCharacter size={25} className="mt-2" />
+        </div>
+      </div>
     );
   }
 
