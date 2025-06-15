@@ -4,7 +4,7 @@ import { Bonus } from "./steps/bonus/Bonus";
 import { Day } from "./steps/Day";
 import { Night } from "./steps/Night";
 import { Highlights } from "./steps/Highlights";
-import { DisciplineOverview } from "./steps/discipline-overview/DisciplineOverview";
+import { Summary } from "./steps/summary/Summary";
 import { HabitActionsStep } from "./steps/HabitActionsStep";
 import { stepIconMap } from "@components/ui/constants";
 //NOTE: need to check how to use getCurrentTimePeriod() here
@@ -97,10 +97,10 @@ export function createSteps(params: CreateStepsParams): JournalCustomStep[] {
       type: "other",
     },
     {
-      _id: "overview",
+      _id: "summary",
       icon: stepIconMap.overview,
-      discipline: "overview",
-      component: <DisciplineOverview />,
+      discipline: "summary",
+      component: <Summary />,
       isAvailable: SHOW_ALL_TEST || true, //NOTE: Not yet decided on behavior
       type: "other",
     },

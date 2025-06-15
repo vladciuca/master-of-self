@@ -8,9 +8,11 @@ import { isEvening } from "@lib/time";
 import type { UserDisciplines } from "@models/types";
 import { useUserProfile } from "@context/UserProfileContext";
 import { stepIconMap } from "@components/ui/constants";
+import { JournalEntryHabits } from "@/components/journal/journal-entry-card/JournalEntryHabits";
+import { calculateHabitsXpFromEntry } from "@/lib/level";
 import { useDisciplinesData } from "@hooks/disciplines/useDisciplineData";
 
-export const DisciplineOverview = () => {
+export const Summary = () => {
   const { watch } = useFormContext();
   const { userProfile } = useUserProfile();
 
@@ -19,6 +21,21 @@ export const DisciplineOverview = () => {
 
   const dayEntry = watch("dayEntry");
   const nightEntry = watch("nightEntry");
+
+  const habits = watch("habits");
+  const dailyWillpower = watch("dailyWillpower");
+  const bonusWillpower = watch("bonusWillpower");
+  const totalWillpower = dailyWillpower + bonusWillpower;
+
+  console.log("============habits", habits);
+  console.log("============totalWillpower", totalWillpower);
+
+  const habitsXpFromActions = habits
+    ? calculateHabitsXpFromEntry({
+        entryHabits: habits,
+        entryWillpower: totalWillpower,
+      })
+    : {};
 
   // Use the custom hook to fetch discipline data
   const { disciplineData, isLoading } = useDisciplinesData(
@@ -92,8 +109,8 @@ export const DisciplineOverview = () => {
     ? "Evening Disciplines"
     : "Morning Disciplines";
   const emptyStateMessage = isEveningTime
-    ? "Complete evening journal pages to earn points."
-    : "Complete morning journal pages to earn points.";
+    ? "Complete evening journal pages to increase your discipline."
+    : "Complete morning journal pages to increase your discipline.";
 
   // Function to render discipline bars
   const renderDisciplineBars = (
@@ -171,7 +188,10 @@ export const DisciplineOverview = () => {
         </h2>
       }
     >
-      <div className="flex flex-col justify-center pr-2 mt-6 sm:mt-12">
+      <div className="flex-grow flex flex-wrap items-start mt-2 sm:mt-4 px-2">
+        <JournalEntryHabits habitsXp={habitsXpFromActions} habits={habits} />
+      </div>
+      <div className="flex flex-col justify-center pr-2 mt-4 sm:mt-8">
         <div className="text-center">
           <div className="flex flex-col w-full">
             {motivationScore > 0 && (

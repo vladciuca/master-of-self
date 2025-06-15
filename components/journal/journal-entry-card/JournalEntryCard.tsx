@@ -55,11 +55,12 @@ JournalEntryCardProps) {
       })
     : {};
 
-  const hasDisciplineEntries =
-    (dayEntry?.Object?.entries &&
-      Object.keys(dayEntry.Object.entries).length > 0) ||
-    (nightEntry?.Object?.entries &&
-      Object.keys(nightEntry.Object.entries).length > 0);
+  //NOTE* Is this required?
+  // const hasDisciplineEntries =
+  //   (dayEntry?.Object?.entries &&
+  //     Object.keys(dayEntry.Object.entries).length > 0) ||
+  //   (nightEntry?.Object?.entries &&
+  //     Object.keys(nightEntry.Object.entries).length > 0);
 
   return (
     <Card className="p-4 mb-4 space-y-4">
