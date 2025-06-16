@@ -1,19 +1,16 @@
 "use client";
 
 import { useState } from "react";
+import { useSession } from "next-auth/react";
 import { LandingPage } from "./landing-page/LandingPage";
 import { HowItWorks } from "./how-it-works/HowItWorks";
 import { CTAPage } from "./call-to-action-page/CTAPage";
 import { Button } from "@components/ui/button";
 import { FaEye, FaBrain } from "react-icons/fa";
 import { FaGear } from "react-icons/fa6";
-import {
-  // GiSpellBook,
-  GiBookCover,
-} from "react-icons/gi";
 import { useSideContent } from "@context/SideContentContext";
 
-const tabs = [
+const allTabs = [
   {
     id: "cta",
     icon: FaEye,
@@ -29,28 +26,23 @@ const tabs = [
   {
     id: "science",
     icon: FaGear,
-    label: "How it works",
+    label: "How it Works",
     component: HowItWorks,
   },
-
-  // {
-  //   id: "journal",
-  //   icon: GiBookCover,
-  //   label: "Game Loop",
-  //   component: JournalPage,
-  // },
-  // { id: "vision", icon: FaEye, label: "Vision", component: VisionPage },
-  // {
-  //   id: "identity",
-  //   icon: GiCharacter,
-  //   label: "Identity",
-  //   component: IdentityPage,
-  // },
 ];
 
 export function SideContent() {
+  const { data: session, status } = useSession();
   const { isDrawerOpen, setIsDrawerOpen } = useSideContent();
-  const [activeTab, setActiveTab] = useState(tabs[0].id);
+
+  const tabs = allTabs.filter((tab) => {
+    if (tab.id === "cta" && status === "authenticated") {
+      return false; // Hide "New Game" tab when logged in
+    }
+    return true;
+  });
+
+  const [activeTab, setActiveTab] = useState(tabs[0]?.id || "landing");
 
   const handleTabClick = (tabId: string) => {
     if (tabId === activeTab && isDrawerOpen) {
