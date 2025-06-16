@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { GiBrain, GiArcheryTarget, GiLightBulb } from "react-icons/gi";
-import { sectionVariants } from "../LandingPage";
+import { sectionVariants } from "../../landing-page/LandingPage";
 
 const cards = [
   {
@@ -26,7 +26,10 @@ export function ScienceSection() {
       className="text-center px-6 mt-24"
       variants={sectionVariants}
     >
-      <h3 className="text-4xl font-bold mb-4">The Science in Action</h3>
+      {/* <h3 className="text-4xl font-bold mb-4"></h3> */}
+      <span className="text-5xl block font-semibold mb-24">
+        The Science in Action
+      </span>
       <p className="text-lg max-w-3xl mx-auto text-muted-foreground">
         This structured approach is built on principles of{" "}
         <strong className="text-primary">positive psychology</strong>,{" "}

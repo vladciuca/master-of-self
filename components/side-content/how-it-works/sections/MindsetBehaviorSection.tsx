@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { sectionVariants } from "../LandingPage";
+import { sectionVariants } from "../../landing-page/LandingPage";
 
 const sections = [
   {

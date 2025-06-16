@@ -2,10 +2,11 @@
 
 import { useState } from "react";
 import { LandingPage } from "./landing-page/LandingPage";
-import { JournalPage } from "./journal-page/JournalPage";
+import { HowItWorks } from "./how-it-works/HowItWorks";
 import { CTAPage } from "./call-to-action-page/CTAPage";
 import { Button } from "@components/ui/button";
 import { FaEye, FaBrain } from "react-icons/fa";
+import { FaGear } from "react-icons/fa6";
 import {
   // GiSpellBook,
   GiBookCover,
@@ -16,16 +17,28 @@ const tabs = [
   {
     id: "cta",
     icon: FaEye,
-    label: "NEW GAME",
+    label: "New Game",
     component: CTAPage,
   },
-  { id: "landing", icon: FaBrain, label: "VISION", component: LandingPage },
   {
-    id: "journal",
-    icon: GiBookCover,
-    label: "JOURNAL",
-    component: JournalPage,
+    id: "landing",
+    icon: FaBrain,
+    label: "Game Loop",
+    component: LandingPage,
   },
+  {
+    id: "science",
+    icon: FaGear,
+    label: "How it works",
+    component: HowItWorks,
+  },
+
+  // {
+  //   id: "journal",
+  //   icon: GiBookCover,
+  //   label: "Game Loop",
+  //   component: JournalPage,
+  // },
   // { id: "vision", icon: FaEye, label: "Vision", component: VisionPage },
   // {
   //   id: "identity",

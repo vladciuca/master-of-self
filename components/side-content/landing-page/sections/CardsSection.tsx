@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { FaSun, FaMoon, FaBoltLightning } from "react-icons/fa6";
 import { sectionVariants } from "../LandingPage";
+import { LuTarget } from "react-icons/lu";
 
 const cards = [
   {
@@ -49,7 +50,7 @@ const cards = [
   },
   {
     icon: <FaBoltLightning />,
-    bg: "bg-teal-500",
+    bg: "bg-orange-400",
     textColor: "text-white",
     title: "Earn & Leverage Willpower",
     content:
@@ -66,6 +67,32 @@ const cards = [
       {
         key: "Motivation Boost:",
         text: "The more consistent and thorough you are, the stronger your momentum becomes.",
+      },
+    ],
+  },
+  {
+    icon: <LuTarget />,
+    bg: "bg-teal-500",
+    textColor: "text-white",
+    title: "Build or break habits",
+    content:
+      "Track your daily habits and earn XP by reinforcing positive actions or breaking unhelpful ones. Stay consistent to level up your discipline and control.",
+    list: [
+      {
+        key: "Daily Habit Tracking:",
+        text: "Log your progress with build or break habits and stay mindful of your behavioral patterns.",
+      },
+      {
+        key: "Reinforce or Resist:",
+        text: "Each habit action helps you strengthen a desired behavior or weaken a limiting one.",
+      },
+      {
+        key: "Earn XP & Grow:",
+        text: "Gain experience points as you stay consistent, turning effort into tangible progress and motivation.",
+      },
+      {
+        key: "Willpower:",
+        text: "Gain increased experience for your action based on the daily willpower generated.",
       },
     ],
   },

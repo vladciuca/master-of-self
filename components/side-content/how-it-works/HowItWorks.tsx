@@ -2,11 +2,8 @@
 
 import { AnimatePresence, motion } from "framer-motion";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { HeroSection } from "./sections/HeroSection";
-import { IntroductionSection } from "./sections/IntroductionSection";
-import { CardsSection } from "./sections/CardsSection";
-// import { ScienceSection } from "../how-it-works/sections/ScienceSection";
-// import { MindsetBehaviorSection } from "../how-it-works/sections/MindsetBehaviorSection";
+import { ScienceSection } from "./sections/ScienceSection";
+import { MindsetBehaviorSection } from "./sections/MindsetBehaviorSection";
 import { X } from "lucide-react";
 
 export const sectionVariants = {
@@ -19,15 +16,12 @@ export const sectionVariants = {
   exit: { opacity: 0, y: 50 },
 };
 
-type LandingPageProps = {
+type PageProps = {
   isDrawerOpen: boolean;
   handleCloseDrawer: () => void;
 };
 
-export function LandingPage({
-  isDrawerOpen,
-  handleCloseDrawer,
-}: LandingPageProps) {
+export function HowItWorks({ isDrawerOpen, handleCloseDrawer }: PageProps) {
   return (
     <AnimatePresence>
       {isDrawerOpen && (
@@ -48,11 +42,8 @@ export function LandingPage({
           >
             <ScrollArea className="flex-grow">
               <main className="min-h-screen px-6 py-12">
-                <HeroSection />
-                <IntroductionSection />
-                <CardsSection />
-                {/* <ScienceSection />
-                <MindsetBehaviorSection /> */}
+                <ScienceSection />
+                <MindsetBehaviorSection />
               </main>
             </ScrollArea>
           </motion.div>
