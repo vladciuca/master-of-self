@@ -53,46 +53,46 @@ export function JournalEntryIndicators({
   return (
     <div className="h-full ml-4 flex items-start space-x-3 text-muted-foreground">
       {totalDayEntries > 0 && (
-        // <div
-        //   className={`w-[22px] h-[22px] rounded-full flex items-center justify-center ${journalStepStyle.dayEntry.bgColor}`}
-        // >
-        //   {totalDayEntries}
-        // </div>
-        <div className="flex items-center">
-          <div
-            className={`mr-0.5 w-4 h-4 rounded-full flex items-center justify-center ${journalStepStyle.dayEntry.bgColor}`}
-          />
-          <span className="mx-0.5 text-xs">x</span>
-          <span>{totalDayEntries}</span>
+        <div
+          className={`w-[22px] h-[22px] rounded-full flex items-center justify-center ${journalStepStyle.dayEntry.bgColor} text-white`}
+        >
+          {totalDayEntries}
         </div>
+        // <div className="flex items-center">
+        //   <div
+        //     className={`mr-0.5 w-4 h-4 rounded-full flex items-center justify-center ${journalStepStyle.dayEntry.bgColor}`}
+        //   />
+        //   <span className="mx-0.5 text-xs">x</span>
+        //   <span>{totalDayEntries}</span>
+        // </div>
       )}
       {completedDailyToDosCount > 0 && (
-        // <div
-        //   className={`w-[22px] h-[22px] rounded-full flex items-center justify-center ${journalStepStyle.night.bgColor}`}
-        // >
-        //   {completedDailyToDosCount}
-        // </div>
-        <div className="flex items-center">
-          <div
-            className={`mr-0.5 w-4 h-4 rounded-full flex items-center justify-center ${journalStepStyle.night.bgColor}`}
-          />
-          <span className="mx-0.5 text-xs">x</span>
-          <span>{completedDailyToDosCount}</span>
+        <div
+          className={`w-[22px] h-[22px] rounded-full flex items-center justify-center ${journalStepStyle.night.bgColor} text-white`}
+        >
+          {completedDailyToDosCount}
         </div>
+        // <div className="flex items-center">
+        //   <div
+        //     className={`mr-0.5 w-4 h-4 rounded-full flex items-center justify-center ${journalStepStyle.night.bgColor}`}
+        //   />
+        //   <span className="mx-0.5 text-xs">x</span>
+        //   <span>{completedDailyToDosCount}</span>
+        // </div>
       )}
       {nightEntries > 0 && (
-        // <div
-        //   className={`w-[22px] h-[22px] rounded-full flex items-center justify-center ${journalStepStyle.nightEntry.bgColor}`}
-        // >
-        //   {nightEntries}
-        // </div>
-        <div className="flex items-center">
-          <div
-            className={`mr-0.5 w-4 h-4 rounded-full flex items-center justify-center ${journalStepStyle.nightEntry.bgColor}`}
-          />
-          <span className="mx-0.5 text-xs">x</span>
-          <span>{nightEntries}</span>
+        <div
+          className={`w-[22px] h-[22px] rounded-full flex items-center justify-center ${journalStepStyle.nightEntry.bgColor}`}
+        >
+          {nightEntries}
         </div>
+        // <div className="flex items-center">
+        //   <div
+        //     className={`mr-0.5 w-4 h-4 rounded-full flex items-center justify-center ${journalStepStyle.nightEntry.bgColor}`}
+        //   />
+        //   <span className="mx-0.5 text-xs">x</span>
+        //   <span>{nightEntries}</span>
+        // </div>
       )}
     </div>
   );
