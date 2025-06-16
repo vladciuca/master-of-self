@@ -82,7 +82,7 @@ export function JournalEntryIndicators({
       )}
       {nightEntries > 0 && (
         <div
-          className={`w-[22px] h-[22px] rounded-full flex items-center justify-center ${journalStepStyle.nightEntry.bgColor}`}
+          className={`w-[22px] h-[22px] rounded-full flex items-center justify-center ${journalStepStyle.nightEntry.bgColor} text-white`}
         >
           {nightEntries}
         </div>
