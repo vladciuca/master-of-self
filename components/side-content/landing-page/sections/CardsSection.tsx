@@ -92,7 +92,7 @@ const cards = [
       },
       {
         key: "Willpower:",
-        text: "Gain increased experience for your action based on the daily willpower generated.",
+        text: "Gain increased experience for your actions based on the daily willpower generated.",
       },
     ],
   },
