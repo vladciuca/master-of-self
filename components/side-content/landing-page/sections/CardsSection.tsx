@@ -52,7 +52,7 @@ const cards = [
     icon: <FaBoltLightning />,
     bg: "bg-orange-400",
     textColor: "text-white",
-    title: "Earn & Leverage Willpower",
+    title: "Leverage Willpower",
     content:
       "Score systems rewards deep reflection and meaningful journaling, making self-improvement an engaging challenge.",
     list: [
@@ -74,7 +74,7 @@ const cards = [
     icon: <LuTarget />,
     bg: "bg-teal-500",
     textColor: "text-white",
-    title: "Build or break habits",
+    title: "Create Habits",
     content:
       "Track your daily habits and earn XP by reinforcing positive actions or breaking unhelpful ones. Stay consistent to level up your discipline and control.",
     list: [

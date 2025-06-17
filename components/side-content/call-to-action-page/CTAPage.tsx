@@ -71,12 +71,12 @@ export function CTAPage({ isDrawerOpen, handleCloseDrawer }: PageProps) {
                 animate="visible"
               >
                 {/* Pointing Hand Icon */}
-                <motion.div
+                {/* <motion.div
                   className="flex justify-center mb-2"
                   variants={fadeInUp}
                 >
                   <span className="text-6xl md:text-7xl animate-pulse">👉</span>
-                </motion.div>
+                </motion.div> */}
 
                 {/* Main Headline */}
                 <motion.h1
