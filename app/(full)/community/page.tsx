@@ -13,11 +13,11 @@ export default function Profile() {
   // page tab configuration object - contains name and component for each page
   const pageConfig = [
     {
-      name: "built-in",
+      name: "pre-made",
       component: <BuiltIn />,
     },
     {
-      name: "disciplines",
+      name: "Community",
       component: <Community />,
     },
   ];
