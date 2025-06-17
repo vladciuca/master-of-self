@@ -11,6 +11,7 @@ import { ScrollArea } from "@components/ui/scroll-area";
 import { WeeklyWillpowerChart } from "@components/profile/weekly-willpower-chart/WeeklyWillpowerChart";
 
 import { RxChevronLeft, RxChevronRight } from "react-icons/rx";
+import LoadingScreen from "@components/skeletons/LoadingScreen";
 
 export default function UserProfilePage() {
   const router = useRouter();
@@ -23,9 +24,11 @@ export default function UserProfilePage() {
   // Handle loading state
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-pulse text-xl">Loading user profile...</div>
-      </div>
+      // <div className="min-h-screen flex items-center justify-center">
+      //   <div className="animate-pulse text-xl">Loading user profile...</div>
+      // </div>
+
+      <LoadingScreen />
     );
   }
 

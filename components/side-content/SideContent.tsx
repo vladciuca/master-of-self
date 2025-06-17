@@ -14,19 +14,19 @@ const allTabs = [
   {
     id: "cta",
     icon: FaEye,
-    label: "New Game",
+    label: "PLAY NOW",
     component: CTAPage,
   },
   {
     id: "landing",
     icon: FaBrain,
-    label: "Game Loop",
+    label: "GAME LOOP",
     component: LandingPage,
   },
   {
     id: "science",
     icon: FaGear,
-    label: "How it Works",
+    label: "HOW IT WORKS",
     component: HowItWorks,
   },
 ];
@@ -93,7 +93,19 @@ export function SideContent() {
             onClick={() => handleTabClick(tab.id)}
           >
             <tab.icon size={34} />
-            {!isDrawerOpen && <span className="ml-6 text-lg">{tab.label}</span>}
+            {!isDrawerOpen && (
+              <span className="ml-6 tracking-wider">
+                {tab.label.split(" ").map((word, wordIndex) => (
+                  <span key={wordIndex}>
+                    <span className="text-xl">{word.charAt(0)}</span>
+                    <span className="text-md font-semibold">
+                      {word.slice(1)}
+                    </span>
+                    {wordIndex < tab.label.split(" ").length - 1 && " "}
+                  </span>
+                ))}
+              </span>
+            )}
           </Button>
         ))}
       </div>

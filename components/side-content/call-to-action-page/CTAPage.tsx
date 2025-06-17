@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import { X } from "lucide-react";
 
 export const sectionVariants = {
@@ -15,6 +14,26 @@ export const sectionVariants = {
   exit: { opacity: 0, y: 50 },
 };
 
+const staggerChildren = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.2,
+      delayChildren: 0.3,
+    },
+  },
+};
+
+const fadeInUp = {
+  hidden: { opacity: 0, y: 30 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.6, ease: "easeOut" },
+  },
+};
+
 type PageProps = {
   isDrawerOpen: boolean;
   handleCloseDrawer: () => void;
@@ -25,14 +44,17 @@ export function CTAPage({ isDrawerOpen, handleCloseDrawer }: PageProps) {
     <AnimatePresence>
       {isDrawerOpen && (
         <>
+          {/* Close Button */}
           <div
             className="absolute top-4 right-4 z-10 cursor-pointer"
             onClick={handleCloseDrawer}
           >
             <X />
           </div>
-          {/* <motion.div
-            className="h-full flex items-center justify-center"
+
+          {/* Main Content */}
+          <motion.div
+            className="h-full relative overflow-hidden"
             style={{ height: "100vh" }}
             initial="hidden"
             animate="visible"
@@ -40,32 +62,87 @@ export function CTAPage({ isDrawerOpen, handleCloseDrawer }: PageProps) {
             variants={sectionVariants}
             transition={{ duration: 0.3 }}
           >
-            <ScrollArea className="flex-grow h-full">
-              <main className="min-h-full px-6 py-12 pt-40">
-                <div className="h-full w-full flex flex-col items-center justify-center space-y-12 max-w-2xl px-6 mx-auto">
-                  <h1 className="text-5xl md:text-6xl font-bold leading-loose text-primary bg-clip-text text-center">
-                    What do 👉 you put in your head ?
-                  </h1>
+            {/* Content Container */}
+            <div className="relative z-10 h-full flex flex-col justify-center items-center px-6 py-12">
+              <motion.div
+                className="w-full max-w-4xl mx-auto text-center space-y-4"
+                variants={staggerChildren}
+                initial="hidden"
+                animate="visible"
+              >
+                {/* Pointing Hand Icon */}
+                <motion.div
+                  className="flex justify-center mb-2"
+                  variants={fadeInUp}
+                >
+                  <span className="text-6xl md:text-7xl animate-pulse">👉</span>
+                </motion.div>
 
-                  <span>
-                    <p className="text-lg md:text-xl text-muted-foreground font-light text-center px-12">
-                      Create daily prompts, track your growth, and discover how
-                      others stay disciplined — all in one shared journaling
-                      space.
-                    </p>
-                    <p className="text-lg md:text-xl text-muted-foreground font-light text-center pt-6 pb-12 px-12">
-                      The questions shape you. The answers fuel you. Start
-                      writing.
-                    </p>
+                {/* Main Headline */}
+                <motion.h1
+                  className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-primary leading-[1.1] tracking-tight"
+                  variants={fadeInUp}
+                >
+                  <span className="block">"You Are What</span>
+                  <span className="block bg-clip-text text-teal-500">
+                    You Think."
                   </span>
+                  <span className="block text-xl sm:text-2xl md:text-3xl lg:text-4xl mt-2 text-gray-300">
+                    — Marcus Aurelius
+                  </span>
+                </motion.h1>
 
+                {/* Benefit Points */}
+                <motion.div
+                  className="space-y-4 max-w-3xl mx-auto pt-8"
+                  variants={fadeInUp}
+                >
+                  <p className="text-lg sm:text-xl text-muted-foreground leading-relaxed">
+                    Shape your mindset through daily prompts, reflective
+                    journaling, and powerful habits — all in a shared,
+                    motivating space.
+                  </p>
+
+                  <div className="grid md:grid-cols-2 gap-4 py-4">
+                    <motion.p
+                      className="text-lg text-primary backdrop-blur-sm rounded-lg p-4 border border-muted-foreground"
+                      variants={fadeInUp}
+                    >
+                      ✅ Ask better questions
+                    </motion.p>
+                    <motion.p
+                      className="text-lg text-primary backdrop-blur-sm rounded-lg p-4 border border-muted-foreground"
+                      variants={fadeInUp}
+                    >
+                      ✅ Give honest answers
+                    </motion.p>
+                  </div>
+
+                  {/* Subtitle */}
+                  <motion.p
+                    className="text-xl sm:text-2xl md:text-3xl text-muted-foreground font-light max-w-3xl mx-auto leading-relaxed"
+                    variants={fadeInUp}
+                  >
+                    Build discipline by choosing the right thoughts, every day
+                  </motion.p>
+                </motion.div>
+
+                {/* CTA Button */}
+                <motion.div className="pt-12" variants={fadeInUp}>
                   <Link href="/sign-in">
-                    <button className="flex items-center justify-center font-semibold py-5 px-10 rounded-full text-2xl shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 text-white bg-[linear-gradient(to_right,_#fbbe25_50%,_#8a5cf7_50%)]">
-                      Build My Discipline
-                      <svg
-                        className="ml-2"
-                        width="32"
-                        height="32"
+                    <motion.button
+                      className="group relative inline-flex items-center justify-center font-bold py-6 px-12 rounded-full text-xl sm:text-2xl shadow-2xl text-white bg-[linear-gradient(to_right,_#fbbe25_50%,_#8a5cf7_50%)] transition-all duration-300 transform hover:scale-105 hover:shadow-[0_20px_40px_rgba(0,0,0,0.3)] border border-white/20"
+                      whileHover={{
+                        scale: 1.05,
+                        boxShadow: "0 25px 50px rgba(0,0,0,0.4)",
+                      }}
+                      whileTap={{ scale: 0.98 }}
+                    >
+                      <span className="relative z-10">
+                        Level Up My Discipline
+                      </span>
+                      <motion.svg
+                        className="ml-3 w-8 h-8 group-hover:translate-x-1 transition-transform duration-200"
                         viewBox="0 0 24 24"
                         fill="none"
                         xmlns="http://www.w3.org/2000/svg"
@@ -74,57 +151,22 @@ export function CTAPage({ isDrawerOpen, handleCloseDrawer }: PageProps) {
                           d="M12 4L10.59 5.41L16.17 11H4V13H16.17L10.59 18.59L12 20L20 12L12 4Z"
                           fill="currentColor"
                         />
-                      </svg>
-                    </button>
+                      </motion.svg>
+
+                      {/* Button shine effect */}
+                      <div className="absolute inset-0 rounded-full bg-gradient-to-r from-transparent via-white/20 to-transparent transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-out" />
+                    </motion.button>
                   </Link>
-                </div>
-              </main>
-            </ScrollArea>
-          </motion.div> */}
-          <motion.div
-            className="h-full grid place-items-center"
-            style={{ height: "100vh" }}
-            initial="hidden"
-            animate="visible"
-            exit="exit"
-            variants={sectionVariants}
-            transition={{ duration: 0.3 }}
-          >
-            <div className="w-full max-w-2xl px-6 mx-auto space-y-16 text-center">
-              <h1 className="text-5xl md:text-6xl font-bold leading-loose text-primary bg-clip-text">
-                What do 👉 you put in your head ?
-              </h1>
+                </motion.div>
 
-              <div className="space-y-6">
-                <p className="text-lg md:text-xl text-muted-foreground font-light px-12">
-                  Create daily prompts, track your growth, and discover how
-                  others stay disciplined — all in one shared journaling space.
-                </p>
-                <p className="text-lg md:text-xl text-muted-foreground font-light px-12">
-                  The questions shape you. The answers fuel you. Start writing.
-                </p>
-              </div>
-
-              <div>
-                <Link href="/sign-in">
-                  <button className="flex items-center justify-center font-semibold py-5 px-10 rounded-full text-2xl shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 text-white bg-[linear-gradient(to_right,_#fbbe25_50%,_#8a5cf7_50%)] mx-auto">
-                    Build My Discipline
-                    <svg
-                      className="ml-2"
-                      width="32"
-                      height="32"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M12 4L10.59 5.41L16.17 11H4V13H16.17L10.59 18.59L12 20L20 12L12 4Z"
-                        fill="currentColor"
-                      />
-                    </svg>
-                  </button>
-                </Link>
-              </div>
+                {/* Social Proof Hint */}
+                <motion.p
+                  className="text-sm text-gray-500 pt-4 italic"
+                  variants={fadeInUp}
+                >
+                  Join thousands building better habits daily
+                </motion.p>
+              </motion.div>
             </div>
           </motion.div>
         </>
