@@ -25,13 +25,13 @@ export function DisciplineFeedHeader({
       {/* Icon section */}
       {icon && (
         <div className="w-3/12 flex items-center justify-center mb-0">
-          <IconRenderer iconName={icon} className={`text-${color}`} size={55} />
+          <IconRenderer iconName={icon} className={`text-${color}`} size={45} />
         </div>
       )}
 
       {/* Content section */}
       <div className="px-2 flex flex-col items-start w-full">
-        <div className="capitalize flex items-center text-muted-foreground">
+        <div className="capitalize text-sm flex items-center text-muted-foreground">
           {discipline}
           <span className="ml-3">
             {type === "dayEntry" ? (
@@ -40,7 +40,7 @@ export function DisciplineFeedHeader({
                 // className={`text-${JOURNAL_COLORS.day}`}
                 className="text-muted"
                 // size={35}
-                size={20}
+                size={18}
               />
             ) : (
               <IconRenderer
@@ -48,7 +48,7 @@ export function DisciplineFeedHeader({
                 // className={`text-${JOURNAL_COLORS.night}`}
                 className="text-muted"
                 // size={35}
-                size={20}
+                size={18}
               />
             )}
           </span>
