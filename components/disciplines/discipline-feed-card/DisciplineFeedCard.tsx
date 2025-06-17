@@ -2,6 +2,7 @@ import React from "react";
 import { DisciplineFeedHeader } from "./DisciplineFeedHeader";
 import { DisciplineFeedFooter } from "./DisciplineFeedFooter";
 import { DisciplineCardContent } from "@components/disciplines/discipline-card/DisciplineCardContent";
+import { DisciplineCreator } from "../discipline-card/DisciplineCreator";
 import {
   AccordionContent,
   AccordionItem,
@@ -9,7 +10,6 @@ import {
 } from "@/components/ui/accordion";
 import type { JournalCustomStepConfig } from "@models/types";
 import type { Discipline } from "@models/mongodb";
-import { DisciplineCreator } from "../discipline-card/DisciplineCreator";
 
 type Step = JournalCustomStepConfig | Discipline;
 
