@@ -70,7 +70,7 @@ export function JournalEntryHabits({
           return (
             <div key={id} className="flex items-center w-full">
               <div className="text-xl">
-                {habitData[id] ? (
+                {habitData[id]?.icon ? (
                   <IconRenderer
                     iconName={habitData[id].icon}
                     xp={currentXp + value}
@@ -78,7 +78,10 @@ export function JournalEntryHabits({
                     size={size}
                   />
                 ) : (
-                  <Skeleton className="h-6 w-6 rounded-md" />
+                  <Skeleton
+                    className="rounded-md"
+                    style={{ height: `${size}px`, width: `${size}px` }}
+                  />
                 )}
               </div>
               <div
