@@ -1,5 +1,5 @@
 type DisciplineCardContentProps = {
-  title: string;
+  title?: string;
   description: string;
 };
 
@@ -9,7 +9,7 @@ export function DisciplineCardContent({
 }: DisciplineCardContentProps) {
   return (
     <div className="w-full px-3 mt-2">
-      <div className="font-semibold">{title}</div>
+      {title && <div className="font-semibold text-lg">{title}</div>}
       <div className="text-muted-foreground">{description}</div>
     </div>
   );

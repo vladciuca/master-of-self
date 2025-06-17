@@ -21,7 +21,7 @@ export function DisciplineCreator({ creatorId }: DisciplineCreatorProps) {
 
   if (loading) {
     return (
-      <div className="flex items-center mx-2 text-xs">
+      <div className="flex items-center mx-2 text-xs justify-end mt-2">
         <Skeleton className="ml-1 mr-2 font-semibold w-12 h-3" />
 
         <div className="overflow-hidden avatar text-xl font-semibold bg-muted text-primary rounded-full h-6 w-6 flex justify-center items-center">
@@ -40,16 +40,17 @@ export function DisciplineCreator({ creatorId }: DisciplineCreatorProps) {
   }
 
   return (
-    <Link href={`/community/user/${creatorId}`}>
-      <div className="flex items-end mx-2 text-xs">
-        <span className="text-muted-foreground">Created by</span>
+    <Link
+      href={`/community/user/${creatorId}`}
+      className="flex items-end mx-2 text-xs justify-end mt-2"
+    >
+      <span className="text-muted-foreground">Created by</span>
 
-        <span className="ml-1 mr-2 font-semibold">{name}</span>
+      <span className="ml-1 mr-2 font-semibold">{name}</span>
 
-        <div className="overflow-hidden avatar text-xl font-semibold bg-muted text-primary rounded-full h-6 w-6 flex justify-center items-center">
-          {/* {nameInitials} */}
-          <GiCharacter size={25} className="mt-2" />
-        </div>
+      <div className="overflow-hidden avatar text-xl font-semibold bg-muted text-primary rounded-full h-6 w-6 flex justify-center items-center">
+        {/* {nameInitials} */}
+        <GiCharacter size={25} className="mt-2" />
       </div>
     </Link>
   );

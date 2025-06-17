@@ -51,19 +51,19 @@ export function DisciplineFeedFooter({ stepId }: { stepId: string }) {
   };
 
   return (
-    <div className="flex justify-end p-2">
+    <div className="flex p-2 mt-2 w-full">
       <Button
         onClick={handleAddDiscipline}
         disabled={isDisciplineAdded || isAdding}
-        variant={isDisciplineAdded ? "secondary" : "default"}
-        size="sm"
+        variant={isDisciplineAdded ? "outline" : "default"}
+        className="cursor-pointer w-full"
       >
-        <PlusCircle className="mr-2 h-4 w-4" />
         {isDisciplineAdded
-          ? "Added"
+          ? "Already Added"
           : isAdding
           ? "Adding..."
           : "Add Discipline"}
+        <PlusCircle className="ml-2 w-4 h-4" />
       </Button>
     </div>
   );

@@ -25,18 +25,40 @@ export function DisciplineFeedHeader({
       {/* Icon section */}
       {icon && (
         <div className="w-3/12 flex items-center justify-center mb-0">
-          <IconRenderer iconName={icon} className={`text-${color}`} size={40} />
+          <IconRenderer iconName={icon} className={`text-${color}`} size={55} />
         </div>
       )}
 
       {/* Content section */}
-      <div className="flex flex-col items-start w-full">
-        <span className="px-2 capitalize">{discipline}</span>
-        {creatorId && <DisciplineCreator creatorId={String(creatorId)} />}
+      <div className="px-2 flex flex-col items-start w-full">
+        <div className="capitalize flex items-center text-muted-foreground">
+          {discipline}
+          <span className="ml-3">
+            {type === "dayEntry" ? (
+              <IconRenderer
+                iconName={stepIconMap.day}
+                // className={`text-${JOURNAL_COLORS.day}`}
+                className="text-muted"
+                // size={35}
+                size={20}
+              />
+            ) : (
+              <IconRenderer
+                iconName={stepIconMap.night}
+                // className={`text-${JOURNAL_COLORS.night}`}
+                className="text-muted"
+                // size={35}
+                size={20}
+              />
+            )}
+          </span>
+        </div>
+        {/* {creatorId && <DisciplineCreator creatorId={String(creatorId)} />} */}
+        <span className="mt-2 text-md sm:text-lg text-start">{title}</span>
       </div>
 
       {/* Toggle switch */}
-      {type && (
+      {/* {type && (
         <div className="w-3/12 flex items-center justify-center mt-0">
           {type === "dayEntry" ? (
             <IconRenderer
@@ -56,7 +78,7 @@ export function DisciplineFeedHeader({
             />
           )}
         </div>
-      )}
+      )} */}
     </div>
   );
 }
