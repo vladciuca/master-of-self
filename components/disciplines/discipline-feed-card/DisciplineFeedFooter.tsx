@@ -58,12 +58,12 @@ export function DisciplineFeedFooter({ stepId }: { stepId: string }) {
         variant={isDisciplineAdded ? "outline" : "default"}
         className="cursor-pointer w-full"
       >
+        <PlusCircle className="mr-2 w-4 h-4" />
         {isDisciplineAdded
           ? "Already Added"
           : isAdding
           ? "Adding..."
           : "Add Discipline"}
-        <PlusCircle className="ml-2 w-4 h-4" />
       </Button>
     </div>
   );

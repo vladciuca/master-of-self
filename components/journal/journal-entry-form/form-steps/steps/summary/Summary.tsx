@@ -27,9 +27,6 @@ export const Summary = () => {
   const bonusWillpower = watch("bonusWillpower");
   const totalWillpower = dailyWillpower + bonusWillpower;
 
-  console.log("============habits", habits);
-  console.log("============totalWillpower", totalWillpower);
-
   const habitsXpFromActions = habits
     ? calculateHabitsXpFromEntry({
         entryHabits: habits,
@@ -159,7 +156,10 @@ export const Summary = () => {
   // Show loading state while fetching discipline data
   if (isLoading) {
     return (
-      <JournalStepTemplate title={`${sectionTitle}`}>
+      <JournalStepTemplate
+        // title={`${sectionTitle}`}
+        title="Daily Summary"
+      >
         <div className="flex flex-col justify-center pr-2">
           <div className="text-center">
             <h2 className="text-muted w-full flex justify-center text-5xl font-semibold tracking-tight mb-8">
@@ -178,7 +178,8 @@ export const Summary = () => {
 
   return (
     <JournalStepTemplate
-      title={`${sectionTitle}`}
+      // title={`${sectionTitle}`}
+      title="Daily Summary"
       scoreSection={
         <h2 className="text-muted w-full flex justify-center">
           <IconRenderer
@@ -188,8 +189,12 @@ export const Summary = () => {
         </h2>
       }
     >
-      <div className="flex-grow flex flex-wrap items-start mt-2 sm:mt-4 px-2">
-        <JournalEntryHabits habitsXp={habitsXpFromActions} habits={habits} />
+      <div className="flex-grow flex flex-wrap items-start mt-2 sm:mt-4 justify-center px-2">
+        <JournalEntryHabits
+          habitsXp={habitsXpFromActions}
+          habits={habits}
+          size={35}
+        />
       </div>
       <div className="flex flex-col justify-center pr-2 mt-4 sm:mt-8">
         <div className="text-center">
