@@ -31,7 +31,7 @@ export function PageContent({ children }: Layout) {
         <PageLogo />
       ) : session?.user ? (
         // Show main content when authenticated
-        <main className="h-full w-full">{children}</main>
+        <main className="h-full w-full px-4">{children}</main>
       ) : (
         // Show sign-in/sign-up or landing content when not authenticated
         renderPageComponent()
