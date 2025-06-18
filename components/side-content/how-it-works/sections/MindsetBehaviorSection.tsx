@@ -74,7 +74,9 @@ export function MindsetBehaviorSection() {
     >
       {sections.map((section, index) => (
         <div key={index} className="my-8 max-w-[900px]">
-          <h3 className={`text-4xl font-bold`}>{section.title}</h3>
+          <h3 className={`text-4xl font-bold text-center lg:text-left`}>
+            {section.title}
+          </h3>
           <ul className="mt-4 list-inside">
             {section.list.map((item, idx) => (
               <li key={idx} className="mt-2">

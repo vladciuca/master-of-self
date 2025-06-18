@@ -63,7 +63,7 @@ export function FloatingMobileMenu({
               className={`w-14 h-14 rounded-2xl p-0 transition-all duration-200 ease-in-out shadow-lg ${
                 activeTab === tab.id
                   ? "bg-primary text-primary-foreground border-primary/30 scale-105"
-                  : "bg-background/90 text-foreground hover:bg-primary hover:text-primary-foreground border-border/50"
+                  : "bg-background/90 text-foreground hover:bg-primary hover:text-primary-foreground border-2 border-primary/90"
               }`}
               onClick={() => handleTabClick(tab.id)}
             >
