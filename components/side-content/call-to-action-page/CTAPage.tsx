@@ -59,7 +59,10 @@ export function CTAPage({
         variants={fadeInUp}
       >
         <span className="block">"You Are What</span>
-        <span className="block bg-clip-text text-teal-500">You Think."</span>
+        {/* <span className="block bg-clip-text text-teal-500"></span> */}
+        <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-500 to-emerald-300">
+          You Think."
+        </span>
         <span className="block text-xl sm:text-2xl md:text-3xl lg:text-4xl mt-2 text-gray-300">
           — Marcus Aurelius
         </span>
@@ -77,13 +80,13 @@ export function CTAPage({
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 p-4">
           <motion.p
-            className="text-lg text-primary backdrop-blur-sm rounded-lg p-4 border border-muted-foreground"
+            className="text-sm sm:text-base md:text-lg text-primary backdrop-blur-sm rounded-lg p-2 md:p-4 border border-muted-foreground"
             variants={fadeInUp}
           >
             ✅ Ask better questions
           </motion.p>
           <motion.p
-            className="text-lg text-primary backdrop-blur-sm rounded-lg p-4 border border-muted-foreground"
+            className="text-sm sm:text-base md:text-lg text-primary backdrop-blur-sm rounded-lg p-2 md:p-4 border border-muted-foreground"
             variants={fadeInUp}
           >
             ✅ Give honest answers
@@ -92,7 +95,7 @@ export function CTAPage({
 
         {/* Subtitle */}
         <motion.p
-          className="text-xl sm:text-2xl md:text-3xl text-muted-foreground font-light max-w-3xl mx-auto leading-relaxed"
+          className="text-xl sm:text-2xl text-primary font-light max-w-3xl mx-auto leading-relaxed"
           variants={fadeInUp}
         >
           Build discipline by choosing the right thoughts, every day
@@ -103,14 +106,14 @@ export function CTAPage({
       <motion.div className="pt-12" variants={fadeInUp}>
         <Link href="/sign-in">
           <motion.button
-            className="group relative inline-flex items-center justify-center font-bold py-6 px-12 rounded-full text-xl sm:text-2xl shadow-2xl text-white bg-[linear-gradient(to_right,_#fbbe25_50%,_#8a5cf7_50%)] transition-all duration-300 transform hover:scale-105 hover:shadow-[0_20px_40px_rgba(0,0,0,0.3)] border border-white/20"
+            className="group relative inline-flex items-center justify-center font-bold py-6 px-12 rounded-full text-xl sm:text-2xl shadow-2xl text-white bg-[linear-gradient(to_right,_#fbbe25_50%,_#8a5cf7_50%)] transition-all duration-300 transform hover:scale-105 hover:shadow-[0_20px_40px_rgba(0,0,0,0.3)] bg-origin-border"
             whileHover={{
               scale: 1.05,
               boxShadow: "0 25px 50px rgba(0,0,0,0.4)",
             }}
             whileTap={{ scale: 0.98 }}
           >
-            <span className="relative z-10">Level Up My Discipline</span>
+            <span className="relative z-10">Master Self</span>
             <motion.svg
               className="ml-3 w-8 h-8 group-hover:translate-x-1 transition-transform duration-200"
               viewBox="0 0 24 24"
@@ -124,7 +127,8 @@ export function CTAPage({
             </motion.svg>
 
             {/* Button shine effect */}
-            <div className="absolute inset-0 rounded-full bg-gradient-to-r from-transparent via-white/20 to-transparent transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-out" />
+            {/* <div className="absolute inset-0 rounded-full bg-gradient-to-r from-transparent via-white/20 to-transparent transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-out" /> */}
+            <div className="absolute inset-0 rounded-full bg-gradient-to-r from-transparent via-white/20 to-transparent transform -skew-x-12 -translate-x-1/2 group-hover:translate-x-1/2 transition-transform duration-1000 ease-out" />
           </motion.button>
         </Link>
       </motion.div>

@@ -53,10 +53,12 @@ export function LandingPage({
           >
             <ScrollArea className="flex-grow">
               <main
-                className={`min-h-screen ${isMobile ? "p-0" : "px-6 py-12"}`}
+                className={`min-h-screen ${
+                  isMobile ? "p-0 pb-6" : "px-6 py-12"
+                }`}
               >
                 <HeroSection />
-                <IntroductionSection />
+                {/* <IntroductionSection /> */}
                 <CardsSection />
               </main>
             </ScrollArea>

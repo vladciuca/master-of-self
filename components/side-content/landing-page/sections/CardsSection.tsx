@@ -74,7 +74,7 @@ const cards = [
     icon: <LuTarget />,
     bg: "bg-teal-500",
     textColor: "text-white",
-    title: "Reinforce Habits",
+    title: "Maintain Habit Consistency",
     content:
       "Track your daily habits and earn XP by reinforcing positive actions or breaking unhelpful ones. Stay consistent to level up your discipline and control.",
     list: [
@@ -110,7 +110,7 @@ export function CardsSection() {
           className={`max-w-[550px] flex flex-col items-center justify-center p-6 rounded-3xl ${textColor} ${bg}`}
         >
           <span className="mb-4 text-4xl">{icon}</span>
-          <h3 className="text-2xl font-bold">{title}</h3>
+          <h3 className="text-2xl font-bold text-center">{title}</h3>
           <p className="text-center mt-3 mb-8">{content}</p>
           <ul className="list-disc pl-5 text-sm">
             {list.map((list) => {

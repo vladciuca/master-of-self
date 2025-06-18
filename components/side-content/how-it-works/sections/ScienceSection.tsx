@@ -27,9 +27,13 @@ export function ScienceSection() {
       variants={sectionVariants}
     >
       {/* <h3 className="text-4xl font-bold mb-4"></h3> */}
-      <span className="text-5xl block font-semibold mb-24">
-        The Science in Action
-      </span>
+
+      <h1 className="mb-16 text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-tight tracking-tight">
+        The Science in{" "}
+        <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-400">
+          Action
+        </span>
+      </h1>
       <p className="text-lg max-w-3xl mx-auto text-muted-foreground">
         This structured approach is built on principles of{" "}
         <strong className="text-primary">positive psychology</strong>,{" "}
