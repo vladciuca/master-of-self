@@ -107,7 +107,7 @@ export function CardsSection() {
       {cards.map(({ icon, bg, textColor, title, content, list }, index) => (
         <motion.div
           key={index}
-          className={`max-w-[550px] flex flex-col items-center justify-center p-6 rounded-3xl ${textColor} ${bg}`}
+          className={`max-w-[550px] flex flex-col items-center justify-center p-3 py-6 sm:p-6 rounded-3xl ${textColor} ${bg}`}
         >
           <span className="mb-4 text-4xl">{icon}</span>
           <h3 className="text-2xl font-bold text-center">{title}</h3>
