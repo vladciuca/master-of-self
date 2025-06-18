@@ -22,22 +22,27 @@ export const sectionVariants = {
 type LandingPageProps = {
   isDrawerOpen: boolean;
   handleCloseDrawer: () => void;
+  isMobile?: boolean;
 };
 
 export function LandingPage({
   isDrawerOpen,
   handleCloseDrawer,
+  isMobile = false,
 }: LandingPageProps) {
   return (
     <AnimatePresence>
       {isDrawerOpen && (
         <>
-          <div
-            className="absolute top-4 right-4 z-10 cursor-pointer"
-            onClick={handleCloseDrawer}
-          >
-            <X />
-          </div>
+          {!isMobile && (
+            <div
+              className="absolute top-4 right-4 z-10 cursor-pointer"
+              onClick={handleCloseDrawer}
+            >
+              <X />
+            </div>
+          )}
+
           <motion.div
             className="h-full flex flex-col"
             initial="hidden"
@@ -47,12 +52,12 @@ export function LandingPage({
             transition={{ duration: 0.3 }}
           >
             <ScrollArea className="flex-grow">
-              <main className="min-h-screen px-6 py-12">
+              <main
+                className={`min-h-screen ${isMobile ? "p-0" : "px-6 py-12"}`}
+              >
                 <HeroSection />
                 <IntroductionSection />
                 <CardsSection />
-                {/* <ScienceSection />
-                <MindsetBehaviorSection /> */}
               </main>
             </ScrollArea>
           </motion.div>

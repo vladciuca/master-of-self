@@ -10,7 +10,7 @@ export default function FullLayout({ children }: Layout) {
         <Header />
       </div>
       <div className="flex-grow overflow-hidden border rounded-3xl">
-        <div className="h-full px-4 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent">
+        <div className="h-full overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent">
           <PageContent>{children}</PageContent>
         </div>
       </div>

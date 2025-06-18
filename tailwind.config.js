@@ -42,6 +42,7 @@ module.exports = {
     "border-yellow-500/40",
     "border-purple-500/40",
     "border-blue-500/40",
+    "[&>[data-radix-scroll-area-viewport]]:scrollbar-none",
     {
       pattern: new RegExp(
         `^(bg|text)-(${Object.values(colors.JOURNAL_COLORS).join("|")})$`

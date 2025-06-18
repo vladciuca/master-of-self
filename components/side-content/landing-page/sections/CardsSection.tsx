@@ -74,7 +74,7 @@ const cards = [
     icon: <LuTarget />,
     bg: "bg-teal-500",
     textColor: "text-white",
-    title: "Focus On Habits",
+    title: "Reinforce Habits",
     content:
       "Track your daily habits and earn XP by reinforcing positive actions or breaking unhelpful ones. Stay consistent to level up your discipline and control.",
     list: [

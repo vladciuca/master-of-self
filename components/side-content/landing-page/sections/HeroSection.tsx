@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 
 export function HeroSection() {
   return (
-    <section className="text-center py-20">
+    <section className="text-center py-20 px-4">
       <motion.h1 className="leading-snug space-y-4">
         <span className="text-5xl block font-semibold">
           They say life is a game.

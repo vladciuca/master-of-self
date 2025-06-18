@@ -19,19 +19,27 @@ export const sectionVariants = {
 type PageProps = {
   isDrawerOpen: boolean;
   handleCloseDrawer: () => void;
+  isMobile?: boolean;
 };
 
-export function HowItWorks({ isDrawerOpen, handleCloseDrawer }: PageProps) {
+export function HowItWorks({
+  isDrawerOpen,
+  handleCloseDrawer,
+  isMobile = false,
+}: PageProps) {
   return (
     <AnimatePresence>
       {isDrawerOpen && (
         <>
-          <div
-            className="absolute top-4 right-4 z-10 cursor-pointer"
-            onClick={handleCloseDrawer}
-          >
-            <X />
-          </div>
+          {!isMobile && (
+            <div
+              className="absolute top-4 right-4 z-10 cursor-pointer"
+              onClick={handleCloseDrawer}
+            >
+              <X />
+            </div>
+          )}
+
           <motion.div
             className="h-full flex flex-col"
             initial="hidden"
@@ -41,7 +49,9 @@ export function HowItWorks({ isDrawerOpen, handleCloseDrawer }: PageProps) {
             transition={{ duration: 0.3 }}
           >
             <ScrollArea className="flex-grow">
-              <main className="min-h-screen px-6 py-12">
+              <main
+                className={`min-h-screen ${isMobile ? "p-0" : "px-6 py-12"}`}
+              >
                 <ScienceSection />
                 <MindsetBehaviorSection />
               </main>

@@ -41,7 +41,7 @@ export function ScienceSection() {
       </p>
 
       <motion.section
-        className="grid grid-cols-3 gap-12 px-8 py-12 max-w-6xl mx-auto"
+        className="grid grid-cols-1 lg:grid-cols-3 gap-12 px-8 py-12 max-w-6xl mx-auto"
         variants={sectionVariants}
         initial="hidden"
         animate="visible"

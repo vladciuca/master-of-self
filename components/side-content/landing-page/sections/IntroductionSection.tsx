@@ -4,7 +4,7 @@ import { sectionVariants } from "../LandingPage";
 export function IntroductionSection() {
   return (
     <motion.section
-      className="flex justify-center text-center w-full pt-24 pb-44"
+      className="flex justify-center text-center w-full pt-24 pb-44 px-4"
       variants={sectionVariants}
     >
       <h1 className="text-xl max-w-[800px]">
