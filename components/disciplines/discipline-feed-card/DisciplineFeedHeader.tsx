@@ -56,7 +56,7 @@ export function DisciplineFeedHeader({
             )}
           </div>
         </div>
-        <div className="h-full mt-1 text-lg sm:text-xl text-start flex items-baseline">
+        <div className="h-full mt-1 text-base sm:text-lg text-start flex items-baseline">
           <div>{title}</div>
         </div>
       </div>

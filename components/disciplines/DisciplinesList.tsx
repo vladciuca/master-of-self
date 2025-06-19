@@ -53,7 +53,31 @@ export function DisciplinesList({
           />
         </AccordionTrigger>
         <AccordionContent>
-          <DisciplineCardContent title={"title"} description={"description"} />
+          <div className="mt-2 px-1">
+            <div className="mb-4">
+              Disciplines are personal traits or internal qualities you want to
+              develop.
+            </div>
+
+            <div>
+              <div className="mb-4">
+                To create a Discipline, write a prompt you'd like to reflect on
+                daily, and provide a short guideline or mindset for considering
+                it.
+              </div>
+
+              <div className="mb-4">
+                You respond these prompts in a structured, bullet-point format
+                to build self-awareness and clarity. Every response helps you
+                grow and earns you Willpower.
+              </div>
+              <div className="mb-4">
+                Disciplines can be set for morning (for motivation and
+                direction) or evening (for reflection and planning). The more
+                you engage, the more your discipline rank increases.
+              </div>
+            </div>
+          </div>
         </AccordionContent>
       </AccordionItem>
       {/* WTF DO I DO WITH THIS? create a separate object for this?*/}

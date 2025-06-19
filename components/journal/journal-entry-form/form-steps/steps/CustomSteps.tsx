@@ -20,7 +20,7 @@ export const customStepConfigs: JournalCustomStepConfig[] = [
     type: "dayEntry",
     title: "Daily Affirmations",
     description:
-      "Use statements using powerful words to imprint on your subconscious mind and build Confidence.",
+      "Use statements with powerful words to imprint on your subconscious mind and build Confidence.",
   },
   {
     _id: "awareness",
@@ -29,7 +29,7 @@ export const customStepConfigs: JournalCustomStepConfig[] = [
     type: "nightEntry",
     title: "What are today's highlights?",
     description:
-      "Build momentum by capturing meaningful events and boost Awareness.",
+      "Build momentum by capturing meaningful events to boost Awareness.",
   },
   {
     _id: "resilience",
