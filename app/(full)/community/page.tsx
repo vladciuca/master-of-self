@@ -45,9 +45,10 @@ export default function Profile() {
     router.push(`?page=${pageName}`, { scroll: false });
   };
 
+  //NOTE: the buttons needs to be extracted in a reusable component
   return (
     <div className="flex flex-col pb-1">
-      <div className="sticky top-0 z-10 bg-background pt-0 shadow-sm">
+      <div className="sticky top-0 z-10 bg-background pt-0">
         <div className="py-4 flex space-x-2">
           {pageConfig.map((page) => (
             <Button

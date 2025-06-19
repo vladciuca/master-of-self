@@ -67,8 +67,8 @@ export function HabitIconProgressBar({
             className="overflow-hidden"
             value={currentProgressPercentage}
             xpGainValue={xpGainProgressPercentage}
-            strokeWidth={displaySmall ? 4 : 6}
-            circleSize={displaySmall ? 50 : 70}
+            strokeWidth={displaySmall ? 5.5 : 7}
+            circleSize={displaySmall ? 50 : 73}
             projectedXp={projectedXp}
           />
           {/*ICON*/}

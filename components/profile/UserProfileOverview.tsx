@@ -75,7 +75,9 @@ export function UserProfileOverview({
     >
       <div className="space-y-6 mb-2">
         {!notCurrentUser ? (
-          <UserDetails />
+          <div className="px-2">
+            <UserDetails />
+          </div>
         ) : (
           <ProfileInfo
             name={user.name || ""}

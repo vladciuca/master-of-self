@@ -157,7 +157,7 @@ export function HabitCardHeader({
             className="ml-4"
             value={currentProgressPercentage}
             xpGainValue={xpGainProgressPercentage}
-            strokeWidth={addNew ? 0 : 6}
+            strokeWidth={addNew ? 0 : 7}
             circleSize={73}
             projectedXp={projectedXp}
           />
