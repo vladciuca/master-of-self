@@ -3,7 +3,10 @@
 import { useSession } from "next-auth/react";
 import { Session } from "@models/types";
 
-export function UserOverview() {
+//NOTE: can remove th session hook form here and just pass the props?
+//Maybe no cause we need to change name image form here
+
+export function UserDetails() {
   const { data: session } = useSession() as { data: Session | null };
 
   const name = session?.user?.name || "";
