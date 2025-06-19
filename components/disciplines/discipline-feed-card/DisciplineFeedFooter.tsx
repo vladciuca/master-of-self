@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { PlusCircle } from "lucide-react";
+import { PlusCircle, CheckCircle } from "lucide-react";
 import { useUserProfile } from "@context/UserProfileContext";
 // import { useToast } from "@/components/ui/use-toast";
 
@@ -59,7 +59,11 @@ export function DisciplineFeedFooter({ stepId }: { stepId: string }) {
           variant={isDisciplineAdded ? "outline" : "default"}
           className="cursor-pointer w-full"
         >
-          <PlusCircle className="mr-2 w-4 h-4" />
+          {isDisciplineAdded ? (
+            <CheckCircle className="mr-2 w-4 h-4" />
+          ) : (
+            <PlusCircle className="mr-2 w-4 h-4" />
+          )}
           {isDisciplineAdded
             ? "Already Added"
             : isAdding

@@ -4,7 +4,7 @@ import { DisciplineProgressBar } from "@components/disciplines/DisciplineProgres
 import { IconRenderer } from "@components/IconRenderer";
 import { getDayDisciplineScores, getNightDisciplineScores } from "@lib/score";
 import { isEvening } from "@lib/time";
-// import { JOURNAL_COLORS } from "@lib/colors";
+import { JOURNAL_COLORS } from "@lib/colors";
 import type { UserDisciplines } from "@models/types";
 import { useUserProfile } from "@context/UserProfileContext";
 import { stepIconMap } from "@components/ui/constants";
@@ -108,6 +108,9 @@ export const Summary = () => {
   const emptyStateMessage = isEveningTime
     ? "Complete evening journal pages to increase your discipline."
     : "Complete morning journal pages to increase your discipline.";
+  const iconColor = isEveningTime
+    ? `text-${JOURNAL_COLORS.night}`
+    : `text-${JOURNAL_COLORS.day}`;
 
   // Function to render discipline bars
   const renderDisciplineBars = (
@@ -181,7 +184,7 @@ export const Summary = () => {
       // title={`${sectionTitle}`}
       title="Daily Summary"
       scoreSection={
-        <h2 className="text-muted w-full flex justify-center">
+        <h2 className={`text-muted w-full flex justify-center ${iconColor}`}>
           <IconRenderer
             iconName={isEveningTime ? stepIconMap.night : stepIconMap.day}
             size={40}

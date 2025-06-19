@@ -1,6 +1,6 @@
 import { IconRenderer } from "@components/IconRenderer";
 import { stepIconMap } from "@components/ui/constants";
-// import { JOURNAL_COLORS } from "@lib/colors";
+import { JOURNAL_COLORS } from "@lib/colors";
 
 type DisciplineFeedHeaderProps = {
   icon?: string;
@@ -30,31 +30,31 @@ export function DisciplineFeedHeader({
       <div className="px-2 flex flex-col items-start w-full">
         <div className="w-full capitalize text-sm flex items-center text-muted-foreground justify-between">
           <span>{discipline}</span>
-          {/* <span className="ml-3">
+          <span className="ml-3">
             {type === "dayEntry" ? (
               <IconRenderer
                 iconName={stepIconMap.day}
-                // className={`text-${JOURNAL_COLORS.day}`}
-                className="text-muted"
+                className={`text-${JOURNAL_COLORS.day}`}
+                // className="text-muted-foreground"
                 // size={35}
                 size={22}
               />
             ) : (
               <IconRenderer
                 iconName={stepIconMap.night}
-                // className={`text-${JOURNAL_COLORS.night}`}
-                className="text-muted"
+                className={`text-${JOURNAL_COLORS.night}`}
+                // className="text-muted-foreground"
                 // size={35}
                 size={22}
               />
             )}
-          </span> */}
+          </span>
         </div>
         <span className="mt-1 text-md sm:text-lg text-start">{title}</span>
       </div>
 
       {/* Toggle switch */}
-      {type && (
+      {/* {type && (
         <div className="w-2/12 flex items-start justify-center mt-0">
           {type === "dayEntry" ? (
             <IconRenderer
@@ -74,7 +74,7 @@ export function DisciplineFeedHeader({
             />
           )}
         </div>
-      )}
+      )} */}
     </div>
   );
 }

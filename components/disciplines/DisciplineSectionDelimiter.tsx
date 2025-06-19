@@ -13,19 +13,23 @@ export function DisciplineSectionDelimiter({
   activeSteps,
   maxSteps,
 }: DisciplineSectionDelimiterProps) {
-  const iconColor = "muted";
+  const iconColor = "text-muted-foreground";
   const dayIcon = (
     <IconRenderer
       iconName={stepIconMap.day}
       size={20}
-      className={`mr-1 text-${JOURNAL_COLORS.day}`}
+      className={`mr-1 ${
+        activeSteps === 0 ? iconColor : `text-${JOURNAL_COLORS.day}`
+      }`}
     />
   );
   const nightIcon = (
     <IconRenderer
       iconName={stepIconMap.night}
       size={20}
-      className={`mr-1 text-${JOURNAL_COLORS.night}`}
+      className={`mr-1 ${
+        activeSteps === 0 ? iconColor : `text-${JOURNAL_COLORS.night}`
+      }`}
     />
   );
   const IconElement = day ? dayIcon : nightIcon;
@@ -38,8 +42,8 @@ export function DisciplineSectionDelimiter({
       <div className="flex items-center space-x-2">
         <span className="scroll-m-20 text-xl font-semibold tracking-tight flex items-center">
           {activeSteps}
-          {/* <span className="font-thin mx-1 text-muted-foreground">/</span>
-          <span className="text-muted-foreground">{maxSteps}</span> */}
+          <span className="font-thin mx-1 text-muted-foreground">/</span>
+          <span className="text-muted-foreground">{maxSteps}</span>
           <span className="ml-2">{IconElement}</span>
         </span>
       </div>
