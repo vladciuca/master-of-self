@@ -12,6 +12,7 @@ import { WeeklyWillpowerChart } from "@components/profile/weekly-willpower-chart
 import { RxChevronLeft } from "react-icons/rx";
 import LoadingScreen from "@components/skeletons/LoadingScreen";
 import { UserDetails } from "./UserDetails";
+import { SkeletonUserProfile } from "@components/skeletons/SkeletonUserProfile";
 
 interface UserProfileOverviewProps {
   userId?: string;
@@ -29,7 +30,7 @@ export function UserProfileOverview({
 
   // Handle loading state
   if (loading) {
-    return <LoadingScreen />;
+    return <>{notCurrentUser ? <LoadingScreen /> : <SkeletonUserProfile />}</>;
   }
 
   // Handle error state

@@ -1,17 +1,15 @@
 "use client";
 
-import { UserDetails } from "@components/profile/UserDetails";
+import { useSession } from "next-auth/react";
+import { useState, useEffect } from "react";
+import { useSearchParams, useRouter } from "next/navigation";
+import { UserProfileOverview } from "@components/profile/UserProfileOverview";
+
 import { DaySplit } from "@components/profile/DaySplit";
 import { ThemeToggle } from "@components/profile/ThemeToggle";
 import { SignOut } from "@components/profile/SignOut";
 
-import { UserProfileOverview } from "@components/profile/UserProfileOverview";
-
-import { useState, useEffect } from "react";
-import { useSearchParams, useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
-
-import { useSession } from "next-auth/react";
 import { Session } from "@models/types";
 
 export default function Settings() {
