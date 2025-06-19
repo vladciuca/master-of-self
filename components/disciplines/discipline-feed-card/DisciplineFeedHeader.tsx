@@ -21,16 +21,20 @@ export function DisciplineFeedHeader({
     <div className="flex flex-row w-full pl-2">
       {/* Icon section */}
       {icon && (
-        <div className="w-3/12 flex items-center justify-center mb-0">
-          <IconRenderer iconName={icon} className={`text-${color}`} size={45} />
+        <div className="w-2/12 flex items-center justify-center mb-0">
+          <IconRenderer
+            iconName={icon}
+            className={`text-${color} border border-primary p-2 rounded-md`}
+            size={45}
+          />
         </div>
       )}
 
       {/* Content section */}
-      <div className="px-2 flex flex-col items-start w-full">
-        <div className="w-full capitalize text-sm flex items-center text-muted-foreground justify-between">
-          <span>{discipline}</span>
-          <span className="ml-3">
+      <div className="ml-2 px-2 flex flex-col items-start w-full">
+        <div className="h-full w-full capitalize text-sm flex items-center text-muted-foreground justify-between">
+          <div>{discipline}</div>
+          <div className="ml-3">
             {type === "dayEntry" ? (
               <IconRenderer
                 iconName={stepIconMap.day}
@@ -48,9 +52,9 @@ export function DisciplineFeedHeader({
                 size={22}
               />
             )}
-          </span>
+          </div>
         </div>
-        <span className="mt-1 text-md sm:text-lg text-start">{title}</span>
+        <div className="h-full mt-1 text-lg sm:text-xl text-start">{title}</div>
       </div>
 
       {/* Toggle switch */}
