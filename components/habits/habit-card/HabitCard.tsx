@@ -60,14 +60,25 @@ export function HabitCard({
         <AccordionContent className="px-4">
           {addNew ? (
             <div>
-              <div className="mb-4">
+              {/* <div className="mb-4">
                 Habits are groups of concise actions that can be tracked and
-                measured daily.
+                measured daily to view progress in a specific area of improvement.
               </div>
 
               <div>
-                Create a habit group and add an action. You can add more actions
+                Create a habit group and add actions. More can be added actions
                 by updating the habit.
+              </div> */}
+              <div className="mb-4">
+                Habits are collections of simple, repeatable actions that you
+                can track daily to monitor progress in a specific area of
+                personal growth or improvement.
+              </div>
+
+              <div>
+                Create a habit group by adding one or more actions. You can
+                update the group anytime to include additional actions as
+                needed.
               </div>
             </div>
           ) : (
