@@ -67,12 +67,12 @@ export function DisciplinesList({
               </div>
 
               <div className="mb-4">
-                You respond these prompts in a structured, bullet-point format
-                to build self-awareness and clarity. Every response helps you
-                grow and earns you Willpower.
+                You can respond daily to these prompts in a structured,
+                bullet-point format to build self-awareness and clarity. Every
+                response helps you grow and earns you Willpower.
               </div>
               <div className="mb-4">
-                Disciplines can be set for morning (for motivation and
+                Certain disciplines can be set for morning (for motivation and
                 direction) or evening (for reflection and planning). The more
                 you engage, the more your discipline rank increases.
               </div>
