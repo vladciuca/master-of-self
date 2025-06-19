@@ -21,17 +21,17 @@ export function DisciplineFeedHeader({
     <div className="flex flex-row w-full pl-2">
       {/* Icon section */}
       {icon && (
-        <div className="w-2/12 flex items-center justify-center mb-0">
+        <div className="w-2/12 flex items-center justify-center mb-0 ml-2 mr-4">
           <IconRenderer
             iconName={icon}
             className={`text-${color} border border-primary p-2 rounded-md`}
-            size={45}
+            size={55}
           />
         </div>
       )}
 
       {/* Content section */}
-      <div className="ml-2 px-2 flex flex-col items-start w-full">
+      <div className="px-2 flex flex-col items-start w-full">
         <div className="h-full w-full capitalize text-sm flex items-center text-muted-foreground justify-between">
           <div>{discipline}</div>
           <div className="ml-3">
