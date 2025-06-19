@@ -109,7 +109,7 @@ export function UserProfileOverview({
       </ScrollArea>
 
       {notCurrentUser && (
-        <div className="flex flex-col justify-center items-center mt-2 h-[10vh]">
+        <div className="flex flex-col justify-center items-center mt-2 h-[10vh] px-1">
           <Button
             variant="secondary"
             className="w-full mt-3 mb-4"
