@@ -8,8 +8,9 @@ import {
   Accordion,
   AccordionContent,
   AccordionItem,
-  AccordionTrigger,
+  // AccordionTrigger,
 } from "@/components/ui/accordion";
+import { IndicatorAccordionTrigger } from "@/components/ui/indicator-accordion-trigger";
 import { calculateStepScore } from "@lib/score";
 import { JOURNAL_COLORS } from "@lib/colors";
 import type { JournalDayEntry, JournalNightEntry } from "@models/types";
@@ -211,7 +212,7 @@ export function JournalEntryDisciplineSection({
     <Accordion
       type="single"
       collapsible
-      className="grid grid-cols-1 gap-3 p-0 m-0"
+      className="grid grid-cols-1 gap-1 p-0 m-0"
       value={openItem}
       onValueChange={handleAccordionChange}
     >
@@ -279,8 +280,8 @@ export function JournalEntryDisciplineSection({
             value={step}
             className="border-none rounded-lg overflow-hidden p-0 mb-0"
           >
-            <AccordionTrigger
-              className={`hover:no-underline flex flex-col items-start py-1.5`}
+            <IndicatorAccordionTrigger
+              className={`hover:no-underline flex flex-col items-start py-0`}
             >
               <div className="flex items-center justify-between w-full">
                 <div className="flex items-center gap-3">
@@ -353,7 +354,7 @@ export function JournalEntryDisciplineSection({
                   )}
                 </div>
               </div>
-            </AccordionTrigger>
+            </IndicatorAccordionTrigger>
             <AccordionContent
               className="pb-2 pt-0 px-2"
               // className="transition-all duration-300 ease-in-out pb-2 pt-0 px-2"

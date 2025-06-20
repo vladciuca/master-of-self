@@ -5,11 +5,8 @@ import { usePathname } from "next/navigation";
 import { HabitCardHeader } from "@components/habits/habit-card/HabitCardHeader";
 import { HabitCardActions } from "@components/habits/habit-card/HabitCardActions";
 import { HabitCardFooter } from "./HabitCardFooter";
-import {
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@components/ui/accordion";
+import { AccordionContent, AccordionItem } from "@components/ui/accordion";
+import { IndicatorAccordionTrigger } from "@/components/ui/indicator-accordion-trigger";
 import { Session, Habit, JournalEntryHabitActions } from "@models/types";
 
 type HabitCardProps = {
@@ -45,8 +42,8 @@ export function HabitCard({
 
   return (
     <>
-      <AccordionItem value={habitId} className="p-0">
-        <AccordionTrigger className="p-0 m-0 rounded-md flex flex-col">
+      <AccordionItem value={habitId} className="p-0 border-none">
+        <IndicatorAccordionTrigger className="p-0 m-0 rounded-md flex flex-col ">
           <HabitCardHeader
             habit={habit}
             addNew={addNew}
@@ -56,8 +53,8 @@ export function HabitCard({
             entryLoading={entryLoading}
             hasNoEntryToday={hasNoEntryToday}
           />
-        </AccordionTrigger>
-        <AccordionContent className="px-4">
+        </IndicatorAccordionTrigger>
+        <AccordionContent className="px-1">
           {addNew ? (
             <div>
               {/* <div className="mb-4">

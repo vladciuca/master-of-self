@@ -93,7 +93,7 @@ export function HabitCardHeader({
   // ===============================================================
 
   return (
-    <div className="p-2 px-3 flex justify-between text-start w-full">
+    <div className="py-0 px-1 flex justify-between text-start w-full">
       <div className="flex flex-grow">
         <div className="flex items-center justify-center">
           <IconRenderer

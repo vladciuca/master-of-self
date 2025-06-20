@@ -23,7 +23,7 @@ export function JournalEntryDisciplineList({
   return (
     <div>
       {title && (
-        <div className="my-2 flex items-center">
+        <div className="mb-2 flex items-center">
           <div className="text-sm text-muted-foreground">{title}</div>
         </div>
       )}

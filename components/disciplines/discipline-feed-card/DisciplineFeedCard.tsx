@@ -6,15 +6,11 @@ import { DisciplineCreator } from "../discipline-card/DisciplineCreator";
 import {
   AccordionContent,
   AccordionItem,
-  AccordionTrigger,
+  // AccordionTrigger,
 } from "@/components/ui/accordion";
+import { IndicatorAccordionTrigger } from "@/components/ui/indicator-accordion-trigger";
 import type { JournalCustomStepConfig } from "@models/types";
 import type { Discipline } from "@models/mongodb";
-
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { CheckCircle, Sun, Sparkles, Target, User } from "lucide-react";
 
 type Step = JournalCustomStepConfig | Discipline;
 
@@ -28,9 +24,9 @@ export function DisciplineFeedCard({ step }: DisciplineCardProps) {
       <AccordionItem
         key={step.discipline}
         value={step.discipline}
-        className="p-0 px-2 mb-3"
+        className="p-0 mb-3 border-none"
       >
-        <AccordionTrigger className="py-4">
+        <IndicatorAccordionTrigger className="py-0">
           <DisciplineFeedHeader
             icon={step.icon}
             discipline={step.discipline}
@@ -38,7 +34,7 @@ export function DisciplineFeedCard({ step }: DisciplineCardProps) {
             type={step.type}
             color={"color" in step ? step.color : undefined}
           />
-        </AccordionTrigger>
+        </IndicatorAccordionTrigger>
         <AccordionContent>
           <DisciplineCardContent
             // title={step.title}
