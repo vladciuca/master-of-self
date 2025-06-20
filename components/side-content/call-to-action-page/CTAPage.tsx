@@ -78,15 +78,15 @@ export function CTAPage({
           powerful habits — all in a shared, motivating space.
         </p>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 p-4">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-0 p-4">
           <motion.p
-            className="text-sm sm:text-base md:text-lg text-primary backdrop-blur-sm rounded-lg p-2 md:p-4 border border-muted-foreground"
+            className="text-sm sm:text-base md:text-lg text-primary backdrop-blur-sm rounded-lg p-2 md:p-4"
             variants={fadeInUp}
           >
             ✅ Ask better questions
           </motion.p>
           <motion.p
-            className="text-sm sm:text-base md:text-lg text-primary backdrop-blur-sm rounded-lg p-2 md:p-4 border border-muted-foreground"
+            className="text-sm sm:text-base md:text-lg text-primary backdrop-blur-sm rounded-lg p-2 md:p-4"
             variants={fadeInUp}
           >
             ✅ Give honest answers
