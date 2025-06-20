@@ -38,7 +38,7 @@ export function DisciplineDescriptionField({
             <Textarea
               rows={3}
               className="text-base"
-              placeholder="e.g., Think of what will make today great!, etc."
+              placeholder="e.g., Use powerful words to inscribe into your subconscious., etc."
               {...field}
             />
           </FormControl>
