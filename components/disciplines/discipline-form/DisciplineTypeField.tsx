@@ -33,10 +33,12 @@ export function DisciplineTypeField({
       name="type"
       render={({ field }) => (
         <FormItem>
-          <FormLabel>Type</FormLabel>
+          <FormLabel>Time of Day</FormLabel>
           {type === "Create" && (
             <FormDescription className="text-xs">
-              Type of discipline step
+              When would you like to reflect on this discipline? Morning can be
+              used for motivation and direction, while evenings for reflection
+              and planning.
             </FormDescription>
           )}
           <Select

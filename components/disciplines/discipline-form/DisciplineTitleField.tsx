@@ -26,10 +26,11 @@ export function DisciplineTitleField({
       // name="name"
       render={({ field }) => (
         <FormItem>
-          <FormLabel>Question</FormLabel>
+          <FormLabel>Daily Reflection Prompt</FormLabel>
           {type === "Create" && (
             <FormDescription className="text-xs">
-              Discipline Question
+              Write a question that will guide your daily self-reflection and
+              help you develop this discipline.
             </FormDescription>
           )}
 

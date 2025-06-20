@@ -65,7 +65,7 @@ export function DisciplineCardHeader({
     isDisciplineId(key) ? "text-primary" : "text-muted-foreground";
 
   return (
-    <div className="flex flex-row w-full">
+    <div className="flex flex-row w-full items-center">
       {/* Icon section */}
       {icon && (
         <div className="w-1/12 flex items-center justify-center mb-0">

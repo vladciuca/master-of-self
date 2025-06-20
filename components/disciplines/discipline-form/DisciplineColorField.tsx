@@ -41,7 +41,7 @@ export function DisciplineColorField({
           <FormLabel>Color</FormLabel>
           {type === "Create" && (
             <FormDescription className="text-xs">
-              Select a color for your discipline
+              Select a color for your discipline.
             </FormDescription>
           )}
           <Select onValueChange={field.onChange} value={field.value}>

@@ -26,10 +26,11 @@ export function DisciplineDescriptionField({
       // name="name"
       render={({ field }) => (
         <FormItem>
-          <FormLabel>Description</FormLabel>
+          <FormLabel>Discipline Guidelines</FormLabel>
           {type === "Create" && (
             <FormDescription className="text-xs">
-              Discipline Description
+              Provide a brief guideline or mindset to help you approach this
+              discipline thoughtfully.
             </FormDescription>
           )}
 

@@ -29,14 +29,14 @@ export function DisciplineNameField({
           <FormLabel>Discipline</FormLabel>
           {type === "Create" && (
             <FormDescription className="text-xs">
-              Discipline name
+              Name the personal trait or quality you want to develop.
             </FormDescription>
           )}
 
           <FormControl>
             <Input
               className="text-base"
-              placeholder="e.g., Motivation, Confidence, etc."
+              placeholder="e.g., Motivation, Confidence, Gratitude, etc."
               {...field}
             />
           </FormControl>
