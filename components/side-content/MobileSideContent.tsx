@@ -49,7 +49,7 @@ const ContentArea = ({ activeTab }: { activeTab: string }) => {
   );
 };
 
-export function MobileSideContent({ innerMenu }: { innerMenu: boolean }) {
+export function MobileSideContent({ innerMenu }: { innerMenu?: boolean }) {
   const { data: session, status } = useSession();
 
   const tabs = useMemo(() => {
