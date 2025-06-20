@@ -168,11 +168,11 @@ export function CTAPage({
           >
             {isMobile ? (
               // Mobile: Keep original ScrollArea approach
-              <ScrollArea className="flex-grow px-4">
+              <div className="flex-grow px-4 overflow-scroll relative pt-72 pb-8">
                 <div className="relative z-10 h-full flex flex-col justify-center items-center p-0 my-6">
                   <ContentComponent />
                 </div>
-              </ScrollArea>
+              </div>
             ) : (
               // Desktop: Full viewport height, centered, no scroll
               <div className="h-screen flex flex-col justify-center items-center px-6 relative z-10">

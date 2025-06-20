@@ -25,7 +25,7 @@ export function SkeletonUserProfile() {
             className="min-w-20 flex flex-col items-center space-y-2"
           >
             <Skeleton className="h-12 w-12 rounded-full" />
-            <Skeleton className="h-3 w-12" />
+            {/* <Skeleton className="h-3 w-12" /> */}
           </div>
         ))}
       </div>

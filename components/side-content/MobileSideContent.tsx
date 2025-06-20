@@ -49,7 +49,7 @@ const ContentArea = ({ activeTab }: { activeTab: string }) => {
   );
 };
 
-export function MobileSideContent() {
+export function MobileSideContent({ innerMenu }: { innerMenu: boolean }) {
   const { data: session, status } = useSession();
 
   const tabs = useMemo(() => {
@@ -76,6 +76,7 @@ export function MobileSideContent() {
         tabs={tabs}
         activeTab={activeTab}
         onTabChange={setActiveTab}
+        innerMenu={innerMenu}
       />
       <ContentArea activeTab={activeTab} />
     </div>

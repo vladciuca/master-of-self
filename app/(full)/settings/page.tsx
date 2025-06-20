@@ -4,6 +4,7 @@ import { useSession } from "next-auth/react";
 import { useState, useEffect } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { UserProfileOverview } from "@components/profile/UserProfileOverview";
+import { MobileSideContent } from "components/side-content/MobileSideContent";
 
 import { DaySplit } from "@components/profile/DaySplit";
 import { ThemeToggle } from "@components/profile/ThemeToggle";
@@ -34,6 +35,10 @@ export default function Settings() {
           <SignOut />
         </div>
       ),
+    },
+    {
+      name: "About",
+      component: <MobileSideContent innerMenu={true} />,
     },
   ];
 

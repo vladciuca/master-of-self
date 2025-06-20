@@ -48,14 +48,14 @@ export function HowItWorks({
             variants={sectionVariants}
             transition={{ duration: 0.3 }}
           >
-            <ScrollArea className="flex-grow">
+            <div className="flex-grow overflow-scroll">
               <main
                 className={`min-h-screen ${isMobile ? "p-0" : "px-6 py-12"}`}
               >
                 <ScienceSection />
                 <MindsetBehaviorSection />
               </main>
-            </ScrollArea>
+            </div>
           </motion.div>
         </>
       )}

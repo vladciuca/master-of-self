@@ -51,7 +51,7 @@ export function LandingPage({
             variants={sectionVariants}
             transition={{ duration: 0.3 }}
           >
-            <ScrollArea className="flex-grow">
+            <div className="flex-grow overflow-scroll">
               <main
                 className={`min-h-screen ${
                   isMobile ? "p-0 pb-6" : "px-6 py-12"
@@ -61,7 +61,7 @@ export function LandingPage({
                 {/* <IntroductionSection /> */}
                 <CardsSection />
               </main>
-            </ScrollArea>
+            </div>
           </motion.div>
         </>
       )}
