@@ -12,6 +12,7 @@ import { DisciplineCard } from "./discipline-card/DisciplineCard";
 import { Discipline } from "@models/mongodb";
 import type { JournalCustomStep, JournalCustomStepConfig } from "@models/types";
 
+import { TbChevronCompactDown } from "react-icons/tb";
 type DisciplinesListProps = {
   disciplineList: JournalCustomStepConfig[] | Discipline[];
   activeDisciplineList: JournalCustomStep[] | Discipline[];
@@ -41,16 +42,21 @@ export function DisciplinesList({
       <AccordionItem
         key={"new-discipline"}
         value={"new-discipline"}
-        className="p-0 mb-3 border-transparent"
+        className="p-0 mb-0 border-transparent"
       >
-        <AccordionTrigger className="py-2">
-          <DisciplineCardHeader
-            discipline="New Discipline"
-            disciplineId="new-discipline"
-            icon={"FaPersonCircleQuestion"}
-            color={"muted-foreground"}
-            addNew
-          />
+        <AccordionTrigger className="pt-2 pb-0 [&[data-state=open]>div>div:last-child>svg]:rotate-180">
+          <div className="flex flex-col w-full">
+            <DisciplineCardHeader
+              discipline="New Discipline"
+              disciplineId="new-discipline"
+              icon={"FaPersonCircleQuestion"}
+              color={"muted-foreground"}
+              addNew
+            />
+            <div className="flex justify-center mt-1">
+              <TbChevronCompactDown className="h-4 w-8 transition-transform duration-200 ease-in-out" />
+            </div>
+          </div>
         </AccordionTrigger>
         <AccordionContent>
           <div className="mt-2 px-1">
@@ -84,14 +90,19 @@ export function DisciplinesList({
       <AccordionItem
         key={"motivation"}
         value={"motivation"}
-        className="p-0 mb-3 border-transparent"
+        className="p-0 mb-0 border-transparent"
       >
-        <AccordionTrigger className="py-2">
-          <DisciplineCardHeader
-            discipline="motivation"
-            disciplineId="motivation"
-            icon={"IoAccessibility"}
-          />
+        <AccordionTrigger className="pt-2 pb-0 [&[data-state=open]>div>div:last-child>svg]:rotate-180">
+          <div className="flex flex-col w-full">
+            <DisciplineCardHeader
+              discipline="motivation"
+              disciplineId="motivation"
+              icon={"IoAccessibility"}
+            />
+            <div className="flex justify-center mt-1">
+              <TbChevronCompactDown className="h-4 w-8 transition-transform duration-200 ease-in-out" />
+            </div>
+          </div>
         </AccordionTrigger>
         <AccordionContent>
           <DisciplineCardContent title={"title"} description={"description"} />
