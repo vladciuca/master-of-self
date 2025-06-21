@@ -16,10 +16,9 @@ export function PageContent({ children }: Layout) {
   const isLargeScreen = useScreenSize();
 
   const carouselImages = [
-    "/assets/landing-page/discipline_1.png",
-    "/assets/landing-page/discipline_2.png",
-    "/assets/landing-page/discipline_3.png",
-    "/assets/landing-page/discipline_4.png",
+    "/assets/landing-page/1.png",
+    "/assets/landing-page/2.png",
+    "/assets/landing-page/3.png",
   ];
 
   const renderPageComponent = () => {
