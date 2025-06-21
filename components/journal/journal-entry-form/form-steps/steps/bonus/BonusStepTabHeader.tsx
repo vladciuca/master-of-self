@@ -1,4 +1,4 @@
-import React from "react";
+import type React from "react";
 import { Badge } from "@/components/ui/badge";
 import { IconRenderer } from "@components/IconRenderer";
 import { getJournalStepStyle, stepIconMap } from "@components/ui/constants";
@@ -8,6 +8,8 @@ type BonusStepTabHeaderProps = {
   count: number;
   stepType: string;
   stepDiscipline: string;
+  disciplineIcon?: string;
+  disciplineColor?: string;
 };
 
 export const BonusStepTabHeader = ({
@@ -15,16 +17,22 @@ export const BonusStepTabHeader = ({
   count,
   stepType,
   stepDiscipline,
+  disciplineIcon,
+  disciplineColor,
 }: BonusStepTabHeaderProps) => {
   const { bgColor } = getJournalStepStyle(stepType);
+
+  // Determine which icon to use - prioritize disciplineIcon, then stepIconMap, then default
+  const iconToRender =
+    disciplineIcon || stepIconMap[stepDiscipline] || stepIconMap.default;
 
   return (
     <div className="relative">
       <div className="flex items-center justify-center w-8 h-8">
         <IconRenderer
-          iconName={stepIconMap[stepDiscipline] || stepIconMap.default}
+          iconName={iconToRender}
           size={stepType === "night" ? 25 : 30}
-          className="ml-2"
+          className={`${disciplineColor ? `text-${disciplineColor}` : ""}`}
         />
         {count !== undefined && (
           <Badge
