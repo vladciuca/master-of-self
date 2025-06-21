@@ -13,6 +13,7 @@ type BonusStepTabHeaderProps = {
 };
 
 export const BonusStepTabHeader = ({
+  //NOTE: check if to remove icon here
   icon,
   count,
   stepType,
