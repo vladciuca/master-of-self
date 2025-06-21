@@ -5,18 +5,18 @@ import { useState, useEffect } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { UserProfileOverview } from "@components/profile/UserProfileOverview";
 import { MobileSideContent } from "components/side-content/MobileSideContent";
-
 import { DaySplit } from "@components/profile/DaySplit";
 import { ThemeToggle } from "@components/profile/ThemeToggle";
 import { SignOut } from "@components/profile/SignOut";
-
 import { Button } from "@/components/ui/button";
 import { Session } from "@models/types";
+import { useScreenSize } from "@hooks/useScreenSize";
 
 export default function Settings() {
   const { data: session } = useSession() as { data: Session | null };
   const searchParams = useSearchParams();
   const router = useRouter();
+  const isLargeScreen = useScreenSize();
 
   // page tab configuration object - contains name and component for each page
   const pageConfig = [
@@ -36,10 +36,15 @@ export default function Settings() {
         </div>
       ),
     },
-    {
-      name: "About",
-      component: <MobileSideContent innerMenu={true} />,
-    },
+    // Only add "About" on small/medium screens
+    ...(!isLargeScreen
+      ? [
+          {
+            name: "About",
+            component: <MobileSideContent innerMenu={true} />,
+          },
+        ]
+      : []),
   ];
 
   // Default page the first page in the config, unless specified in URL
