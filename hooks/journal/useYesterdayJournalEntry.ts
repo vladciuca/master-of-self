@@ -34,6 +34,10 @@ export function useYesterdayJournalEntry() {
     return getNightDisciplineScores(yesterdayEntry.nightEntry);
   }, [yesterdayEntry]);
 
+  console.log(
+    "=========nightEntryDisciplineScores",
+    nightEntryDisciplineScores
+  );
   // Derive bonusWillpower from discipline scores
   const bonusWillpower = useMemo(() => {
     // Handle loading state
@@ -49,11 +53,11 @@ export function useYesterdayJournalEntry() {
 
     //NOTE: here we are treating "night" with calculateStepScore() like every other step
     // Do we need special treatment? To me and my shrink
-    // Sum all the discipline scores
-    const totalScore = Object.values(nightEntryDisciplineScores).reduce(
-      (sum, score) => sum + (score || 0),
-      0
-    );
+
+    //NOTE: motivation multiplier is never 0 in this case and we must exclude it.
+    const totalScore = Object.entries(nightEntryDisciplineScores)
+      .filter(([key]) => key !== "_motivationMultiplier")
+      .reduce((sum, [, score]) => sum + (score || 0), 0);
 
     // Apply the same WP multiplier
     return Math.floor(totalScore * (userProfile?.willpowerMultiplier || 1.5));
