@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import SignUpPage from "@app/(full)/sign-up/page";
 import SignInPage from "@app/(full)/sign-in/page";
 import { PageLogo } from "@components/PageLogo";
+import { PageCarousel } from "@components/PageCarousel";
 import { MobileSideContent } from "components/side-content/MobileSideContent";
 import { useScreenSize } from "@/hooks/useScreenSize";
 import type { Layout } from "@models/types";
@@ -14,13 +15,28 @@ export function PageContent({ children }: Layout) {
   const pathname = usePathname();
   const isLargeScreen = useScreenSize();
 
+  const carouselImages = [
+    "/assets/landing-page/discipline_1.png",
+    "/assets/landing-page/discipline_2.png",
+    "/assets/landing-page/discipline_3.png",
+    "/assets/landing-page/discipline_4.png",
+  ];
+
   const renderPageComponent = () => {
     if (pathname === "/sign-up") {
       return <SignUpPage />;
     } else if (pathname === "/sign-in") {
       return <SignInPage />;
     } else {
-      return isLargeScreen ? <PageLogo /> : <MobileSideContent />;
+      return isLargeScreen ? (
+        <PageCarousel
+          images={carouselImages}
+          autoPlayInterval={4000}
+          showDots={true}
+        />
+      ) : (
+        <MobileSideContent />
+      );
     }
   };
 
