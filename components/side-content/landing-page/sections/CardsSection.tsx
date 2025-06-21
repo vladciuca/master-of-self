@@ -74,7 +74,7 @@ const cards = [
     icon: <LuTarget />,
     bg: "bg-teal-500",
     textColor: "text-white",
-    title: "Maintain Habit Consistency",
+    title: "Maintain Consistency",
     content:
       "Track your daily habits and earn XP by reinforcing positive actions or breaking unhelpful ones. Stay consistent to level up your discipline and control.",
     list: [
