@@ -34,10 +34,6 @@ export function useYesterdayJournalEntry() {
     return getNightDisciplineScores(yesterdayEntry.nightEntry);
   }, [yesterdayEntry]);
 
-  console.log(
-    "=========nightEntryDisciplineScores",
-    nightEntryDisciplineScores
-  );
   // Derive bonusWillpower from discipline scores
   const bonusWillpower = useMemo(() => {
     // Handle loading state
