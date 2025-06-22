@@ -4,8 +4,7 @@ import { useState, useEffect } from "react";
 import { signIn, getProviders, ClientSafeProvider } from "next-auth/react";
 import { Button } from "@/components/ui/button";
 import { Loader2 } from "lucide-react";
-import { GiSpellBook } from "react-icons/gi";
-import { PiKeyholeFill } from "react-icons/pi";
+import { GiAllSeeingEye } from "react-icons/gi";
 
 type Providers = {
   [key: string]: ClientSafeProvider;
@@ -145,8 +144,8 @@ export function ProviderSignIn() {
 
   return (
     <div className="w-full h-full flex flex-col justify-around p-6 space-y-4">
-      <div className="w-full flex flex-col items-center justify-center mt-8">
-        <PiKeyholeFill size={100} />
+      <div className="w-full flex flex-col items-center justify-center">
+        <GiAllSeeingEye size={200} />
       </div>
       <div>
         <div className="space-y-6">

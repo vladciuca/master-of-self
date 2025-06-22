@@ -106,14 +106,17 @@ export function CTAPage({
       <motion.div className="pt-12" variants={fadeInUp}>
         <Link href="/sign-in">
           <motion.button
-            className="group relative inline-flex items-center justify-center font-bold py-6 px-12 rounded-full text-xl sm:text-2xl shadow-2xl text-white bg-[linear-gradient(to_right,_#fbbe25_50%,_#8a5cf7_50%)] transition-all duration-300 transform hover:scale-105 hover:shadow-[0_20px_40px_rgba(0,0,0,0.3)] bg-origin-border"
+            className="overflow-hidden group relative inline-flex items-center justify-center font-bold py-6 px-12 rounded-full text-xl sm:text-2xl shadow-2xl text-white bg-[linear-gradient(to_right,_#fbbe25_50%,_#8a5cf7_50%)] transition-all duration-300 transform hover:scale-105 hover:shadow-[0_20px_40px_rgba(0,0,0,0.3)] bg-origin-border"
             whileHover={{
               scale: 1.05,
               boxShadow: "0 25px 50px rgba(0,0,0,0.4)",
             }}
             whileTap={{ scale: 0.98 }}
           >
-            <span className="relative z-10">Master Self</span>
+            <span className="relative z-10 block lg:inline">
+              <span className="block lg:inline">Think Better,</span>
+              <span className="block lg:inline"> Live Better</span>
+            </span>
             <motion.svg
               className="ml-3 w-8 h-8 group-hover:translate-x-1 transition-transform duration-200"
               viewBox="0 0 24 24"
@@ -127,17 +130,15 @@ export function CTAPage({
             </motion.svg>
 
             {/* Button shine effect */}
-            {/* <div className="absolute inset-0 rounded-full bg-gradient-to-r from-transparent via-white/20 to-transparent transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-out" /> */}
-            <div className="absolute inset-0 rounded-full bg-gradient-to-r from-transparent via-white/20 to-transparent transform -skew-x-12 -translate-x-1/2 group-hover:translate-x-1/2 transition-transform duration-1000 ease-out" />
+            <div className="absolute inset-0 pointer-events-none rounded-full">
+              <div className="w-full h-full bg-gradient-to-r from-transparent via-white/30 to-transparent skew-x-[-20deg] -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-out" />
+            </div>
           </motion.button>
         </Link>
       </motion.div>
 
       {/* Social Proof Hint */}
-      <motion.p
-        className="text-sm text-gray-500 pt-4 italic"
-        variants={fadeInUp}
-      >
+      <motion.p className="text-sm text-gray-500 py-4" variants={fadeInUp}>
         Join thousands building better habits daily
       </motion.p>
     </motion.div>

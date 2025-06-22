@@ -60,7 +60,7 @@ export function FloatingMobileMenu({
           // Expanded state - show all tabs
           <div className="flex flex-col items-center space-y-2">
             <TbChevronCompactDown
-              className="text-muted-foreground cursor-pointer hover:text-foreground transition-colors mb-1"
+              className="text-muted-foreground cursor-pointer hover:text-foreground transition-colors"
               size={20}
               onClick={() => setIsExpanded(false)}
             />
