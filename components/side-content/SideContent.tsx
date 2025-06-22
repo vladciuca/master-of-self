@@ -34,6 +34,7 @@ const allTabs = [
 export function SideContent() {
   const { data: session, status } = useSession();
   const { isDrawerOpen, setIsDrawerOpen } = useSideContent();
+  const [isVisible, setIsVisible] = useState(false);
 
   const tabs = allTabs.filter((tab) => {
     if (tab.id === "cta" && status === "authenticated") {
@@ -52,6 +53,17 @@ export function SideContent() {
     }
   }, [tabs, activeTab]);
 
+  // Animate in after loading is complete
+  useEffect(() => {
+    if (status !== "loading") {
+      // Small delay to ensure DOM is ready, then trigger animation
+      const timer = setTimeout(() => {
+        setIsVisible(true);
+      }, 100);
+      return () => clearTimeout(timer);
+    }
+  }, [status]);
+
   const handleTabClick = (tabId: string) => {
     if (tabId === activeTab && isDrawerOpen) {
       setIsDrawerOpen(false);
@@ -64,11 +76,17 @@ export function SideContent() {
   const ActiveComponent =
     tabs.find((tab) => tab.id === activeTab)?.component || LandingPage;
 
+  if (status === "loading") return <></>;
+
   return (
     <>
       <div
         className={`relative hidden lg:block h-full bg-background rounded-tr-xl rounded-br-xl transition-all duration-300 ease-in-out ${
           isDrawerOpen ? "w-[80%]" : "w-0 overflow-hidden"
+        } ${
+          isVisible
+            ? "opacity-100 translate-y-0 scale-100"
+            : "opacity-0 translate-y-4 scale-95"
         }`}
       >
         <div
