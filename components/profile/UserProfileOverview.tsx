@@ -88,7 +88,7 @@ export function UserProfileOverview({
         )}
       </div>
 
-      <div className="mb-4 sm:mb-8">
+      <div className="mt-2 mb-4 sm:mb-8">
         <WeeklyWillpowerChart displaySmall userId={userId} />
       </div>
 

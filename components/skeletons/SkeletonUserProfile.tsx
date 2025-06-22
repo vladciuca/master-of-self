@@ -10,7 +10,7 @@ export function SkeletonUserProfile() {
         <Skeleton className="h-4 w-48" />
       </div>
 
-      <div className="space-y-6 sm:space-y-20 my-1">
+      <div className="space-y-10 sm:space-y-20 mb-1 mt-3">
         {/* Weekly Willpower Chart Section */}
         <SkeletonBarChart />
         {/* Habits Section */}
