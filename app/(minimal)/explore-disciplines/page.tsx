@@ -110,7 +110,7 @@ export default function ExploreDisciplines() {
         <h1 className="scroll-m-20 text-4xl font-bold tracking-tight text-center">
           Explore Disciplines
         </h1>
-        <FaRegCompass size={40} />
+        <FaRegCompass size={40} className="hidden sm:block" />
       </div>
       <div className="flex-grow px-4">
         <div className="h-full flex flex-col items-center justify-center space-y-4 sm:space-y-6">
