@@ -30,7 +30,7 @@ export function ScienceSection() {
 
       <h1 className="mb-16 text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-tight tracking-tight">
         The Science in{" "}
-        <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-400">
+        <span className="text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-orange-400">
           Action
         </span>
       </h1>
