@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { usePathname, useRouter } from "next/navigation";
 import { BottomNav } from "@components/BottomNav";
@@ -21,7 +22,15 @@ export function Footer() {
     router.push("/");
   };
 
-  // userProfileLoading will be true by default if the user is not logged in
+  // Redirect unauthenticated users to `/` if not on `/sign-in` or `/sign-up`
+  useEffect(() => {
+    const isAuthPage = pathname === "/sign-in";
+    // || pathname === "/sign-up"
+    if (status === "unauthenticated" && !isAuthPage) {
+      router.push("/");
+    }
+  }, [status, pathname, router]);
+
   if (status === "loading" && userProfileLoading) {
     return (
       <div className="w-full h-full flex justify-center items-center">

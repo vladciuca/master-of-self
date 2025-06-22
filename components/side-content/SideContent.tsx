@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { LandingPage } from "./landing-page/LandingPage";
 import { HowItWorks } from "./how-it-works/HowItWorks";
@@ -43,6 +43,14 @@ export function SideContent() {
   });
 
   const [activeTab, setActiveTab] = useState(tabs[0]?.id || "landing");
+
+  // Reset activeTab if current tab is no longer available
+  useEffect(() => {
+    const isCurrentTabAvailable = tabs.some((tab) => tab.id === activeTab);
+    if (!isCurrentTabAvailable && tabs.length > 0) {
+      setActiveTab(tabs[0].id);
+    }
+  }, [tabs, activeTab]);
 
   const handleTabClick = (tabId: string) => {
     if (tabId === activeTab && isDrawerOpen) {
