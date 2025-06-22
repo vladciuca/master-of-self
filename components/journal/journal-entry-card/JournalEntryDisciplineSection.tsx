@@ -384,7 +384,7 @@ function DisciplineSectionSkeleton({ stepCount = 3 }: { stepCount?: number }) {
       {Array(stepCount)
         .fill(0)
         .map((_, index) => (
-          <Skeleton className="w-full h-8 rounded-md" />
+          <Skeleton className="w-full h-6 rounded-md" />
         ))}
     </div>
   );
