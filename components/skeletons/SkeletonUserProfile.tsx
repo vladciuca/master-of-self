@@ -5,7 +5,7 @@ export function SkeletonUserProfile() {
   return (
     <div className="flex flex-col h-full justify-between px-0">
       {/* Profile Info Section */}
-      <div className="ml-3 space-y-3 text-center">
+      <div className="ml-1 space-y-3 text-center">
         <Skeleton className="h-8 w-32" />
         <Skeleton className="h-4 w-48" />
       </div>
@@ -14,7 +14,7 @@ export function SkeletonUserProfile() {
         {/* Weekly Willpower Chart Section */}
         <SkeletonBarChart />
         {/* Habits Section */}
-        <div className="flex gap-3 overflow-x-auto scrollbar-hide pb-2 w-full max-w-full h-28">
+        <div className="flex gap-3 overflow-x-auto scrollbar-hide pb-2 w-full max-w-full h-20 sm:h-28">
           {Array.from({ length: 5 }).map((_, index) => (
             <div
               key={index}
