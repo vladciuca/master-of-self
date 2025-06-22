@@ -8,14 +8,13 @@ import {
   Accordion,
   AccordionContent,
   AccordionItem,
-  // AccordionTrigger,
 } from "@/components/ui/accordion";
 import { IndicatorAccordionTrigger } from "@/components/ui/indicator-accordion-trigger";
 import { calculateStepScore } from "@lib/score";
 import { JOURNAL_COLORS } from "@lib/colors";
 import type { JournalDayEntry, JournalNightEntry } from "@models/types";
 import { useDisciplinesData } from "@hooks/disciplines/useDisciplineData";
-import { Skeleton } from "@components/ui/skeleton"; // Import Skeleton component
+import { Skeleton } from "@components/ui/skeleton";
 import { IconRenderer } from "@components/IconRenderer";
 import { stepIconMap } from "@components/ui/constants";
 
@@ -385,18 +384,7 @@ function DisciplineSectionSkeleton({ stepCount = 3 }: { stepCount?: number }) {
       {Array(stepCount)
         .fill(0)
         .map((_, index) => (
-          <div
-            key={index}
-            className="border-none bg-muted/30 rounded-lg py-2 px-2"
-          >
-            <div className="flex items-center justify-between w-full">
-              <div className="flex items-center gap-3">
-                <Skeleton className="h-8 w-8 rounded-full" />
-                <Skeleton className="h-4 w-24" />
-              </div>
-              <Skeleton className="h-6 w-10" />
-            </div>
-          </div>
+          <Skeleton className="w-full h-8 rounded-md" />
         ))}
     </div>
   );

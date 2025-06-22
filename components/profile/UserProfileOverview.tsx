@@ -37,11 +37,11 @@ export function UserProfileOverview({
   if (error) {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center gap-4">
-        <div className="text-red-500 font-semibold text-xl">Error: {error}</div>
+        <div className="font-semibold text-xl">Error: {error}</div>
         {/* {notCurrentUser && ( */}
         <button
           onClick={() => router.back()}
-          className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
+          className="px-4 py-2  text-primary rounded-md"
         >
           Go Back
         </button>
@@ -58,7 +58,7 @@ export function UserProfileOverview({
         {/* {notCurrentUser && ( */}
         <button
           onClick={() => router.back()}
-          className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
+          className="px-4 py-2 text-primary rounded-md"
         >
           Go Back
         </button>

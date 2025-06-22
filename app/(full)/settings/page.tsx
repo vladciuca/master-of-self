@@ -18,7 +18,6 @@ export default function Settings() {
   const router = useRouter();
   const isLargeScreen = useScreenSize();
 
-  // page tab configuration object - contains name and component for each page
   const pageConfig = [
     {
       name: "Overview",
