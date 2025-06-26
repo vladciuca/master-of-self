@@ -66,7 +66,7 @@ export function OnboardingFlow() {
       id: 2,
       title: "Choose a Discipline",
       subtitle: "Add disciplines to your profile",
-      content: <PreMade />,
+      content: <PreMade onboarding />,
     },
     {
       id: 3,
