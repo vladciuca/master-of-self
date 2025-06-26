@@ -34,7 +34,7 @@ export function DisciplinesList({
 
   return (
     <Accordion type="single" collapsible>
-      <NewDisciplineCard />
+      <NewDisciplineCard onboarding={onboarding} />
       <MotivationCard />
       {dayEntries.length === 0 && nightEntries.length === 0 ? (
         <div className="text-center text-muted-foreground p-4">

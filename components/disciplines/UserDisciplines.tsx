@@ -71,7 +71,7 @@ export function UserDisciplines({ onboarding }: { onboarding?: boolean }) {
             disciplineList={learnedDisciplineList}
             activeDisciplineList={activeDisciplineSteps}
             handleEdit={handleEdit}
-            onboarding
+            onboarding={onboarding}
           />
         </div>
       )}

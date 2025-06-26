@@ -2,7 +2,7 @@ import { DisciplineCardHeader } from "@components/disciplines/discipline-card/Di
 import { AccordionContent, AccordionItem } from "@/components/ui/accordion";
 import { IndicatorAccordionTrigger } from "@/components/ui/indicator-accordion-trigger";
 
-export function NewDisciplineCard() {
+export function NewDisciplineCard({ onboarding }: { onboarding?: boolean }) {
   return (
     <AccordionItem
       key={"new-discipline"}
@@ -16,6 +16,7 @@ export function NewDisciplineCard() {
           icon={"FaPersonCircleQuestion"}
           color={"muted-foreground"}
           addNew
+          onboarding={onboarding}
         />
       </IndicatorAccordionTrigger>
       <AccordionContent>
