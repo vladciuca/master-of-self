@@ -10,7 +10,7 @@ import { Button } from "@components/ui/button";
 import { ScrollArea } from "@components/ui/scroll-area";
 import { WeeklyWillpowerChart } from "@components/profile/weekly-willpower-chart/WeeklyWillpowerChart";
 import { RxChevronLeft } from "react-icons/rx";
-import LoadingScreen from "@components/skeletons/LoadingScreen";
+import { LoadingScreen } from "@components/skeletons/LoadingScreen";
 import { UserDetails } from "./UserDetails";
 import { SkeletonUserProfile } from "@components/skeletons/SkeletonUserProfile";
 
