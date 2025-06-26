@@ -4,7 +4,7 @@ import { DisciplineFeedCard } from "@components/disciplines/discipline-feed-card
 import { Accordion } from "@/components/ui/accordion";
 import { customStepConfigs } from "@components/journal/journal-entry-form/form-steps/steps/CustomSteps";
 
-export function BuiltIn() {
+export function PreMade() {
   return (
     <>
       <Accordion type="single" collapsible className="">

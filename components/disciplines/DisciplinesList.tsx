@@ -10,12 +10,14 @@ type DisciplinesListProps = {
   disciplineList: JournalCustomStepConfig[] | Discipline[];
   activeDisciplineList: JournalCustomStep[] | Discipline[];
   handleEdit: (habit: Discipline) => void;
+  onboarding?: boolean;
 };
 
 export function DisciplinesList({
   disciplineList,
   activeDisciplineList,
   handleEdit,
+  onboarding = false,
 }: DisciplinesListProps) {
   // Get day and night entries separately
   const dayEntries = disciplineList.filter((step) => step.type === "dayEntry");
@@ -32,7 +34,8 @@ export function DisciplinesList({
 
   return (
     <Accordion type="single" collapsible>
-      <NewDisciplineCard />
+      {!onboarding && <NewDisciplineCard />}
+
       <MotivationCard />
 
       {dayEntries.length !== 0 && (

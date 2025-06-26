@@ -13,7 +13,7 @@ import { Skeleton } from "@components/ui/skeleton";
 //   <SkeletonDisciplineCard key={index} />
 // ));
 
-export function UserDisciplines() {
+export function UserDisciplines({ onboarding }: { onboarding?: boolean }) {
   const router = useRouter();
   const {
     learnedDisciplineList,
@@ -66,13 +66,14 @@ export function UserDisciplines() {
           </div>
         </div>
       ) : (
-        <>
+        <div className="w-full">
           <DisciplinesList
             disciplineList={learnedDisciplineList}
             activeDisciplineList={activeDisciplineSteps}
             handleEdit={handleEdit}
+            onboarding
           />
-        </>
+        </div>
       )}
     </>
   );

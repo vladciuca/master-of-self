@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Community } from "@components/disciplines/Community";
-import { BuiltIn } from "@components/disciplines/BuiltIn";
+import { PreMade } from "@components/disciplines/PreMade";
 
 export default function Profile() {
   const searchParams = useSearchParams();
@@ -14,7 +14,7 @@ export default function Profile() {
   const pageConfig = [
     {
       name: "pre-made",
-      component: <BuiltIn />,
+      component: <PreMade />,
     },
     {
       name: "Community",
