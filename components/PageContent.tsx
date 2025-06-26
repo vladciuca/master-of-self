@@ -1,18 +1,22 @@
 "use client";
 
 import { useSession } from "next-auth/react";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { useEffect } from "react";
 import SignUpPage from "@app/(full)/sign-up/page";
 import SignInPage from "@app/(full)/sign-in/page";
 import { PageLogo } from "@components/PageLogo";
 import { PageCarousel } from "@components/PageCarousel";
 import { MobileSideContent } from "components/side-content/MobileSideContent";
 import { useScreenSize } from "@/hooks/useScreenSize";
+import { useUserProfile } from "@context/UserProfileContext";
 import type { Layout } from "@models/types";
 
 export function PageContent({ children }: Layout) {
   const { data: session, status } = useSession();
+  const { userProfile, userProfileLoading } = useUserProfile();
   const pathname = usePathname();
+  const router = useRouter();
   const isLargeScreen = useScreenSize();
 
   const carouselImages = [
@@ -20,6 +24,28 @@ export function PageContent({ children }: Layout) {
     "/assets/landing-page/2.png",
     "/assets/landing-page/3.png",
   ];
+
+  // Handle onboarding redirection
+  useEffect(() => {
+    if (
+      status === "authenticated" &&
+      session?.user &&
+      !userProfileLoading &&
+      userProfile
+    ) {
+      // If user hasn't completed onboarding and is not on the onboarding page
+      if (!userProfile.onboardingCompleted && pathname !== "/create-profile") {
+        router.push("/create-profile");
+      }
+      // If user has completed onboarding and tries to access onboarding page
+      else if (
+        userProfile.onboardingCompleted &&
+        pathname === "/create-profile"
+      ) {
+        router.push("/journal");
+      }
+    }
+  }, [status, session, userProfile, userProfileLoading, pathname, router]);
 
   const renderPageComponent = () => {
     if (pathname === "/sign-up") {
@@ -41,7 +67,8 @@ export function PageContent({ children }: Layout) {
 
   return (
     <section className="h-full w-full">
-      {status === "loading" ? (
+      {status === "loading" ||
+      (status === "authenticated" && userProfileLoading) ? (
         // Show PageLogo while loading
         <PageLogo />
       ) : session?.user ? (

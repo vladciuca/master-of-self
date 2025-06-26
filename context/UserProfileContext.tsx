@@ -1,6 +1,6 @@
 "use client";
 
-import React, {
+import {
   createContext,
   useContext,
   useState,
@@ -46,6 +46,7 @@ export function UserProfileProvider({ children }: { children: ReactNode }) {
       morning: "08:00",
       evening: "18:00",
     },
+    onboardingCompleted: false, // Add the onboarding flag
   });
   const [userProfileLoading, setUserProfileLoading] = useState(true);
   const [userProfileError, setUserProfileError] = useState<string | null>(null);
@@ -76,32 +77,23 @@ export function UserProfileProvider({ children }: { children: ReactNode }) {
   // Cleanup effect
   useEffect(() => {
     return () => {
-      // Clean up both abort controllers on unmount
-      if (fetchAbortControllerRef.current) {
-        fetchAbortControllerRef.current.abort();
-        fetchAbortControllerRef.current = null;
-      }
-
-      if (updateAbortControllerRef.current) {
-        updateAbortControllerRef.current.abort();
-        updateAbortControllerRef.current = null;
-      }
-
-      if (disciplinesUpdateAbortControllerRef.current) {
-        disciplinesUpdateAbortControllerRef.current.abort();
-        disciplinesUpdateAbortControllerRef.current = null;
-      }
-
-      if (activeUpdateAbortControllerRef.current) {
-        activeUpdateAbortControllerRef.current.abort();
-        activeUpdateAbortControllerRef.current = null;
-      }
+      // Clean up all abort controllers on unmount
+      [
+        fetchAbortControllerRef,
+        updateAbortControllerRef,
+        disciplinesUpdateAbortControllerRef,
+        activeUpdateAbortControllerRef,
+      ].forEach((ref) => {
+        if (ref.current) {
+          ref.current.abort();
+          ref.current = null;
+        }
+      });
     };
   }, []);
 
   // Fetch user profile from the server
   useEffect(() => {
-    //NOTE: here should I move this stuff at before the try or after
     if (!session?.user?.id) return;
 
     // Cancel any in-progress fetch
@@ -130,17 +122,12 @@ export function UserProfileProvider({ children }: { children: ReactNode }) {
         }
 
         const { profile } = await response.json();
-        //FIX: 1
-        // if (!profile.disciplines) {
-        //   console.warn(
-        //     "======⚠️ profile.disciplines missing from server response:",
-        //     profile
-        //   );
-        // }
+
         setUserProfile((prev) => ({
           ...prev,
           ...profile,
           disciplines: profile.disciplines ?? prev.disciplines ?? {},
+          onboardingCompleted: profile.onboardingCompleted ?? false, // Handle onboarding flag
         }));
       } catch (error) {
         // Only set error if it's not an abort error
@@ -167,9 +154,7 @@ export function UserProfileProvider({ children }: { children: ReactNode }) {
     };
   }, [session?.user?.id]);
 
-  //===============================================================================================
-  // GENERAL FUNCTION TO UPDATE USER SETTINGS KEYS
-  // NOTE: Currently only handles JOURNAL_START_TIMES in DB operations
+  // Rest of your existing methods remain the same...
   const updateProfile = async (key: keyof UserProfile, value: any) => {
     if (!session?.user?.id) return;
 
@@ -199,8 +184,6 @@ export function UserProfileProvider({ children }: { children: ReactNode }) {
         setUserProfile((prev) => ({ ...prev, [key]: value }));
       } else {
         console.error("Failed to update profile");
-        // Optionally, refetch profile to ensure consistency
-        // You could call fetchUserProfile() here if needed
       }
     } catch (error) {
       if (error instanceof Error && error.name !== "AbortError") {
@@ -217,8 +200,6 @@ export function UserProfileProvider({ children }: { children: ReactNode }) {
     }
   };
 
-  //===============================================================================================
-  // CALLING GENERAL FUNCTION TO UPDATE USER JOURNAL TIMES
   const handleTimeChange = (period: "morning" | "evening", value: string) => {
     updateProfile("journalStartTime", {
       ...userProfile.journalStartTime,
@@ -226,8 +207,6 @@ export function UserProfileProvider({ children }: { children: ReactNode }) {
     });
   };
 
-  //===============================================================================================
-  // UPDATE DISCIPLINE VALUES
   const updateDisciplinesValues = async (
     disciplineUpdates: Record<string, number>
   ) => {
@@ -285,13 +264,7 @@ export function UserProfileProvider({ children }: { children: ReactNode }) {
       }
 
       const result = await response.json();
-      //FIX 2
-      // if (!result?.disciplines) {
-      //   console.warn(
-      //     "=====⚠️ Missing disciplines in updateDisciplinesValues response:",
-      //     result
-      //   );
-      // }
+
       setUserProfile((prev) => ({
         ...prev,
         disciplines: result.disciplines ?? prev.disciplines ?? {},
@@ -303,9 +276,6 @@ export function UserProfileProvider({ children }: { children: ReactNode }) {
         console.warn("Update disciplines request was aborted");
         return;
       }
-
-      //FIX: 3
-      // console.warn("=====Rolling back to:", currentDisciplines);
 
       // Rollback optimistic update on error
       setUserProfile((prev) => ({
@@ -333,26 +303,6 @@ export function UserProfileProvider({ children }: { children: ReactNode }) {
     }
   };
 
-  //TEST
-  useEffect(() => {
-    if (
-      !userProfile.disciplines ||
-      Object.keys(userProfile.disciplines).length === 0
-    ) {
-      // console.warn(
-      //   "=========🛑 userProfile.disciplines is missing or empty!",
-      //   userProfile
-      // );
-    } else {
-      // console.log(
-      //   "=========✅ userProfile.disciplines updated",
-      //   userProfile.disciplines
-      // );
-    }
-  }, [userProfile.disciplines]);
-
-  //===============================================================================================
-  // UPDATE ACTIVE DISCIPLINES LIST (steps to render in JOURNAL)
   const updateActiveDiscipline = async (
     disciplineId: string,
     isActive: boolean
@@ -393,7 +343,7 @@ export function UserProfileProvider({ children }: { children: ReactNode }) {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({ disciplineId, action }),
-          signal, // Add signal to make the request abortable
+          signal,
         }
       );
 
@@ -428,8 +378,6 @@ export function UserProfileProvider({ children }: { children: ReactNode }) {
         ...userProfile,
         activeDisciplines: current,
       });
-
-      // Optionally show toast/error message
     } finally {
       // Only update state if the request wasn't aborted
       if (!signal.aborted) {
