@@ -70,14 +70,14 @@ export function OnboardingFlow() {
     },
     {
       id: 3,
-      title: "Track and Manage your disciplines",
-      subtitle: "Pick and manage your disciplines",
+      title: "Your Personal Dashboard",
+      subtitle: "Track and Manage your disciplines",
       content: <UserDisciplines onboarding />,
     },
     {
       id: 4,
       title: "Character Overview",
-      subtitle: "Your personal dashboard",
+      subtitle: "",
       content: (
         <UserProfileOverview
           userId={session?.user.id}

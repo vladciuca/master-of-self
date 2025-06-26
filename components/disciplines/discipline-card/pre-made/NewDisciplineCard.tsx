@@ -11,7 +11,7 @@ export function NewDisciplineCard() {
     >
       <IndicatorAccordionTrigger className="pt-2 pb-0">
         <DisciplineCardHeader
-          discipline="New Discipline"
+          discipline={"New Discipline"}
           disciplineId="new-discipline"
           icon={"FaPersonCircleQuestion"}
           color={"muted-foreground"}
@@ -27,8 +27,8 @@ export function NewDisciplineCard() {
 
           <div>
             <div className="mb-4">
-              To create a Discipline, write a prompt you'd like to reflect on
-              daily, and provide a short guideline or mindset for considering
+              To create a Discipline, think about a prompt you'd like to reflect
+              on daily, and provide a short guideline or mindset for considering
               it.
             </div>
 

@@ -34,11 +34,48 @@ export function DisciplinesList({
 
   return (
     <Accordion type="single" collapsible>
-      {!onboarding && <NewDisciplineCard />}
-
+      <NewDisciplineCard />
       <MotivationCard />
+      {dayEntries.length === 0 && nightEntries.length === 0 ? (
+        <div className="text-center text-muted-foreground p-4">
+          You don't have any disciplines yet. Start by adding one!
+        </div>
+      ) : (
+        <>
+          {dayEntries.length !== 0 && (
+            <DisciplineSectionDelimiter
+              day={true}
+              activeSteps={dayEntryCount}
+              maxSteps={dayEntries.length}
+            />
+          )}
 
-      {dayEntries.length !== 0 && (
+          {dayEntries.map((step) => (
+            <DisciplineCard
+              key={String(step._id)}
+              step={step}
+              handleEdit={handleEdit}
+            />
+          ))}
+
+          {nightEntries.length !== 0 && (
+            <DisciplineSectionDelimiter
+              day={false}
+              activeSteps={nightEntryCount}
+              maxSteps={nightEntries.length}
+            />
+          )}
+
+          {nightEntries.map((step) => (
+            <DisciplineCard
+              key={String(step._id)}
+              step={step}
+              handleEdit={handleEdit}
+            />
+          ))}
+        </>
+      )}
+      {/* {dayEntries.length !== 0 && (
         <DisciplineSectionDelimiter
           day={true}
           activeSteps={dayEntryCount}
@@ -72,7 +109,7 @@ export function DisciplinesList({
             handleEdit={handleEdit}
           />
         );
-      })}
+      })} */}
     </Accordion>
   );
 }
