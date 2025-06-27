@@ -25,7 +25,6 @@ export function UserProfileOverview({
   notCurrentUser = true,
   onboarding = false,
 }: UserProfileOverviewProps) {
-  console.log();
   const router = useRouter();
 
   const { user, loading, error } = useUserData(String(userId));
