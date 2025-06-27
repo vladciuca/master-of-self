@@ -43,6 +43,37 @@ export async function getUser(id: string): Promise<{
   }
 }
 
+// UPDATE ONBOARDING STATUS =====================================================================
+export async function updateOnboardingStatus(
+  userId: string,
+  completed: boolean
+): Promise<{
+  user: User | null;
+  error?: string;
+}> {
+  try {
+    if (!users) await init();
+    const query = { _id: new ObjectId(userId) };
+    const update = {
+      $set: {
+        "profile.onboardingCompleted": completed,
+      },
+    };
+
+    const result = await users.findOneAndUpdate(query, update, {
+      returnDocument: "after",
+    });
+
+    if (!result) {
+      throw new Error("User not found");
+    }
+
+    return { user: result };
+  } catch (error) {
+    return { user: null, error: "Failed to update onboarding status" };
+  }
+}
+
 // NOTE: THIS UPDATES USER SETTINGS
 // RIGHT NOW ONLY HANDLES JOURNAL TIMES
 // UPDATE USER PROFILE JOURNAL TIMES ======================================================

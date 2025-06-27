@@ -32,11 +32,11 @@ export function HeroSection() {
             transition={{ delay: 0.3, duration: 0.6 }}
             className="text-lg sm:text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed mt-8 pt-8"
           >
-            Journaling and habit tracking is designed as a{" "}
-            <span className="text-amber-400 font-semibold">gameplay loop</span>{" "}
-            that reinforces motivation through positivity, leveraging{" "}
+            Everyday is a{" "}
+            <span className="text-amber-400 font-semibold">gameplay loop</span>,{" "}
+            designed to reinforce motivation through positivity, leveraging{" "}
             <span className="text-violet-400 font-semibold">score systems</span>{" "}
-            inspired by RPGs to help you gain perspective and track progress.
+            inspired by RPGs to help you gain perspective on your progress.
           </motion.p>
         </motion.div>
       </div>

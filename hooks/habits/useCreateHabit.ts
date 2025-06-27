@@ -79,7 +79,7 @@ export function useCreateHabit() {
       // return createdHabitData; // Return the created data for the caller
     } catch (error) {
       if ((error as Error).name === "AbortError") {
-        console.log("Create operation aborted");
+        console.warn("Create operation aborted");
         return;
       }
 

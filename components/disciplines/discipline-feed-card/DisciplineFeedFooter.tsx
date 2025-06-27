@@ -5,7 +5,8 @@ import { useUserProfile } from "@context/UserProfileContext";
 // import { useToast } from "@/components/ui/use-toast";
 
 export function DisciplineFeedFooter({ stepId }: { stepId: string }) {
-  const { updateDisciplinesValues, userProfile } = useUserProfile();
+  const { updateActiveDiscipline, updateDisciplinesValues, userProfile } =
+    useUserProfile();
   // const { toast } = useToast();
   const [isAdding, setIsAdding] = useState(false);
 
@@ -22,54 +23,48 @@ export function DisciplineFeedFooter({ stepId }: { stepId: string }) {
 
     setIsAdding(true);
     try {
-      // Create an update object with the new discipline ID and value 0
+      // First add the discipline
       const disciplineUpdate = { [stepId]: 0 };
-      const result = await updateDisciplinesValues(disciplineUpdate);
+      const addResult = await updateDisciplinesValues(disciplineUpdate);
 
-      if (result?.success) {
-        // toast({
-        //   title: "Discipline added",
-        //   description: "The discipline has been added to your profile",
-        // });
+      if (addResult?.success) {
+        // Then activate it
+        await updateActiveDiscipline(stepId, true);
+        // Success toast
       } else {
-        // toast({
-        //   title: "Error",
-        //   description: result?.error || "Failed to add discipline",
-        //   variant: "destructive",
-        // });
+        // Error toast
       }
     } catch (error) {
       console.error("Error adding discipline:", error);
-      // toast({
-      //   title: "Error",
-      //   description: "Failed to add discipline",
-      //   variant: "destructive",
-      // });
+      // Error toast
     } finally {
       setIsAdding(false);
     }
   };
-
   return (
     <>
       <div className="flex p-2 mt-2 w-full">
-        <Button
-          onClick={handleAddDiscipline}
-          disabled={isDisciplineAdded || isAdding}
-          variant={isDisciplineAdded ? "outline" : "default"}
-          className="cursor-pointer w-full"
-        >
-          {isDisciplineAdded ? (
-            <CheckCircle className="mr-2 w-4 h-4" />
-          ) : (
-            <PlusCircle className="mr-2 w-4 h-4" />
-          )}
-          {isDisciplineAdded
-            ? "Already Added"
-            : isAdding
-            ? "Adding..."
-            : "Add Discipline"}
-        </Button>
+        {!isDisciplineAdded && (
+          <>
+            <Button
+              onClick={handleAddDiscipline}
+              disabled={isDisciplineAdded || isAdding}
+              variant={isDisciplineAdded ? "outline" : "default"}
+              className="cursor-pointer w-full"
+            >
+              {isDisciplineAdded ? (
+                <CheckCircle className="mr-2 w-4 h-4" />
+              ) : (
+                <PlusCircle className="mr-2 w-4 h-4" />
+              )}
+              {isDisciplineAdded
+                ? "Already Added"
+                : isAdding
+                ? "Adding..."
+                : "Add Discipline"}
+            </Button>
+          </>
+        )}
       </div>
     </>
   );

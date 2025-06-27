@@ -14,6 +14,7 @@ type DisciplineCardProps = {
   discipline: string;
   type?: string;
   addNew?: boolean;
+  onboarding?: boolean;
 };
 
 export function DisciplineCardHeader({
@@ -23,6 +24,7 @@ export function DisciplineCardHeader({
   discipline,
   type,
   addNew = false,
+  onboarding = false,
 }: DisciplineCardProps) {
   const {
     userProfile,
@@ -103,6 +105,7 @@ export function DisciplineCardHeader({
           <AddNewButton
             title="Create New Discipline"
             linkTo="/explore-disciplines"
+            disabled={onboarding}
           />
         </div>
       )}

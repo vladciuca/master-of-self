@@ -6,7 +6,6 @@ type HabitListProps = {
   habits: Habit[];
   defaultHabitActionValues: JournalEntryHabit;
   handleEdit: (habit: Habit) => void;
-  // handleDelete: (habit: Habit) => Promise<void>;
   entryLoading: boolean;
   habitActionsValuesFromEntry: JournalEntryHabit;
   entryTotalWillpower: number;
@@ -19,7 +18,6 @@ export function HabitList({
   habits = [],
   defaultHabitActionValues = {},
   handleEdit,
-  // handleDelete,
   entryLoading,
   habitActionsValuesFromEntry,
   entryTotalWillpower,
@@ -30,7 +28,7 @@ export function HabitList({
   return (
     <Accordion type="single" collapsible className="w-full pb-1 mt-1">
       <HabitCard
-        key={"new-habit"}
+        key="new-habit"
         addNew
         habit={{
           _id: "new-habit",
@@ -50,15 +48,17 @@ export function HabitList({
         handleActionUpdate={() => {}}
         hasNoEntryToday={false}
       />
-      {habits.map((habit: Habit) => {
-        return (
+
+      {habits.length === 0 ? (
+        <div className="text-center text-muted-foreground py-4 px-8">
+          You don’t have any habits yet. Start by creating one.
+        </div>
+      ) : (
+        habits.map((habit: Habit) => (
           <HabitCard
             key={habit._id}
             habit={habit}
             entryLoading={entryLoading}
-            // NOTE: now that the Entry has the default values when created
-            // there is no need for fallback
-            // check if no habits exist, fallback will be required
             habitDefaultActionValues={defaultHabitActionValues[habit._id] || {}}
             habitActionValues={habitActionsValuesFromEntry[habit._id] || {}}
             entryTotalWillpower={entryTotalWillpower}
@@ -67,8 +67,8 @@ export function HabitList({
             handleActionUpdate={handleActionUpdate}
             hasNoEntryToday={hasNoEntryToday}
           />
-        );
-      })}
+        ))
+      )}
     </Accordion>
   );
 }

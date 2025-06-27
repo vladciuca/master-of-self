@@ -74,7 +74,7 @@ export function useAllDisciplines() {
         setDisciplines(formattedDisciplines);
       } catch (error) {
         if ((error as Error).name === "AbortError") {
-          console.log("Fetch aborted");
+          console.warn("Fetch aborted");
           return;
         }
 

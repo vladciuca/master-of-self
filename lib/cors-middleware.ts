@@ -24,4 +24,4 @@ export function corsMiddleware(request: NextRequest) {
 }
 
 // For debugging purposes, you can log the allowed origins:
-console.log("Allowed origins:", allowedOrigins);
+// console.log("Allowed origins:", allowedOrigins);

@@ -2,7 +2,7 @@ import { DisciplineCardHeader } from "@components/disciplines/discipline-card/Di
 import { AccordionContent, AccordionItem } from "@/components/ui/accordion";
 import { IndicatorAccordionTrigger } from "@/components/ui/indicator-accordion-trigger";
 
-export function NewDisciplineCard() {
+export function NewDisciplineCard({ onboarding }: { onboarding?: boolean }) {
   return (
     <AccordionItem
       key={"new-discipline"}
@@ -11,11 +11,12 @@ export function NewDisciplineCard() {
     >
       <IndicatorAccordionTrigger className="pt-2 pb-0">
         <DisciplineCardHeader
-          discipline="New Discipline"
+          discipline={"New Discipline"}
           disciplineId="new-discipline"
           icon={"FaPersonCircleQuestion"}
           color={"muted-foreground"}
           addNew
+          onboarding={onboarding}
         />
       </IndicatorAccordionTrigger>
       <AccordionContent>
@@ -27,8 +28,8 @@ export function NewDisciplineCard() {
 
           <div>
             <div className="mb-4">
-              To create a Discipline, write a prompt you'd like to reflect on
-              daily, and provide a short guideline or mindset for considering
+              To create a Discipline, think about a prompt you'd like to reflect
+              on daily, and provide a short guideline or mindset for considering
               it.
             </div>
 

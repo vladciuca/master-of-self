@@ -27,6 +27,7 @@ export type UserProfile = {
     morning: string;
     evening: string;
   };
+  onboardingCompleted: boolean;
 };
 
 export type UserMetadata = User & {

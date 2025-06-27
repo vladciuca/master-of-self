@@ -16,7 +16,7 @@ export function Community() {
     <>
       {loading ? (
         <div className="space-y-4">{skeletonCards}</div>
-      ) : !loading && error ? (
+      ) : error ? (
         <div>
           <span>Error:</span>
           <div>
@@ -24,17 +24,19 @@ export function Community() {
               "There was an error loading your disciplines. Please try again later."}
           </div>
         </div>
+      ) : disciplines.length === 0 ? (
+        <div className="text-center text-muted-foreground mt-8 px-8">
+          No community disciplines available at the moment.
+        </div>
       ) : (
-        <>
-          <Accordion type="single" collapsible className="">
-            {disciplines.map((discipline) => (
-              <DisciplineFeedCard
-                key={String(discipline._id)}
-                step={discipline}
-              />
-            ))}
-          </Accordion>
-        </>
+        <Accordion type="single" collapsible>
+          {disciplines.map((discipline) => (
+            <DisciplineFeedCard
+              key={String(discipline._id)}
+              step={discipline}
+            />
+          ))}
+        </Accordion>
       )}
     </>
   );

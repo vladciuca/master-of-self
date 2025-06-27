@@ -55,6 +55,7 @@ export const authOptions: NextAuthOptions = {
                 morning: "08:00",
                 evening: "18:00",
               },
+              onboardingCompleted: false,
             },
           },
         }

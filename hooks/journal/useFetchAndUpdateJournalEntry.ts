@@ -63,7 +63,7 @@ export function useFetchAndUpdateJournalEntry(id: string) {
         setJournalEntryData(data);
       } catch (error) {
         if ((error as Error).name === "AbortError") {
-          console.log("Fetch aborted");
+          console.warn("Fetch aborted");
           return; // Don't update state if aborted
         }
 
@@ -124,7 +124,7 @@ export function useFetchAndUpdateJournalEntry(id: string) {
       // return updatedData;
     } catch (error) {
       if ((error as Error).name === "AbortError") {
-        console.log("Update aborted");
+        console.warn("Update aborted");
         return; // Don't update state if aborted
       }
 

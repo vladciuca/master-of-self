@@ -140,7 +140,6 @@ export function Bonus() {
         if (disciplineTab) tabs.push(disciplineTab);
       });
 
-    console.log("Generated tabs:", tabs);
     return tabs;
   }, [yesterdayEntry, nightEntryDisciplineScores, disciplineData]);
 

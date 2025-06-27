@@ -1,7 +1,7 @@
 import { PageLogo } from "@components/PageLogo";
 import { HeaderTitle } from "@components/HeaderTitle";
 
-export default function LoadingScreen() {
+export function LoadingScreen() {
   return (
     <div className="flex flex-col w-full h-full relative sm:pt-2">
       <div className="min-h-20 flex items-center justify-center py-2 sm:mt-1 sm:mb-2">

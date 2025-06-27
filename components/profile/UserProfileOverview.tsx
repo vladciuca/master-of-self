@@ -10,19 +10,22 @@ import { Button } from "@components/ui/button";
 import { ScrollArea } from "@components/ui/scroll-area";
 import { WeeklyWillpowerChart } from "@components/profile/weekly-willpower-chart/WeeklyWillpowerChart";
 import { RxChevronLeft } from "react-icons/rx";
-import LoadingScreen from "@components/skeletons/LoadingScreen";
+import { LoadingScreen } from "@components/skeletons/LoadingScreen";
 import { UserDetails } from "./UserDetails";
 import { SkeletonUserProfile } from "@components/skeletons/SkeletonUserProfile";
 
 interface UserProfileOverviewProps {
   userId?: string;
   notCurrentUser?: boolean;
+  onboarding?: boolean;
 }
 
 export function UserProfileOverview({
   userId,
   notCurrentUser = true,
+  onboarding = false,
 }: UserProfileOverviewProps) {
+  console.log();
   const router = useRouter();
 
   const { user, loading, error } = useUserData(String(userId));
@@ -74,7 +77,7 @@ export function UserProfileOverview({
       }`}
     >
       <div className="space-y-6 mb-2">
-        {!notCurrentUser ? (
+        {onboarding ? null : !notCurrentUser ? (
           <div className="px-2">
             <UserDetails />
           </div>
