@@ -11,7 +11,7 @@ import { RxChevronLeft, RxChevronRight } from "react-icons/rx";
 import { Welcome } from "./Welcome";
 import { PreMade } from "@components/disciplines/PreMade";
 import { UserDisciplines } from "@components/disciplines/UserDisciplines";
-import { UserProfileOverview } from "@components/profile/UserProfileOverview";
+// import { UserProfileOverview } from "@components/profile/UserProfileOverview";
 import { JournalEntryActionButton } from "@components/journal/JournalEntryActionButton";
 import { useCreateJournalEntry } from "@hooks/journal/useCreateJournalEntry";
 import { useUserProfile } from "@context/UserProfileContext";
@@ -38,33 +38,6 @@ export function OnboardingFlow() {
       title: `Hello, ${firstName}!`,
       subtitle:
         "Begin building the best version of yourself, one thought at a time.",
-      // content: (
-      //   <div className="space-y-6">
-      //     <div className="text-center space-y-4">
-      //       <p className="text-muted-foreground max-w-md mx-auto">
-      //         Our platform helps you build discipline, shape powerful habits,
-      //         and track your transformation — all grounded in daily reflection
-      //         and positive momentum.
-      //       </p>
-      //     </div>
-      //     <div className="grid gap-4 max-w-md mx-auto">
-      //       <div className="flex items-center gap-3 p-3 bg-muted/50 rounded-lg">
-      //         <CheckCircle className="w-5 h-5 text-green-500" />
-      //         <span className="text-sm">Strengthen daily discipline</span>
-      //       </div>
-      //       <div className="flex items-center gap-3 p-3 bg-muted/50 rounded-lg">
-      //         <CheckCircle className="w-5 h-5 text-green-500" />
-      //         <span className="text-sm">Build lasting habits</span>
-      //       </div>
-      //       <div className="flex items-center gap-3 p-3 bg-muted/50 rounded-lg">
-      //         <CheckCircle className="w-5 h-5 text-green-500" />
-      //         <span className="text-sm">
-      //           Reflect, grow, and track your progress
-      //         </span>
-      //       </div>
-      //     </div>
-      //   </div>
-      // ),
       content: <Welcome firstName={firstName} />,
     },
     {

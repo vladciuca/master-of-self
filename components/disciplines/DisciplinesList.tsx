@@ -37,7 +37,7 @@ export function DisciplinesList({
       <NewDisciplineCard onboarding={onboarding} />
       <MotivationCard />
       {dayEntries.length === 0 && nightEntries.length === 0 ? (
-        <div className="text-center text-muted-foreground p-4">
+        <div className="text-center text-muted-foreground p-4 pt-8">
           You don't have any disciplines yet. Start by adding one!
         </div>
       ) : (
