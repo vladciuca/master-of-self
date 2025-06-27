@@ -25,7 +25,7 @@ export function Community() {
           </div>
         </div>
       ) : disciplines.length === 0 ? (
-        <div className="text-center text-muted-foreground mt-8 px-8">
+        <div className="text-center text-muted-foreground mt-8 px-2 sm:px-8">
           No community disciplines available at the moment.
         </div>
       ) : (
