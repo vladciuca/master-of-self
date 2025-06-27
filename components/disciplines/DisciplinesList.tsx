@@ -75,41 +75,6 @@ export function DisciplinesList({
           ))}
         </>
       )}
-      {/* {dayEntries.length !== 0 && (
-        <DisciplineSectionDelimiter
-          day={true}
-          activeSteps={dayEntryCount}
-          maxSteps={dayEntries.length}
-        />
-      )}
-
-      {dayEntries.map((step) => {
-        return (
-          <DisciplineCard
-            key={String(step._id)}
-            step={step}
-            handleEdit={handleEdit}
-          />
-        );
-      })}
-
-      {nightEntries.length !== 0 && (
-        <DisciplineSectionDelimiter
-          day={false}
-          activeSteps={nightEntryCount}
-          maxSteps={nightEntries.length}
-        />
-      )}
-
-      {nightEntries.map((step) => {
-        return (
-          <DisciplineCard
-            key={String(step._id)}
-            step={step}
-            handleEdit={handleEdit}
-          />
-        );
-      })} */}
     </Accordion>
   );
 }
