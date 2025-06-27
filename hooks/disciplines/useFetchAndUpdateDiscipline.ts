@@ -70,7 +70,7 @@ export function useFetchAndUpdateDiscipline(id: string) {
         });
       } catch (error) {
         if ((error as Error).name === "AbortError") {
-          console.log("Fetch aborted");
+          console.warn("Fetch aborted");
           return;
         }
 
@@ -144,7 +144,7 @@ export function useFetchAndUpdateDiscipline(id: string) {
       // return updatedDisciplineData; // Return the updated data for the caller
     } catch (error) {
       if ((error as Error).name === "AbortError") {
-        console.log("Update aborted");
+        console.warn("Update aborted");
         return;
       }
 

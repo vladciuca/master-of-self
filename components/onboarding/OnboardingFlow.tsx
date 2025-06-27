@@ -126,9 +126,6 @@ export function OnboardingFlow() {
         createJournalEntry(),
       ]);
 
-      console.log("Onboarding completed:", onboardingResult);
-      console.log("Journal entry created:", newEntryId);
-
       // Navigate to the journal entry page
       router.push(`/update-journal-entry/${newEntryId}`);
     } catch (error) {

@@ -7,7 +7,6 @@ import type { Discipline } from "@models/mongodb";
 export function useAllDisciplines() {
   const { data: session } = useSession() as { data: Session | null };
 
-  console.log("session?.user.id", session?.user.id);
   const [disciplines, setDisciplines] = useState<Discipline[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -75,7 +74,7 @@ export function useAllDisciplines() {
         setDisciplines(formattedDisciplines);
       } catch (error) {
         if ((error as Error).name === "AbortError") {
-          console.log("Fetch aborted");
+          console.warn("Fetch aborted");
           return;
         }
 

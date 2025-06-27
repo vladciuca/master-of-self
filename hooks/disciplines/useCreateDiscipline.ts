@@ -102,7 +102,7 @@ export function useCreateDiscipline() {
       }
     } catch (error) {
       if ((error as Error).name === "AbortError") {
-        console.log("Create operation aborted");
+        console.warn("Create operation aborted");
         return;
       }
 

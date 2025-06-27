@@ -72,7 +72,7 @@ export function useFetchAndUpdateHabit(id: string) {
         });
       } catch (error) {
         if ((error as Error).name === "AbortError") {
-          console.log("Fetch aborted");
+          console.warn("Fetch aborted");
           return;
         }
 
@@ -141,7 +141,7 @@ export function useFetchAndUpdateHabit(id: string) {
       // return updatedHabitData; // Return the updated data for the caller
     } catch (error) {
       if ((error as Error).name === "AbortError") {
-        console.log("Update aborted");
+        console.warn("Update aborted");
         return;
       }
 

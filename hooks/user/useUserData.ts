@@ -46,7 +46,7 @@ export function useUserData(userId: string) {
         setUser(userData);
       } catch (err) {
         if ((err as Error).name === "AbortError") {
-          console.log("Fetch operation aborted");
+          console.warn("Fetch operation aborted");
           return;
         }
 
