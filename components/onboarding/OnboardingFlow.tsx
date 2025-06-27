@@ -6,9 +6,9 @@ import { useSession } from "next-auth/react";
 
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
-import { CheckCircle } from "lucide-react";
 import { RxChevronLeft, RxChevronRight } from "react-icons/rx";
 
+import { Welcome } from "./Welcome";
 import { PreMade } from "@components/disciplines/PreMade";
 import { UserDisciplines } from "@components/disciplines/UserDisciplines";
 import { UserProfileOverview } from "@components/profile/UserProfileOverview";
@@ -16,6 +16,7 @@ import { JournalEntryActionButton } from "@components/journal/JournalEntryAction
 import { useCreateJournalEntry } from "@hooks/journal/useCreateJournalEntry";
 import { useUserProfile } from "@context/UserProfileContext";
 import type { Session } from "@models/types";
+import { LoadingScreen } from "@components/skeletons/LoadingScreen";
 
 export function OnboardingFlow() {
   const router = useRouter();
@@ -29,63 +30,67 @@ export function OnboardingFlow() {
   const { updateOnboardingStatus } = useUserProfile();
   const { data: session } = useSession() as { data: Session | null };
 
+  const firstName = session?.user?.name?.split(" ")[0] || "there";
+
   const steps = [
     {
       id: 1,
-      title: "Welcome to Your Journey",
-      subtitle: "Build the perfect version of yourself",
-      content: (
-        <div className="space-y-6">
-          <div className="text-center space-y-4">
-            <h3 className="text-2xl font-semibold">
-              Ready to transform yourself?
-            </h3>
-            <p className="text-muted-foreground max-w-md mx-auto">
-              Our platform combines discipline tracking with habit formation to
-              help you become the best version of yourself.
-            </p>
-          </div>
-          <div className="grid gap-4 max-w-md mx-auto">
-            <div className="flex items-center gap-3 p-3 bg-muted/50 rounded-lg">
-              <CheckCircle className="w-5 h-5 text-green-500" />
-              <span className="text-sm">Track your disciplines</span>
-            </div>
-            <div className="flex items-center gap-3 p-3 bg-muted/50 rounded-lg">
-              <CheckCircle className="w-5 h-5 text-green-500" />
-              <span className="text-sm">Build lasting habits</span>
-            </div>
-            <div className="flex items-center gap-3 p-3 bg-muted/50 rounded-lg">
-              <CheckCircle className="w-5 h-5 text-green-500" />
-              <span className="text-sm">Monitor your progress</span>
-            </div>
-          </div>
-        </div>
-      ),
+      title: `Hello, ${firstName}!`,
+      subtitle:
+        "Begin building the best version of yourself, one thought at a time.",
+      // content: (
+      //   <div className="space-y-6">
+      //     <div className="text-center space-y-4">
+      //       <p className="text-muted-foreground max-w-md mx-auto">
+      //         Our platform helps you build discipline, shape powerful habits,
+      //         and track your transformation — all grounded in daily reflection
+      //         and positive momentum.
+      //       </p>
+      //     </div>
+      //     <div className="grid gap-4 max-w-md mx-auto">
+      //       <div className="flex items-center gap-3 p-3 bg-muted/50 rounded-lg">
+      //         <CheckCircle className="w-5 h-5 text-green-500" />
+      //         <span className="text-sm">Strengthen daily discipline</span>
+      //       </div>
+      //       <div className="flex items-center gap-3 p-3 bg-muted/50 rounded-lg">
+      //         <CheckCircle className="w-5 h-5 text-green-500" />
+      //         <span className="text-sm">Build lasting habits</span>
+      //       </div>
+      //       <div className="flex items-center gap-3 p-3 bg-muted/50 rounded-lg">
+      //         <CheckCircle className="w-5 h-5 text-green-500" />
+      //         <span className="text-sm">
+      //           Reflect, grow, and track your progress
+      //         </span>
+      //       </div>
+      //     </div>
+      //   </div>
+      // ),
+      content: <Welcome firstName={firstName} />,
     },
     {
       id: 2,
-      title: "Choose a Discipline",
-      subtitle: "Add disciplines to your profile",
+      title: "Pick Your First Discipline",
+      subtitle: "Focus your energy on what you want to grow.",
       content: <PreMade onboarding />,
     },
     {
       id: 3,
-      title: "Your Personal Dashboard",
-      subtitle: "Track and Manage your disciplines",
+      title: "Craft Your Discipline Loop",
+      subtitle: "Daily prompts fuel clarity, direction, and self-awareness.",
       content: <UserDisciplines onboarding />,
     },
-    {
-      id: 4,
-      title: "Character Overview",
-      subtitle: "",
-      content: (
-        <UserProfileOverview
-          userId={session?.user.id}
-          notCurrentUser={false}
-          onboarding
-        />
-      ),
-    },
+    // {
+    //   id: 4,
+    //   title: "Your Growth Dashboard",
+    //   subtitle: "",
+    //   content: (
+    //     <UserProfileOverview
+    //       userId={session?.user.id}
+    //       notCurrentUser={false}
+    //       onboarding
+    //     />
+    //   ),
+    // },
   ];
 
   const [currentStep, setCurrentStep] = useState(1);
@@ -175,6 +180,8 @@ export function OnboardingFlow() {
   // Determine if we're in a loading state
   const isLoading = isCompletingOnboarding || submittingJournalEntry;
 
+  if (!session) return <LoadingScreen />;
+
   return (
     <div className="h-full flex flex-col">
       {/* Fixed Progress Header */}
@@ -194,11 +201,17 @@ export function OnboardingFlow() {
       {/* Scrollable Content Area */}
       <div className="flex-1 overflow-auto border rounded-3xl">
         {/* Sticky Header Section */}
-        <div className="sticky top-0 bg-card z-10">
+        {/* <div className="sticky top-0 bg-card z-10"> */}
+        <div
+          className={`sticky top-0 bg-card z-10 ${
+            currentStep === 1 ? "hidden" : ""
+          }`}
+        >
           <div className="text-center py-8 px-4">
             <h2 className="text-3xl font-bold mb-2">
               {currentStepData?.title}
             </h2>
+
             <p className="text-lg text-muted-foreground">
               {currentStepData?.subtitle}
             </p>
