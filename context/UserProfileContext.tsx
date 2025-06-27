@@ -428,6 +428,9 @@
 //   }
 //   return context;
 // }
+
+//=============================================================================================
+
 "use client";
 
 import {
@@ -769,10 +772,10 @@ export function UserProfileProvider({ children }: { children: ReactNode }) {
       : current.filter((id) => id !== disciplineId);
 
     // Optimistically update local state
-    setUserProfile({
-      ...userProfile,
+    setUserProfile((prev) => ({
+      ...prev,
       activeDisciplines: nextDisciplines,
-    });
+    }));
 
     try {
       const action = isActive ? "add" : "remove";
@@ -815,10 +818,10 @@ export function UserProfileProvider({ children }: { children: ReactNode }) {
       );
 
       // Rollback optimistic update
-      setUserProfile({
-        ...userProfile,
+      setUserProfile((prev) => ({
+        ...prev,
         activeDisciplines: current,
-      });
+      }));
     } finally {
       // Only update state if the request wasn't aborted
       if (!signal.aborted) {

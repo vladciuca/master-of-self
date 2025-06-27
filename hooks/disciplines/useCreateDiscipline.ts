@@ -11,6 +11,7 @@ export function useCreateDiscipline() {
     updateDisciplinesValues,
     submittingDisciplinesValuesUpdate,
     updateDisciplinesValuesError,
+    updateActiveDiscipline,
   } = useUserProfile();
 
   const [submittingDiscipline, setSubmittingDiscipline] =
@@ -32,7 +33,7 @@ export function useCreateDiscipline() {
     };
   }, []);
 
-  // Create Discipline function //maybe rename this.... discipline.name?
+  // Create Discipline function
   const createDiscipline = async (disciplineStep: DisciplineZodType) => {
     if (!session?.user.id) throw new Error("User not authenticated");
 
@@ -77,17 +78,26 @@ export function useCreateDiscipline() {
 
       //NOTE: Takes the id from the response and added it to learned discipline list
       const createdDisciplineData = await response.json();
+      const disciplineId = String(createdDisciplineData._id);
 
       try {
-        await updateDisciplinesValues({
-          [String(createdDisciplineData._id)]: 0,
+        const addResult = await updateDisciplinesValues({
+          [disciplineId]: 0,
         });
-      } catch (error) {
-        console.warn("Failed to initialize discipline value:", error);
 
-        // Optional: surface that to your local state/UI
+        if (addResult?.success) {
+          await updateActiveDiscipline(disciplineId, true);
+        } else {
+          console.warn("⚠️ Discipline created but failed to initialize value");
+          setCreateDisciplineError(
+            "Discipline created but failed to initialize"
+          );
+        }
+      } catch (error) {
+        console.warn("Failed to initialize or activate discipline:", error);
         setCreateDisciplineError(
-          (error as Error).message ?? "Something went wrong initializing value"
+          (error as Error).message ??
+            "Something went wrong initializing discipline"
         );
       }
     } catch (error) {
@@ -96,11 +106,7 @@ export function useCreateDiscipline() {
         return;
       }
 
-      console.error(
-        "Error learning newly created discipline:",
-        updateDisciplinesValuesError
-      );
-      //NOTE: might not need this, might use updateDisciplinesValuesError
+      console.error("Error creating discipline:", error);
       setCreateDisciplineError(
         (error as Error).message || "Failed to create discipline"
       );
