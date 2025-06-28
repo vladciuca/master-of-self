@@ -166,7 +166,7 @@ export function DaySplit({ onboarding = false }: { onboarding?: boolean }) {
         </div>
       )}
 
-      <Card className={onboarding ? "border-none" : ""}>
+      <Card className={onboarding ? "border-none shadow-none" : ""}>
         <div
           className={`${
             onboarding ? "py-0" : "py-4"

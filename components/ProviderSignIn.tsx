@@ -5,6 +5,7 @@ import { signIn, getProviders, ClientSafeProvider } from "next-auth/react";
 import { Button } from "@/components/ui/button";
 import { Loader2 } from "lucide-react";
 import { GiAllSeeingEye } from "react-icons/gi";
+import { PageLogo } from "@components/PageLogo";
 
 type Providers = {
   [key: string]: ClientSafeProvider;
@@ -144,8 +145,11 @@ export function ProviderSignIn() {
 
   return (
     <div className="w-full h-full flex flex-col justify-around p-6 space-y-4">
-      <div className="w-full flex flex-col items-center justify-center">
-        <GiAllSeeingEye size={200} />
+      <div className="w-full flex items-center justify-center">
+        {/* <GiAllSeeingEye size={200} /> */}
+        <div className="h-48 w-48">
+          <PageLogo />
+        </div>
       </div>
       <div>
         <div className="space-y-6">
