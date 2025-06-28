@@ -167,22 +167,22 @@ export function DaySplit({ onboarding = false }: { onboarding?: boolean }) {
       )}
 
       <Card className={onboarding ? "border-none" : ""}>
-        <div className="py-0 sm:py-6 flex flex-col w-full space-y-6">
+        <div
+          className={`${
+            onboarding ? "py-0" : "py-4"
+          } sm:py-6 flex flex-col w-full space-y-6`}
+        >
           <div>
-            <div
-              className={`flex items-center mb-2 ${
-                onboarding ? "ml-3" : "ml-6"
-              }`}
-            >
-              <span className="w-2/12 flex items-center">
-                <FaSun className="text-3xl" />
+            <div className="flex items-center px-4">
+              <span className="w-1/12 sm:w-2/12 flex items-center justify-center">
+                <FaSun className="text-2xl sm:text-3xl" />
               </span>
 
-              <span className="flex flex-grow">
+              <span className="flex flex-grow ml-2 sm:ml-0">
                 <Label htmlFor="morning-start">Morning starting time</Label>
               </span>
 
-              <span className="w-4/12 flex items-center justify-center">
+              <span className="w-4/12 flex items-center justify-end">
                 <Input
                   type="time"
                   id="morning-start"
@@ -198,18 +198,16 @@ export function DaySplit({ onboarding = false }: { onboarding?: boolean }) {
           </div>
 
           <div>
-            <div
-              className={`flex items-center ${onboarding ? "ml-3" : "ml-6"}`}
-            >
-              <span className="w-2/12 flex items-center">
-                <FaMoon className="text-3xl" />
+            <div className="flex items-center px-4">
+              <span className="w-1/12 sm:w-2/12 flex items-center justify-center">
+                <FaMoon className="text-2xl sm:text-3xl" />
               </span>
 
-              <span className="flex flex-grow">
+              <span className="flex flex-grow ml-2 sm:ml-0">
                 <Label htmlFor="evening-start">Evening starting time</Label>
               </span>
 
-              <span className="w-4/12 flex items-center justify-center">
+              <span className="w-4/12 flex items-center justify-end">
                 <Input
                   type="time"
                   id="evening-start"
@@ -223,6 +221,7 @@ export function DaySplit({ onboarding = false }: { onboarding?: boolean }) {
               </span>
             </div>
           </div>
+
           <AnimatePresence mode="wait">
             {errorMessage && (
               <motion.div
