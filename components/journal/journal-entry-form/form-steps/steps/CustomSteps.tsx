@@ -117,9 +117,9 @@ export const customStepConfigs: JournalCustomStepConfig[] = [
     description: "Time Management - Plan your priorities and key tasks.",
   },
   {
-    _id: "emotionalRegulation",
-    icon: stepIconMap.emotionalRegulation,
-    discipline: " Emotional Mastery",
+    _id: "emotionalMastery",
+    icon: stepIconMap.emotionalMastery,
+    discipline: "Emotional Mastery",
     type: "nightEntry",
     title: "Write about a moment when you managed your emotions well",
     description:
@@ -128,11 +128,11 @@ export const customStepConfigs: JournalCustomStepConfig[] = [
   {
     _id: "mentalClarity",
     icon: stepIconMap.mentalClarity,
-    discipline: "Clear Thinking",
+    discipline: "Mental Clarity",
     type: "dayEntry",
     title: "What is one thing clouding your focus today?",
     description:
-      "Mental Clarity - Identify mental clutter and reduce distractions.",
+      "Clear Thinking - Identify mental clutter and reduce distractions.",
   },
   {
     _id: "selfCompassion",
@@ -146,23 +146,23 @@ export const customStepConfigs: JournalCustomStepConfig[] = [
   {
     _id: "delayedGratification",
     icon: stepIconMap.delayedGratification,
-    discipline: "Willpower Training",
+    discipline: "Delayed Gratification",
     type: "dayEntry",
     title: "What short-term urge will I resist today?",
     description:
-      "Delayed Gratification - Strengthen discipline by delaying impulses.",
+      "Willpower Training - Strengthen discipline by delaying impulses.",
   },
   {
-    _id: "valuesCheck",
-    icon: stepIconMap.valuesCheck,
-    discipline: "Integrity Practice",
+    _id: "integrity",
+    icon: stepIconMap.integrity,
+    discipline: "Integrity",
     type: "nightEntry",
     title: "Did your actions reflect your values today?",
     description: "Values Check - Align your behavior with core beliefs.",
   },
   {
-    _id: "joySparking",
-    icon: stepIconMap.joySparking,
+    _id: "happiness",
+    icon: stepIconMap.happiness,
     discipline: "Happiness",
     type: "dayEntry",
     title: "What are 3 things I’ll enjoy today?",
@@ -170,8 +170,8 @@ export const customStepConfigs: JournalCustomStepConfig[] = [
       "Joy Sparking - Anticipate and focus on small positive moments.",
   },
   {
-    _id: "perspectiveShift",
-    icon: stepIconMap.perspectiveShift,
+    _id: "mentalFlexibility",
+    icon: stepIconMap.mentalFlexibility,
     discipline: "Mental Flexibility",
     type: "nightEntry",
     title: "How would someone else view your challenge?",
@@ -179,8 +179,8 @@ export const customStepConfigs: JournalCustomStepConfig[] = [
       "Perspective Shift - Gain insight by reframing your viewpoint.",
   },
   {
-    _id: "focusTraining",
-    icon: stepIconMap.focusTraining,
+    _id: "concentration",
+    icon: stepIconMap.concentration,
     discipline: "Concentration",
     type: "dayEntry",
     title: "What task will I give full focus to today?",

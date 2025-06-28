@@ -32,15 +32,15 @@ export const stepIconMap: StepIconMap = {
   charisma: "GiLovers", // Connection, people
   timeManagement: "GiPlayerTime", // Skill mastery = discipline
 
-  emotionalRegulation: "GiRearAura", // Emotional state imagery
+  emotionalMastery: "GiRearAura", // Emotional state imagery
   gratitudeDepth: "GiBeamsAura", // Radiance of gratitude
   mentalClarity: "GiExtraLucid", // Lucid = clear
   selfCompassion: "GiHealing", // Reused from positivity, fits compassion
   delayedGratification: "GiSpikedWall", // Boundary, resistance
-  valuesCheck: "GiRomanToga", // Symbol of principle/integrity
-  joySparking: "GiAura", // Radiating positivity
-  perspectiveShift: "GiDuality", // Two sides/viewpoints
-  focusTraining: "GiMeditation", // Calm, focus
+  integrity: "GiRomanToga", // Symbol of principle/integrity
+  happiness: "GiAura", // Radiating positivity
+  mentalFlexibility: "GiDuality", // Two sides/viewpoints
+  concentration: "GiMeditation", // Calm, focus
   lettingGo: "GiTeleport", // Releasing, moving on
 };
 

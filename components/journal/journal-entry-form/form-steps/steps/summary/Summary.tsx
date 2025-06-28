@@ -80,12 +80,22 @@ export const Summary = () => {
     return isObjectId;
   };
 
-  // Helper function to get discipline display name
+  // // Helper function to get discipline display name
+  // const getDisciplineDisplayName = (key: string): string => {
+  //   if (isDisciplineId(key) && disciplineData[key]) {
+  //     return disciplineData[key].name;
+  //   }
+  //   return key.charAt(0).toUpperCase() + key.slice(1);
+  // };
   const getDisciplineDisplayName = (key: string): string => {
     if (isDisciplineId(key) && disciplineData[key]) {
       return disciplineData[key].name;
     }
-    return key.charAt(0).toUpperCase() + key.slice(1);
+
+    // Convert camelCase to separate words and capitalize each word
+    return key
+      .replace(/([a-z])([A-Z])/g, "$1 $2") // Add space before capital letters
+      .replace(/^./, (str) => str.toUpperCase()); // Capitalize first letter
   };
 
   // Helper function to get discipline icon

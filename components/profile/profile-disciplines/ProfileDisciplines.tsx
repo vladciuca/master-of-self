@@ -43,11 +43,17 @@ export function ProfileDisciplines({ disciplines }: ProfileDisciplinesProps) {
 
   const isDisciplineId = (key: string): boolean => /^[a-f\d]{24}$/i.test(key);
 
+  // this already repeated 2 times in summary step too
+  //+a different method of displaying the name in on JournalEntry Cards - disc list
   const getDisplayName = (key: string): string => {
     if (isDisciplineId(key) && disciplineData && disciplineData[key]) {
       return disciplineData[key].name;
     }
-    return key.charAt(0).toUpperCase() + key.slice(1);
+    // return key.charAt(0).toUpperCase() + key.slice(1);
+    // Convert camelCase to separate words and capitalize each word
+    return key
+      .replace(/([a-z])([A-Z])/g, "$1 $2") // Add space before capital letters
+      .replace(/^./, (str) => str.toUpperCase()); // Capitalize first letter
   };
 
   // Helper function to get discipline icon
