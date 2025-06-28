@@ -177,19 +177,19 @@ export function OnboardingFlow() {
             currentStep === 1 ? "hidden" : ""
           }`}
         >
-          <div className="text-center py-8">
+          <div className="text-center pt-8">
             <h2 className="text-2xl sm:text-3xl font-bold mb-2">
               {currentStepData?.title}
             </h2>
 
-            <p className="text-base sm:text-lg text-muted-foreground px-4">
+            {/* <p className="text-base sm:text-lg text-muted-foreground px-4">
               {currentStepData?.subtitle}
-            </p>
+            </p> */}
           </div>
         </div>
 
         {/* Content Section */}
-        <div className="w-full px-4">{currentStepData?.content}</div>
+        <div className="w-full px-4 pt-8">{currentStepData?.content}</div>
 
         {/* Error Display */}
         {onboardingError && (
