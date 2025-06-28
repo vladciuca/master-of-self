@@ -219,9 +219,7 @@ export function OnboardingFlow() {
             {isLastStep ? (
               <div className={isFirstStep ? "w-full" : "flex-1 ml-4"}>
                 <JournalEntryActionButton
-                  text={
-                    isLoading ? "Completing Setup..." : "Start Your Journey"
-                  }
+                  text={isLoading ? "Completing Setup..." : "Let’s go!"}
                   handleClick={handleCompleteOnboardingAndCreateJournal}
                   handleDisabled={isLoading}
                   isSubmitting={isLoading}

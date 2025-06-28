@@ -97,9 +97,7 @@ JournalEntryCardProps) {
           {session?.user?.id === creatorId && pathName === "/journal" && (
             <div className="w-full">
               <Link href={`/update-journal-entry/${_id}`}>
-                <JournalEntryActionButton
-                  text={"Continue today's journaling session"}
-                />
+                <JournalEntryActionButton text={"Continue today's journey!"} />
               </Link>
             </div>
           )}
