@@ -5,21 +5,43 @@ export type StepIconMap = {
 };
 
 export const stepIconMap: StepIconMap = {
-  //Built-in step icons
+  // Built-in step icons
   day: "FaSun",
   night: "FaMoon",
   sleep: "GiNightSleep",
   habits: "GiSkills",
-  //Custom step icons
+
+  // Existing custom steps
   confidence: "GiAura",
   awareness: "GiAwareness",
   positivity: "GiHealing",
   resilience: "GiGuardedTower",
   highlights: "FaStar",
   overview: "GiPencilRuler",
-  // willpower: "IoAccessibility",
   bonus: "FaBoltLightning",
   default: "GiInnerSelf",
+
+  // NEW
+  empathy: "GiHeartInside", // Symbol of compassion/love
+  criticalThinking: "GiSmart", // Brain = thinking
+  adaptability: "GiBodySwapping", // Swapping bodies = adapting
+  selfAwareness: "GiInnerSelf", // Self = introspection
+  courage: "GiBurningPassion", // Fire = bravery, drive
+  vitality: "GiBodyHeight", // Health, physicality
+  innovation: "GiTeamIdea", // Team + lightbulb = creative ideas
+  charisma: "GiLovers", // Connection, people
+  timeManagement: "GiPlayerTime", // Skill mastery = discipline
+
+  emotionalRegulation: "GiRearAura", // Emotional state imagery
+  gratitudeDepth: "GiBeamsAura", // Radiance of gratitude
+  mentalClarity: "GiExtraLucid", // Lucid = clear
+  selfCompassion: "GiHealing", // Reused from positivity, fits compassion
+  delayedGratification: "GiSpikedWall", // Boundary, resistance
+  valuesCheck: "GiRomanToga", // Symbol of principle/integrity
+  joySparking: "GiAura", // Radiating positivity
+  perspectiveShift: "GiDuality", // Two sides/viewpoints
+  focusTraining: "GiMeditation", // Calm, focus
+  lettingGo: "GiTeleport", // Releasing, moving on
 };
 
 //JOURNAL STEPS STYLE
