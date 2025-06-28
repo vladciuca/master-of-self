@@ -48,7 +48,7 @@ export function OnboardingFlow() {
     },
     {
       id: 3,
-      title: "Craft Your Discipline Loop",
+      title: "Manage Your Disciplines",
       subtitle: "Daily prompts fuel clarity, direction, and self-awareness.",
       content: <UserDisciplines onboarding />,
     },
@@ -189,7 +189,7 @@ export function OnboardingFlow() {
         </div>
 
         {/* Content Section */}
-        <div className="w-full px-4 pt-8">{currentStepData?.content}</div>
+        <div className="w-full px-4 pt-0">{currentStepData?.content}</div>
 
         {/* Error Display */}
         {onboardingError && (

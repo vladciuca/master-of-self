@@ -29,7 +29,7 @@ const TIME_RANGES: Record<"morning" | "evening", TimeRange> = {
   evening: { min: 16, max: 23 }, // 4 PM to 11 PM
 };
 
-export function DaySplit() {
+export function DaySplit({ onboarding = false }: { onboarding?: boolean }) {
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [invalidFields, setInvalidFields] = useState<InvalidFields>({
     morning: false,
@@ -155,22 +155,31 @@ export function DaySplit() {
 
   return (
     <div>
-      <div className="mx-1 mb-4">
-        <CardTitle className="scroll-m-20 text-2xl font-semibold tracking-tight">
-          {"Day Split"}
-        </CardTitle>
-        <CardDescription>{"Set your daily journaling hours."}</CardDescription>
-      </div>
-      <Card>
-        <div className="px-4 py-6 flex flex-col w-full space-y-6">
+      {!onboarding && (
+        <div className="mx-1 mb-4">
+          <CardTitle className="scroll-m-20 text-2xl font-semibold tracking-tight">
+            {"Day Split"}
+          </CardTitle>
+          <CardDescription>
+            {"Set your daily journaling hours."}
+          </CardDescription>
+        </div>
+      )}
+
+      <Card className={onboarding ? "border-none" : ""}>
+        <div className="py-0 sm:py-6 flex flex-col w-full space-y-6">
           <div>
-            <div className="flex items-center mb-2 ml-3">
+            <div
+              className={`flex items-center mb-2 ${
+                onboarding ? "ml-3" : "ml-6"
+              }`}
+            >
               <span className="w-2/12 flex items-center">
                 <FaSun className="text-3xl" />
               </span>
 
               <span className="flex flex-grow">
-                <Label htmlFor="morning-start">Morning start hour</Label>
+                <Label htmlFor="morning-start">Morning starting time</Label>
               </span>
 
               <span className="w-4/12 flex items-center justify-center">
@@ -189,13 +198,15 @@ export function DaySplit() {
           </div>
 
           <div>
-            <div className="flex items-center ml-3">
+            <div
+              className={`flex items-center ${onboarding ? "ml-3" : "ml-6"}`}
+            >
               <span className="w-2/12 flex items-center">
                 <FaMoon className="text-3xl" />
               </span>
 
               <span className="flex flex-grow">
-                <Label htmlFor="evening-start">Evening start hour</Label>
+                <Label htmlFor="evening-start">Evening starting time</Label>
               </span>
 
               <span className="w-4/12 flex items-center justify-center">
@@ -221,7 +232,9 @@ export function DaySplit() {
                 exit={{ opacity: 0, y: -10 }}
                 transition={{ duration: 0.2 }}
               >
-                <p className={`text-${ERROR_COLOR} mt-2 text-sm text-center`}>
+                <p
+                  className={`text-${ERROR_COLOR} sm:mt-2 text-sm text-center`}
+                >
                   {errorMessage}.
                 </p>
               </motion.div>

@@ -33,7 +33,11 @@ export function DisciplinesList({
   ).length;
 
   return (
-    <Accordion type="single" collapsible>
+    <Accordion
+      type="single"
+      collapsible
+      className={onboarding ? "mt-8 sm:mt-16" : ""}
+    >
       <NewDisciplineCard onboarding={onboarding} />
       <MotivationCard />
       {dayEntries.length === 0 && nightEntries.length === 0 ? (

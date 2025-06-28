@@ -54,7 +54,9 @@ export function UserDisciplines({ onboarding }: { onboarding?: boolean }) {
   return (
     <>
       {isLoading ? (
-        <div className="space-y-4">{renderSkeletons()}</div>
+        <div className={onboarding ? "space-y-4 mt-8 sm:mt-16" : "space-y-4"}>
+          {renderSkeletons()}
+        </div>
       ) : hasError ? (
         <div>
           <span>Error:</span>

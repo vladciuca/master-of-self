@@ -2,12 +2,14 @@
 import { motion } from "framer-motion";
 import { Zap, Target, TrendingUp } from "lucide-react";
 
+import { DaySplit } from "@components/profile/DaySplit";
+
 export function Welcome({ firstName }: { firstName: string }) {
   const features = [
     {
       icon: Zap,
       title: "Disciplines – Grow From the Inside Out",
-      text: "Develop traits like focus, confidence, or patience by reflecting on daily prompts. Track your growth and earn Willpower along the way.",
+      text: "Develop traits like focus, confidence, or patience by reflecting on daily prompts. Track your growth with increased Willpower along the way.",
     },
     {
       icon: Target,
@@ -22,7 +24,7 @@ export function Welcome({ firstName }: { firstName: string }) {
   ];
 
   return (
-    <div className="min-h-full flex flex-col justify-center items-center px-2 sm:px-6 pt-8">
+    <div className="min-h-full flex flex-col justify-center items-center px-2 sm:px-6 pt-2 sm:pt-8">
       <div className="w-full max-w-md mx-auto space-y-8">
         {/* Header Section */}
         <motion.div
@@ -57,13 +59,13 @@ export function Welcome({ firstName }: { firstName: string }) {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.8, ease: "easeOut" }}
         >
-          {/* <p className="text-muted-foreground text-center text-sm sm:text-base leading-relaxed">
-            Our platform guides your personal transformation with powerful
-            habits, deep self-awareness, and structured discipline — all
-            grounded in daily momentum.
-          </p> */}
+          <p className="text-muted-foreground text-center text-sm sm:text-base leading-relaxed sm:mb-8">
+            Your day is split into two focused journaling sessions - morning and
+            evening. Reflect on daily prompts during each session to build
+            consistent habits and track your personal growth.
+          </p>
 
-          <div className="space-y-4">
+          {/* <div className="space-y-4">
             {features.map((feature, index) => {
               const IconComponent = feature.icon;
               return (
@@ -92,7 +94,9 @@ export function Welcome({ firstName }: { firstName: string }) {
                 </motion.div>
               );
             })}
-          </div>
+          </div> */}
+
+          <DaySplit onboarding />
         </motion.div>
       </div>
     </div>

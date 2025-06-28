@@ -184,7 +184,7 @@ export const Summary = () => {
       // title={`${sectionTitle}`}
       title="Daily Summary"
       scoreSection={
-        <h2 className={`text-muted w-full flex justify-center ${iconColor}`}>
+        <h2 className={`w-full flex justify-center text-primary`}>
           <IconRenderer
             iconName={isEveningTime ? stepIconMap.night : stepIconMap.day}
             size={40}
