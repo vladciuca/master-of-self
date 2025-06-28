@@ -139,7 +139,7 @@ export const customStepConfigs: JournalCustomStepConfig[] = [
     icon: stepIconMap.selfCompassion,
     discipline: "Self Compassion",
     type: "nightEntry",
-    title: "Write a kind note to yourself.",
+    title: "Write a kind note to yourself",
     description:
       "Self-Compassion - Practice treating yourself with empathy and kindness.",
   },
