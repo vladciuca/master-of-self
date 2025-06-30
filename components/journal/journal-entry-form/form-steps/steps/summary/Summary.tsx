@@ -81,12 +81,6 @@ export const Summary = () => {
   };
 
   // // Helper function to get discipline display name
-  // const getDisciplineDisplayName = (key: string): string => {
-  //   if (isDisciplineId(key) && disciplineData[key]) {
-  //     return disciplineData[key].name;
-  //   }
-  //   return key.charAt(0).toUpperCase() + key.slice(1);
-  // };
   const getDisciplineDisplayName = (key: string): string => {
     if (isDisciplineId(key) && disciplineData[key]) {
       return disciplineData[key].name;
@@ -197,7 +191,8 @@ export const Summary = () => {
         <h2 className={`w-full flex justify-center text-primary`}>
           <IconRenderer
             iconName={isEveningTime ? stepIconMap.night : stepIconMap.day}
-            size={40}
+            size={35}
+            className={iconColor}
           />
         </h2>
       }
