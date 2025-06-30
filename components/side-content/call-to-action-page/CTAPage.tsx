@@ -88,7 +88,7 @@ export function CTAPage({
           </p>
         </motion.div>
         {/* Morning/Evening Prompts Section */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 pt-4 sm:mt-0 max-w-lg mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 pt-8 sm:pt-4 sm:mt-0 max-w-lg mx-auto">
           <motion.div
             className="flex items-center justify-center text-sm sm:text-base md:text-lg text-primary backdrop-blur-sm rounded-lg p-2 md:p-4 min-h-[80px] sm:min-h-[100px]"
             variants={fadeInUp}
@@ -97,7 +97,7 @@ export function CTAPage({
               <div className="flex-shrink-0 p-2 sm:p-3 bg-amber-500/20 rounded-full flex items-center justify-center">
                 <FaSun className="w-6 h-6 sm:w-8 sm:h-8 md:w-10 md:h-10 text-amber-400" />
               </div>
-              <div className="text-center mt-2">
+              <div className="text-center">
                 <h3 className="text-base sm:text-lg md:text-xl font-semibold text-primary mb-1 leading-tight">
                   Morning Prompts
                 </h3>
@@ -117,7 +117,7 @@ export function CTAPage({
               <div className="flex-shrink-0 p-2 sm:p-3 bg-indigo-500/20 rounded-full flex items-center justify-center">
                 <FaMoon className="w-6 h-6 sm:w-8 sm:h-8 md:w-10 md:h-10 text-violet-400" />
               </div>
-              <div className="text-center mt-2">
+              <div className="text-center">
                 <h3 className="text-base sm:text-lg md:text-xl font-semibold text-primary mb-1 leading-tight">
                   Evening Prompts
                 </h3>
