@@ -13,6 +13,8 @@ import { RxChevronLeft } from "react-icons/rx";
 import { LoadingScreen } from "@components/skeletons/LoadingScreen";
 import { UserDetails } from "./UserDetails";
 import { SkeletonUserProfile } from "@components/skeletons/SkeletonUserProfile";
+import { SkeletonBarChart } from "@components/skeletons/SkeletonBarChart";
+import { SkeletonHabitIcons } from "@components/skeletons/SkeletonHabitIcons";
 
 interface UserProfileOverviewProps {
   userId?: string;
@@ -32,7 +34,7 @@ export function UserProfileOverview({
 
   // Handle loading state
   if (loading) {
-    return <>{notCurrentUser ? <LoadingScreen /> : <SkeletonUserProfile />}</>;
+    return <>{notCurrentUser ? <LoadingScreen /> : <></>}</>;
   }
 
   // Handle error state
@@ -90,11 +92,18 @@ export function UserProfileOverview({
         )}
       </div>
 
-      <div className="mt-2 mb-4 sm:mb-8">
+      {/* <div className="mt-2 mb-4 sm:mb-8">
         <WeeklyWillpowerChart displaySmall userId={userId} />
+      </div> */}
+      <div className="mt-2 mb-4 sm:mb-8">
+        {loading ? (
+          <SkeletonBarChart />
+        ) : (
+          <WeeklyWillpowerChart displaySmall userId={userId} />
+        )}
       </div>
 
-      {habits.length > 0 && !habitsLoading && !habitsError && (
+      {/* {habits.length > 0 && !habitsLoading && !habitsError && (
         <div className="flex gap-3 overflow-x-auto scrollbar-hide pb-2 w-full max-w-full h-28 mb-3 sm:mb-6">
           {habits.map((habit) => (
             <div key={habit._id} className="min-w-20">
@@ -107,7 +116,23 @@ export function UserProfileOverview({
             </div>
           ))}
         </div>
-      )}
+      )} */}
+      {habitsLoading ? (
+        <SkeletonHabitIcons />
+      ) : habits.length > 0 && !habitsError ? (
+        <div className="flex gap-3 overflow-x-auto scrollbar-hide pb-2 w-full max-w-full h-28 mb-3 sm:mb-6">
+          {habits.map((habit) => (
+            <div key={habit._id} className="min-w-20">
+              <HabitIconProgressBar
+                icon={habit.icon}
+                xp={habit.xp}
+                displaySmall
+                name={habit.name}
+              />
+            </div>
+          ))}
+        </div>
+      ) : null}
 
       <ScrollArea className="pr-1 flex-1">
         <ProfileDisciplines disciplines={user.profile.disciplines || {}} />
