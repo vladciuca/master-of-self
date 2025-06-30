@@ -69,7 +69,7 @@ export default function ExploreDisciplines() {
       return (
         <Link key={index} href={href}>
           <div className="relative">
-            <div className="absolute inset-y-0 left-0 w-1.5 bg-gradient-to-b from-red-500 via-yellow-500 via-green-500 via-blue-500 via-indigo-500 to-purple-500 rounded-l"></div>
+            <div className="absolute inset-y-0 left-0 w-1.5 rounded-lg bg-gradient-to-b from-yellow-400 via-orange-400 to-purple-500"></div>
             <Card className="cursor-pointer bg-muted/30 p-2 py-4 sm:py-6 flex flex-col justify-center items-center border-transparent ml-1.5">
               <CardTitle className="mb-1 text-base sm:text-lg text-center">
                 {title}
@@ -87,7 +87,7 @@ export default function ExploreDisciplines() {
       // Third card with full rainbow border, no background
       return (
         <Link key={index} href={href}>
-          <div className="p-0.5 bg-gradient-to-r from-red-500 via-yellow-500 via-green-500 via-blue-500 via-indigo-500 to-purple-500 rounded-lg">
+          <div className="p-0.5 rounded-lg bg-gradient-to-r from-yellow-400 via-orange-400 to-purple-500">
             <div className="cursor-pointer bg-background p-2 py-4 sm:py-6 flex flex-col justify-center items-center rounded-lg">
               <CardTitle className="mb-1 text-base sm:text-lg text-center">
                 {title}

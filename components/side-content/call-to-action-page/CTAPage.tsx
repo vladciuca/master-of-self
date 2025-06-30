@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import { X } from "lucide-react";
+import { FaSun, FaMoon } from "react-icons/fa6";
 
 export const sectionVariants = {
   hidden: { opacity: 0, y: 50 },
@@ -47,68 +48,94 @@ export function CTAPage({
 }: PageProps) {
   const ContentComponent = () => (
     <motion.div
-      className="w-full max-w-4xl mx-auto text-center space-y-4"
+      className="w-full max-w-4xl mx-auto text-center space-y-4 pt-16 sm:pt-0"
       variants={staggerChildren}
       initial="hidden"
       animate="visible"
     >
       {/* Main Headline */}
-      <motion.h1
-        className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-primary leading-[1.1] tracking-tight"
-        variants={fadeInUp}
-      >
-        <span className="block">"You Are What</span>
-        {/* <span className="block bg-clip-text text-teal-500"></span> */}
-        <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-500 to-emerald-300">
-          You Think."
-        </span>
-        <span className="block text-xl sm:text-2xl md:text-3xl lg:text-4xl mt-2 text-gray-300">
-          — Marcus Aurelius
-        </span>
-      </motion.h1>
-
-      {/* Benefit Points */}
-      <motion.div
-        className="space-y-4 max-w-3xl mx-auto pt-8"
-        variants={fadeInUp}
-      >
-        <p className="text-lg sm:text-xl text-muted-foreground leading-relaxed">
-          {/* Shape your mindset through daily prompts, reflective journaling, and
-          powerful habits — all in a shared, motivating space. */}
-          Shape your mindset by replying to intentional prompts — set in the
-          morning for direction and motivation, and in the evening for
-          reflection and growth.
-        </p>
-
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-0 p-4">
-          <motion.p
-            className="text-sm sm:text-base md:text-lg text-primary backdrop-blur-sm rounded-lg p-2 md:p-4"
-            variants={fadeInUp}
-          >
-            ✅ Ask better questions
-          </motion.p>
-          <motion.p
-            className="text-sm sm:text-base md:text-lg text-primary backdrop-blur-sm rounded-lg p-2 md:p-4"
-            variants={fadeInUp}
-          >
-            ✅ Give honest answers
-          </motion.p>
-        </div>
-
-        {/* Subtitle */}
-        <motion.p
-          className="text-xl sm:text-2xl text-primary font-light max-w-3xl mx-auto leading-relaxed"
+      <motion.div variants={fadeInUp}>
+        {/*HERO*/}
+        <motion.h1
           variants={fadeInUp}
+          className="py-8 text-5xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-primary leading-[1.1] tracking-tight"
         >
-          Build discipline by choosing the right thoughts, every day
-        </motion.p>
+          <span className="block text-3xl md:text-4xl lg:text-5xl">
+            "You Become What
+          </span>
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 via-orange-400 to-purple-500">
+            You Think."
+          </span>
+
+          <span className="font-medium block text-xl sm:text-2xl md:text-3xl lg:text-4xl mt-2 text-muted-foreground">
+            — Marcus Aurelius
+          </span>
+        </motion.h1>
+
+        <motion.div variants={fadeInUp} className="w-full flex justify-center">
+          <div className="max-w-md mt-4">
+            <h1 className="text-3xl sm:text-4xl font-semibold text-primary pt-4">
+              <span className="font-medium text-4xl sm:text-5xl">P</span>
+              ROMPT <span className="font-medium text-4xl sm:text-5xl">J</span>
+              OURNALING
+            </h1>
+          </div>
+        </motion.div>
+        <motion.div variants={fadeInUp} className="w-full flex justify-center">
+          <p className="max-w-lg text-base sm:text-lg text-muted-foreground leading-relaxed">
+            Build a powerful mindset in minutes a day. Personalized prompts
+            guide your thoughts toward clarity, purpose, and daily progress.
+          </p>
+        </motion.div>
+        {/* Morning/Evening Prompts Section */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 pt-4 sm:mt-0 max-w-lg mx-auto">
+          <motion.div
+            className="flex items-center justify-center text-sm sm:text-base md:text-lg text-primary backdrop-blur-sm rounded-lg p-2 md:p-4 min-h-[80px] sm:min-h-[100px]"
+            variants={fadeInUp}
+          >
+            <div className="flex flex-col items-center justify-center w-full max-w-xs">
+              <div className="flex-shrink-0 p-2 sm:p-3 bg-amber-500/20 rounded-full flex items-center justify-center">
+                <FaSun className="w-6 h-6 sm:w-8 sm:h-8 md:w-10 md:h-10 text-amber-400" />
+              </div>
+              <div className="text-center mt-2">
+                <h3 className="text-base sm:text-lg md:text-xl font-semibold text-white mb-1 leading-tight">
+                  Morning Prompts
+                </h3>
+                <p className="text-sm md:text-base text-muted-foreground leading-tight">
+                  Start your day with <br className="hidden md:block" /> purpose
+                  and intention.
+                </p>
+              </div>
+            </div>
+          </motion.div>
+
+          <motion.div
+            className="flex items-center justify-center text-sm sm:text-base md:text-lg text-primary backdrop-blur-sm rounded-lg p-2 md:p-4 min-h-[80px] sm:min-h-[100px]"
+            variants={fadeInUp}
+          >
+            <div className="flex flex-col items-center justify-center w-full max-w-xs">
+              <div className="flex-shrink-0 p-2 sm:p-3 bg-indigo-500/20 rounded-full flex items-center justify-center">
+                <FaMoon className="w-6 h-6 sm:w-8 sm:h-8 md:w-10 md:h-10 text-violet-400" />
+              </div>
+              <div className="text-center mt-2">
+                <h3 className="text-base sm:text-lg md:text-xl font-semibold text-white mb-1 leading-tight">
+                  Evening Prompts
+                </h3>
+                <p className="text-sm md:text-base text-muted-foreground leading-tight">
+                  Reflect and track <br className="hidden md:block" /> your
+                  personal growth.
+                </p>
+              </div>
+            </div>
+          </motion.div>
+        </div>
       </motion.div>
 
       {/* CTA Button */}
-      <motion.div className="pt-12" variants={fadeInUp}>
+      <motion.div className="pt-8" variants={fadeInUp}>
         <Link href="/sign-in">
           <motion.button
-            className="overflow-hidden group relative inline-flex items-center justify-center font-bold py-6 px-12 rounded-full text-xl sm:text-2xl shadow-2xl text-white bg-[linear-gradient(to_right,_#fbbe25_50%,_#8a5cf7_50%)] transition-all duration-300 transform hover:scale-105 hover:shadow-[0_20px_40px_rgba(0,0,0,0.3)] bg-origin-border"
+            className="bg-gradient-to-r from-yellow-400 via-orange-400 to-purple-500 text-white font-bold leading-relaxed overflow-hidden group relative inline-flex items-center justify-center py-3 sm:py-5 px-12 rounded-full text-xl sm:text-2xl shadow-2xl transition-all duration-300 transform hover:scale-105 hover:shadow-[0_20px_40px_rgba(0,0,0,0.3)] bg-origin-border"
             whileHover={{
               scale: 1.05,
               boxShadow: "0 25px 50px rgba(0,0,0,0.4)",
@@ -116,8 +143,8 @@ export function CTAPage({
             whileTap={{ scale: 0.98 }}
           >
             <span className="relative z-10 block lg:inline">
-              <span className="block lg:inline">Think Better,</span>
-              <span className="block lg:inline"> Live Better</span>
+              <span className="block lg:inline">Think better,</span>
+              <span className="block lg:inline"> Live better</span>
             </span>
             <motion.svg
               className="ml-3 w-8 h-8 group-hover:translate-x-1 transition-transform duration-200"
@@ -131,7 +158,6 @@ export function CTAPage({
               />
             </motion.svg>
 
-            {/* Button shine effect */}
             <div className="absolute inset-0 pointer-events-none rounded-full">
               <div className="w-full h-full bg-gradient-to-r from-transparent via-white/30 to-transparent skew-x-[-20deg] -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-out" />
             </div>
@@ -141,7 +167,7 @@ export function CTAPage({
 
       {/* Social Proof Hint */}
       <motion.p className="text-sm text-gray-500 py-4" variants={fadeInUp}>
-        Join thousands building better habits daily
+        Currently in Alpha — Feedback welcome!
       </motion.p>
     </motion.div>
   );
