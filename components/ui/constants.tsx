@@ -27,7 +27,7 @@ export const stepIconMap: StepIconMap = {
   adaptability: "GiBodySwapping", // Swapping bodies = adapting
   selfAwareness: "GiInnerSelf", // Self = introspection
   courage: "GiBurningPassion", // Fire = bravery, drive
-  vitality: "GiBodyHeight", // Health, physicality
+  vitality: "GiAnatomy", // Health, physicality
   innovation: "GiTeamIdea", // Team + lightbulb = creative ideas
   charisma: "GiLovers", // Connection, people
   timeManagement: "GiPlayerTime", // Skill mastery = discipline

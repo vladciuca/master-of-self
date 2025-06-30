@@ -73,8 +73,11 @@ export function CTAPage({
         variants={fadeInUp}
       >
         <p className="text-lg sm:text-xl text-muted-foreground leading-relaxed">
-          Shape your mindset through daily prompts, reflective journaling, and
-          powerful habits — all in a shared, motivating space.
+          {/* Shape your mindset through daily prompts, reflective journaling, and
+          powerful habits — all in a shared, motivating space. */}
+          Shape your mindset by replying to intentional prompts — set in the
+          morning for direction and motivation, and in the evening for
+          reflection and growth.
         </p>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-0 p-4">
