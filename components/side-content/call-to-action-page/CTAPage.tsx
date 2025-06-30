@@ -167,7 +167,7 @@ export function CTAPage({
 
       {/* Social Proof Hint */}
       <motion.p className="text-sm text-gray-500 py-4" variants={fadeInUp}>
-        Currently in Alpha — Feedback welcome!
+        A guided mental health app — early access.
       </motion.p>
     </motion.div>
   );

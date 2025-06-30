@@ -98,7 +98,7 @@
   height: 22px;
   border-radius: 40px;
   color: black;
-  border: 2px solid;
+  border: 3px solid;
   position: relative;
 }
 .loader::before {

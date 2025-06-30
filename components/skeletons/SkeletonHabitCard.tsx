@@ -3,7 +3,7 @@ import { Skeleton } from "@components/ui/skeleton";
 
 export function SkeletonHabitCard() {
   return (
-    <Card className="mt-1 mb-12 px-1 border-none">
+    <Card className="mt-1 mb-12 px-1 border-none shadow-none">
       <div className="flex justify-between items-center">
         <Skeleton className="w-16 h-16" />
         <div className="flex flex-grow flex-col ml-6">
