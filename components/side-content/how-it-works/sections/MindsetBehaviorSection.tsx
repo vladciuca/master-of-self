@@ -80,7 +80,9 @@ export function MindsetBehaviorSection() {
           <ul className="mt-4 list-inside">
             {section.list.map((item, idx) => (
               <li key={idx} className="mt-2">
-                <h4 className={`font-semibold text-lg ${section.color}`}>
+                <h4
+                  className={`text-center lg:text-left font-semibold text-lg ${section.color}`}
+                >
                   {item.listTitle}
                 </h4>
                 <ul className="list-disc list-inside text-muted-foreground">

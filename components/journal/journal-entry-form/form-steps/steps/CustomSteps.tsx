@@ -27,9 +27,9 @@ export const customStepConfigs: JournalCustomStepConfig[] = [
     icon: stepIconMap.awareness,
     discipline: "awareness",
     type: "nightEntry",
-    title: "What are today's highlights?",
+    title: "Where did I act unconsciously today?",
     description:
-      "Mindfulness Exercise - Practice meditation or deep focus exercises.",
+      "Mindfulness Reflection – Rewind your day with compassion. Where did you react without intention? What moment caught you off guard? Where did you follow impulse instead of awareness?",
   },
   {
     _id: "resilience",
