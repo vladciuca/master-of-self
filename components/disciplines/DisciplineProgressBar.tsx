@@ -85,7 +85,7 @@ export const DisciplineProgressBar = ({
   );
   const xpForCurrentLevel = xpGain - baseXP;
   const xpToLevelUp = nextLevelXP - baseXP;
-  // const leveledUp = level > currentLevel;
+  const leveledUp = level > currentLevel;
   // const isBarXpEmpty = currentProgressPercentage === 0;
 
   return (

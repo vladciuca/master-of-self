@@ -49,13 +49,13 @@ export const customStepConfigs: JournalCustomStepConfig[] = [
     description: "Kindness- Perform a small act of kindness and reflect on it.",
   },
   {
-    _id: "criticalThinking",
+    _id: "criticalThinkingNight",
     icon: stepIconMap.criticalThinking,
     discipline: "Critical Thinking",
-    type: "dayEntry",
-    title: "What problem might I face today and how can I approach it?",
+    type: "nightEntry",
+    title: "What problem did I face today and how did I approach it?",
     description:
-      "Problem Solving - Anticipate and prepare solutions in advance.",
+      "Problem Solving - Reflect on challenges encountered and how you addressed them.",
   },
   {
     _id: "adaptability",
