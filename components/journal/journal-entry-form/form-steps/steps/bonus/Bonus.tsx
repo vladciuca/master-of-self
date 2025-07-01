@@ -34,7 +34,11 @@ export function Bonus() {
       return disciplineData[disciplineKey].name;
     }
     // Fallback to capitalized key
-    return disciplineKey.charAt(0).toUpperCase() + disciplineKey.slice(1);
+    // return disciplineKey.charAt(0).toUpperCase() + disciplineKey.slice(1);
+    // Convert camelCase to separate words and capitalize each word
+    return disciplineKey
+      .replace(/([a-z])([A-Z])/g, "$1 $2") // Add space before capital letters
+      .replace(/^./, (str) => str.toUpperCase()); // Capitalize first letter
   };
 
   // Dynamically generate tab data from nightEntryDisciplineScores
