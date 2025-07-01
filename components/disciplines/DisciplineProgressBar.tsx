@@ -85,8 +85,8 @@ export const DisciplineProgressBar = ({
   );
   const xpForCurrentLevel = xpGain - baseXP;
   const xpToLevelUp = nextLevelXP - baseXP;
-  const leveledUp = level > currentLevel;
-  const isBarXpEmpty = currentProgressPercentage === 0;
+  // const leveledUp = level > currentLevel;
+  // const isBarXpEmpty = currentProgressPercentage === 0;
 
   return (
     <div className="w-full">
@@ -114,18 +114,10 @@ export const DisciplineProgressBar = ({
       )}
 
       {!showXpMetrics ? (
-        <div className={`grid grid-cols-[auto_1fr_auto] gap-2 items-center`}>
-          {/* Col 1: Level Indicator (fixed width column) */}
-          <div className="flex justify-center items-center">
-            <LevelIndicator
-              currentLevel={currentLevel}
-              level={level}
-              positiveColor={color ? color : "primary"}
-              size={25}
-            />
-          </div>
-
-          {/* Col 2: Progress Bar with Overlay Text (flexible width column) */}
+        <div
+          className={`grid grid-cols-[1fr_auto_auto] gap-1 items-center pl-1`}
+        >
+          {/* Col 1: Progress Bar with Overlay Text (flexible width column) */}
           <div className="relative w-full">
             <ProgressBar
               currentProgressPercentage={currentProgressPercentage}
@@ -227,6 +219,15 @@ export const DisciplineProgressBar = ({
             </div>
           </div>
 
+          {/* Col 2: Level Indicator (fixed width column) */}
+          <div className="flex justify-center items-center">
+            <LevelIndicator
+              currentLevel={currentLevel}
+              level={level}
+              positiveColor={color ? color : "primary"}
+              size={25}
+            />
+          </div>
           {/* Col 3: Projected XP (fixed width column that's always present) */}
           <div
             className={`text-${JOURNAL_COLORS.score} font-semibold text-lg

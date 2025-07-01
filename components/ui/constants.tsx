@@ -38,7 +38,7 @@ export const stepIconMap: StepIconMap = {
   selfCompassion: "GiHealing", // Reused from positivity, fits compassion
   delayedGratification: "GiSpikedWall", // Boundary, resistance
   integrity: "GiRomanToga", // Symbol of principle/integrity
-  happiness: "GiAura", // Radiating positivity
+  happiness: "GiIciclesAura", // Radiating positivity
   mentalFlexibility: "GiDuality", // Two sides/viewpoints
   concentration: "GiMeditation", // Calm, focus
   lettingGo: "GiTeleport", // Releasing, moving on
