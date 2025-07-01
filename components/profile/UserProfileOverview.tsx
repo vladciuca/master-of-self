@@ -30,7 +30,8 @@ export function UserProfileOverview({
   const router = useRouter();
 
   const { user, loading, error } = useUserData(String(userId));
-  const { habits, habitsLoading, habitsError } = useUserHabits(userId);
+  const { habits, habitsLoading, habitsError, hasHabits } =
+    useUserHabits(userId);
 
   // Handle loading state
   if (loading) {
@@ -117,7 +118,7 @@ export function UserProfileOverview({
           ))}
         </div>
       )} */}
-      {habitsLoading ? (
+      {hasHabits && habitsLoading ? (
         <SkeletonHabitIcons />
       ) : habits.length > 0 && !habitsError ? (
         <div className="flex gap-3 overflow-x-auto scrollbar-hide pb-2 w-full max-w-full h-28 mb-3 sm:mb-6">

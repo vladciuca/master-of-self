@@ -86,6 +86,7 @@ export const DisciplineProgressBar = ({
   const xpForCurrentLevel = xpGain - baseXP;
   const xpToLevelUp = nextLevelXP - baseXP;
   const leveledUp = level > currentLevel;
+  const isBarXpEmpty = currentProgressPercentage === 0;
 
   return (
     <div className="w-full">
@@ -135,17 +136,19 @@ export const DisciplineProgressBar = ({
             />
 
             {/* Overlay text */}
-            <div className="absolute inset-0 flex items-center pointer-events-none">
+            {/* <div className="absolute inset-0 flex items-center pointer-events-none">
               <div className="w-full px-3">
                 <div
                   className={`w-full flex justify-between items-center ${
-                    leveledUp ? "text-primary" : textColor
+                    isBarXpEmpty || leveledUp ? "text-primary" : textColor
                   }`}
                 >
                   <div className="flex items-center">
                     <span
                       className={`capitalize font-medium 
-                        ${leveledUp ? "text-primary" : textColor}
+                        ${
+                          isBarXpEmpty || leveledUp ? "text-primary" : textColor
+                        }
                         text-md"
                       `}
                     >
@@ -154,7 +157,6 @@ export const DisciplineProgressBar = ({
                     <div className={`ml-1 text-xs`}>
                       ({xpForCurrentLevel}/{xpToLevelUp})
                     </div>
-                    {/* )} */}
                   </div>
                   <span
                     className={`flex items-baseline ${
@@ -173,6 +175,54 @@ export const DisciplineProgressBar = ({
                     </span>
                   </span>
                 </div>
+              </div>
+            </div> */}
+
+            <div className="absolute inset-0 pointer-events-none">
+              {/* Filled text (clipped) */}
+              <div
+                className="absolute inset-0 overflow-hidden"
+                style={{ width: `${xpGainProgressPercentage}%` }}
+              >
+                <div
+                  className="flex justify-between items-center h-full px-3 text-background whitespace-nowrap"
+                  style={{
+                    width: `${100 / (xpGainProgressPercentage / 100)}%`,
+                  }}
+                >
+                  <div
+                    className="flex items-center min-w-0"
+                    style={{ maxWidth: "75%" }}
+                  >
+                    <span className="font-medium capitalize truncate">
+                      {name}
+                    </span>
+                    <span className="ml-1 text-xs flex-shrink-0">
+                      ({xpForCurrentLevel}/{xpToLevelUp})
+                    </span>
+                  </div>
+                  <span className="font-semibold flex-shrink-0">
+                    Rank {level}
+                  </span>
+                </div>
+              </div>
+
+              {/* Base text (unfilled area) */}
+              <div className="flex justify-between items-center h-full px-3 text-primary whitespace-nowrap">
+                <div
+                  className="flex items-center min-w-0"
+                  style={{ maxWidth: "75%" }}
+                >
+                  <span className="font-medium capitalize truncate">
+                    {name}
+                  </span>
+                  <span className="ml-1 text-xs flex-shrink-0">
+                    ({xpForCurrentLevel}/{xpToLevelUp})
+                  </span>
+                </div>
+                <span className="font-semibold flex-shrink-0">
+                  Rank {level}
+                </span>
               </div>
             </div>
           </div>

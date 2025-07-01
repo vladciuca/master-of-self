@@ -170,7 +170,7 @@ export function CTAPage({
         className="text-sm text-muted-foreground py-4"
         variants={fadeInUp}
       >
-        A guided mental health app — early access.
+        Mental health app — early access.
       </motion.p>
     </motion.div>
   );
