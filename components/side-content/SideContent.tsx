@@ -5,8 +5,9 @@ import { useSession } from "next-auth/react";
 import { LandingPage } from "./landing-page/LandingPage";
 import { HowItWorks } from "./how-it-works/HowItWorks";
 import { CTAPage } from "./call-to-action-page/CTAPage";
+import { DiscordPage } from "./community/DiscordPage";
 import { Button } from "@components/ui/button";
-import { FaEye, FaBrain } from "react-icons/fa";
+import { FaEye, FaBrain, FaDiscord } from "react-icons/fa";
 import { FaGear } from "react-icons/fa6";
 import { useSideContent } from "@context/SideContentContext";
 
@@ -16,18 +17,28 @@ const allTabs = [
     icon: FaEye,
     label: "PLAY NOW",
     component: CTAPage,
+    bgColor: "bg-background",
   },
   {
     id: "landing",
     icon: FaBrain,
     label: "GAME LOOP",
     component: LandingPage,
+    bgColor: "bg-background",
   },
   {
     id: "science",
     icon: FaGear,
     label: "HOW IT WORKS",
     component: HowItWorks,
+    bgColor: "bg-background",
+  },
+  {
+    id: "community",
+    icon: FaDiscord,
+    label: "COMMUNITY",
+    component: DiscordPage,
+    bgColor: "bg-indigo-500",
   },
 ];
 
@@ -109,12 +120,19 @@ export function SideContent() {
           <Button
             key={tab.id}
             size="lg"
+            // className={`transition-all duration-300 ease-in-out ${
+            //   isDrawerOpen ? "py-6 px-2" : "py-10 px-10"
+            // } ${
+            //   activeTab === tab.id && isDrawerOpen
+            //     ? "bg-primary"
+            //     : "bg-background hover:bg-primary text-primary hover:text-background"
+            // } flex items-center justify-start`}
             className={`transition-all duration-300 ease-in-out ${
               isDrawerOpen ? "py-6 px-2" : "py-10 px-10"
-            } ${
+            } ${tab.bgColor} ${
               activeTab === tab.id && isDrawerOpen
-                ? "bg-primary"
-                : "bg-background hover:bg-primary text-primary hover:text-background"
+                ? "bg-primary text-background"
+                : "text-primary hover:bg-primary hover:text-background"
             } flex items-center justify-start`}
             onClick={() => handleTabClick(tab.id)}
           >
