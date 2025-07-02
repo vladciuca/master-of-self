@@ -59,13 +59,13 @@ export function DiscordPage({
 
   const ContentComponent = () => (
     <motion.div
-      className="w-full max-w-4xl mx-auto text-center space-y-4 pt-16 sm:pt-0"
+      className="w-full max-w-4xl mx-auto text-center space-y-4"
       variants={staggerChildren}
       initial="hidden"
       animate="visible"
     >
       {/* Discord Logo */}
-      <motion.div variants={fadeInUp} className="flex justify-center">
+      <motion.div variants={fadeInUp} className="hidden lg:flex justify-center">
         <div className="p-4 sm:p-6 bg-gradient-to-br from-indigo-500/20 to-purple-500/20 rounded-3xl backdrop-blur-sm">
           <FaDiscord className="w-16 h-16 sm:w-20 sm:h-20 text-indigo-400" />
         </div>
@@ -75,7 +75,7 @@ export function DiscordPage({
       <motion.div variants={fadeInUp}>
         <motion.h1
           variants={fadeInUp}
-          className="py-8 text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-primary leading-[1.1] tracking-tight"
+          className="pb-4 pt-0 lg:py-8 text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-primary leading-[1.1] tracking-tight"
         >
           <span className="block text-3xl md:text-4xl lg:text-5xl">
             Join Our
@@ -187,7 +187,7 @@ export function DiscordPage({
       </motion.div>
 
       {/* CTA Button */}
-      <motion.div className="pt-8" variants={fadeInUp}>
+      <motion.div className="py-4 lg:py-8" variants={fadeInUp}>
         <motion.button
           onClick={handleJoinDiscord}
           className="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white font-bold leading-relaxed overflow-hidden group relative inline-flex items-center justify-center py-3 sm:py-5 px-12 rounded-full text-xl sm:text-2xl shadow-2xl transition-all duration-300 transform hover:scale-105 hover:shadow-[0_20px_40px_rgba(0,0,0,0.3)] bg-origin-border"
@@ -198,9 +198,9 @@ export function DiscordPage({
           whileTap={{ scale: 0.98 }}
         >
           <FaDiscord className="mr-3 w-6 h-6" />
-          <span className="relative z-10 block lg:inline">
-            <span className="block lg:inline">Join Discord</span>
-            <span className="block lg:inline"> Server</span>
+          <span className="relative block lg:inline">
+            {/* <span className="block lg:inline">Join Discord</span> */}
+            <span className="block lg:inline">To Discord</span>
           </span>
           <motion.svg
             className="ml-3 w-8 h-8 group-hover:translate-x-1 transition-transform duration-200"
@@ -237,7 +237,7 @@ export function DiscordPage({
           {/* Close Button */}
           {!isMobile && (
             <div
-              className="absolute top-4 right-4 z-10 cursor-pointer"
+              className="absolute top-4 right-4 cursor-pointer"
               onClick={handleCloseDrawer}
             >
               <X />
@@ -255,14 +255,14 @@ export function DiscordPage({
           >
             {isMobile ? (
               // Mobile: Keep original ScrollArea approach
-              <div className="flex-grow px-4 overflow-scroll relative pt-72 pb-8">
-                <div className="relative z-10 h-full flex flex-col justify-center items-center p-0 my-6">
+              <div className="flex-grow px-4 overflow-scroll relative lg:pt-72">
+                <div className="relative h-full flex flex-col justify-center items-center p-0 my-6">
                   <ContentComponent />
                 </div>
               </div>
             ) : (
               // Desktop: Full viewport height, centered, no scroll
-              <div className="h-screen flex flex-col justify-center items-center px-6 relative z-10">
+              <div className="h-full flex flex-col justify-center items-center px-6 relative">
                 <ContentComponent />
               </div>
             )}

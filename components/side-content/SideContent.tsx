@@ -7,8 +7,8 @@ import { HowItWorks } from "./how-it-works/HowItWorks";
 import { CTAPage } from "./call-to-action-page/CTAPage";
 import { DiscordPage } from "./community/DiscordPage";
 import { Button } from "@components/ui/button";
-import { FaEye, FaBrain, FaDiscord } from "react-icons/fa";
-import { FaGear } from "react-icons/fa6";
+import { FaEye, FaBrain } from "react-icons/fa";
+import { FaGear, FaDiscord } from "react-icons/fa6";
 import { useSideContent } from "@context/SideContentContext";
 
 const allTabs = [
