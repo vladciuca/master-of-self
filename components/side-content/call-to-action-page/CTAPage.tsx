@@ -48,7 +48,7 @@ export function CTAPage({
 }: PageProps) {
   const ContentComponent = () => (
     <motion.div
-      className="w-full max-w-4xl mx-auto text-center space-y-4 pt-16 sm:pt-32"
+      className="w-full max-w-4xl mx-auto text-center space-y-4 pt-32 lg:pt-0"
       variants={staggerChildren}
       initial="hidden"
       animate="visible"
