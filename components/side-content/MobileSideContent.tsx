@@ -60,25 +60,25 @@ const ContentArea = ({ activeTab }: { activeTab: string }) => {
 export function MobileSideContent({ innerMenu }: { innerMenu?: boolean }) {
   const { data: session, status } = useSession();
 
-  // const tabs = useMemo(() => {
-  //   return allTabs.filter((tab) => {
-  //     if (tab.id === "cta" && status === "authenticated") {
-  //       return false;
-  //     }
-  //     return true;
-  //   });
-  // }, [status]);
   const tabs = useMemo(() => {
     return allTabs.filter((tab) => {
       if (tab.id === "cta" && status === "authenticated") {
         return false;
       }
-      if (tab.id === "community" && innerMenu) {
-        return false;
-      }
       return true;
     });
-  }, [status, innerMenu]);
+  }, [status]);
+  // const tabs = useMemo(() => {
+  //   return allTabs.filter((tab) => {
+  //     if (tab.id === "cta" && status === "authenticated") {
+  //       return false;
+  //     }
+  //     if (tab.id === "community" && innerMenu) {
+  //       return false;
+  //     }
+  //     return true;
+  //   });
+  // }, [status, innerMenu]);
 
   const [activeTab, setActiveTab] = useState(() => tabs[0]?.id || "landing");
 

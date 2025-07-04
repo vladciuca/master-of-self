@@ -120,20 +120,20 @@ export function SideContent() {
           <Button
             key={tab.id}
             size="lg"
-            // className={`transition-all duration-300 ease-in-out ${
-            //   isDrawerOpen ? "py-6 px-2" : "py-10 px-10"
-            // } ${
-            //   activeTab === tab.id && isDrawerOpen
-            //     ? "bg-primary"
-            //     : "bg-background hover:bg-primary text-primary hover:text-background"
-            // } flex items-center justify-start`}
             className={`transition-all duration-300 ease-in-out ${
               isDrawerOpen ? "py-6 px-2" : "py-10 px-10"
-            } ${tab.bgColor} ${
+            } ${
               activeTab === tab.id && isDrawerOpen
-                ? "bg-primary text-background"
-                : "text-primary hover:bg-primary hover:text-background"
+                ? "bg-primary"
+                : "bg-background hover:bg-primary text-primary hover:text-background"
             } flex items-center justify-start`}
+            // className={`transition-all duration-300 ease-in-out ${
+            //   isDrawerOpen ? "py-6 px-2" : "py-10 px-10"
+            // } ${tab.bgColor} ${
+            //   activeTab === tab.id && isDrawerOpen
+            //     ? "bg-primary text-background"
+            //     : "text-primary hover:bg-primary hover:text-background"
+            // } flex items-center justify-start`}
             onClick={() => handleTabClick(tab.id)}
           >
             <tab.icon size={34} />
