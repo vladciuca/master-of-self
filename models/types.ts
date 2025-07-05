@@ -38,6 +38,22 @@ export interface Session extends NextAuthSession {
   user: User;
 }
 
+// JOURNEY ROADMAP -----------------------------------------------------
+export type RoadmapMonth = {
+  month: number;
+  title: string;
+  focus: string;
+  milestones: string[];
+  actionPoints: string[];
+};
+
+export type RoadmapData = {
+  title: string;
+  description: string;
+  totalMonths: number;
+  roadmap: RoadmapMonth[];
+};
+
 // JOURNAL STEP -----------------------------------------------------
 export type JournalStepType = "dayEntry" | "nightEntry" | "other";
 

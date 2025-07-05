@@ -87,22 +87,26 @@ export function DiscordPage({
 
         <motion.div variants={fadeInUp} className="w-full flex justify-center">
           <div className="max-w-md mt-4">
-            <h2 className="text-2xl sm:text-3xl font-semibold text-primary pt-4">
+            {/* <h2 className="text-2xl sm:text-3xl font-semibold text-primary pt-4">
               <span className="font-medium text-3xl sm:text-4xl">C</span>
               ONNECT WITH{" "}
               <span className="font-medium text-3xl sm:text-4xl">F</span>
               ELLOW <span className="font-medium text-3xl sm:text-4xl">S</span>
               ELF-<span className="font-medium text-3xl sm:text-4xl">M</span>
               ASTERS
+            </h2> */}
+            <h2 className="text-2xl sm:text-3xl font-semibold text-primary pt-4">
+              Be more than a user—be a co-creator.
             </h2>
           </div>
         </motion.div>
 
         <motion.div variants={fadeInUp} className="w-full flex justify-center">
           <p className="max-w-lg text-base sm:text-lg text-muted-foreground leading-relaxed">
-            Ready to level up together? Join thousands of motivated individuals
-            on their journey to self-mastery. Share progress, get support, and
-            stay accountable.
+            Connect with fellow self-mastery enthusiasts and help shape the
+            future of the app. Share your journey, suggest improvements, report
+            bugs, give feedback, and discuss upcoming features—all in one place.
+            Let’s build something great together.
           </p>
         </motion.div>
 

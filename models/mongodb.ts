@@ -32,8 +32,30 @@ export type JournalEntry = {
 
 export type NewJournalEntry = Omit<JournalEntry, "_id">; // Lets mongo db assign the _id
 
-// DISCIPLINE STEPS ===================================================================
+//JOURNEY =============================================================================
+interface RoadmapData {
+  title: string;
+  description: string;
+  totalMonths: number;
+  roadmap: Array<{
+    month: number;
+    title: string;
+    focus: string;
+    milestones: string[];
+    actionPoints: string[];
+  }>;
+}
 
+export type Journey = {
+  _id?: ObjectId;
+  creatorId: ObjectId;
+  roadmapData: RoadmapData;
+  createdAt: Date;
+};
+
+export type NewJourney = Omit<Journey, "_id">;
+
+// DISCIPLINE STEPS ===================================================================
 export type Discipline = Omit<JournalCustomStepConfig, "_id"> & {
   _id?: ObjectId;
   creatorId: ObjectId;

@@ -8,12 +8,10 @@ import { MobileSideContent } from "components/side-content/MobileSideContent";
 import { DaySplit } from "@components/profile/DaySplit";
 import { ThemeToggle } from "@components/profile/ThemeToggle";
 import { SignOut } from "@components/profile/SignOut";
-import { DiscordPage } from "@components/side-content/community/DiscordPage";
+// import { DiscordPage } from "@components/side-content/community/DiscordPage";
 import { Button } from "@/components/ui/button";
 import { Session } from "@models/types";
 import { useScreenSize } from "@hooks/useScreenSize";
-
-import { AiComponent } from "@components/ai/AiComponent";
 
 export default function Settings() {
   const { data: session } = useSession() as { data: Session | null };
@@ -27,10 +25,6 @@ export default function Settings() {
       component: (
         <UserProfileOverview userId={session?.user.id} notCurrentUser={false} />
       ),
-    },
-    {
-      name: "Journeys",
-      component: <AiComponent />,
     },
     {
       name: "Settings",
@@ -92,23 +86,24 @@ export default function Settings() {
         <div className="py-4 flex space-x-2">
           {pageConfig.map((page) => {
             // Special styling for Community button
-            if (page.name === "Community") {
-              return (
-                <Button
-                  key={page.name}
-                  size="sm"
-                  variant="outline"
-                  onClick={() => handlePageChange(page.name)}
-                  className={`flex-shrink-0 text-xs rounded-full capitalize ${
-                    activePage === page.name
-                      ? "bg-indigo-500 text-white border-indigo-500 hover:bg-indigo-500"
-                      : "border-indigo-500 text-primary hover:bg-indigo-500 hover:text-white"
-                  }`}
-                >
-                  {page.name}
-                </Button>
-              );
-            }
+            //NOTE* will be changed to Donations
+            // if (page.name === "Community") {
+            //   return (
+            //     <Button
+            //       key={page.name}
+            //       size="sm"
+            //       variant="outline"
+            //       onClick={() => handlePageChange(page.name)}
+            //       className={`flex-shrink-0 text-xs rounded-full capitalize ${
+            //         activePage === page.name
+            //           ? "bg-indigo-500 text-white border-indigo-500 hover:bg-indigo-500"
+            //           : "border-indigo-500 text-primary hover:bg-indigo-500 hover:text-white"
+            //       }`}
+            //     >
+            //       {page.name}
+            //     </Button>
+            //   );
+            // }
 
             // Default styling for all other buttons
             return (

@@ -4,7 +4,9 @@ import { useState, useEffect } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { WeeklyWillpowerChart } from "@components/profile/weekly-willpower-chart/WeeklyWillpowerChart";
+import { UserJourneys } from "@components/journeys/UserJourneys";
 import { UserDisciplines } from "@components/disciplines/UserDisciplines";
+
 import { UserHabits } from "@components/habits/UserHabits";
 
 export default function Profile() {
@@ -13,6 +15,10 @@ export default function Profile() {
 
   // page tab configuration object - contains name and component for each page
   const pageConfig = [
+    {
+      name: "journeys",
+      component: <UserJourneys />,
+    },
     {
       name: "disciplines",
       component: <UserDisciplines />,
