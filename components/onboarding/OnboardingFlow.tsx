@@ -18,6 +18,8 @@ import { useUserProfile } from "@context/UserProfileContext";
 import type { Session } from "@models/types";
 import { LoadingScreen } from "@components/skeletons/LoadingScreen";
 
+import { isEvening } from "@lib/time";
+
 export function OnboardingFlow() {
   const router = useRouter();
   const {
@@ -27,7 +29,8 @@ export function OnboardingFlow() {
   } = useCreateJournalEntry();
 
   // Get context methods for updating onboarding status
-  const { updateOnboardingStatus } = useUserProfile();
+  const { updateOnboardingStatus, userProfile } = useUserProfile();
+  const isEveningTime = isEvening(userProfile?.journalStartTime.evening);
   const { data: session } = useSession() as { data: Session | null };
 
   const firstName = session?.user?.name?.split(" ")[0] || "there";
@@ -44,7 +47,7 @@ export function OnboardingFlow() {
       id: 2,
       title: "Pick Your First Discipline",
       subtitle: "Focus your energy on what you want to grow.",
-      content: <PreMade onboarding />,
+      content: <PreMade onboarding isEveningTime={isEveningTime} />,
     },
     {
       id: 3,

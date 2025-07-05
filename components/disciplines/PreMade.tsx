@@ -5,14 +5,17 @@ import { DisciplineFeedCard } from "@components/disciplines/discipline-feed-card
 import { Accordion } from "@/components/ui/accordion";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { customStepConfigs } from "@components/journal/journal-entry-form/form-steps/steps/CustomSteps";
-
 import { IconRenderer } from "@components/IconRenderer";
 import { stepIconMap } from "@components/ui/constants";
 // import { JOURNAL_COLORS } from "@lib/colors";
 
-export function PreMade({ onboarding }: { onboarding?: boolean }) {
+type PreMadeProps = {
+  onboarding?: boolean;
+  isEveningTime?: boolean;
+};
+export function PreMade({ onboarding, isEveningTime }: PreMadeProps) {
   const [activeTab, setActiveTab] = useState<"dayEntry" | "nightEntry">(
-    "dayEntry"
+    isEveningTime ? "nightEntry" : "dayEntry"
   );
 
   // Filter disciplines based on the active tab
