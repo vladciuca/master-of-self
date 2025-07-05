@@ -23,8 +23,11 @@ interface RoadmapMonthCardProps {
 
 export function RoadmapMonthCard({ month, className }: RoadmapMonthCardProps) {
   return (
-    <Card key={month.month} className={`border ${className || ""}`}>
-      <CardHeader className="pb-3">
+    <Card
+      key={month.month}
+      className={`border ${className || ""} p-0 border-none`}
+    >
+      <CardHeader className="pb-3 px-0">
         <div className="flex items-center justify-between">
           <CardTitle className="text-base flex items-center text-primary">
             <div className="flex items-center justify-center w-8 h-8 rounded-full bg-primary text-primary-foreground text-sm font-bold mr-3">
@@ -32,9 +35,11 @@ export function RoadmapMonthCard({ month, className }: RoadmapMonthCardProps) {
             </div>
             {month.title}
           </CardTitle>
-          <Badge variant="outline">Month {month.month}</Badge>
+          <Badge variant="outline" className="shrink-0">
+            Month {month.month}
+          </Badge>
         </div>
-        <CardDescription className="text-sm text-muted-foreground">
+        <CardDescription className="text-sm text-muted-foreground px-0">
           <strong>Focus:</strong> {month.focus}
         </CardDescription>
       </CardHeader>
