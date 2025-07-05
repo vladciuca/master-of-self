@@ -1,63 +1,42 @@
+import React from "react";
+import { Card, CardContent } from "@/components/ui/card";
+import { RoadmapData } from "@models/types";
 import { RoadmapHeader } from "./RoadmapHeader";
-import { RoadmapMonthCard } from "./RoadmapMonthCard";
-
-interface RoadmapMonth {
-  month: number;
-  title: string;
-  focus: string;
-  milestones: string[];
-  actionPoints: string[];
-}
-
-interface RoadmapData {
-  title: string;
-  description: string;
-  totalMonths: number;
-  roadmap: RoadmapMonth[];
-}
+import { MilestoneCard } from "./MilestoneCard";
 
 interface RoadmapDisplayProps {
   roadmapData: RoadmapData;
   showHeader?: boolean;
   showFooter?: boolean;
-  className?: string;
 }
 
 export function RoadmapDisplay({
   roadmapData,
   showHeader = true,
-  showFooter = true,
-  className,
+  showFooter = false,
 }: RoadmapDisplayProps) {
+  if (!roadmapData || !roadmapData.milestones) {
+    return <p>No roadmap data to display.</p>;
+  }
+
   return (
-    <div className={className}>
-      {/* Header */}
-      {showHeader && (
-        <RoadmapHeader
-          title={roadmapData.title}
-          description={roadmapData.description}
-          totalMonths={roadmapData.totalMonths}
-          totalMilestones={roadmapData.roadmap.length}
-        />
-      )}
+    <div className="space-y-6">
+      {showHeader && <RoadmapHeader roadmapData={roadmapData} />}
 
-      {/* Roadmap Items */}
       <div className="space-y-4">
-        <h4 className="font-semibold text-lg text-primary">Roadmap</h4>
-        <div className="space-y-4">
-          {roadmapData.roadmap.map((month) => (
-            <RoadmapMonthCard key={month.month} month={month} />
-          ))}
-        </div>
+        {roadmapData.milestones.map((milestone, index) => (
+          <MilestoneCard
+            key={milestone.number} // Using milestone.number as key
+            milestone={milestone}
+          />
+        ))}
       </div>
-
-      {/* Footer */}
       {showFooter && (
-        <div className="mt-6 p-4 bg-muted/50 rounded-lg text-center">
-          <p className="text-primary text-sm font-medium">
-            🎯 Stay consistent and celebrate your progress along the way!
-          </p>
-        </div>
+        <Card className="border-none shadow-lg mt-6">
+          <CardContent className="p-4 text-center text-muted-foreground">
+            End of your journey!
+          </CardContent>
+        </Card>
       )}
     </div>
   );

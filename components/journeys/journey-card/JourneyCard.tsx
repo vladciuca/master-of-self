@@ -22,7 +22,6 @@ export function JourneyCard({
 }: JourneyCardProps) {
   const { roadmapData, createdAt } = journey;
 
-  // Format the creation date
   const formatDate = (date: Date) => {
     return new Intl.DateTimeFormat("en-US", {
       year: "numeric",
@@ -30,6 +29,25 @@ export function JourneyCard({
       day: "numeric",
     }).format(new Date(date));
   };
+
+  // Calculate total objectives for the badge
+  const totalObjectives = roadmapData.milestones.reduce(
+    (acc, milestone) => acc + milestone.objectives.length,
+    0
+  );
+
+  // Calculate total tasks for a badge
+  const totalTasks = roadmapData.milestones.reduce(
+    (acc, milestone) =>
+      acc +
+      milestone.objectives.reduce(
+        (objAcc, obj) => objAcc + obj.tasks.length,
+        0
+      ),
+    0
+  );
+
+  const durationLabel = roadmapData.timeUnit === "weeks" ? "weeks" : "months";
 
   return (
     <AccordionItem
@@ -51,14 +69,21 @@ export function JourneyCard({
         </p>
 
         {/* Badges Row */}
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 flex-wrap">
           <Badge variant="secondary" className="flex items-center gap-1">
             <Calendar className="w-3 h-3" />
-            {roadmapData.totalMonths} months
+            {roadmapData.totalMilestones} Milestones
           </Badge>
           <Badge variant="outline" className="flex items-center gap-1">
             <Target className="w-3 h-3" />
-            {roadmapData.roadmap.length} milestones
+            {totalObjectives} Objectives
+          </Badge>
+          <Badge variant="outline" className="flex items-center gap-1">
+            <MapPin className="w-3 h-3" />
+            {totalTasks} Tasks
+          </Badge>
+          <Badge variant="outline" className="flex items-center gap-1">
+            Overall: {roadmapData.totalDuration} {durationLabel}
           </Badge>
         </div>
       </AccordionTrigger>

@@ -10,13 +10,13 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { RoadmapDisplay } from "@components/journeys/roadmap-card/RoadmapDisplay";
+// Ensure correct import path for the new types
 import { RoadmapData } from "@models/types";
 
 interface RoadmapGeneratorProps {
   userId?: string;
 }
 
-// Main Generator Component
 export function RoadmapGenerator({ userId }: RoadmapGeneratorProps) {
   const router = useRouter();
   const [currentStep, setCurrentStep] = useState<
@@ -25,7 +25,11 @@ export function RoadmapGenerator({ userId }: RoadmapGeneratorProps) {
   const [input, setInput] = useState("");
   const [roadmapData, setRoadmapData] = useState<RoadmapData | null>(null);
   const [error, setError] = useState("");
-  const [selectedPeriod, setSelectedPeriod] = useState("6m");
+  const [selectedPeriod, setSelectedPeriod] = useState("1m");
+
+  // Renamed to reflect 'totalMilestones' now directly means number of major phases
+  const [numberOfMajorMilestones, setNumberOfMajorMilestones] =
+    useState<number>(2);
 
   const timePeriods = [
     { value: "1m", label: "1 Month", fullLabel: "1 month" },
@@ -34,6 +38,26 @@ export function RoadmapGenerator({ userId }: RoadmapGeneratorProps) {
     { value: "12m", label: "1 Year", fullLabel: "12 months" },
   ];
 
+  const getMilestoneSliderProps = () => {
+    switch (selectedPeriod) {
+      case "1m": // 1 month = 4 weeks total
+        return { min: 1, max: 4, step: 1, default: 2 }; // e.g., 2 milestones (Week 1-2, Week 3-4), or 4 (Week 1, Week 2, etc.)
+      case "3m": // 3 months total
+        return { min: 2, max: 6, step: 1, default: 3 }; // e.g., 3 milestones (Month 1, Month 2, Month 3)
+      case "6m": // 6 months total
+        return { min: 3, max: 9, step: 1, default: 6 };
+      case "12m": // 12 months total
+        return { min: 4, max: 12, step: 1, default: 12 };
+      default:
+        return { min: 2, max: 4, step: 1, default: 2 }; // Fallback
+    }
+  };
+
+  React.useEffect(() => {
+    const { default: defaultMilestones } = getMilestoneSliderProps();
+    setNumberOfMajorMilestones(defaultMilestones);
+  }, [selectedPeriod]);
+
   const handleGenerate = async () => {
     setCurrentStep("loading");
     setError("");
@@ -41,13 +65,35 @@ export function RoadmapGenerator({ userId }: RoadmapGeneratorProps) {
     const selectedTimePeriod = timePeriods.find(
       (p) => p.value === selectedPeriod
     );
-    const enhancedMessage = `${input} within ${selectedTimePeriod?.fullLabel}`;
+
+    let timeUnit: "months" | "weeks"; // corresponds to new RoadmapData.timeUnit
+    let totalDuration: number; // corresponds to new RoadmapData.totalDuration
+    let periodDescriptionForAI: string;
+
+    if (selectedPeriod === "1m") {
+      timeUnit = "weeks";
+      totalDuration = 4; // 1 month = 4 weeks
+      periodDescriptionForAI = "4 weeks";
+    } else {
+      timeUnit = "months";
+      totalDuration = parseInt(selectedPeriod.replace("m", ""));
+      periodDescriptionForAI =
+        selectedTimePeriod?.fullLabel || "the selected period";
+    }
+
+    // Pass direct values for AI to use in its calculations and response structure
+    const enhancedMessage = `${input} over a total period of ${totalDuration} ${timeUnit}. Provide a roadmap broken down into exactly ${numberOfMajorMilestones} major milestones.`;
 
     try {
       const res = await fetch("/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: enhancedMessage }),
+        body: JSON.stringify({
+          message: enhancedMessage,
+          timeUnit: timeUnit, // Pass timeUnit for AI's response type
+          totalMilestones: numberOfMajorMilestones, // Pass total number of major milestones requested by user
+          totalDuration: totalDuration, // Pass total duration for AI to calculate timeframe ranges
+        }),
       });
 
       const data = await res.json();
@@ -71,11 +117,15 @@ export function RoadmapGenerator({ userId }: RoadmapGeneratorProps) {
     setCurrentStep("input");
     setRoadmapData(null);
     setError("");
+    const { default: defaultMilestones } = getMilestoneSliderProps();
+    setNumberOfMajorMilestones(defaultMilestones);
   };
 
   const handleSaveAndNavigate = () => {
     window.location.href = "/profile";
   };
+
+  const { min, max, step } = getMilestoneSliderProps();
 
   return (
     <div className="min-h-screen bg-background">
@@ -119,6 +169,35 @@ export function RoadmapGenerator({ userId }: RoadmapGeneratorProps) {
                       {period.label}
                     </Button>
                   ))}
+                </div>
+              </div>
+
+              {/* Slider for Number of Milestones (Major Phases) */}
+              <div className="space-y-3">
+                <label
+                  htmlFor="num-milestones-slider"
+                  className="text-sm font-medium text-primary flex items-baseline justify-between"
+                >
+                  <span>Number of Major Milestones:</span>
+                  <span className="text-lg font-bold">
+                    {numberOfMajorMilestones}
+                  </span>
+                </label>
+                <input
+                  type="range"
+                  id="num-milestones-slider"
+                  min={min}
+                  max={max}
+                  step={step}
+                  value={numberOfMajorMilestones}
+                  onChange={(e) =>
+                    setNumberOfMajorMilestones(parseInt(e.target.value))
+                  }
+                  className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700 accent-primary"
+                />
+                <div className="flex justify-between text-xs text-muted-foreground">
+                  <span>{min}</span>
+                  <span>{max}</span>
                 </div>
               </div>
 

@@ -39,19 +39,28 @@ export interface Session extends NextAuthSession {
 }
 
 // JOURNEY ROADMAP -----------------------------------------------------
-export type RoadmapMonth = {
-  month: number;
-  title: string;
-  focus: string;
-  milestones: string[];
-  actionPoints: string[];
+export type Task = string;
+
+export type Objective = {
+  title: string; // e.g., "Launch your personal website"
+  tasks: Task[]; // Specific action points under this objective
+};
+
+export type Milestone = {
+  number: number; // e.g., 1, 2, 3...
+  title: string; // e.g., "Milestone 1: Foundation Setup"
+  focus: string; // High-level focus for this milestone
+  timeframe: string; // e.g., "Month 1-2" or "Week 5"
+  objectives: Objective[]; // Specific goals under this milestone
 };
 
 export type RoadmapData = {
-  title: string;
-  description: string;
-  totalMonths: number;
-  roadmap: RoadmapMonth[];
+  title: string; // e.g., "6-Month Roadmap to Launch a Podcast"
+  description: string; // Encouraging summary of the journey
+  totalMilestones: number; // This directly maps to the number of Milestone objects
+  timeUnit: "weeks" | "months"; // Determines time granularity
+  totalDuration: number; // Total weeks/months in the full plan
+  milestones: Milestone[]; // Array of major milestones
 };
 
 // JOURNAL STEP -----------------------------------------------------
