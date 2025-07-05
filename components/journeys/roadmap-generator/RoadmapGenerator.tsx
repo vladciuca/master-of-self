@@ -85,7 +85,7 @@ export function RoadmapGenerator({ userId }: RoadmapGeneratorProps) {
     const enhancedMessage = `${input} over a total period of ${totalDuration} ${timeUnit}. Provide a roadmap broken down into exactly ${numberOfMajorMilestones} major milestones.`;
 
     try {
-      const res = await fetch("/api/chat", {
+      const res = await fetch("/api/generate-roadmap", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -128,14 +128,14 @@ export function RoadmapGenerator({ userId }: RoadmapGeneratorProps) {
   const { min, max, step } = getMilestoneSliderProps();
 
   return (
-    <div className="min-h-screen bg-background">
-      <div className="max-w-4xl mx-auto p-4">
-        {/* Input Step */}
-        {currentStep === "input" && (
-          <Card className="border-none shadow-lg">
+    <div className="h-full bg-background">
+      {/* Input Step */}
+      {currentStep === "input" && (
+        <div className="flex items-center justify-center h-full">
+          <Card className="border-none">
             <CardHeader className="text-center pb-6">
-              <CardTitle className="text-2xl font-bold text-primary">
-                AI Roadmap Generator
+              <CardTitle className="scroll-m-20 text-4xl font-bold tracking-tight text-center">
+                Create Roadmap
               </CardTitle>
               <CardDescription className="text-muted-foreground">
                 Create a personalized learning journey tailored to your goals
@@ -164,7 +164,7 @@ export function RoadmapGenerator({ userId }: RoadmapGeneratorProps) {
                         selectedPeriod === period.value ? "default" : "outline"
                       }
                       onClick={() => setSelectedPeriod(period.value)}
-                      className="h-12 font-medium"
+                      className=""
                     >
                       {period.label}
                     </Button>
@@ -193,7 +193,7 @@ export function RoadmapGenerator({ userId }: RoadmapGeneratorProps) {
                   onChange={(e) =>
                     setNumberOfMajorMilestones(parseInt(e.target.value))
                   }
-                  className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700 accent-primary"
+                  className="w-full h-2 rounded-lg appearance-none cursor-pointer accent-primary"
                 />
                 <div className="flex justify-between text-xs text-muted-foreground">
                   <span>{min}</span>
@@ -219,7 +219,7 @@ export function RoadmapGenerator({ userId }: RoadmapGeneratorProps) {
               <Button
                 onClick={handleGenerate}
                 disabled={!input.trim()}
-                className="w-full h-12 text-lg font-medium"
+                className="w-full text-md font-medium"
               >
                 Generate{" "}
                 {timePeriods.find((p) => p.value === selectedPeriod)?.label}{" "}
@@ -228,17 +228,19 @@ export function RoadmapGenerator({ userId }: RoadmapGeneratorProps) {
               <Button
                 variant="secondary"
                 onClick={() => router.push("/profile")}
-                className="w-full h-12 text-lg font-medium"
+                className="w-full"
               >
                 Cancel
               </Button>
             </CardContent>
           </Card>
-        )}
+        </div>
+      )}
 
-        {/* Loading Step */}
-        {currentStep === "loading" && (
-          <Card className="border-none shadow-lg">
+      {/* Loading Step */}
+      {currentStep === "loading" && (
+        <div className="flex items-center justify-center h-full">
+          <Card className="border-none">
             <CardContent className="py-12">
               <div className="text-center space-y-4">
                 <div className="inline-flex items-center justify-center w-16 h-16 bg-primary/10 rounded-full">
@@ -260,42 +262,43 @@ export function RoadmapGenerator({ userId }: RoadmapGeneratorProps) {
               </div>
             </CardContent>
           </Card>
-        )}
+        </div>
+      )}
 
-        {/* Result Step */}
-        {currentStep === "result" && roadmapData && (
+      {/* Result Step */}
+      {currentStep === "result" && roadmapData && (
+        <div className="max-w-4xl mx-auto p-4">
           <div className="space-y-4">
-            {/* Action Bar */}
-            <Card className="border-none shadow-lg">
-              <CardContent className="p-4">
-                <div className="flex items-center justify-between">
-                  <Button
-                    variant="outline"
-                    onClick={handleBackToInput}
-                    className="flex items-center gap-2"
-                  >
-                    <ArrowLeft className="h-4 w-4" />
-                    Back to Generator
-                  </Button>
+            {/* Roadmap Content - Now using the shared component */}
+            <Card className="border-none">
+              <div className="p-6 pt-12">
+                <RoadmapDisplay roadmapData={roadmapData} />
+              </div>
+            </Card>
 
+            {/* Action Bar */}
+            <Card className="border-none">
+              <CardContent className="p-4 pt-8">
+                <div className="flex flex-col items-center space-y-4">
                   <RoadmapSaveButton
                     roadmapData={roadmapData}
                     userId={userId}
                     onSaveSuccess={handleSaveAndNavigate}
                   />
+                  <Button
+                    variant="outline"
+                    onClick={handleBackToInput}
+                    className="flex items-center gap-2 w-full"
+                  >
+                    <ArrowLeft className="h-4 w-4" />
+                    Back to Generator
+                  </Button>
                 </div>
               </CardContent>
             </Card>
-
-            {/* Roadmap Content - Now using the shared component */}
-            <Card className="border-none shadow-lg">
-              <div className="p-6">
-                <RoadmapDisplay roadmapData={roadmapData} />
-              </div>
-            </Card>
           </div>
-        )}
-      </div>
+        </div>
+      )}
     </div>
   );
 }
@@ -347,7 +350,7 @@ function RoadmapSaveButton({
           ? "destructive"
           : "default"
       }
-      className="flex items-center gap-2"
+      className="flex items-center gap-2 w-full"
     >
       {saveState === "saving" && <Loader2 className="h-4 w-4 animate-spin" />}
       {saveState === "success" && <CheckCircle className="h-4 w-4" />}

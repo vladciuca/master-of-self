@@ -30,24 +30,35 @@ export function JourneyCard({
     }).format(new Date(date));
   };
 
-  // Calculate total objectives for the badge
-  const totalObjectives = roadmapData.milestones.reduce(
-    (acc, milestone) => acc + milestone.objectives.length,
-    0
-  );
+  // Ensure roadmapData and roadmapData.milestones exist before trying to reduce
+  const hasMilestones = roadmapData && Array.isArray(roadmapData.milestones);
 
-  // Calculate total tasks for a badge
-  const totalTasks = roadmapData.milestones.reduce(
-    (acc, milestone) =>
-      acc +
-      milestone.objectives.reduce(
-        (objAcc, obj) => objAcc + obj.tasks.length,
+  const totalObjectives = hasMilestones
+    ? roadmapData.milestones.reduce(
+        (acc, milestone) => acc + milestone.objectives.length,
         0
-      ),
-    0
-  );
+      )
+    : 0; // Default to 0 if milestones is not an array or undefined
+
+  const totalTasks = hasMilestones
+    ? roadmapData.milestones.reduce(
+        (acc, milestone) =>
+          acc +
+          milestone.objectives.reduce(
+            (objAcc, obj) => objAcc + obj.tasks.length,
+            0
+          ),
+        0
+      )
+    : 0; // Default to 0 if milestones is not an array or undefined
 
   const durationLabel = roadmapData.timeUnit === "weeks" ? "weeks" : "months";
+
+  // Also add checks for roadmapData itself
+  if (!roadmapData) {
+    console.warn("JourneyCard received journey without roadmapData:", journey);
+    return null; // Or render a placeholder/error state
+  }
 
   return (
     <AccordionItem
@@ -70,21 +81,33 @@ export function JourneyCard({
 
         {/* Badges Row */}
         <div className="flex items-center gap-2 flex-wrap">
-          <Badge variant="secondary" className="flex items-center gap-1">
-            <Calendar className="w-3 h-3" />
-            {roadmapData.totalMilestones} Milestones
-          </Badge>
-          <Badge variant="outline" className="flex items-center gap-1">
-            <Target className="w-3 h-3" />
-            {totalObjectives} Objectives
-          </Badge>
-          <Badge variant="outline" className="flex items-center gap-1">
-            <MapPin className="w-3 h-3" />
-            {totalTasks} Tasks
-          </Badge>
-          <Badge variant="outline" className="flex items-center gap-1">
-            Overall: {roadmapData.totalDuration} {durationLabel}
-          </Badge>
+          {/* Check totalMilestones before rendering */}
+          {typeof roadmapData.totalMilestones === "number" && (
+            <Badge variant="secondary" className="flex items-center gap-1">
+              <Calendar className="w-3 h-3" />
+              {roadmapData.totalMilestones} Milestones
+            </Badge>
+          )}
+          {/* Check if objectives were calculated before rendering */}
+          {totalObjectives > 0 && ( // Only show if there are objectives
+            <Badge variant="outline" className="flex items-center gap-1">
+              <Target className="w-3 h-3" />
+              {totalObjectives} Objectives
+            </Badge>
+          )}
+          {/* Check if tasks were calculated before rendering */}
+          {totalTasks > 0 && ( // Only show if there are tasks
+            <Badge variant="outline" className="flex items-center gap-1">
+              <MapPin className="w-3 h-3" />
+              {totalTasks} Tasks
+            </Badge>
+          )}
+          {/* Check totalDuration before rendering */}
+          {typeof roadmapData.totalDuration === "number" && (
+            <Badge variant="outline" className="flex items-center gap-1">
+              Overall: {roadmapData.totalDuration} {durationLabel}
+            </Badge>
+          )}
         </div>
       </AccordionTrigger>
 
@@ -95,7 +118,7 @@ export function JourneyCard({
             <div className="text-sm text-muted-foreground">
               Created on {formatDate(createdAt)}
             </div>
-            <div className="flex gap-2">
+            {/* <div className="flex gap-2">
               <Button
                 variant="outline"
                 size="sm"
@@ -114,15 +137,22 @@ export function JourneyCard({
                 <Edit className="w-4 h-4" />
                 Edit
               </Button>
-            </div>
+            </div> */}
           </div>
 
-          {/* Roadmap - Now using the shared component */}
-          <RoadmapDisplay
-            roadmapData={roadmapData}
-            showHeader={false}
-            showFooter={false}
-          />
+          {/* Roadmap - Only render if roadmapData and milestones exist */}
+          {hasMilestones && (
+            <RoadmapDisplay
+              roadmapData={roadmapData}
+              showHeader={false}
+              showFooter={false}
+            />
+          )}
+          {!hasMilestones && (
+            <div className="text-center text-muted-foreground p-4">
+              Roadmap details are not available or are in an old format.
+            </div>
+          )}
         </div>
       </AccordionContent>
     </AccordionItem>

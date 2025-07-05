@@ -83,6 +83,7 @@ export function HabitForm({
           >
             {type}
           </Button>
+
           <Link
             //NOTE: use constants for these
             href="/profile?page=habits"

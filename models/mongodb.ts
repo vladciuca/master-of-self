@@ -34,7 +34,6 @@ export type JournalEntry = {
 export type NewJournalEntry = Omit<JournalEntry, "_id">; // Lets mongo db assign the _id
 
 //JOURNEY =============================================================================
-
 export type Journey = {
   _id?: ObjectId; // Optional for creation, required when retrieved
   creatorId: ObjectId; // Reference to the user who created this journey

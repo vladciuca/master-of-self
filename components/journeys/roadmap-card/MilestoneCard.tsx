@@ -6,8 +6,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Target, MapPin, CheckCircle2 } from "lucide-react"; // Added CheckCircle2 for objectives
-// Ensure correct import path for the new types
+import { CheckCircle2 } from "lucide-react";
 import { Milestone, Objective } from "@models/types";
 
 type MilestoneCardProps = {

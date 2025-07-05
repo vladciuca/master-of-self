@@ -1,70 +1,7 @@
-// import { MongoClient, Db, Collection, ObjectId } from "mongodb";
-// import clientPromise from "./mongodb";
-// import type { User, Journey, NewJourney } from "@models/mongodb";
-
-// let client: MongoClient;
-// let db: Db;
-// let journeys: Collection<Journey>;
-// let users: Collection<User>;
-
-// async function init() {
-//   if (db) return;
-//   try {
-//     client = await clientPromise;
-//     db = client.db("master_of_self");
-//     journeys = db.collection<Journey>("journeys");
-//     users = db.collection<User>("users");
-//   } catch (error) {
-//     throw new Error("Failed to establish connection to database");
-//   }
-// }
-
-// (async () => {
-//   await init();
-// })();
-
-// // CREATE NEW DISCIPLINE STEP =====================================================================
-// export async function createJourney(
-//   userId: string,
-//   journey: string
-// ): Promise<{ newJourney: Journey | null; error?: string }> {
-//   try {
-//     if (!journeys) await init();
-
-//     //NOTE: maybe name this newDisciplineStep?
-//     const newJourney: NewJourney = {
-//       creatorId: new ObjectId(userId),
-//       journey,
-//     };
-
-//     const result = await journeys.insertOne(newJourney);
-
-//     if (!result.insertedId) {
-//       throw new Error("Failed to insert new journey");
-//     }
-
-//     return { newJourney: { ...newJourney, _id: result.insertedId } };
-//   } catch (error) {
-//     return { newJourney: null, error: "Failed to create new discipline" };
-//   }
-// }
 import { MongoClient, Db, Collection, ObjectId } from "mongodb";
 import clientPromise from "./mongodb";
 import type { User, Journey, NewJourney } from "@models/mongodb";
-
-// Define the RoadmapData interface
-interface RoadmapData {
-  title: string;
-  description: string;
-  totalMonths: number;
-  roadmap: Array<{
-    month: number;
-    title: string;
-    focus: string;
-    milestones: string[];
-    actionPoints: string[];
-  }>;
-}
+import type { RoadmapData } from "@models/types";
 
 let client: MongoClient;
 let db: Db;
