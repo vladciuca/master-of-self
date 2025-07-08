@@ -10,7 +10,6 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { RoadmapDisplay } from "@components/journeys/roadmap-card/RoadmapDisplay";
-// Ensure correct import path for the new types
 import { RoadmapData } from "@models/types";
 
 interface RoadmapGeneratorProps {

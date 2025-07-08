@@ -23,7 +23,7 @@ export function MilestoneCard({ milestone, className }: MilestoneCardProps) {
       <CardHeader className="pb-3 px-0">
         <div className="flex items-center justify-between">
           <CardTitle className="text-base flex items-center text-primary">
-            <div className="flex items-center justify-center w-8 h-8 rounded-full bg-primary text-primary-foreground text-sm font-bold mr-3">
+            <div className="shrink-0 flex items-center justify-center w-8 h-8 rounded-full bg-primary text-primary-foreground text-sm font-bold mr-3">
               {milestone.number} {/* Use milestone.number */}
             </div>
             {milestone.title} {/* Use milestone.title */}
