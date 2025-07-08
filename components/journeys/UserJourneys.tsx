@@ -22,10 +22,7 @@ export function UserJourneys({ onboarding }: { onboarding?: boolean }) {
     <div className="space-y-8 mt-2">
       {[1, 2, 3, 4].map((i) => (
         <div key={`skeleton-${i}`} className="flex items-center mb-3">
-          <Skeleton className="h-8 w-8 rounded-full mr-2" />
-          <div className="flex-1">
-            <Skeleton className="h-8 w-full rounded-full" />
-          </div>
+          <Skeleton className="h-20 w-full rounded-md" />
         </div>
       ))}
     </div>

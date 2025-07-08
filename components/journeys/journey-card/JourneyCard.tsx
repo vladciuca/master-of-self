@@ -8,6 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { Edit, Eye, Calendar, Target, MapPin } from "lucide-react";
 import { Journey } from "@models/mongodb";
 import { RoadmapDisplay } from "@components/journeys/roadmap-card/RoadmapDisplay";
+import { Progress } from "@/components/ui/progress";
 
 type JourneyCardProps = {
   journey: Journey;
@@ -52,7 +53,28 @@ export function JourneyCard({
       )
     : 0; // Default to 0 if milestones is not an array or undefined
 
-  const durationLabel = roadmapData.timeUnit === "weeks" ? "weeks" : "months";
+  // Calculate elapsed time in days since createdAt
+  const getElapsedDays = () => {
+    const now = new Date();
+    const created = new Date(createdAt);
+    const msPerDay = 1000 * 60 * 60 * 24;
+    return Math.floor((now.getTime() - created.getTime()) / msPerDay);
+  };
+
+  // Calculate total journey duration in days
+  const getTotalDays = () => {
+    if (roadmapData.timeUnit === "weeks") {
+      return roadmapData.totalDuration * 7;
+    } else {
+      // months
+      return roadmapData.totalDuration * 30;
+    }
+  };
+
+  const elapsedDays = getElapsedDays();
+  const totalDays = getTotalDays();
+  const progress = Math.min((elapsedDays / totalDays) * 100, 100);
+  const durationLabel = "days";
 
   // Also add checks for roadmapData itself
   if (!roadmapData) {
@@ -108,6 +130,13 @@ export function JourneyCard({
               Overall: {roadmapData.totalDuration} {durationLabel}
             </Badge>
           )}
+        </div>
+        {/* Progress bar for journey time elapsed */}
+        <div className="w-full mt-2">
+          <Progress value={progress} />
+          <div className="text-xs text-muted-foreground mt-1">
+            {elapsedDays} / {totalDays} {durationLabel} elapsed
+          </div>
         </div>
       </AccordionTrigger>
 
