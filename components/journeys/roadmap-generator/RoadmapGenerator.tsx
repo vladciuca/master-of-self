@@ -62,13 +62,13 @@ export function RoadmapGenerator({ userId }: RoadmapGeneratorProps) {
   const getMilestoneSliderProps = () => {
     switch (selectedPeriod) {
       case "1m": // 1 month = 4 weeks total
-        return { min: 2, max: 4, step: 1, default: 3 }; // 2, 3, 4 milestones only, default to middle (3)
+        return { min: 2, max: 4, step: 1, default: 3 };
       case "3m": // 3 months total
-        return { min: 2, max: 6, step: 1, default: 4 }; // 2-6 milestones, default to middle (4)
+        return { min: 2, max: 6, step: 1, default: 4 };
       case "6m": // 6 months total
-        return { min: 3, max: 9, step: 1, default: 6 }; // 3-9 milestones, default to middle (6)
+        return { min: 4, max: 8, step: 1, default: 6 };
       case "12m": // 12 months total
-        return { min: 4, max: 12, step: 1, default: 8 }; // 4-12 milestones, default to middle (8)
+        return { min: 4, max: 10, step: 1, default: 7 };
       default:
         return { min: 2, max: 4, step: 1, default: 3 }; // Fallback
     }

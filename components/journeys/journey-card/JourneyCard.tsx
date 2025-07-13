@@ -5,7 +5,14 @@ import {
 } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Edit, Eye, Calendar, Target, MapPin } from "lucide-react";
+import {
+  Edit,
+  Eye,
+  Calendar,
+  Target,
+  MapPin,
+  CheckCircle2,
+} from "lucide-react";
 import { Journey } from "@models/mongodb";
 import { RoadmapDisplay } from "@components/journeys/roadmap-card/RoadmapDisplay";
 import { Progress } from "@/components/ui/progress";
@@ -131,10 +138,44 @@ export function JourneyCard({
             </Badge>
           )}
         </div>
-        {/* Progress bar for journey time elapsed */}
-        <div className="w-full mt-2">
-          <Progress value={progress} />
-          <div className="text-xs text-muted-foreground mt-1">
+
+        {/* Progress bar with milestone markers */}
+        <div className="w-full mt-8">
+          <div className="relative">
+            <Progress value={progress} />
+            {/* Milestone markers positioned along the progress bar */}
+            {hasMilestones && (
+              <div className="absolute -top-5 left-0 right-0 h-full flex items-center justify-between px-1">
+                {roadmapData.milestones.map((milestone, index) => {
+                  // Calculate position as percentage of total journey
+                  const milestonePosition =
+                    ((index + 1) / roadmapData.milestones.length) * 100;
+                  const isCompleted = progress >= milestonePosition;
+
+                  return (
+                    <div
+                      key={milestone.number}
+                      className="flex flex-col items-center transform -translate-y-1/2"
+                      style={{ left: `${milestonePosition}%` }}
+                    >
+                      <div
+                        className={`w-6 h-6 rounded-full border-2 flex items-center justify-center ${
+                          isCompleted
+                            ? "bg-primary border-primary text-primary-foreground"
+                            : "bg-primary/20 border-primary text-primary"
+                        }`}
+                      >
+                        <span className="text-xs font-bold">
+                          {milestone.number}
+                        </span>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+          <div className="text-xs text-muted-foreground mt-3">
             {elapsedDays} / {totalDays} {durationLabel} elapsed
           </div>
         </div>
