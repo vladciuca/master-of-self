@@ -9,6 +9,7 @@ import { RoadmapData } from "@models/types";
 import { getToday } from "@/lib/time";
 import { TimePeriodSelect } from "./TimePeriodSelect";
 import { MilestoneSlider } from "./MilestoneSlider";
+import { LoadingScreen } from "@/components/skeletons/LoadingScreen";
 
 interface RoadmapGeneratorProps {
   userId?: string;
@@ -27,6 +28,9 @@ export function RoadmapGenerator({ userId }: RoadmapGeneratorProps) {
   // Renamed to reflect 'totalMilestones' now directly means number of major phases
   const [numberOfMajorMilestones, setNumberOfMajorMilestones] =
     useState<number>(2);
+  const [saveState, setSaveState] = useState<
+    "idle" | "saving" | "success" | "error"
+  >("idle");
 
   const timePeriods = [
     {
@@ -258,27 +262,7 @@ export function RoadmapGenerator({ userId }: RoadmapGeneratorProps) {
       )}
 
       {/* Saving Step */}
-      {currentStep === "saving" && (
-        <div className="flex items-center justify-center h-full">
-          <Card className="border-none">
-            <CardContent className="py-12">
-              <div className="text-center space-y-4">
-                <div className="inline-flex items-center justify-center w-16 h-16 bg-primary/10 rounded-full">
-                  <Loader2 className="h-8 w-8 text-primary animate-spin" />
-                </div>
-                <div>
-                  <h2 className="text-xl font-bold text-primary mb-2">
-                    Saving Your Journey...
-                  </h2>
-                  <p className="text-muted-foreground">
-                    Please wait while we save your roadmap to your profile
-                  </p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-      )}
+      {currentStep === "saving" && <LoadingScreen />}
 
       {/* Result Step */}
       {currentStep === "result" && roadmapData && (
@@ -302,11 +286,14 @@ export function RoadmapGenerator({ userId }: RoadmapGeneratorProps) {
             <RoadmapSaveButton
               roadmapData={roadmapData}
               userId={userId}
+              saveState={saveState}
+              setSaveState={setSaveState}
               onSaveSuccess={() => setCurrentStep("saving")}
             />
             <Button
               variant="outline"
               onClick={handleBackToInput}
+              disabled={saveState === "saving"}
               className="flex items-center gap-2 w-full mt-3 mb-4"
             >
               <ArrowLeft className="h-4 w-4" />
@@ -323,16 +310,18 @@ export function RoadmapGenerator({ userId }: RoadmapGeneratorProps) {
 function RoadmapSaveButton({
   roadmapData,
   userId,
+  saveState,
+  setSaveState,
   onSaveSuccess,
 }: {
   roadmapData: RoadmapData;
   userId?: string;
+  saveState: "idle" | "saving" | "success" | "error";
+  setSaveState: React.Dispatch<
+    React.SetStateAction<"idle" | "saving" | "success" | "error">
+  >;
   onSaveSuccess: () => void;
 }) {
-  const [saveState, setSaveState] = useState<
-    "idle" | "saving" | "success" | "error"
-  >("idle");
-
   const handleSave = async () => {
     setSaveState("saving");
 
