@@ -17,7 +17,7 @@ interface RoadmapGeneratorProps {
 export function RoadmapGenerator({ userId }: RoadmapGeneratorProps) {
   const router = useRouter();
   const [currentStep, setCurrentStep] = useState<
-    "input" | "loading" | "result"
+    "input" | "loading" | "result" | "saving"
   >("input");
   const [input, setInput] = useState("");
   const [roadmapData, setRoadmapData] = useState<RoadmapData | null>(null);
@@ -74,6 +74,18 @@ export function RoadmapGenerator({ userId }: RoadmapGeneratorProps) {
     const { default: defaultMilestones } = getMilestoneSliderProps();
     setNumberOfMajorMilestones(defaultMilestones);
   }, [selectedPeriod]);
+
+  // Handle navigation after saving
+  React.useEffect(() => {
+    if (currentStep === "saving") {
+      // Add a small delay to show the saving screen briefly
+      const timer = setTimeout(() => {
+        handleSaveAndNavigate();
+      }, 1500);
+
+      return () => clearTimeout(timer);
+    }
+  }, [currentStep]);
 
   const handleGenerate = async () => {
     setCurrentStep("loading");
@@ -132,7 +144,7 @@ export function RoadmapGenerator({ userId }: RoadmapGeneratorProps) {
   };
 
   const handleSaveAndNavigate = () => {
-    window.location.href = "/profile";
+    router.push("/profile");
   };
 
   console.log("====roadmapData", roadmapData);
@@ -245,6 +257,29 @@ export function RoadmapGenerator({ userId }: RoadmapGeneratorProps) {
         </div>
       )}
 
+      {/* Saving Step */}
+      {currentStep === "saving" && (
+        <div className="flex items-center justify-center h-full">
+          <Card className="border-none">
+            <CardContent className="py-12">
+              <div className="text-center space-y-4">
+                <div className="inline-flex items-center justify-center w-16 h-16 bg-primary/10 rounded-full">
+                  <Loader2 className="h-8 w-8 text-primary animate-spin" />
+                </div>
+                <div>
+                  <h2 className="text-xl font-bold text-primary mb-2">
+                    Saving Your Journey...
+                  </h2>
+                  <p className="text-muted-foreground">
+                    Please wait while we save your roadmap to your profile
+                  </p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      )}
+
       {/* Result Step */}
       {currentStep === "result" && roadmapData && (
         <div className="flex flex-col h-full justify-between">
@@ -267,7 +302,7 @@ export function RoadmapGenerator({ userId }: RoadmapGeneratorProps) {
             <RoadmapSaveButton
               roadmapData={roadmapData}
               userId={userId}
-              onSaveSuccess={handleSaveAndNavigate}
+              onSaveSuccess={() => setCurrentStep("saving")}
             />
             <Button
               variant="outline"
@@ -284,7 +319,7 @@ export function RoadmapGenerator({ userId }: RoadmapGeneratorProps) {
   );
 }
 
-// Save Button Component (unchanged)
+// Save Button Component
 function RoadmapSaveButton({
   roadmapData,
   userId,
@@ -311,9 +346,8 @@ function RoadmapSaveButton({
       if (!response.ok) throw new Error("Failed to save journey");
 
       setSaveState("success");
-      setTimeout(() => {
-        onSaveSuccess();
-      }, 1000);
+      // Call onSaveSuccess immediately to show saving screen
+      onSaveSuccess();
     } catch (error) {
       setSaveState("error");
       setTimeout(() => setSaveState("idle"), 3000);
@@ -344,7 +378,7 @@ function RoadmapSaveButton({
         ? "Saved!"
         : saveState === "error"
         ? "Error"
-        : "Save & Go to Profile"}
+        : "Save Journey"}
     </Button>
   );
 }
