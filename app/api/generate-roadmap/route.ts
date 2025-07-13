@@ -17,6 +17,7 @@ export async function POST(req: NextRequest) {
     timeUnit, // "weeks" or "months"
     totalMilestones, // user's selected "number of major milestones"
     totalDuration, // Total weeks/months for the selected timeframe
+    startDate, // The date the user wants to start the journey
   } = await req.json();
 
   // Define the schema for Objective and Milestone
@@ -54,6 +55,7 @@ Return this exact JSON structure:
     ${milestoneSchema},
     // Repeat for each of the ${totalMilestones} milestones
   ]
+  "startDate": "${startDate}",
 }
 
 Guidelines for generating content:
@@ -70,10 +72,31 @@ Guidelines for generating content:
   - "timeframe": The specific time range this milestone covers within the overall journey (e.g., "Week 1-3", "Month 4"). This should be accurate based on the even division.
   - "objectives": An array containing 1-3 "Objective" objects.
 - Each objective (object within the "objectives" array) should have:
-  - "title": A specific, measurable objective (e.g., "Complete a beginner's course").
-  - "tasks": An array containing 2-4 concrete, actionable "Task" strings to achieve that objective.
+  - "title": A specific, measurable goal or area of focus.
+  - "summary": A brief, high-level guide or strategy on how the user should approach this objective (e.g., "Immerse in basic Spanish through audio, practice, and repetition").
+  - Do NOT include detailed tasks here. This section is only for general direction and guidance.
 
-Be encouraging but concise. Focus on practical steps for personal growth.`;
+
+Be encouraging but concise. Focus on practical steps for personal growth.
+
+Also generate a "journal" key in the same JSON output, structured as:
+"journal": [
+  {
+    "date": "YYYY-MM-DD",
+    "todos": ["Task 1", "Task 2"]
+  },
+  ...
+]
+
+Guidelines for the journal:
+- Use the start date provided: "${startDate}".
+- Each day's "todos" should be generated based on the objectives and summaries from the first milestone.
+- You must translate those summaries into specific, concrete action tasks the user can complete each day.
+- Tasks should be logically distributed and repeat only if necessary (e.g., "Practice speaking").
+- Try to include 2-3 todos per day.
+- The journal must include exactly 7 entries — one per day for the **first week only**, starting from "${startDate}".
+- For example, if totalDuration is 4 weeks, journal must include 28 days.
+- Each entry's date must be valid and sequential.`;
 
   try {
     const response = await openai.chat.completions.create({

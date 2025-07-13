@@ -46,7 +46,7 @@ export function MilestoneCard({ milestone, className }: MilestoneCardProps) {
               <CheckCircle2 className="w-4 h-4" /> {/* Icon for objectives */}
               {objective.title}
             </h5>
-            <ul className="space-y-1">
+            {/* <ul className="space-y-1">
               {objective.tasks.map((task: string, taskIdx: number) => (
                 <li
                   key={taskIdx}
@@ -56,7 +56,7 @@ export function MilestoneCard({ milestone, className }: MilestoneCardProps) {
                   {task}
                 </li>
               ))}
-            </ul>
+            </ul> */}
           </div>
         ))}
       </CardContent>

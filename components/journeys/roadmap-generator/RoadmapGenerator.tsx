@@ -9,8 +9,12 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { RoadmapDisplay } from "@components/journeys/roadmap-card/RoadmapDisplay";
 import { RoadmapData } from "@models/types";
+import { getToday } from "@/lib/time";
+import { TimePeriodSelect } from "./TimePeriodSelect";
+import { MilestoneSlider } from "./MilestoneSlider";
 
 interface RoadmapGeneratorProps {
   userId?: string;
@@ -31,24 +35,44 @@ export function RoadmapGenerator({ userId }: RoadmapGeneratorProps) {
     useState<number>(2);
 
   const timePeriods = [
-    { value: "1m", label: "1 Month", fullLabel: "1 month" },
-    { value: "3m", label: "3 Months", fullLabel: "3 months" },
-    { value: "6m", label: "6 Months", fullLabel: "6 months" },
-    { value: "12m", label: "1 Year", fullLabel: "12 months" },
+    {
+      value: "1m",
+      label: "1 Month",
+      fullLabel: "1 month",
+      description: "Perfect for quick skills",
+    },
+    {
+      value: "3m",
+      label: "3 Months",
+      fullLabel: "3 months",
+      description: "Perfect for focused learning",
+    },
+    {
+      value: "6m",
+      label: "6 Months",
+      fullLabel: "6 months",
+      description: "Perfect for comprehensive growth",
+    },
+    {
+      value: "12m",
+      label: "1 Year",
+      fullLabel: "12 months",
+      description: "Perfect for mastery & expertise",
+    },
   ];
 
   const getMilestoneSliderProps = () => {
     switch (selectedPeriod) {
       case "1m": // 1 month = 4 weeks total
-        return { min: 1, max: 4, step: 1, default: 2 }; // e.g., 2 milestones (Week 1-2, Week 3-4), or 4 (Week 1, Week 2, etc.)
+        return { min: 2, max: 4, step: 1, default: 3 }; // 2, 3, 4 milestones only, default to middle (3)
       case "3m": // 3 months total
-        return { min: 2, max: 6, step: 1, default: 3 }; // e.g., 3 milestones (Month 1, Month 2, Month 3)
+        return { min: 2, max: 6, step: 1, default: 4 }; // 2-6 milestones, default to middle (4)
       case "6m": // 6 months total
-        return { min: 3, max: 9, step: 1, default: 6 };
+        return { min: 3, max: 9, step: 1, default: 6 }; // 3-9 milestones, default to middle (6)
       case "12m": // 12 months total
-        return { min: 4, max: 12, step: 1, default: 12 };
+        return { min: 4, max: 12, step: 1, default: 8 }; // 4-12 milestones, default to middle (8)
       default:
-        return { min: 2, max: 4, step: 1, default: 2 }; // Fallback
+        return { min: 2, max: 4, step: 1, default: 3 }; // Fallback
     }
   };
 
@@ -61,23 +85,15 @@ export function RoadmapGenerator({ userId }: RoadmapGeneratorProps) {
     setCurrentStep("loading");
     setError("");
 
-    const selectedTimePeriod = timePeriods.find(
-      (p) => p.value === selectedPeriod
-    );
-
     let timeUnit: "months" | "weeks"; // corresponds to new RoadmapData.timeUnit
     let totalDuration: number; // corresponds to new RoadmapData.totalDuration
-    let periodDescriptionForAI: string;
 
     if (selectedPeriod === "1m") {
       timeUnit = "weeks";
       totalDuration = 4; // 1 month = 4 weeks
-      periodDescriptionForAI = "4 weeks";
     } else {
       timeUnit = "months";
       totalDuration = parseInt(selectedPeriod.replace("m", ""));
-      periodDescriptionForAI =
-        selectedTimePeriod?.fullLabel || "the selected period";
     }
 
     // Pass direct values for AI to use in its calculations and response structure
@@ -92,6 +108,7 @@ export function RoadmapGenerator({ userId }: RoadmapGeneratorProps) {
           timeUnit: timeUnit, // Pass timeUnit for AI's response type
           totalMilestones: numberOfMajorMilestones, // Pass total number of major milestones requested by user
           totalDuration: totalDuration, // Pass total duration for AI to calculate timeframe ranges
+          startDate: getToday().toISOString().split("T")[0], // Pass start date for AI to use in its response
         }),
       });
 
@@ -124,24 +141,26 @@ export function RoadmapGenerator({ userId }: RoadmapGeneratorProps) {
     window.location.href = "/profile";
   };
 
-  const { min, max, step } = getMilestoneSliderProps();
+  console.log("====roadmapData", roadmapData);
 
   return (
     <div className="h-full bg-background">
       {/* Input Step */}
       {currentStep === "input" && (
-        <div className="flex items-center justify-center h-full">
-          <Card className="border-none">
-            <CardHeader className="text-center pb-6">
-              <CardTitle className="scroll-m-20 text-4xl font-bold tracking-tight text-center">
-                Create Roadmap
-              </CardTitle>
-              <CardDescription className="text-muted-foreground">
-                Create a personalized learning journey tailored to your goals
-              </CardDescription>
-            </CardHeader>
+        <div className="flex flex-col h-full justify-between">
+          {/* Fixed Header Section */}
+          <div className="space-y-6 mt-8 mb-4">
+            <h1 className="scroll-m-20 text-4xl font-bold tracking-tight text-center">
+              Create Roadmap
+            </h1>
+            <p className="text-muted-foreground text-center">
+              Create a personalized learning journey tailored to your goals
+            </p>
+          </div>
 
-            <CardContent className="space-y-6">
+          {/* Scrollable Middle Section */}
+          <ScrollArea className="px-4 flex-grow">
+            <div className="space-y-8 px-1">
               {/* Error Display */}
               {error && (
                 <div className="p-4 bg-destructive/10 border border-destructive/20 rounded-lg flex items-center">
@@ -151,54 +170,20 @@ export function RoadmapGenerator({ userId }: RoadmapGeneratorProps) {
               )}
 
               {/* Time Period Selection */}
-              <div className="space-y-3">
-                <label className="text-sm font-medium text-primary">
-                  Select your journey timeframe:
-                </label>
-                <div className="grid grid-cols-2 gap-3">
-                  {timePeriods.map((period) => (
-                    <Button
-                      key={period.value}
-                      variant={
-                        selectedPeriod === period.value ? "default" : "outline"
-                      }
-                      onClick={() => setSelectedPeriod(period.value)}
-                      className=""
-                    >
-                      {period.label}
-                    </Button>
-                  ))}
-                </div>
-              </div>
+              <TimePeriodSelect
+                timePeriods={timePeriods}
+                selectedPeriod={selectedPeriod}
+                setSelectedPeriod={setSelectedPeriod}
+              />
 
               {/* Slider for Number of Milestones (Major Phases) */}
-              <div className="space-y-3">
-                <label
-                  htmlFor="num-milestones-slider"
-                  className="text-sm font-medium text-primary flex items-baseline justify-between"
-                >
-                  <span>Number of Major Milestones:</span>
-                  <span className="text-lg font-bold">
-                    {numberOfMajorMilestones}
-                  </span>
-                </label>
-                <input
-                  type="range"
-                  id="num-milestones-slider"
-                  min={min}
-                  max={max}
-                  step={step}
-                  value={numberOfMajorMilestones}
-                  onChange={(e) =>
-                    setNumberOfMajorMilestones(parseInt(e.target.value))
-                  }
-                  className="w-full h-2 rounded-lg appearance-none cursor-pointer accent-primary"
-                />
-                <div className="flex justify-between text-xs text-muted-foreground">
-                  <span>{min}</span>
-                  <span>{max}</span>
-                </div>
-              </div>
+              <MilestoneSlider
+                numberOfMajorMilestones={numberOfMajorMilestones}
+                setNumberOfMajorMilestones={setNumberOfMajorMilestones}
+                min={getMilestoneSliderProps().min}
+                max={getMilestoneSliderProps().max}
+                step={getMilestoneSliderProps().step}
+              />
 
               {/* Goal Input */}
               <div className="space-y-3">
@@ -213,26 +198,28 @@ export function RoadmapGenerator({ userId }: RoadmapGeneratorProps) {
                   rows={4}
                 />
               </div>
+            </div>
+          </ScrollArea>
 
-              {/* Generate Button */}
-              <Button
-                onClick={handleGenerate}
-                disabled={!input.trim()}
-                className="w-full text-md font-medium"
-              >
-                Generate{" "}
-                {timePeriods.find((p) => p.value === selectedPeriod)?.label}{" "}
-                Roadmap
-              </Button>
-              <Button
-                variant="secondary"
-                onClick={() => router.push("/profile")}
-                className="w-full"
-              >
-                Cancel
-              </Button>
-            </CardContent>
-          </Card>
+          {/* Fixed Footer Section */}
+          <div className="flex flex-col justify-center items-center mt-2 px-4">
+            <Button
+              onClick={handleGenerate}
+              disabled={!input.trim()}
+              className="w-full mt-3 mb-4 text-md font-medium"
+            >
+              Generate{" "}
+              {timePeriods.find((p) => p.value === selectedPeriod)?.label}{" "}
+              Roadmap
+            </Button>
+            <Button
+              variant="secondary"
+              onClick={() => router.push("/profile")}
+              className="w-full mb-4"
+            >
+              Cancel
+            </Button>
+          </div>
         </div>
       )}
 
@@ -266,35 +253,36 @@ export function RoadmapGenerator({ userId }: RoadmapGeneratorProps) {
 
       {/* Result Step */}
       {currentStep === "result" && roadmapData && (
-        <div className="max-w-4xl mx-auto p-4">
-          <div className="space-y-4">
-            {/* Roadmap Content - Now using the shared component */}
-            <Card className="border-none">
-              <div className="p-6 pt-12">
-                <RoadmapDisplay roadmapData={roadmapData} />
-              </div>
-            </Card>
+        <div className="flex flex-col h-full justify-between">
+          {/* Fixed Header Section */}
+          <div className="space-y-6 mb-4">
+            <h1 className="scroll-m-20 text-4xl font-bold tracking-tight text-center">
+              Your Roadmap
+            </h1>
+          </div>
 
-            {/* Action Bar */}
-            <Card className="border-none">
-              <CardContent className="p-4 pt-8">
-                <div className="flex flex-col items-center space-y-4">
-                  <RoadmapSaveButton
-                    roadmapData={roadmapData}
-                    userId={userId}
-                    onSaveSuccess={handleSaveAndNavigate}
-                  />
-                  <Button
-                    variant="outline"
-                    onClick={handleBackToInput}
-                    className="flex items-center gap-2 w-full"
-                  >
-                    <ArrowLeft className="h-4 w-4" />
-                    Back to Generator
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
+          {/* Scrollable Middle Section */}
+          <ScrollArea className="px-4 flex-grow">
+            <div className="px-1">
+              <RoadmapDisplay roadmapData={roadmapData} />
+            </div>
+          </ScrollArea>
+
+          {/* Fixed Footer Section */}
+          <div className="flex flex-col justify-center items-center mt-2 px-4">
+            <RoadmapSaveButton
+              roadmapData={roadmapData}
+              userId={userId}
+              onSaveSuccess={handleSaveAndNavigate}
+            />
+            <Button
+              variant="outline"
+              onClick={handleBackToInput}
+              className="flex items-center gap-2 w-full mt-3 mb-4"
+            >
+              <ArrowLeft className="h-4 w-4" />
+              Back to Generator
+            </Button>
           </div>
         </div>
       )}

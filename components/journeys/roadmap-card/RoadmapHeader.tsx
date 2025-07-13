@@ -27,15 +27,15 @@ export function RoadmapHeader({
   );
 
   // Calculate total tasks for a badge (optional, but good for granularity)
-  const totalTasks = milestones.reduce(
-    (acc, milestone) =>
-      acc +
-      milestone.objectives.reduce(
-        (objAcc, obj) => objAcc + obj.tasks.length,
-        0
-      ),
-    0
-  );
+  // const totalTasks = milestones.reduce(
+  //   (acc, milestone) =>
+  //     acc +
+  //     milestone.objectives.reduce(
+  //       (objAcc, obj) => objAcc + obj.tasks.length,
+  //       0
+  //     ),
+  //   0
+  // );
 
   const durationLabel = timeUnit === "weeks" ? "weeks" : "months";
 
@@ -65,7 +65,7 @@ export function RoadmapHeader({
         </Badge>
         <Badge variant="outline" className="flex items-center gap-1">
           <MapPin className="w-3 h-3" /> {/* Using MapPin for tasks */}
-          {totalTasks} Tasks {/* New badge for tasks */}
+          {/* {totalTasks} Tasks New badge for tasks */}
         </Badge>
         <Badge variant="outline" className="flex items-center gap-1">
           Overall: {totalDuration} {durationLabel}{" "}
