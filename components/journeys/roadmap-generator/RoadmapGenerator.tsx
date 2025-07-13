@@ -2,13 +2,7 @@ import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { ArrowLeft, Save, Loader2, CheckCircle, XCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { RoadmapDisplay } from "@components/journeys/roadmap-card/RoadmapDisplay";
 import { RoadmapData } from "@models/types";
@@ -255,7 +249,7 @@ export function RoadmapGenerator({ userId }: RoadmapGeneratorProps) {
       {currentStep === "result" && roadmapData && (
         <div className="flex flex-col h-full justify-between">
           {/* Fixed Header Section */}
-          <div className="space-y-6 mb-4">
+          <div className="space-y-6 mt-8 mb-4">
             <h1 className="scroll-m-20 text-4xl font-bold tracking-tight text-center">
               Your Roadmap
             </h1>
