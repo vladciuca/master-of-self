@@ -36,7 +36,7 @@ export function JourneyCard({
 
   const totalObjectives = hasMilestones
     ? roadmapData.milestones.reduce(
-        (acc, milestone) => acc + milestone.objectives.length,
+        (acc, milestone) => acc + (milestone.objectives?.length || 0),
         0
       )
     : 0; // Default to 0 if milestones is not an array or undefined
@@ -45,10 +45,10 @@ export function JourneyCard({
     ? roadmapData.milestones.reduce(
         (acc, milestone) =>
           acc +
-          milestone.objectives.reduce(
-            (objAcc, obj) => objAcc + obj.tasks.length,
+          (milestone.objectives?.reduce(
+            (objAcc, obj) => objAcc + (obj.tasks?.length || 0),
             0
-          ),
+          ) || 0),
         0
       )
     : 0; // Default to 0 if milestones is not an array or undefined
