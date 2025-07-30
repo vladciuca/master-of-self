@@ -15,18 +15,18 @@ export default function Profile() {
 
   // page tab configuration object - contains name and component for each page
   const pageConfig = [
-    {
-      name: "journeys",
-      component: <UserJourneys />,
-    },
+    // {
+    //   name: "journeys",
+    //   component: <UserJourneys />,
+    // },
     {
       name: "disciplines",
       component: <UserDisciplines />,
     },
-    {
-      name: "habits",
-      component: <UserHabits />,
-    },
+    // {
+    //   name: "habits",
+    //   component: <UserHabits />,
+    // },
     {
       name: "willpower",
       component: <WeeklyWillpowerChart />,

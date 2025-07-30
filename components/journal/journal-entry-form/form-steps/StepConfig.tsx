@@ -15,6 +15,7 @@ import type {
   JournalCustomStep,
   JournalStepType,
 } from "@models/types";
+import { JourneyStep } from "./steps/journey-step/JourneyStep";
 
 //NOTE: Creates a complete array of form steps by combining built-in and custom steps
 type CreateStepsParams = {
@@ -88,6 +89,19 @@ export function createSteps(params: CreateStepsParams): JournalCustomStep[] {
         ...step,
         isAvailable: SHOW_ALL_TEST || isEvening(userEveningTime, now),
       })),
+    // {
+    //   _id: "journey",
+    //   icon: stepIconMap.journey,
+    //   discipline: "journey",
+    //   component: (
+    //     <JourneyStep
+    //       title="Journey Progress"
+    //       children={<div>Journey content will go here</div>}
+    //     />
+    //   ),
+    //   isAvailable: SHOW_ALL_TEST || true,
+    //   type: "other",
+    // },
     {
       _id: "habits",
       icon: stepIconMap.habits,
