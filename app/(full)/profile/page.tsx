@@ -17,10 +17,10 @@ export default function Profile() {
       name: "disciplines",
       component: <UserDisciplines />,
     },
-    {
-      name: "habits",
-      component: <UserHabits />,
-    },
+    // {
+    //   name: "habits",
+    //   component: <UserHabits />,
+    // },
     {
       name: "willpower",
       component: <WeeklyWillpowerChart />,
