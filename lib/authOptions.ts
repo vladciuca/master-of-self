@@ -42,7 +42,8 @@ export const authOptions: NextAuthOptions = {
     createUser: async ({ user }) => {
       const db = (await clientPromise).db();
       await db.collection("users").updateOne(
-        { _id: new ObjectId(user.id) },
+        // { _id: new ObjectId(user.id) },
+        { id: user.id },
         {
           $set: {
             profile: {
