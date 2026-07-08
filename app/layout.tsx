@@ -35,8 +35,9 @@ export default async function RootLayout({ children }: Layout) {
         <Provider>
           <ThemeProvider
             attribute="class"
-            defaultTheme="system"
-            enableSystem
+            // defaultTheme="dark"
+            // enableSystem
+            forcedTheme="dark"
             disableTransitionOnChange
           >
             <UserProfileProvider>
