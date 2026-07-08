@@ -38,7 +38,7 @@ export function NewJournalEntry({ isEveningTime }: NewJournalEntryProps) {
     } catch (error) {
       console.error(
         "Failed to create new journal entry:",
-        createJournalEntryError
+        createJournalEntryError,
       );
     }
   };
@@ -96,8 +96,8 @@ export function NewJournalEntry({ isEveningTime }: NewJournalEntryProps) {
             submittingJournalEntry
               ? "Creating..."
               : hasTodayEntry
-              ? "Entry for today already exists!"
-              : "Let’s go!"
+                ? "Entry for today already exists!"
+                : "Start today's journey!"
           }
           handleClick={handleCreateJournalEntry}
           handleDisabled={

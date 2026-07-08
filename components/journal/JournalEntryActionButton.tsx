@@ -25,7 +25,7 @@ export function JournalEntryActionButton({
 
   const timePeriod = getCurrentTimePeriod(
     userProfile?.journalStartTime.morning,
-    userProfile?.journalStartTime.evening
+    userProfile?.journalStartTime.evening,
   );
 
   const { periodColor, iconName } = getTimePeriodIconAndColor(timePeriod);
@@ -44,7 +44,7 @@ export function JournalEntryActionButton({
       className={cn(
         `group border-${periodColor}/40 hover:bg-${periodColor}/90`,
         disabledClasses,
-        "hover:text-white rounded-md font-normal w-full py-5"
+        "hover:text-white rounded-full font-normal w-full py-5",
       )}
     >
       <IconRenderer
@@ -53,7 +53,7 @@ export function JournalEntryActionButton({
         className={cn(
           `mr-3 text-${periodColor}`,
           isSubmitting ? "group-disabled:text-white" : "",
-          "group-hover:text-white transition-colors"
+          "group-hover:text-white transition-colors",
         )}
       />
       {text}
