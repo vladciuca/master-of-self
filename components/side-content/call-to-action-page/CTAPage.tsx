@@ -206,9 +206,11 @@ export function CTAPage({
                 </div>
               </div>
             ) : (
-              // Desktop: Full viewport height, centered, no scroll
-              <div className="h-screen flex flex-col justify-center items-center px-6 relative z-10">
-                <ContentComponent />
+              // Desktop: Full viewport height
+              <div className="flex-grow overflow-scroll">
+                <main className="min-h-screen flex flex-col justify-center items-center px-6 relative z-10">
+                  <ContentComponent />
+                </main>
               </div>
             )}
           </motion.div>

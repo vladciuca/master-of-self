@@ -26,7 +26,7 @@ const sections = [
         listTitle: "Boosts Self-Awareness & Emotional Intelligence",
         listItem: [
           "Journaling daily <strong>forces you to slow down</strong> and become aware of your thoughts, emotions, and actions.",
-          "This increases <strong>emotional intelligence</strong>, helping you recognize triggers, patterns, and habits.",
+          "This increases <strong>emotional intelligence</strong>, helping you recognize triggers, patterns, and reactions.",
           "With higher <strong>self-awareness</strong>, you become more intentional in how you react to life.",
         ],
       },
@@ -45,11 +45,11 @@ const sections = [
         ],
       },
       {
-        listTitle: "Strengthens Habit Formation",
+        listTitle: "Builds a Daily Reflection Practice",
         listItem: [
-          "Consistently reflecting on 'What went well?' and 'What could be better?' builds the habit of <strong>self-improvement</strong>.",
-          "Positive reinforcement (celebrating small wins) <strong>motivates continued action</strong>.",
-          "Over time, new <strong>habits form naturally</strong> because you see progress.",
+          "Guided prompts like 'What went well?' and 'What could be better?' turn journaling into a <strong>simple, sustainable practice</strong>.",
+          "Daily reflection creates a <strong>personal record of growth</strong> you can return to for perspective and motivation.",
+          "Over time, this ritual helps you <strong>process experiences more clearly</strong> and approach each day with fresh insight.",
         ],
       },
       {

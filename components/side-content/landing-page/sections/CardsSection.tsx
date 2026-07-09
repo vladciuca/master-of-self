@@ -74,25 +74,25 @@ const cards = [
     icon: <LuTarget />,
     bg: "bg-teal-500",
     textColor: "text-white",
-    title: "Maintain Consistency",
+    title: "Find Gratitude in Every Day",
     content:
-      "Track your daily habits and earn XP by reinforcing positive actions or breaking unhelpful ones. Stay consistent to level up your discipline and control.",
+      "Prompt journaling helps you notice the meaningful moments in each day, turning reflection into a steady source of motivation and self-awareness.",
     list: [
       {
-        key: "Daily Habit Tracking:",
-        text: "Log your progress with build or break habits and stay mindful of your behavioral patterns.",
+        key: "Guided Prompts:",
+        text: "Thoughtful prompts lead you to explore your intentions, wins, and challenges with clarity.",
       },
       {
-        key: "Reinforce or Resist:",
-        text: "Each habit action helps you strengthen a desired behavior or weaken a limiting one.",
+        key: "Daily Highlights:",
+        text: "Capture the moments that lifted you up, so you can carry their energy forward.",
       },
       {
-        key: "Earn XP & Grow:",
-        text: "Gain experience points as you stay consistent, turning effort into tangible progress and motivation.",
+        key: "Gratitude Reflection:",
+        text: "Acknowledge what you are thankful for, cultivating positivity and deeper presence.",
       },
       {
-        key: "Willpower:",
-        text: "Gain increased experience for your actions based on the daily willpower generated.",
+        key: "Track Progress:",
+        text: "Review your entries over time to see how consistent reflection fuels personal growth.",
       },
     ],
   },

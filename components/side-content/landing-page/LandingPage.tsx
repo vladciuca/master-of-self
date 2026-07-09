@@ -1,9 +1,8 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import { HeroSection } from "./sections/HeroSection";
-import { IntroductionSection } from "./sections/IntroductionSection";
+// import { IntroductionSection } from "./sections/IntroductionSection";
 import { CardsSection } from "./sections/CardsSection";
 // import { ScienceSection } from "../how-it-works/sections/ScienceSection";
 // import { MindsetBehaviorSection } from "../how-it-works/sections/MindsetBehaviorSection";
