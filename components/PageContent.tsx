@@ -85,15 +85,16 @@ export function PageContent({ children }: Layout) {
     } else if (pathname === "/sign-in") {
       return <SignInPage />;
     } else {
-      return isLargeScreen ? (
-        <PageCarousel
-          images={carouselImages}
-          autoPlayInterval={4000}
-          showDots={true}
-        />
-      ) : (
-        <MobileSideContent />
-      );
+      // return isLargeScreen ? (
+      //   <PageCarousel
+      //     images={carouselImages}
+      //     autoPlayInterval={4000}
+      //     showDots={true}
+      //   />
+      // ) : (
+      //   <MobileSideContent />
+      // );
+      return <PageLogo />
     }
   };
 

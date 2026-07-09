@@ -13,7 +13,7 @@ interface PageCarouselProps {
 export function PageCarousel({
   images = [],
   autoPlayInterval = 5000,
-  showDots = true,
+  // showDots = true,
 }: PageCarouselProps) {
   const [currentSlide, setCurrentSlide] = useState(0);
 
@@ -31,9 +31,9 @@ export function PageCarousel({
     return () => clearInterval(interval);
   }, [totalSlides, autoPlayInterval]);
 
-  const goToSlide = (index: number) => {
-    setCurrentSlide(index);
-  };
+  // const goToSlide = (index: number) => {
+  //   setCurrentSlide(index);
+  // };
 
   // If no images provided, just show PageLogo
   if (images.length === 0) {

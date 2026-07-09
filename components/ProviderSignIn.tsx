@@ -4,8 +4,8 @@ import { useState, useEffect } from "react";
 import { signIn, getProviders, ClientSafeProvider } from "next-auth/react";
 import { Button } from "@/components/ui/button";
 import { Loader2 } from "lucide-react";
-import { GiAllSeeingEye } from "react-icons/gi";
 import { PageLogo } from "@components/PageLogo";
+import { GiKey } from "react-icons/gi";
 
 type Providers = {
   [key: string]: ClientSafeProvider;
@@ -145,11 +145,14 @@ export function ProviderSignIn() {
 
   return (
     <div className="w-full h-full flex flex-col justify-around p-6 space-y-4">
-      <div className="w-full flex items-center justify-center">
-        {/* <GiAllSeeingEye size={200} /> */}
-        <div className="h-48 w-48">
+      <div className="w-full flex flex-col items-center justify-center">
+        {/*<div className="h-48 w-48">
           <PageLogo />
-        </div>
+        </div>*/}
+        <GiKey size={"8rem"} />
+        <span className="italic mt-4 font-medium block text-lg sm:text-lg md:text-lg lg:text-lg text-muted-foreground">
+          - You have the Key -
+        </span>
       </div>
       <div>
         <div className="space-y-6">
