@@ -143,9 +143,9 @@ export function ProviderSignIn() {
     signIn(providerId, { callbackUrl: "/journal" });
 
   return (
-    <div className="w-full h-full flex flex-col justify-around p-6 space-y-4">
-      <SignInHero />
-      <div>
+    <div className="relative w-full h-full flex flex-col justify-end p-6">
+      <SignInHero className="absolute inset-0 z-0" />
+      <div className="relative z-10">
         <div className="space-y-6">
           {Object.entries(providerStyles).map(([providerId, style]) => (
             <Button

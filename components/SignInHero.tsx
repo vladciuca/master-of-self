@@ -2,9 +2,15 @@
 
 import { GiKey } from "react-icons/gi";
 
-export function SignInHero() {
+type SignInHeroProps = {
+  className?: string;
+};
+
+export function SignInHero({ className }: SignInHeroProps) {
   return (
-    <div className="relative h-64 w-full flex flex-col items-center justify-center overflow-hidden text-white">
+    <div
+      className={`relative w-full h-full flex flex-col items-center text-white ${className ?? ""}`}
+    >
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(255,255,255,0.15)_0%,_transparent_55%)] pointer-events-none z-0" />
 
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 rounded-full bg-white/[0.10] blur-[80px] animate-[pulse_5s_ease-in-out_infinite] pointer-events-none z-0" />
@@ -30,17 +36,19 @@ export function SignInHero() {
         </div>
       </div>
 
-      <div className="relative z-10 flex justify-center animate-[float_6s_ease-in-out_infinite]">
-        <GiKey
-          size="8rem"
-          className="text-white drop-shadow-[0_0_35px_rgba(255,255,255,0.45)]"
-        />
-      </div>
+      <div className="relative z-10 flex flex-col items-center justify-center h-[80%] w-full px-4">
+        <div className="animate-[float_6s_ease-in-out_infinite]">
+          <GiKey
+            size="8rem"
+            className="text-white drop-shadow-[0_0_35px_rgba(255,255,255,0.45)]"
+          />
+        </div>
 
-      <div className="relative z-10 mt-4 text-center">
-        <span className="inline-block uppercase tracking-[0.25em] text-xs sm:text-sm font-normal text-white/80">
-          You have the Key
-        </span>
+        <div className="mt-4 text-center">
+          <span className="inline-block uppercase tracking-[0.25em] text-xs sm:text-sm font-normal text-white/80">
+            You have the Key
+          </span>
+        </div>
       </div>
 
       <style jsx>{`
