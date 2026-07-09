@@ -262,8 +262,10 @@ export function DiscordPage({
               </div>
             ) : (
               // Desktop: Full viewport height, centered, no scroll
-              <div className="h-full flex flex-col justify-center items-center px-6 relative">
-                <ContentComponent />
+              <div className="flex-grow overflow-scroll">
+                <main className="min-h-screen flex flex-col justify-center items-center px-6 pt-4 relative">
+                  <ContentComponent />
+                </main>
               </div>
             )}
           </motion.div>
