@@ -237,7 +237,7 @@ export function DiscordPage({
           {/* Close Button */}
           {!isMobile && (
             <div
-              className="absolute top-4 right-4 cursor-pointer"
+              className="absolute top-4 right-4 z-10 cursor-pointer"
               onClick={handleCloseDrawer}
             >
               <X />
