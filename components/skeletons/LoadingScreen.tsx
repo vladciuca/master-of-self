@@ -1,4 +1,4 @@
-import { PageLogo } from "@components/PageLogo";
+import { LoadingPageLogo } from "@components/LoadingPageLogo";
 import { HeaderTitle } from "@components/HeaderTitle";
 
 export function LoadingScreen() {
@@ -9,7 +9,7 @@ export function LoadingScreen() {
       </div>
       <div className="flex-grow overflow-hidden border rounded-3xl">
         <div className="h-full px-4 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent">
-          <PageLogo />
+          <LoadingPageLogo />
         </div>
       </div>
       <div className="min-h-20">
