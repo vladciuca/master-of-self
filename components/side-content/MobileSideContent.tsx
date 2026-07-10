@@ -6,11 +6,18 @@ import { LandingPage } from "./landing-page/LandingPage";
 import { HowItWorks } from "./how-it-works/HowItWorks";
 import { CTAPage } from "./call-to-action-page/CTAPage";
 import { DiscordPage } from "./community/DiscordPage";
+import { LogoPage } from "./logo-page/LogoPage";
 import { FloatingMobileMenu } from "./FloatingMobileMenu";
 import { FaEye, FaBrain } from "react-icons/fa";
-import { FaGear, FaDiscord } from "react-icons/fa6";
+import { FaGear, FaDiscord, FaBookOpen } from "react-icons/fa6";
 
 const allTabs = [
+  {
+    id: "logo",
+    icon: FaBookOpen,
+    label: "LOGO",
+    component: LogoPage,
+  },
   {
     id: "cta",
     icon: FaEye,

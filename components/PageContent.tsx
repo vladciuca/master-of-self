@@ -6,6 +6,7 @@ import { useEffect } from "react";
 import SignUpPage from "@app/(full)/sign-up/page";
 import SignInPage from "@app/(full)/sign-in/page";
 import { PageLogo } from "@components/PageLogo";
+import { LoadingPageLogo } from "@components/LoadingPageLogo";
 import { PageCarousel } from "@components/PageCarousel";
 import { MobileSideContent } from "components/side-content/MobileSideContent";
 import { useScreenSize } from "@/hooks/useScreenSize";
@@ -86,11 +87,12 @@ export function PageContent({ children }: Layout) {
       return <SignInPage />;
     } else {
       return isLargeScreen ? (
-        <PageCarousel
-          images={carouselImages}
-          autoPlayInterval={4000}
-          showDots={true}
-        />
+        // <PageCarousel
+        //   images={carouselImages}
+        //   autoPlayInterval={4000}
+        //   showDots={true}
+        // />
+        <PageLogo />
       ) : (
         <MobileSideContent />
       );
@@ -100,8 +102,7 @@ export function PageContent({ children }: Layout) {
   return (
     <section className="h-full w-full">
       {shouldShowLoading() ? (
-        // Show PageLogo while loading or during redirects
-        <PageLogo />
+        <LoadingPageLogo />
       ) : session?.user ? (
         // Show main content when authenticated and ready
         <main className="h-full w-full px-4">{children}</main>

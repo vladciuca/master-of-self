@@ -4,8 +4,7 @@ import { useState, useEffect } from "react";
 import { signIn, getProviders, ClientSafeProvider } from "next-auth/react";
 import { Button } from "@/components/ui/button";
 import { Loader2 } from "lucide-react";
-import { GiAllSeeingEye } from "react-icons/gi";
-import { PageLogo } from "@components/PageLogo";
+import { SignInHero } from "@components/SignInHero";
 
 type Providers = {
   [key: string]: ClientSafeProvider;
@@ -144,14 +143,9 @@ export function ProviderSignIn() {
     signIn(providerId, { callbackUrl: "/journal" });
 
   return (
-    <div className="w-full h-full flex flex-col justify-around p-6 space-y-4">
-      <div className="w-full flex items-center justify-center">
-        {/* <GiAllSeeingEye size={200} /> */}
-        <div className="h-48 w-48">
-          <PageLogo />
-        </div>
-      </div>
-      <div>
+    <div className="relative w-full h-full flex flex-col justify-end p-6">
+      <SignInHero className="absolute inset-0 z-0" />
+      <div className="relative z-10">
         <div className="space-y-6">
           {Object.entries(providerStyles).map(([providerId, style]) => (
             <Button

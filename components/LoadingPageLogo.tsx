@@ -1,6 +1,6 @@
-import { GiSecretBook } from "react-icons/gi";
+import { GiSpellBook } from "react-icons/gi";
 
-export function PageLogo() {
+export function LoadingPageLogo() {
   return (
     <div className="relative h-full w-full flex flex-col items-center justify-center overflow-hidden bg-black text-white rounded-md text-center">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(255,255,255,0.15)_0%,_transparent_55%)] pointer-events-none z-0" />
@@ -50,7 +50,7 @@ export function PageLogo() {
       </div>
 
       <div className="relative z-10 flex justify-center animate-[float_6s_ease-in-out_infinite]">
-        <GiSecretBook
+        <GiSpellBook
           size="18rem"
           className="text-white drop-shadow-[0_0_35px_rgba(255,255,255,0.45)] max-w-[50vw]"
         />
@@ -58,7 +58,7 @@ export function PageLogo() {
 
       <div className="absolute bottom-8 left-0 right-0 z-10 px-6 text-center">
         <span className="inline-block uppercase tracking-[0.25em] text-xs sm:text-sm font-normal text-white/80">
-          Unlock your Potential
+          Shape your own story
         </span>
       </div>
 

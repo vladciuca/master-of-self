@@ -208,7 +208,7 @@ export function CTAPage({
             ) : (
               // Desktop: Full viewport height
               <div className="flex-grow overflow-scroll">
-                <main className="min-h-screen flex flex-col justify-center items-center px-6 relative z-10">
+                <main className="min-h-screen flex flex-col justify-center items-center px-6">
                   <ContentComponent />
                 </main>
               </div>
