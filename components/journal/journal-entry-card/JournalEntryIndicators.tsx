@@ -24,6 +24,7 @@ export function JournalEntryIndicators({
     .filter(
       ([key, value]) =>
         key !== "day" &&
+        key !== "repeat" &&
         key !== "carryOver" &&
         Array.isArray(value) &&
         value.length > 0,

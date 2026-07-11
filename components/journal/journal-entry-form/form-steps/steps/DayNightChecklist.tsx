@@ -41,7 +41,7 @@ export function DayNightChecklist({ mode }: DayNightChecklistProps) {
 
   const day = useWatch({ name: "dayEntry.day", control }) ?? [];
   const night = useWatch({ name: "nightEntry.night", control }) ?? [];
-  const carryOver = useWatch({ name: "dayEntry.carryOver", control }) ?? [];
+  const repeat = useWatch({ name: "dayEntry.repeat", control }) ?? [];
 
   const [draft, setDraft] = React.useState("");
   const [focusTarget, setFocusTarget] = React.useState<
@@ -156,13 +156,9 @@ export function DayNightChecklist({ mode }: DayNightChecklistProps) {
     setValue("nightEntry.night", replaceInArray(night, originalText, newText), {
       shouldDirty: true,
     });
-    setValue(
-      "dayEntry.carryOver",
-      replaceInArray(carryOver, originalText, newText),
-      {
-        shouldDirty: true,
-      },
-    );
+    setValue("dayEntry.repeat", replaceInArray(repeat, originalText, newText), {
+      shouldDirty: true,
+    });
   };
 
   const deleteItem = (
@@ -176,7 +172,7 @@ export function DayNightChecklist({ mode }: DayNightChecklistProps) {
     setValue("nightEntry.night", removeFromArray(night, textToDelete), {
       shouldDirty: true,
     });
-    setValue("dayEntry.carryOver", removeFromArray(carryOver, textToDelete), {
+    setValue("dayEntry.repeat", removeFromArray(repeat, textToDelete), {
       shouldDirty: true,
     });
 
@@ -196,8 +192,8 @@ export function DayNightChecklist({ mode }: DayNightChecklistProps) {
     });
   };
 
-  const toggleCarryOver = (item: string) => {
-    setValue("dayEntry.carryOver", toggleInArray(carryOver, item), {
+  const toggleRepeat = (item: string) => {
+    setValue("dayEntry.repeat", toggleInArray(repeat, item), {
       shouldDirty: true,
     });
   };
@@ -235,7 +231,7 @@ export function DayNightChecklist({ mode }: DayNightChecklistProps) {
       <div className="space-y-1">
         {day.map((item, index) => {
           const checked = night.includes(item);
-          const isCarryOver = carryOver.includes(item);
+          const isRepeat = repeat.includes(item);
 
           return (
             <div
@@ -256,11 +252,11 @@ export function DayNightChecklist({ mode }: DayNightChecklistProps) {
                 onCheckedChange={() => toggleItemChecked(item)}
               />
 
-              {isDay && isCarryOver && (
+              {isDay && isRepeat && (
                 <span
                   className="inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-white text-black"
-                  aria-label="Carry over to tomorrow"
-                  title="Carry over to tomorrow"
+                  aria-label="Repeat for tomorrow"
+                  title="Repeat for tomorrow"
                 >
                   <FaRedoAlt className="h-3.5 w-3.5" />
                 </span>
@@ -340,19 +336,19 @@ export function DayNightChecklist({ mode }: DayNightChecklistProps) {
                   variant="ghost"
                   size="icon"
                   aria-label={
-                    isCarryOver
-                      ? "Do not carry over to tomorrow"
-                      : "Carry over to tomorrow"
+                    isRepeat
+                      ? "Do not repeat for tomorrow"
+                      : "Repeat for tomorrow"
                   }
                   title={
-                    isCarryOver
-                      ? "Do not carry over to tomorrow"
-                      : "Carry over to tomorrow"
+                    isRepeat
+                      ? "Do not repeat for tomorrow"
+                      : "Repeat for tomorrow"
                   }
-                  onClick={() => toggleCarryOver(item)}
+                  onClick={() => toggleRepeat(item)}
                   className={cn(
                     "h-6 w-6 shrink-0 rounded-full",
-                    isCarryOver
+                    isRepeat
                       ? "bg-white text-black hover:bg-white/90 hover:text-black"
                       : "bg-transparent text-white hover:bg-white/10 hover:text-white",
                   )}

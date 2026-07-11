@@ -1008,7 +1008,7 @@ export function JournalEntryDisciplineSection({
   const allTodos = [...uncompleted, ...completed];
   const completedCount = completed.length;
   const highlights = nightEntry?.highlights || [];
-  const carryOver = dayEntry?.carryOver || [];
+  const repeat = dayEntry?.repeat || [];
 
   const motivationStep = {
     step: "motivation",
@@ -1032,7 +1032,7 @@ export function JournalEntryDisciplineSection({
               title="What will make today great..."
               items={uncompleted}
               stepType="day"
-              carryOver={carryOver}
+              repeat={repeat}
             />
           )}
           {completed.length > 0 && (
@@ -1040,7 +1040,7 @@ export function JournalEntryDisciplineSection({
               title="What made today great..."
               items={completed}
               stepType="night"
-              carryOver={carryOver}
+              repeat={repeat}
             />
           )}
           {highlights.length > 0 && (

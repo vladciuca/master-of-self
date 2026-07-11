@@ -9,7 +9,7 @@ type JournalEntryDisciplineListProps = {
   stepType: string;
   contentLoading?: boolean;
   bonusList?: boolean;
-  carryOver?: string[];
+  repeat?: string[];
 };
 
 export function JournalEntryDisciplineList({
@@ -18,7 +18,7 @@ export function JournalEntryDisciplineList({
   stepType,
   contentLoading,
   bonusList,
-  carryOver = [],
+  repeat = [],
 }: JournalEntryDisciplineListProps) {
   const { bgColor } = getJournalStepStyle(stepType);
   const bulletPointPosition = bonusList ? "mt-2" : "mt-[6px]";
@@ -45,11 +45,11 @@ export function JournalEntryDisciplineList({
                   />
                 </span>
                 <span className="ml-2 break-words">
-                  {carryOver.includes(item) && (
+                  {repeat.includes(item) && (
                     <span
                       className="inline-flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-white text-black mr-1 align-middle"
-                      aria-label="Carry over to tomorrow"
-                      title="Carry over to tomorrow"
+                      aria-label="Repeat for tomorrow"
+                      title="Repeat for tomorrow"
                     >
                       <FaRedoAlt className="h-3 w-3" />
                     </span>

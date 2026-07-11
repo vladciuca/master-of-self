@@ -86,7 +86,7 @@ export type JournalEntryHabit = {
 
 export type JournalDayEntry = {
   day?: string[];
-  carryOver?: string[];
+  repeat?: string[];
   [key: string]: string[] | undefined;
 };
 
