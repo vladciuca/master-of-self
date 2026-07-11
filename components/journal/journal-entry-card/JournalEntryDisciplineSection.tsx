@@ -1009,7 +1009,6 @@ export function JournalEntryDisciplineSection({
   const completedCount = completed.length;
   const highlights = nightEntry?.highlights || [];
   const carryOver = dayEntry?.carryOver || [];
-  const repeat = dayEntry?.repeat || [];
 
   const motivationStep = {
     step: "motivation",
@@ -1034,7 +1033,6 @@ export function JournalEntryDisciplineSection({
               items={uncompleted}
               stepType="day"
               carryOver={carryOver}
-              repeat={repeat}
             />
           )}
           {completed.length > 0 && (
@@ -1043,7 +1041,6 @@ export function JournalEntryDisciplineSection({
               items={completed}
               stepType="night"
               carryOver={carryOver}
-              repeat={repeat}
             />
           )}
           {highlights.length > 0 && (

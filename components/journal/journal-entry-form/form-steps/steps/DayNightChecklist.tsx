@@ -2,19 +2,12 @@
 
 import * as React from "react";
 import { useFormContext, useWatch } from "react-hook-form";
-import { MoreHorizontal } from "lucide-react";
+import { FaRedoAlt } from "react-icons/fa";
 
 import { JournalStepTemplate } from "@components/journal/journal-entry-form/form-steps/steps/journal-step/JournalStepTemplate";
 import { StepScoreDisplay } from "@components/journal/journal-entry-form/form-steps/StepScoreDisplay";
 import { Button } from "@components/ui/button";
 import { Checkbox } from "@components/ui/checkbox";
-import { Badge } from "@components/ui/badge";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuCheckboxItem,
-  DropdownMenuTrigger,
-} from "@components/ui/dropdown-menu";
 import { JOURNAL_COLORS } from "@lib/colors";
 import { calculateStepScoreMultiplier } from "@lib/score";
 import { cn } from "@lib/utils";
@@ -49,7 +42,6 @@ export function DayNightChecklist({ mode }: DayNightChecklistProps) {
   const day = useWatch({ name: "dayEntry.day", control }) ?? [];
   const night = useWatch({ name: "nightEntry.night", control }) ?? [];
   const carryOver = useWatch({ name: "dayEntry.carryOver", control }) ?? [];
-  const repeat = useWatch({ name: "dayEntry.repeat", control }) ?? [];
 
   const [draft, setDraft] = React.useState("");
   const [focusTarget, setFocusTarget] = React.useState<
@@ -171,9 +163,6 @@ export function DayNightChecklist({ mode }: DayNightChecklistProps) {
         shouldDirty: true,
       },
     );
-    setValue("dayEntry.repeat", replaceInArray(repeat, originalText, newText), {
-      shouldDirty: true,
-    });
   };
 
   const deleteItem = (
@@ -188,9 +177,6 @@ export function DayNightChecklist({ mode }: DayNightChecklistProps) {
       shouldDirty: true,
     });
     setValue("dayEntry.carryOver", removeFromArray(carryOver, textToDelete), {
-      shouldDirty: true,
-    });
-    setValue("dayEntry.repeat", removeFromArray(repeat, textToDelete), {
       shouldDirty: true,
     });
 
@@ -212,12 +198,6 @@ export function DayNightChecklist({ mode }: DayNightChecklistProps) {
 
   const toggleCarryOver = (item: string) => {
     setValue("dayEntry.carryOver", toggleInArray(carryOver, item), {
-      shouldDirty: true,
-    });
-  };
-
-  const toggleRepeat = (item: string) => {
-    setValue("dayEntry.repeat", toggleInArray(repeat, item), {
       shouldDirty: true,
     });
   };
@@ -256,7 +236,6 @@ export function DayNightChecklist({ mode }: DayNightChecklistProps) {
         {day.map((item, index) => {
           const checked = night.includes(item);
           const isCarryOver = carryOver.includes(item);
-          const isRepeat = repeat.includes(item);
 
           return (
             <div
@@ -276,7 +255,18 @@ export function DayNightChecklist({ mode }: DayNightChecklistProps) {
                 checked={checked}
                 onCheckedChange={() => toggleItemChecked(item)}
               />
-              <span className="inline-flex h-5 w-6 mt-0.5 shrink-0 items-center justify-end text-base">
+
+              {isDay && isCarryOver && (
+                <span
+                  className="inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-white text-black"
+                  aria-label="Carry over to tomorrow"
+                  title="Carry over to tomorrow"
+                >
+                  <FaRedoAlt className="h-3.5 w-3.5" />
+                </span>
+              )}
+
+              <span className="inline-flex h-5 w-5 mt-0.5 shrink-0 items-center justify-end text-base">
                 {index + 1}.
               </span>
 
@@ -341,49 +331,34 @@ export function DayNightChecklist({ mode }: DayNightChecklistProps) {
                   )}
                 >
                   {item}
-                  {isCarryOver && (
-                    <Badge variant="secondary" className="ml-1 align-middle">
-                      Carry Over
-                    </Badge>
-                  )}
-                  {isRepeat && (
-                    <Badge variant="secondary" className="ml-1 align-middle">
-                      Repeat
-                    </Badge>
-                  )}
                 </span>
               )}
 
               {!isDay && (
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button
-                      type="button"
-                      variant="ghost"
-                      size="icon"
-                      aria-label="Item options"
-                      className="h-7 w-7 shrink-0"
-                    >
-                      <MoreHorizontal className="h-4 w-4 text-muted-foreground" />
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end" className="w-56">
-                    <DropdownMenuCheckboxItem
-                      checked={isCarryOver}
-                      onCheckedChange={() => toggleCarryOver(item)}
-                      onSelect={(e) => e.preventDefault()}
-                    >
-                      Carry over to tomorrow
-                    </DropdownMenuCheckboxItem>
-                    <DropdownMenuCheckboxItem
-                      checked={isRepeat}
-                      onCheckedChange={() => toggleRepeat(item)}
-                      onSelect={(e) => e.preventDefault()}
-                    >
-                      Repeat daily
-                    </DropdownMenuCheckboxItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="icon"
+                  aria-label={
+                    isCarryOver
+                      ? "Do not carry over to tomorrow"
+                      : "Carry over to tomorrow"
+                  }
+                  title={
+                    isCarryOver
+                      ? "Do not carry over to tomorrow"
+                      : "Carry over to tomorrow"
+                  }
+                  onClick={() => toggleCarryOver(item)}
+                  className={cn(
+                    "h-6 w-6 shrink-0 rounded-full",
+                    isCarryOver
+                      ? "bg-white text-black hover:bg-white/90 hover:text-black"
+                      : "bg-transparent text-white hover:bg-white/10 hover:text-white",
+                  )}
+                >
+                  <FaRedoAlt className="h-3.5 w-3.5" />
+                </Button>
               )}
             </div>
           );
@@ -392,7 +367,7 @@ export function DayNightChecklist({ mode }: DayNightChecklistProps) {
         {isDay && (
           <div className="flex items-start gap-1 rounded-md px-2 py-1">
             <div className="h-5 w-5 shrink-0 rounded-full border border-muted-foreground/50 bg-transparent" />
-            <span className="w-2 shrink-0" />
+            <span className="w-1 shrink-0" />
             <textarea
               ref={newItemRef}
               value={draft}
