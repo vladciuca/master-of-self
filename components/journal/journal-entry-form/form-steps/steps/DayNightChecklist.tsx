@@ -59,6 +59,7 @@ export function DayNightChecklist({ mode }: DayNightChecklistProps) {
   const newItemRef = React.useRef<HTMLTextAreaElement | null>(null);
   const editingItems = React.useRef<Map<number, string>>(new Map());
   const hasCleanedEmptyItems = React.useRef(false);
+  const hasInitialFocused = React.useRef(false);
 
   React.useEffect(() => {
     if (hasCleanedEmptyItems.current) return;
@@ -111,6 +112,24 @@ export function DayNightChecklist({ mode }: DayNightChecklistProps) {
 
     return () => window.clearTimeout(id);
   }, [focusTarget]);
+
+  React.useLayoutEffect(() => {
+    if (!isDay || hasInitialFocused.current) return;
+
+    hasInitialFocused.current = true;
+
+    if (day.length === 0) {
+      newItemRef.current?.focus();
+    } else {
+      const lastIndex = day.length - 1;
+      const el = itemRefs.current[lastIndex];
+      if (el) {
+        el.focus();
+        const length = el.value.length;
+        el.setSelectionRange(length, length);
+      }
+    }
+  }, [isDay, day.length]);
 
   const addItem = (text: string) => {
     const trimmed = text.trim();
@@ -235,8 +254,7 @@ export function DayNightChecklist({ mode }: DayNightChecklistProps) {
             <div
               key={`checklist-item-${index}`}
               className={cn(
-                "flex items-start gap-3 rounded-md px-2 py-1",
-                isDay && "hover:bg-muted/50"
+                "flex items-start gap-3 rounded-md px-2 py-1"
               )}
             >
               <Checkbox
