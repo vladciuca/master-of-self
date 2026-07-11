@@ -32,7 +32,7 @@ function toggleInArray(arr: string[] = [], value: string): string[] {
 function replaceInArray(
   arr: string[] = [],
   oldValue: string,
-  newValue: string
+  newValue: string,
 ): string[] {
   return arr.map((item) => (item === oldValue ? newValue : item));
 }
@@ -71,14 +71,11 @@ export function DayNightChecklist({ mode }: DayNightChecklistProps) {
     }
   }, [day, setValue]);
 
-  const resizeTextarea = React.useCallback(
-    (el: HTMLTextAreaElement | null) => {
-      if (!el) return;
-      el.style.height = "auto";
-      el.style.height = `${el.scrollHeight}px`;
-    },
-    []
-  );
+  const resizeTextarea = React.useCallback((el: HTMLTextAreaElement | null) => {
+    if (!el) return;
+    el.style.height = "auto";
+    el.style.height = `${el.scrollHeight}px`;
+  }, []);
 
   React.useEffect(() => {
     itemRefs.current = itemRefs.current.slice(0, day.length);
@@ -154,7 +151,11 @@ export function DayNightChecklist({ mode }: DayNightChecklistProps) {
     setValue("dayEntry.day", newDay, { shouldDirty: true });
   };
 
-  const updateItemOnBlur = (index: number, newText: string, originalText: string) => {
+  const updateItemOnBlur = (
+    index: number,
+    newText: string,
+    originalText: string,
+  ) => {
     const newDay = [...day];
     newDay[index] = newText;
     setValue("dayEntry.day", newDay, { shouldDirty: true });
@@ -162,15 +163,23 @@ export function DayNightChecklist({ mode }: DayNightChecklistProps) {
     setValue("nightEntry.night", replaceInArray(night, originalText, newText), {
       shouldDirty: true,
     });
-    setValue("dayEntry.carryOver", replaceInArray(carryOver, originalText, newText), {
-      shouldDirty: true,
-    });
+    setValue(
+      "dayEntry.carryOver",
+      replaceInArray(carryOver, originalText, newText),
+      {
+        shouldDirty: true,
+      },
+    );
     setValue("dayEntry.repeat", replaceInArray(repeat, originalText, newText), {
       shouldDirty: true,
     });
   };
 
-  const deleteItem = (index: number, textToDelete: string, shouldRefocus = true) => {
+  const deleteItem = (
+    index: number,
+    textToDelete: string,
+    shouldRefocus = true,
+  ) => {
     const newDay = day.filter((_, i) => i !== index);
 
     setValue("dayEntry.day", newDay, { shouldDirty: true });
@@ -233,9 +242,7 @@ export function DayNightChecklist({ mode }: DayNightChecklistProps) {
   return (
     <JournalStepTemplate
       title={
-        isDay
-          ? "What will I do to make today great?"
-          : "How great was today?"
+        isDay ? "What will I do to make today great?" : "How great was today?"
       }
       description={
         isDay
@@ -253,9 +260,7 @@ export function DayNightChecklist({ mode }: DayNightChecklistProps) {
           return (
             <div
               key={`checklist-item-${index}`}
-              className={cn(
-                "flex items-start gap-3 rounded-md px-2 py-1"
-              )}
+              className="flex items-start gap-1 rounded-md px-2 py-1"
             >
               <Checkbox
                 id={`checklist-checkbox-${mode}-${index}`}
@@ -263,11 +268,14 @@ export function DayNightChecklist({ mode }: DayNightChecklistProps) {
                 className={cn(
                   "h-5 w-5 shrink-0 rounded-full border-muted-foreground/50 bg-transparent",
                   "data-[state=checked]:bg-primary",
-                  "data-[state=checked]:border-primary"
+                  "data-[state=checked]:border-primary",
                 )}
                 checked={checked}
                 onCheckedChange={() => toggleItemChecked(item)}
               />
+              <span className="inline-flex h-5 w-6 mt-0.5 shrink-0 items-center justify-end text-base">
+                {index + 1}.
+              </span>
 
               {isDay ? (
                 <textarea
@@ -285,7 +293,8 @@ export function DayNightChecklist({ mode }: DayNightChecklistProps) {
                   }}
                   onBlur={(e) => {
                     const trimmed = e.target.value.trim();
-                    const originalText = editingItems.current.get(index) ?? item;
+                    const originalText =
+                      editingItems.current.get(index) ?? item;
                     if (trimmed === "") {
                       deleteItem(index, originalText, false);
                     } else {
@@ -306,7 +315,8 @@ export function DayNightChecklist({ mode }: DayNightChecklistProps) {
                       value.trim() === ""
                     ) {
                       e.preventDefault();
-                      const originalText = editingItems.current.get(index) ?? item;
+                      const originalText =
+                        editingItems.current.get(index) ?? item;
                       deleteItem(index, originalText);
                     }
                   }}
@@ -314,7 +324,7 @@ export function DayNightChecklist({ mode }: DayNightChecklistProps) {
                     "flex-1 resize-none overflow-hidden m-0 p-0 bg-transparent text-base outline-none",
                     checked
                       ? "text-muted-foreground line-through"
-                      : "text-primary"
+                      : "text-primary",
                   )}
                   style={{ height: "auto" }}
                 />
@@ -324,7 +334,7 @@ export function DayNightChecklist({ mode }: DayNightChecklistProps) {
                     "flex-1 break-words text-base",
                     checked
                       ? "text-muted-foreground line-through"
-                      : "text-primary"
+                      : "text-primary",
                   )}
                 >
                   {item}
@@ -367,8 +377,9 @@ export function DayNightChecklist({ mode }: DayNightChecklistProps) {
         })}
 
         {isDay && (
-          <div className="flex items-start gap-3 rounded-md px-2 py-1">
+          <div className="flex items-start gap-1 rounded-md px-2 py-1">
             <div className="h-5 w-5 shrink-0 rounded-full border border-muted-foreground/50 bg-transparent" />
+            <span className="w-2 shrink-0" />
             <textarea
               ref={newItemRef}
               value={draft}
