@@ -8,6 +8,7 @@ import { JournalStepTemplate } from "@components/journal/journal-entry-form/form
 import { StepScoreDisplay } from "@components/journal/journal-entry-form/form-steps/StepScoreDisplay";
 import { Button } from "@components/ui/button";
 import { Checkbox } from "@components/ui/checkbox";
+import { Badge } from "@components/ui/badge";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -340,6 +341,16 @@ export function DayNightChecklist({ mode }: DayNightChecklistProps) {
                   )}
                 >
                   {item}
+                  {isCarryOver && (
+                    <Badge variant="secondary" className="ml-1 align-middle">
+                      Carry Over
+                    </Badge>
+                  )}
+                  {isRepeat && (
+                    <Badge variant="secondary" className="ml-1 align-middle">
+                      Repeat
+                    </Badge>
+                  )}
                 </span>
               )}
 
