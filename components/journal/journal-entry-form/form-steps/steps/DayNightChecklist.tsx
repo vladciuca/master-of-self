@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { useFormContext, useWatch } from "react-hook-form";
-import { MoreHorizontal, X } from "lucide-react";
+import { MoreHorizontal } from "lucide-react";
 
 import { JournalStepTemplate } from "@components/journal/journal-entry-form/form-steps/steps/journal-step/JournalStepTemplate";
 import { StepScoreDisplay } from "@components/journal/journal-entry-form/form-steps/StepScoreDisplay";
@@ -235,7 +235,7 @@ export function DayNightChecklist({ mode }: DayNightChecklistProps) {
             <div
               key={`checklist-item-${index}`}
               className={cn(
-                "group flex items-start gap-3 rounded-md px-2 py-1",
+                "flex items-start gap-3 rounded-md px-2 py-1",
                 isDay && "hover:bg-muted/50"
               )}
             >
@@ -311,22 +311,6 @@ export function DayNightChecklist({ mode }: DayNightChecklistProps) {
                 >
                   {item}
                 </span>
-              )}
-
-              {isDay && (
-                <Button
-                  type="button"
-                  variant="ghost"
-                  size="icon"
-                  aria-label="Delete item"
-                  className="h-7 w-7 shrink-0 opacity-0 transition-opacity group-hover:opacity-100 focus-visible:opacity-100"
-                  onClick={() => {
-                    const originalText = editingItems.current.get(index) ?? item;
-                    deleteItem(index, originalText);
-                  }}
-                >
-                  <X className="h-4 w-4 text-muted-foreground" />
-                </Button>
               )}
 
               {!isDay && (
