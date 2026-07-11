@@ -81,7 +81,12 @@ export function DayNightChecklist({ mode }: DayNightChecklistProps) {
     if (focusTarget === "new") {
       newItemRef.current?.focus();
     } else {
-      itemRefs.current[focusTarget.index]?.focus();
+      const el = itemRefs.current[focusTarget.index];
+      if (el) {
+        el.focus();
+        const length = el.value.length;
+        el.setSelectionRange(length, length);
+      }
     }
 
     setFocusTarget(null);
@@ -344,6 +349,10 @@ export function DayNightChecklist({ mode }: DayNightChecklistProps) {
                 if (e.key === "Enter") {
                   e.preventDefault();
                   commitDraft();
+                }
+                if (e.key === "Backspace" && draft === "" && day.length > 0) {
+                  e.preventDefault();
+                  setFocusTarget({ index: day.length - 1 });
                 }
               }}
               className="flex-1 resize-none overflow-hidden m-0 p-0 bg-transparent text-base text-primary placeholder:text-muted-foreground outline-none"
