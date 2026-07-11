@@ -267,8 +267,10 @@ export function DayNightChecklist({ mode }: DayNightChecklistProps) {
                 aria-label={checked ? "Mark incomplete" : "Mark complete"}
                 className={cn(
                   "h-5 w-5 shrink-0 rounded-full border-muted-foreground/50 bg-transparent",
-                  "data-[state=checked]:bg-primary",
-                  "data-[state=checked]:border-primary",
+                  "data-[state=checked]:bg-[linear-gradient(to_right,_#eab308_50%,_#a855f7_50%)]",
+                  "data-[state=checked]:bg-origin-border",
+                  "data-[state=checked]:border-transparent",
+                  "data-[state=checked]:text-white",
                 )}
                 checked={checked}
                 onCheckedChange={() => toggleItemChecked(item)}
