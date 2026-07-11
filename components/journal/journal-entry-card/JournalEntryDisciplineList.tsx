@@ -1,5 +1,6 @@
 import React from "react";
 import { SkeletonList } from "@components/skeletons/SkeletonList";
+import { Badge } from "@components/ui/badge";
 import { getJournalStepStyle } from "@components/ui/constants";
 
 type JournalEntryDisciplineListProps = {
@@ -8,6 +9,8 @@ type JournalEntryDisciplineListProps = {
   stepType: string;
   contentLoading?: boolean;
   bonusList?: boolean;
+  carryOver?: string[];
+  repeat?: string[];
 };
 
 export function JournalEntryDisciplineList({
@@ -16,6 +19,8 @@ export function JournalEntryDisciplineList({
   stepType,
   contentLoading,
   bonusList,
+  carryOver = [],
+  repeat = [],
 }: JournalEntryDisciplineListProps) {
   const { bgColor } = getJournalStepStyle(stepType);
   const bulletPointPosition = bonusList ? "mt-2" : "mt-[6px]";
@@ -41,7 +46,19 @@ export function JournalEntryDisciplineList({
                     className={`rounded-full w-2 h-2 ${bulletPointPosition} ${bgColor}`}
                   />
                 </span>
-                <span className="ml-2">{item}</span>
+                <span className="ml-2 break-words">
+                  {carryOver.includes(item) && (
+                    <Badge variant="secondary" className="mr-1 align-middle">
+                      Carry Over
+                    </Badge>
+                  )}
+                  {repeat.includes(item) && (
+                    <Badge variant="secondary" className="mr-1 align-middle">
+                      Repeat
+                    </Badge>
+                  )}
+                  {item}
+                </span>
               </li>
             ))}
         </ol>

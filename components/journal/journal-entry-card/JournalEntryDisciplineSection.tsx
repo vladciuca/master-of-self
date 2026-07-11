@@ -892,7 +892,7 @@ export function JournalEntryDisciplineSection({
 
   const { disciplineData, isLoading } = useDisciplinesData(
     dayEntry,
-    nightEntry
+    nightEntry,
   );
 
   const handleAccordionChange = (value: string) => {
@@ -966,7 +966,12 @@ export function JournalEntryDisciplineSection({
         color: stepData.color,
       };
     })
-    .filter((item) => item.data.length > 0);
+    .filter(
+      (item) =>
+        item.data.length > 0 &&
+        item.step !== "carryOver" &&
+        item.step !== "repeat",
+    );
 
   const nightSteps: StepData[] = Object.entries(nightEntry || {})
     .map(([key, value]) => {
@@ -1003,6 +1008,8 @@ export function JournalEntryDisciplineSection({
   const allTodos = [...uncompleted, ...completed];
   const completedCount = completed.length;
   const highlights = nightEntry?.highlights || [];
+  const carryOver = dayEntry?.carryOver || [];
+  const repeat = dayEntry?.repeat || [];
 
   const motivationStep = {
     step: "motivation",
@@ -1016,8 +1023,8 @@ export function JournalEntryDisciplineSection({
       highlights.length > 0
         ? stepIconMap.highlights
         : completed.length > 0
-        ? stepIconMap.night
-        : stepIconMap.day,
+          ? stepIconMap.night
+          : stepIconMap.day,
     renderSections: () => {
       return (
         <>
@@ -1026,6 +1033,8 @@ export function JournalEntryDisciplineSection({
               title="What will make today great..."
               items={uncompleted}
               stepType="day"
+              carryOver={carryOver}
+              repeat={repeat}
             />
           )}
           {completed.length > 0 && (
@@ -1033,6 +1042,8 @@ export function JournalEntryDisciplineSection({
               title="What made today great..."
               items={completed}
               stepType="night"
+              carryOver={carryOver}
+              repeat={repeat}
             />
           )}
           {highlights.length > 0 && (
@@ -1201,10 +1212,10 @@ export function JournalEntryDisciplineSection({
                       +
                       {(() => {
                         const dayScore = calculateStepScore(
-                          dayEntry?.day || []
+                          dayEntry?.day || [],
                         );
                         const highlightsScore = calculateStepScore(
-                          nightEntry?.highlights || []
+                          nightEntry?.highlights || [],
                         );
                         const baseScore = dayScore + highlightsScore;
                         const nightItems = nightEntry?.night || [];
