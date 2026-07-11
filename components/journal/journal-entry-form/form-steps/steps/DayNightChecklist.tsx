@@ -55,12 +55,25 @@ export function DayNightChecklist({ mode }: DayNightChecklistProps) {
     { index: number } | "new" | null
   >(null);
 
-  const itemRefs = React.useRef<(HTMLInputElement | null)[]>([]);
-  const newItemRef = React.useRef<HTMLInputElement | null>(null);
+  const itemRefs = React.useRef<(HTMLTextAreaElement | null)[]>([]);
+  const newItemRef = React.useRef<HTMLTextAreaElement | null>(null);
+
+  const resizeTextarea = React.useCallback(
+    (el: HTMLTextAreaElement | null) => {
+      if (!el) return;
+      el.style.height = "auto";
+      el.style.height = `${el.scrollHeight}px`;
+    },
+    []
+  );
 
   React.useEffect(() => {
     itemRefs.current = itemRefs.current.slice(0, day.length);
   }, [day.length]);
+
+  React.useLayoutEffect(() => {
+    itemRefs.current.forEach(resizeTextarea);
+  }, [day, resizeTextarea]);
 
   React.useEffect(() => {
     if (!focusTarget) return;
@@ -156,6 +169,10 @@ export function DayNightChecklist({ mode }: DayNightChecklistProps) {
     });
   };
 
+  React.useEffect(() => {
+    resizeTextarea(newItemRef.current);
+  }, [draft, resizeTextarea]);
+
   const scoreSection = isDay ? (
     <StepScoreDisplay items={day} scoreName="Motivation" />
   ) : (
@@ -194,7 +211,7 @@ export function DayNightChecklist({ mode }: DayNightChecklistProps) {
             <div
               key={`checklist-item-${index}`}
               className={cn(
-                "group flex items-center gap-3 rounded-md px-2 py-1",
+                "group flex items-start gap-3 rounded-md px-2 py-1",
                 isDay && "hover:bg-muted/50"
               )}
             >
@@ -211,13 +228,16 @@ export function DayNightChecklist({ mode }: DayNightChecklistProps) {
               />
 
               {isDay ? (
-                <input
+                <textarea
                   ref={(el) => {
                     itemRefs.current[index] = el;
                   }}
-                  type="text"
                   value={item}
-                  onChange={(e) => updateItem(index, e.target.value)}
+                  rows={1}
+                  onChange={(e) => {
+                    updateItem(index, e.target.value);
+                    resizeTextarea(e.target);
+                  }}
                   onBlur={(e) => {
                     const trimmed = e.target.value.trim();
                     if (trimmed === "") {
@@ -239,11 +259,12 @@ export function DayNightChecklist({ mode }: DayNightChecklistProps) {
                     }
                   }}
                   className={cn(
-                    "flex-1 bg-transparent text-base outline-none",
+                    "flex-1 resize-none overflow-hidden m-0 p-0 bg-transparent text-base outline-none",
                     checked
                       ? "text-muted-foreground line-through"
                       : "text-primary"
                   )}
+                  style={{ height: "auto" }}
                 />
               ) : (
                 <span
@@ -307,14 +328,17 @@ export function DayNightChecklist({ mode }: DayNightChecklistProps) {
         })}
 
         {isDay && (
-          <div className="flex items-center gap-3 rounded-md px-2 py-1">
+          <div className="flex items-start gap-3 rounded-md px-2 py-1">
             <div className="h-5 w-5 shrink-0 rounded-full border border-muted-foreground/50 bg-transparent" />
-            <input
+            <textarea
               ref={newItemRef}
-              type="text"
               value={draft}
+              rows={1}
               placeholder="Add item..."
-              onChange={(e) => setDraft(e.target.value)}
+              onChange={(e) => {
+                setDraft(e.target.value);
+                resizeTextarea(e.target);
+              }}
               onBlur={commitDraft}
               onKeyDown={(e) => {
                 if (e.key === "Enter") {
@@ -322,7 +346,8 @@ export function DayNightChecklist({ mode }: DayNightChecklistProps) {
                   commitDraft();
                 }
               }}
-              className="flex-1 bg-transparent text-base text-primary placeholder:text-muted-foreground outline-none"
+              className="flex-1 resize-none overflow-hidden m-0 p-0 bg-transparent text-base text-primary placeholder:text-muted-foreground outline-none"
+              style={{ height: "auto" }}
             />
           </div>
         )}
