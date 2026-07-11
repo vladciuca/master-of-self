@@ -1,8 +1,7 @@
 import { UseFormWatch } from "react-hook-form";
 
 import { Bonus } from "./steps/bonus/Bonus";
-import { Day } from "./steps/Day";
-import { Night } from "./steps/Night";
+import { DayNightChecklist } from "./steps/DayNightChecklist";
 import { Highlights } from "./steps/Highlights";
 import { Summary } from "./steps/summary/Summary";
 import { HabitActionsStep } from "./steps/HabitActionsStep";
@@ -52,7 +51,7 @@ export function createSteps(params: CreateStepsParams): JournalCustomStep[] {
       icon: stepIconMap.day,
       //NOTE: should they add to motivation?
       discipline: "day",
-      component: <Day />,
+      component: <DayNightChecklist mode="day" />,
       isAvailable: SHOW_ALL_TEST || !isEvening(userEveningTime, now),
       type: "other",
     },
@@ -68,7 +67,7 @@ export function createSteps(params: CreateStepsParams): JournalCustomStep[] {
       _id: "night",
       icon: stepIconMap.night,
       discipline: "night",
-      component: <Night />,
+      component: <DayNightChecklist mode="night" />,
       isAvailable:
         SHOW_ALL_TEST || (isEvening(userEveningTime, now) && day?.length > 0),
       type: "other",
