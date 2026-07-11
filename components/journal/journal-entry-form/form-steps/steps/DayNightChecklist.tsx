@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { useFormContext } from "react-hook-form";
+import { useFormContext, useWatch } from "react-hook-form";
 import { MoreHorizontal, X } from "lucide-react";
 
 import { JournalStepTemplate } from "@components/journal/journal-entry-form/form-steps/steps/journal-step/JournalStepTemplate";
@@ -43,12 +43,12 @@ function removeFromArray(arr: string[] = [], value: string): string[] {
 
 export function DayNightChecklist({ mode }: DayNightChecklistProps) {
   const isDay = mode === "day";
-  const { watch, setValue } = useFormContext<JournalEntry>();
+  const { control, setValue } = useFormContext<JournalEntry>();
 
-  const day = watch("dayEntry.day") ?? [];
-  const night = watch("nightEntry.night") ?? [];
-  const carryOver = watch("dayEntry.carryOver") ?? [];
-  const repeat = watch("dayEntry.repeat") ?? [];
+  const day = useWatch({ name: "dayEntry.day", control }) ?? [];
+  const night = useWatch({ name: "nightEntry.night", control }) ?? [];
+  const carryOver = useWatch({ name: "dayEntry.carryOver", control }) ?? [];
+  const repeat = useWatch({ name: "dayEntry.repeat", control }) ?? [];
 
   const [draft, setDraft] = React.useState("");
   const [focusTarget, setFocusTarget] = React.useState<
@@ -57,6 +57,18 @@ export function DayNightChecklist({ mode }: DayNightChecklistProps) {
 
   const itemRefs = React.useRef<(HTMLTextAreaElement | null)[]>([]);
   const newItemRef = React.useRef<HTMLTextAreaElement | null>(null);
+  const editingItems = React.useRef<Map<number, string>>(new Map());
+  const hasCleanedEmptyItems = React.useRef(false);
+
+  React.useEffect(() => {
+    if (hasCleanedEmptyItems.current) return;
+    hasCleanedEmptyItems.current = true;
+
+    const cleanedDay = day.filter((item) => item.trim() !== "");
+    if (cleanedDay.length !== day.length) {
+      setValue("dayEntry.day", cleanedDay, { shouldDirty: true });
+    }
+  }, [day, setValue]);
 
   const resizeTextarea = React.useCallback(
     (el: HTMLTextAreaElement | null) => {
@@ -72,24 +84,32 @@ export function DayNightChecklist({ mode }: DayNightChecklistProps) {
   }, [day.length]);
 
   React.useLayoutEffect(() => {
-    itemRefs.current.forEach(resizeTextarea);
+    itemRefs.current.forEach((el) => {
+      if (el && document.contains(el)) {
+        resizeTextarea(el);
+      }
+    });
   }, [day, resizeTextarea]);
 
   React.useEffect(() => {
     if (!focusTarget) return;
 
-    if (focusTarget === "new") {
-      newItemRef.current?.focus();
-    } else {
-      const el = itemRefs.current[focusTarget.index];
-      if (el) {
-        el.focus();
-        const length = el.value.length;
-        el.setSelectionRange(length, length);
+    const id = window.setTimeout(() => {
+      if (focusTarget === "new") {
+        newItemRef.current?.focus();
+      } else {
+        const el = itemRefs.current[focusTarget.index];
+        if (el) {
+          el.focus();
+          const length = el.value.length;
+          el.setSelectionRange(length, length);
+        }
       }
-    }
 
-    setFocusTarget(null);
+      setFocusTarget(null);
+    }, 0);
+
+    return () => window.clearTimeout(id);
   }, [focusTarget]);
 
   const addItem = (text: string) => {
@@ -113,36 +133,35 @@ export function DayNightChecklist({ mode }: DayNightChecklistProps) {
     const newDay = [...day];
     newDay[index] = newText;
     setValue("dayEntry.day", newDay, { shouldDirty: true });
-
-    if (
-      night.includes(oldText) ||
-      carryOver.includes(oldText) ||
-      repeat.includes(oldText)
-    ) {
-      setValue("nightEntry.night", replaceInArray(night, oldText, newText), {
-        shouldDirty: true,
-      });
-      setValue("dayEntry.carryOver", replaceInArray(carryOver, oldText, newText), {
-        shouldDirty: true,
-      });
-      setValue("dayEntry.repeat", replaceInArray(repeat, oldText, newText), {
-        shouldDirty: true,
-      });
-    }
   };
 
-  const deleteItem = (index: number, shouldRefocus = true) => {
-    const text = day[index];
+  const updateItemOnBlur = (index: number, newText: string, originalText: string) => {
+    const newDay = [...day];
+    newDay[index] = newText;
+    setValue("dayEntry.day", newDay, { shouldDirty: true });
+
+    setValue("nightEntry.night", replaceInArray(night, originalText, newText), {
+      shouldDirty: true,
+    });
+    setValue("dayEntry.carryOver", replaceInArray(carryOver, originalText, newText), {
+      shouldDirty: true,
+    });
+    setValue("dayEntry.repeat", replaceInArray(repeat, originalText, newText), {
+      shouldDirty: true,
+    });
+  };
+
+  const deleteItem = (index: number, textToDelete: string, shouldRefocus = true) => {
     const newDay = day.filter((_, i) => i !== index);
 
     setValue("dayEntry.day", newDay, { shouldDirty: true });
-    setValue("nightEntry.night", removeFromArray(night, text), {
+    setValue("nightEntry.night", removeFromArray(night, textToDelete), {
       shouldDirty: true,
     });
-    setValue("dayEntry.carryOver", removeFromArray(carryOver, text), {
+    setValue("dayEntry.carryOver", removeFromArray(carryOver, textToDelete), {
       shouldDirty: true,
     });
-    setValue("dayEntry.repeat", removeFromArray(repeat, text), {
+    setValue("dayEntry.repeat", removeFromArray(repeat, textToDelete), {
       shouldDirty: true,
     });
 
@@ -179,7 +198,7 @@ export function DayNightChecklist({ mode }: DayNightChecklistProps) {
   }, [draft, resizeTextarea]);
 
   const scoreSection = isDay ? (
-    <StepScoreDisplay items={day} scoreName="Motivation" />
+    <StepScoreDisplay items={[...day, draft]} scoreName="Motivation" />
   ) : (
     <div className="flex items-center">
       <div>Motivation</div>
@@ -243,24 +262,34 @@ export function DayNightChecklist({ mode }: DayNightChecklistProps) {
                     updateItem(index, e.target.value);
                     resizeTextarea(e.target);
                   }}
+                  onFocus={() => {
+                    editingItems.current.set(index, item);
+                  }}
                   onBlur={(e) => {
                     const trimmed = e.target.value.trim();
+                    const originalText = editingItems.current.get(index) ?? item;
                     if (trimmed === "") {
-                      deleteItem(index, false);
-                    } else if (trimmed !== item) {
-                      updateItem(index, trimmed);
+                      deleteItem(index, originalText, false);
+                    } else {
+                      updateItemOnBlur(index, trimmed, originalText);
                     }
+                    editingItems.current.delete(index);
                   }}
                   onKeyDown={(e) => {
+                    const value = e.currentTarget.value;
                     if (e.key === "Enter") {
                       e.preventDefault();
-                      if (item.trim()) {
+                      if (value.trim()) {
                         setFocusTarget("new");
                       }
                     }
-                    if (e.key === "Backspace" && item === "") {
+                    if (
+                      (e.key === "Backspace" || e.key === "Delete") &&
+                      value.trim() === ""
+                    ) {
                       e.preventDefault();
-                      deleteItem(index);
+                      const originalText = editingItems.current.get(index) ?? item;
+                      deleteItem(index, originalText);
                     }
                   }}
                   className={cn(
@@ -291,7 +320,10 @@ export function DayNightChecklist({ mode }: DayNightChecklistProps) {
                   size="icon"
                   aria-label="Delete item"
                   className="h-7 w-7 shrink-0 opacity-0 transition-opacity group-hover:opacity-100 focus-visible:opacity-100"
-                  onClick={() => deleteItem(index)}
+                  onClick={() => {
+                    const originalText = editingItems.current.get(index) ?? item;
+                    deleteItem(index, originalText);
+                  }}
                 >
                   <X className="h-4 w-4 text-muted-foreground" />
                 </Button>
@@ -339,18 +371,23 @@ export function DayNightChecklist({ mode }: DayNightChecklistProps) {
               ref={newItemRef}
               value={draft}
               rows={1}
-              placeholder="Add item..."
+              placeholder="Add a new daily goal..."
               onChange={(e) => {
                 setDraft(e.target.value);
                 resizeTextarea(e.target);
               }}
               onBlur={commitDraft}
               onKeyDown={(e) => {
+                const value = e.currentTarget.value;
                 if (e.key === "Enter") {
                   e.preventDefault();
                   commitDraft();
                 }
-                if (e.key === "Backspace" && draft === "" && day.length > 0) {
+                if (
+                  (e.key === "Backspace" || e.key === "Delete") &&
+                  value.trim() === "" &&
+                  day.length > 0
+                ) {
                   e.preventDefault();
                   setFocusTarget({ index: day.length - 1 });
                 }
