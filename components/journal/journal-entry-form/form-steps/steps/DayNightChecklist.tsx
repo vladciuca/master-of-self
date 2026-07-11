@@ -254,11 +254,11 @@ export function DayNightChecklist({ mode }: DayNightChecklistProps) {
 
               {isDay && isRepeat && (
                 <span
-                  className="inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-white text-black"
+                  className="inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-full border border-white/30 bg-transparent text-white"
                   aria-label="Repeat for tomorrow"
                   title="Repeat for tomorrow"
                 >
-                  <FaRedoAlt className="h-3.5 w-3.5" />
+                  <FaRedoAlt className="h-3 w-3" />
                 </span>
               )}
 
@@ -350,7 +350,7 @@ export function DayNightChecklist({ mode }: DayNightChecklistProps) {
                     "h-6 w-6 shrink-0 rounded-full",
                     isRepeat
                       ? "bg-white text-black hover:bg-white/90 hover:text-black"
-                      : "bg-transparent text-white hover:bg-white/10 hover:text-white",
+                      : "border border-white/30 bg-transparent text-white hover:bg-white/10 hover:text-white",
                   )}
                 >
                   <FaRedoAlt className="h-3.5 w-3.5" />

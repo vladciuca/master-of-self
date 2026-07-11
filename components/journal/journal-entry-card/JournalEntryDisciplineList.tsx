@@ -47,11 +47,11 @@ export function JournalEntryDisciplineList({
                 <span className="ml-2 break-words">
                   {repeat.includes(item) && (
                     <span
-                      className="inline-flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-white text-black mr-1 align-middle"
+                      className="inline-flex h-4 w-4 shrink-0 items-center justify-center rounded-full border border-white/30 bg-transparent text-white mr-1 align-middle"
                       aria-label="Repeat for tomorrow"
                       title="Repeat for tomorrow"
                     >
-                      <FaRedoAlt className="h-3 w-3" />
+                      <FaRedoAlt className="h-2.5 w-2.5" />
                     </span>
                   )}
                   {item}
