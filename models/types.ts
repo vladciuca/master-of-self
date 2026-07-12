@@ -86,6 +86,7 @@ export type JournalEntryHabit = {
 
 export type JournalDayEntry = {
   day?: string[];
+  repeat?: string[];
   [key: string]: string[] | undefined;
 };
 

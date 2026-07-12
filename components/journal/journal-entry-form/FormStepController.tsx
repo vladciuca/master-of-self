@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useCallback, useMemo } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useForm, FormProvider, UseFormReturn } from "react-hook-form";
+import { useForm, FormProvider, UseFormReturn, useWatch } from "react-hook-form";
 import { FormStepProgress } from "./FormStepProgress";
 import { FormStepNavigation } from "./FormStepNavigation";
 import { JournalEntry, JournalCustomStep } from "@models/types";
@@ -61,35 +61,22 @@ export function FormStepController({
   // Get form values and methods
   const { watch, setValue, getValues } = methods;
 
-  // Create a separate effect to update willpower whenever dayEntry changes
+  const dayEntry = useWatch({ name: "dayEntry", control: methods.control });
+  const day = useWatch({ name: "dayEntry.day", control: methods.control });
+
   useEffect(() => {
-    const currentEntry = getValues();
+    const disciplines = getDayDisciplineScores(dayEntry);
 
-    // Calculate discipline scores
-    //NOTE: this now need to iterate through ids?! Need to check
-    const disciplines = getDayDisciplineScores(currentEntry.dayEntry);
-
-    // Calculate total willpower
     const dailyWillpower = Object.values(disciplines).reduce(
       (sum, score) => sum + (score || 0),
       0
     );
 
-    // Update the form value
     setValue(
       "dailyWillpower",
       Math.floor(dailyWillpower * willpowerMultiplier)
     );
-  }, [
-    // watch("dayEntry") doesn't work for this use case since the values are deeply nested
-    ...Object.keys(getValues().dayEntry || {}).map((key) =>
-      watch(`dayEntry.${key}`)
-    ),
-    ,
-    setValue,
-    getValues,
-    willpowerMultiplier,
-  ]);
+  }, [dayEntry, day, setValue, willpowerMultiplier]);
 
   // Update form when data changes
   useEffect(() => {
@@ -173,13 +160,38 @@ export function FormStepController({
     }
   }, [isInitialized, currentStep, steps, setStep, availableSteps.length]);
 
+  function cleanJournalEntry(entry: JournalEntry): JournalEntry {
+    const cleanArrays = <T extends Record<string, string[] | undefined>>(
+      obj: T
+    ): T => {
+      const cleanedObj = { ...obj };
+      for (const key of Object.keys(cleanedObj)) {
+        const value = cleanedObj[key];
+        if (Array.isArray(value)) {
+          cleanedObj[key as keyof T] = value.filter(
+            (item) => item.trim() !== ""
+          ) as T[keyof T];
+        }
+      }
+      return cleanedObj;
+    };
+
+    return {
+      ...entry,
+      dayEntry: entry.dayEntry ? cleanArrays(entry.dayEntry) : entry.dayEntry,
+      nightEntry: entry.nightEntry
+        ? cleanArrays(entry.nightEntry)
+        : entry.nightEntry,
+    };
+  }
+
   const handleStepChange = useCallback(
     (step: string, shouldSubmit = true) => {
       // Default to true
       if (!submitting) {
         if (shouldSubmit) {
           // Get current form data
-          const formData = getValues();
+          const formData = cleanJournalEntry(getValues());
           // Submit the form data
           onSubmit(formData).then(() => {
             // Then change the steps
@@ -195,7 +207,7 @@ export function FormStepController({
   );
 
   const handleNextForm = useCallback(async () => {
-    const formData = getValues();
+    const formData = cleanJournalEntry(getValues());
     const nextIndex = currentStepIndex + 1;
 
     if (nextIndex < availableSteps.length) {
@@ -219,7 +231,7 @@ export function FormStepController({
     const prevIndex = currentStepIndex - 1;
     if (prevIndex >= 0) {
       // Get current form data
-      const formData = getValues();
+      const formData = cleanJournalEntry(getValues());
       // Submit the form data before going back
       await onSubmit(formData);
       handleStepChange(String(steps[prevIndex]), false); // Don't submit again
@@ -252,7 +264,9 @@ export function FormStepController({
           {...progressProps}
         />
 
-        <div className="h-full overflow-hidden">{activeStepComponent}</div>
+        <div key={String(activeStep)} className="h-full overflow-hidden">
+          {activeStepComponent}
+        </div>
 
         <FormStepNavigation
           availableStepsLength={availableSteps.length}

@@ -1,7 +1,11 @@
 import { MongoClient, Db, Collection, ObjectId } from "mongodb";
 import clientPromise from "./mongodb";
 import { JournalEntry, NewJournalEntry } from "@models/mongodb";
-import { WeeklyWillpowerData, JournalEntryHabit } from "@models/types";
+import {
+  WeeklyWillpowerData,
+  JournalEntryHabit,
+  JournalDayEntry,
+} from "@models/types";
 
 let client: MongoClient;
 let db: Db;
@@ -28,7 +32,7 @@ export async function createJournalEntry(
   dailyWillpower: number,
   bonusWillpower: number,
   userToday: string,
-  defaultHabitsValues: JournalEntryHabit
+  defaultHabitsValues: JournalEntryHabit,
 ): Promise<{ newJournalEntry: JournalEntry | null; error?: string }> {
   try {
     if (!journalEntries) await init();
@@ -51,12 +55,25 @@ export async function createJournalEntry(
     }
 
     // If no entry exists, create a new one
+    const previousEntry = await journalEntries.findOne(
+      {
+        creatorId: new ObjectId(userId),
+        createDate: { $lt: today },
+      },
+      { sort: { createDate: -1 } },
+    );
+
+    const previousDayEntry = (previousEntry?.dayEntry ?? {}) as JournalDayEntry;
+    const carriedOverDayItems = (previousDayEntry.repeat ?? []).filter((item) =>
+      previousDayEntry.day?.includes(item)
+    );
+
     const newJournalEntry: NewJournalEntry = {
       creatorId: new ObjectId(userId),
       createDate: today,
       dailyWillpower,
       bonusWillpower,
-      dayEntry: {},
+      dayEntry: { day: carriedOverDayItems },
       nightEntry: {},
       habits: defaultHabitsValues,
     };
@@ -83,7 +100,7 @@ export async function updateJournalEntry(
   dailyWillpower: number,
   dayEntry: object,
   nightEntry: object,
-  habits: JournalEntryHabit
+  habits: JournalEntryHabit,
 ): Promise<{
   journalEntry: JournalEntry | null;
   error?: string;
@@ -112,7 +129,7 @@ export async function updateJournalEntry(
 // UPDATE JOURNAL ENTRY HABITS ==================================================================
 export async function updateJournalEntryHabits(
   id: string,
-  habits: JournalEntryHabit
+  habits: JournalEntryHabit,
 ): Promise<{
   journalEntry: JournalEntry | null;
   error?: string;
@@ -187,7 +204,7 @@ export async function getJournalEntries(userId: string): Promise<{
 // GET TODAY'S USER JOURNAL ENTRY ===============================================================
 export async function getTodaysJournalEntry(
   userId: string,
-  userToday: string
+  userToday: string,
 ): Promise<{
   todaysJournalEntry: JournalEntry | null;
   error?: string;
@@ -217,7 +234,7 @@ export async function getTodaysJournalEntry(
 // GET YESTERDAYS'S USER JOURNAL ENTRY ==========================================================
 export async function getYesterdaysJournalEntry(
   userId: string,
-  userYesterday: string
+  userYesterday: string,
 ): Promise<{
   yesterdaysJournalEntry: JournalEntry | null;
   error?: string;
@@ -273,7 +290,7 @@ export async function getLastJournalEntry(userId: string): Promise<{
 export async function getWeeklyWillpowerData(
   userId: string,
   userStartOfWeek: string,
-  userEndOfWeek: string
+  userEndOfWeek: string,
 ): Promise<{
   weeklyWillpower: WeeklyWillpowerData[] | null;
   error?: string;
@@ -312,7 +329,7 @@ export async function getWeeklyWillpowerData(
           generatedWillpower: Number(entry.dailyWillpower),
           bonusWillpower: Number(entry.bonusWillpower),
         },
-      ])
+      ]),
     );
 
     // Process the data for the chart, including all days
@@ -384,7 +401,7 @@ export async function getTotalWillpower(userId: string): Promise<{
 // GET TOTAL WILLPOWER BEFORE TODAY ==============================================================
 export async function getTotalWillpowerBeforeToday(
   userId: string,
-  userToday: string
+  userToday: string,
 ): Promise<{
   totalWillpowerBeforeToday: number;
   error?: string;

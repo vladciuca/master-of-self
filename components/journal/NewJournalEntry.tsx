@@ -96,8 +96,8 @@ export function NewJournalEntry({ isEveningTime }: NewJournalEntryProps) {
             submittingJournalEntry
               ? "Creating..."
               : hasTodayEntry
-                ? "Entry for today already exists!"
-                : "Start today's journey!"
+                ? "Entry for today already exists"
+                : "Start today's journey"
           }
           handleClick={handleCreateJournalEntry}
           handleDisabled={

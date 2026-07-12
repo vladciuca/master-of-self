@@ -1,4 +1,5 @@
 import React from "react";
+import { FaRedoAlt } from "react-icons/fa";
 import { SkeletonList } from "@components/skeletons/SkeletonList";
 import { getJournalStepStyle } from "@components/ui/constants";
 
@@ -8,6 +9,7 @@ type JournalEntryDisciplineListProps = {
   stepType: string;
   contentLoading?: boolean;
   bonusList?: boolean;
+  repeat?: string[];
 };
 
 export function JournalEntryDisciplineList({
@@ -16,6 +18,7 @@ export function JournalEntryDisciplineList({
   stepType,
   contentLoading,
   bonusList,
+  repeat = [],
 }: JournalEntryDisciplineListProps) {
   const { bgColor } = getJournalStepStyle(stepType);
   const bulletPointPosition = bonusList ? "mt-2" : "mt-[6px]";
@@ -41,7 +44,18 @@ export function JournalEntryDisciplineList({
                     className={`rounded-full w-2 h-2 ${bulletPointPosition} ${bgColor}`}
                   />
                 </span>
-                <span className="ml-2">{item}</span>
+                <span className="ml-2 break-words">
+                  {repeat.includes(item) && (
+                    <span
+                      className="inline-flex h-4 w-4 shrink-0 items-center justify-center rounded-full border border-white/30 bg-transparent text-white mr-1 align-middle"
+                      aria-label="Repeat for tomorrow"
+                      title="Repeat for tomorrow"
+                    >
+                      <FaRedoAlt className="h-2.5 w-2.5" />
+                    </span>
+                  )}
+                  {item}
+                </span>
               </li>
             ))}
         </ol>

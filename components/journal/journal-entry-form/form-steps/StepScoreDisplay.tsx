@@ -4,7 +4,9 @@ import { JOURNAL_COLORS } from "@lib/colors";
 type StepScoreDisplay = { items: string[]; scoreName: string };
 
 export function StepScoreDisplay({ items, scoreName }: StepScoreDisplay) {
-  const score = calculateStepScore(items ?? []);
+  const score = calculateStepScore(
+    (items ?? []).filter((item) => item.trim() !== "")
+  );
   return (
     <div>
       <span

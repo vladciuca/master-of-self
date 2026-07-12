@@ -20,11 +20,14 @@ export function JournalEntryIndicators({
 
   const uncompletedTodosCount = uncompletedTodos().length;
 
-  // Calculate dayEntries by counting all entries in dayEntry object (excluding "day")
   const dayEntries = Object.entries(dayEntry || {})
     .filter(
       ([key, value]) =>
-        key !== "day" && Array.isArray(value) && value.length > 0
+        key !== "day" &&
+        key !== "repeat" &&
+        key !== "carryOver" &&
+        Array.isArray(value) &&
+        value.length > 0,
     )
     .reduce((total, [_, value]) => total + (value?.length || 0), 0);
 
@@ -43,7 +46,7 @@ export function JournalEntryIndicators({
   const nightEntries = Object.entries(nightEntry || {})
     .filter(
       ([key, value]) =>
-        key !== "night" && Array.isArray(value) && value.length > 0
+        key !== "night" && Array.isArray(value) && value.length > 0,
     )
     .reduce((total, [_, value]) => total + (value?.length || 0), 0);
 
