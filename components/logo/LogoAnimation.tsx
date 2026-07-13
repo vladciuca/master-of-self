@@ -23,16 +23,29 @@ export function LogoAnimation({ children }: LogoAnimationProps) {
             className="w-[min(110vmin,30rem)] h-[min(110vmin,30rem)] animate-[spin_45s_linear_infinite]"
             viewBox="0 0 200 200"
             aria-hidden="true"
+            shapeRendering="geometricPrecision"
           >
-            <path
-              d="M 100 0 A 100 100 0 0 1 100 200"
+            <circle
+              cx="100"
+              cy="100"
+              r="99"
               fill="none"
               className="stroke-purple-500 stroke-1"
+              pathLength="100"
+              strokeDasharray="50 50"
+              strokeDashoffset="0"
+              transform="rotate(-90 100 100)"
             />
-            <path
-              d="M 100 0 A 100 100 0 0 0 100 200"
+            <circle
+              cx="100"
+              cy="100"
+              r="99"
               fill="none"
               className="stroke-yellow-500 stroke-1"
+              pathLength="100"
+              strokeDasharray="50 50"
+              strokeDashoffset="50"
+              transform="rotate(-90 100 100)"
             />
           </svg>
         </div>
