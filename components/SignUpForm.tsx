@@ -2,12 +2,13 @@
 
 import { SignUp } from "@clerk/nextjs";
 import Link from "next/link";
-import { Card, CardContent, CardFooter } from "@/components/ui/card";
+import { SignInHero } from "@components/SignInHero";
 
 export function SignUpForm() {
   return (
-    <Card className="w-full">
-      <CardContent className="flex flex-col items-center p-6">
+    <div className="relative w-full h-full flex flex-col justify-end p-6">
+      <SignInHero className="absolute inset-0 z-0" />
+      <div className="relative z-10 w-full flex flex-col items-center">
         <SignUp
           appearance={{
             options: {
@@ -15,16 +16,15 @@ export function SignUpForm() {
             },
             elements: {
               rootBox: "w-full",
-              cardBox: "w-full",
+              cardBox: "w-full bg-transparent shadow-none border-none px-3",
+              card: "bg-transparent shadow-none border-none px-3",
               headerTitle: "hidden",
               headerSubtitle: "hidden",
               footer: "hidden",
             },
           }}
         />
-      </CardContent>
-      <CardFooter className="flex justify-center">
-        <p className="text-sm text-muted-foreground">
+        <div className="mt-4 text-center text-sm text-muted-foreground">
           Already have an account?{" "}
           <Link
             href="/sign-in"
@@ -32,8 +32,8 @@ export function SignUpForm() {
           >
             Sign in
           </Link>
-        </p>
-      </CardFooter>
-    </Card>
+        </div>
+      </div>
+    </div>
   );
 }

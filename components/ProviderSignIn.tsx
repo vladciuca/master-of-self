@@ -16,7 +16,8 @@ export function ProviderSignIn() {
             },
             elements: {
               rootBox: "w-full",
-              cardBox: "w-full",
+              cardBox: "w-full bg-transparent shadow-none border-none px-3",
+              card: "bg-transparent shadow-none border-none px-3",
               headerTitle: "hidden",
               headerSubtitle: "hidden",
               footer: "hidden",
