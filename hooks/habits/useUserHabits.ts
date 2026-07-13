@@ -1,13 +1,13 @@
 import { useState, useEffect, useMemo } from "react";
-import { useSession } from "next-auth/react";
+import { useUser } from "@clerk/nextjs";
 import { getHabitActionDefaultValues } from "@lib/level";
-import { Session, Habit, JournalEntryHabit } from "@models/types";
+import { User, Habit, JournalEntryHabit } from "@models/types";
 
 export function useUserHabits(userId?: string) {
-  const { data: session } = useSession() as { data: Session | null };
+  const { user } = useUser() as { user: User | null };
 
   // Determine which user ID to use
-  const targetUserId = userId || session?.user.id;
+  const targetUserId = userId || user?.id;
 
   const [habits, setHabits] = useState<Habit[]>([]);
   const [habitsLoading, setHabitsLoading] = useState(false);
@@ -32,8 +32,6 @@ export function useUserHabits(userId?: string) {
     }, [habits, hasHabits]);
 
   useEffect(() => {
-    // if (!targetUserId) return;
-    // Early return if no user ID is available
     if (!targetUserId) {
       setHabitsLoading(false);
       return;
@@ -93,7 +91,5 @@ export function useUserHabits(userId?: string) {
     defaultJournalEntryHabitActionValues,
     habitsLoading,
     habitsError,
-    // targetUserId, // Optional: return which user ID is being used
-    // isCurrentUser: targetUserId === session?.user.id, // Optional: flag if viewing own habits
   };
 }

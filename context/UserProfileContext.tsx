@@ -8,8 +8,7 @@
 //   useRef,
 //   type ReactNode,
 // } from "react";
-// import { useSession } from "next-auth/react";
-// import type { Session, UserProfile } from "@models/types";
+// import type { UserProfile } from "@models/types";
 
 // type UserProfileContextType = {
 //   userProfile: UserProfile;
@@ -94,7 +93,7 @@
 
 //   // Fetch user profile from the server
 //   useEffect(() => {
-//     if (!session?.user?.id) return;
+//     if (!user?.id) return;
 
 //     // Cancel any in-progress fetch
 //     if (fetchAbortControllerRef.current) {
@@ -111,7 +110,7 @@
 
 //     const fetchUserProfile = async () => {
 //       try {
-//         const response = await fetch(`/api/users/${session.user.id}/profile`, {
+//         const response = await fetch(`/api/users/${user.id}/profile`, {
 //           signal,
 //         });
 
@@ -152,11 +151,11 @@
 //         fetchAbortControllerRef.current = null;
 //       }
 //     };
-//   }, [session?.user?.id]);
+//   }, [user?.id]);
 
 //   // Rest of your existing methods remain the same...
 //   const updateProfile = async (key: keyof UserProfile, value: any) => {
-//     if (!session?.user?.id) return;
+//     if (!user?.id) return;
 
 //     // Cancel any in-progress update
 //     if (updateAbortControllerRef.current) {
@@ -168,7 +167,7 @@
 //     const { signal } = updateAbortControllerRef.current;
 
 //     try {
-//       const response = await fetch(`/api/users/${session.user.id}/profile`, {
+//       const response = await fetch(`/api/users/${user.id}/profile`, {
 //         method: "PATCH",
 //         headers: {
 //           "Content-Type": "application/json",
@@ -210,7 +209,7 @@
 //   const updateDisciplinesValues = async (
 //     disciplineUpdates: Record<string, number>
 //   ) => {
-//     if (!session?.user?.id) {
+//     if (!user?.id) {
 //       return { success: false, error: "User not authenticated" };
 //     }
 
@@ -240,12 +239,12 @@
 
 //     try {
 //       const payload = {
-//         userId: session.user.id,
+//         userId: user.id,
 //         disciplines: disciplineUpdates,
 //       };
 
 //       const response = await fetch(
-//         `/api/users/${session.user.id}/profile/disciplines`,
+//         `/api/users/${user.id}/profile/disciplines`,
 //         {
 //           method: "PATCH",
 //           headers: {
@@ -307,7 +306,7 @@
 //     disciplineId: string,
 //     isActive: boolean
 //   ) => {
-//     if (!userProfile || !session?.user?.id) return;
+//     if (!userProfile || !user?.id) return;
 
 //     // Cancel any in-progress update
 //     if (activeUpdateAbortControllerRef.current) {
@@ -336,7 +335,7 @@
 //     try {
 //       const action = isActive ? "add" : "remove";
 //       const response = await fetch(
-//         `/api/users/${session.user.id}/disciplines/active`,
+//         `/api/users/${user.id}/disciplines/active`,
 //         {
 //           method: "PATCH",
 //           headers: {
@@ -442,8 +441,8 @@ import {
   useCallback,
   type ReactNode,
 } from "react";
-import { useSession } from "next-auth/react";
-import type { Session, UserProfile } from "@models/types";
+import { useUser } from "@clerk/nextjs";
+import type { User, UserProfile } from "@models/types";
 
 type UserProfileContextType = {
   userProfile: UserProfile;
@@ -472,7 +471,7 @@ const UserProfileContext = createContext<UserProfileContextType | undefined>(
 
 // Create a provider component
 export function UserProfileProvider({ children }: { children: ReactNode }) {
-  const { data: session } = useSession() as { data: Session | null };
+  const { user } = useUser() as { user: User | null };
 
   const [userProfile, setUserProfile] = useState<UserProfile>({
     willpowerMultiplier: 1.5,
@@ -538,7 +537,7 @@ export function UserProfileProvider({ children }: { children: ReactNode }) {
 
   // Fetch user profile from the server
   useEffect(() => {
-    if (!session?.user?.id) return;
+    if (!user?.id) return;
 
     // Cancel any in-progress fetch
     if (fetchAbortControllerRef.current) {
@@ -555,7 +554,7 @@ export function UserProfileProvider({ children }: { children: ReactNode }) {
 
     const fetchUserProfile = async () => {
       try {
-        const response = await fetch(`/api/users/${session.user.id}/profile`, {
+        const response = await fetch(`/api/users/${user.id}/profile`, {
           signal,
         });
 
@@ -596,11 +595,11 @@ export function UserProfileProvider({ children }: { children: ReactNode }) {
         fetchAbortControllerRef.current = null;
       }
     };
-  }, [session?.user?.id]);
+  }, [user?.id]);
 
   // Rest of your existing methods remain the same...
   const updateProfile = async (key: keyof UserProfile, value: any) => {
-    if (!session?.user?.id) return;
+    if (!user?.id) return;
 
     // Cancel any in-progress update
     if (updateAbortControllerRef.current) {
@@ -612,7 +611,7 @@ export function UserProfileProvider({ children }: { children: ReactNode }) {
     const { signal } = updateAbortControllerRef.current;
 
     try {
-      const response = await fetch(`/api/users/${session.user.id}/profile`, {
+      const response = await fetch(`/api/users/${user.id}/profile`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -654,7 +653,7 @@ export function UserProfileProvider({ children }: { children: ReactNode }) {
   const updateDisciplinesValues = async (
     disciplineUpdates: Record<string, number>
   ) => {
-    if (!session?.user?.id) {
+    if (!user?.id) {
       return { success: false, error: "User not authenticated" };
     }
 
@@ -684,12 +683,12 @@ export function UserProfileProvider({ children }: { children: ReactNode }) {
 
     try {
       const payload = {
-        userId: session.user.id,
+        userId: user.id,
         disciplines: disciplineUpdates,
       };
 
       const response = await fetch(
-        `/api/users/${session.user.id}/profile/disciplines`,
+        `/api/users/${user.id}/profile/disciplines`,
         {
           method: "PATCH",
           headers: {
@@ -751,7 +750,7 @@ export function UserProfileProvider({ children }: { children: ReactNode }) {
     disciplineId: string,
     isActive: boolean
   ) => {
-    if (!userProfile || !session?.user?.id) return;
+    if (!userProfile || !user?.id) return;
 
     // Cancel any in-progress update
     if (activeUpdateAbortControllerRef.current) {
@@ -780,7 +779,7 @@ export function UserProfileProvider({ children }: { children: ReactNode }) {
     try {
       const action = isActive ? "add" : "remove";
       const response = await fetch(
-        `/api/users/${session.user.id}/disciplines/active`,
+        `/api/users/${user.id}/disciplines/active`,
         {
           method: "PATCH",
           headers: {

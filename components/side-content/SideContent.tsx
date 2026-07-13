@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useSession } from "next-auth/react";
+import { useUser } from "@clerk/nextjs";
 import { LandingPage } from "./landing-page/LandingPage";
 import { HowItWorks } from "./how-it-works/HowItWorks";
 import { CTAPage } from "./call-to-action-page/CTAPage";
@@ -43,12 +43,12 @@ const allTabs = [
 ];
 
 export function SideContent() {
-  const { data: session, status } = useSession();
+  const { user, isLoaded, isSignedIn } = useUser();
   const { isDrawerOpen, setIsDrawerOpen } = useSideContent();
   const [isVisible, setIsVisible] = useState(false);
 
   const tabs = allTabs.filter((tab) => {
-    if (tab.id === "cta" && status === "authenticated") {
+    if (tab.id === "cta" && isSignedIn) {
       return false; // Hide "New Game" tab when logged in
     }
     return true;
@@ -66,14 +66,14 @@ export function SideContent() {
 
   // Animate in after loading is complete
   useEffect(() => {
-    if (status !== "loading") {
+    if (isLoaded) {
       // Small delay to ensure DOM is ready, then trigger animation
       const timer = setTimeout(() => {
         setIsVisible(true);
       }, 100);
       return () => clearTimeout(timer);
     }
-  }, [status]);
+  }, [isLoaded]);
 
   const handleTabClick = (tabId: string) => {
     if (tabId === activeTab && isDrawerOpen) {
@@ -87,7 +87,7 @@ export function SideContent() {
   const ActiveComponent =
     tabs.find((tab) => tab.id === activeTab)?.component || LandingPage;
 
-  if (status === "loading") return <></>;
+  if (!isLoaded) return <></>;
 
   return (
     <>
@@ -120,13 +120,6 @@ export function SideContent() {
           <Button
             key={tab.id}
             size="lg"
-            // className={`transition-all duration-300 ease-in-out ${
-            //   isDrawerOpen ? "py-6 px-2" : "py-10 px-10"
-            // } ${
-            //   activeTab === tab.id && isDrawerOpen
-            //     ? "bg-primary"
-            //     : "bg-background hover:bg-primary text-primary hover:text-background"
-            // } flex items-center justify-start`}
             className={`transition-all duration-300 ease-in-out ${
               isDrawerOpen ? "py-6 px-2" : "py-10 px-10"
             } ${tab.bgColor} ${

@@ -1,16 +1,16 @@
 "use client";
 
-import { useSession } from "next-auth/react";
-import { Session } from "@models/types";
+import { useUser } from "@clerk/nextjs";
+import { User } from "@models/types";
 
-//NOTE: can remove th session hook form here and just pass the props?
-//Maybe no cause we need to change name image form here
+//NOTE: can remove the user hook from here and just pass the props?
+//Maybe no cause we need to change name image from here
 
 export function UserDetails() {
-  const { data: session } = useSession() as { data: Session | null };
+  const { user } = useUser() as { user: User | null };
 
-  const name = session?.user?.name || "";
-  const email = session?.user?.email || "";
+  const name = user?.fullName || user?.firstName || "";
+  const email = user?.primaryEmailAddress?.emailAddress || "";
   const nameInitials = name
     ? name
         .split(" ")

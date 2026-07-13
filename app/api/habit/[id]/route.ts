@@ -3,10 +3,11 @@ import { getHabit, updateHabit, deleteHabit } from "@lib/mongo/habits";
 
 export async function GET(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
+  const routeParams = await params;
   try {
-    const { habit, error } = await getHabit(params.id);
+    const { habit, error } = await getHabit(routeParams.id);
 
     if (error) {
       return NextResponse.json({ error }, { status: 500 });
@@ -22,12 +23,13 @@ export async function GET(
 
 export async function PATCH(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
+  const routeParams = await params;
   const { name, icon, actions } = await req.json();
 
   try {
-    const { habit, error } = await updateHabit(params.id, name, icon, actions);
+    const { habit, error } = await updateHabit(routeParams.id, name, icon, actions);
 
     if (error) {
       return new NextResponse(error, { status: 404 });
@@ -41,10 +43,11 @@ export async function PATCH(
 
 export async function DELETE(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
+  const routeParams = await params;
   try {
-    const { success, error } = await deleteHabit(params.id);
+    const { success, error } = await deleteHabit(routeParams.id);
 
     if (error) {
       return NextResponse.json({ error }, { status: 500 });

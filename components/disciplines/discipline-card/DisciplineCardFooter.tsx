@@ -2,7 +2,7 @@
 
 import React from "react";
 import { Button } from "@components/ui/button";
-import { Session, JournalCustomStepConfig } from "@models/types";
+import { User, JournalCustomStepConfig } from "@models/types";
 import type { Discipline } from "@models/mongodb";
 
 import { DisciplineCreator } from "./DisciplineCreator";
@@ -10,11 +10,10 @@ import { DisciplineCreator } from "./DisciplineCreator";
 type Step = JournalCustomStepConfig | Discipline;
 
 type DisciplineCardFooterProps = {
-  session: Session | null;
+  user: User | null;
   discipline: Step;
   pathName: string;
   handleEdit: (discipline: Discipline) => void;
-  //   disciplineLoading: boolean;
 };
 
 function isUserDiscipline(step: Step): step is Discipline {
@@ -22,16 +21,15 @@ function isUserDiscipline(step: Step): step is Discipline {
 }
 
 export function DisciplineCardFooter({
-  session,
+  user,
   discipline,
   pathName,
   handleEdit,
-}: //   disciplineLoading,
-DisciplineCardFooterProps) {
+}: DisciplineCardFooterProps) {
   if (!isUserDiscipline(discipline)) return null;
   //NOTE: so the buttons do not appear on other peoples habit cards
   // Only show for creator
-  if (session?.user?.id !== discipline.creatorId.toString()) {
+  if (user?.id !== discipline.creatorId.toString()) {
     return (
       <div className="mt-4 flex items-center justify-end">
         <DisciplineCreator creatorId={discipline.creatorId.toString()} />

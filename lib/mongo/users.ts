@@ -1,4 +1,4 @@
-import { MongoClient, Db, Collection, ObjectId } from "mongodb";
+import { MongoClient, Db, Collection } from "mongodb";
 import clientPromise from "./mongodb";
 import { User } from "@models/mongodb";
 import { UserDisciplines } from "@models/types";
@@ -29,9 +29,8 @@ export async function getUser(id: string): Promise<{
 }> {
   try {
     if (!users) await init();
-    const query = { _id: new ObjectId(id) };
 
-    const user = await users.findOne(query);
+    const user = await users.findOne({ _id: id });
 
     if (!user) {
       throw new Error("User not found");
@@ -40,6 +39,46 @@ export async function getUser(id: string): Promise<{
     return { user };
   } catch (error) {
     return { user: null, error: "Failed to fetch user" };
+  }
+}
+
+export async function getOrCreateUser(
+  userId: string,
+  userData?: { name?: string | null; email?: string | null; image?: string | null }
+): Promise<{
+  user: User | null;
+  error?: string;
+}> {
+  try {
+    if (!users) await init();
+
+    const existingUser = await users.findOne({ _id: userId });
+    if (existingUser) {
+      return { user: existingUser };
+    }
+
+    const newUser: User = {
+      _id: userId,
+      name: userData?.name,
+      email: userData?.email,
+      image: userData?.image,
+      profile: {
+        willpowerMultiplier: 1.5,
+        disciplines: { motivation: 0 },
+        activeDisciplines: [],
+        journalStartTime: { morning: "08:00", evening: "18:00" },
+        onboardingCompleted: false,
+      },
+    };
+
+    const result = await users.insertOne(newUser);
+    if (!result.insertedId) {
+      throw new Error("Failed to create new user");
+    }
+
+    return { user: newUser };
+  } catch (error) {
+    return { user: null, error: "Failed to get or create user" };
   }
 }
 
@@ -53,7 +92,13 @@ export async function updateOnboardingStatus(
 }> {
   try {
     if (!users) await init();
-    const query = { _id: new ObjectId(userId) };
+
+    const user = await getOrCreateUser(userId);
+    if (user.error || !user.user) {
+      throw new Error(user.error || "User not found");
+    }
+
+    const query = { _id: userId };
     const update = {
       $set: {
         "profile.onboardingCompleted": completed,
@@ -91,8 +136,8 @@ export async function updateUserProfile(
 }> {
   try {
     if (!users) await init();
-    const query = { _id: new ObjectId(id) };
-    const update: { $set: { [key: string]: any } } = { $set: {} };
+    const query = { _id: id };
+    const update: { $set: Record<string, string> } = { $set: {} };
 
     if (updateData.journalStartTime) {
       Object.entries(updateData.journalStartTime).forEach(([key, value]) => {
@@ -128,7 +173,7 @@ export async function updateUserDisciplinesValues(
   try {
     if (!users) await init();
 
-    const query = { _id: new ObjectId(userId) };
+    const query = { _id: userId };
 
     // First, fetch the current user to check existing disciplines
     const currentUser = await users.findOne(query);
@@ -163,7 +208,7 @@ export async function updateUserDisciplinesValues(
     });
 
     // Prepare the update object with $inc and $set operations
-    const update: any = {};
+    const update: { $inc?: Record<string, number>; $set?: Record<string, number> } = {};
     if (Object.keys(incUpdate).length > 0) {
       update.$inc = incUpdate;
     }
@@ -219,20 +264,11 @@ export async function updateActiveDisciplines(
   try {
     if (!users) await init();
 
-    const query = { _id: new ObjectId(userId) };
-    let update: any = {};
-
-    if (action === "add") {
-      // Add disciplineId if it doesn't exist already
-      update = {
-        $addToSet: { "profile.activeDisciplines": disciplineId },
-      };
-    } else if (action === "remove") {
-      // Remove disciplineId from array
-      update = {
-        $pull: { "profile.activeDisciplines": disciplineId },
-      };
-    }
+    const query = { _id: userId };
+    const update =
+      action === "add"
+        ? { $addToSet: { "profile.activeDisciplines": disciplineId } }
+        : { $pull: { "profile.activeDisciplines": disciplineId } };
 
     const result = await users.findOneAndUpdate(query, update, {
       returnDocument: "after",

@@ -1,11 +1,24 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getWeeklyWillpowerData } from "@lib/mongo/journal-entries"; // Update this import path as needed
+import { auth } from "@clerk/nextjs/server";
+import { getWeeklyWillpowerData } from "@lib/mongo/journal-entries";
+
 export async function GET(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
+  const routeParams = await params;
+
   try {
-    const userId = params.id;
+    const { userId } = await auth();
+
+    if (!userId) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    if (userId !== routeParams.id) {
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+    }
+
     const userStartOfWeek = req.nextUrl.searchParams.get("startOfWeek");
     const userEndOfWeek = req.nextUrl.searchParams.get("endOfWeek");
 

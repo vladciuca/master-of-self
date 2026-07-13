@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
-import { useSession } from "next-auth/react";
+import { useUser } from "@clerk/nextjs";
 import { HabitActionUpdate, HabitUpdate } from "@models/mongodb";
-import type { Session, JournalEntryHabitActions } from "@models/types";
+import type { User, JournalEntryHabitActions } from "@models/types";
 
 type UpdateHabitsProps = {
   habitsXpUpdates: JournalEntryHabitActions;
@@ -10,9 +10,8 @@ type UpdateHabitsProps = {
 };
 
 export function useUpdateHabits() {
-  const { data: session } = useSession() as { data: Session | null };
+  const { user } = useUser() as { user: User | null };
 
-  //NOTE: names here can be a little confusing vs submittingHabitUpdate (for a single habit)
   const [submittingHabitsUpdate, setSubmittingHabitsUpdate] = useState(false);
   const [updateHabitsError, setUpdateHabitsError] = useState<string | null>(
     null
@@ -20,7 +19,6 @@ export function useUpdateHabits() {
 
   const abortControllerRef = useRef<AbortController | null>(null);
 
-  // Cleanup function to abort fetch requests when component unmounts
   useEffect(() => {
     return () => {
       if (abortControllerRef.current) {
@@ -35,7 +33,7 @@ export function useUpdateHabits() {
     habitActionsUpdates,
     updateDate,
   }: UpdateHabitsProps) => {
-    if (!session?.user.id)
+    if (!user?.id)
       return { status: "error", message: "User not authenticated" };
 
     if (abortControllerRef.current) {
@@ -49,14 +47,14 @@ export function useUpdateHabits() {
 
     try {
       const payload = {
-        userId: session.user.id,
+        userId: user.id,
         habitXpUpdates: Object.entries(habitsXpUpdates) as HabitUpdate[],
         habitActionsUpdates: habitActionsUpdates,
         updateDate: updateDate,
       };
 
       const response = await fetch(
-        `/api/users/${session.user.id}/habits/update`,
+        `/api/users/${user.id}/habits/update`,
         {
           method: "PATCH",
           headers: {
@@ -85,8 +83,6 @@ export function useUpdateHabits() {
       setUpdateHabitsError("Failed to update habit XP");
       throw error;
     } finally {
-      // Unlike GET requests, there’s no risk of an inconsistent UI caused by setting submitting = false after an abort.
-      // NOTE: added it for consistency, might remove it in the future
       if (!signal.aborted) {
         setSubmittingHabitsUpdate(false);
       }

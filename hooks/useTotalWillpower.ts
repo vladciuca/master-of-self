@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import { useSession } from "next-auth/react";
-import { Session } from "@models/types";
+import { useUser } from "@clerk/nextjs";
+import { User } from "@models/types";
 
 export function useTotalWillpower() {
   const [totalWillpower, setTotalWillpower] = useState(0);
@@ -8,7 +8,7 @@ export function useTotalWillpower() {
   const [totalWillpowerError, setTotalWillpowerError] = useState<string | null>(
     null
   );
-  const { data: session } = useSession() as { data: Session | null };
+  const { user } = useUser() as { user: User | null };
 
   useEffect(() => {
     const fetchTotalWillpower = async () => {
@@ -17,7 +17,7 @@ export function useTotalWillpower() {
 
       try {
         const response = await fetch(
-          `/api/users/${session?.user?.id}/total-willpower`
+          `/api/users/${user?.id}/total-willpower`
         );
         const { totalWillpower } = await response.json();
 
@@ -31,10 +31,10 @@ export function useTotalWillpower() {
       }
     };
 
-    if (session?.user.id) {
+    if (user?.id) {
       fetchTotalWillpower();
     }
-  }, [session]);
+  }, [user?.id]);
 
   return { totalWillpower, totalWillpowerLoading, totalWillpowerError };
 }

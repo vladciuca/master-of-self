@@ -1,14 +1,20 @@
 import { NextRequest, NextResponse } from "next/server";
+import { auth } from "@clerk/nextjs/server";
 import { getUser, updateUserProfile } from "@lib/mongo/users";
 
 export const GET = async (
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) => {
+  const routeParams = await params;
   try {
-    const id = params.id;
+    const { userId } = await auth();
 
-    const { user, error } = await getUser(id);
+    if (!userId) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    const { user, error } = await getUser(routeParams.id);
 
     if (error) {
       return NextResponse.json({ error }, { status: 500 });
@@ -28,10 +34,20 @@ export const GET = async (
 
 export const PATCH = async (
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) => {
+  const routeParams = await params;
   try {
-    const userId = params.id;
+    const { userId } = await auth();
+
+    if (!userId) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    if (userId !== routeParams.id) {
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+    }
+
     const updateData = await req.json();
 
     const { user, error } = await updateUserProfile(userId, updateData);

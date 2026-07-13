@@ -1,29 +1,24 @@
-import { useSession } from "next-auth/react";
+import { useUser } from "@clerk/nextjs";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { JournalEntryIndicators } from "@/components/journal/journal-entry-card/JournalEntryIndicators";
 import { JournalEntryHabits } from "@/components/journal/journal-entry-card/JournalEntryHabits";
 import { JournalEntryDisciplineSection } from "./JournalEntryDisciplineSection";
 import { Card } from "@components/ui/card";
-// import { Button } from "@components/ui/button";
 import { FaBoltLightning } from "react-icons/fa6";
-// import { Shell } from "lucide-react";
 import { calculateHabitsXpFromEntry } from "@/lib/level";
-// import { JOURNAL_COLORS } from "@lib/colors";
-import { Session, JournalEntryMetadata } from "@models/types";
+import { JournalEntryMetadata } from "@models/types";
 
 import { JournalEntryActionButton } from "../JournalEntryActionButton";
 
 type JournalEntryCardProps = {
   journalEntry: JournalEntryMetadata;
-  // handleDelete: (journalEntry: JournalEntryMetadata) => Promise<void>;
 };
 
 export function JournalEntryCard({
   journalEntry,
-}: // handleDelete,
-JournalEntryCardProps) {
-  const { data: session } = useSession() as { data: Session | null };
+}: JournalEntryCardProps) {
+  const { user } = useUser();
   const pathName = usePathname();
 
   const {
@@ -55,13 +50,6 @@ JournalEntryCardProps) {
       })
     : {};
 
-  //NOTE* Is this required?
-  // const hasDisciplineEntries =
-  //   (dayEntry?.Object?.entries &&
-  //     Object.keys(dayEntry.Object.entries).length > 0) ||
-  //   (nightEntry?.Object?.entries &&
-  //     Object.keys(nightEntry.Object.entries).length > 0);
-
   return (
     <Card className="p-4 mb-4 space-y-4">
       <div className="w-full">
@@ -79,11 +67,6 @@ JournalEntryCardProps) {
           </div>
 
           <div className="ml-6 flex flex-col justify-start items-center">
-            {/* <div className="flex justify-end">
-              <div className="text-xs mb-1 text-muted-foreground">
-                {"Willpower"}
-              </div>
-            </div> */}
             <div className="w-full flex items-center justify-center text-3xl font-bold">
               {totalWillpower}
               <FaBoltLightning className="ml-1 text-2xl" />
@@ -94,7 +77,7 @@ JournalEntryCardProps) {
 
       {isToday && (
         <div className="w-full flex">
-          {session?.user?.id === creatorId && pathName === "/journal" && (
+          {user?.id === creatorId && pathName === "/journal" && (
             <div className="w-full">
               <Link href={`/update-journal-entry/${_id}`}>
                 <JournalEntryActionButton text={"Continue today's Entry"} />
@@ -104,23 +87,6 @@ JournalEntryCardProps) {
         </div>
       )}
 
-      {/* {bonusWillpower > 0 && (
-        <div className="w-full text-muted-foreground">
-          <div className="flex items-center">
-            <div className="flex items-center">
-              Willpower Bonus:
-              <span className={`ml-1 text-${JOURNAL_COLORS.night}`}>
-                +{bonusWillpower}
-              </span>
-              <span className="text-primary text-xs">
-                <FaBoltLightning className="ml-1" />
-              </span>
-            </div>
-          </div>
-        </div>
-      )} */}
-
-      {/* Habit Actions */}
       {habits &&
         Object.values(habits).some((habitActions) =>
           Object.entries(habitActions)
@@ -128,12 +94,6 @@ JournalEntryCardProps) {
             .some(([_, value]) => value !== 0)
         ) && (
           <div className="flex w-full">
-            {/* <div className="flex-shrink-0 flex items-start mr-4">
-              <h2 className="flex items-center text-muted-foreground mt-1">
-                <Shell className="mr-2 text-muted-foreground" size={"1rem"} />
-                Habits:
-              </h2>
-            </div> */}
             <div className="flex-grow flex flex-wrap items-start">
               <JournalEntryHabits
                 habitsXp={habitsXpFromActions}

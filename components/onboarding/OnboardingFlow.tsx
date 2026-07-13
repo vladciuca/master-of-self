@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { useSession } from "next-auth/react";
+import { useUser } from "@clerk/nextjs";
 
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
@@ -15,7 +15,7 @@ import { UserDisciplines } from "@components/disciplines/UserDisciplines";
 import { JournalEntryActionButton } from "@components/journal/JournalEntryActionButton";
 import { useCreateJournalEntry } from "@hooks/journal/useCreateJournalEntry";
 import { useUserProfile } from "@context/UserProfileContext";
-import type { Session } from "@models/types";
+import { User } from "@models/types";
 import { LoadingScreen } from "@components/skeletons/LoadingScreen";
 
 export function OnboardingFlow() {
@@ -28,9 +28,9 @@ export function OnboardingFlow() {
 
   // Get context methods for updating onboarding status
   const { updateOnboardingStatus } = useUserProfile();
-  const { data: session } = useSession() as { data: Session | null };
+  const { user } = useUser() as { user: User | null };
 
-  const firstName = session?.user?.name?.split(" ")[0] || "there";
+  const firstName = user?.firstName || "there";
 
   const steps = [
     {
@@ -52,18 +52,6 @@ export function OnboardingFlow() {
       subtitle: "Daily prompts fuel clarity, direction, and self-awareness.",
       content: <UserDisciplines onboarding />,
     },
-    // {
-    //   id: 4,
-    //   title: "Your Growth Dashboard",
-    //   subtitle: "",
-    //   content: (
-    //     <UserProfileOverview
-    //       userId={session?.user.id}
-    //       notCurrentUser={false}
-    //       onboarding
-    //     />
-    //   ),
-    // },
   ];
 
   const [currentStep, setCurrentStep] = useState(1);
@@ -89,11 +77,11 @@ export function OnboardingFlow() {
 
   // Function to complete onboarding
   const completeOnboarding = async () => {
-    if (!session?.user.id) {
+    if (!user?.id) {
       throw new Error("No user ID found");
     }
 
-    const response = await fetch(`/api/users/${session?.user.id}/onboarding`, {
+    const response = await fetch(`/api/users/${user.id}/onboarding`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -150,7 +138,7 @@ export function OnboardingFlow() {
   // Determine if we're in a loading state
   const isLoading = isCompletingOnboarding || submittingJournalEntry;
 
-  if (!session) return <LoadingScreen />;
+  if (!user) return <LoadingScreen />;
 
   return (
     <div className="h-full flex flex-col">
@@ -171,7 +159,6 @@ export function OnboardingFlow() {
       {/* Scrollable Content Area */}
       <div className="flex-1 overflow-auto border rounded-3xl">
         {/* Sticky Header Section */}
-        {/* <div className="sticky top-0 bg-card z-10"> */}
         <div
           className={`sticky top-0 bg-card z-10 ${
             currentStep === 1 ? "hidden" : ""
@@ -181,10 +168,6 @@ export function OnboardingFlow() {
             <h2 className="text-2xl sm:text-3xl font-bold mb-2">
               {currentStepData?.title}
             </h2>
-
-            {/* <p className="text-base sm:text-lg text-muted-foreground px-4">
-              {currentStepData?.subtitle}
-            </p> */}
           </div>
         </div>
 

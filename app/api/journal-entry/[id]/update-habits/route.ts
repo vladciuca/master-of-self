@@ -3,13 +3,14 @@ import { updateJournalEntryHabits } from "@lib/mongo/journal-entries";
 
 export async function PATCH(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
+  const routeParams = await params;
   const { habits } = await req.json();
 
   try {
     const { journalEntry, error } = await updateJournalEntryHabits(
-      params.id,
+      routeParams.id,
       habits
     );
 

@@ -1,21 +1,34 @@
 import { NextRequest, NextResponse } from "next/server";
+import { auth } from "@clerk/nextjs/server";
 import { updateHabitsXpAndActions } from "@lib/mongo/habits";
 import { HabitUpdate, HabitActionUpdate } from "@models/mongodb";
 
-type UpdateHabitsRequestBody = {
-  userId: string;
-  habitXpUpdates: HabitUpdate[];
-  habitActionsUpdates: HabitActionUpdate;
-  updateDate: string;
-};
+export async function PATCH(
+  req: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  const routeParams = await params;
 
-export async function PATCH(req: NextRequest) {
   try {
+    const { userId } = await auth();
+
+    if (!userId) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    if (userId !== routeParams.id) {
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+    }
+
     const {
       habitXpUpdates,
       habitActionsUpdates,
       updateDate,
-    }: UpdateHabitsRequestBody = await req.json();
+    }: {
+      habitXpUpdates: HabitUpdate[];
+      habitActionsUpdates: HabitActionUpdate;
+      updateDate: string;
+    } = await req.json();
 
     if (!habitXpUpdates || !habitActionsUpdates || !updateDate) {
       return NextResponse.json(
@@ -40,11 +53,6 @@ export async function PATCH(req: NextRequest) {
     };
 
     switch (status) {
-      // NOTE: might check after Date if it already exists to return specific error on retry
-      // case "already_updated":
-      //   response.message = "Habits were already updated today";
-      //   return NextResponse.json(response, { status: 200 });
-
       case "no_change":
         response.message = "No updates were needed";
         return NextResponse.json(response, { status: 200 });

@@ -3,10 +3,10 @@
 import { IconRenderer } from "@components/IconRenderer";
 import { stepIconMap } from "@components/ui/constants";
 import { Button } from "@components/ui/button";
-import { Session, Habit } from "@models/types";
+import { User, Habit } from "@models/types";
 
 type HabitCardFooterProps = {
-  session: Session | null;
+  user: User | null;
   habit: Habit;
   pathName: string;
   handleEdit: (habit: Habit) => void;
@@ -16,7 +16,7 @@ type HabitCardFooterProps = {
 };
 
 export function HabitCardFooter({
-  session,
+  user,
   habit,
   pathName,
   handleEdit,
@@ -25,7 +25,7 @@ export function HabitCardFooter({
   submittingJournalEntry,
 }: HabitCardFooterProps) {
   //NOTE: so the buttons do not appear on other peoples habit cards
-  if (session?.user?.id !== habit.creatorId) {
+  if (user?.id !== habit.creatorId) {
     return null;
   }
 

@@ -1,11 +1,11 @@
 import { useState, useRef, useEffect } from "react";
-import { useSession } from "next-auth/react";
+import { useUser } from "@clerk/nextjs";
 import { DisciplineZodType } from "@models/disciplineFormSchema";
-import { Session } from "@models/types";
+import { User } from "@models/types";
 import { useUserProfile } from "@context/UserProfileContext";
 
 export function useCreateDiscipline() {
-  const { data: session } = useSession() as { data: Session | null };
+  const { user } = useUser() as { user: User | null };
 
   const {
     updateDisciplinesValues,
@@ -20,10 +20,8 @@ export function useCreateDiscipline() {
     string | null
   >(null);
 
-  // Ref for abort controller
   const createAbortControllerRef = useRef<AbortController | null>(null);
 
-  // Cleanup on unmount
   useEffect(() => {
     return () => {
       if (createAbortControllerRef.current) {
@@ -33,16 +31,13 @@ export function useCreateDiscipline() {
     };
   }, []);
 
-  // Create Discipline function
   const createDiscipline = async (disciplineStep: DisciplineZodType) => {
-    if (!session?.user.id) throw new Error("User not authenticated");
+    if (!user?.id) throw new Error("User not authenticated");
 
-    // Cancel any in-progress creation
     if (createAbortControllerRef.current) {
       createAbortControllerRef.current.abort();
     }
 
-    // Create a new AbortController for this operation
     createAbortControllerRef.current = new AbortController();
     const signal = createAbortControllerRef.current.signal;
 
@@ -59,7 +54,7 @@ export function useCreateDiscipline() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          userId: session.user.id,
+          userId: user.id,
           discipline,
           icon,
           color,
@@ -76,7 +71,6 @@ export function useCreateDiscipline() {
         throw new Error("Failed to create discipline");
       }
 
-      //NOTE: Takes the id from the response and added it to learned discipline list
       const createdDisciplineData = await response.json();
       const disciplineId = String(createdDisciplineData._id);
 
@@ -88,7 +82,7 @@ export function useCreateDiscipline() {
         if (addResult?.success) {
           await updateActiveDiscipline(disciplineId, true);
         } else {
-          console.warn("⚠️ Discipline created but failed to initialize value");
+          console.warn("Discipline created but failed to initialize value");
           setCreateDisciplineError(
             "Discipline created but failed to initialize"
           );
@@ -110,13 +104,12 @@ export function useCreateDiscipline() {
       setCreateDisciplineError(
         (error as Error).message || "Failed to create discipline"
       );
-      throw error; // Re-throw the error for the caller to handle
+      throw error;
     } finally {
       if (!signal.aborted) {
         setSubmittingDiscipline(false);
       }
 
-      // Clear the ref after completion
       if (
         createAbortControllerRef.current &&
         signal === createAbortControllerRef.current.signal
@@ -130,6 +123,5 @@ export function useCreateDiscipline() {
     createDiscipline,
     submittingDiscipline,
     createDisciplineError,
-    // isAuthenticated: !!session?.user?.id,
   };
 }

@@ -1,20 +1,16 @@
 import { useState, useEffect, useRef } from "react";
-import { useSession } from "next-auth/react";
+import { useUser } from "@clerk/nextjs";
 import { useYesterdayJournalEntry } from "./useYesterdayJournalEntry";
 import { useLastJournalEntry } from "./useLastJournalEntry";
 import { useUpdateHabits } from "@hooks/habits/useUpdateHabits";
 import { useUserProfile } from "@context/UserProfileContext";
 import { useUserHabits } from "@hooks/habits/useUserHabits";
 import { getToday } from "@lib/time";
-import {
-  // calculateStepScore,
-  // calculateStepScoreMultiplier,
-  getDisciplineScoreFromEntry,
-} from "@lib/score";
-import { Session } from "@models/types";
+import { getDisciplineScoreFromEntry } from "@lib/score";
+import { User } from "@models/types";
 
 export function useCreateJournalEntry() {
-  const { data: session } = useSession() as { data: Session | null };
+  const { user } = useUser() as { user: User | null };
 
   const { lastEntry, lastEntryLoading, lastEntryError, habitsXp } =
     useLastJournalEntry();
@@ -23,7 +19,6 @@ export function useCreateJournalEntry() {
 
   const [submittingJournalEntry, setSubmittingJournalEntry] =
     useState<boolean>(false);
-  // NOTE: create submit error here
   const [createJournalEntryError, setCreateJournalEntryError] = useState<
     string | null
   >(null);
@@ -46,7 +41,6 @@ export function useCreateJournalEntry() {
 
   const abortControllerRef = useRef<AbortController | null>(null);
 
-  // Cleanup function to abort fetch requests when component unmounts
   useEffect(() => {
     return () => {
       if (abortControllerRef.current) {
@@ -57,11 +51,8 @@ export function useCreateJournalEntry() {
   }, []);
 
   const createJournalEntry = async () => {
-    if (!session?.user.id) throw new Error("User not authenticated");
+    if (!user?.id) throw new Error("User not authenticated");
 
-    // NOTE: Chaining Loading states and errors here is used because:
-    // the createJournalEntry function is dependent all the data from these calls!
-    // Ensure all dependencies are loaded
     if (
       yesterdayEntryLoading ||
       habitsLoading ||
@@ -73,7 +64,6 @@ export function useCreateJournalEntry() {
       return;
     }
 
-    // Ensure no errors before proceeding
     if (
       yesterdayEntryError ||
       habitsError ||
@@ -110,8 +100,6 @@ export function useCreateJournalEntry() {
         ? getDisciplineScoreFromEntry(lastEntry)
         : {};
 
-      // NOTE: Must NOT create entry before updating the Habits XP
-      // Parallel API updates
       await Promise.allSettled([
         lastEntry
           ? updateDisciplinesValues(disciplinesPayload)
@@ -123,7 +111,7 @@ export function useCreateJournalEntry() {
               habitActionsUpdates: lastEntry.habits,
               updateDate: todayDate,
             })
-          : Promise.resolve(), // If lastEntry is null / the user doesn't have habits, resolve immediately
+          : Promise.resolve(),
       ]);
 
       const createNewEntryResponse = await fetch(
@@ -134,12 +122,12 @@ export function useCreateJournalEntry() {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            userId: session.user.id,
+            userId: user.id,
             dailyWillpower: 0,
             bonusWillpower: bonusWillpower ?? 0,
             habits: defaultJournalEntryHabitActionValues,
           }),
-          signal, // Attach signal to the request
+          signal,
         }
       );
 

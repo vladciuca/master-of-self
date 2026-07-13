@@ -1,17 +1,19 @@
 import { ObjectId } from "mongodb";
 import { ReactNode } from "react";
-import { Session as NextAuthSession, User as NextAuthUser } from "next-auth";
 import { XpData } from "./mongodb";
 
 export type Layout = {
   children: ReactNode;
 };
 
-export interface User extends NextAuthUser {
+export interface User {
   id: string;
-  name?: string | null;
-  email?: string | null;
-  image?: string | null;
+  fullName: string | null;
+  firstName: string | null;
+  lastName: string | null;
+  primaryEmailAddress: { emailAddress: string } | null;
+  emailAddresses: { emailAddress: string }[];
+  imageUrl: string;
 }
 
 export type UserDisciplines = {
@@ -30,13 +32,13 @@ export type UserProfile = {
   onboardingCompleted: boolean;
 };
 
-export type UserMetadata = User & {
+export type UserMetadata = {
+  id: string;
+  name?: string | null;
+  email?: string | null;
+  image?: string | null;
   profile: UserProfile;
 };
-
-export interface Session extends NextAuthSession {
-  user: User;
-}
 
 // JOURNAL STEP -----------------------------------------------------
 export type JournalStepType = "dayEntry" | "nightEntry" | "other";
