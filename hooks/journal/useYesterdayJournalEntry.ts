@@ -1,18 +1,12 @@
 import { useState, useEffect, useMemo } from "react";
-import { useSession } from "next-auth/react";
+import { useUser } from "@clerk/nextjs";
 import { getYesterday } from "@/lib/time";
 import { getNightDisciplineScores } from "@/lib/score";
 import { useUserProfile } from "@context/UserProfileContext";
-import type {
-  Session,
-  JournalEntry,
-  //NOTE: this has the "motivation" key as default
-  //Try to find a way to use UserDisciplines type instead of Record<string, number>
-  // UserDisciplines
-} from "@models/types";
+import type { User, JournalEntry } from "@models/types";
 
 export function useYesterdayJournalEntry() {
-  const { data: session } = useSession() as { data: Session | null };
+  const { user } = useUser() as { user: User | null };
   const { userProfile, userProfileLoading, userProfileError } =
     useUserProfile();
 
@@ -24,38 +18,28 @@ export function useYesterdayJournalEntry() {
     null
   );
 
-  // Derive discipline scores from yesterdayEntry using the new function
   const nightEntryDisciplineScores = useMemo((): Record<string, number> => {
     if (!yesterdayEntry || !yesterdayEntry.nightEntry) {
       return {};
     }
 
-    // The updated function will process all keys in nightEntry as disciplines
     return getNightDisciplineScores(yesterdayEntry.nightEntry);
   }, [yesterdayEntry]);
 
-  // Derive bonusWillpower from discipline scores
   const bonusWillpower = useMemo(() => {
-    // Handle loading state
     if (userProfileLoading) {
-      return null; // Or some loading indicator value
+      return null;
     }
 
-    // Handle error state
     if (userProfileError) {
       console.error("Error loading willpower multiplier:", userProfileError);
-      return null; // Or some error indicator value, or fall back to a default
+      return null;
     }
 
-    //NOTE: here we are treating "night" with calculateStepScore() like every other step
-    // Do we need special treatment? To me and my shrink
-
-    //NOTE: motivation multiplier is never 0 in this case and we must exclude it.
     const totalScore = Object.entries(nightEntryDisciplineScores)
       .filter(([key]) => key !== "_motivationMultiplier")
       .reduce((sum, [, score]) => sum + (score || 0), 0);
 
-    // Apply the same WP multiplier
     return Math.floor(totalScore * (userProfile?.willpowerMultiplier || 1.5));
   }, [
     nightEntryDisciplineScores,
@@ -65,9 +49,8 @@ export function useYesterdayJournalEntry() {
   ]);
 
   useEffect(() => {
-    if (!session?.user.id) return;
+    if (!user?.id) return;
 
-    // Create abort controller for cleanup
     const abortController = new AbortController();
     const signal = abortController.signal;
 
@@ -77,7 +60,7 @@ export function useYesterdayJournalEntry() {
     const getYesterdayEntry = async () => {
       try {
         const yesterday = getYesterday();
-        const url = `/api/users/${session.user.id}/journal-entries/yesterday?yesterday=${yesterday}`;
+        const url = `/api/users/${user.id}/journal-entries/yesterday?yesterday=${yesterday}`;
 
         const yesterdayEntryResponse = await fetch(url, {
           signal,
@@ -104,7 +87,6 @@ export function useYesterdayJournalEntry() {
 
         setYesterdayEntryError("Failed to fetch yesterday's journal entry");
       } finally {
-        // NOTE: If the request was aborted (signal.aborted === true), we skip updating loading = false to prevent incorrect state updates.
         if (!signal.aborted) {
           setYesterdayEntryLoading(false);
         }
@@ -113,11 +95,10 @@ export function useYesterdayJournalEntry() {
 
     getYesterdayEntry();
 
-    // Cleanup function to abort fetch if component unmounts
     return () => {
       abortController.abort();
     };
-  }, [session?.user.id]);
+  }, [user?.id]);
 
   return {
     yesterdayEntry,

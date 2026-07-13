@@ -1,13 +1,13 @@
 import { useState, useEffect, useMemo } from "react";
-import { useSession } from "next-auth/react";
+import { useUser } from "@clerk/nextjs";
 import {
   getHabitActionValuesFromEntry,
   calculateHabitsXpFromEntry,
 } from "@/lib/level";
-import type { Session, JournalEntry } from "@models/types";
+import type { User, JournalEntry } from "@models/types";
 
 export function useLastJournalEntry() {
-  const { data: session } = useSession() as { data: Session | null };
+  const { user } = useUser() as { user: User | null };
 
   const [lastEntry, setLastEntry] = useState<JournalEntry | null>(null);
   const [lastEntryLoading, setLastEntryLoading] = useState(false);
@@ -26,9 +26,7 @@ export function useLastJournalEntry() {
     }
 
     return {
-      // NOTE: returns journalEntry.habits without currentXp key
       habitActionsValues: getHabitActionValuesFromEntry(habits),
-      // NOTE: Calculate habitsXp from action values in journalEntry.habits
       habitsXp: calculateHabitsXpFromEntry({
         entryHabits: habits,
         entryWillpower: totalWillpower,
@@ -38,7 +36,7 @@ export function useLastJournalEntry() {
   }, [lastEntry]);
 
   useEffect(() => {
-    if (!session?.user.id) return;
+    if (!user?.id) return;
 
     const abortController = new AbortController();
     const signal = abortController.signal;
@@ -48,7 +46,7 @@ export function useLastJournalEntry() {
 
     const getLastEntry = async () => {
       try {
-        const url = `/api/users/${session.user.id}/journal-entries/last`;
+        const url = `/api/users/${user.id}/journal-entries/last`;
         const lastEntryResponse = await fetch(url, { signal });
 
         if (signal.aborted) return;
@@ -82,7 +80,7 @@ export function useLastJournalEntry() {
     return () => {
       abortController.abort();
     };
-  }, [session?.user.id]);
+  }, [user?.id]);
 
   return {
     lastEntry,

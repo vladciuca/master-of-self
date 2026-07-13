@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
-import { useSession } from "next-auth/react";
-import { Session, JournalEntryMetadata } from "@models/types";
+import { useUser } from "@clerk/nextjs";
+import { User, JournalEntryMetadata } from "@models/types";
 
 export function useUserJournal() {
-  const { data: session } = useSession() as { data: Session | null };
+  const { user } = useUser() as { user: User | null };
 
   const [journalEntries, setJournalEntries] = useState<JournalEntryMetadata[]>(
     []
@@ -14,7 +14,7 @@ export function useUserJournal() {
   );
 
   useEffect(() => {
-    if (!session?.user.id) return;
+    if (!user?.id) return;
 
     const abortController = new AbortController();
     const signal = abortController.signal;
@@ -25,7 +25,7 @@ export function useUserJournal() {
     const fetchJournalEntries = async () => {
       try {
         const journalEntriesResponse = await fetch(
-          `/api/users/${session?.user?.id}/journal-entries`,
+          `/api/users/${user.id}/journal-entries`,
           { signal }
         );
 
@@ -61,7 +61,7 @@ export function useUserJournal() {
     return () => {
       abortController.abort();
     };
-  }, [session]);
+  }, [user?.id]);
 
   return { journalEntries, journalEntriesLoading, journalEntriesError };
 }

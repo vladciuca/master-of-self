@@ -39,7 +39,7 @@ export async function createDiscipline(
 
     //NOTE: maybe name this newDisciplineStep?
     const newDiscipline: NewDiscipline = {
-      creatorId: new ObjectId(userId),
+      creatorId: userId,
       discipline,
       icon,
       color,
@@ -131,7 +131,7 @@ export async function getDisciplines(userId: string): Promise<{
 }> {
   try {
     if (!disciplines) await init();
-    const query = { creatorId: new ObjectId(userId) };
+    const query = { creatorId: userId };
 
     const result = await disciplines.find(query).toArray();
 
@@ -170,7 +170,7 @@ export async function getAllDisciplinesExceptUser(
     if (!disciplines) await init();
 
     // Query that excludes the specified user
-    const query = { creatorId: { $ne: new ObjectId(excludeUserId) } };
+    const query = { creatorId: { $ne: excludeUserId } };
 
     const result = await disciplines.find(query).toArray();
 
@@ -199,7 +199,7 @@ export async function getDisciplinesByIds(disciplineIds: string[]): Promise<{
     }
 
     // Use proper type for query
-    const query = { _id: { $in: objectIds } as any };
+    const query = { _id: { $in: objectIds } };
     const result = await disciplines.find(query).toArray();
 
     return { disciplines: result };

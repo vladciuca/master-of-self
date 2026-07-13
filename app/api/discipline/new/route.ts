@@ -1,11 +1,32 @@
 import { NextRequest, NextResponse } from "next/server";
+import { auth } from "@clerk/nextjs/server";
 import { createDiscipline } from "@lib/mongo/disciplines";
+import { JournalStepType } from "@models/types";
 
 export async function POST(req: NextRequest) {
-  const { userId, discipline, icon, color, type, title, description } =
-    await req.json();
-
   try {
+    const { userId } = await auth();
+
+    if (!userId) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    const {
+      discipline,
+      icon,
+      color,
+      type,
+      title,
+      description,
+    }: {
+      discipline: string;
+      icon: string;
+      color: string;
+      type: JournalStepType;
+      title: string;
+      description: string;
+    } = await req.json();
+
     const { newDiscipline, error } = await createDiscipline(
       userId,
       discipline,
@@ -21,9 +42,10 @@ export async function POST(req: NextRequest) {
     }
 
     return new NextResponse(JSON.stringify(newDiscipline), { status: 200 });
-  } catch (error: any) {
+  } catch (error) {
+    const message = error instanceof Error ? error.message : "Unknown error";
     return new NextResponse(
-      `Failed to create new discipline: ${error.message}`,
+      `Failed to create new discipline: ${message}`,
       {
         status: 500,
       }

@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
-import { useSession } from "next-auth/react";
+import { useUser } from "@clerk/nextjs";
 import { getToday } from "@lib/time";
-import { Session, JournalEntryMetadata } from "@models/types";
+import { User, JournalEntryMetadata } from "@models/types";
 
 export function useTodayJournalEntry() {
-  const { data: session } = useSession() as { data: Session | null };
+  const { user } = useUser() as { user: User | null };
 
   const [todayEntry, setTodayEntry] = useState<JournalEntryMetadata | null>(
     null
@@ -13,7 +13,7 @@ export function useTodayJournalEntry() {
   const [todayEntryError, setTodayEntryError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!session?.user.id) return;
+    if (!user?.id) return;
 
     const abortController = new AbortController();
     const signal = abortController.signal;
@@ -24,7 +24,7 @@ export function useTodayJournalEntry() {
     const getTodayEntry = async () => {
       try {
         const today = getToday();
-        const url = `/api/users/${session?.user.id}/journal-entries/today?today=${today}`;
+        const url = `/api/users/${user.id}/journal-entries/today?today=${today}`;
 
         const todayEntryResponse = await fetch(url, { signal });
 
@@ -61,7 +61,7 @@ export function useTodayJournalEntry() {
     return () => {
       abortController.abort();
     };
-  }, [session?.user.id]);
+  }, [user?.id]);
 
   return {
     todayEntry,

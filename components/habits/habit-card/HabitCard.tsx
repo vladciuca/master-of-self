@@ -1,20 +1,19 @@
 "use client";
 
-import { useSession } from "next-auth/react";
+import { useUser } from "@clerk/nextjs";
 import { usePathname } from "next/navigation";
 import { HabitCardHeader } from "@components/habits/habit-card/HabitCardHeader";
 import { HabitCardActions } from "@components/habits/habit-card/HabitCardActions";
 import { HabitCardFooter } from "./HabitCardFooter";
 import { AccordionContent, AccordionItem } from "@components/ui/accordion";
 import { IndicatorAccordionTrigger } from "@/components/ui/indicator-accordion-trigger";
-import { Session, Habit, JournalEntryHabitActions } from "@models/types";
+import { User, Habit, JournalEntryHabitActions } from "@models/types";
 
 type HabitCardProps = {
   habit: Habit;
   addNew?: boolean;
   entryLoading: boolean;
   handleEdit: (habit: Habit) => void;
-  // handleDelete: (habit: Habit) => Promise<void>;
   habitDefaultActionValues: JournalEntryHabitActions;
   habitActionValues: JournalEntryHabitActions;
   entryTotalWillpower: number;
@@ -37,7 +36,7 @@ export function HabitCard({
 }: HabitCardProps) {
   const { actions, _id: habitId } = habit;
 
-  const { data: session } = useSession() as { data: Session | null };
+  const { user } = useUser() as { user: User | null };
   const pathName = usePathname();
 
   return (
@@ -57,15 +56,6 @@ export function HabitCard({
         <AccordionContent className="px-1">
           {addNew ? (
             <div>
-              {/* <div className="mb-4">
-                Habits are groups of concise actions that can be tracked and
-                measured daily to view progress in a specific area of improvement.
-              </div>
-
-              <div>
-                Create a habit group and add actions. More can be added actions
-                by updating the habit.
-              </div> */}
               <div className="mb-4">
                 Habits are collections of simple, repeatable actions that you
                 can track daily to monitor progress in a specific area of
@@ -87,11 +77,10 @@ export function HabitCard({
                 hasNoEntryToday={hasNoEntryToday}
               />
               <HabitCardFooter
-                session={session}
+                user={user}
                 habit={habit}
                 pathName={pathName}
                 handleEdit={handleEdit}
-                // handleDelete={handleDelete}
                 handleActionUpdate={handleActionUpdate}
                 entryLoading={entryLoading}
                 submittingJournalEntry={submittingJournalEntry}

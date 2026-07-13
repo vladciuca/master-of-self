@@ -42,7 +42,7 @@ export async function createHabit(
     if (!habits) await init();
 
     const newHabit: NewHabit = {
-      creatorId: new ObjectId(userId),
+      creatorId: userId,
       name,
       icon,
       xp: 0, // initialize XP to 0
@@ -147,7 +147,7 @@ export async function getHabits(userId: string): Promise<{
 }> {
   try {
     if (!habits) await init();
-    const query = { creatorId: new ObjectId(userId) };
+    const query = { creatorId: userId };
 
     const result = await habits.find(query).toArray();
 

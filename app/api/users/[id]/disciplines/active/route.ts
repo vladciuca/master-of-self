@@ -1,13 +1,24 @@
 import { NextRequest, NextResponse } from "next/server";
+import { auth } from "@clerk/nextjs/server";
 import { updateActiveDisciplines, getUser } from "lib/mongo/users";
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
-  const userId = params.id;
+  const routeParams = await params;
 
   try {
+    const { userId } = await auth();
+
+    if (!userId) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    if (userId !== routeParams.id) {
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+    }
+
     const { user, error } = await getUser(userId);
 
     if (error) {
@@ -33,11 +44,21 @@ export async function GET(
 
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
-  const userId = params.id;
+  const routeParams = await params;
 
   try {
+    const { userId } = await auth();
+
+    if (!userId) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    if (userId !== routeParams.id) {
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+    }
+
     const { disciplineId, action } = await request.json();
 
     if (!disciplineId || (action !== "add" && action !== "remove")) {

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useSession } from "next-auth/react";
+import { useUser } from "@clerk/nextjs";
 import { WillpowerBar } from "@components/profile/weekly-willpower-chart/WillpowerBar";
 import { Bar, BarChart, XAxis, ResponsiveContainer } from "recharts";
 import {
@@ -15,7 +15,6 @@ import { Skeleton } from "@components/ui/skeleton";
 import { FaBoltLightning } from "react-icons/fa6";
 import { getStartOfCurrentWeek, getEndOfCurrentWeek } from "@lib/time";
 import { JOURNAL_COLORS, JOURNAL_HEX_COLORS } from "@lib/colors";
-import { Session } from "@models/types";
 import { WeeklyWillpowerData } from "@models/types";
 
 export type WillpowerChartBaseProps = {
@@ -79,11 +78,11 @@ export function WeeklyWillpowerChart({
   displaySmall?: boolean;
   userId?: string;
 }) {
-  const { data: session } = useSession() as { data: Session | null };
+  const { user } = useUser();
   const [isLoading, setIsLoading] = useState(false);
   const [willpowerData, setWillpowerData] = useState<WeeklyWillpowerData[]>([]);
 
-  const targetUserId = userId || session?.user.id;
+  const targetUserId = userId || user?.id;
 
   const totalWillpower = willpowerData.reduce(
     (acc, curr) => {
@@ -130,7 +129,7 @@ export function WeeklyWillpowerChart({
     };
 
     fetchWillpowerData();
-  }, [session]);
+  }, [user?.id]);
 
   return (
     <div>
@@ -158,17 +157,9 @@ export function WeeklyWillpowerChart({
               displaySmall ? "text-4xl" : "text-3xl"
             } font-bold`}
           >
-            {/* {!isLoading && totalWillpower.bonus > 0 && (
-              <span className={`text-${JOURNAL_COLORS.night}`}>
-                +{totalWillpower.bonus}
-              </span>
-            )} */}
             {isLoading ? (
               "??"
             ) : (
-              // <span className={`text-${JOURNAL_COLORS.day}`}>
-              //   {totalWillpower.generated}
-              // </span>
               <span>{totalWillpower.generated + totalWillpower.bonus}</span>
             )}
             <FaBoltLightning

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import { useSession } from "next-auth/react";
+import { useUser } from "@clerk/nextjs";
 import { LandingPage } from "./landing-page/LandingPage";
 import { HowItWorks } from "./how-it-works/HowItWorks";
 import { CTAPage } from "./call-to-action-page/CTAPage";
@@ -65,19 +65,11 @@ const ContentArea = ({ activeTab }: { activeTab: string }) => {
 };
 
 export function MobileSideContent({ innerMenu }: { innerMenu?: boolean }) {
-  const { data: session, status } = useSession();
+  const { user, isSignedIn } = useUser();
 
-  // const tabs = useMemo(() => {
-  //   return allTabs.filter((tab) => {
-  //     if (tab.id === "cta" && status === "authenticated") {
-  //       return false;
-  //     }
-  //     return true;
-  //   });
-  // }, [status]);
   const tabs = useMemo(() => {
     return allTabs.filter((tab) => {
-      if (tab.id === "cta" && status === "authenticated") {
+      if (tab.id === "cta" && isSignedIn) {
         return false;
       }
       if (tab.id === "community" && innerMenu) {
@@ -85,7 +77,7 @@ export function MobileSideContent({ innerMenu }: { innerMenu?: boolean }) {
       }
       return true;
     });
-  }, [status, innerMenu]);
+  }, [isSignedIn, innerMenu]);
 
   const [activeTab, setActiveTab] = useState(() => tabs[0]?.id || "landing");
 

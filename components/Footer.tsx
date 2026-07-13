@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { useSession } from "next-auth/react";
+import { useUser } from "@clerk/nextjs";
 import { usePathname, useRouter } from "next/navigation";
 import { BottomNav } from "@components/BottomNav";
 import { Button } from "@components/ui/button";
@@ -12,7 +12,7 @@ import { Button } from "@components/ui/button";
 import { useUserProfile } from "@context/UserProfileContext";
 
 export function Footer() {
-  const { data: session, status } = useSession();
+  const { user, isLoaded, isSignedIn } = useUser();
   const pathname = usePathname();
   const router = useRouter();
   const { userProfile, userProfileLoading, userProfileError } =
@@ -28,25 +28,23 @@ export function Footer() {
 
   // Redirect unauthenticated users to `/` if not on `/sign-in` or `/sign-up`
   useEffect(() => {
-    const isAuthPage = pathname === "/sign-in";
-    // || pathname === "/sign-up"
-    if (status === "unauthenticated" && !isAuthPage) {
+    const isAuthPage = pathname === "/sign-in" || pathname === "/sign-up";
+    if (isLoaded && isSignedIn === false && !isAuthPage) {
       router.push("/");
     }
-  }, [status, pathname, router]);
+  }, [isLoaded, isSignedIn, pathname, router]);
 
   // Shared loading condition - same as PageContent
   const shouldShowLoading = () => {
-    // Show loading during session loading
-    if (status === "loading") return true;
+    // Show loading during user loading
+    if (!isLoaded) return true;
 
-    // Show loading if authenticated but profile is still loading
-    if (status === "authenticated" && userProfileLoading) return true;
+    // Show loading if signed in but profile is still loading
+    if (user && userProfileLoading) return true;
 
-    // Show loading if authenticated, profile loaded, but we're about to redirect
+    // Show loading if signed in, profile loaded, but we're about to redirect
     if (
-      status === "authenticated" &&
-      session?.user &&
+      user &&
       !userProfileLoading &&
       userProfile
     ) {
@@ -71,7 +69,7 @@ export function Footer() {
     );
   }
 
-  if (session?.user) {
+  if (user) {
     return (
       <BottomNav
         userProfile={userProfile}

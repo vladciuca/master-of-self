@@ -6,10 +6,11 @@ import {
 
 export async function GET(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
+  const routeParams = await params;
   try {
-    const { journalEntry, error } = await getJournalEntry(params.id);
+    const { journalEntry, error } = await getJournalEntry(routeParams.id);
 
     if (error) {
       return NextResponse.json({ error }, { status: 500 });
@@ -26,13 +27,14 @@ export async function GET(
 
 export async function PATCH(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
+  const routeParams = await params;
   const { dailyWillpower, dayEntry, nightEntry, habits } = await req.json();
 
   try {
     const { journalEntry, error } = await updateJournalEntry(
-      params.id,
+      routeParams.id,
       dailyWillpower,
       dayEntry,
       nightEntry,

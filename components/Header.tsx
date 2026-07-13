@@ -1,10 +1,10 @@
 "use client";
 
-import { useSession } from "next-auth/react";
+import { useUser } from "@clerk/nextjs";
 import { usePathname } from "next/navigation";
 import { UserLevel } from "@components/profile/user-level/UserLevel";
 import { HeaderTitle } from "@components/HeaderTitle";
-import { Session } from "@models/types";
+import { User } from "@models/types";
 //NOTE!
 //TEMP LOADING SOLUTION for using userProfileLoading() to sync loading states
 //CON: this slows for loading state for loggin in, since its only needed 1x time on a new account
@@ -12,25 +12,21 @@ import { Session } from "@models/types";
 import { useUserProfile } from "@context/UserProfileContext";
 
 export function Header() {
-  const { data: session, status } = useSession() as {
-    data: Session | null;
-    status: string;
-  };
+  const { user, isLoaded } = useUser() as { user: User | null; isLoaded: boolean };
   const { userProfile, userProfileLoading } = useUserProfile();
   const pathname = usePathname();
 
   // Shared loading condition - same as PageContent
   const shouldShowLoading = () => {
-    // Show loading during session loading
-    if (status === "loading") return true;
+    // Show loading during user loading
+    if (!isLoaded) return true;
 
-    // Show loading if authenticated but profile is still loading
-    if (status === "authenticated" && userProfileLoading) return true;
+    // Show loading if signed in but profile is still loading
+    if (user && userProfileLoading) return true;
 
-    // Show loading if authenticated, profile loaded, but we're about to redirect
+    // Show loading if signed in, profile loaded, but we're about to redirect
     if (
-      status === "authenticated" &&
-      session?.user &&
+      user &&
       !userProfileLoading &&
       userProfile
     ) {
@@ -51,8 +47,8 @@ export function Header() {
     <div className="w-full">
       {shouldShowLoading() ? (
         <HeaderTitle />
-      ) : session?.user ? (
-        <UserLevel session={session} />
+      ) : user ? (
+        <UserLevel user={user} />
       ) : (
         <HeaderTitle />
       )}

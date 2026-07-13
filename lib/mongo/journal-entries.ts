@@ -41,7 +41,7 @@ export async function createJournalEntry(
     const today = new Date(userToday);
 
     const existingEntry = await journalEntries.findOne({
-      creatorId: new ObjectId(userId),
+      creatorId: userId,
       createDate: {
         $eq: today,
       },
@@ -57,7 +57,7 @@ export async function createJournalEntry(
     // If no entry exists, create a new one
     const previousEntry = await journalEntries.findOne(
       {
-        creatorId: new ObjectId(userId),
+        creatorId: userId,
         createDate: { $lt: today },
       },
       { sort: { createDate: -1 } },
@@ -69,7 +69,7 @@ export async function createJournalEntry(
     );
 
     const newJournalEntry: NewJournalEntry = {
-      creatorId: new ObjectId(userId),
+      creatorId: userId,
       createDate: today,
       dailyWillpower,
       bonusWillpower,
@@ -191,7 +191,7 @@ export async function getJournalEntries(userId: string): Promise<{
 }> {
   try {
     if (!journalEntries) await init();
-    const query = { creatorId: new ObjectId(userId) };
+    const query = { creatorId: userId };
 
     const result = await journalEntries.find(query).toArray();
 
@@ -216,7 +216,7 @@ export async function getTodaysJournalEntry(
     const today = new Date(userToday);
 
     const todaysJournalEntry = await journalEntries.findOne({
-      creatorId: new ObjectId(userId),
+      creatorId: userId,
       // we always use 00:00 time stamps when creating a new entry by default
       // so for this we can use directly equals exact date to find the corresponding entry
       createDate: {
@@ -246,7 +246,7 @@ export async function getYesterdaysJournalEntry(
     const yesterday = new Date(userYesterday);
 
     const yesterdaysJournalEntry = await journalEntries.findOne({
-      creatorId: new ObjectId(userId),
+      creatorId: userId,
       // we always use 00:00 time stamps when creating a new entry by default
       // so for this we can use directly equals exact date to find the corresponding entry
       createDate: {
@@ -271,7 +271,7 @@ export async function getLastJournalEntry(userId: string): Promise<{
     if (!journalEntries) await init();
 
     const lastJournalEntry = await journalEntries
-      .find({ creatorId: new ObjectId(userId) })
+      .find({ creatorId: userId })
       .sort({ createDate: -1 })
       .limit(1)
       .toArray();
@@ -303,7 +303,7 @@ export async function getWeeklyWillpowerData(
 
     const journalEntriesData = await journalEntries
       .find({
-        creatorId: new ObjectId(userId),
+        creatorId: userId,
         createDate: {
           $gte: startOfWeek,
           $lte: endOfWeek,
@@ -366,7 +366,7 @@ export async function getTotalWillpower(userId: string): Promise<{
     const pipeline = [
       {
         $match: {
-          creatorId: new ObjectId(userId),
+          creatorId: userId,
         },
       },
       {
@@ -415,7 +415,7 @@ export async function getTotalWillpowerBeforeToday(
     const pipeline = [
       {
         $match: {
-          creatorId: new ObjectId(userId),
+          creatorId: userId,
           createDate: { $lt: today },
         },
       },

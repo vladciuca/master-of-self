@@ -1,26 +1,21 @@
 import { useState, useRef, useEffect } from "react";
-import { useSession } from "next-auth/react";
+import { useUser } from "@clerk/nextjs";
 import { useUpdateJournalEntryHabits } from "@hooks/journal/useUpdateJournalEntryHabits";
 import { HabitZodType } from "@models/habitFormSchema";
-import { Session } from "@models/types";
+import { User } from "@models/types";
 
 export function useCreateHabit() {
-  const { data: session } = useSession() as { data: Session | null };
+  const { user } = useUser() as { user: User | null };
 
   const [submittingHabit, setSubmittingHabit] = useState<boolean>(false);
   const [createHabitError, setCreateHabitError] = useState<string | null>(null);
 
   const {
     updateJournalEntryHabits,
-    //NOTE: these can be returned from this hook separately
-    // submittingJournalHabitsUpdate,
-    // updateJournalHabitsError,
   } = useUpdateJournalEntryHabits();
 
-  // Ref for abort controller
   const createAbortControllerRef = useRef<AbortController | null>(null);
 
-  // Cleanup on unmount
   useEffect(() => {
     return () => {
       if (createAbortControllerRef.current) {
@@ -30,16 +25,13 @@ export function useCreateHabit() {
     };
   }, []);
 
-  // Create habit function
   const createHabit = async (habit: HabitZodType) => {
-    if (!session?.user.id) throw new Error("User not authenticated");
+    if (!user?.id) throw new Error("User not authenticated");
 
-    // Cancel any in-progress creation
     if (createAbortControllerRef.current) {
       createAbortControllerRef.current.abort();
     }
 
-    // Create a new AbortController for this operation
     createAbortControllerRef.current = new AbortController();
     const signal = createAbortControllerRef.current.signal;
 
@@ -55,7 +47,7 @@ export function useCreateHabit() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          userId: session.user.id,
+          userId: user.id,
           name,
           icon,
           xp: 0,
@@ -72,11 +64,7 @@ export function useCreateHabit() {
 
       const createdHabitData = await response.json();
 
-      //NOTE: Able to still create a Habit if no TodayEntryExists
       await updateJournalEntryHabits(createdHabitData);
-
-      // NOTE: No need to return data here as the user is redirected on success
-      // return createdHabitData; // Return the created data for the caller
     } catch (error) {
       if ((error as Error).name === "AbortError") {
         console.warn("Create operation aborted");
@@ -85,13 +73,12 @@ export function useCreateHabit() {
 
       console.error("Error creating habit:", error);
       setCreateHabitError((error as Error).message || "Failed to create habit");
-      throw error; // Re-throw the error for the caller to handle
+      throw error;
     } finally {
       if (!signal.aborted) {
         setSubmittingHabit(false);
       }
 
-      // Clear the ref after completion
       if (
         createAbortControllerRef.current &&
         signal === createAbortControllerRef.current.signal
@@ -105,6 +92,5 @@ export function useCreateHabit() {
     createHabit,
     submittingHabit,
     createHabitError,
-    // isAuthenticated: !!session?.user?.id,
   };
 }

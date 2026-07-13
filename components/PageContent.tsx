@@ -1,6 +1,6 @@
 "use client";
 
-import { useSession } from "next-auth/react";
+import { useUser } from "@clerk/nextjs";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect } from "react";
 import SignUpPage from "@app/(full)/sign-up/page";
@@ -18,7 +18,7 @@ import type { Layout } from "@models/types";
 import { useUserProfile } from "@context/UserProfileContext";
 
 export function PageContent({ children }: Layout) {
-  const { data: session, status } = useSession();
+  const { user, isLoaded } = useUser();
   const { userProfile, userProfileLoading } = useUserProfile();
   const pathname = usePathname();
   const router = useRouter();
@@ -33,8 +33,7 @@ export function PageContent({ children }: Layout) {
   // Handle onboarding redirection
   useEffect(() => {
     if (
-      status === "authenticated" &&
-      session?.user &&
+      user &&
       !userProfileLoading &&
       userProfile
     ) {
@@ -50,20 +49,19 @@ export function PageContent({ children }: Layout) {
         router.push("/journal");
       }
     }
-  }, [status, session, userProfile, userProfileLoading, pathname, router]);
+  }, [user, userProfile, userProfileLoading, pathname, router]);
 
   // Determine if we should show loading
   const shouldShowLoading = () => {
-    // Show loading during session loading
-    if (status === "loading") return true;
+    // Show loading during user loading
+    if (!isLoaded) return true;
 
-    // Show loading if authenticated but profile is still loading
-    if (status === "authenticated" && userProfileLoading) return true;
+    // Show loading if signed in but profile is still loading
+    if (user && userProfileLoading) return true;
 
-    // Show loading if authenticated, profile loaded, but we're about to redirect
+    // Show loading if signed in, profile loaded, but we're about to redirect
     if (
-      status === "authenticated" &&
-      session?.user &&
+      user &&
       !userProfileLoading &&
       userProfile
     ) {
@@ -103,7 +101,7 @@ export function PageContent({ children }: Layout) {
     <section className="h-full w-full">
       {shouldShowLoading() ? (
         <LoadingPageLogo />
-      ) : session?.user ? (
+      ) : user ? (
         // Show main content when authenticated and ready
         <main className="h-full w-full px-4">{children}</main>
       ) : (

@@ -1,24 +1,21 @@
 import { type NextRequest, NextResponse } from "next/server";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@lib/authOptions";
+import { auth } from "@clerk/nextjs/server";
 import { updateOnboardingStatus } from "@lib/mongo/users";
-import type { Session } from "@models/types";
 
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
+  const routeParams = await params;
   try {
-    // Cast the session to your custom Session type
-    const session = (await getServerSession(authOptions)) as Session | null;
+    const { userId } = await auth();
 
-    if (!session?.user?.id) {
-      console.warn("No session found");
+    if (!userId) {
+      console.warn("No authenticated user");
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    // Ensure user can only update their own onboarding status
-    if (session.user.id !== params.id) {
+    if (userId !== routeParams.id) {
       return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
 
@@ -32,7 +29,7 @@ export async function PATCH(
       );
     }
 
-    const { user, error } = await updateOnboardingStatus(params.id, completed);
+    const { user, error } = await updateOnboardingStatus(userId, completed);
 
     if (error || !user) {
       return NextResponse.json(

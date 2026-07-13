@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
-import { useSession } from "next-auth/react";
+import { useUser } from "@clerk/nextjs";
 import { getToday } from "@lib/time";
-import { Session } from "@models/types";
+import { User } from "@models/types";
 
 export function useTotalWillpowerBeforeToday(userId?: string) {
   const [totalWillpowerBeforeToday, setTotalWillpowerBeforeToday] = useState(0);
@@ -11,9 +11,9 @@ export function useTotalWillpowerBeforeToday(userId?: string) {
   ] = useState(false);
   const [totalWillpowerBeforeTodayError, setTotalWillpowerBeforeTodayError] =
     useState<string | null>(null);
-  const { data: session } = useSession() as { data: Session | null };
+  const { user } = useUser() as { user: User | null };
 
-  const targetUserId = userId || session?.user.id;
+  const targetUserId = userId || user?.id;
 
   useEffect(() => {
     if (!targetUserId) {
@@ -45,10 +45,10 @@ export function useTotalWillpowerBeforeToday(userId?: string) {
       }
     };
 
-    if (session?.user.id) {
+    if (user?.id) {
       fetchCurrentWillpower();
     }
-  }, [session]);
+  }, [user?.id]);
 
   return {
     totalWillpowerBeforeToday,

@@ -1,20 +1,18 @@
 "use client";
 
-import { useSession } from "next-auth/react";
+import { useUser } from "@clerk/nextjs";
 import { useState, useEffect } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { UserProfileOverview } from "@components/profile/UserProfileOverview";
 import { MobileSideContent } from "components/side-content/MobileSideContent";
 import { DaySplit } from "@components/profile/DaySplit";
-// import { ThemeToggle } from "@components/profile/ThemeToggle";
 import { SignOut } from "@components/profile/SignOut";
 import { DiscordPage } from "@components/side-content/community/DiscordPage";
 import { Button } from "@/components/ui/button";
-import { Session } from "@models/types";
 import { useScreenSize } from "@hooks/useScreenSize";
 
 export default function Settings() {
-  const { data: session } = useSession() as { data: Session | null };
+  const { user } = useUser();
   const searchParams = useSearchParams();
   const router = useRouter();
   const isLargeScreen = useScreenSize();
@@ -23,7 +21,7 @@ export default function Settings() {
     {
       name: "Overview",
       component: (
-        <UserProfileOverview userId={session?.user.id} notCurrentUser={false} />
+        <UserProfileOverview userId={user?.id} notCurrentUser={false} />
       ),
     },
     {
@@ -31,7 +29,6 @@ export default function Settings() {
       component: (
         <div className="flex flex-col space-y-10 pb-4">
           <DaySplit />
-          {/*<ThemeToggle />*/}
           <SignOut />
         </div>
       ),

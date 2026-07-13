@@ -1,12 +1,12 @@
 "use client";
-import { useSession } from "next-auth/react";
+import { useUser } from "@clerk/nextjs";
 import { usePathname } from "next/navigation";
 import { DisciplineCardHeader } from "./DisciplineCardHeader";
 import { DisciplineCardContent } from "./DisciplineCardContent";
 import { DisciplineCardFooter } from "./DisciplineCardFooter";
 import { AccordionContent, AccordionItem } from "@/components/ui/accordion";
 import { IndicatorAccordionTrigger } from "@/components/ui/indicator-accordion-trigger";
-import type { Session, JournalCustomStepConfig } from "@models/types";
+import type { User, JournalCustomStepConfig } from "@models/types";
 import type { Discipline } from "@models/mongodb";
 
 type Step = JournalCustomStepConfig | Discipline;
@@ -21,7 +21,7 @@ function isUserDiscipline(step: Step): step is Discipline {
 }
 
 export function DisciplineCard({ step, handleEdit }: DisciplineCardProps) {
-  const { data: session } = useSession() as { data: Session | null };
+  const { user } = useUser() as { user: User | null };
   const pathName = usePathname();
 
   return (
@@ -46,7 +46,7 @@ export function DisciplineCard({ step, handleEdit }: DisciplineCardProps) {
         />
         {isUserDiscipline(step) && (
           <DisciplineCardFooter
-            session={session}
+            user={user}
             pathName={pathName}
             handleEdit={handleEdit}
             discipline={step}

@@ -1,17 +1,17 @@
 import { useState, useEffect } from "react";
-import { useSession } from "next-auth/react";
-import type { Session } from "@models/types";
+import { useUser } from "@clerk/nextjs";
+import type { User } from "@models/types";
 import type { Discipline } from "@models/mongodb";
 
 export function useUserDisciplines() {
-  const { data: session } = useSession() as { data: Session | null };
+  const { user } = useUser() as { user: User | null };
 
   const [disciplines, setDisciplines] = useState<Discipline[]>([]);
   const [disciplinesLoading, setDisciplinesLoading] = useState(false);
   const [disciplinesError, setDisciplinesError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!session?.user.id) return;
+    if (!user?.id) return;
 
     const abortController = new AbortController();
     const signal = abortController.signal;
@@ -22,7 +22,7 @@ export function useUserDisciplines() {
     const getUserDisciplines = async () => {
       try {
         const userHabitsResponse = await fetch(
-          `/api/users/${session?.user.id}/disciplines`,
+          `/api/users/${user.id}/disciplines`,
           {
             signal,
           }
@@ -58,7 +58,7 @@ export function useUserDisciplines() {
     return () => {
       abortController.abort();
     };
-  }, [session?.user.id]);
+  }, [user?.id]);
 
   return {
     disciplines,

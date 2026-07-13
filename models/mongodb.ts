@@ -8,7 +8,7 @@ import {
 // USER ===============================================================================
 
 export type User = {
-  _id?: ObjectId;
+  _id?: string;
   name?: string | null;
   email?: string | null;
   image?: string | null;
@@ -21,7 +21,7 @@ export type User = {
 
 export type JournalEntry = {
   _id?: ObjectId;
-  creatorId: ObjectId;
+  creatorId: string;
   createDate: Date;
   dailyWillpower: Number;
   bonusWillpower: Number;
@@ -36,7 +36,7 @@ export type NewJournalEntry = Omit<JournalEntry, "_id">; // Lets mongo db assign
 
 export type Discipline = Omit<JournalCustomStepConfig, "_id"> & {
   _id?: ObjectId;
-  creatorId: ObjectId;
+  creatorId: string;
   color: string;
 };
 
@@ -59,7 +59,7 @@ export type Habit = {
   icon: string;
   xp: number;
   xpData: XpData[];
-  creatorId: ObjectId;
+  creatorId: string;
   actions: HabitAction[];
 };
 

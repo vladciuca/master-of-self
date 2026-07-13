@@ -1,6 +1,4 @@
 import "@styles/global.css";
-// import { getServerSession } from "next-auth";
-// import { authOptions } from "@lib/authOptions";
 import { Provider } from "@context/provider";
 import { ThemeProvider } from "@context/theme-provider";
 import { SideContentProvider } from "@context/SideContentContext";
@@ -20,15 +18,6 @@ export const metadata = {
 };
 
 export default async function RootLayout({ children }: Layout) {
-  // let session;
-
-  // try {
-  //   session = await getServerSession(authOptions);
-  // } catch (error) {
-  //   console.error("Error fetching session:", error);
-  //   session = null; // Fallback in case of error
-  // }
-
   return (
     <html lang="en">
       <body className={`relative ${font.className}`}>

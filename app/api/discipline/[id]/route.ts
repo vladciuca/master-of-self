@@ -3,10 +3,11 @@ import { getDiscipline, updateDiscipline } from "@lib/mongo/disciplines";
 
 export async function GET(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
+  const routeParams = await params;
   try {
-    const { discipline, error } = await getDiscipline(params.id);
+    const { discipline, error } = await getDiscipline(routeParams.id);
 
     if (error) {
       return NextResponse.json({ error }, { status: 500 });
@@ -23,8 +24,9 @@ export async function GET(
 
 export async function PATCH(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
+  const routeParams = await params;
   const { discipline, icon, color, type, title, description } =
     await req.json();
 
@@ -33,7 +35,7 @@ export async function PATCH(
     //this will return disciplineStep.discipline,
     //maybe change to 'name' > discipline.name!?
     const { disciplineStep, error } = await updateDiscipline(
-      params.id,
+      routeParams.id,
       //caused by 'discipline' key
       discipline,
       icon,

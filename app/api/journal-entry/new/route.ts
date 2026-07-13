@@ -1,28 +1,41 @@
 import { NextRequest, NextResponse } from "next/server";
+import { auth } from "@clerk/nextjs/server";
 import { createJournalEntry } from "@lib/mongo/journal-entries";
 import { JournalEntryHabit } from "@models/types";
 
 export async function POST(req: NextRequest) {
-  const { userId, dailyWillpower, bonusWillpower, habits } = await req.json();
+  const { userId } = await auth();
+
+  if (!userId) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  const {
+    dailyWillpower,
+    bonusWillpower,
+    habits,
+  }: {
+    dailyWillpower: number;
+    bonusWillpower: number;
+    habits: JournalEntryHabit;
+  } = await req.json();
 
   const userToday = req.nextUrl.searchParams.get("today");
 
   if (!userToday) {
     return NextResponse.json(
-      { error: "Both 'today' and 'tomorrow' parameters are required" },
+      { error: "'today' parameter is required" },
       { status: 400 }
     );
   }
 
   try {
-    const defaultHabitsValues = habits as JournalEntryHabit;
-
     const { newJournalEntry, error } = await createJournalEntry(
       userId,
       dailyWillpower,
       bonusWillpower,
       userToday,
-      defaultHabitsValues
+      habits
     );
 
     if (error) {
