@@ -9,7 +9,7 @@ export default function FullLayout({ children }: Layout) {
       <div className="min-h-20 flex items-center justify-center py-2 sm:mt-1 sm:mb-2">
         <Header />
       </div>
-      <div className="flex-grow border rounded-3xl">
+      <div className="flex-grow border rounded-3xl min-h-0">
         <div className="h-full overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent">
           <PageContent>{children}</PageContent>
         </div>
