@@ -3,6 +3,7 @@
 import { SignUp } from "@clerk/nextjs";
 import Link from "next/link";
 import { SignInHero } from "@components/SignInHero";
+import { ClerkAuthSkeleton } from "@components/clerk/ClerkAuthSkeleton";
 
 export function SignUpForm() {
   return (
@@ -10,6 +11,7 @@ export function SignUpForm() {
       <SignInHero className="flex-1 min-h-0" />
       <div className="w-full flex flex-col items-center flex-shrink-0">
         <SignUp
+          fallback={<ClerkAuthSkeleton />}
           appearance={{
             options: {
               unsafe_disableDevelopmentModeWarnings: true,
