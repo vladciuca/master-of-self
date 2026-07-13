@@ -79,9 +79,9 @@ export function PageContent({ children }: Layout) {
   };
 
   const renderPageComponent = () => {
-    if (pathname === "/sign-up") {
+    if (pathname === "/sign-up" || pathname.startsWith("/sign-up/")) {
       return <SignUpPage />;
-    } else if (pathname === "/sign-in") {
+    } else if (pathname === "/sign-in" || pathname.startsWith("/sign-in/")) {
       return <SignInPage />;
     } else {
       return isLargeScreen ? (

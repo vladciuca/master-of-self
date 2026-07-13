@@ -28,7 +28,11 @@ export function Footer() {
 
   // Redirect unauthenticated users to `/` if not on `/sign-in` or `/sign-up`
   useEffect(() => {
-    const isAuthPage = pathname === "/sign-in" || pathname === "/sign-up";
+    const isAuthPage =
+      pathname === "/sign-in" ||
+      pathname.startsWith("/sign-in/") ||
+      pathname === "/sign-up" ||
+      pathname.startsWith("/sign-up/");
     if (isLoaded && isSignedIn === false && !isAuthPage) {
       router.push("/");
     }
