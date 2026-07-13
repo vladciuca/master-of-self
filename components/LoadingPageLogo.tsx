@@ -51,8 +51,8 @@ export function LoadingPageLogo() {
 
       <div className="relative z-10 flex justify-center animate-[float_6s_ease-in-out_infinite]">
         <GiSpellBook
-          size="18rem"
-          className="text-white drop-shadow-[0_0_35px_rgba(255,255,255,0.45)] max-w-[50vw]"
+          size="15rem"
+          className="text-white drop-shadow-[0_0_35px_rgba(255,255,255,0.45)] max-w-[50vw] -mt-12"
         />
       </div>
 
