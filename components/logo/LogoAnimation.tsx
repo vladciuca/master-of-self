@@ -16,11 +16,8 @@ export function LogoAnimation({ children }: LogoAnimationProps) {
           <div className="w-[min(70vmin,18rem)] aspect-square rounded-full border border-white/[0.35] animate-[spin_80s_linear_infinite]" />
         </div>
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-          <div className="w-[min(90vmin,24rem)] aspect-square rounded-full border border-white/[0.28] animate-[spin_60s_linear_infinite_reverse]" />
-        </div>
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
           <svg
-            className="w-[min(110vmin,30rem)] h-[min(110vmin,30rem)] animate-[spin_45s_linear_infinite]"
+            className="w-[min(90vmin,24rem)] h-[min(90vmin,24rem)] animate-[spin_60s_linear_infinite_reverse]"
             viewBox="0 0 200 200"
             aria-hidden="true"
             shapeRendering="geometricPrecision"
@@ -48,6 +45,9 @@ export function LogoAnimation({ children }: LogoAnimationProps) {
               transform="rotate(-90 100 100)"
             />
           </svg>
+        </div>
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+          <div className="w-[min(110vmin,30rem)] aspect-square rounded-full border border-white/[0.25] animate-[spin_45s_linear_infinite]" />
         </div>
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
           <div className="w-[min(130vmin,36rem)] aspect-square rounded-full border border-white/[0.22] animate-[spin_35s_linear_infinite_reverse]" />
