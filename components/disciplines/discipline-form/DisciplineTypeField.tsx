@@ -13,6 +13,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { JOURNAL_COLORS } from "@lib/colors";
 import { stepIconMap } from "@components/ui/constants";
 import { IconRenderer } from "@components/IconRenderer";
 import { Control } from "react-hook-form";
@@ -23,6 +24,11 @@ type DisciplineTitleFieldProps = {
   type: "Create" | "Update";
 };
 
+const TYPE_OPTIONS = [
+  { value: "dayEntry", label: "Morning", icon: stepIconMap.day, color: JOURNAL_COLORS.day },
+  { value: "nightEntry", label: "Evening", icon: stepIconMap.night, color: JOURNAL_COLORS.night },
+] as const;
+
 export function DisciplineTypeField({
   control,
   type,
@@ -31,58 +37,63 @@ export function DisciplineTypeField({
     <FormField
       control={control}
       name="type"
-      render={({ field }) => (
-        <FormItem>
-          <FormLabel>Time of Day</FormLabel>
-          {type === "Create" && (
-            <FormDescription className="text-xs">
-              When would you like to reflect on this discipline? Morning can be
-              used for motivation and direction, while evenings for reflection
-              and planning.
-            </FormDescription>
-          )}
-          <Select
-            onValueChange={field.onChange}
-            defaultValue={field.value}
-            value={field.value}
-          >
-            <FormControl>
-              <SelectTrigger>
-                <SelectValue placeholder="Select action type" />
-              </SelectTrigger>
-            </FormControl>
-            <SelectContent>
-              <SelectItem
-                value="dayEntry"
-                className="hover:bg-muted data-[highlighted]:bg-muted/30"
-              >
-                <span className="flex items-center">
-                  <IconRenderer
-                    iconName={stepIconMap.day}
-                    size={20}
-                    className="mr-1 text-muted"
-                  />
-                  <span className="ml-2">Morning</span>
-                </span>
-              </SelectItem>
-              <SelectItem
-                value="nightEntry"
-                className="hover:bg-muted data-[highlighted]:bg-muted/30"
-              >
-                <span className="flex items-center">
-                  <IconRenderer
-                    iconName={stepIconMap.night}
-                    size={20}
-                    className="mr-1 text-muted"
-                  />
-                  <span className="ml-2">Evening</span>
-                </span>
-              </SelectItem>
-            </SelectContent>
-          </Select>
-          <FormMessage />
-        </FormItem>
-      )}
+      render={({ field }) => {
+        const selectedOption = TYPE_OPTIONS.find((option) => option.value === field.value);
+
+        return (
+          <FormItem>
+            <FormLabel>Time of Day</FormLabel>
+            {type === "Create" && (
+              <FormDescription className="text-xs">
+                When would you like to reflect on this discipline? Morning can be
+                used for discipline and direction, while evenings for reflection
+                and planning.
+              </FormDescription>
+            )}
+            <Select
+              onValueChange={field.onChange}
+              defaultValue={field.value}
+              value={field.value}
+            >
+              <FormControl>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select action type">
+                    {selectedOption && (
+                      <span className="flex items-center">
+                        <IconRenderer
+                          iconName={selectedOption.icon}
+                          size={20}
+                          className={`mr-2 text-${selectedOption.color}`}
+                        />
+                        <span>{selectedOption.label}</span>
+                      </span>
+                    )}
+                  </SelectValue>
+                </SelectTrigger>
+              </FormControl>
+              <SelectContent>
+                {TYPE_OPTIONS.map((option) => (
+                  <SelectItem
+                    key={option.value}
+                    value={option.value}
+                    className="hover:bg-muted data-[highlighted]:bg-muted/30"
+                  >
+                    <span className="flex items-center">
+                      <IconRenderer
+                        iconName={option.icon}
+                        size={20}
+                        className={`mr-2 text-${option.color}`}
+                      />
+                      <span>{option.label}</span>
+                    </span>
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            <FormMessage />
+          </FormItem>
+        );
+      }}
     />
   );
 }

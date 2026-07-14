@@ -37,7 +37,7 @@ export function useYesterdayJournalEntry() {
     }
 
     const totalScore = Object.entries(nightEntryDisciplineScores)
-      .filter(([key]) => key !== "_motivationMultiplier")
+      .filter(([key]) => key !== "_disciplineMultiplier")
       .reduce((sum, [, score]) => sum + (score || 0), 0);
 
     return Math.floor(totalScore * (userProfile?.willpowerMultiplier || 1.5));

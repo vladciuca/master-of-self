@@ -279,10 +279,7 @@ export async function getLastJournalEntry(userId: string): Promise<{
     return { lastJournalEntry: lastJournalEntry[0] || null };
   } catch (error) {
     console.error("Error fetching last journal entry:", error);
-    return {
-      lastJournalEntry: null,
-      error: "Failed to fetch last journal entry",
-    };
+    return { lastJournalEntry: null };
   }
 }
 

@@ -19,15 +19,7 @@ export async function GET(
       return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
 
-    const { habits, error } = await getHabits(userId);
-
-    if (error) {
-      return NextResponse.json({ error }, { status: 500 });
-    }
-
-    if (!habits) {
-      return NextResponse.json({ error: "No habits found" }, { status: 404 });
-    }
+    const { habits } = await getHabits(userId);
 
     return NextResponse.json({ habits: habits }, { status: 200 });
   } catch (error) {

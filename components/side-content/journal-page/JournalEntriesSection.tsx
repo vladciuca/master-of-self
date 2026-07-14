@@ -16,7 +16,7 @@ export function JournalEntriesSection() {
       </MobileScreenBorder>
       <div className="text-muted-foreground text-center mt-4 px-6 max-w-[600px]">
         Each day represents a new challenge and you can track how well you
-        prepare by earning points in disciplines like "Motivation".
+        prepare by earning points in disciplines like "Discipline".
       </div>
     </section>
   );

@@ -1,7 +1,7 @@
 import { DisciplineSectionDelimiter } from "@components/disciplines/DisciplineSectionDelimiter";
 import { Accordion } from "@/components/ui/accordion";
 import { NewDisciplineCard } from "@components/disciplines/discipline-card/pre-made/NewDisciplineCard";
-import { MotivationCard } from "@components/disciplines/discipline-card/pre-made/MotivationCard";
+import { DisciplineCard as BaseDisciplineCard } from "@components/disciplines/discipline-card/pre-made/DisciplineCard";
 import { DisciplineCard } from "./discipline-card/DisciplineCard";
 import { Discipline } from "@models/mongodb";
 import type { JournalCustomStep, JournalCustomStepConfig } from "@models/types";
@@ -39,7 +39,7 @@ export function DisciplinesList({
       className={onboarding ? "mt-8 sm:mt-16" : ""}
     >
       <NewDisciplineCard onboarding={onboarding} />
-      <MotivationCard />
+      <BaseDisciplineCard />
       {dayEntries.length === 0 && nightEntries.length === 0 ? (
         <div className="text-center text-muted-foreground p-4 pt-8">
           You don't have any disciplines yet. Start by adding one!

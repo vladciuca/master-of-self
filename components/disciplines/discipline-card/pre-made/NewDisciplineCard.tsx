@@ -39,7 +39,7 @@ export function NewDisciplineCard({ onboarding }: { onboarding?: boolean }) {
               response helps you grow and earns you Willpower.
             </div>
             <div className="mb-4">
-              Certain disciplines can be set for morning (for motivation and
+              Certain disciplines can be set for morning (for discipline and
               direction) or evening (for reflection and planning). The more you
               engage, the more your discipline rank increases.
             </div>

@@ -153,7 +153,8 @@ export async function getHabits(userId: string): Promise<{
 
     return { habits: result };
   } catch (error) {
-    return { habits: null, error: "Failed to fetch habits" };
+    console.error("Error fetching habits:", error);
+    return { habits: [] };
   }
 }
 

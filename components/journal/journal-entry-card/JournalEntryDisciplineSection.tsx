@@ -102,7 +102,7 @@
 // //     })
 // //     .filter((item) => item.data.length > 0);
 
-// //   // Special handling for day and night step types for Motivation
+// //   // Special handling for day and night step types for Discipline
 // //   const completedDailyToDos = () => {
 // //     const dailyToDos = dayEntry?.day || [];
 // //     const completedToDos = nightEntry?.night || [];
@@ -121,8 +121,8 @@
 // //   const completedCount = completed.length;
 // //   const highlights = nightEntry?.highlights || [];
 
-// //   const motivationStep = {
-// //     step: "motivation",
+// //   const disciplineStep = {
+// //     step: "discipline",
 // //     score: calculateStepScore(allTodos),
 // //     data: [...allTodos, ...highlights],
 // //     completedCount: completedCount,
@@ -174,16 +174,16 @@
 // //     }
 // //   });
 
-// //   // 2. Add the motivation step in the middle
+// //   // 2. Add the discipline step in the middle
 // //   if (allTodos.length > 0 || highlights.length > 0) {
-// //     orderedSteps.push(motivationStep);
+// //     orderedSteps.push(disciplineStep);
 // //   }
 
 // //   // 3. Add all night steps (filtering out the special "night" step)
 // //   nightSteps.forEach((step) => {
 // //     if (step.step !== "night" && step.step !== "highlights") {
-// //       // Skip adding night steps that match the motivation step
-// //       if (step.step === motivationStep.step) return;
+// //       // Skip adding night steps that match the discipline step
+// //       if (step.step === disciplineStep.step) return;
 
 // //       // Check if this step type already exists in the ordered steps
 // //       const existingIndex = orderedSteps.findIndex((s) => s.step === step.step);
@@ -243,7 +243,7 @@
 // //           // For the day step, use different colors for completed vs uncompleted
 // //           let circleBgColor = bgColor;
 
-// //           if (step === "motivation") {
+// //           if (step === "discipline") {
 // //             // Calculate the distribution of different types of data
 // //             const uncomp = uncompleted.length;
 // //             const comp = completed.length;
@@ -294,7 +294,7 @@
 // //                         }
 // //                         className={color ? `text-${color}` : "text-primary"}
 // //                         size={
-// //                           step === "motivation" || step === "highlights"
+// //                           step === "discipline" || step === "highlights"
 // //                             ? 25
 // //                             : 30
 // //                         }
@@ -319,7 +319,7 @@
 // //                 </div>
 
 // //                 <div className="flex items-start h-full">
-// //                   {step === "motivation" ? (
+// //                   {step === "discipline" ? (
 // //                     <span
 // //                       className={`text-lg font-semibold text-${JOURNAL_COLORS.score} flex items-center`}
 // //                     >
@@ -578,8 +578,8 @@
 //   const completedCount = completed.length;
 //   const highlights = nightEntry?.highlights || [];
 
-//   const motivationStep = {
-//     step: "motivation",
+//   const disciplineStep = {
+//     step: "discipline",
 //     score: calculateStepScore(allTodos),
 //     data: [...allTodos, ...highlights],
 //     completedCount: completedCount,
@@ -631,15 +631,15 @@
 //     }
 //   });
 
-//   // 2. Add the motivation step in the middle
+//   // 2. Add the discipline step in the middle
 //   if (allTodos.length > 0 || highlights.length > 0) {
-//     orderedSteps.push(motivationStep);
+//     orderedSteps.push(disciplineStep);
 //   }
 
 //   // 3. Add all night steps (filtering out the special "night" step)
 //   nightSteps.forEach((step) => {
 //     if (step.step !== "night" && step.step !== "highlights") {
-//       if (step.step === motivationStep.step) return;
+//       if (step.step === disciplineStep.step) return;
 
 //       const existingIndex = orderedSteps.findIndex((s) => s.step === step.step);
 //       if (existingIndex >= 0) {
@@ -690,7 +690,7 @@
 
 //         const circles = Array.from({ length: data.length }).map((_, index) => {
 //           let circleBgColor = bgColor;
-//           if (step === "motivation") {
+//           if (step === "discipline") {
 //             const uncomp = uncompleted.length;
 //             const comp = completed.length;
 
@@ -732,7 +732,7 @@
 //                         }
 //                         className={color ? `text-${color}` : "text-primary"}
 //                         size={
-//                           step === "motivation" || step === "highlights"
+//                           step === "discipline" || step === "highlights"
 //                             ? 25
 //                             : 30
 //                         }
@@ -755,7 +755,7 @@
 //                   </div>
 //                 </div>
 //                 <div className="flex items-start h-full">
-//                   {step === "motivation" ? (
+//                   {step === "discipline" ? (
 //                     <span
 //                       className={`text-lg font-semibold text-${JOURNAL_COLORS.score} flex items-center`}
 //                     >
@@ -1010,8 +1010,8 @@ export function JournalEntryDisciplineSection({
   const highlights = nightEntry?.highlights || [];
   const repeat = dayEntry?.repeat || [];
 
-  const motivationStep = {
-    step: "motivation",
+  const disciplineStep = {
+    step: "discipline",
     score: calculateStepScore(allTodos),
     data: [...allTodos, ...highlights],
     completedCount: completedCount,
@@ -1065,15 +1065,15 @@ export function JournalEntryDisciplineSection({
     }
   });
 
-  // 2. Add the motivation step in the middle
+  // 2. Add the discipline step in the middle
   if (allTodos.length > 0 || highlights.length > 0) {
-    orderedSteps.push(motivationStep);
+    orderedSteps.push(disciplineStep);
   }
 
   // 3. Add all night steps (filtering out the special "night" step)
   nightSteps.forEach((step) => {
     if (step.step !== "night" && step.step !== "highlights") {
-      if (step.step === motivationStep.step) return;
+      if (step.step === disciplineStep.step) return;
 
       const existingIndex = orderedSteps.findIndex((s) => s.step === step.step);
       if (existingIndex >= 0) {
@@ -1124,7 +1124,7 @@ export function JournalEntryDisciplineSection({
 
         const circles = Array.from({ length: data.length }).map((_, index) => {
           let circleBgColor = bgColor;
-          if (step === "motivation") {
+          if (step === "discipline") {
             const uncomp = uncompleted.length;
             const comp = completed.length;
 
@@ -1179,7 +1179,7 @@ export function JournalEntryDisciplineSection({
                         }
                         className={color ? `text-${color}` : "text-primary"}
                         size={
-                          step === "motivation" || step === "highlights"
+                          step === "discipline" || step === "highlights"
                             ? 25
                             : 30
                         }
@@ -1202,7 +1202,7 @@ export function JournalEntryDisciplineSection({
                   </div>
                 </div>
                 <div className="flex items-start h-full">
-                  {step === "motivation" ? (
+                  {step === "discipline" ? (
                     <span
                       className={`text-lg font-semibold text-${JOURNAL_COLORS.score} flex items-center`}
                     >

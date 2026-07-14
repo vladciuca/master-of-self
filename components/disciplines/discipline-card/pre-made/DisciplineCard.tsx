@@ -1,26 +1,28 @@
 import { DisciplineCardHeader } from "@components/disciplines/discipline-card/DisciplineCardHeader";
 import { AccordionContent, AccordionItem } from "@/components/ui/accordion";
 import { IndicatorAccordionTrigger } from "@/components/ui/indicator-accordion-trigger";
-import { JOURNAL_COLORS } from "@lib/colors";
+import { JOURNAL_COLORS, DISCIPLINE_COLORS } from "@lib/colors";
+import { stepIconMap } from "@components/ui/constants";
 
-export function MotivationCard() {
+export function DisciplineCard() {
   return (
     <AccordionItem
-      key={"motivation"}
-      value={"motivation"}
+      key={"discipline"}
+      value={"discipline"}
       className="p-0 mb-0 border-transparent"
     >
       <IndicatorAccordionTrigger className="pt-2 pb-0">
         <DisciplineCardHeader
-          discipline="motivation"
-          disciplineId="motivation"
-          icon={"IoAccessibility"}
+          discipline="Discipline"
+          disciplineId="discipline"
+          icon={stepIconMap.discipline}
+          color={DISCIPLINE_COLORS.slate}
         />
       </IndicatorAccordionTrigger>
       <AccordionContent>
         <div className="mt-2 px-1">
           <div className="mb-4">
-            Motivation is the base discipline that can be engaged during both
+            Discipline is the base discipline that can be engaged during both
             morning and evening.
           </div>
 

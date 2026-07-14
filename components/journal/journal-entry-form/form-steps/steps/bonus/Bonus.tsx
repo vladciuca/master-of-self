@@ -62,8 +62,8 @@ export function Bonus() {
       let title = "";
 
       // Map the score keys to actual data keys and discipline info
-      if (scoreKey === "_motivationMultiplier") {
-        disciplineKey = "motivation";
+      if (scoreKey === "_disciplineMultiplier") {
+        disciplineKey = "discipline";
         entryKey = "night";
         stepType = "night";
         title = "What made yesterday great!";
@@ -92,8 +92,8 @@ export function Bonus() {
 
         // Get the display name
         let scoreName: string;
-        if (disciplineKey === "motivation") {
-          scoreName = "Motivation";
+        if (disciplineKey === "discipline") {
+          scoreName = "Discipline";
         } else if (disciplineKey === "highlights") {
           scoreName = "Highlights";
         } else {
@@ -119,13 +119,13 @@ export function Bonus() {
       return null;
     };
 
-    // Process in specific order: Motivation first, then Highlights, then other disciplines
+    // Process in specific order: Discipline first, then Highlights, then other disciplines
     const allScoreKeys = Object.keys(nightEntryDisciplineScores);
 
-    // 1. Add Motivation first (if it exists)
-    if (allScoreKeys.includes("_motivationMultiplier")) {
-      const motivationTab = createTab("_motivationMultiplier");
-      if (motivationTab) tabs.push(motivationTab);
+    // 1. Add Discipline first (if it exists)
+    if (allScoreKeys.includes("_disciplineMultiplier")) {
+      const disciplineTab = createTab("_disciplineMultiplier");
+      if (disciplineTab) tabs.push(disciplineTab);
     }
 
     // 2. Add Highlights second (if it exists)
@@ -137,7 +137,7 @@ export function Bonus() {
     // 3. Add all other discipline IDs
     allScoreKeys
       .filter(
-        (key) => key !== "_motivationMultiplier" && key !== "_highlightsScore"
+        (key) => key !== "_disciplineMultiplier" && key !== "_highlightsScore"
       )
       .forEach((scoreKey) => {
         const disciplineTab = createTab(scoreKey);
@@ -228,7 +228,7 @@ export function Bonus() {
                           }`}
                         >
                           <span className="text-sm">
-                            {tab.scoreName === "Motivation" ? "x" : "+"}
+                            {tab.scoreName === "Discipline" ? "x" : "+"}
                           </span>
                           {tab.score}
                         </div>

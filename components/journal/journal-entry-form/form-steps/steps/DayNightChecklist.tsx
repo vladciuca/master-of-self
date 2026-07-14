@@ -203,10 +203,10 @@ export function DayNightChecklist({ mode }: DayNightChecklistProps) {
   }, [draft, resizeTextarea]);
 
   const scoreSection = isDay ? (
-    <StepScoreDisplay items={[...day, draft]} scoreName="Motivation" />
+    <StepScoreDisplay items={[...day, draft]} scoreName="Discipline" />
   ) : (
     <div className="flex items-center">
-      <div>Motivation</div>
+      <div>Discipline</div>
       {night.length + 1 <= 1 ? null : (
         <span className={`text-${JOURNAL_COLORS.score} flex items-center`}>
           <span className="ml-2 mr-[2px] text-2xl">x</span>
@@ -223,8 +223,8 @@ export function DayNightChecklist({ mode }: DayNightChecklistProps) {
       }
       description={
         isDay
-          ? "Write down meaningful and achievable goals for the day to build Motivation."
-          : "Follow through with your daily goals to exponentially increase Motivation."
+          ? "Write down meaningful and achievable goals for the day to build Discipline."
+          : "Follow through with your daily goals to exponentially increase Discipline."
       }
       scoreSection={scoreSection}
     >

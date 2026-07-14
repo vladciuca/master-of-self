@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { WeeklyWillpowerChart } from "@components/profile/weekly-willpower-chart/WeeklyWillpowerChart";
-import { UserDisciplines } from "@components/disciplines/UserDisciplines";
+import { DisciplineXpBars } from "@components/profile/DisciplineXpBars";
 // import { UserHabits } from "@components/habits/UserHabits";
 
 export default function Profile() {
@@ -15,7 +15,7 @@ export default function Profile() {
   const pageConfig = [
     {
       name: "disciplines",
-      component: <UserDisciplines />,
+      component: <DisciplineXpBars />,
     },
     // {
     //   name: "habits",

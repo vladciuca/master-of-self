@@ -21,18 +21,13 @@ export const stepIconMap: StepIconMap = {
   bonus: "FaBoltLightning",
   default: "GiInnerSelf",
 
-  // NEW
-  empathy: "GiHeartInside", // Symbol of compassion/love
-  criticalThinking: "GiSmart", // Brain = thinking
-  adaptability: "GiBodySwapping", // Swapping bodies = adapting
-  selfAwareness: "GiInnerSelf", // Self = introspection
-  courage: "GiBurningPassion", // Fire = bravery, drive
-  vitality: "GiAnatomy", // Health, physicality
-  innovation: "GiTeamIdea", // Team + lightbulb = creative ideas
-  charisma: "GiLovers", // Connection, people
-  timeManagement: "GiPlayerTime", // Skill mastery = discipline
+  discipline: "GiSurroundedShield",
+  gratitude: "GiBeamsAura",
+  wisdom: "GiSmart",
+  compassion: "GiHeartInside",
+  creativity: "GiTeamIdea",
+  purpose: "GiRomanToga",
 
-  emotionalMastery: "GiRearAura", // Emotional state imagery
   gratitudeDepth: "GiBeamsAura", // Radiance of gratitude
   mentalClarity: "GiExtraLucid", // Lucid = clear
   selfCompassion: "GiHealing", // Reused from positivity, fits compassion

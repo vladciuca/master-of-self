@@ -64,7 +64,7 @@ export async function getOrCreateUser(
       image: userData?.image,
       profile: {
         willpowerMultiplier: 1.5,
-        disciplines: { motivation: 0 },
+        disciplines: { discipline: 0 },
         activeDisciplines: [],
         journalStartTime: { morning: "08:00", evening: "18:00" },
         onboardingCompleted: false,

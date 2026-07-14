@@ -85,7 +85,7 @@ export function NewJournalEntry({ isEveningTime }: NewJournalEntryProps) {
           <div className="flex items-center text-sm">
             {!isEveningTime
               ? "Journal today to generate willpower and stay motivated through the day!"
-              : "Reflect on today and start tomorrow with more motivation and willpower!"}
+              : "Reflect on today and start tomorrow with more discipline and willpower!"}
           </div>
         </div>
       </div> */}

@@ -114,7 +114,7 @@ export function ProfileDisciplines({ disciplines }: ProfileDisciplinesProps) {
       return disciplineData[key].icon;
     }
 
-    // Default icon: *Motivation icon
+    // Default icon: *Discipline icon
     return "IoAccessibility";
   };
 
@@ -141,7 +141,7 @@ export function ProfileDisciplines({ disciplines }: ProfileDisciplinesProps) {
 
   const renderDisciplineBars = (disciplines: UserDisciplines) => {
     return Object.entries(disciplines)
-      .filter(([key]) => key !== "motivationMultiplier") // Filter out unwanted keys
+      .filter(([key]) => key !== "_disciplineMultiplier")
       .map(([key, value]) => {
         const iconName = getDisciplineIcon(key);
         const color = getColor(key);

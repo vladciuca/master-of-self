@@ -81,9 +81,9 @@ export function getDayDisciplineScores(
     // Skip non-array values
     if (!Array.isArray(value)) return;
 
-    // Special handling for "day" key (motivation)
+    // Special handling for "day" key (discipline)
     if (key === "day") {
-      disciplines.motivation = calculateStepScore(value);
+      disciplines.discipline = calculateStepScore(value);
     } else {
       // For all other keys, calculate score normally
       disciplines[key] = calculateStepScore(value);
@@ -197,13 +197,13 @@ export function getNightDisciplineScores(
     // Skip non-array values
     if (!Array.isArray(value)) return;
 
-    // Special handling for "night" key (stores motivation multiplier)
+    // Special handling for "night" key (stores discipline multiplier)
     if (key === "night") {
       // Default to 1 if there are no elements in night[]
-      if (value.length === 0) return (disciplines._motivationMultiplier = 1);
-      disciplines._motivationMultiplier = calculateStepScoreMultiplier(value);
+      if (value.length === 0) return (disciplines._disciplineMultiplier = 1);
+      disciplines._disciplineMultiplier = calculateStepScoreMultiplier(value);
     }
-    // Special handling for highlights - add to motivation score
+    // Special handling for highlights - add to discipline score
     else if (key === "highlights") {
       disciplines._highlightsScore = calculateStepScore(value);
     } else {
@@ -231,17 +231,17 @@ export function getDisciplineScoreFromEntry(
   const combinedScores: Record<string, number> = { ...dayScores };
 
   // Extract the internal calculation variables with underscore prefix
-  const motivationMultiplier = nightScores._motivationMultiplier || 1;
+  const disciplineMultiplier = nightScores._disciplineMultiplier || 1;
   const highlightsScore = nightScores._highlightsScore || 0;
 
   // Remove the internal calculation keys from the result
-  delete nightScores._motivationMultiplier;
+  delete nightScores._disciplineMultiplier;
   delete nightScores._highlightsScore;
 
-  // Calculate the final motivation score
-  const dayMotivation = dayScores.motivation || 0;
-  combinedScores.motivation =
-    (dayMotivation + highlightsScore) * motivationMultiplier;
+  // Calculate the final discipline score
+  const dayDiscipline = dayScores.discipline || 0;
+  combinedScores.discipline =
+    (dayDiscipline + highlightsScore) * disciplineMultiplier;
 
   // Add remaining night scores (excluding the internal ones we already handled)
   Object.entries(nightScores).forEach(([key, value]) => {

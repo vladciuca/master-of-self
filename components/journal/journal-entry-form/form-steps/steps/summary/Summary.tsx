@@ -44,28 +44,28 @@ export const Summary = () => {
   const dayDisciplines = getDayDisciplineScores(dayEntry);
   const nightDisciplines = getNightDisciplineScores(nightEntry);
 
-  // Filter out motivation from day and night disciplines before rendering
+  // Filter out discipline from day and night disciplines before rendering
   const filteredDayDisciplineScores = Object.entries(
     dayDisciplines || {}
-  ).filter(([key, value]) => key !== "motivation" && value > 0);
+  ).filter(([key, value]) => key !== "discipline" && value > 0);
 
   const filteredNightDisciplineScores = Object.entries(
     nightDisciplines || {}
   ).filter(
     ([key, value]) =>
-      key !== "motivation" &&
-      key !== "_motivationMultiplier" &&
+      key !== "discipline" &&
+      key !== "_disciplineMultiplier" &&
       key !== "_highlightsScore" &&
       value > 0
   );
 
-  // Calculate motivation score (multiply day and night values)
-  const motivationDayScore = dayDisciplines.motivation || 0;
-  const motivationNightScore = nightDisciplines._highlightsScore ?? 0;
-  const motivationMultiplier = nightDisciplines._motivationMultiplier || 1;
+  // Calculate discipline score (multiply day and night values)
+  const disciplineDayScore = dayDisciplines.discipline || 0;
+  const disciplineNightScore = nightDisciplines._highlightsScore ?? 0;
+  const disciplineMultiplier = nightDisciplines._disciplineMultiplier || 1;
 
-  const motivationScore =
-    (motivationDayScore + motivationNightScore) * motivationMultiplier;
+  const disciplineScore =
+    (disciplineDayScore + disciplineNightScore) * disciplineMultiplier;
 
   // Check if there are any discipline scores with values > 0
   const hasPositiveDayDisciplineScores = filteredDayDisciplineScores.length > 0;
@@ -102,7 +102,7 @@ export const Summary = () => {
       return disciplineData[key].icon;
     }
     //NOTE: Need to remove icons i think!
-    return key === "motivation" ? stepIconMap.day : "";
+    return key === "discipline" ? stepIconMap.day : "";
   };
 
   // Consolidated section title and empty state message
@@ -207,19 +207,19 @@ export const Summary = () => {
       <div className="flex flex-col justify-center pr-2 mt-4 sm:mt-8">
         <div className="text-center">
           <div className="flex flex-col w-full">
-            {motivationScore > 0 && (
+            {disciplineScore > 0 && (
               <div className="flex items-center justify-center">
                 {/* <IconRenderer
-                  // iconName={getDisciplineIcon("motivation")}
+                  // iconName={getDisciplineIcon("discipline")}
                   iconName={"GiBullseye"}
                   size={35}
                   className="text-primary mr-4"
                 /> */}
 
                 <DisciplineProgressBar
-                  xp={userProfile.disciplines.motivation ?? 0}
-                  projectedXp={motivationScore}
-                  name="motivation"
+                  xp={userProfile.disciplines.discipline ?? 0}
+                  projectedXp={disciplineScore}
+                  name="Discipline"
                   height={8}
                   textColor="text-muted-foreground"
                 />
@@ -242,7 +242,7 @@ export const Summary = () => {
                 </>
               ) : (
                 <>
-                  {(motivationScore <= 0 || motivationNightScore <= 1) && (
+                  {(disciplineScore <= 0 || disciplineNightScore <= 1) && (
                     <div className="flex items-center justify-center py-4 px-2 sm:px-4">
                       <span className="text-md text-muted-foreground">
                         {emptyStateMessage}

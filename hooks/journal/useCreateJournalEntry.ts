@@ -12,10 +12,8 @@ import { User } from "@models/types";
 export function useCreateJournalEntry() {
   const { user } = useUser() as { user: User | null };
 
-  const { lastEntry, lastEntryLoading, lastEntryError, habitsXp } =
-    useLastJournalEntry();
-  const { bonusWillpower, yesterdayEntryLoading, yesterdayEntryError } =
-    useYesterdayJournalEntry();
+  const { lastEntry, lastEntryLoading, habitsXp } = useLastJournalEntry();
+  const { bonusWillpower, yesterdayEntryLoading } = useYesterdayJournalEntry();
 
   const [submittingJournalEntry, setSubmittingJournalEntry] =
     useState<boolean>(false);
@@ -27,16 +25,13 @@ export function useCreateJournalEntry() {
     hasHabits,
     defaultJournalEntryHabitActionValues,
     habitsLoading,
-    habitsError,
   } = useUserHabits();
 
-  const { updateHabits, submittingHabitsUpdate, updateHabitsError } =
-    useUpdateHabits();
+  const { updateHabits, submittingHabitsUpdate } = useUpdateHabits();
 
   const {
     updateDisciplinesValues,
     submittingDisciplinesValuesUpdate,
-    updateDisciplinesValuesError,
   } = useUserProfile();
 
   const abortControllerRef = useRef<AbortController | null>(null);
@@ -62,23 +57,6 @@ export function useCreateJournalEntry() {
     ) {
       console.warn("Waiting for all dependent hooks to finish loading...");
       return;
-    }
-
-    if (
-      yesterdayEntryError ||
-      habitsError ||
-      lastEntryError ||
-      updateHabitsError ||
-      updateDisciplinesValuesError
-    ) {
-      throw new Error(
-        `Error fetching required data: 
-        Yesterday Entry: ${yesterdayEntryError}, 
-        Habits: ${habitsError}, 
-        Last Entry: ${lastEntryError}, 
-        Update Habits: ${updateHabitsError},
-        Update Disciplines: ${updateDisciplinesValuesError}`
-      );
     }
 
     if (abortControllerRef.current) {

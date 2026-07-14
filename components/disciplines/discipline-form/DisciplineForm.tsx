@@ -5,7 +5,6 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { DisciplineIconPickerField } from "@components/disciplines/discipline-form/DisciplineIconPickerField";
-import { DisciplineColorField } from "@components/disciplines/discipline-form/DisciplineColorField";
 import { DisciplineNameField } from "@components/disciplines/discipline-form/DisciplineNameField";
 import { DisciplineTypeField } from "@components/disciplines/discipline-form/DisciplineTypeField";
 import { DisciplineTitleField } from "@components/disciplines/discipline-form/DisciplineTitleField";
@@ -74,7 +73,6 @@ export function DisciplineForm({
 
         <ScrollArea className="px-4 flex-grow">
           <div className="space-y-8 px-1">
-            <DisciplineColorField control={form.control} type={type} />
             <DisciplineNameField control={form.control} type={type} />
             <DisciplineTypeField control={form.control} type={type} />
             <DisciplineTitleField control={form.control} type={type} />
@@ -91,8 +89,7 @@ export function DisciplineForm({
             {type}
           </Button>
           <Link
-            //NOTE: create constants for these
-            href="/profile?page=disciplines"
+            href="/settings?page=Pages"
             className="w-full flex justify-center mb-4"
           >
             <Button variant="secondary" className="w-full">

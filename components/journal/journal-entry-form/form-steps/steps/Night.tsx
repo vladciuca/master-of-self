@@ -49,11 +49,11 @@ export function Night() {
     <JournalStepTemplate
       title="How great was today?"
       // description="Mark the goals you dedicated Willpower to and completed today."
-      description="Follow through with your daily goals to exponentially increase Motivation."
+      description="Follow through with your daily goals to exponentially increase Discipline."
       scoreSection={
         <div className="flex items-center">
-          {/* <StepScoreDisplay items={[]} scoreName="Motivation" /> */}
-          <div>Motivation</div>
+          {/* <StepScoreDisplay items={[]} scoreName="Discipline" /> */}
+          <div>Discipline</div>
           {Object.values(checkedItems).filter(Boolean).length + 1 <= 1 ? (
             <></>
           ) : (
