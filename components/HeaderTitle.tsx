@@ -1,9 +1,10 @@
 export function HeaderTitle() {
   return (
     <div className="w-full h-full flex justify-center items-center">
-      <h1 className="text-4xl uppercase tracking-wider font-semibold">
-        <span className="text-6xl font-normal">M</span>aster of{" "}
-        <span className="text-6xl font-normal">S</span>elf
+      <h1 className="select-none text-4xl uppercase tracking-wider font-medium">
+        <span className="text-5xl font-normal">L</span>oop
+        {" "}
+         <span className="text-5xl font-normal">B</span>ook
       </h1>
     </div>
   );

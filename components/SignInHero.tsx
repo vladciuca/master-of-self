@@ -45,7 +45,7 @@ export function SignInHero({ className }: SignInHeroProps) {
         </div>
 
         <div className="mt-2 text-center">
-          <span className="inline-block uppercase tracking-[0.25em] text-[10px] sm:text-xs font-normal text-white/80">
+          <span className="inline-block uppercase tracking-[0.25em] text-[10px] text-xs sm:text-sm font-normal text-white/80">
             You hold the Key
           </span>
         </div>
