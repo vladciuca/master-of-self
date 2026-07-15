@@ -10,6 +10,7 @@ export type IconRendererProps = {
   iconName: string | null | undefined;
   size?: number;
   className?: string;
+  style?: React.CSSProperties;
   xp?: number;
   isXpLoading?: boolean;
 };
@@ -18,6 +19,7 @@ export function IconRenderer({
   iconName,
   size = 25,
   className = "",
+  style,
   xp,
   isXpLoading,
 }: IconRendererProps) {
@@ -41,6 +43,7 @@ export function IconRenderer({
         className,
         "flex items-center justify-center"
       )}
+      style={style}
     >
       <Icon className={cn(iconColorClass)} size={Number(size)} />
     </div>

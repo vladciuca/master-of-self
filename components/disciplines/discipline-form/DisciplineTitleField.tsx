@@ -26,18 +26,17 @@ export function DisciplineTitleField({
       // name="name"
       render={({ field }) => (
         <FormItem>
-          <FormLabel>Daily Reflection Prompt</FormLabel>
+          <FormLabel>Practice Prompt</FormLabel>
           {type === "Create" && (
             <FormDescription className="text-xs">
-              Write a question that will guide your daily self-reflection and
-              help you develop this discipline.
+              Write the question you'll answer each day.
             </FormDescription>
           )}
 
           <FormControl>
             <Input
               className="text-base"
-              placeholder="e.g., What will make today great?, etc."
+              placeholder="e.g. What am I grateful for today?"
               {...field}
             />
           </FormControl>

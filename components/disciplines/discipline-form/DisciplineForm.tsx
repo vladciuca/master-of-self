@@ -61,22 +61,28 @@ export function DisciplineForm({
       >
         <div className="space-y-6 mb-4">
           <h1 className="scroll-m-20 text-4xl font-bold tracking-tight text-center">
-            {type} Discipline
+            {type} Practice
           </h1>
-          <DisciplineIconPickerField
-            control={form.control}
-            // xp={xp}
-            // projectedXp={projectedXp}
-            type={type}
-          />
+          {type === "Create" && (
+            <p className="text-center text-muted-foreground text-sm">
+              Create a journal page by choosing a Discipline and defining a
+              daily Practice.
+            </p>
+          )}
         </div>
 
         <ScrollArea className="px-4 flex-grow">
           <div className="space-y-8 px-1">
-            <DisciplineNameField control={form.control} type={type} />
-            <DisciplineTypeField control={form.control} type={type} />
             <DisciplineTitleField control={form.control} type={type} />
             <DisciplineDescriptionField control={form.control} type={type} />
+            <DisciplineTypeField control={form.control} type={type} />
+            <DisciplineNameField control={form.control} type={type} />
+            <DisciplineIconPickerField
+              control={form.control}
+              // xp={xp}
+              // projectedXp={projectedXp}
+              type={type}
+            />
           </div>
         </ScrollArea>
 

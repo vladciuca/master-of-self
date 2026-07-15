@@ -831,6 +831,7 @@ import {
 import { IndicatorAccordionTrigger } from "@/components/ui/indicator-accordion-trigger";
 import { calculateStepScore } from "@lib/score";
 import { JOURNAL_COLORS } from "@lib/colors";
+import { isHexColor } from "@lib/utils";
 import type { JournalDayEntry, JournalNightEntry } from "@models/types";
 import { useDisciplinesData } from "@hooks/disciplines/useDisciplineData";
 import { Skeleton } from "@components/ui/skeleton";
@@ -1177,7 +1178,16 @@ export function JournalEntryDisciplineSection({
                         iconName={
                           step === "highlights" ? stepIconMap.highlights : icon
                         }
-                        className={color ? `text-${color}` : "text-primary"}
+                        className={
+                          color && isHexColor(color)
+                            ? ""
+                            : color
+                            ? `text-${color}`
+                            : "text-primary"
+                        }
+                        style={
+                          color && isHexColor(color) ? { color } : undefined
+                        }
                         size={
                           step === "discipline" || step === "highlights"
                             ? 25

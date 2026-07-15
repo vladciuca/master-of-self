@@ -14,7 +14,7 @@ export function NewDisciplineCard({ onboarding }: { onboarding?: boolean }) {
           discipline={"New Discipline"}
           disciplineId="new-discipline"
           icon={"FaPersonCircleQuestion"}
-          color={"text-primary"}
+          color={"primary"}
           addNew
           onboarding={onboarding}
         />

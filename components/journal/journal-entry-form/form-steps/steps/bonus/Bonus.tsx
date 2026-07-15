@@ -9,6 +9,7 @@ import { JournalEntryDisciplineList } from "@components/journal/journal-entry-ca
 import { useYesterdayJournalEntry } from "@hooks/journal/useYesterdayJournalEntry";
 import { BonusStepTabHeader } from "./BonusStepTabHeader";
 import { JOURNAL_COLORS } from "@lib/colors";
+import { isHexColor } from "@lib/utils";
 import { useDisciplinesData } from "@hooks/disciplines/useDisciplineData";
 import { Skeleton } from "@components/ui/skeleton";
 
@@ -222,10 +223,15 @@ export function Bonus() {
                       <div className="flex items-center mr-2">
                         <div
                           className={`font-semibold text-lg flex items-center ${
-                            tab.color
+                            tab.color && !isHexColor(tab.color)
                               ? `text-${tab.color}`
                               : `text-${JOURNAL_COLORS.score}`
                           }`}
+                          style={
+                            tab.color && isHexColor(tab.color)
+                              ? { color: tab.color }
+                              : undefined
+                          }
                         >
                           <span className="text-sm">
                             {tab.scoreName === "Discipline" ? "x" : "+"}

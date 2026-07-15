@@ -3,6 +3,7 @@ import { DisciplineSwitch } from "@components/disciplines/discipline-card/Discip
 import { IconRenderer } from "@components/IconRenderer";
 import { AddNewButton } from "@components/profile/AddNewButton";
 import { getDisciplineScoreFromEntry } from "@lib/score";
+import { isHexColor } from "@lib/utils";
 import { useUserProfile } from "@context/UserProfileContext";
 import { useTodayJournalEntry } from "@hooks/journal/useTodayJournalEntry";
 import { useLastJournalEntry } from "@hooks/journal/useLastJournalEntry";
@@ -71,7 +72,12 @@ export function DisciplineCardHeader({
       {/* Icon section */}
       {icon && (
         <div className="w-1/12 flex items-center justify-center mb-0">
-          <IconRenderer iconName={icon} className={`text-${color}`} size={30} />
+          <IconRenderer
+            iconName={icon}
+            className={isHexColor(color) ? "" : `text-${color}`}
+            size={30}
+            style={isHexColor(color) ? { color: color } : undefined}
+          />
         </div>
       )}
 

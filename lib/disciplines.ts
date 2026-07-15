@@ -1,4 +1,3 @@
-import { DISCIPLINE_COLORS } from "@lib/colors";
 import { stepIconMap } from "@components/ui/constants";
 import type { JournalCustomStepConfig } from "@models/types";
 
@@ -10,8 +9,8 @@ export const DISCIPLINES: JournalCustomStepConfig[] = [
     type: "nightEntry",
     title: "Where did I act without awareness today?",
     description:
-      "Mindfulness reflection – notice where you reacted on autopilot and returned to presence.",
-    color: DISCIPLINE_COLORS.sky,
+      "Better understand yourself through reflection, mindfulness, and honest observation. Create practices that help you notice your thoughts, emotions, behaviors, and personal growth.\n\nExamples: Daily Reflection, Meditation, Emotional Check-in, Self Awareness, Lessons Learned",
+    color: "#3BA7F0",
   },
   {
     _id: "discipline",
@@ -20,8 +19,8 @@ export const DISCIPLINES: JournalCustomStepConfig[] = [
     type: "dayEntry",
     title: "What will I commit to today?",
     description:
-      "Execution check – set one clear commitment and the habit that supports it.",
-    color: DISCIPLINE_COLORS.slate,
+      "Build consistency through intentional action and daily follow-through. Every small step strengthens your ability to turn intention into habit.",
+    color: "#F4C542",
   },
   {
     _id: "courage",
@@ -30,8 +29,8 @@ export const DISCIPLINES: JournalCustomStepConfig[] = [
     type: "dayEntry",
     title: "What discomfort will I face today?",
     description:
-      "Facing fear – choose one challenging action and step toward it.",
-    color: DISCIPLINE_COLORS.red,
+      "Build the confidence to face fear, discomfort, and meaningful challenges. Create practices that encourage growth by stepping outside your comfort zone.\n\nExamples: Face Your Fears, Difficult Conversations, Take a Risk, Leave Your Comfort Zone, Challenge Yourself",
+    color: "#E74C3C",
   },
   {
     _id: "gratitude",
@@ -40,8 +39,8 @@ export const DISCIPLINES: JournalCustomStepConfig[] = [
     type: "dayEntry",
     title: "What am I grateful for today?",
     description:
-      "Gratitude practice – reflect on something you appreciate and why it matters.",
-    color: DISCIPLINE_COLORS.amber,
+      "Appreciate the people, experiences, and moments that make life meaningful. Create practices that help you recognize the good and develop a more positive outlook.\n\nExamples: Gratitude Journal, Daily Wins, Appreciation, Positive Moments, Thankfulness",
+    color: "#F5A623",
   },
   {
     _id: "wisdom",
@@ -50,8 +49,8 @@ export const DISCIPLINES: JournalCustomStepConfig[] = [
     type: "nightEntry",
     title: "What did I learn today?",
     description:
-      "Learning review – capture a lesson, insight, or better perspective from today.",
-    color: DISCIPLINE_COLORS.indigo,
+      "Learn from experience and improve your judgment over time. Create practices that help you think deeply, solve problems, and make better decisions.\n\nExamples: Critical Thinking, Decision Reviews, Reading Notes, Problem Solving, Daily Insights",
+    color: "#6C63FF",
   },
   {
     _id: "compassion",
@@ -60,8 +59,8 @@ export const DISCIPLINES: JournalCustomStepConfig[] = [
     type: "dayEntry",
     title: "How will I show kindness today?",
     description:
-      "Kindness intention – plan a small act of empathy or connection.",
-    color: DISCIPLINE_COLORS.rose,
+      "Strengthen your relationships through kindness, empathy, forgiveness, and understanding. Create practices that help you care for both yourself and others.\n\nExamples: Acts of Kindness, Self Compassion, Forgiveness, Relationships, Helping Others",
+    color: "#EC5A8C",
   },
   {
     _id: "creativity",
@@ -70,8 +69,8 @@ export const DISCIPLINES: JournalCustomStepConfig[] = [
     type: "dayEntry",
     title: "What will I create or explore today?",
     description:
-      "Creative practice – make space for an idea, expression, or experiment.",
-    color: DISCIPLINE_COLORS.fuchsia,
+      "Explore ideas, express yourself, and create something meaningful. Create practices that encourage imagination, experimentation, and original thinking.\n\nExamples: Brainstorming, Writing, Drawing, Music, Personal Projects",
+    color: "#C04CF5",
   },
   {
     _id: "vitality",
@@ -80,8 +79,8 @@ export const DISCIPLINES: JournalCustomStepConfig[] = [
     type: "dayEntry",
     title: "How will I care for my body today?",
     description:
-      "Health check – plan movement, nourishment, rest, or energy care.",
-    color: DISCIPLINE_COLORS.emerald,
+      "Care for your physical and mental well-being by building healthy routines that increase your energy and resilience.\n\nExamples: Exercise, Sleep, Nutrition, Recovery, Hydration",
+    color: "#20B26B",
   },
   {
     _id: "purpose",
@@ -90,8 +89,8 @@ export const DISCIPLINES: JournalCustomStepConfig[] = [
     type: "nightEntry",
     title: "Did my actions align with what matters most?",
     description:
-      "Values alignment – reflect on meaning, direction, and the person you want to become.",
-    color: DISCIPLINE_COLORS.yellow,
+      "Align your daily actions with your values and long-term direction. Create practices that keep you focused on the life you want to build.\n\nExamples: Personal Values, Vision, Life Goals, Future Planning, Meaningful Work",
+    color: "#FFD84D",
   },
 ];
 

@@ -162,7 +162,8 @@ export function IconPicker({
                   <>
                     <IconRenderer
                       iconName={selectedIconName || ""}
-                      className={`bg-transparent text-${color}`}
+                      className="bg-transparent"
+                      style={{ color: color }}
                       size={60}
                     />
                   </>

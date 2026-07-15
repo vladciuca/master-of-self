@@ -2,6 +2,7 @@ import type React from "react";
 import { Badge } from "@/components/ui/badge";
 import { IconRenderer } from "@components/IconRenderer";
 import { getJournalStepStyle, stepIconMap } from "@components/ui/constants";
+import { isHexColor } from "@lib/utils";
 
 type BonusStepTabHeaderProps = {
   icon?: React.ReactNode;
@@ -30,11 +31,22 @@ export const BonusStepTabHeader = ({
   return (
     <div className="relative">
       <div className="flex items-center justify-center w-8 h-8">
-        <IconRenderer
-          iconName={iconToRender}
-          size={stepType === "night" ? 25 : 30}
-          className={`${disciplineColor ? `text-${disciplineColor}` : ""}`}
-        />
+      <IconRenderer
+        iconName={iconToRender}
+        size={stepType === "night" ? 25 : 30}
+        className={`${
+          disciplineColor && isHexColor(disciplineColor)
+            ? ""
+            : disciplineColor
+            ? `text-${disciplineColor}`
+            : ""
+        }`}
+        style={
+          disciplineColor && isHexColor(disciplineColor)
+            ? { color: disciplineColor }
+            : undefined
+        }
+      />
         {count !== undefined && (
           <Badge
             variant="outline"

@@ -1,6 +1,7 @@
 import { IconRenderer } from "@components/IconRenderer";
 import { stepIconMap } from "@components/ui/constants";
 import { JOURNAL_COLORS } from "@lib/colors";
+import { isHexColor } from "@lib/utils";
 import { CheckCircle } from "lucide-react";
 import { useUserProfile } from "@context/UserProfileContext";
 
@@ -34,10 +35,15 @@ export function DisciplineFeedHeader({
         <div className="flex items-center justify-center mb-0 mr-2">
           <IconRenderer
             iconName={icon}
-            className={`text-${color} border border-${
-              color ? color : "primary"
-            } p-2 rounded-md`}
+            className={
+              isHexColor(color)
+                ? "border p-2 rounded-md"
+                : `text-${color} border border-${
+                    color ? color : "primary"
+                  } p-2 rounded-md`
+            }
             size={50}
+            style={isHexColor(color) ? { color, borderColor: color } : undefined}
           />
         </div>
       )}

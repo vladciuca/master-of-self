@@ -45,9 +45,7 @@ export function DisciplineTypeField({
             <FormLabel>Time of Day</FormLabel>
             {type === "Create" && (
               <FormDescription className="text-xs">
-                When would you like to reflect on this discipline? Morning can be
-                used for discipline and direction, while evenings for reflection
-                and planning.
+                Choose when this page appears in your daily loop.
               </FormDescription>
             )}
             <Select

@@ -6,6 +6,7 @@ import { IconRenderer } from "@components/IconRenderer";
 import { Skeleton } from "@components/ui/skeleton";
 import { useDisciplinesData } from "@hooks/disciplines/useDisciplineData";
 import type { UserDisciplines } from "@models/types";
+import { isHexColor } from "@lib/utils";
 import { customStepConfigs } from "@components/journal/journal-entry-form/form-steps/steps/CustomSteps";
 import React from "react";
 
@@ -152,7 +153,8 @@ export function ProfileDisciplines({ disciplines }: ProfileDisciplinesProps) {
             <IconRenderer
               iconName={iconName}
               size={30}
-              className={`${color ? `text-${color}` : ""} ml-2`}
+              className={`${isHexColor(color) ? "" : `text-${color}`} ml-2`}
+              style={isHexColor(color) ? { color } : undefined}
             />
             <DisciplineProgressBar
               xp={value}

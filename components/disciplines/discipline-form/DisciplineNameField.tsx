@@ -25,7 +25,8 @@ type DisciplineNameFieldProps = {
 function DisciplineColorDot({ color }: { color: string }) {
   return (
     <div
-      className={`w-4 h-4 rounded-md flex-shrink-0 bg-${color}`}
+      className="w-4 h-4 rounded-md flex-shrink-0"
+      style={{ backgroundColor: color }}
       aria-hidden="true"
     />
   );
@@ -59,10 +60,10 @@ export function DisciplineNameField({
       name="discipline"
       render={({ field }) => (
         <FormItem>
-          <FormLabel>Discipline</FormLabel>
+          <FormLabel>Which Discipline does this practice develop?</FormLabel>
           {type === "Create" && (
             <FormDescription className="text-xs">
-              Select the personal trait or quality you want to develop.
+              Choose the quality this practice helps you build.
             </FormDescription>
           )}
 
@@ -109,7 +110,7 @@ export function DisciplineNameField({
           </Select>
 
               {field.value && (
-                <FormDescription className="text-xs leading-relaxed">
+                <FormDescription className="text-xs leading-relaxed whitespace-pre-wrap">
                   {(() => {
                     const selected = selectableDisciplines.find(
                       (d) => d.discipline === field.value

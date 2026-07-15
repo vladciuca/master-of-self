@@ -17,6 +17,7 @@ import { useUserProfile } from "@context/UserProfileContext";
 import { useDisciplineList } from "@hooks/user/useDisciplineList";
 import { DISCIPLINES } from "@lib/disciplines";
 import { JOURNAL_COLORS } from "@lib/colors";
+import { isHexColor } from "@lib/utils";
 import { stepIconMap } from "@components/ui/constants";
 import { TbChevronCompactDown } from "react-icons/tb";
 import { Plus } from "lucide-react";
@@ -139,12 +140,16 @@ function BaseDisciplineCard({
       <AccordionTrigger className="flex items-center gap-3 py-0 hover:no-underline [&[data-state=open]_.chevron]:rotate-180">
         <div className="flex items-center gap-3 flex-1 min-w-0">
           <div
-            className={`flex-shrink-0 border-2 rounded-xl p-2.5 border-${color}`}
+            className={`flex-shrink-0 border-2 rounded-xl p-2.5 ${
+              isHexColor(color) ? "" : `border-${color}`
+            }`}
+            style={isHexColor(color) ? { borderColor: color } : undefined}
           >
             <IconRenderer
               iconName={page.icon}
-              className={`text-${color}`}
+              className={isHexColor(color) ? "" : `text-${color}`}
               size={28}
+              style={isHexColor(color) ? { color } : undefined}
             />
           </div>
 
@@ -235,12 +240,16 @@ function PageCard({
       <AccordionTrigger className="flex items-center gap-3 py-0 hover:no-underline [&[data-state=open]_.chevron]:rotate-180">
         <div className="flex items-center gap-3 flex-1 min-w-0">
           <div
-            className={`flex-shrink-0 border-2 rounded-xl p-2.5 border-${color}`}
+            className={`flex-shrink-0 border-2 rounded-xl p-2.5 ${
+              isHexColor(color) ? "" : `border-${color}`
+            }`}
+            style={isHexColor(color) ? { borderColor: color } : undefined}
           >
             <IconRenderer
               iconName={page.icon}
-              className={`text-${color}`}
+              className={isHexColor(color) ? "" : `text-${color}`}
               size={28}
+              style={isHexColor(color) ? { color } : undefined}
             />
           </div>
 

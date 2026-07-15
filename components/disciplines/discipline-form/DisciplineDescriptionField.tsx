@@ -26,11 +26,11 @@ export function DisciplineDescriptionField({
       // name="name"
       render={({ field }) => (
         <FormItem>
-          <FormLabel>Discipline Guidelines</FormLabel>
+          <FormLabel>Practice Guide</FormLabel>
           {type === "Create" && (
             <FormDescription className="text-xs">
-              Provide a brief guideline or mindset to help you approach this
-              discipline thoughtfully.
+              Add a short reminder to help you complete this practice
+              intentionally.
             </FormDescription>
           )}
 
@@ -38,7 +38,7 @@ export function DisciplineDescriptionField({
             <Textarea
               rows={3}
               className="text-base"
-              placeholder="e.g., Use powerful words to inscribe into your subconscious., etc."
+              placeholder="e.g. Focus on meaningful moments instead of repeating yesterday's answers."
               {...field}
             />
           </FormControl>
