@@ -16,6 +16,7 @@ import {
 import { useUserProfile } from "@context/UserProfileContext";
 import { useDisciplineList } from "@hooks/user/useDisciplineList";
 import { DISCIPLINES } from "@lib/disciplines";
+import { JOURNAL_COLORS } from "@lib/colors";
 import { stepIconMap } from "@components/ui/constants";
 import { TbChevronCompactDown } from "react-icons/tb";
 import { Plus } from "lucide-react";
@@ -118,6 +119,92 @@ function CreatePageCard({ onCreate }: { onCreate: () => void }) {
   );
 }
 
+function BaseDisciplineCard({
+  page,
+  onEdit,
+  userId,
+}: {
+  page: PageItem;
+  onEdit: (page: PageItem) => void;
+  userId?: string;
+}) {
+  const pageId = String(page._id);
+  const color = page.color ?? "primary";
+
+  return (
+    <AccordionItem
+      value={pageId}
+      className="border-none px-0 py-0 mb-3 bg-transparent"
+    >
+      <AccordionTrigger className="flex items-center gap-3 py-0 hover:no-underline [&[data-state=open]_.chevron]:rotate-180">
+        <div className="flex items-center gap-3 flex-1 min-w-0">
+          <div
+            className={`flex-shrink-0 border-2 rounded-xl p-2.5 border-${color}`}
+          >
+            <IconRenderer
+              iconName={page.icon}
+              className={`text-${color}`}
+              size={28}
+            />
+          </div>
+
+          <div className="flex-1 text-left min-w-0">
+            <div className="text-sm text-muted-foreground capitalize">
+              {page.discipline}
+            </div>
+            <div className="font-medium leading-snug">Commit &amp; Review</div>
+            <div className="flex justify-center mt-1">
+              <TbChevronCompactDown className="chevron h-4 w-6 transition-transform duration-200 ease-in-out" />
+            </div>
+          </div>
+        </div>
+      </AccordionTrigger>
+
+      <AccordionContent className="pb-0 pt-0">
+        <div className="pl-[3.75rem] text-sm text-muted-foreground space-y-3">
+          <p>
+            Write your commitments each morning, then check them off as you go. In
+            the evening, reflect on what you completed and choose what to carry
+            forward into tomorrow.
+          </p>
+
+          <div className="space-y-2">
+            <div className="flex items-center gap-2">
+              <IconRenderer
+                iconName={stepIconMap.day}
+                size={16}
+                className={`text-${JOURNAL_COLORS.day}`}
+              />
+              <span>How will I make today great?</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <IconRenderer
+                iconName={stepIconMap.night}
+                size={16}
+                className={`text-${JOURNAL_COLORS.night}`}
+              />
+              <span>How great was today?</span>
+            </div>
+          </div>
+
+          {isOwnPage(page, userId) && (
+            <div className="mt-3">
+              <Button
+                variant="outline"
+                size="sm"
+                className="w-full"
+                onClick={() => onEdit(page)}
+              >
+                Edit
+              </Button>
+            </div>
+          )}
+        </div>
+      </AccordionContent>
+    </AccordionItem>
+  );
+}
+
 function PageCard({
   page,
   isActive,
@@ -125,6 +212,7 @@ function PageCard({
   onToggle,
   onEdit,
   userId,
+  showTypeIcon = true,
 }: {
   page: PageItem;
   isActive: boolean;
@@ -132,6 +220,7 @@ function PageCard({
   onToggle: (checked: boolean) => void;
   onEdit: (page: PageItem) => void;
   userId?: string;
+  showTypeIcon?: boolean;
 }) {
   const pageId = String(page._id);
   const typeIcon =
@@ -156,14 +245,21 @@ function PageCard({
           </div>
 
           <div className="flex-1 text-left min-w-0">
-            <div className="flex items-center gap-1.5 text-sm text-muted-foreground capitalize">
-              <IconRenderer
-                iconName={typeIcon}
-                className="text-primary"
-                size={14}
-              />
-              <span>{page.discipline}</span>
-            </div>
+            {showTypeIcon && (
+              <div className="flex items-center gap-1.5 text-sm text-muted-foreground capitalize">
+                <IconRenderer
+                  iconName={typeIcon}
+                  className="text-primary"
+                  size={14}
+                />
+                <span>{page.discipline}</span>
+              </div>
+            )}
+            {!showTypeIcon && (
+              <div className="text-sm text-muted-foreground capitalize">
+                {page.discipline}
+              </div>
+            )}
             <div className="font-medium leading-snug">{page.title}</div>
             <div className="flex justify-center mt-1">
               <TbChevronCompactDown className="chevron h-4 w-6 transition-transform duration-200 ease-in-out" />
@@ -337,11 +433,8 @@ export function PracticeOverview() {
       <CreatePageCard onCreate={handleCreatePage} />
 
       {baseDiscipline && (
-        <PageCard
+        <BaseDisciplineCard
           page={baseDiscipline}
-          isActive={true}
-          isBaseDiscipline={true}
-          onToggle={() => {}}
           onEdit={handleEdit}
           userId={user?.id}
         />
@@ -369,6 +462,7 @@ export function PracticeOverview() {
                   onToggle={handleToggle(pageId)}
                   onEdit={handleEdit}
                   userId={user?.id}
+                  showTypeIcon={false}
                 />
               );
             })}
