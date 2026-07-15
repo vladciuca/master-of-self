@@ -102,6 +102,35 @@ export async function updateDiscipline(
   }
 }
 
+// DELETE DISCIPLINE STEP =====================================================================
+export async function deleteDiscipline(
+  disciplineId: string,
+  userId: string
+): Promise<{ success?: string; error?: string }> {
+  try {
+    if (!disciplines || !users) await init();
+    const query = { _id: new ObjectId(disciplineId), creatorId: userId };
+
+    const result = await disciplines.deleteOne(query);
+
+    if (result.deletedCount === 0) {
+      throw new Error("Discipline not found or could not be deleted");
+    }
+
+    await users.updateOne(
+      { _id: userId },
+      {
+        $pull: { "profile.activeDisciplines": disciplineId },
+        $unset: { [`profile.disciplines.${disciplineId}`]: "" },
+      }
+    );
+
+    return { success: "Discipline deleted successfully" };
+  } catch (error) {
+    return { error: "Failed to delete discipline" };
+  }
+}
+
 // GET DISCIPLINE STEP ================================================================
 export async function getDiscipline(id: string): Promise<{
   discipline: Discipline | null;

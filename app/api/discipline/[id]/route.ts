@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getDiscipline, updateDiscipline } from "@lib/mongo/disciplines";
+import { auth } from "@clerk/nextjs/server";
+import { getDiscipline, updateDiscipline, deleteDiscipline } from "@lib/mongo/disciplines";
 
 export async function GET(
   req: NextRequest,
@@ -52,5 +53,29 @@ export async function PATCH(
     return new NextResponse(JSON.stringify(disciplineStep), { status: 200 });
   } catch (error) {
     return new NextResponse("Failed to update habit", { status: 500 });
+  }
+}
+
+export async function DELETE(
+  req: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  const routeParams = await params;
+  try {
+    const { userId } = await auth();
+
+    if (!userId) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    const { success, error } = await deleteDiscipline(routeParams.id, userId);
+
+    if (error) {
+      return NextResponse.json({ error }, { status: 500 });
+    }
+
+    return NextResponse.json({ success }, { status: 200 });
+  } catch (error) {
+    return new NextResponse("Failed to delete discipline", { status: 500 });
   }
 }

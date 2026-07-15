@@ -462,6 +462,7 @@ type UserProfileContextType = {
   ) => Promise<{ success: boolean; data?: any; error?: string } | undefined>;
   submittingDisciplinesValuesUpdate: boolean;
   updateDisciplinesValuesError: string | null;
+  deleteDisciplineFromProfile: (disciplineId: string) => Promise<void>;
 };
 
 // Create the context
@@ -837,6 +838,31 @@ export function UserProfileProvider({ children }: { children: ReactNode }) {
     }
   };
 
+  const deleteDisciplineFromProfile = async (disciplineId: string) => {
+    if (!user?.id) return;
+
+    const response = await fetch(`/api/discipline/${disciplineId}`, {
+      method: "DELETE",
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to delete discipline");
+    }
+
+    setUserProfile((prev) => {
+      const nextDisciplines = { ...prev.disciplines };
+      delete nextDisciplines[disciplineId];
+
+      return {
+        ...prev,
+        disciplines: nextDisciplines,
+        activeDisciplines: prev.activeDisciplines.filter(
+          (id) => id !== disciplineId
+        ),
+      };
+    });
+  };
+
   // Create the context value
   const contextValue: UserProfileContextType = {
     userProfile,
@@ -852,6 +878,7 @@ export function UserProfileProvider({ children }: { children: ReactNode }) {
     updateActiveDiscipline,
     submittingActiveUpdate,
     updateActiveError,
+    deleteDisciplineFromProfile,
   };
 
   // Provide the context to children components

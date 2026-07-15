@@ -19,7 +19,7 @@ export default function Settings() {
 
   const pageConfig = [
     {
-      name: "Pages",
+      name: "Practices",
       component: <PracticeOverview />,
     },
     {

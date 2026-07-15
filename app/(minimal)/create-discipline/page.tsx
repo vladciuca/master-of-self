@@ -19,7 +19,7 @@ export default function CreateDiscipline() {
 
     try {
       await createDiscipline(discipline);
-      router.push("/settings?page=Pages");
+      router.push("/settings?page=Practices");
     } catch (error) {
       setIsNavigating(false);
       console.error(

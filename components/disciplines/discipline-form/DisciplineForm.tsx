@@ -65,8 +65,8 @@ export function DisciplineForm({
           </h1>
           {type === "Create" && (
             <p className="text-center text-muted-foreground text-sm">
-              Create a journal page by choosing a Discipline and defining a
-              daily Practice.
+              Create a practice by choosing a Discipline and defining a daily
+              Practice.
             </p>
           )}
         </div>
@@ -95,7 +95,7 @@ export function DisciplineForm({
             {type}
           </Button>
           <Link
-            href="/settings?page=Pages"
+            href="/settings?page=Practices"
             className="w-full flex justify-center mb-4"
           >
             <Button variant="secondary" className="w-full">

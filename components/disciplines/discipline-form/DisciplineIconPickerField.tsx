@@ -40,7 +40,7 @@ export function DisciplineIconPickerField({
         <FormItem>
           {type === "Create" && (
             <FormLabel className="w-full flex justify-center">
-              Page Icon
+              Icon
             </FormLabel>
           )}
           <FormControl>

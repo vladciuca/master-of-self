@@ -20,7 +20,7 @@ import { JOURNAL_COLORS } from "@lib/colors";
 import { isHexColor } from "@lib/utils";
 import { stepIconMap } from "@components/ui/constants";
 import { TbChevronCompactDown } from "react-icons/tb";
-import { Plus } from "lucide-react";
+import { Plus, Trash2 } from "lucide-react";
 import type { User } from "@models/types";
 import type { Discipline } from "@models/mongodb";
 import type { JournalCustomStepConfig } from "@models/types";
@@ -83,7 +83,7 @@ function CreatePageCard({ onCreate }: { onCreate: () => void }) {
           </div>
 
           <div className="flex-1 text-left min-w-0">
-            <div className="font-medium leading-snug">Create a New Page</div>
+            <div className="font-medium leading-snug">Create a New Practice</div>
             <div className="flex justify-center mt-1">
               <TbChevronCompactDown className="chevron h-4 w-6 transition-transform duration-200 ease-in-out" />
             </div>
@@ -101,7 +101,7 @@ function CreatePageCard({ onCreate }: { onCreate: () => void }) {
             variant="outline"
             size="icon"
             className="rounded-full h-10 w-10"
-            aria-label="Create a new page"
+            aria-label="Create a new practice"
           >
             <Plus className="h-5 w-5" />
           </Button>
@@ -111,8 +111,8 @@ function CreatePageCard({ onCreate }: { onCreate: () => void }) {
       <AccordionContent className="pb-0 pt-0">
         <div className="pl-[3.75rem] text-sm text-muted-foreground">
           <p>
-            Build a custom page with your own prompt, discipline, and daily or
-            nightly rhythm.
+            Build a custom practice with your own prompt, discipline, and daily
+            or nightly rhythm.
           </p>
         </div>
       </AccordionContent>
@@ -216,6 +216,7 @@ function PageCard({
   isBaseDiscipline,
   onToggle,
   onEdit,
+  onDelete,
   userId,
   showTypeIcon = true,
 }: {
@@ -224,6 +225,7 @@ function PageCard({
   isBaseDiscipline: boolean;
   onToggle: (checked: boolean) => void;
   onEdit: (page: PageItem) => void;
+  onDelete: (page: PageItem) => void;
   userId?: string;
   showTypeIcon?: boolean;
 }) {
@@ -295,14 +297,23 @@ function PageCard({
         <div className="pl-[3.75rem] text-sm text-muted-foreground">
           <p>{page.description}</p>
           {isOwnPage(page, userId) && (
-            <div className="mt-3">
+            <div className="mt-3 flex gap-2">
               <Button
                 variant="outline"
                 size="sm"
-                className="w-full"
+                className="flex-1"
                 onClick={() => onEdit(page)}
               >
                 Edit
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                className="flex-shrink-0 text-destructive hover:text-destructive"
+                onClick={() => onDelete(page)}
+                aria-label="Delete practice"
+              >
+                <Trash2 className="h-4 w-4" />
               </Button>
             </div>
           )}
@@ -340,7 +351,7 @@ function PagesOverviewSkeleton() {
 export function PracticeOverview() {
   const { user } = useUser() as { user: User | null };
   const router = useRouter();
-  const { userProfile, userProfileLoading, updateActiveDiscipline } =
+  const { userProfile, userProfileLoading, updateActiveDiscipline, deleteDisciplineFromProfile } =
     useUserProfile();
   const {
     learnedDisciplineList,
@@ -417,6 +428,23 @@ export function PracticeOverview() {
     router.push(`/update-discipline/${String(page._id)}`);
   };
 
+  const handleDelete = async (page: PageItem) => {
+    const pageId = String(page._id);
+    if (
+      !confirm(
+        `Are you sure you want to delete "${page.title}"? This action cannot be undone.`
+      )
+    ) {
+      return;
+    }
+
+    try {
+      await deleteDisciplineFromProfile(pageId);
+    } catch (error) {
+      console.error("Error deleting practice:", error);
+    }
+  };
+
   if (disciplinesConfigsLoading || userProfileLoading) {
     return <PagesOverviewSkeleton />;
   }
@@ -424,7 +452,7 @@ export function PracticeOverview() {
   if (disciplinesConfigsError) {
     return (
       <div className="py-4 text-red-500">
-        Error loading pages: {disciplinesConfigsError}
+        Error loading practices: {disciplinesConfigsError}
       </div>
     );
   }
@@ -432,7 +460,7 @@ export function PracticeOverview() {
   if (!baseDiscipline && sections.length === 0) {
     return (
       <div className="text-center text-muted-foreground p-4">
-        You don&apos;t have any pages in your book yet.
+        You don&apos;t have any practices in your book yet.
       </div>
     );
   }
@@ -470,6 +498,7 @@ export function PracticeOverview() {
                   isBaseDiscipline={false}
                   onToggle={handleToggle(pageId)}
                   onEdit={handleEdit}
+                  onDelete={handleDelete}
                   userId={user?.id}
                   showTypeIcon={false}
                 />
