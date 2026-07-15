@@ -108,7 +108,18 @@ export function DisciplineNameField({
             </SelectContent>
           </Select>
 
-          <FormMessage />
+              {field.value && (
+                <FormDescription className="text-xs leading-relaxed">
+                  {(() => {
+                    const selected = selectableDisciplines.find(
+                      (d) => d.discipline === field.value
+                    );
+                    return selected?.description ?? "";
+                  })()}
+                </FormDescription>
+              )}
+
+              <FormMessage />
         </FormItem>
       )}
     />

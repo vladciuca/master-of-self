@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { DisciplineForm } from "@components/disciplines/discipline-form/DisciplineForm";
 import { DisciplineZodType } from "@models/disciplineFormSchema";
@@ -9,20 +10,22 @@ export default function CreateDiscipline() {
   const router = useRouter();
   const { createDiscipline, submittingDiscipline, createDisciplineError } =
     useCreateDiscipline();
+  const [isNavigating, setIsNavigating] = useState(false);
 
-  // NOTE: handle navigation
   const handleCreateDiscipline = async (discipline: DisciplineZodType) => {
+    if (submittingDiscipline || isNavigating) return;
+
+    setIsNavigating(true);
+
     try {
       await createDiscipline(discipline);
-      //NOTE: use constants for these
-      router.push("/profile?page=disciplines");
+      router.push("/settings?page=Pages");
     } catch (error) {
-      // Error is already handled in the hook
+      setIsNavigating(false);
       console.error(
         "Failed to create new journal entry:",
         createDisciplineError
       );
-      // Could add additional UI feedback here if needed
     }
   };
 
@@ -30,7 +33,7 @@ export default function CreateDiscipline() {
     <div className="pt-6 h-full">
       <DisciplineForm
         type="Create"
-        submitting={submittingDiscipline}
+        submitting={submittingDiscipline || isNavigating}
         onSubmit={handleCreateDiscipline}
       />
     </div>
