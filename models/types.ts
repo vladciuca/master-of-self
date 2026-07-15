@@ -20,11 +20,15 @@ export type UserDisciplines = {
   [key: string]: number;
 };
 
+export type UserPractices = {
+  [key: string]: number;
+};
+
 export type UserProfile = {
   willpowerMultiplier: number;
   disciplines: UserDisciplines;
-  //NOTE: active discipline ID list
-  activeDisciplines: string[];
+  practices: UserPractices;
+  activePractices: string[];
   journalStartTime: {
     morning: string;
     evening: string;

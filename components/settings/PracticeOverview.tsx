@@ -4,7 +4,7 @@ import { useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { useUser } from "@clerk/nextjs";
 import { IconRenderer } from "@components/IconRenderer";
-import { DisciplineSwitch } from "@components/disciplines/discipline-card/DisciplineSwitch";
+import { PracticeSwitch } from "@components/practices/discipline-card/PracticeSwitch";
 import { Button } from "@components/ui/button";
 import { Skeleton } from "@components/ui/skeleton";
 import {
@@ -14,7 +14,7 @@ import {
   AccordionTrigger,
 } from "@components/ui/accordion";
 import { useUserProfile } from "@context/UserProfileContext";
-import { useDisciplineList } from "@hooks/user/useDisciplineList";
+import { usePracticeList } from "@hooks/user/usePracticeList";
 import { DISCIPLINES } from "@lib/disciplines";
 import { JOURNAL_COLORS } from "@lib/colors";
 import { isHexColor } from "@lib/utils";
@@ -22,12 +22,12 @@ import { stepIconMap } from "@components/ui/constants";
 import { TbChevronCompactDown } from "react-icons/tb";
 import { Plus, Trash2 } from "lucide-react";
 import type { User } from "@models/types";
-import type { Discipline } from "@models/mongodb";
+import type { Practice } from "@models/mongodb";
 import type { JournalCustomStepConfig } from "@models/types";
 
 const BASE_DISCIPLINE_ID = "discipline";
 
-type PageItem = Discipline | JournalCustomStepConfig;
+type PageItem = Practice | JournalCustomStepConfig;
 
 function isOwnPage(page: PageItem, userId?: string): boolean {
   if (!("creatorId" in page) || !page.creatorId || !userId) return false;
@@ -283,7 +283,7 @@ function PageCard({
             className="flex-shrink-0"
             onClick={(e) => e.stopPropagation()}
           >
-            <DisciplineSwitch
+            <PracticeSwitch
               type={page.type}
               checked={isActive}
               onCheckedChange={onToggle}
@@ -351,34 +351,34 @@ function PagesOverviewSkeleton() {
 export function PracticeOverview() {
   const { user } = useUser() as { user: User | null };
   const router = useRouter();
-  const { userProfile, userProfileLoading, updateActiveDiscipline, deleteDisciplineFromProfile } =
+  const { userProfile, userProfileLoading, updateActivePractice, deletePracticeFromProfile } =
     useUserProfile();
   const {
-    learnedDisciplineList,
-    disciplinesConfigsLoading,
-    disciplinesConfigsError,
-  } = useDisciplineList();
+    learnedPracticeList,
+    practicesConfigsLoading,
+    practicesConfigsError,
+  } = usePracticeList();
 
-  const activeDisciplineIds = userProfile?.activeDisciplines ?? [];
+  const activePracticeIds = userProfile?.activePractices ?? [];
 
   const { baseDiscipline, daySection, nightSection, sections } = useMemo(() => {
     const base =
       DISCIPLINES.find(
         (config) => String(config._id) === BASE_DISCIPLINE_ID
       ) ||
-      learnedDisciplineList.find(
+      learnedPracticeList.find(
         (page) => String(page._id) === BASE_DISCIPLINE_ID
       );
 
-    const otherPages = learnedDisciplineList.filter(
+    const otherPages = learnedPracticeList.filter(
       (page) => String(page._id) !== BASE_DISCIPLINE_ID
     );
 
     const day = otherPages
       .filter((page) => page.type === "dayEntry")
       .sort((a, b) => {
-        const aActive = activeDisciplineIds.includes(String(a._id));
-        const bActive = activeDisciplineIds.includes(String(b._id));
+        const aActive = activePracticeIds.includes(String(a._id));
+        const bActive = activePracticeIds.includes(String(b._id));
         if (aActive && !bActive) return -1;
         if (!aActive && bActive) return 1;
         return a.discipline.localeCompare(b.discipline);
@@ -387,8 +387,8 @@ export function PracticeOverview() {
     const night = otherPages
       .filter((page) => page.type === "nightEntry")
       .sort((a, b) => {
-        const aActive = activeDisciplineIds.includes(String(a._id));
-        const bActive = activeDisciplineIds.includes(String(b._id));
+        const aActive = activePracticeIds.includes(String(a._id));
+        const bActive = activePracticeIds.includes(String(b._id));
         if (aActive && !bActive) return -1;
         if (!aActive && bActive) return 1;
         return a.discipline.localeCompare(b.discipline);
@@ -411,21 +411,21 @@ export function PracticeOverview() {
     if (night.length > 0) sections.push(nightSection);
 
     return { baseDiscipline: base, daySection, nightSection, sections };
-  }, [learnedDisciplineList, activeDisciplineIds]);
+  }, [learnedPracticeList, activePracticeIds]);
 
   const sectionActiveCount = (pages: PageItem[]) =>
-    pages.filter((page) => activeDisciplineIds.includes(String(page._id))).length;
+    pages.filter((page) => activePracticeIds.includes(String(page._id))).length;
 
   const handleCreatePage = () => {
-    router.push("/create-discipline");
+    router.push("/create-practice");
   };
 
   const handleToggle = (pageId: string) => (checked: boolean) => {
-    updateActiveDiscipline(pageId, checked);
+    updateActivePractice(pageId, checked);
   };
 
   const handleEdit = (page: PageItem) => {
-    router.push(`/update-discipline/${String(page._id)}`);
+    router.push(`/update-practice/${String(page._id)}`);
   };
 
   const handleDelete = async (page: PageItem) => {
@@ -439,20 +439,20 @@ export function PracticeOverview() {
     }
 
     try {
-      await deleteDisciplineFromProfile(pageId);
+      await deletePracticeFromProfile(pageId);
     } catch (error) {
       console.error("Error deleting practice:", error);
     }
   };
 
-  if (disciplinesConfigsLoading || userProfileLoading) {
+  if (practicesConfigsLoading || userProfileLoading) {
     return <PagesOverviewSkeleton />;
   }
 
-  if (disciplinesConfigsError) {
+  if (practicesConfigsError) {
     return (
       <div className="py-4 text-red-500">
-        Error loading practices: {disciplinesConfigsError}
+        Error loading practices: {practicesConfigsError}
       </div>
     );
   }
@@ -488,7 +488,7 @@ export function PracticeOverview() {
           <div className="space-y-1">
             {section.pages.map((page) => {
               const pageId = String(page._id);
-              const isActive = activeDisciplineIds.includes(pageId);
+              const isActive = activePracticeIds.includes(pageId);
 
               return (
                 <PageCard

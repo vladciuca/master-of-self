@@ -32,15 +32,15 @@ export type JournalEntry = {
 
 export type NewJournalEntry = Omit<JournalEntry, "_id">; // Lets mongo db assign the _id
 
-// DISCIPLINE STEPS ===================================================================
+// PRACTICE STEPS ===================================================================
 
-export type Discipline = Omit<JournalCustomStepConfig, "_id"> & {
+export type Practice = Omit<JournalCustomStepConfig, "_id"> & {
   _id?: ObjectId;
   creatorId: string;
   color: string;
 };
 
-export type NewDiscipline = Omit<Discipline, "_id">;
+export type NewPractice = Omit<Practice, "_id">;
 
 // HABITS =============================================================================
 

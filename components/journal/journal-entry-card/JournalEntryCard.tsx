@@ -3,7 +3,7 @@ import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { JournalEntryIndicators } from "@/components/journal/journal-entry-card/JournalEntryIndicators";
 import { JournalEntryHabits } from "@/components/journal/journal-entry-card/JournalEntryHabits";
-import { JournalEntryDisciplineSection } from "./JournalEntryDisciplineSection";
+import { JournalEntryPracticeSection } from "./JournalEntryPracticeSection";
 import { Card } from "@components/ui/card";
 import { FaBoltLightning } from "react-icons/fa6";
 import { calculateHabitsXpFromEntry } from "@/lib/level";
@@ -107,7 +107,7 @@ export function JournalEntryCard({
         Object.values(nightEntry ?? {}).some(
           (arr) => (arr ?? []).length > 0
         )) && (
-        <JournalEntryDisciplineSection
+        <JournalEntryPracticeSection
           dayEntry={dayEntry ?? {}}
           nightEntry={nightEntry ?? {}}
         />

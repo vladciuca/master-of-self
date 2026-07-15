@@ -1,16 +1,16 @@
 import { useFormContext } from "react-hook-form";
 import { JournalStepTemplate } from "@components/journal/journal-entry-form/form-steps/steps/journal-step/JournalStepTemplate";
-import { DisciplineProgressBar } from "@components/disciplines/DisciplineProgressBar";
+import { XpProgressBar } from "@components/practices/XpProgressBar";
 import { IconRenderer } from "@components/IconRenderer";
 import { getDayDisciplineScores, getNightDisciplineScores } from "@lib/score";
 import { isEvening } from "@lib/time";
 import { JOURNAL_COLORS } from "@lib/colors";
-import type { UserDisciplines } from "@models/types";
+import type { UserPractices } from "@models/types";
 import { useUserProfile } from "@context/UserProfileContext";
 import { stepIconMap } from "@components/ui/constants";
 import { JournalEntryHabits } from "@/components/journal/journal-entry-card/JournalEntryHabits";
 import { calculateHabitsXpFromEntry } from "@/lib/level";
-import { useDisciplinesData } from "@hooks/disciplines/useDisciplineData";
+import { usePracticeData } from "@hooks/practices/usePracticeData";
 
 export const Summary = () => {
   const { watch } = useFormContext();
@@ -35,7 +35,7 @@ export const Summary = () => {
     : {};
 
   // Use the custom hook to fetch discipline data
-  const { disciplineData, isLoading } = useDisciplinesData(
+  const { practiceData, isLoading } = usePracticeData(
     dayEntry,
     nightEntry
   );
@@ -72,18 +72,18 @@ export const Summary = () => {
   const hasPositiveNightDisciplineScores =
     filteredNightDisciplineScores.length > 0;
 
-  // Helper function to check if a key is a discipline ID
-  const isDisciplineId = (key: string): boolean => {
+  // Helper function to check if a key is a practice ID (MongoDB ObjectId)
+  const isPracticeId = (key: string): boolean => {
     // Check if it matches MongoDB ObjectId format (24 hex chars)
     const isObjectId = /^[a-f\d]{24}$/i.test(key);
 
     return isObjectId;
   };
 
-  // // Helper function to get discipline display name
-  const getDisciplineDisplayName = (key: string): string => {
-    if (isDisciplineId(key) && disciplineData[key]) {
-      return disciplineData[key].name;
+  // // Helper function to get practice display name
+  const getPracticeDisplayName = (key: string): string => {
+    if (isPracticeId(key) && practiceData[key]) {
+      return practiceData[key].name;
     }
 
     // Convert camelCase to separate words and capitalize each word
@@ -92,14 +92,14 @@ export const Summary = () => {
       .replace(/^./, (str) => str.toUpperCase()); // Capitalize first letter
   };
 
-  // Helper function to get discipline icon
-  const getDisciplineIcon = (key: string): string => {
+  // Helper function to get practice icon
+  const getPracticeIcon = (key: string): string => {
     if (
-      isDisciplineId(key) &&
-      disciplineData[key] &&
-      disciplineData[key].icon
+      isPracticeId(key) &&
+      practiceData[key] &&
+      practiceData[key].icon
     ) {
-      return disciplineData[key].icon;
+      return practiceData[key].icon;
     }
     //NOTE: Need to remove icons i think!
     return key === "discipline" ? stepIconMap.day : "";
@@ -107,8 +107,8 @@ export const Summary = () => {
 
   // Consolidated section title and empty state message
   const sectionTitle = isEveningTime
-    ? "Evening Disciplines"
-    : "Morning Disciplines";
+    ? "Evening Practices"
+    : "Morning Practices";
   const emptyStateMessage = isEveningTime
     ? "Complete evening journal pages to increase your discipline."
     : "Complete morning journal pages to increase your discipline.";
@@ -116,22 +116,21 @@ export const Summary = () => {
     ? `text-${JOURNAL_COLORS.night}`
     : `text-${JOURNAL_COLORS.day}`;
 
-  // Function to render discipline bars
-  const renderDisciplineBars = (
-    disciplineScores: [string, number][],
+  // Function to render practice bars
+  const renderPracticeBars = (
+    practiceScores: [string, number][],
     sectionKey: string
   ) => {
-    return disciplineScores.map(([key, value]) => {
-      const disciplineKey = key as keyof UserDisciplines;
+    return practiceScores.map(([key, value]) => {
       const projectedXp = value;
-      const xp = userProfile.disciplines[disciplineKey] ?? 0;
-      const displayName = getDisciplineDisplayName(key);
-      const icon = getDisciplineIcon(key);
+      const xp = (userProfile.practices as Record<string, number>)[key] ?? 0;
+      const displayName = getPracticeDisplayName(key);
+      const icon = getPracticeIcon(key);
       const color =
-        isDisciplineId(key) && disciplineData[key]?.color
-          ? disciplineData[key].color
+        isPracticeId(key) && practiceData[key]?.color
+          ? practiceData[key].color
           : undefined;
-      const textColor = isDisciplineId(key)
+      const textColor = isPracticeId(key)
         ? "text-primary"
         : "text-muted-foreground";
 
@@ -147,7 +146,7 @@ export const Summary = () => {
               className={`text-${color} mr-4`}
             />
           )} */}
-          <DisciplineProgressBar
+          <XpProgressBar
             xp={xp}
             projectedXp={projectedXp}
             name={displayName}
@@ -160,7 +159,7 @@ export const Summary = () => {
     });
   };
 
-  // Show loading state while fetching discipline data
+  // Show loading state while fetching practice data
   if (isLoading) {
     return (
       <JournalStepTemplate
@@ -216,7 +215,7 @@ export const Summary = () => {
                   className="text-primary mr-4"
                 /> */}
 
-                <DisciplineProgressBar
+                <XpProgressBar
                   xp={userProfile.disciplines.discipline ?? 0}
                   projectedXp={disciplineScore}
                   name="Discipline"
@@ -233,7 +232,7 @@ export const Summary = () => {
                   : hasPositiveDayDisciplineScores
               ) ? (
                 <>
-                  {renderDisciplineBars(
+                  {renderPracticeBars(
                     isEveningTime
                       ? filteredNightDisciplineScores
                       : filteredDayDisciplineScores,

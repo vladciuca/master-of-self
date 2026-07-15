@@ -9,8 +9,8 @@ import { Progress } from "@/components/ui/progress";
 import { RxChevronLeft, RxChevronRight } from "react-icons/rx";
 
 import { Welcome } from "./Welcome";
-import { PreMade } from "@components/disciplines/PreMade";
-import { UserDisciplines } from "@components/disciplines/UserDisciplines";
+import { PreMadePractices } from "@components/practices/PreMadePractices";
+import { UserPractices } from "@components/practices/UserPractices";
 // import { UserProfileOverview } from "@components/profile/UserProfileOverview";
 import { JournalEntryActionButton } from "@components/journal/JournalEntryActionButton";
 import { useCreateJournalEntry } from "@hooks/journal/useCreateJournalEntry";
@@ -42,15 +42,15 @@ export function OnboardingFlow() {
     },
     {
       id: 2,
-      title: "Pick Your First Discipline",
+      title: "Pick Your First Practice",
       subtitle: "Focus your energy on what you want to grow.",
-      content: <PreMade onboarding />,
+      content: <PreMadePractices onboarding />,
     },
     {
       id: 3,
-      title: "Manage Your Disciplines",
+      title: "Manage Your Practices",
       subtitle: "Daily prompts fuel clarity, direction, and self-awareness.",
-      content: <UserDisciplines onboarding />,
+      content: <UserPractices onboarding />,
     },
   ];
 

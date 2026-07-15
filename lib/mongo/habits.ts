@@ -288,7 +288,7 @@ export async function updateHabitsXpAndActions(
     return {
       updatedHabits: null,
       status: "no_change",
-      error: "Failed to update user disciplines",
+      error: "Failed to update user practices",
     };
   }
 }

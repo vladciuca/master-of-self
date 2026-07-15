@@ -30,8 +30,8 @@ export function useCreateJournalEntry() {
   const { updateHabits, submittingHabitsUpdate } = useUpdateHabits();
 
   const {
-    updateDisciplinesValues,
-    submittingDisciplinesValuesUpdate,
+    updatePracticesValues,
+    submittingPracticesValuesUpdate,
   } = useUserProfile();
 
   const abortControllerRef = useRef<AbortController | null>(null);
@@ -53,7 +53,7 @@ export function useCreateJournalEntry() {
       habitsLoading ||
       lastEntryLoading ||
       submittingHabitsUpdate ||
-      submittingDisciplinesValuesUpdate
+      submittingPracticesValuesUpdate
     ) {
       console.warn("Waiting for all dependent hooks to finish loading...");
       return;
@@ -80,7 +80,7 @@ export function useCreateJournalEntry() {
 
       await Promise.allSettled([
         lastEntry
-          ? updateDisciplinesValues(disciplinesPayload)
+          ? updatePracticesValues(disciplinesPayload)
           : Promise.resolve(),
 
         hasHabits && lastEntry

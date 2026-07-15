@@ -5,12 +5,12 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Card, CardContent } from "@/components/ui/card";
 import { JournalStepTemplate } from "@components/journal/journal-entry-form/form-steps/steps/journal-step/JournalStepTemplate";
 import { WillpowerScoreDisplay } from "@components/journal/journal-entry-form/form-steps/WillpowerScoreDisplay";
-import { JournalEntryDisciplineList } from "@components/journal/journal-entry-card/JournalEntryDisciplineList";
+import { JournalEntryPracticeList } from "@components/journal/journal-entry-card/JournalEntryPracticeList";
 import { useYesterdayJournalEntry } from "@hooks/journal/useYesterdayJournalEntry";
 import { BonusStepTabHeader } from "./BonusStepTabHeader";
 import { JOURNAL_COLORS } from "@lib/colors";
 import { isHexColor } from "@lib/utils";
-import { useDisciplinesData } from "@hooks/disciplines/useDisciplineData";
+import { usePracticeData } from "@hooks/practices/usePracticeData";
 import { Skeleton } from "@components/ui/skeleton";
 
 export function Bonus() {
@@ -21,18 +21,18 @@ export function Bonus() {
     nightEntryDisciplineScores,
   } = useYesterdayJournalEntry();
 
-  const { disciplineData, isLoading } = useDisciplinesData(
+  const { practiceData, isLoading } = usePracticeData(
     yesterdayEntry?.dayEntry,
     yesterdayEntry?.nightEntry
   );
 
   const isDisciplineId = (step: string): boolean => {
-    return /^[a-f\d]{24}$/i.test(step) || disciplineData[step] !== undefined;
+    return /^[a-f\d]{24}$/i.test(step) || practiceData[step] !== undefined;
   };
 
   const getDisciplineDisplayName = (disciplineKey: string): string => {
-    if (isDisciplineId(disciplineKey) && disciplineData[disciplineKey]) {
-      return disciplineData[disciplineKey].name;
+    if (isDisciplineId(disciplineKey) && practiceData[disciplineKey]) {
+      return practiceData[disciplineKey].name;
     }
     // Fallback to capitalized key
     // return disciplineKey.charAt(0).toUpperCase() + disciplineKey.slice(1);
@@ -88,7 +88,7 @@ export function Bonus() {
         const score = nightEntryDisciplineScores[scoreKey] || 0;
         const isDiscipline = isDisciplineId(disciplineKey);
         const disciplineInfo = isDiscipline
-          ? disciplineData[disciplineKey]
+          ? practiceData[disciplineKey]
           : null;
 
         // Get the display name
@@ -146,7 +146,7 @@ export function Bonus() {
       });
 
     return tabs;
-  }, [yesterdayEntry, nightEntryDisciplineScores, disciplineData]);
+  }, [yesterdayEntry, nightEntryDisciplineScores, practiceData]);
 
   const [activeTab, setActiveTab] = useState<string>("");
 
@@ -245,7 +245,7 @@ export function Bonus() {
                     </div>
                   </div>
 
-                  <JournalEntryDisciplineList
+                  <JournalEntryPracticeList
                     title={tab.disciplineTitle || tab.title}
                     items={tab.items}
                     stepType={tab.type}

@@ -6,7 +6,7 @@ import { LoadingScreen } from "@components/skeletons/LoadingScreen";
 import { useUserProfile } from "@context/UserProfileContext";
 import { useUserHabits } from "@hooks/habits/useUserHabits";
 import { useFetchAndUpdateJournalEntry } from "@hooks/journal/useFetchAndUpdateJournalEntry";
-import { useDisciplineList } from "@hooks/user/useDisciplineList";
+import { usePracticeList } from "@hooks/user/usePracticeList";
 
 export default function UpdateJournalEntry() {
   const params = useParams<{ id: string }>();
@@ -25,10 +25,10 @@ export default function UpdateJournalEntry() {
   const { hasHabits, habitsLoading } = useUserHabits();
 
   const {
-    activeDisciplineSteps,
-    disciplinesConfigsLoading,
-    disciplinesConfigsError,
-  } = useDisciplineList();
+    activePracticeSteps,
+    practicesConfigsLoading,
+    practicesConfigsError,
+  } = usePracticeList();
 
   const userEveningTime = userProfile?.journalStartTime.evening;
   const willpowerMultiplier = userProfile?.willpowerMultiplier;
@@ -37,7 +37,7 @@ export default function UpdateJournalEntry() {
     journalEntryLoading ||
     userProfileLoading ||
     habitsLoading ||
-    disciplinesConfigsLoading ||
+    practicesConfigsLoading ||
     !journalEntryData;
 
   return (
@@ -51,7 +51,7 @@ export default function UpdateJournalEntry() {
           willpowerMultiplier={willpowerMultiplier}
           //NOTE: need to give better names to these: stepList
           // and for customSteps in maybe appSteps?
-          customSteps={activeDisciplineSteps}
+          customSteps={activePracticeSteps}
           hasHabits={hasHabits}
         />
       )}

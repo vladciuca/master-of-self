@@ -1,14 +1,14 @@
 import { JournalStep } from "@components/journal/journal-entry-form/form-steps/steps/journal-step/JournalStep";
 import { DISCIPLINES } from "@lib/disciplines";
 import type { JournalCustomStepConfig, JournalCustomStep } from "@models/types";
-import type { Discipline } from "@models/mongodb";
+import type { Practice } from "@models/mongodb";
 
 export const customStepConfigs: JournalCustomStepConfig[] = DISCIPLINES;
 
 export function generateCustomStepsFromConfig(
-  disciplineSteps: JournalCustomStepConfig[] | Discipline[]
+  practiceSteps: JournalCustomStepConfig[] | Practice[]
 ): JournalCustomStep[] {
-  return disciplineSteps.map((config) => ({
+  return practiceSteps.map((config) => ({
     _id: config._id,
     icon: config.icon,
     type: config.type,

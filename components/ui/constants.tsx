@@ -97,7 +97,7 @@ export function getTimePeriodIconAndColor(
   }
 }
 
-export const DISCIPLINE_ICONS = [
+export const PRACTICE_ICONS = [
   "GiAnatomy",
   "GiAwareness",
   "GiAura",

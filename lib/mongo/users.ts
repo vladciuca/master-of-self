@@ -1,7 +1,7 @@
 import { MongoClient, Db, Collection } from "mongodb";
 import clientPromise from "./mongodb";
 import { User } from "@models/mongodb";
-import { UserDisciplines } from "@models/types";
+import { UserDisciplines, UserPractices } from "@models/types";
 
 let client: MongoClient;
 let db: Db;
@@ -65,7 +65,8 @@ export async function getOrCreateUser(
       profile: {
         willpowerMultiplier: 1.5,
         disciplines: { discipline: 0 },
-        activeDisciplines: [],
+        practices: {},
+        activePractices: [],
         journalStartTime: { morning: "08:00", evening: "18:00" },
         onboardingCompleted: false,
       },
@@ -159,12 +160,9 @@ export async function updateUserProfile(
   }
 }
 
-// UPDATE DISCIPLINES VALUES =====================================================================
-// increments existing discipline{} key values, and sets keys that do not exist
-// key is discipline ID
-export async function updateUserDisciplinesValues(
+export async function updateUserPracticesValues(
   userId: string,
-  disciplines: UserDisciplines
+  values: UserDisciplines & UserPractices
 ): Promise<{
   user: User | null;
   status: "success" | "no_change";
@@ -175,7 +173,7 @@ export async function updateUserDisciplinesValues(
 
     const query = { _id: userId };
 
-    // First, fetch the current user to check existing disciplines
+    // First, fetch the current user to check existing values
     const currentUser = await users.findOne(query);
     if (!currentUser) {
       return {
@@ -188,21 +186,25 @@ export async function updateUserDisciplinesValues(
     const incUpdate: { [key: string]: number } = {};
     const setUpdate: { [key: string]: number } = {};
 
-    // Check each discipline to determine if we need to increment or set
-    Object.entries(disciplines).forEach(([key, value]) => {
+    // Check each value to determine if we need to increment or set
+    Object.entries(values).forEach(([key, value]) => {
       if (value !== undefined && value !== null) {
-        // Check if this discipline exists in the user's profile
-        const disciplinePath = `profile.disciplines.${key}`;
-        const exists =
-          currentUser.profile?.disciplines &&
-          currentUser.profile.disciplines[key] !== undefined;
+        const isBaseDiscipline = key === "discipline";
+        const profilePath = isBaseDiscipline
+          ? `profile.disciplines.${key}`
+          : `profile.practices.${key}`;
+
+        const existingMap = isBaseDiscipline
+          ? currentUser.profile?.disciplines
+          : currentUser.profile?.practices;
+        const exists = existingMap && existingMap[key] !== undefined;
 
         if (exists) {
-          // Use $inc for existing disciplines
-          incUpdate[disciplinePath] = value;
+          // Use $inc for existing values
+          incUpdate[profilePath] = value;
         } else {
-          // Use $set for new disciplines
-          setUpdate[disciplinePath] = value;
+          // Use $set for new values
+          setUpdate[profilePath] = value;
         }
       }
     });
@@ -241,20 +243,20 @@ export async function updateUserDisciplinesValues(
       status: "success",
     };
   } catch (error) {
-    console.error("Error updating disciplines:", error);
+    console.error("Error updating practices:", error);
     return {
       user: null,
       status: "no_change",
-      error: "Failed to update user disciplines",
+      error: "Failed to update user practices",
     };
   }
 }
 
-// UPDATE USER ACTIVE DISCIPLINES LIST =======================================================
+// UPDATE USER ACTIVE PRACTICES LIST =======================================================
 // Adds / Removes IDs for the list -> used for RENDERING JOURNAL STEPS
-export async function updateActiveDisciplines(
+export async function updateActivePractices(
   userId: string,
-  disciplineId: string,
+  practiceId: string,
   action: "add" | "remove"
 ): Promise<{
   user: User | null;
@@ -267,8 +269,16 @@ export async function updateActiveDisciplines(
     const query = { _id: userId };
     const update =
       action === "add"
-        ? { $addToSet: { "profile.activeDisciplines": disciplineId } }
-        : { $pull: { "profile.activeDisciplines": disciplineId } };
+        ? {
+            $addToSet: {
+              "profile.activePractices": practiceId,
+            },
+          }
+        : {
+            $pull: {
+              "profile.activePractices": practiceId,
+            },
+          };
 
     const result = await users.findOneAndUpdate(query, update, {
       returnDocument: "after",
@@ -287,11 +297,11 @@ export async function updateActiveDisciplines(
       status: "success",
     };
   } catch (error) {
-    console.error("Error updating active disciplines:", error);
+    console.error("Error updating active practices:", error);
     return {
       user: null,
       status: "no_change",
-      error: "Failed to update user active disciplines",
+      error: "Failed to update user active practices",
     };
   }
 }
