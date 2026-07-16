@@ -37,9 +37,15 @@ export function PracticeTitleField({
             <Input
               className="text-base"
               placeholder="e.g. What am I grateful for today?"
+              maxLength={50}
               {...field}
             />
           </FormControl>
+
+          <FormDescription className="text-xs">
+            {field.value?.length ?? 0}/50 characters. Keep it short so the
+            question fits in two lines on the card.
+          </FormDescription>
 
           <FormMessage />
         </FormItem>

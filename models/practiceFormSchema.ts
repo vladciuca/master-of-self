@@ -13,7 +13,10 @@ export const practiceFormSchema = z.object({
   icon: z.string().min(1, "Please select a icon"),
   color: z.string().min(1, "Color is required"),
   type: z.enum(["dayEntry", "nightEntry"]),
-  title: z.string().min(2, "Title must contain at least 2 characters"),
+  title: z
+    .string()
+    .min(2, "Title must contain at least 2 characters")
+    .max(50, "Title must be 50 characters or less to fit in two lines"),
   description: z
     .string()
     .min(2, "Description must contain at least 2 characters"),

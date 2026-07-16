@@ -68,9 +68,9 @@ export function PracticeCard({
       className={`p-0 mb-3 border-none ${className ?? ""}`}
     >
       <IndicatorAccordionTrigger className="py-0">
-        <div className="flex flex-row w-full pl-2">
+        <div className="grid grid-cols-[auto_1fr_auto] grid-rows-[auto_auto] gap-x-2 w-full pl-2 items-start">
           {resolvedIcon && (
-            <div className="flex-shrink-0 flex items-center justify-center mb-0 mr-2 w-[66px] h-[66px] overflow-visible">
+            <div className="col-start-1 row-start-1 row-span-2 self-start justify-self-center w-[66px] h-[66px] overflow-visible">
               <IconRenderer
                 iconName={resolvedIcon}
                 className={`${iconFrameClass} ${iconColorClass}`}
@@ -80,24 +80,22 @@ export function PracticeCard({
             </div>
           )}
 
-          <div className="px-2 flex flex-col items-start w-full min-w-0">
-            {(resolvedDiscipline || resolvedTitle) && (
-              <div className="h-full w-full capitalize text-sm flex items-start text-muted-foreground justify-between">
-                <span className={resolvedDiscipline ? "" : "invisible"}>
-                  {resolvedDiscipline || "placeholder"}
-                </span>
-              </div>
-            )}
-            {resolvedTitle && (
-              <div className="h-full mt-1 text-[1rem] text-start flex items-baseline">
-                <div>{resolvedTitle}</div>
-              </div>
-            )}
-          </div>
+          {(resolvedDiscipline || resolvedTitle) && (
+            <div className="col-start-2 row-start-1 self-start text-start text-sm text-muted-foreground capitalize">
+              <span className={resolvedDiscipline ? "" : "invisible"}>
+                {resolvedDiscipline || "placeholder"}
+              </span>
+            </div>
+          )}
+          {resolvedTitle && (
+            <div className="col-start-2 row-start-2 self-start text-[1rem] text-start">
+              {resolvedTitle}
+            </div>
+          )}
 
           {action && (
             <div
-              className="flex-shrink-0 flex items-center justify-center"
+              className="col-start-3 row-start-2 self-start justify-self-center"
               onClick={(e) => e.stopPropagation()}
             >
               {action}
