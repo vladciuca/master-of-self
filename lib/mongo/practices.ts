@@ -170,20 +170,14 @@ export async function getPractices(userId: string): Promise<{
   }
 }
 
-// GET ALL PRACTICES (excluding specific user) =========================================
-export async function getAllPracticesExceptUser(
-  excludeUserId: string
-): Promise<{
+export async function getAllPractices(): Promise<{
   practices: Practice[] | null;
   error?: string;
 }> {
   try {
     if (!practices) await init();
 
-    // Query that excludes the specified user
-    const query = { creatorId: { $ne: excludeUserId } };
-
-    const result = await practices.find(query).toArray();
+    const result = await practices.find({}).toArray();
 
     return { practices: result };
   } catch (error) {

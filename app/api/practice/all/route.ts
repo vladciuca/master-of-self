@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs/server";
-import { getAllPracticesExceptUser } from "@lib/mongo/practices";
+import { getAllPractices } from "@lib/mongo/practices";
 
 export async function GET(request: NextRequest) {
   try {
@@ -10,7 +10,7 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const { practices, error } = await getAllPracticesExceptUser(userId);
+    const { practices, error } = await getAllPractices();
 
     if (error || !practices) {
       return NextResponse.json(
