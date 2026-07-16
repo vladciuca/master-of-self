@@ -83,7 +83,7 @@ function CreatePageCard({ onCreate }: { onCreate: () => void }) {
       title="Create a New Practice"
       color="primary"
       hideIconBorder
-      iconSize={72}
+      iconSize={80}
       action={
         <Button
           variant="default"

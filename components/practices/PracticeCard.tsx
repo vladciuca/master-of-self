@@ -51,7 +51,7 @@ export function PracticeCard({
   const resolvedColor = color ?? step?.color;
 
   const iconFrameClass = hideIconBorder
-    ? "p-2 rounded-md"
+    ? "rounded-md"
     : "border border-primary p-2 rounded-md";
   const iconColorClass = isHexColor(resolvedColor)
     ? ""
@@ -68,9 +68,9 @@ export function PracticeCard({
       className={`p-0 mb-3 border-none ${className ?? ""}`}
     >
       <IndicatorAccordionTrigger className="py-0">
-        <div className="grid grid-cols-[auto_1fr_auto] grid-rows-[auto_auto] gap-x-2 w-full pl-2 items-start">
+        <div className="grid grid-cols-[auto_1fr_auto] grid-rows-[1.25rem_auto] gap-x-2 w-full pl-2 items-start">
           {resolvedIcon && (
-            <div className="col-start-1 row-start-1 row-span-2 self-start justify-self-center w-[66px] h-[66px] overflow-visible">
+            <div className="col-start-1 row-start-1 row-span-2 self-center justify-self-center w-[66px] h-[66px] overflow-visible">
               <IconRenderer
                 iconName={resolvedIcon}
                 className={`${iconFrameClass} ${iconColorClass}`}
@@ -88,14 +88,14 @@ export function PracticeCard({
             </div>
           )}
           {resolvedTitle && (
-            <div className="col-start-2 row-start-2 self-start text-[1rem] text-start">
+            <div className="col-start-2 row-start-2 self-center text-[1rem] text-start leading-tight">
               {resolvedTitle}
             </div>
           )}
 
           {action && (
             <div
-              className="col-start-3 row-start-2 self-start justify-self-center"
+              className="col-start-3 row-start-2 self-end justify-self-center"
               onClick={(e) => e.stopPropagation()}
             >
               {action}
