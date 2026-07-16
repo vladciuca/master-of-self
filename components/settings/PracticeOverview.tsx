@@ -83,18 +83,19 @@ function CreatePageCard({ onCreate }: { onCreate: () => void }) {
       title="Create a New Practice"
       color="primary"
       hideIconBorder
+      iconSize={72}
       action={
         <Button
-          variant="outline"
+          variant="default"
           size="icon"
-          className="rounded-full h-10 w-10"
+          className="rounded-full h-8 w-8 mr-[6px]"
           aria-label="Create a new practice"
           onClick={(e) => {
             e.stopPropagation();
             onCreate();
           }}
         >
-          <Plus className="h-5 w-5" />
+          <Plus className="h-5 w-5" strokeWidth={2.5} />
         </Button>
       }
       expandedContent={
