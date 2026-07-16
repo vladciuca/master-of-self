@@ -24,6 +24,7 @@ type PracticeCardProps = {
   footer?: React.ReactNode;
   expandedContent?: React.ReactNode;
   showDescription?: boolean;
+  hideIconBorder?: boolean;
   className?: string;
 };
 
@@ -38,6 +39,7 @@ export function PracticeCard({
   footer,
   expandedContent,
   showDescription = true,
+  hideIconBorder,
   className,
 }: PracticeCardProps) {
   const resolvedValue = value ?? (step ? String(step._id) : "");
@@ -46,7 +48,9 @@ export function PracticeCard({
   const resolvedDiscipline = discipline ?? step?.discipline;
   const resolvedColor = color ?? step?.color;
 
-  const iconFrameClass = "border border-primary p-2 rounded-md";
+  const iconFrameClass = hideIconBorder
+    ? "p-2 rounded-md"
+    : "border border-primary p-2 rounded-md";
   const iconColorClass = isHexColor(resolvedColor)
     ? ""
     : resolvedColor

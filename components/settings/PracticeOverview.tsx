@@ -79,9 +79,10 @@ function CreatePageCard({ onCreate }: { onCreate: () => void }) {
   return (
     <PracticeCard
       value="create-new-page"
-      icon="FaCircleQuestion"
+      icon="GiSpellBook"
       title="Create a New Practice"
       color="primary"
+      hideIconBorder
       action={
         <Button
           variant="outline"
