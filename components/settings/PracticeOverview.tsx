@@ -3,23 +3,17 @@
 import { useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { useUser } from "@clerk/nextjs";
-import { IconRenderer } from "@components/IconRenderer";
+import { PracticeCard } from "@components/practices/PracticeCard";
 import { PracticeSwitch } from "@components/practices/discipline-card/PracticeSwitch";
+import { IconRenderer } from "@components/IconRenderer";
 import { Button } from "@components/ui/button";
 import { Skeleton } from "@components/ui/skeleton";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@components/ui/accordion";
+import { Accordion } from "@components/ui/accordion";
 import { useUserProfile } from "@context/UserProfileContext";
 import { usePracticeList } from "@hooks/user/usePracticeList";
 import { DISCIPLINES } from "@lib/disciplines";
 import { JOURNAL_COLORS } from "@lib/colors";
-import { isHexColor } from "@lib/utils";
 import { stepIconMap } from "@components/ui/constants";
-import { TbChevronCompactDown } from "react-icons/tb";
 import { Plus, Trash2 } from "lucide-react";
 import type { User } from "@models/types";
 import type { Practice } from "@models/mongodb";
@@ -82,108 +76,46 @@ function SectionHeader({
 }
 
 function CreatePageCard({ onCreate }: { onCreate: () => void }) {
-  const CREATE_PAGE_ID = "create-new-page";
-
   return (
-    <AccordionItem
-      value={CREATE_PAGE_ID}
-      className="border-none px-0 py-0 mb-3 bg-transparent"
-    >
-      <AccordionTrigger className="flex items-center gap-3 py-0 hover:no-underline [&[data-state=open]_.chevron]:rotate-180">
-        <div className="flex items-center gap-3 flex-1 min-w-0">
-          <div className="flex-shrink-0 border-2 rounded-xl p-2.5 border-primary">
-            <IconRenderer
-              iconName="FaCircleQuestion"
-              className="text-primary"
-              size={28}
-            />
-          </div>
-
-          <div className="flex-1 text-left min-w-0">
-            <div className="font-medium leading-snug">Create a New Practice</div>
-            <div className="flex justify-center mt-1">
-              <TbChevronCompactDown className="chevron h-4 w-6 transition-transform duration-200 ease-in-out" />
-            </div>
-          </div>
-        </div>
-
-        <div
-          className="flex-shrink-0"
+    <PracticeCard
+      value="create-new-page"
+      icon="FaCircleQuestion"
+      title="Create a New Practice"
+      color="primary"
+      action={
+        <Button
+          variant="outline"
+          size="icon"
+          className="rounded-full h-10 w-10"
+          aria-label="Create a new practice"
           onClick={(e) => {
             e.stopPropagation();
             onCreate();
           }}
         >
-          <Button
-            variant="outline"
-            size="icon"
-            className="rounded-full h-10 w-10"
-            aria-label="Create a new practice"
-          >
-            <Plus className="h-5 w-5" />
-          </Button>
-        </div>
-      </AccordionTrigger>
-
-      <AccordionContent className="pb-0 pt-0">
-        <div className="pl-[3.75rem] text-sm text-muted-foreground">
+          <Plus className="h-5 w-5" />
+        </Button>
+      }
+      expandedContent={
+        <div className="px-2 mt-2 text-sm text-muted-foreground">
           <p>
             Build a custom practice with your own prompt, discipline, and daily
             or nightly rhythm.
           </p>
         </div>
-      </AccordionContent>
-    </AccordionItem>
+      }
+      showDescription={false}
+    />
   );
 }
 
-function BaseDisciplineCard({
-  page,
-  onEdit,
-  userId,
-}: {
-  page: PageItem;
-  onEdit: (page: PageItem) => void;
-  userId?: string;
-}) {
-  const pageId = String(page._id);
-  const color = page.color ?? "primary";
-
+function BaseDisciplineCard({ page }: { page: PageItem }) {
   return (
-    <AccordionItem
-      value={pageId}
-      className="border-none px-0 py-0 mb-3 bg-transparent"
-    >
-      <AccordionTrigger className="flex items-center gap-3 py-0 hover:no-underline [&[data-state=open]_.chevron]:rotate-180">
-        <div className="flex items-center gap-3 flex-1 min-w-0">
-          <div
-            className={`flex-shrink-0 border-2 rounded-xl p-2.5 ${
-              isHexColor(color) ? "" : `border-${color}`
-            }`}
-            style={isHexColor(color) ? { borderColor: color } : undefined}
-          >
-            <IconRenderer
-              iconName={page.icon}
-              className={isHexColor(color) ? "" : `text-${color}`}
-              size={28}
-              style={isHexColor(color) ? { color } : undefined}
-            />
-          </div>
-
-          <div className="flex-1 text-left min-w-0">
-            <div className="text-sm text-muted-foreground capitalize">
-              {page.discipline}
-            </div>
-            <div className="font-medium leading-snug">Commit &amp; Review</div>
-            <div className="flex justify-center mt-1">
-              <TbChevronCompactDown className="chevron h-4 w-6 transition-transform duration-200 ease-in-out" />
-            </div>
-          </div>
-        </div>
-      </AccordionTrigger>
-
-      <AccordionContent className="pb-0 pt-0">
-        <div className="pl-[3.75rem] text-sm text-muted-foreground space-y-3">
+    <PracticeCard
+      step={page}
+      title="Commit & Review"
+      expandedContent={
+        <div className="px-2 mt-2 text-sm text-muted-foreground space-y-3">
           <p>
             Write your commitments each morning, then check them off as you go. In
             the evening, reflect on what you completed and choose what to carry
@@ -208,135 +140,63 @@ function BaseDisciplineCard({
               <span>How great was today?</span>
             </div>
           </div>
-
-          {isOwnPage(page, userId) && (
-            <div className="mt-3">
-              <Button
-                variant="outline"
-                size="sm"
-                className="w-full"
-                onClick={() => onEdit(page)}
-              >
-                Edit
-              </Button>
-            </div>
-          )}
         </div>
-      </AccordionContent>
-    </AccordionItem>
+      }
+      showDescription={false}
+    />
   );
 }
 
 function PageCard({
   page,
   isActive,
-  isBaseDiscipline,
   onToggle,
   onEdit,
   onDelete,
   userId,
-  showTypeIcon = true,
 }: {
   page: PageItem;
   isActive: boolean;
-  isBaseDiscipline: boolean;
   onToggle: (checked: boolean) => void;
   onEdit: (page: PageItem) => void;
   onDelete: (page: PageItem) => void;
   userId?: string;
-  showTypeIcon?: boolean;
 }) {
-  const pageId = String(page._id);
-  const typeIcon =
-    page.type === "dayEntry" ? stepIconMap.day : stepIconMap.night;
-  const color = page.color ?? "primary";
-
   return (
-    <AccordionItem
-      value={pageId}
-      className="border-none px-0 py-0 mb-3 bg-transparent"
-    >
-      <AccordionTrigger className="flex items-center gap-3 py-0 hover:no-underline [&[data-state=open]_.chevron]:rotate-180">
-        <div className="flex items-center gap-3 flex-1 min-w-0">
-          <div
-            className={`flex-shrink-0 border-2 rounded-xl p-2.5 ${
-              isHexColor(color) ? "" : `border-${color}`
-            }`}
-            style={isHexColor(color) ? { borderColor: color } : undefined}
-          >
-            <IconRenderer
-              iconName={page.icon}
-              className={isHexColor(color) ? "" : `text-${color}`}
-              size={28}
-              style={isHexColor(color) ? { color } : undefined}
-            />
+    <PracticeCard
+      step={page}
+      action={
+        <PracticeSwitch
+          type={page.type}
+          checked={isActive}
+          onCheckedChange={onToggle}
+          disabled={false}
+        />
+      }
+      footer={
+        isOwnPage(page, userId) ? (
+          <div className="px-2 mt-2 flex gap-2">
+            <Button
+              variant="outline"
+              size="sm"
+              className="flex-1"
+              onClick={() => onEdit(page)}
+            >
+              Edit
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              className="flex-shrink-0 text-destructive hover:text-destructive"
+              onClick={() => onDelete(page)}
+              aria-label="Delete practice"
+            >
+              <Trash2 className="h-4 w-4" />
+            </Button>
           </div>
-
-          <div className="flex-1 text-left min-w-0">
-            {showTypeIcon && (
-              <div className="flex items-center gap-1.5 text-sm text-muted-foreground capitalize">
-                <IconRenderer
-                  iconName={typeIcon}
-                  className="text-primary"
-                  size={14}
-                />
-                <span>{page.discipline}</span>
-              </div>
-            )}
-            {!showTypeIcon && (
-              <div className="text-sm text-muted-foreground capitalize">
-                {page.discipline}
-              </div>
-            )}
-            <div className="font-medium leading-snug">{page.title}</div>
-            <div className="flex justify-center mt-1">
-              <TbChevronCompactDown className="chevron h-4 w-6 transition-transform duration-200 ease-in-out" />
-            </div>
-          </div>
-        </div>
-
-        {!isBaseDiscipline && (
-          <div
-            className="flex-shrink-0"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <PracticeSwitch
-              type={page.type}
-              checked={isActive}
-              onCheckedChange={onToggle}
-              disabled={false}
-            />
-          </div>
-        )}
-      </AccordionTrigger>
-
-      <AccordionContent className="pb-0 pt-0">
-        <div className="pl-[3.75rem] text-sm text-muted-foreground">
-          <p>{page.description}</p>
-          {isOwnPage(page, userId) && (
-            <div className="mt-3 flex gap-2">
-              <Button
-                variant="outline"
-                size="sm"
-                className="flex-1"
-                onClick={() => onEdit(page)}
-              >
-                Edit
-              </Button>
-              <Button
-                variant="outline"
-                size="sm"
-                className="flex-shrink-0 text-destructive hover:text-destructive"
-                onClick={() => onDelete(page)}
-                aria-label="Delete practice"
-              >
-                <Trash2 className="h-4 w-4" />
-              </Button>
-            </div>
-          )}
-        </div>
-      </AccordionContent>
-    </AccordionItem>
+        ) : undefined
+      }
+    />
   );
 }
 
@@ -487,11 +347,7 @@ export function PracticeOverview() {
       <CreatePageCard onCreate={handleCreatePage} />
 
       {baseDiscipline && (
-        <BaseDisciplineCard
-          page={baseDiscipline}
-          onEdit={handleEdit}
-          userId={user?.id}
-        />
+        <BaseDisciplineCard page={baseDiscipline} />
       )}
 
       {sections.map((section) => (
@@ -512,12 +368,10 @@ export function PracticeOverview() {
                   key={pageId}
                   page={page}
                   isActive={isActive}
-                  isBaseDiscipline={false}
                   onToggle={handleToggle(pageId)}
                   onEdit={handleEdit}
                   onDelete={handleDelete}
                   userId={user?.id}
-                  showTypeIcon={false}
                 />
               );
             })}

@@ -1,14 +1,10 @@
 import React from "react";
-import { PracticeFeedHeader } from "./PracticeFeedHeader";
+import { PracticeCard } from "../PracticeCard";
 import { PracticeFeedFooter } from "./PracticeFeedFooter";
-import { PracticeCardContent } from "../discipline-card/PracticeCardContent";
 import { PracticeCreator } from "../discipline-card/PracticeCreator";
-import {
-  AccordionContent,
-  AccordionItem,
-  // AccordionTrigger,
-} from "@/components/ui/accordion";
-import { IndicatorAccordionTrigger } from "@/components/ui/indicator-accordion-trigger";
+import { IconRenderer } from "@components/IconRenderer";
+import { stepIconMap } from "@components/ui/constants";
+import { JOURNAL_COLORS } from "@lib/colors";
 import type { JournalCustomStepConfig } from "@models/types";
 import type { Practice } from "@models/mongodb";
 
@@ -18,35 +14,28 @@ type PracticeFeedCardProps = {
   step: Step;
 };
 
+function DayNightIcon({ type }: { type?: string }) {
+  const isDay = type === "dayEntry";
+  return (
+    <IconRenderer
+      iconName={isDay ? stepIconMap.day : stepIconMap.night}
+      className={isDay ? `text-${JOURNAL_COLORS.day}` : `text-${JOURNAL_COLORS.night}`}
+      size={22}
+    />
+  );
+}
+
 export function PracticeFeedCard({ step }: PracticeFeedCardProps) {
   return (
-    <>
-      <AccordionItem
-        key={step.discipline}
-        value={step.discipline}
-        className="p-0 mb-3 border-none"
-      >
-        <IndicatorAccordionTrigger className="py-0">
-          <PracticeFeedHeader
-            icon={step.icon}
-            discipline={step.discipline}
-            title={step.title}
-            type={step.type}
-            color={"color" in step ? step.color : undefined}
-            stepId={String(step._id)}
-          />
-        </IndicatorAccordionTrigger>
-        <AccordionContent>
-          <PracticeCardContent
-            // title={step.title}
-            description={step.description}
-          />
-          <PracticeFeedFooter stepId={String(step._id)} />
-          {step?.creatorId && (
-            <PracticeCreator creatorId={String(step.creatorId)} />
-          )}
-        </AccordionContent>
-      </AccordionItem>
-    </>
+    <PracticeCard
+      step={step}
+      action={<DayNightIcon type={step.type} />}
+      footer={<PracticeFeedFooter stepId={String(step._id)} />}
+      expandedContent={
+        step?.creatorId
+          ? <PracticeCreator creatorId={String(step.creatorId)} />
+          : undefined
+      }
+    />
   );
 }
