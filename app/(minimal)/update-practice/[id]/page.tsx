@@ -23,7 +23,7 @@ export default function UpdatePractice() {
     try {
       await updatePractice(practice);
       //NOTE: use constants for these
-      router.push("/profile?page=practices");
+      router.push("/settings?page=Practices");
     } catch (error) {
       console.error("Failed to update practice:", error);
       // Handle error (e.g., show toast notification)
@@ -42,7 +42,7 @@ export default function UpdatePractice() {
     <div className="pt-6 h-full">
       {practiceData && (
         <PracticeForm
-          type="Update"
+          type="Edit"
           practice={practiceData}
           submitting={submittingPracticeUpdate}
           onSubmit={handleUpdatePractice}

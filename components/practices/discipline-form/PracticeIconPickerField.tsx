@@ -15,7 +15,7 @@ type DisciplineIconPickerFieldProps = {
   control: Control<PracticeZodType>;
   // xp?: number;
   // projectedXp?: number;
-  type: "Create" | "Update";
+  type: "Create" | "Edit";
 };
 
 export function PracticeIconPickerField({

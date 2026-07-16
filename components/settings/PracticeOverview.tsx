@@ -51,14 +51,31 @@ function SectionHeader({
   total: number;
   icon?: string;
 }) {
+  const isMorning = title === "Morning";
+  const iconColor =
+    active === 0
+      ? "text-muted-foreground"
+      : isMorning
+        ? `text-${JOURNAL_COLORS.day}`
+        : `text-${JOURNAL_COLORS.night}`;
+  const textColor = active === 0 ? "text-muted-foreground" : "text-primary";
+
   return (
-    <div className="flex items-center justify-between py-3 px-1">
-      <div className="flex items-center gap-2">
-        {icon && <IconRenderer iconName={icon} size={18} className="text-primary" />}
-        <h3 className="font-semibold text-primary">{title}</h3>
+    <div className="flex items-center justify-between my-4 bg-muted/30 rounded-md p-2 px-3">
+      <div className={`font-semibold tracking-tight ${textColor}`}>
+        {title}
       </div>
-      <div className="text-sm font-medium text-muted-foreground">
-        {active} / {total}
+      <div className="flex items-center space-x-2">
+        <span className="text-xl font-semibold tracking-tight flex items-center">
+          {active}
+          <span className="font-thin mx-1 text-muted-foreground">/</span>
+          <span className="text-muted-foreground">{total}</span>
+          <span className="ml-2">
+            {icon && (
+              <IconRenderer iconName={icon} size={20} className={iconColor} />
+            )}
+          </span>
+        </span>
       </div>
     </div>
   );
@@ -328,7 +345,7 @@ function PagesOverviewSkeleton() {
     <div className="space-y-4">
       {[1, 2].map((section) => (
         <div key={section}>
-          <div className="flex items-center justify-between py-3 px-1">
+          <div className="flex items-center justify-between my-4 bg-muted/30 rounded-md p-2 px-3">
             <Skeleton className="h-5 w-24" />
             <Skeleton className="h-5 w-10" />
           </div>
@@ -395,13 +412,13 @@ export function PracticeOverview() {
       });
 
     const daySection: PageSection = {
-      title: "Day",
+      title: "Morning",
       icon: stepIconMap.day,
       pages: day,
     };
 
     const nightSection: PageSection = {
-      title: "Night",
+      title: "Evening",
       icon: stepIconMap.night,
       pages: night,
     };

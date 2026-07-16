@@ -20,7 +20,7 @@ import { DISCIPLINE_COLORS } from "@lib/colors";
 
 type DisciplineColorFieldProps = {
   control: Control<PracticeZodType>;
-  type: "Create" | "Update";
+  type: "Create" | "Edit";
 };
 
 const mapDisciplineColorsToTailwind = (colorsObj: Record<string, string>) =>

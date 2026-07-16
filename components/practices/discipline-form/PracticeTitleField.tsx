@@ -12,7 +12,7 @@ import { PracticeZodType } from "@models/practiceFormSchema";
 
 type DisciplineTitleFieldProps = {
   control: Control<PracticeZodType>;
-  type: "Create" | "Update";
+  type: "Create" | "Edit";
 };
 
 export function PracticeTitleField({

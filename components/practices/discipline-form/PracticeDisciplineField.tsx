@@ -19,7 +19,7 @@ import { DISCIPLINES } from "@lib/disciplines";
 
 type DisciplineNameFieldProps = {
   control: Control<PracticeZodType>;
-  type: "Create" | "Update";
+  type: "Create" | "Edit";
 };
 
 function DisciplineColorDot({ color }: { color: string }) {

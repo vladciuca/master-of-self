@@ -18,7 +18,7 @@ import {
 } from "@models/practiceFormSchema";
 
 type PracticeFormProps = {
-  type: "Update" | "Create";
+  type: "Edit" | "Create";
   submitting: boolean;
   onSubmit: (habit: PracticeZodType) => Promise<void>;
   practice?: PracticeZodType;
@@ -33,18 +33,18 @@ export function PracticeForm({
   const form = useForm<PracticeZodType>({
     resolver: zodResolver(practiceFormSchema),
     defaultValues: {
-      id: type === "Update" ? practice?.id : undefined,
-      discipline: type === "Update" ? practice?.discipline : "",
-      icon: type === "Update" ? practice?.icon : "",
-      color: type === "Update" ? practice?.color : "",
-      type: type === "Update" ? practice?.type : "dayEntry",
-      title: type === "Update" ? practice?.title : "",
-      description: type === "Update" ? practice?.description : "",
+      id: type === "Edit" ? practice?.id : undefined,
+      discipline: type === "Edit" ? practice?.discipline : "",
+      icon: type === "Edit" ? practice?.icon : "",
+      color: type === "Edit" ? practice?.color : "",
+      type: type === "Edit" ? practice?.type : "dayEntry",
+      title: type === "Edit" ? practice?.title : "",
+      description: type === "Edit" ? practice?.description : "",
     },
   });
 
   useEffect(() => {
-    if (type === "Update" && practice) {
+    if (type === "Edit" && practice) {
       form.reset(practice);
     }
   }, [type, practice, form]);
