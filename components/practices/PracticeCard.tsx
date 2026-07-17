@@ -65,7 +65,7 @@ export function PracticeCard({
   return (
     <AccordionItem
       value={resolvedValue}
-      className={`p-0 mb-3 border-none ${className ?? ""}`}
+      className={`p-0 border-none ${className ?? ""}`}
     >
       <IndicatorAccordionTrigger className="py-0">
         <div className="grid grid-cols-[auto_1fr_auto] grid-rows-[1.25rem_auto] gap-x-2 w-full pl-2 items-start">
