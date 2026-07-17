@@ -1,5 +1,5 @@
 import { AccordionTrigger } from "@/components/ui/accordion";
-import { TbChevronCompactDown } from "react-icons/tb";
+import { PiCaretDownFill } from "react-icons/pi";
 import { cn } from "@/lib/utils";
 import type { ReactNode } from "react";
 
@@ -22,7 +22,7 @@ export function IndicatorAccordionTrigger({
       <div className="flex flex-col w-full">
         {children}
         <div className="flex justify-center">
-          <TbChevronCompactDown className="h-4 w-6 transition-transform duration-200 ease-in-out" />
+          <PiCaretDownFill className="h-4 w-6 transition-transform duration-200 ease-in-out" />
         </div>
       </div>
     </AccordionTrigger>
