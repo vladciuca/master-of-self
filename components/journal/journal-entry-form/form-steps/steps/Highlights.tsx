@@ -20,7 +20,7 @@ export function Highlights() {
       title="Highlights of the day"
       description="What were today's highlights"
       scoreSection={
-        <StepScoreDisplay items={highlights ?? []} scoreName="Motivation" />
+        <StepScoreDisplay items={highlights ?? []} scoreName="Discipline" />
       }
     >
       <TextAreaList

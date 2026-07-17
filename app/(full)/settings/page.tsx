@@ -1,14 +1,14 @@
 "use client";
 
-import { useUser } from "@clerk/nextjs";
 import { useState, useEffect } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
-import { UserProfileOverview } from "@components/profile/UserProfileOverview";
+import { PracticeOverview } from "@components/settings/PracticeOverview";
 import { MobileSideContent } from "components/side-content/MobileSideContent";
 import { DaySplit } from "@components/profile/DaySplit";
 import { SignOut } from "@components/profile/SignOut";
 import { DiscordPage } from "@components/side-content/community/DiscordPage";
 import { Button } from "@/components/ui/button";
+import { useUser } from "@clerk/nextjs";
 import { useScreenSize } from "@hooks/useScreenSize";
 
 export default function Settings() {
@@ -19,10 +19,8 @@ export default function Settings() {
 
   const pageConfig = [
     {
-      name: "Overview",
-      component: (
-        <UserProfileOverview userId={user?.id} notCurrentUser={false} />
-      ),
+      name: "Practices",
+      component: <PracticeOverview />,
     },
     {
       name: "Settings",

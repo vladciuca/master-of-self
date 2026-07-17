@@ -17,15 +17,15 @@
 //   //UPDATE USER JOURNAL TIMES================================================================
 //   handleTimeChange: (period: "morning" | "evening", value: string) => void;
 //   //UPDATE ACTIVE DISCIPLINE LIST============================================================
-//   updateActiveDiscipline: (disciplineId: string, isActive: boolean) => void;
+//   updateActivePractice: (practiceId: string, isActive: boolean) => void;
 //   submittingActiveUpdate: boolean;
 //   updateActiveError: string | null;
 //   //UPDATE DISCIPLINE VALUES=================================================================
-//   updateDisciplinesValues: (
-//     disciplineUpdates: Record<string, number>
+//   updatePracticesValues: (
+//     practiceUpdates: Record<string, number>
 //   ) => Promise<{ success: boolean; data?: any; error?: string } | undefined>;
-//   submittingDisciplinesValuesUpdate: boolean;
-//   updateDisciplinesValuesError: string | null;
+//   submittingPracticesValuesUpdate: boolean;
+//   updatePracticesValuesError: string | null;
 // };
 
 // // Create the context
@@ -40,7 +40,7 @@
 //   const [userProfile, setUserProfile] = useState<UserProfile>({
 //     willpowerMultiplier: 1.5,
 //     disciplines: {},
-//     activeDisciplines: [],
+//     activePractices: [],
 //     journalStartTime: {
 //       morning: "08:00",
 //       evening: "18:00",
@@ -52,10 +52,10 @@
 
 //   // State for discipline value updates
 //   const [
-//     submittingDisciplinesValuesUpdate,
-//     setSubmittingDisciplinesValuesUpdate,
+//     submittingPracticesValuesUpdate,
+//     setSubmittingPracticesValuesUpdate,
 //   ] = useState(false);
-//   const [updateDisciplinesValuesError, setUpdateDisciplinesValuesError] =
+//   const [updatePracticesValuesError, setUpdatePracticesValuesError] =
 //     useState<string | null>(null);
 
 //   //  State for Active Discipline ID list
@@ -67,7 +67,7 @@
 //   const fetchAbortControllerRef = useRef<AbortController | null>(null);
 //   const updateAbortControllerRef = useRef<AbortController | null>(null);
 //   // ref for DISCIPLINE VALUE updates
-//   const disciplinesUpdateAbortControllerRef = useRef<AbortController | null>(
+//   const practicesUpdateAbortControllerRef = useRef<AbortController | null>(
 //     null
 //   );
 //   // ref for ACTIVE DISCIPLINE ID LIST updates
@@ -80,7 +80,7 @@
 //       [
 //         fetchAbortControllerRef,
 //         updateAbortControllerRef,
-//         disciplinesUpdateAbortControllerRef,
+//         practicesUpdateAbortControllerRef,
 //         activeUpdateAbortControllerRef,
 //       ].forEach((ref) => {
 //         if (ref.current) {
@@ -206,41 +206,41 @@
 //     });
 //   };
 
-//   const updateDisciplinesValues = async (
-//     disciplineUpdates: Record<string, number>
+//   const updatePracticesValues = async (
+//     practiceUpdates: Record<string, number>
 //   ) => {
 //     if (!user?.id) {
 //       return { success: false, error: "User not authenticated" };
 //     }
 
 //     // Cancel any in-progress update
-//     if (disciplinesUpdateAbortControllerRef.current) {
-//       disciplinesUpdateAbortControllerRef.current.abort();
+//     if (practicesUpdateAbortControllerRef.current) {
+//       practicesUpdateAbortControllerRef.current.abort();
 //     }
 
 //     // Create a new AbortController
-//     disciplinesUpdateAbortControllerRef.current = new AbortController();
-//     const { signal } = disciplinesUpdateAbortControllerRef.current;
+//     practicesUpdateAbortControllerRef.current = new AbortController();
+//     const { signal } = practicesUpdateAbortControllerRef.current;
 
-//     setSubmittingDisciplinesValuesUpdate(true);
-//     setUpdateDisciplinesValuesError(null);
+//     setSubmittingPracticesValuesUpdate(true);
+//     setUpdatePracticesValuesError(null);
 
 //     // Create a copy of the current disciplines for optimistic update
-//     const currentDisciplines = { ...userProfile.disciplines };
+//     const currentPractices = { ...userProfile.disciplines };
 
 //     // Apply optimistic update
 //     setUserProfile((prev) => ({
 //       ...prev,
 //       disciplines: {
 //         ...prev.disciplines,
-//         ...disciplineUpdates,
+//         ...practiceUpdates,
 //       },
 //     }));
 
 //     try {
 //       const payload = {
 //         userId: user.id,
-//         disciplines: disciplineUpdates,
+//         disciplines: practiceUpdates,
 //       };
 
 //       const response = await fetch(
@@ -279,31 +279,31 @@
 //       // Rollback optimistic update on error
 //       setUserProfile((prev) => ({
 //         ...prev,
-//         disciplines: currentDisciplines || {},
+//         disciplines: currentPractices || {},
 //       }));
 
 //       console.error("Error updating disciplines:", error);
-//       setUpdateDisciplinesValuesError(
+//       setUpdatePracticesValuesError(
 //         (error as Error).message || "Failed to update disciplines"
 //       );
 //       return { success: false, error: (error as Error).message };
 //     } finally {
 //       if (!signal.aborted) {
-//         setSubmittingDisciplinesValuesUpdate(false);
+//         setSubmittingPracticesValuesUpdate(false);
 //       }
 
 //       // Clear the ref after completion if it's the same controller
 //       if (
-//         disciplinesUpdateAbortControllerRef.current &&
-//         signal === disciplinesUpdateAbortControllerRef.current.signal
+//         practicesUpdateAbortControllerRef.current &&
+//         signal === practicesUpdateAbortControllerRef.current.signal
 //       ) {
-//         disciplinesUpdateAbortControllerRef.current = null;
+//         practicesUpdateAbortControllerRef.current = null;
 //       }
 //     }
 //   };
 
-//   const updateActiveDiscipline = async (
-//     disciplineId: string,
+//   const updateActivePractice = async (
+//     practiceId: string,
 //     isActive: boolean
 //   ) => {
 //     if (!userProfile || !user?.id) return;
@@ -321,27 +321,27 @@
 //     setSubmittingActiveUpdate(true);
 //     setUpdateActiveError(null);
 
-//     const current = [...userProfile.activeDisciplines];
+//     const current = [...userProfile.activePractices];
 //     const nextDisciplines = isActive
-//       ? [...current, disciplineId]
-//       : current.filter((id) => id !== disciplineId);
+//       ? [...current, practiceId]
+//       : current.filter((id) => id !== practiceId);
 
 //     // Optimistically update local state
 //     setUserProfile({
 //       ...userProfile,
-//       activeDisciplines: nextDisciplines,
+//       activePractices: nextDisciplines,
 //     });
 
 //     try {
 //       const action = isActive ? "add" : "remove";
 //       const response = await fetch(
-//         `/api/users/${user.id}/disciplines/active`,
+//         `/api/users/${user.id}/practices/active`,
 //         {
 //           method: "PATCH",
 //           headers: {
 //             "Content-Type": "application/json",
 //           },
-//           body: JSON.stringify({ disciplineId, action }),
+//           body: JSON.stringify({ practiceId, action }),
 //           signal,
 //         }
 //       );
@@ -358,7 +358,7 @@
 //       // Sync state from server
 //       setUserProfile((prev) => ({
 //         ...prev!,
-//         activeDisciplines: data.activeDisciplines,
+//         activePractices: data.activePractices,
 //       }));
 //     } catch (error) {
 //       // Handle abort error separately
@@ -375,7 +375,7 @@
 //       // Rollback optimistic update
 //       setUserProfile({
 //         ...userProfile,
-//         activeDisciplines: current,
+//         activePractices: current,
 //       });
 //     } finally {
 //       // Only update state if the request wasn't aborted
@@ -400,11 +400,11 @@
 //     userProfileError,
 //     handleTimeChange,
 //     // UPDATE_DISC VALUES
-//     updateDisciplinesValues,
-//     submittingDisciplinesValuesUpdate,
-//     updateDisciplinesValuesError,
+//     updatePracticesValues,
+//     submittingPracticesValuesUpdate,
+//     updatePracticesValuesError,
 //     // UPDATE_ACTIVE_DISC list with IDS
-//     updateActiveDiscipline,
+//     updateActivePractice,
 //     submittingActiveUpdate,
 //     updateActiveError,
 //   };
@@ -452,16 +452,17 @@ type UserProfileContextType = {
   updateOnboardingStatus: (completed: boolean) => void;
   //UPDATE USER JOURNAL TIMES================================================================
   handleTimeChange: (period: "morning" | "evening", value: string) => void;
-  //UPDATE ACTIVE DISCIPLINE LIST============================================================
-  updateActiveDiscipline: (disciplineId: string, isActive: boolean) => void;
+  //UPDATE ACTIVE PRACTICE LIST============================================================
+  updateActivePractice: (practiceId: string, isActive: boolean) => void;
   submittingActiveUpdate: boolean;
   updateActiveError: string | null;
-  //UPDATE DISCIPLINE VALUES=================================================================
-  updateDisciplinesValues: (
-    disciplineUpdates: Record<string, number>
+  //UPDATE PRACTICE VALUES=================================================================
+  updatePracticesValues: (
+    practiceUpdates: Record<string, number>
   ) => Promise<{ success: boolean; data?: any; error?: string } | undefined>;
-  submittingDisciplinesValuesUpdate: boolean;
-  updateDisciplinesValuesError: string | null;
+  submittingPracticesValuesUpdate: boolean;
+  updatePracticesValuesError: string | null;
+  deletePracticeFromProfile: (practiceId: string) => Promise<void>;
 };
 
 // Create the context
@@ -476,7 +477,8 @@ export function UserProfileProvider({ children }: { children: ReactNode }) {
   const [userProfile, setUserProfile] = useState<UserProfile>({
     willpowerMultiplier: 1.5,
     disciplines: {},
-    activeDisciplines: [],
+    practices: {},
+    activePractices: [],
     journalStartTime: {
       morning: "08:00",
       evening: "18:00",
@@ -486,15 +488,15 @@ export function UserProfileProvider({ children }: { children: ReactNode }) {
   const [userProfileLoading, setUserProfileLoading] = useState(true);
   const [userProfileError, setUserProfileError] = useState<string | null>(null);
 
-  // State for discipline value updates
+  // State for practice value updates
   const [
-    submittingDisciplinesValuesUpdate,
-    setSubmittingDisciplinesValuesUpdate,
+    submittingPracticesValuesUpdate,
+    setSubmittingPracticesValuesUpdate,
   ] = useState(false);
-  const [updateDisciplinesValuesError, setUpdateDisciplinesValuesError] =
+  const [updatePracticesValuesError, setUpdatePracticesValuesError] =
     useState<string | null>(null);
 
-  //  State for Active Discipline ID list
+  //  State for Active Practice ID list
   const [submittingActiveUpdate, setSubmittingActiveUpdate] = useState(false);
   const [updateActiveError, setUpdateActiveError] = useState<string | null>(
     null
@@ -502,11 +504,11 @@ export function UserProfileProvider({ children }: { children: ReactNode }) {
 
   const fetchAbortControllerRef = useRef<AbortController | null>(null);
   const updateAbortControllerRef = useRef<AbortController | null>(null);
-  // ref for DISCIPLINE VALUE updates
-  const disciplinesUpdateAbortControllerRef = useRef<AbortController | null>(
+  // ref for PRACTICE VALUE updates
+  const practicesUpdateAbortControllerRef = useRef<AbortController | null>(
     null
   );
-  // ref for ACTIVE DISCIPLINE ID LIST updates
+  // ref for ACTIVE PRACTICE ID LIST updates
   const activeUpdateAbortControllerRef = useRef<AbortController | null>(null);
 
   // Method to update onboarding status locally (optimistic update)
@@ -524,7 +526,7 @@ export function UserProfileProvider({ children }: { children: ReactNode }) {
       [
         fetchAbortControllerRef,
         updateAbortControllerRef,
-        disciplinesUpdateAbortControllerRef,
+        practicesUpdateAbortControllerRef,
         activeUpdateAbortControllerRef,
       ].forEach((ref) => {
         if (ref.current) {
@@ -570,6 +572,8 @@ export function UserProfileProvider({ children }: { children: ReactNode }) {
           ...prev,
           ...profile,
           disciplines: profile.disciplines ?? prev.disciplines ?? {},
+          practices: profile.practices ?? prev.practices ?? {},
+          activePractices: profile.activePractices ?? prev.activePractices ?? [],
           onboardingCompleted: profile.onboardingCompleted ?? false, // Handle onboarding flag
         }));
       } catch (error) {
@@ -650,45 +654,45 @@ export function UserProfileProvider({ children }: { children: ReactNode }) {
     });
   };
 
-  const updateDisciplinesValues = async (
-    disciplineUpdates: Record<string, number>
+  const updatePracticesValues = async (
+    practiceUpdates: Record<string, number>
   ) => {
     if (!user?.id) {
       return { success: false, error: "User not authenticated" };
     }
 
     // Cancel any in-progress update
-    if (disciplinesUpdateAbortControllerRef.current) {
-      disciplinesUpdateAbortControllerRef.current.abort();
+    if (practicesUpdateAbortControllerRef.current) {
+      practicesUpdateAbortControllerRef.current.abort();
     }
 
     // Create a new AbortController
-    disciplinesUpdateAbortControllerRef.current = new AbortController();
-    const { signal } = disciplinesUpdateAbortControllerRef.current;
+    practicesUpdateAbortControllerRef.current = new AbortController();
+    const { signal } = practicesUpdateAbortControllerRef.current;
 
-    setSubmittingDisciplinesValuesUpdate(true);
-    setUpdateDisciplinesValuesError(null);
+    setSubmittingPracticesValuesUpdate(true);
+    setUpdatePracticesValuesError(null);
 
-    // Create a copy of the current disciplines for optimistic update
-    const currentDisciplines = { ...userProfile.disciplines };
+    // Create a copy of the current practices for optimistic update
+    const currentPractices = { ...userProfile.practices };
 
     // Apply optimistic update
     setUserProfile((prev) => ({
       ...prev,
-      disciplines: {
-        ...prev.disciplines,
-        ...disciplineUpdates,
+      practices: {
+        ...prev.practices,
+        ...practiceUpdates,
       },
     }));
 
     try {
       const payload = {
         userId: user.id,
-        disciplines: disciplineUpdates,
+        practices: practiceUpdates,
       };
 
       const response = await fetch(
-        `/api/users/${user.id}/profile/disciplines`,
+        `/api/users/${user.id}/profile/practices`,
         {
           method: "PATCH",
           headers: {
@@ -703,51 +707,51 @@ export function UserProfileProvider({ children }: { children: ReactNode }) {
 
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.error || "Failed to update disciplines");
+        throw new Error(errorData.error || "Failed to update practices");
       }
 
       const result = await response.json();
 
       setUserProfile((prev) => ({
         ...prev,
-        disciplines: result.disciplines ?? prev.disciplines ?? {},
+        practices: result.practices ?? prev.practices ?? {},
       }));
 
       return { success: true, data: result };
     } catch (error) {
       if ((error as Error).name === "AbortError") {
-        console.warn("Update disciplines request was aborted");
+        console.warn("Update practices request was aborted");
         return;
       }
 
       // Rollback optimistic update on error
       setUserProfile((prev) => ({
         ...prev,
-        disciplines: currentDisciplines || {},
+        practices: currentPractices || {},
       }));
 
-      console.error("Error updating disciplines:", error);
-      setUpdateDisciplinesValuesError(
-        (error as Error).message || "Failed to update disciplines"
+      console.error("Error updating practices:", error);
+      setUpdatePracticesValuesError(
+        (error as Error).message || "Failed to update practices"
       );
       return { success: false, error: (error as Error).message };
     } finally {
       if (!signal.aborted) {
-        setSubmittingDisciplinesValuesUpdate(false);
+        setSubmittingPracticesValuesUpdate(false);
       }
 
       // Clear the ref after completion if it's the same controller
       if (
-        disciplinesUpdateAbortControllerRef.current &&
-        signal === disciplinesUpdateAbortControllerRef.current.signal
+        practicesUpdateAbortControllerRef.current &&
+        signal === practicesUpdateAbortControllerRef.current.signal
       ) {
-        disciplinesUpdateAbortControllerRef.current = null;
+        practicesUpdateAbortControllerRef.current = null;
       }
     }
   };
 
-  const updateActiveDiscipline = async (
-    disciplineId: string,
+  const updateActivePractice = async (
+    practiceId: string,
     isActive: boolean
   ) => {
     if (!userProfile || !user?.id) return;
@@ -765,27 +769,27 @@ export function UserProfileProvider({ children }: { children: ReactNode }) {
     setSubmittingActiveUpdate(true);
     setUpdateActiveError(null);
 
-    const current = [...userProfile.activeDisciplines];
-    const nextDisciplines = isActive
-      ? [...current, disciplineId]
-      : current.filter((id) => id !== disciplineId);
+    const current = [...userProfile.activePractices];
+    const nextPractices = isActive
+      ? [...current, practiceId]
+      : current.filter((id) => id !== practiceId);
 
     // Optimistically update local state
     setUserProfile((prev) => ({
       ...prev,
-      activeDisciplines: nextDisciplines,
+      activePractices: nextPractices,
     }));
 
     try {
       const action = isActive ? "add" : "remove";
       const response = await fetch(
-        `/api/users/${user.id}/disciplines/active`,
+        `/api/users/${user.id}/practices/active`,
         {
           method: "PATCH",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ disciplineId, action }),
+          body: JSON.stringify({ practiceId, action }),
           signal,
         }
       );
@@ -794,7 +798,7 @@ export function UserProfileProvider({ children }: { children: ReactNode }) {
       if (signal.aborted) return;
 
       if (!response.ok) {
-        throw new Error("Failed to update discipline on server");
+        throw new Error("Failed to update practice on server");
       }
 
       const data = await response.json();
@@ -802,24 +806,24 @@ export function UserProfileProvider({ children }: { children: ReactNode }) {
       // Sync state from server
       setUserProfile((prev) => ({
         ...prev!,
-        activeDisciplines: data.activeDisciplines,
+        activePractices: data.activePractices,
       }));
     } catch (error) {
       // Handle abort error separately
       if ((error as Error).name === "AbortError") {
-        console.warn("Update active disciplines request was aborted");
+        console.warn("Update active practices request was aborted");
         return;
       }
 
-      console.error("Error updating active discipline:", error);
+      console.error("Error updating active practice:", error);
       setUpdateActiveError(
-        (error as Error).message || "Failed to update active disciplines"
+        (error as Error).message || "Failed to update active practices"
       );
 
       // Rollback optimistic update
       setUserProfile((prev) => ({
         ...prev,
-        activeDisciplines: current,
+        activePractices: current,
       }));
     } finally {
       // Only update state if the request wasn't aborted
@@ -837,6 +841,31 @@ export function UserProfileProvider({ children }: { children: ReactNode }) {
     }
   };
 
+  const deletePracticeFromProfile = async (practiceId: string) => {
+    if (!user?.id) return;
+
+    const response = await fetch(`/api/practice/${practiceId}`, {
+      method: "DELETE",
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to delete practice");
+    }
+
+    setUserProfile((prev) => {
+      const nextPractices = { ...prev.practices };
+      delete nextPractices[practiceId];
+
+      return {
+        ...prev,
+        practices: nextPractices,
+        activePractices: prev.activePractices.filter(
+          (id) => id !== practiceId
+        ),
+      };
+    });
+  };
+
   // Create the context value
   const contextValue: UserProfileContextType = {
     userProfile,
@@ -844,14 +873,15 @@ export function UserProfileProvider({ children }: { children: ReactNode }) {
     userProfileError,
     updateOnboardingStatus,
     handleTimeChange,
-    // UPDATE_DISC VALUES
-    updateDisciplinesValues,
-    submittingDisciplinesValuesUpdate,
-    updateDisciplinesValuesError,
-    // UPDATE_ACTIVE_DISC list with IDS
-    updateActiveDiscipline,
+    // UPDATE_PRACTICE VALUES
+    updatePracticesValues,
+    submittingPracticesValuesUpdate,
+    updatePracticesValuesError,
+    // UPDATE_ACTIVE_PRACTICE list with IDS
+    updateActivePractice,
     submittingActiveUpdate,
     updateActiveError,
+    deletePracticeFromProfile,
   };
 
   // Provide the context to children components

@@ -23,14 +23,14 @@ import { useSideContentPosition } from "@hooks/useSideContentPosition";
 
 //NOTE: should create and move to separate disc icon render component
 import { IconRenderer } from "@components/IconRenderer";
-import { DISCIPLINE_ICONS } from "components/ui/constants";
+import { PRACTICE_ICONS } from "components/ui/constants";
 
 type IconPickerProps = {
   value?: string;
   onChange?: (iconName: string) => void;
   habitXp?: number;
   projectedXp?: number;
-  iconPickerType?: "habits" | "disciplines";
+  iconPickerType?: "habits" | "practices";
   color?: string;
 };
 
@@ -76,14 +76,14 @@ export function IconPicker({
     ? GiIcons[selectedIconName as keyof typeof GiIcons]
     : null;
 
-  const renderDisciplineIcons = () => {
+  const renderPracticeIcons = () => {
     if (isLoading) {
       return Array.from({ length: 30 }).map((_, index) => (
         <Skeleton key={index} className="h-12 w-12" />
       ));
     }
 
-    return DISCIPLINE_ICONS.map((name) => {
+    return PRACTICE_ICONS.map((name) => {
       const Icon = GiIcons[name as keyof typeof GiIcons];
 
       return (
@@ -158,11 +158,12 @@ export function IconPicker({
                     displayLevelValues
                   />
                 )}
-                {iconPickerType === "disciplines" && (
+                {iconPickerType === "practices" && (
                   <>
                     <IconRenderer
                       iconName={selectedIconName || ""}
-                      className={`bg-transparent text-${color}`}
+                      className="bg-transparent"
+                      style={{ color: color }}
                       size={60}
                     />
                   </>
@@ -208,11 +209,11 @@ export function IconPicker({
 
           <div
             className={`${
-              iconPickerType === "disciplines" ? "h-[50vh]" : "h-[40vh]"
+              iconPickerType === "practices" ? "h-[50vh]" : "h-[40vh]"
             } mb-4 overflow-y-scroll`}
           >
             <div className="grid grid-cols-6 gap-2 place-items-center">
-              {iconPickerType === "disciplines" && renderDisciplineIcons()}
+              {iconPickerType === "practices" && renderPracticeIcons()}
               {iconPickerType === "habits" && renderHabitIcons()}
             </div>
           </div>

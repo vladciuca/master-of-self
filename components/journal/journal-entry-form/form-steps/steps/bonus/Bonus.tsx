@@ -5,11 +5,12 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Card, CardContent } from "@/components/ui/card";
 import { JournalStepTemplate } from "@components/journal/journal-entry-form/form-steps/steps/journal-step/JournalStepTemplate";
 import { WillpowerScoreDisplay } from "@components/journal/journal-entry-form/form-steps/WillpowerScoreDisplay";
-import { JournalEntryDisciplineList } from "@components/journal/journal-entry-card/JournalEntryDisciplineList";
+import { JournalEntryPracticeList } from "@components/journal/journal-entry-card/JournalEntryPracticeList";
 import { useYesterdayJournalEntry } from "@hooks/journal/useYesterdayJournalEntry";
 import { BonusStepTabHeader } from "./BonusStepTabHeader";
 import { JOURNAL_COLORS } from "@lib/colors";
-import { useDisciplinesData } from "@hooks/disciplines/useDisciplineData";
+import { isHexColor } from "@lib/utils";
+import { usePracticeData } from "@hooks/practices/usePracticeData";
 import { Skeleton } from "@components/ui/skeleton";
 
 export function Bonus() {
@@ -20,18 +21,18 @@ export function Bonus() {
     nightEntryDisciplineScores,
   } = useYesterdayJournalEntry();
 
-  const { disciplineData, isLoading } = useDisciplinesData(
+  const { practiceData, isLoading } = usePracticeData(
     yesterdayEntry?.dayEntry,
     yesterdayEntry?.nightEntry
   );
 
   const isDisciplineId = (step: string): boolean => {
-    return /^[a-f\d]{24}$/i.test(step) || disciplineData[step] !== undefined;
+    return /^[a-f\d]{24}$/i.test(step) || practiceData[step] !== undefined;
   };
 
   const getDisciplineDisplayName = (disciplineKey: string): string => {
-    if (isDisciplineId(disciplineKey) && disciplineData[disciplineKey]) {
-      return disciplineData[disciplineKey].name;
+    if (isDisciplineId(disciplineKey) && practiceData[disciplineKey]) {
+      return practiceData[disciplineKey].name;
     }
     // Fallback to capitalized key
     // return disciplineKey.charAt(0).toUpperCase() + disciplineKey.slice(1);
@@ -62,8 +63,8 @@ export function Bonus() {
       let title = "";
 
       // Map the score keys to actual data keys and discipline info
-      if (scoreKey === "_motivationMultiplier") {
-        disciplineKey = "motivation";
+      if (scoreKey === "_disciplineMultiplier") {
+        disciplineKey = "discipline";
         entryKey = "night";
         stepType = "night";
         title = "What made yesterday great!";
@@ -87,13 +88,13 @@ export function Bonus() {
         const score = nightEntryDisciplineScores[scoreKey] || 0;
         const isDiscipline = isDisciplineId(disciplineKey);
         const disciplineInfo = isDiscipline
-          ? disciplineData[disciplineKey]
+          ? practiceData[disciplineKey]
           : null;
 
         // Get the display name
         let scoreName: string;
-        if (disciplineKey === "motivation") {
-          scoreName = "Motivation";
+        if (disciplineKey === "discipline") {
+          scoreName = "Discipline";
         } else if (disciplineKey === "highlights") {
           scoreName = "Highlights";
         } else {
@@ -119,13 +120,13 @@ export function Bonus() {
       return null;
     };
 
-    // Process in specific order: Motivation first, then Highlights, then other disciplines
+    // Process in specific order: Discipline first, then Highlights, then other disciplines
     const allScoreKeys = Object.keys(nightEntryDisciplineScores);
 
-    // 1. Add Motivation first (if it exists)
-    if (allScoreKeys.includes("_motivationMultiplier")) {
-      const motivationTab = createTab("_motivationMultiplier");
-      if (motivationTab) tabs.push(motivationTab);
+    // 1. Add Discipline first (if it exists)
+    if (allScoreKeys.includes("_disciplineMultiplier")) {
+      const disciplineTab = createTab("_disciplineMultiplier");
+      if (disciplineTab) tabs.push(disciplineTab);
     }
 
     // 2. Add Highlights second (if it exists)
@@ -137,7 +138,7 @@ export function Bonus() {
     // 3. Add all other discipline IDs
     allScoreKeys
       .filter(
-        (key) => key !== "_motivationMultiplier" && key !== "_highlightsScore"
+        (key) => key !== "_disciplineMultiplier" && key !== "_highlightsScore"
       )
       .forEach((scoreKey) => {
         const disciplineTab = createTab(scoreKey);
@@ -145,7 +146,7 @@ export function Bonus() {
       });
 
     return tabs;
-  }, [yesterdayEntry, nightEntryDisciplineScores, disciplineData]);
+  }, [yesterdayEntry, nightEntryDisciplineScores, practiceData]);
 
   const [activeTab, setActiveTab] = useState<string>("");
 
@@ -222,13 +223,18 @@ export function Bonus() {
                       <div className="flex items-center mr-2">
                         <div
                           className={`font-semibold text-lg flex items-center ${
-                            tab.color
+                            tab.color && !isHexColor(tab.color)
                               ? `text-${tab.color}`
                               : `text-${JOURNAL_COLORS.score}`
                           }`}
+                          style={
+                            tab.color && isHexColor(tab.color)
+                              ? { color: tab.color }
+                              : undefined
+                          }
                         >
                           <span className="text-sm">
-                            {tab.scoreName === "Motivation" ? "x" : "+"}
+                            {tab.scoreName === "Discipline" ? "x" : "+"}
                           </span>
                           {tab.score}
                         </div>
@@ -239,7 +245,7 @@ export function Bonus() {
                     </div>
                   </div>
 
-                  <JournalEntryDisciplineList
+                  <JournalEntryPracticeList
                     title={tab.disciplineTitle || tab.title}
                     items={tab.items}
                     stepType={tab.type}

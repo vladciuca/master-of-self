@@ -36,7 +36,7 @@ const cards = [
     list: [
       {
         key: "Goal Completion:",
-        text: "Mark off tasks you accomplished and recognize your daily wins exponentially increasing motivation.",
+        text: "Mark off tasks you accomplished and recognize your daily wins exponentially increasing discipline.",
       },
       {
         key: "Daily Highlights:",
@@ -65,7 +65,7 @@ const cards = [
         text: "Completing the journal earns you bonus Willpower for tomorrow.",
       },
       {
-        key: "Motivation Boost:",
+        key: "Discipline Boost:",
         text: "The more consistent and thorough you are, the stronger your momentum becomes.",
       },
     ],
@@ -76,7 +76,7 @@ const cards = [
     textColor: "text-white",
     title: "Find Gratitude in Every Day",
     content:
-      "Prompt journaling helps you notice the meaningful moments in each day, turning reflection into a steady source of motivation and self-awareness.",
+      "Prompt journaling helps you notice the meaningful moments in each day, turning reflection into a steady source of discipline and self-awareness.",
     list: [
       {
         key: "Guided Prompts:",

@@ -18,9 +18,9 @@ export function Day() {
   return (
     <JournalStepTemplate
       title="What will I do to make today great?"
-      description="Write down meaningful and achievable goals for the day to build Motivation."
+      description="Write down meaningful and achievable goals for the day to build Discipline."
       scoreSection={
-        <StepScoreDisplay items={day ?? []} scoreName="Motivation" />
+        <StepScoreDisplay items={day ?? []} scoreName="Discipline" />
       }
     >
       <TextAreaList entryList={day ?? []} onChange={handleTextAreaListChange} />

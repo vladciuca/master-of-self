@@ -19,11 +19,7 @@ export async function GET(
       return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
 
-    const { lastJournalEntry, error } = await getLastJournalEntry(userId);
-
-    if (error) {
-      return NextResponse.json({ error }, { status: 500 });
-    }
+    const { lastJournalEntry } = await getLastJournalEntry(userId);
 
     return NextResponse.json({ lastJournalEntry }, { status: 200 });
   } catch (error) {

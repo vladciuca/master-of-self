@@ -48,7 +48,7 @@ const sections = [
         listTitle: "Builds a Daily Reflection Practice",
         listItem: [
           "Guided prompts like 'What went well?' and 'What could be better?' turn journaling into a <strong>simple, sustainable practice</strong>.",
-          "Daily reflection creates a <strong>personal record of growth</strong> you can return to for perspective and motivation.",
+          "Daily reflection creates a <strong>personal record of growth</strong> you can return to for perspective and discipline.",
           "Over time, this ritual helps you <strong>process experiences more clearly</strong> and approach each day with fresh insight.",
         ],
       },

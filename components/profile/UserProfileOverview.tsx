@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { ProfileInfo } from "@components/profile/profile-info/ProfileInfo";
-import { ProfileDisciplines } from "@components/profile/profile-disciplines/ProfileDisciplines";
+import { UserDisciplineXpBars } from "@components/profile/UserDisciplineXpBars";
 import { useUserData } from "@/hooks/user/useUserData";
 import { useUserHabits } from "@hooks/habits/useUserHabits";
 import { HabitIconProgressBar } from "@components/habits/HabitIconProgressBar";
@@ -136,7 +136,7 @@ export function UserProfileOverview({
       ) : null}
 
       <ScrollArea className="pr-1 flex-1">
-        <ProfileDisciplines disciplines={user.profile.disciplines || {}} />
+        <UserDisciplineXpBars userProfile={user.profile} />
       </ScrollArea>
 
       {notCurrentUser && (

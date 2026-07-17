@@ -3,8 +3,8 @@
 import { useState, useEffect } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { Community } from "@components/disciplines/Community";
-import { PreMade } from "@components/disciplines/PreMade";
+import { PracticeCommunity } from "@components/practices/PracticeCommunity";
+import { PreMadePractices } from "@components/practices/PreMadePractices";
 
 export default function Profile() {
   const searchParams = useSearchParams();
@@ -14,11 +14,11 @@ export default function Profile() {
   const pageConfig = [
     {
       name: "pre-made",
-      component: <PreMade />,
+      component: <PreMadePractices />,
     },
     {
       name: "Community",
-      component: <Community />,
+      component: <PracticeCommunity />,
     },
   ];
 

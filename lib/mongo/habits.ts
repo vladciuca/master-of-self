@@ -153,7 +153,8 @@ export async function getHabits(userId: string): Promise<{
 
     return { habits: result };
   } catch (error) {
-    return { habits: null, error: "Failed to fetch habits" };
+    console.error("Error fetching habits:", error);
+    return { habits: [] };
   }
 }
 
@@ -287,7 +288,7 @@ export async function updateHabitsXpAndActions(
     return {
       updatedHabits: null,
       status: "no_change",
-      error: "Failed to update user disciplines",
+      error: "Failed to update user practices",
     };
   }
 }

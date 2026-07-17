@@ -10,7 +10,7 @@ export function IntroductionSection() {
       <h1 className="text-xl max-w-[800px]">
         <strong>Journaling</strong> and <strong>habit tracking</strong> is
         designed as a <strong className="text-teal-500">gameplay loop</strong>{" "}
-        that reinforces motivation through positivity, leveraging{" "}
+        that reinforces discipline through positivity, leveraging{" "}
         <strong className="text-teal-500">score systems</strong> inspired by
         RPGs to help you gain perspective and track progress.
       </h1>

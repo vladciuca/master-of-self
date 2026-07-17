@@ -34,7 +34,7 @@ export function HeroSection() {
           >
             Everyday is a{" "}
             <span className="text-amber-400 font-semibold">gameplay loop</span>,{" "}
-            designed to reinforce motivation through positivity, leveraging{" "}
+            designed to reinforce discipline through positivity, leveraging{" "}
             <span className="text-violet-400 font-semibold">score systems</span>{" "}
             inspired by RPGs to help you gain perspective on your progress.
           </motion.p>

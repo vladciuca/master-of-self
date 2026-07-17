@@ -49,7 +49,6 @@ export function createSteps(params: CreateStepsParams): JournalCustomStep[] {
     {
       _id: "day",
       icon: stepIconMap.day,
-      //NOTE: should they add to motivation?
       discipline: "day",
       component: <DayNightChecklist mode="day" />,
       isAvailable: SHOW_ALL_TEST || !isEvening(userEveningTime, now),

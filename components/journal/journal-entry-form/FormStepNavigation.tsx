@@ -1,6 +1,6 @@
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { RxChevronLeft, RxChevronRight } from "react-icons/rx";
+import { BsCaretLeftFill, BsCaretRightFill } from "react-icons/bs";
 
 type FormStepNavigationProps = {
   availableStepsLength: number;
@@ -29,7 +29,7 @@ export function FormStepNavigation({
         type="button"
         onClick={isFirstStep ? () => router.push("/journal") : handlePrevForm}
       >
-        <RxChevronLeft />
+        <BsCaretLeftFill className="mr-2"/>
         {isFirstStep ? "Cancel" : "Back"}
       </Button>
 
@@ -41,7 +41,7 @@ export function FormStepNavigation({
         disabled={submitting}
       >
         {isLastStep ? "Complete" : "Next"}
-        <RxChevronRight />
+        <BsCaretRightFill className="ml-2" />
       </Button>
     </div>
   );

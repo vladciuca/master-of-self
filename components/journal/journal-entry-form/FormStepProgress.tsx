@@ -3,6 +3,7 @@ import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
 import { IconRenderer } from "@components/IconRenderer";
 import { getJournalStepStyle } from "@components/ui/constants";
+import { isHexColor } from "@lib/utils";
 import { FaBoltLightning } from "react-icons/fa6";
 import type { JournalCustomStep } from "@models/types";
 
@@ -135,7 +136,18 @@ export function FormStepProgress({
                             ? 23
                             : 30
                         }
-                        className={step.color ? `text-${step.color}` : ""}
+                        className={
+                          step.color && isHexColor(step.color)
+                            ? ""
+                            : step.color
+                            ? `text-${step.color}`
+                            : ""
+                        }
+                        style={
+                          step.color && isHexColor(step.color)
+                            ? { color: step.color }
+                            : undefined
+                        }
                       />
                     </div>
 
