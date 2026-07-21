@@ -22,6 +22,7 @@ type PracticeCardProps = {
   type?: "dayEntry" | "nightEntry";
   action?: React.ReactNode;
   indicator?: React.ReactNode;
+  disciplineIcon?: React.ReactNode;
   footer?: React.ReactNode;
   expandedContent?: React.ReactNode;
   showDescription?: boolean;
@@ -40,6 +41,7 @@ export function PracticeCard({
   color,
   action,
   indicator,
+  disciplineIcon,
   footer,
   expandedContent,
   showDescription = true,
@@ -85,7 +87,8 @@ export function PracticeCard({
           )}
 
           {(resolvedDiscipline || resolvedTitle) && (
-            <div className="col-start-2 row-start-1 self-start text-start text-sm text-muted-foreground capitalize">
+            <div className="col-start-2 row-start-1 self-start text-start text-sm text-muted-foreground capitalize flex items-center gap-2">
+              {disciplineIcon}
               <span className={resolvedDiscipline ? "" : "invisible"}>
                 {resolvedDiscipline || "placeholder"}
               </span>
@@ -98,14 +101,14 @@ export function PracticeCard({
           )}
 
           {indicator && (
-            <div className="col-start-3 row-start-1 self-center justify-self-center">
+            <div className="col-start-3 row-start-1 self-start justify-self-center">
               {indicator}
             </div>
           )}
 
           {action && (
             <div
-              className="col-start-3 row-start-2 self-end justify-self-center"
+              className="col-start-3 row-start-2 self-start justify-self-center"
               onClick={(e) => e.stopPropagation()}
             >
               {action}

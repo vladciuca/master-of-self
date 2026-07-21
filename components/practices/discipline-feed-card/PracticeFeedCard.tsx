@@ -22,7 +22,7 @@ function DayNightIcon({ type }: { type?: string }) {
     <IconRenderer
       iconName={isDay ? stepIconMap.day : stepIconMap.night}
       className={isDay ? `text-${JOURNAL_COLORS.day}` : `text-${JOURNAL_COLORS.night}`}
-      size={22}
+      size={18}
     />
   );
 }
@@ -38,10 +38,14 @@ export function PracticeFeedCard({ step }: PracticeFeedCardProps) {
   return (
     <PracticeCard
       step={step}
-      indicator={<DayNightIcon type={step.type} />}
+      disciplineIcon={<DayNightIcon type={step.type} />}
       action={
         isPracticeAdded ? (
-          <CircleCheck className="text-green-500" size={22} strokeWidth={2.5} />
+          <CircleCheck
+            className="text-green-500"
+            size={22}
+            strokeWidth={2.5}
+          />
         ) : undefined
       }
       footer={<PracticeFeedFooter stepId={stepId} />}
