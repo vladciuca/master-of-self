@@ -14,6 +14,7 @@ type Step = JournalCustomStepConfig | Practice;
 
 type PracticeFeedCardProps = {
   step: Step;
+  showTypeIcon?: boolean;
 };
 
 function DayNightIcon({ type }: { type?: string }) {
@@ -27,7 +28,7 @@ function DayNightIcon({ type }: { type?: string }) {
   );
 }
 
-export function PracticeFeedCard({ step }: PracticeFeedCardProps) {
+export function PracticeFeedCard({ step, showTypeIcon = true }: PracticeFeedCardProps) {
   const { updateActivePractice, updatePracticesValues, userProfile } =
     useUserProfile();
   const [isAdding, setIsAdding] = useState(false);
@@ -56,7 +57,7 @@ export function PracticeFeedCard({ step }: PracticeFeedCardProps) {
   return (
     <PracticeCard
       step={step}
-      disciplineIcon={<DayNightIcon type={step.type} />}
+      disciplineIcon={showTypeIcon ? <DayNightIcon type={step.type} /> : undefined}
       action={
         isPracticeAdded ? (
           <CircleCheck
