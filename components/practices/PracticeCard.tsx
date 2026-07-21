@@ -28,6 +28,7 @@ type PracticeCardProps = {
   hideIconBorder?: boolean;
   iconSize?: number;
   className?: string;
+  triggerClassName?: string;
 };
 
 export function PracticeCard({
@@ -45,6 +46,7 @@ export function PracticeCard({
   hideIconBorder,
   iconSize = 50,
   className,
+  triggerClassName,
 }: PracticeCardProps) {
   const resolvedValue = value ?? (step ? String(step._id) : "");
   const resolvedIcon = icon ?? step?.icon;
@@ -69,7 +71,7 @@ export function PracticeCard({
       value={resolvedValue}
       className={`p-0 border-none mb-0 ${className ?? ""}`}
     >
-      <IndicatorAccordionTrigger className="py-0">
+      <IndicatorAccordionTrigger className={`py-0 ${triggerClassName ?? ""}`}>
         <div className="grid grid-cols-[auto_1fr_auto] grid-rows-[1.25rem_auto] gap-x-2 w-full pl-2 items-start">
           {resolvedIcon && (
             <div className="col-start-1 row-start-1 row-span-2 self-center justify-self-center w-[66px] h-[66px] overflow-visible">

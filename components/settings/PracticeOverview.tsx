@@ -81,12 +81,14 @@ function CreatePageCard({ onCreate }: { onCreate: () => void }) {
       title="Create a New Practice"
       color="primary"
       hideIconBorder
-      iconSize={80}
+      iconSize={70}
+      className="mt-2"
+      triggerClassName="bg-muted/30 rounded-md pb-2"
       action={
         <Button
           variant="default"
           size="icon"
-          className="rounded-full h-8 w-8 mr-[6px]"
+          className="rounded-full h-8 w-8 mr-3"
           aria-label="Create a new practice"
           onClick={(e) => {
             e.stopPropagation();
