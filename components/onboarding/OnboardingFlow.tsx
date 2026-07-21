@@ -35,8 +35,10 @@ export function OnboardingFlow() {
     {
       id: 3,
       title: "Manage Your Practices",
+      description:
+        "Toggle practices on or off - active ones will appear in your daily journal.",
       icon: "GiSpellBook",
-      content: <PracticeOverview />,
+      content: <PracticeOverview showCreateCard={false} />,
     },
   ];
 
@@ -83,9 +85,18 @@ export function OnboardingFlow() {
           }`}
         >
           <div className="text-center pt-8">
-            <h2 className="text-2xl sm:text-3xl font-bold mb-6">
+            <h2
+              className={`text-2xl sm:text-3xl font-bold ${
+                currentStepData?.description ? "mb-2" : "mb-6"
+              }`}
+            >
               {currentStepData?.title}
             </h2>
+            {currentStepData?.description && (
+              <p className="text-sm text-muted-foreground mt-6 mb-10 max-w-md mx-6">
+                {currentStepData.description}
+              </p>
+            )}
           </div>
         </div>
 

@@ -16,7 +16,11 @@ import { PagesOverviewSkeleton } from "./practice-overview/PagesOverviewSkeleton
 import type { PracticePageItem, PracticePageSection } from "@models/types";
 import type { User } from "@models/types";
 
-export function PracticeOverview() {
+export function PracticeOverview({
+  showCreateCard = true,
+}: {
+  showCreateCard?: boolean;
+}) {
   const { user } = useUser() as { user: User | null };
   const router = useRouter();
   const { userProfile, userProfileLoading, updateActivePractice, deletePracticeFromProfile } =
@@ -121,7 +125,7 @@ export function PracticeOverview() {
 
   return (
     <Accordion type="single" collapsible className="space-y-4">
-      <CreatePageCard onCreate={handleCreatePage} />
+      {showCreateCard && <CreatePageCard onCreate={handleCreatePage} />}
 
       {baseDiscipline && (
         <BaseDisciplineCard page={baseDiscipline} />
