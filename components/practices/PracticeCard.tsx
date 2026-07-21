@@ -21,6 +21,7 @@ type PracticeCardProps = {
   color?: string;
   type?: "dayEntry" | "nightEntry";
   action?: React.ReactNode;
+  indicator?: React.ReactNode;
   footer?: React.ReactNode;
   expandedContent?: React.ReactNode;
   showDescription?: boolean;
@@ -37,6 +38,7 @@ export function PracticeCard({
   discipline,
   color,
   action,
+  indicator,
   footer,
   expandedContent,
   showDescription = true,
@@ -90,6 +92,12 @@ export function PracticeCard({
           {resolvedTitle && (
             <div className="col-start-2 row-start-2 self-center text-[1rem] text-start leading-tight">
               {resolvedTitle}
+            </div>
+          )}
+
+          {indicator && (
+            <div className="col-start-3 row-start-1 self-center justify-self-center">
+              {indicator}
             </div>
           )}
 

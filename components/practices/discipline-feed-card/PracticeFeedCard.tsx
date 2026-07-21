@@ -5,6 +5,8 @@ import { PracticeCreator } from "../PracticeCreator";
 import { IconRenderer } from "@components/IconRenderer";
 import { stepIconMap } from "@components/ui/constants";
 import { JOURNAL_COLORS } from "@lib/colors";
+import { useUserProfile } from "@context/UserProfileContext";
+import { CircleCheck } from "lucide-react";
 import type { JournalCustomStepConfig } from "@models/types";
 import type { Practice } from "@models/mongodb";
 
@@ -26,11 +28,23 @@ function DayNightIcon({ type }: { type?: string }) {
 }
 
 export function PracticeFeedCard({ step }: PracticeFeedCardProps) {
+  const { userProfile } = useUserProfile();
+
+  const stepId = String(step._id);
+  const isPracticeAdded = Boolean(
+    userProfile.practices && stepId in userProfile.practices
+  );
+
   return (
     <PracticeCard
       step={step}
-      action={<DayNightIcon type={step.type} />}
-      footer={<PracticeFeedFooter stepId={String(step._id)} />}
+      indicator={<DayNightIcon type={step.type} />}
+      action={
+        isPracticeAdded ? (
+          <CircleCheck className="text-green-500" size={22} strokeWidth={2.5} />
+        ) : undefined
+      }
+      footer={<PracticeFeedFooter stepId={stepId} />}
       expandedContent={
         step?.creatorId
           ? <PracticeCreator creatorId={String(step.creatorId)} />

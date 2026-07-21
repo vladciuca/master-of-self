@@ -26,6 +26,8 @@ export const stepIconMap: StepIconMap = {
   wisdom: "GiSmart",
   compassion: "GiHeartInside",
   creativity: "GiTeamIdea",
+  courage: "GiLion",
+  vitality: "GiHeartBeats",
   purpose: "GiRomanToga",
 
   gratitudeDepth: "GiBeamsAura", // Radiance of gratitude
@@ -146,4 +148,6 @@ export const PRACTICE_ICONS = [
   "GiHeartInside",
   "GiQuicksand",
   "GiIfrit",
+  "GiLion",
+  "GiHeartBeats",
 ];

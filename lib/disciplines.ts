@@ -1,6 +1,10 @@
 import { stepIconMap } from "@components/ui/constants";
 import type { JournalCustomStepConfig } from "@models/types";
 
+// The base "Discipline" practice is built into the app (Commit & Review)
+// and must never appear as an addable practice in feeds.
+export const BASE_DISCIPLINE_ID = "discipline";
+
 export const DISCIPLINES: JournalCustomStepConfig[] = [
   {
     _id: "awareness",

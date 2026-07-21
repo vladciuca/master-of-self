@@ -11,15 +11,13 @@ import { Skeleton } from "@components/ui/skeleton";
 import { Accordion } from "@components/ui/accordion";
 import { useUserProfile } from "@context/UserProfileContext";
 import { usePracticeList } from "@hooks/user/usePracticeList";
-import { DISCIPLINES } from "@lib/disciplines";
+import { DISCIPLINES, BASE_DISCIPLINE_ID } from "@lib/disciplines";
 import { JOURNAL_COLORS } from "@lib/colors";
 import { stepIconMap } from "@components/ui/constants";
 import { Plus, Trash2 } from "lucide-react";
 import type { User } from "@models/types";
 import type { Practice } from "@models/mongodb";
 import type { JournalCustomStepConfig } from "@models/types";
-
-const BASE_DISCIPLINE_ID = "discipline";
 
 type PageItem = Practice | JournalCustomStepConfig;
 

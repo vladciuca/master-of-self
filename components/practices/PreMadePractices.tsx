@@ -5,6 +5,7 @@ import { PracticeFeedCard } from "@components/practices/discipline-feed-card/Pra
 import { Accordion } from "@/components/ui/accordion";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { customStepConfigs } from "@components/journal/journal-entry-form/form-steps/steps/CustomSteps";
+import { BASE_DISCIPLINE_ID } from "@lib/disciplines";
 
 import { IconRenderer } from "@components/IconRenderer";
 import { stepIconMap } from "@components/ui/constants";
@@ -17,7 +18,9 @@ export function PreMadePractices({ onboarding }: { onboarding?: boolean }) {
 
   // Filter disciplines based on the active tab
   const filteredDisciplines = customStepConfigs.filter(
-    (discipline) => discipline.type === activeTab
+    (discipline) =>
+      discipline.type === activeTab &&
+      String(discipline._id) !== BASE_DISCIPLINE_ID
   );
 
   return (
