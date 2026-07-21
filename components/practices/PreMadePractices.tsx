@@ -27,7 +27,7 @@ export function PreMadePractices({ onboarding }: { onboarding?: boolean }) {
     <>
       {/* Sticky Tabs */}
       <div className="sticky top-0 z-10 bg-background">
-        <div className="py-4">
+        <div className="pb-4">
           <Tabs
             value={activeTab}
             onValueChange={(value) =>

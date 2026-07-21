@@ -1,33 +1,19 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { useUser, useClerk } from "@clerk/nextjs";
-
-import { Button } from "@/components/ui/button";
-import { Progress } from "@/components/ui/progress";
-import { BsCaretLeftFill, BsCaretRightFill } from "react-icons/bs";
-
+import { useClerk, useUser } from "@clerk/nextjs";
+import { FormStepNavigation } from "@components/FormStepNavigation";
+import { OnboardingStepper } from "./OnboardingStepper";
 import { Welcome } from "./Welcome";
 import { PreMadePractices } from "@components/practices/PreMadePractices";
 import { PracticeOverview } from "@components/settings/PracticeOverview";
-// import { UserProfileOverview } from "@components/profile/UserProfileOverview";
 import { JournalEntryActionButton } from "@components/journal/JournalEntryActionButton";
-import { useCreateJournalEntry } from "@hooks/journal/useCreateJournalEntry";
-import { useUserProfile } from "@context/UserProfileContext";
-import { User } from "@models/types";
 import { LoadingScreen } from "@components/skeletons/LoadingScreen";
+import { useOnboardingCompletion } from "@hooks/user/useOnboardingCompletion";
+import type { User } from "@models/types";
 
 export function OnboardingFlow() {
-  const router = useRouter();
-  const {
-    createJournalEntry,
-    submittingJournalEntry,
-    createJournalEntryError,
-  } = useCreateJournalEntry();
-
-  // Get context methods for updating onboarding status
-  const { updateOnboardingStatus } = useUserProfile();
+  const { completeOnboarding, isLoading, error } = useOnboardingCompletion();
   const { user } = useUser() as { user: User | null };
   const { signOut } = useClerk();
 
@@ -37,27 +23,24 @@ export function OnboardingFlow() {
     {
       id: 1,
       title: `Hello, ${firstName}!`,
-      subtitle:
-        "Begin building the best version of yourself, one thought at a time.",
+      icon: "FaRegHandPeace",
       content: <Welcome firstName={firstName} />,
     },
     {
       id: 2,
       title: "Pick Your First Practice",
-      subtitle: "Focus your energy on what you want to grow.",
+      icon: "FaRegCompass",
       content: <PreMadePractices onboarding />,
     },
     {
       id: 3,
       title: "Manage Your Practices",
-      subtitle: "Daily prompts fuel clarity, direction, and self-awareness.",
+      icon: "GiSpellBook",
       content: <PracticeOverview />,
     },
   ];
 
   const [currentStep, setCurrentStep] = useState(1);
-  const [isCompletingOnboarding, setIsCompletingOnboarding] = useState(false);
-  const [onboardingError, setOnboardingError] = useState<string | null>(null);
   const progress = (currentStep / steps.length) * 100;
 
   const currentStepData = steps.find((step) => step.id === currentStep);
@@ -80,97 +63,27 @@ export function OnboardingFlow() {
     signOut({ redirectUrl: "/" });
   };
 
-  // Function to complete onboarding
-  const completeOnboarding = async () => {
-    if (!user?.id) {
-      throw new Error("No user ID found");
-    }
-
-    const response = await fetch(`/api/users/${user.id}/onboarding`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ completed: true }),
-    });
-
-    const responseData = await response.json();
-
-    if (!response.ok) {
-      console.error("Failed to complete onboarding:", responseData);
-      throw new Error(responseData.error || "Failed to complete onboarding");
-    }
-
-    return responseData;
-  };
-
-  // Combined function that runs both operations in parallel
-  const handleCompleteOnboardingAndCreateJournal = async () => {
-    setIsCompletingOnboarding(true);
-    setOnboardingError(null);
-
-    try {
-      // Update context immediately (optimistic update)
-      updateOnboardingStatus(true);
-
-      // Run both operations in parallel using Promise.all
-      const [onboardingResult, newEntryId] = await Promise.all([
-        completeOnboarding(),
-        createJournalEntry(),
-      ]);
-
-      // Navigate to the journal entry page
-      router.push(`/update-journal-entry/${newEntryId}`);
-    } catch (error) {
-      console.error("Error during onboarding completion:", error);
-
-      // Rollback optimistic update on error
-      updateOnboardingStatus(false);
-
-      // Handle different types of errors
-      if (error instanceof Error) {
-        setOnboardingError(error.message);
-      } else if (createJournalEntryError) {
-        setOnboardingError("Failed to create journal entry");
-      } else {
-        setOnboardingError("An unexpected error occurred");
-      }
-    } finally {
-      setIsCompletingOnboarding(false);
-    }
-  };
-
-  // Determine if we're in a loading state
-  const isLoading = isCompletingOnboarding || submittingJournalEntry;
-
   if (!user) return <LoadingScreen />;
 
   return (
-    <div className="h-full flex flex-col">
-      {/* Fixed Progress Header */}
-      <div className="flex-shrink-0 bg-card h-20">
-        <div className="container max-w-4xl mx-auto px-4 h-full flex items-center">
-          <div className="w-full space-y-2">
-            <div className="flex w-full items-center justify-end">
-              <div className="text-sm text-muted-foreground">
-                Step {currentStep} of {steps.length}
-              </div>
-            </div>
-            <Progress value={progress} className="h-2" />
-          </div>
-        </div>
-      </div>
+    <div className="h-full flex flex-col sm:pt-2">
+      <OnboardingStepper
+        steps={steps}
+        currentStep={currentStep}
+        progress={progress}
+        onStepSelect={setCurrentStep}
+      />
 
       {/* Scrollable Content Area */}
       <div className="flex-1 overflow-auto border rounded-3xl">
         {/* Sticky Header Section */}
         <div
           className={`sticky top-0 bg-card z-10 ${
-            currentStep === 1 ? "hidden" : ""
+            isFirstStep ? "hidden" : ""
           }`}
         >
           <div className="text-center pt-8">
-            <h2 className="text-2xl sm:text-3xl font-bold mb-2">
+            <h2 className="text-2xl sm:text-3xl font-bold mb-6">
               {currentStepData?.title}
             </h2>
           </div>
@@ -180,64 +93,32 @@ export function OnboardingFlow() {
         <div className="w-full px-4 pt-0">{currentStepData?.content}</div>
 
         {/* Error Display */}
-        {onboardingError && (
+        {error && (
           <div className="mx-4 mt-4 bg-red-50 border border-red-200 rounded-lg p-4">
-            <p className="text-red-700 text-sm">{onboardingError}</p>
+            <p className="text-red-700 text-sm">{error}</p>
           </div>
         )}
       </div>
 
       {/* Fixed Navigation Footer */}
       <div className="flex-shrink-0 bg-card h-20">
-        <div className="container max-w-4xl mx-auto h-full flex items-center justify-center px-8">
-          <div className="flex justify-between items-center w-full">
-            {isFirstStep ? (
-              <Button
-                className="w-1/3 rounded-full"
-                variant="secondary"
-                type="button"
-                onClick={handleSignOut}
-                disabled={isLoading}
-              >
-                <BsCaretLeftFill className="mr-2" />
-                Cancel
-              </Button>
-            ) : (
-              <Button
-                className={isLastStep ? "w-16 rounded-full" : "w-1/3 rounded-full"}
-                disabled={isFirstStep || isLoading}
-                variant="secondary"
-                type="button"
-                onClick={handlePrevious}
-              >
-                <BsCaretLeftFill className={isLastStep ? "" : "mr-2"} />
-                {!isLastStep && "Back"}
-              </Button>
-            )}
-
-            {isLastStep ? (
-              <div className={isFirstStep ? "w-full" : "flex-1 ml-4"}>
-                <JournalEntryActionButton
-                  text={isLoading ? "Completing Setup..." : "Start the Loop"}
-                  handleClick={handleCompleteOnboardingAndCreateJournal}
-                  handleDisabled={isLoading}
-                  isSubmitting={isLoading}
-                />
-              </div>
-            ) : (
-              <Button
-                className="w-1/3 rounded-full"
-                variant="default"
-                type="button"
-                onClick={handleNext}
-                disabled={isLoading}
-              >
-                Next
-                <BsCaretRightFill className="ml-2" />
-              </Button>
-            )}
-
-          </div>
+        <div className="h-full flex items-center px-4">
+          <FormStepNavigation
+            stepsLength={steps.length}
+            currentStepIndex={currentStep - 1}
+            onPrev={handlePrevious}
+            onNext={handleNext}
+            onCancel={handleSignOut}
+            disabled={isLoading}
+            lastStepAction={
+              <JournalEntryActionButton
+                text={isLoading ? "Completing Setup..." : "Start the Loop"}
+                handleClick={completeOnboarding}
+                handleDisabled={isLoading}
+                isSubmitting={isLoading}
+              />
+            }
+          />
         </div>
       </div>
     </div>

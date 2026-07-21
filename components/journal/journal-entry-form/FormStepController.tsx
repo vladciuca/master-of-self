@@ -4,7 +4,7 @@ import React, { useState, useEffect, useCallback, useMemo } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useForm, FormProvider, UseFormReturn, useWatch } from "react-hook-form";
 import { FormStepProgress } from "./FormStepProgress";
-import { FormStepNavigation } from "./FormStepNavigation";
+import { FormStepNavigation } from "@components/FormStepNavigation";
 import { JournalEntry, JournalCustomStep } from "@models/types";
 import { getDayDisciplineScores } from "@lib/score";
 import {
@@ -269,11 +269,12 @@ export function FormStepController({
         </div>
 
         <FormStepNavigation
-          availableStepsLength={availableSteps.length}
+          stepsLength={availableSteps.length}
           currentStepIndex={currentStepIndex}
-          submitting={submitting}
-          handlePrevForm={handlePrevForm}
-          handleNextForm={handleNextForm}
+          disabled={submitting}
+          onPrev={handlePrevForm}
+          onNext={handleNextForm}
+          onCancel={() => router.push("/journal")}
         />
       </div>
     </FormProvider>
