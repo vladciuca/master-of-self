@@ -2,15 +2,15 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { useUser } from "@clerk/nextjs";
+import { useUser, useClerk } from "@clerk/nextjs";
 
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
-import { RxChevronLeft, RxChevronRight } from "react-icons/rx";
+import { BsCaretLeftFill, BsCaretRightFill } from "react-icons/bs";
 
 import { Welcome } from "./Welcome";
 import { PreMadePractices } from "@components/practices/PreMadePractices";
-import { UserPractices } from "@components/practices/UserPractices";
+import { PracticeOverview } from "@components/settings/PracticeOverview";
 // import { UserProfileOverview } from "@components/profile/UserProfileOverview";
 import { JournalEntryActionButton } from "@components/journal/JournalEntryActionButton";
 import { useCreateJournalEntry } from "@hooks/journal/useCreateJournalEntry";
@@ -29,6 +29,7 @@ export function OnboardingFlow() {
   // Get context methods for updating onboarding status
   const { updateOnboardingStatus } = useUserProfile();
   const { user } = useUser() as { user: User | null };
+  const { signOut } = useClerk();
 
   const firstName = user?.firstName || "there";
 
@@ -50,7 +51,7 @@ export function OnboardingFlow() {
       id: 3,
       title: "Manage Your Practices",
       subtitle: "Daily prompts fuel clarity, direction, and self-awareness.",
-      content: <UserPractices onboarding />,
+      content: <PracticeOverview />,
     },
   ];
 
@@ -73,6 +74,10 @@ export function OnboardingFlow() {
     if (!isFirstStep) {
       setCurrentStep(currentStep - 1);
     }
+  };
+
+  const handleSignOut = () => {
+    signOut({ redirectUrl: "/" });
   };
 
   // Function to complete onboarding
@@ -186,7 +191,18 @@ export function OnboardingFlow() {
       <div className="flex-shrink-0 bg-card h-20">
         <div className="container max-w-4xl mx-auto h-full flex items-center justify-center px-8">
           <div className="flex justify-between items-center w-full">
-            {!isFirstStep && (
+            {isFirstStep ? (
+              <Button
+                className="w-[40%]"
+                variant="secondary"
+                type="button"
+                onClick={handleSignOut}
+                disabled={isLoading}
+              >
+                <BsCaretLeftFill className="mr-2" />
+                Cancel
+              </Button>
+            ) : (
               <Button
                 className={isLastStep ? "w-16" : "w-[40%]"}
                 disabled={isFirstStep || isLoading}
@@ -194,7 +210,7 @@ export function OnboardingFlow() {
                 type="button"
                 onClick={handlePrevious}
               >
-                <RxChevronLeft />
+                <BsCaretLeftFill className={isLastStep ? "" : "mr-2"} />
                 {!isLastStep && "Back"}
               </Button>
             )}
@@ -210,16 +226,17 @@ export function OnboardingFlow() {
               </div>
             ) : (
               <Button
-                className={isFirstStep ? "w-full" : "w-[40%]"}
+                className="w-[40%]"
                 variant="default"
                 type="button"
                 onClick={handleNext}
                 disabled={isLoading}
               >
                 Next
-                <RxChevronRight />
+                <BsCaretRightFill className="ml-2" />
               </Button>
             )}
+
           </div>
         </div>
       </div>

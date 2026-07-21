@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { auth } from "@clerk/nextjs/server";
+import { auth, currentUser } from "@clerk/nextjs/server";
 import { getUser, updateUserProfile } from "@lib/mongo/users";
 
 export const GET = async (
@@ -14,7 +14,14 @@ export const GET = async (
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const { user, error } = await getUser(routeParams.id);
+    const { user, error } = await getUser(routeParams.id, async () => {
+      const clerkUser = await currentUser();
+      return {
+        name: clerkUser?.fullName ?? clerkUser?.firstName ?? null,
+        email: clerkUser?.primaryEmailAddress?.emailAddress ?? null,
+        image: clerkUser?.imageUrl ?? null,
+      };
+    });
 
     if (error) {
       return NextResponse.json({ error }, { status: 500 });

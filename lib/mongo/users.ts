@@ -22,29 +22,16 @@ async function init() {
   await init();
 })();
 
+type NewUserData = {
+  name?: string | null;
+  email?: string | null;
+  image?: string | null;
+};
+
 // GET USER =====================================================================================
-export async function getUser(id: string): Promise<{
-  user: User | null;
-  error?: string;
-}> {
-  try {
-    if (!users) await init();
-
-    const user = await users.findOne({ _id: id });
-
-    if (!user) {
-      throw new Error("User not found");
-    }
-
-    return { user };
-  } catch (error) {
-    return { user: null, error: "Failed to fetch user" };
-  }
-}
-
-export async function getOrCreateUser(
-  userId: string,
-  userData?: { name?: string | null; email?: string | null; image?: string | null }
+export async function getUser(
+  id: string,
+  getUserData?: () => Promise<NewUserData>
 ): Promise<{
   user: User | null;
   error?: string;
@@ -52,32 +39,54 @@ export async function getOrCreateUser(
   try {
     if (!users) await init();
 
-    const existingUser = await users.findOne({ _id: userId });
-    if (existingUser) {
-      return { user: existingUser };
+    const user = await users.findOne({ _id: id });
+    if (user) {
+      return { user };
     }
 
-    const newUser: User = {
-      _id: userId,
-      name: userData?.name,
-      email: userData?.email,
-      image: userData?.image,
-      profile: {
-        willpowerMultiplier: 1.5,
-        disciplines: { discipline: 0 },
-        practices: {},
-        activePractices: [],
-        journalStartTime: { morning: "08:00", evening: "18:00" },
-        onboardingCompleted: false,
-      },
-    };
+    return getOrCreateUser(id, getUserData ? await getUserData() : undefined);
+  } catch (error) {
+    return { user: null, error: "Failed to fetch user" };
+  }
+}
 
-    const result = await users.insertOne(newUser);
-    if (!result.insertedId) {
+export async function getOrCreateUser(
+  userId: string,
+  userData?: NewUserData
+): Promise<{
+  user: User | null;
+  error?: string;
+}> {
+  try {
+    if (!users) await init();
+
+    // Atomic upsert: safe under concurrent first-contact requests
+    const user = await users.findOneAndUpdate(
+      { _id: userId },
+      {
+        $setOnInsert: {
+          _id: userId,
+          name: userData?.name ?? null,
+          email: userData?.email ?? null,
+          image: userData?.image ?? null,
+          profile: {
+            willpowerMultiplier: 1.5,
+            disciplines: { discipline: 0 },
+            practices: {},
+            activePractices: [],
+            journalStartTime: { morning: "08:00", evening: "18:00" },
+            onboardingCompleted: false,
+          },
+        },
+      },
+      { upsert: true, returnDocument: "after" }
+    );
+
+    if (!user) {
       throw new Error("Failed to create new user");
     }
 
-    return { user: newUser };
+    return { user };
   } catch (error) {
     return { user: null, error: "Failed to get or create user" };
   }
@@ -137,6 +146,14 @@ export async function updateUserProfile(
 }> {
   try {
     if (!users) await init();
+
+    const { user: provisioned, error: provisionError } = await getOrCreateUser(
+      id
+    );
+    if (provisionError || !provisioned) {
+      throw new Error(provisionError || "User not found");
+    }
+
     const query = { _id: id };
     const update: { $set: Record<string, string> } = { $set: {} };
 
@@ -174,12 +191,14 @@ export async function updateUserPracticesValues(
     const query = { _id: userId };
 
     // First, fetch the current user to check existing values
-    const currentUser = await users.findOne(query);
-    if (!currentUser) {
+    const { user: currentUser, error: provisionError } = await getOrCreateUser(
+      userId
+    );
+    if (provisionError || !currentUser) {
       return {
         user: null,
         status: "no_change",
-        error: "User not found",
+        error: provisionError || "User not found",
       };
     }
 
@@ -265,6 +284,17 @@ export async function updateActivePractices(
 }> {
   try {
     if (!users) await init();
+
+    const { user: provisioned, error: provisionError } = await getOrCreateUser(
+      userId
+    );
+    if (provisionError || !provisioned) {
+      return {
+        user: null,
+        status: "no_change",
+        error: provisionError || "User not found",
+      };
+    }
 
     const query = { _id: userId };
     const update =

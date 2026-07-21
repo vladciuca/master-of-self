@@ -4,7 +4,7 @@ import { useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { useUser } from "@clerk/nextjs";
 import { PracticeCard } from "@components/practices/PracticeCard";
-import { PracticeSwitch } from "@components/practices/discipline-card/PracticeSwitch";
+import { PracticeSwitch } from "@components/practices/PracticeSwitch";
 import { IconRenderer } from "@components/IconRenderer";
 import { Button } from "@components/ui/button";
 import { Skeleton } from "@components/ui/skeleton";

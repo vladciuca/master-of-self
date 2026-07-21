@@ -5,7 +5,7 @@ import {
 } from "@components/ui/accordion";
 import { IndicatorAccordionTrigger } from "@components/ui/indicator-accordion-trigger";
 import { IconRenderer } from "@components/IconRenderer";
-import { PracticeCardContent } from "@components/practices/discipline-card/PracticeCardContent";
+import { PracticeCardContent } from "@components/practices/PracticeCardContent";
 import { isHexColor } from "@lib/utils";
 import type { JournalCustomStepConfig } from "@models/types";
 import type { Practice } from "@models/mongodb";
