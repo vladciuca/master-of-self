@@ -27,7 +27,7 @@ export function PreMadePractices({ onboarding }: { onboarding?: boolean }) {
     <>
       {/* Sticky Tabs */}
       <div className="sticky top-0 z-10 bg-background">
-        <div className="container mx-auto px-4 py-4">
+        <div className="py-4">
           <Tabs
             value={activeTab}
             onValueChange={(value) =>
@@ -78,7 +78,7 @@ export function PreMadePractices({ onboarding }: { onboarding?: boolean }) {
       </div>
 
       {/* Content */}
-      <div className="container mx-auto px-4 py-6">
+      <div className="py-6">
         <Accordion
           type="single"
           collapsible
