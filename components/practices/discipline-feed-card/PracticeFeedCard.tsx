@@ -1,7 +1,7 @@
 import React from "react";
 import { PracticeCard } from "../PracticeCard";
 import { PracticeFeedFooter } from "./PracticeFeedFooter";
-import { PracticeCreator } from "../discipline-card/PracticeCreator";
+import { PracticeCreator } from "../PracticeCreator";
 import { IconRenderer } from "@components/IconRenderer";
 import { stepIconMap } from "@components/ui/constants";
 import { JOURNAL_COLORS } from "@lib/colors";

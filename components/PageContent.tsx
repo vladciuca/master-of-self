@@ -3,8 +3,8 @@
 import { useUser } from "@clerk/nextjs";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect } from "react";
-import SignUpPage from "@app/(full)/sign-up/page";
-import SignInPage from "@app/(full)/sign-in/page";
+import { SignUpForm } from "@components/SignUpForm";
+import { ProviderSignIn } from "@components/ProviderSignIn";
 import { PageLogo } from "@components/PageLogo";
 import { LoadingPageLogo } from "@components/LoadingPageLogo";
 import { PageCarousel } from "@components/PageCarousel";
@@ -80,9 +80,17 @@ export function PageContent({ children }: Layout) {
 
   const renderPageComponent = () => {
     if (pathname === "/sign-up" || pathname.startsWith("/sign-up/")) {
-      return <SignUpPage />;
+      return (
+        <div className="flex justify-center items-center h-full w-full px-4">
+          <SignUpForm />
+        </div>
+      );
     } else if (pathname === "/sign-in" || pathname.startsWith("/sign-in/")) {
-      return <SignInPage />;
+      return (
+        <div className="flex justify-center items-center h-full w-full px-4">
+          <ProviderSignIn />
+        </div>
+      );
     } else {
       return isLargeScreen ? (
         // <PageCarousel
