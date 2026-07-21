@@ -3,8 +3,7 @@
 import { useState, useEffect } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { PracticeCommunity } from "@components/practices/PracticeCommunity";
-import { PreMadePractices } from "@components/practices/PreMadePractices";
+import { PracticeExplore } from "@components/practices/PracticeExplore";
 
 export default function Profile() {
   const searchParams = useSearchParams();
@@ -13,12 +12,12 @@ export default function Profile() {
   // page tab configuration object - contains name and component for each page
   const pageConfig = [
     {
-      name: "pre-made",
-      component: <PreMadePractices />,
+      name: "Practices",
+      component: <PracticeExplore />,
     },
     {
-      name: "Community",
-      component: <PracticeCommunity />,
+      name: "People",
+      component: <div />,
     },
   ];
 

@@ -74,7 +74,7 @@ export function PracticeCard({
       className={`p-0 border-none mb-0 ${className ?? ""}`}
     >
       <IndicatorAccordionTrigger className={`py-0 ${triggerClassName ?? ""}`}>
-        <div className="grid grid-cols-[auto_1fr_auto] grid-rows-[1.25rem_auto] gap-x-2 w-full pl-2 items-start">
+        <div className="grid grid-cols-[auto_1fr_auto] grid-rows-[1.25rem_auto] gap-x-3 w-full pl-2 items-start">
           {resolvedIcon && (
             <div className="col-start-1 row-start-1 row-span-2 self-center justify-self-center w-[66px] h-[66px] overflow-visible">
               <IconRenderer
