@@ -82,6 +82,7 @@ export function PreMadePractices({ onboarding }: { onboarding?: boolean }) {
         <Accordion
           type="single"
           collapsible
+          className="space-y-4"
           defaultValue={
             onboarding ? filteredDisciplines[0]?._id?.toString() : undefined
           }

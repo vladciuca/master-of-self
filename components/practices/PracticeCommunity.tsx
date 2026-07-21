@@ -29,7 +29,7 @@ export function PracticeCommunity() {
           No community practices available at the moment.
         </div>
       ) : (
-        <Accordion type="single" collapsible>
+        <Accordion type="single" collapsible className="space-y-4">
           {practices.map((practice) => (
             <PracticeFeedCard
               key={String(practice._id)}

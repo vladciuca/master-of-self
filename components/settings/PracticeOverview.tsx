@@ -343,7 +343,7 @@ export function PracticeOverview() {
   }
 
   return (
-    <Accordion type="single" collapsible className="space-y-1">
+    <Accordion type="single" collapsible className="space-y-4">
       <CreatePageCard onCreate={handleCreatePage} />
 
       {baseDiscipline && (
@@ -358,7 +358,7 @@ export function PracticeOverview() {
             total={section.pages.length}
             icon={section.icon}
           />
-          <div className="space-y-1">
+          <div className="space-y-4">
             {section.pages.map((page) => {
               const pageId = String(page._id);
               const isActive = activePracticeIds.includes(pageId);
