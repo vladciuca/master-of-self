@@ -1,6 +1,6 @@
 import { ObjectId } from "mongodb";
 import { ReactNode } from "react";
-import { XpData } from "./mongodb";
+import { XpData, Practice } from "./mongodb";
 
 export type Layout = {
   children: ReactNode;
@@ -79,6 +79,16 @@ export type JournalCustomStep = JournalStepMetadata &
     // _id: string;
     // icon: string; // from JournalStepMetadata
   };
+
+// PRACTICE OVERVIEW ---------------------------------------------------
+
+export type PracticePageItem = Practice | JournalCustomStepConfig;
+
+export type PracticePageSection = {
+  title: string;
+  icon?: string;
+  pages: PracticePageItem[];
+};
 
 // JOURNAL TYPES -----------------------------------------------------
 

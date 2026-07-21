@@ -2,7 +2,12 @@ import { PracticeCard } from "@components/practices/PracticeCard";
 import { PracticeSwitch } from "@components/practices/PracticeSwitch";
 import { Button } from "@components/ui/button";
 import { Trash2 } from "lucide-react";
-import { isOwnPage, type PageItem } from "./types";
+import type { PracticePageItem } from "@models/types";
+
+function isOwnPage(page: PracticePageItem, userId?: string): boolean {
+  if (!("creatorId" in page) || !page.creatorId || !userId) return false;
+  return page.creatorId.toString() === userId;
+}
 
 export function PageCard({
   page,
@@ -12,11 +17,11 @@ export function PageCard({
   onDelete,
   userId,
 }: {
-  page: PageItem;
+  page: PracticePageItem;
   isActive: boolean;
   onToggle: (checked: boolean) => void;
-  onEdit: (page: PageItem) => void;
-  onDelete: (page: PageItem) => void;
+  onEdit: (page: PracticePageItem) => void;
+  onDelete: (page: PracticePageItem) => void;
   userId?: string;
 }) {
   return (

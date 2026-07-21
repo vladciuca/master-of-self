@@ -14,8 +14,8 @@ export function UserLevel({ user }: UserLevelProps) {
     <div className="flex items-center h-full mx-4">
       <div className="flex justify-center">
         <Link href="/settings?page=Overview">
-          <div className="cursor-pointer text-primary flex justify-center items-center">
-            <GiWhiteBook size={60} />
+          <div className="cursor-pointer text-primary flex justify-center items-center mx-2">
+            <GiWhiteBook size={50} />
           </div>
         </Link>
       </div>

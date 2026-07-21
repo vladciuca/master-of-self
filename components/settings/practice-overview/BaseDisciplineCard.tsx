@@ -2,9 +2,9 @@ import { PracticeCard } from "@components/practices/PracticeCard";
 import { IconRenderer } from "@components/IconRenderer";
 import { stepIconMap } from "@components/ui/constants";
 import { JOURNAL_COLORS } from "@lib/colors";
-import type { PageItem } from "./types";
+import type { PracticePageItem } from "@models/types";
 
-export function BaseDisciplineCard({ page }: { page: PageItem }) {
+export function BaseDisciplineCard({ page }: { page: PracticePageItem }) {
   return (
     <PracticeCard
       step={page}

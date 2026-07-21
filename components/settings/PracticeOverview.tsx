@@ -13,7 +13,7 @@ import { CreatePageCard } from "./practice-overview/CreatePageCard";
 import { BaseDisciplineCard } from "./practice-overview/BaseDisciplineCard";
 import { PageCard } from "./practice-overview/PageCard";
 import { PagesOverviewSkeleton } from "./practice-overview/PagesOverviewSkeleton";
-import type { PageItem, PageSection } from "./practice-overview/types";
+import type { PracticePageItem, PracticePageSection } from "@models/types";
 import type { User } from "@models/types";
 
 export function PracticeOverview() {
@@ -42,7 +42,7 @@ export function PracticeOverview() {
       (page) => String(page._id) !== BASE_DISCIPLINE_ID
     );
 
-    const byActiveThenDiscipline = (a: PageItem, b: PageItem) => {
+    const byActiveThenDiscipline = (a: PracticePageItem, b: PracticePageItem) => {
       const aActive = activePracticeIds.includes(String(a._id));
       const bActive = activePracticeIds.includes(String(b._id));
       if (aActive && !bActive) return -1;
@@ -58,7 +58,7 @@ export function PracticeOverview() {
       .filter((page) => page.type === "nightEntry")
       .sort(byActiveThenDiscipline);
 
-    const sections: PageSection[] = [];
+    const sections: PracticePageSection[] = [];
     if (day.length > 0)
       sections.push({ title: "Morning", icon: stepIconMap.day, pages: day });
     if (night.length > 0)
@@ -67,7 +67,7 @@ export function PracticeOverview() {
     return { baseDiscipline: base, sections };
   }, [learnedPracticeList, activePracticeIds]);
 
-  const sectionActiveCount = (pages: PageItem[]) =>
+  const sectionActiveCount = (pages: PracticePageItem[]) =>
     pages.filter((page) => activePracticeIds.includes(String(page._id))).length;
 
   const handleCreatePage = () => {
@@ -78,11 +78,11 @@ export function PracticeOverview() {
     updateActivePractice(pageId, checked);
   };
 
-  const handleEdit = (page: PageItem) => {
+  const handleEdit = (page: PracticePageItem) => {
     router.push(`/update-practice/${String(page._id)}`);
   };
 
-  const handleDelete = async (page: PageItem) => {
+  const handleDelete = async (page: PracticePageItem) => {
     const pageId = String(page._id);
     if (
       !confirm(
