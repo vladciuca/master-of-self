@@ -193,7 +193,7 @@ export function OnboardingFlow() {
           <div className="flex justify-between items-center w-full">
             {isFirstStep ? (
               <Button
-                className="w-[40%]"
+                className="w-1/3 rounded-full"
                 variant="secondary"
                 type="button"
                 onClick={handleSignOut}
@@ -204,7 +204,7 @@ export function OnboardingFlow() {
               </Button>
             ) : (
               <Button
-                className={isLastStep ? "w-16" : "w-[40%]"}
+                className={isLastStep ? "w-16 rounded-full" : "w-1/3 rounded-full"}
                 disabled={isFirstStep || isLoading}
                 variant="secondary"
                 type="button"
@@ -218,7 +218,7 @@ export function OnboardingFlow() {
             {isLastStep ? (
               <div className={isFirstStep ? "w-full" : "flex-1 ml-4"}>
                 <JournalEntryActionButton
-                  text={isLoading ? "Completing Setup..." : "Let’s go!"}
+                  text={isLoading ? "Completing Setup..." : "Start the Loop"}
                   handleClick={handleCompleteOnboardingAndCreateJournal}
                   handleDisabled={isLoading}
                   isSubmitting={isLoading}
@@ -226,7 +226,7 @@ export function OnboardingFlow() {
               </div>
             ) : (
               <Button
-                className="w-[40%]"
+                className="w-1/3 rounded-full"
                 variant="default"
                 type="button"
                 onClick={handleNext}
