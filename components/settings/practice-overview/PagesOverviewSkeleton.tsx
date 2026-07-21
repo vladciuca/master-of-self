@@ -5,7 +5,7 @@ export function PagesOverviewSkeleton() {
     <div className="space-y-4">
       {[1, 2].map((section) => (
         <div key={section}>
-          <div className="flex items-center justify-between mt-4 mb-6 bg-muted/30 rounded-md p-2 px-3">
+          <div className="flex items-center justify-between mt-4 mb-6 bg-muted/30 rounded-lg p-2 px-3">
             <Skeleton className="h-5 w-24" />
             <Skeleton className="h-5 w-10" />
           </div>

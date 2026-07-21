@@ -11,8 +11,8 @@ export function CreatePageCard({ onCreate }: { onCreate: () => void }) {
       color="primary"
       hideIconBorder
       iconSize={80}
-      className="mt-2"
-      triggerClassName="bg-muted/30 rounded-md pb-2"
+      className="mt-2 mb-6"
+      triggerClassName="bg-muted/30 rounded-lg pb-2"
       action={
         <Button
           variant="default"

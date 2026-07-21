@@ -22,7 +22,7 @@ export function SectionHeader({
   const textColor = active === 0 ? "text-muted-foreground" : "text-primary";
 
   return (
-    <div className="flex items-center justify-between mt-4 mb-6 bg-muted/30 rounded-md p-2 px-3">
+    <div className="flex items-center justify-between mt-4 mb-6 bg-muted/30 rounded-lg p-2 px-3">
       <div className={`font-semibold tracking-tight ${textColor}`}>
         {title}
       </div>

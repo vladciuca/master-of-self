@@ -24,7 +24,7 @@ export const DISCIPLINES: JournalCustomStepConfig[] = [
     title: "What will I commit to today?",
     description:
       "Build consistency through intentional action and daily follow-through. Every small step strengthens your ability to turn intention into habit.",
-    color: "#F4C542",
+    color: "primary",
   },
   {
     _id: "courage",

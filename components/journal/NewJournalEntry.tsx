@@ -94,7 +94,7 @@ export function NewJournalEntry({ isEveningTime }: NewJournalEntryProps) {
         <JournalEntryActionButton
           text={
             submittingJournalEntry
-              ? "Creating..."
+              ? "Creating Entry..."
               : hasTodayEntry
                 ? "Entry for today already exists"
                 : "Start today's Entry"

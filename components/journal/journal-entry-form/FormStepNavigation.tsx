@@ -24,7 +24,7 @@ export function FormStepNavigation({
   return (
     <div className="flex justify-around items-center my-4">
       <Button
-        className="w-1/3"
+        className="w-1/3 rounded-full"
         variant={isFirstStep ? "default" : "secondary"}
         type="button"
         onClick={isFirstStep ? () => router.push("/journal") : handlePrevForm}
@@ -34,7 +34,7 @@ export function FormStepNavigation({
       </Button>
 
       <Button
-        className="w-1/3"
+        className="w-1/3 rounded-full"
         variant={isLastStep ? "default" : "secondary"}
         type="button"
         onClick={handleNextForm}
