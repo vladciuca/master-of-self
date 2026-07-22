@@ -3,6 +3,7 @@ import {
   FormField,
   FormItem,
   FormLabel,
+  FormDescription,
   FormControl,
   FormMessage,
 } from "@components/ui/form";
@@ -38,10 +39,11 @@ export function PracticeIconPickerField({
       name="icon"
       render={({ field }) => (
         <FormItem>
+          <FormLabel>Select Icon</FormLabel>
           {type === "Create" && (
-            <FormLabel className="w-full flex justify-center">
-              Icon
-            </FormLabel>
+            <FormDescription className="text-xs">
+              Choose an icon that best resembles your practice.
+            </FormDescription>
           )}
           <FormControl>
             <IconPicker
@@ -54,9 +56,7 @@ export function PracticeIconPickerField({
               // projectedXp={projectedXp}
             />
           </FormControl>
-          <div className="text-center w-full">
-            <FormMessage />
-          </div>
+          <FormMessage />
         </FormItem>
       )}
     />

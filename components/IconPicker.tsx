@@ -21,8 +21,6 @@ import { cn } from "@lib/utils";
 import { useIconPickerSearch } from "@hooks/useIconPickerSearch";
 import { useSideContentPosition } from "@hooks/useSideContentPosition";
 
-//NOTE: should create and move to separate disc icon render component
-import { IconRenderer } from "@components/IconRenderer";
 import { FilterPill } from "@components/practices/practice-explore/FilterPill";
 import { PRACTICE_ICON_CATEGORIES } from "components/ui/constants";
 
@@ -150,34 +148,39 @@ export function IconPicker({
     >
       <div className="w-full flex justify-center items-center">
         <DrawerTrigger asChild>
-          <div className="inline-flex cursor-pointer">
-            {SelectedIcon ? (
-              <>
-                {iconPickerType === "habits" && (
-                  <HabitIconProgressBar
-                    icon={selectedIconName || ""}
-                    xp={habitXp || 0}
-                    projectedXp={projectedXp}
-                    displayXpValues
-                    displayLevelValues
+          {iconPickerType === "practices" ? (
+            <Button
+              type="button"
+              variant="outline"
+              className="w-full justify-start font-normal"
+            >
+              {SelectedIcon ? (
+                <span className="flex items-center">
+                  <SelectedIcon
+                    className="h-5 w-5 mr-2"
+                    style={color ? { color } : undefined}
                   />
-                )}
-                {iconPickerType === "practices" && (
-                  <>
-                    <IconRenderer
-                      iconName={selectedIconName || ""}
-                      className="bg-transparent"
-                      style={{ color: color }}
-                      size={60}
-                    />
-                  </>
-                )}
-              </>
-            ) : (
-              // <FaPersonCircleQuestion className="h-14 w-14 text-muted-foreground" />
-              <>{defaultSearchIcon}</>
-            )}
-          </div>
+                  <span>{selectedIconName}</span>
+                </span>
+              ) : (
+                <span className="text-muted-foreground">Browse icons</span>
+              )}
+            </Button>
+          ) : (
+            <div className="inline-flex cursor-pointer">
+              {SelectedIcon ? (
+                <HabitIconProgressBar
+                  icon={selectedIconName || ""}
+                  xp={habitXp || 0}
+                  projectedXp={projectedXp}
+                  displayXpValues
+                  displayLevelValues
+                />
+              ) : (
+                <>{defaultSearchIcon}</>
+              )}
+            </div>
+          )}
         </DrawerTrigger>
       </div>
 
@@ -191,9 +194,6 @@ export function IconPicker({
               <>{defaultSearchIcon}</>
             )}
           </DrawerTitle>
-          {/*<DrawerDescription className="w-full text-center">
-            Choose an icon that best resembles your practice
-          </DrawerDescription>*/}
         </DrawerHeader>
         <div className="p-4 pt-0">
           <Input

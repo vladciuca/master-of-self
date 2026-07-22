@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { PracticeIconPickerField } from "@components/practices/discipline-form/PracticeIconPickerField";
@@ -12,6 +12,9 @@ import { PracticeDescriptionField } from "@components/practices/discipline-form/
 import { Form } from "@/components/ui/form";
 import { ScrollArea } from "@components/ui/scroll-area";
 import { Button } from "@/components/ui/button";
+import { IconRenderer } from "@components/IconRenderer";
+import { isHexColor } from "@lib/utils";
+import { FaPersonCircleQuestion } from "react-icons/fa6";
 import {
   type PracticeZodType,
   practiceFormSchema,
@@ -53,18 +56,45 @@ export function PracticeForm({
     onSubmit(data);
   };
 
+  const selectedIcon = useWatch({ control: form.control, name: "icon" });
+  const selectedColor = useWatch({ control: form.control, name: "color" });
+
   return (
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(handleHabitSubmit)}
         className="flex flex-col h-full justify-between"
       >
-        <div className="space-y-6 mb-4">
+        <div className="space-y-4 mb-4">
           <h1 className="scroll-m-20 text-4xl font-bold tracking-tight text-center">
             {type} Practice
           </h1>
+          <div className="flex justify-center">
+            {selectedIcon ? (
+              <IconRenderer
+                iconName={selectedIcon}
+                className={`border border-primary p-2 rounded-md ${
+                  isHexColor(selectedColor)
+                    ? ""
+                    : selectedColor
+                      ? `text-${selectedColor}`
+                      : ""
+                }`}
+                style={
+                  isHexColor(selectedColor)
+                    ? { color: selectedColor }
+                    : undefined
+                }
+                size={50}
+              />
+            ) : (
+              <div className="border border-primary p-2 rounded-md w-[66px] h-[66px] flex items-center justify-center">
+                <FaPersonCircleQuestion className="h-[50px] w-[50px]" />
+              </div>
+            )}
+          </div>
           {type === "Create" && (
-            <p className="text-center text-muted-foreground text-sm">
+            <p className="text-center text-muted-foreground text-sm px-6 sm:px-8">
               Create a practice by choosing a Discipline and defining a daily
               Practice.
             </p>
