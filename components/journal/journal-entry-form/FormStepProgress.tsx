@@ -4,7 +4,6 @@ import { Badge } from "@/components/ui/badge";
 import { IconRenderer } from "@components/IconRenderer";
 import { getJournalStepStyle } from "@components/ui/constants";
 import { isHexColor } from "@lib/utils";
-import { FaBoltLightning } from "react-icons/fa6";
 import type { JournalCustomStep } from "@models/types";
 
 type FormStepProgressProps = {
@@ -157,14 +156,6 @@ export function FormStepProgress({
                         className={`${bgColor} absolute -top-1 -right-1 text-[0.6rem] px-1 py-0 min-w-[1.2rem] h-[1.2rem] flex items-center justify-center text-white`}
                       >
                         {count}
-                      </Badge>
-                    )}
-                    {stepId === "bonus" && (
-                      <Badge
-                        variant="outline"
-                        className={`${bgColor} absolute -top-1 -right-1 text-[0.6rem] px-1 py-0 min-w-[1.2rem] h-[1.2rem] flex items-center justify-center text-white`}
-                      >
-                        <FaBoltLightning />
                       </Badge>
                     )}
                   </span>

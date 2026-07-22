@@ -1158,7 +1158,7 @@ export function JournalEntryPracticeSection({
               <div className="flex items-center justify-between w-full">
                 <div className="flex items-center gap-3">
                   {icon && (
-                    <div className="w-10 flex items-center justify-center pl-2">
+                    <div className="w-10 flex items-center justify-center">
                       <IconRenderer
                         iconName={
                           step === "highlights" ? stepIconMap.highlights : icon
@@ -1193,7 +1193,7 @@ export function JournalEntryPracticeSection({
                     </div>
                   </div>
                 </div>
-                <div className="flex items-start h-full">
+                <div className="flex items-center h-full">
                   {step === "discipline" ? (
                     <span
                       className={`text-lg font-semibold text-${JOURNAL_COLORS.score} flex items-center`}
