@@ -1,11 +1,8 @@
 import { Progress } from "@/components/ui/progress";
-import { IconRenderer } from "@components/IconRenderer";
-import { Check } from "lucide-react";
 
 export type OnboardingStepMeta = {
   id: number;
   title: string;
-  icon: string;
 };
 
 type OnboardingStepperProps = {
@@ -24,9 +21,9 @@ export function OnboardingStepper({
   return (
     <div className="flex-shrink-0 bg-card min-h-20 py-2 sm:mt-1 sm:mb-2">
       <div className="px-4 h-full flex items-center">
-        <div className="w-full space-y-2">
+        <div className="w-full space-y-3">
           <div className="flex justify-around items-center">
-            {steps.map((step) => {
+            {steps.map((step, index) => {
               const isActive = step.id === currentStep;
               const isCompleted = step.id < currentStep;
               return (
@@ -38,19 +35,16 @@ export function OnboardingStepper({
                   aria-label={`Go to step ${step.id}: ${step.title}`}
                 >
                   <div
-                    className={`w-11 h-11 rounded-full flex items-center justify-center ${
-                      isActive
-                        ? "bg-secondary text-primary"
-                        : "text-muted-foreground"
+                    className={`w-9 h-9 rounded-full flex items-center justify-center text-lg font-semibold ${
+                      isCompleted
+                        ? "bg-green-500 text-white"
+                        : isActive
+                          ? "bg-secondary text-primary"
+                          : "text-muted-foreground"
                     }`}
                   >
-                    <IconRenderer iconName={step.icon} size={25} />
+                    {index + 1}
                   </div>
-                  {isCompleted && (
-                    <span className="absolute -top-1 -right-1 bg-green-500 rounded-full min-w-[1.2rem] h-[1.2rem] flex items-center justify-center">
-                      <Check className="h-3 w-3 text-white" strokeWidth={3} />
-                    </span>
-                  )}
                 </button>
               );
             })}

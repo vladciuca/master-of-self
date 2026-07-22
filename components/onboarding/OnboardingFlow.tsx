@@ -23,13 +23,11 @@ export function OnboardingFlow() {
     {
       id: 1,
       title: `Hello, ${firstName}!`,
-      icon: "FaRegHandPeace",
       content: <Welcome firstName={firstName} />,
     },
     {
       id: 2,
       title: "Pick Your First Practice",
-      icon: "FaRegCompass",
       content: <PreMadePractices onboarding />,
     },
     {
@@ -37,7 +35,6 @@ export function OnboardingFlow() {
       title: "Manage Your Practices",
       description:
         "Toggle practices on or off - active ones will appear in your daily journal.",
-      icon: "GiSpellBook",
       content: <PracticeOverview showCreateCard={false} />,
     },
   ];
