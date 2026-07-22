@@ -51,7 +51,7 @@ export function JournalEntryCard({
     : {};
 
   return (
-    <Card className="p-4 mb-4 space-y-4">
+    <Card className="p-4 mb-4 space-y-4 border-none bg-muted/30">
       <div className="w-full">
         <div className="flex w-full justify-between">
           <div className="flex items-top">

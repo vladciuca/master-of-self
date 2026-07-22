@@ -23,7 +23,7 @@ export default function UpdatePractice() {
     try {
       await updatePractice(practice);
       //NOTE: use constants for these
-      router.push("/settings?page=Practices");
+      router.push("/profile?page=practices");
     } catch (error) {
       console.error("Failed to update practice:", error);
       // Handle error (e.g., show toast notification)

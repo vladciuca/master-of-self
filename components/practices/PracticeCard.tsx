@@ -6,7 +6,7 @@ import {
 import { IndicatorAccordionTrigger } from "@components/ui/indicator-accordion-trigger";
 import { IconRenderer } from "@components/IconRenderer";
 import { PracticeCardContent } from "@components/practices/PracticeCardContent";
-import { isHexColor } from "@lib/utils";
+import { isHexColor, cn } from "@lib/utils";
 import type { JournalCustomStepConfig } from "@models/types";
 import type { Practice } from "@models/mongodb";
 
@@ -21,12 +21,15 @@ type PracticeCardProps = {
   color?: string;
   type?: "dayEntry" | "nightEntry";
   action?: React.ReactNode;
+  indicator?: React.ReactNode;
+  disciplineIcon?: React.ReactNode;
   footer?: React.ReactNode;
   expandedContent?: React.ReactNode;
   showDescription?: boolean;
-  hideIconBorder?: boolean;
+  iconClassName?: string;
   iconSize?: number;
   className?: string;
+  triggerClassName?: string;
 };
 
 export function PracticeCard({
@@ -37,12 +40,15 @@ export function PracticeCard({
   discipline,
   color,
   action,
+  indicator,
+  disciplineIcon,
   footer,
   expandedContent,
   showDescription = true,
-  hideIconBorder,
+  iconClassName,
   iconSize = 50,
   className,
+  triggerClassName,
 }: PracticeCardProps) {
   const resolvedValue = value ?? (step ? String(step._id) : "");
   const resolvedIcon = icon ?? step?.icon;
@@ -50,9 +56,10 @@ export function PracticeCard({
   const resolvedDiscipline = discipline ?? step?.discipline;
   const resolvedColor = color ?? step?.color;
 
-  const iconFrameClass = hideIconBorder
-    ? "rounded-md"
-    : "border border-primary p-2 rounded-md";
+  const iconFrameClass = cn(
+    "border border-primary p-2 rounded-md",
+    iconClassName
+  );
   const iconColorClass = isHexColor(resolvedColor)
     ? ""
     : resolvedColor
@@ -65,10 +72,10 @@ export function PracticeCard({
   return (
     <AccordionItem
       value={resolvedValue}
-      className={`p-0 border-none ${className ?? ""}`}
+      className={`p-0 border-none mb-0 ${className ?? ""}`}
     >
-      <IndicatorAccordionTrigger className="py-0">
-        <div className="grid grid-cols-[auto_1fr_auto] grid-rows-[1.25rem_auto] gap-x-2 w-full pl-2 items-start">
+      <IndicatorAccordionTrigger className={`py-0 ${triggerClassName ?? ""}`}>
+        <div className="grid grid-cols-[auto_1fr_auto] grid-rows-[1.25rem_auto] gap-x-3 w-full pl-2 items-start">
           {resolvedIcon && (
             <div className="col-start-1 row-start-1 row-span-2 self-center justify-self-center w-[66px] h-[66px] overflow-visible">
               <IconRenderer
@@ -81,7 +88,8 @@ export function PracticeCard({
           )}
 
           {(resolvedDiscipline || resolvedTitle) && (
-            <div className="col-start-2 row-start-1 self-start text-start text-sm text-muted-foreground capitalize">
+            <div className="col-start-2 row-start-1 self-start text-start text-sm text-muted-foreground capitalize flex items-center gap-2">
+              {disciplineIcon}
               <span className={resolvedDiscipline ? "" : "invisible"}>
                 {resolvedDiscipline || "placeholder"}
               </span>
@@ -93,9 +101,15 @@ export function PracticeCard({
             </div>
           )}
 
+          {indicator && (
+            <div className="col-start-3 row-start-1 self-start justify-self-center">
+              {indicator}
+            </div>
+          )}
+
           {action && (
             <div
-              className="col-start-3 row-start-2 self-end justify-self-center"
+              className="col-start-3 row-start-2 self-start justify-self-center"
               onClick={(e) => e.stopPropagation()}
             >
               {action}

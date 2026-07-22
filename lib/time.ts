@@ -235,6 +235,46 @@ export function getCountdownToNextPeriod(
   }
 }
 
+/**
+ * Returns the elapsed fraction (0-1) of the current time period segment:
+ * sleep (midnight -> morning), day (morning -> evening), night (evening -> midnight)
+ */
+export function getCurrentPeriodProgress(
+  morningTime: string | undefined,
+  eveningTime: string | undefined
+): number {
+  if (!morningTime || !eveningTime) return 0;
+
+  const now = new Date();
+  const morning = getTimeFromString(morningTime);
+  const evening = getTimeFromString(eveningTime);
+
+  const midnight = new Date(now);
+  midnight.setHours(0, 0, 0, 0);
+  const nextMidnight = new Date(now);
+  nextMidnight.setHours(24, 0, 0, 0);
+
+  let segmentStart: Date;
+  let segmentEnd: Date;
+
+  if (isBeforeTime(now, morning)) {
+    segmentStart = midnight;
+    segmentEnd = morning;
+  } else if (isBeforeTime(now, evening)) {
+    segmentStart = morning;
+    segmentEnd = evening;
+  } else {
+    segmentStart = evening;
+    segmentEnd = nextMidnight;
+  }
+
+  const total = segmentEnd.getTime() - segmentStart.getTime();
+  if (total <= 0) return 0;
+
+  const elapsed = now.getTime() - segmentStart.getTime();
+  return Math.min(Math.max(elapsed / total, 0), 1);
+}
+
 //===============================================================================
 //NOTE: add constants for time periods
 // export const TIME_PERIODS = {

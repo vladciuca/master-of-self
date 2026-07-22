@@ -21,9 +21,10 @@ import { cn } from "@lib/utils";
 import { useIconPickerSearch } from "@hooks/useIconPickerSearch";
 import { useSideContentPosition } from "@hooks/useSideContentPosition";
 
-//NOTE: should create and move to separate disc icon render component
-import { IconRenderer } from "@components/IconRenderer";
-import { PRACTICE_ICONS } from "components/ui/constants";
+import { FilterPill } from "@components/practices/practice-explore/FilterPill";
+import { PRACTICE_ICON_CATEGORIES } from "components/ui/constants";
+
+const practiceCategories = Object.keys(PRACTICE_ICON_CATEGORIES);
 
 type IconPickerProps = {
   value?: string;
@@ -53,6 +54,7 @@ export function IconPicker({
 
   const [isLoading, setIsLoading] = useState(true);
   const [isOpen, setIsOpen] = useState(false);
+  const [activeCategory, setActiveCategory] = useState(practiceCategories[0]);
 
   const { drawerStyle } = useSideContentPosition();
 
@@ -76,27 +78,45 @@ export function IconPicker({
     ? GiIcons[selectedIconName as keyof typeof GiIcons]
     : null;
 
+  const renderIconButton = (name: string) => {
+    const Icon = GiIcons[name as keyof typeof GiIcons];
+
+    return (
+      <Button
+        key={name}
+        variant="outline"
+        className="h-12 w-12 p-0"
+        onClick={() => handleSelectIcon(name)}
+      >
+        <Icon className="h-10 w-10" />
+      </Button>
+    );
+  };
+
+  const renderSearchEmptyState = () => (
+    <div className="col-span-6 flex flex-col items-center justify-center py-8">
+      <SearchX className="h-12 w-12 text-muted-foreground mb-4" />
+      <p className="text-center text-muted-foreground">
+        No icons found for &quot;{searchTerm}&quot;.
+        <br />
+        Try a different search term.
+      </p>
+    </div>
+  );
+
   const renderPracticeIcons = () => {
-    if (isLoading) {
+    if (isLoading || isSearching) {
       return Array.from({ length: 30 }).map((_, index) => (
         <Skeleton key={index} className="h-12 w-12" />
       ));
     }
 
-    return PRACTICE_ICONS.map((name) => {
-      const Icon = GiIcons[name as keyof typeof GiIcons];
+    if (searchTerm) {
+      if (filteredIcons.length === 0) return renderSearchEmptyState();
+      return filteredIcons.map(({ name }) => renderIconButton(name));
+    }
 
-      return (
-        <Button
-          key={name}
-          variant="outline"
-          className="h-12 w-12 p-0"
-          onClick={() => handleSelectIcon(name)}
-        >
-          <Icon className="h-12 w-12" />
-        </Button>
-      );
-    });
+    return PRACTICE_ICON_CATEGORIES[activeCategory].map(renderIconButton);
   };
 
   const renderHabitIcons = () => {
@@ -105,27 +125,9 @@ export function IconPicker({
         <Skeleton key={index} className="h-12 w-12" />
       ));
     } else if (filteredIcons.length === 0) {
-      return (
-        <div className="col-span-6 flex flex-col items-center justify-center py-8">
-          <SearchX className="h-12 w-12 text-muted-foreground mb-4" />
-          <p className="text-center text-muted-foreground">
-            No icons found for "{searchTerm}".
-            <br />
-            Try a different search term.
-          </p>
-        </div>
-      );
+      return renderSearchEmptyState();
     } else {
-      return filteredIcons.map(({ name, icon: Icon }) => (
-        <Button
-          key={name}
-          variant="outline"
-          className="h-12 w-12 p-0"
-          onClick={() => handleSelectIcon(name)}
-        >
-          <Icon className="h-10 w-10" />
-        </Button>
-      ));
+      return filteredIcons.map(({ name }) => renderIconButton(name));
     }
   };
 
@@ -146,34 +148,39 @@ export function IconPicker({
     >
       <div className="w-full flex justify-center items-center">
         <DrawerTrigger asChild>
-          <div className="inline-flex cursor-pointer">
-            {SelectedIcon ? (
-              <>
-                {iconPickerType === "habits" && (
-                  <HabitIconProgressBar
-                    icon={selectedIconName || ""}
-                    xp={habitXp || 0}
-                    projectedXp={projectedXp}
-                    displayXpValues
-                    displayLevelValues
+          {iconPickerType === "practices" ? (
+            <Button
+              type="button"
+              variant="outline"
+              className="w-full justify-start font-normal"
+            >
+              {SelectedIcon ? (
+                <span className="flex items-center">
+                  <SelectedIcon
+                    className="h-5 w-5 mr-2"
+                    style={color ? { color } : undefined}
                   />
-                )}
-                {iconPickerType === "practices" && (
-                  <>
-                    <IconRenderer
-                      iconName={selectedIconName || ""}
-                      className="bg-transparent"
-                      style={{ color: color }}
-                      size={60}
-                    />
-                  </>
-                )}
-              </>
-            ) : (
-              // <FaPersonCircleQuestion className="h-14 w-14 text-muted-foreground" />
-              <>{defaultSearchIcon}</>
-            )}
-          </div>
+                  <span>{selectedIconName}</span>
+                </span>
+              ) : (
+                <span className="text-muted-foreground">Browse icons</span>
+              )}
+            </Button>
+          ) : (
+            <div className="inline-flex cursor-pointer">
+              {SelectedIcon ? (
+                <HabitIconProgressBar
+                  icon={selectedIconName || ""}
+                  xp={habitXp || 0}
+                  projectedXp={projectedXp}
+                  displayXpValues
+                  displayLevelValues
+                />
+              ) : (
+                <>{defaultSearchIcon}</>
+              )}
+            </div>
+          )}
         </DrawerTrigger>
       </div>
 
@@ -187,29 +194,36 @@ export function IconPicker({
               <>{defaultSearchIcon}</>
             )}
           </DrawerTitle>
-          <DrawerDescription className="w-full text-center">
-            Choose an icon that best resembles your action.
-          </DrawerDescription>
         </DrawerHeader>
         <div className="p-4 pt-0">
-          {/* Only show search input for habits */}
-          {iconPickerType === "habits" && (
-            <Input
-              className={`text-base mb-2 ${cn(
-                "rounded-md focus:rounded-md active:rounded-md",
-                "appearance-none",
-                "safari-rounded-fix"
-              )}`}
-              type="search"
-              placeholder="Search icons..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
+          <Input
+            className={`text-base mb-2 ${cn(
+              "rounded-full focus:rounded-md active:rounded-md",
+              "appearance-none",
+              "safari-rounded-fix"
+            )}`}
+            type="search"
+            placeholder="Search icons..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+
+          {iconPickerType === "practices" && !searchTerm && (
+            <div className="flex gap-2 overflow-x-auto py-2 mb-2">
+              {practiceCategories.map((category) => (
+                <FilterPill
+                  key={category}
+                  label={category}
+                  selected={activeCategory === category}
+                  onToggle={() => setActiveCategory(category)}
+                />
+              ))}
+            </div>
           )}
 
           <div
             className={`${
-              iconPickerType === "practices" ? "h-[50vh]" : "h-[40vh]"
+              iconPickerType === "practices" ? "h-[35vh]" : "h-[35vh]"
             } mb-4 overflow-y-scroll`}
           >
             <div className="grid grid-cols-6 gap-2 place-items-center">
@@ -218,7 +232,7 @@ export function IconPicker({
             </div>
           </div>
           <DrawerClose asChild>
-            <Button variant="default" className="w-full">
+            <Button variant="default" className="w-full rounded-full">
               Done
             </Button>
           </DrawerClose>

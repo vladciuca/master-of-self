@@ -33,7 +33,7 @@ export function JournalEntryActionButton({
   // Only apply special disabled styling when submitting
   const disabledClasses = isSubmitting
     ? `disabled:bg-${periodColor}/90 disabled:text-white`
-    : "disabled:bg-transparent disabled:opacity-70";
+    : "disabled:opacity-70";
 
   return (
     <Button
@@ -42,19 +42,15 @@ export function JournalEntryActionButton({
       size="sm"
       variant="outline"
       className={cn(
-        `group border-${periodColor}/40 hover:bg-${periodColor}/90`,
+        `group border-${periodColor}/40 bg-${periodColor} text-white hover:bg-${periodColor}/90`,
         disabledClasses,
-        "hover:text-white rounded-full font-normal w-full py-5",
+        "rounded-full font-normal w-full py-5",
       )}
     >
       <IconRenderer
         iconName={iconName}
         size={20}
-        className={cn(
-          `mr-3 text-${periodColor}`,
-          isSubmitting ? "group-disabled:text-white" : "",
-          "group-hover:text-white transition-colors",
-        )}
+        className="mr-3 text-white"
       />
       {text}
     </Button>

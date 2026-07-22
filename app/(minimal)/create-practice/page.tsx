@@ -19,7 +19,7 @@ export default function CreatePractice() {
 
     try {
       await createPractice(practice);
-      router.push("/settings?page=Practices");
+      router.push("/profile?page=practices");
     } catch (error) {
       setIsNavigating(false);
       console.error(

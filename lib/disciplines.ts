@@ -1,6 +1,10 @@
 import { stepIconMap } from "@components/ui/constants";
 import type { JournalCustomStepConfig } from "@models/types";
 
+// The base "Discipline" practice is built into the app (Commit & Review)
+// and must never appear as an addable practice in feeds.
+export const BASE_DISCIPLINE_ID = "discipline";
+
 export const DISCIPLINES: JournalCustomStepConfig[] = [
   {
     _id: "awareness",
@@ -20,7 +24,7 @@ export const DISCIPLINES: JournalCustomStepConfig[] = [
     title: "What will I commit to today?",
     description:
       "Build consistency through intentional action and daily follow-through. Every small step strengthens your ability to turn intention into habit.",
-    color: "#F4C542",
+    color: "primary",
   },
   {
     _id: "courage",

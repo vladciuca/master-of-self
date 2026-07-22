@@ -85,11 +85,11 @@ export function Footer() {
   return (
     <div className="w-full h-full flex justify-center items-center">
       {pathname === "/" ? (
-        <Button className="w-1/2" onClick={handleSignIn}>
+        <Button className="w-1/2 rounded-full" onClick={handleSignIn}>
           Sign In
         </Button>
       ) : (
-        <Button className="w-1/2" variant="secondary" onClick={handleCancel}>
+        <Button className="w-1/2 rounded-full" variant="secondary" onClick={handleCancel}>
           Cancel
         </Button>
       )}

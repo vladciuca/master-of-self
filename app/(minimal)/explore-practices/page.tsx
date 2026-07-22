@@ -10,14 +10,14 @@ const cardData = [
     icon: <Box size={28} />,
     description:
       "Dive into our curated set of disciplines designed to help you build strong habits from day one.",
-    href: "/community?page=built-in",
+    href: "/community?page=Practices",
   },
   {
     title: "Community Picks",
     icon: <Users size={28} />,
     description:
       "Discover what others are doing—gain insight, spark ideas, and tailor a discipline that fits your style.",
-    href: "/community?page=practices",
+    href: "/community?page=Practices",
   },
   {
     title: "Build Your Own",

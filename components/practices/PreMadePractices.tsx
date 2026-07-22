@@ -5,10 +5,11 @@ import { PracticeFeedCard } from "@components/practices/discipline-feed-card/Pra
 import { Accordion } from "@/components/ui/accordion";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { customStepConfigs } from "@components/journal/journal-entry-form/form-steps/steps/CustomSteps";
+import { BASE_DISCIPLINE_ID } from "@lib/disciplines";
 
 import { IconRenderer } from "@components/IconRenderer";
 import { stepIconMap } from "@components/ui/constants";
-// import { JOURNAL_COLORS } from "@lib/colors";
+import { JOURNAL_COLORS } from "@lib/colors";
 
 export function PreMadePractices({ onboarding }: { onboarding?: boolean }) {
   const [activeTab, setActiveTab] = useState<"dayEntry" | "nightEntry">(
@@ -17,14 +18,16 @@ export function PreMadePractices({ onboarding }: { onboarding?: boolean }) {
 
   // Filter disciplines based on the active tab
   const filteredDisciplines = customStepConfigs.filter(
-    (discipline) => discipline.type === activeTab
+    (discipline) =>
+      discipline.type === activeTab &&
+      String(discipline._id) !== BASE_DISCIPLINE_ID
   );
 
   return (
     <>
       {/* Sticky Tabs */}
       <div className="sticky top-0 z-10 bg-background">
-        <div className="container mx-auto px-4 py-4">
+        <div className="py-4">
           <Tabs
             value={activeTab}
             onValueChange={(value) =>
@@ -41,7 +44,7 @@ export function PreMadePractices({ onboarding }: { onboarding?: boolean }) {
                   iconName={stepIconMap.day}
                   className={
                     activeTab === "dayEntry"
-                      ? `text-primary`
+                      ? `text-${JOURNAL_COLORS.day}`
                       : "text-muted-foreground"
                   }
                   size={28}
@@ -56,7 +59,7 @@ export function PreMadePractices({ onboarding }: { onboarding?: boolean }) {
                   iconName={stepIconMap.night}
                   className={
                     activeTab === "nightEntry"
-                      ? `text-primary`
+                      ? `text-${JOURNAL_COLORS.night}`
                       : "text-muted-foreground"
                   }
                   size={28}
@@ -75,10 +78,11 @@ export function PreMadePractices({ onboarding }: { onboarding?: boolean }) {
       </div>
 
       {/* Content */}
-      <div className="container mx-auto px-4 py-6">
+      <div className="py-6">
         <Accordion
           type="single"
           collapsible
+          className="space-y-4"
           defaultValue={
             onboarding ? filteredDisciplines[0]?._id?.toString() : undefined
           }
@@ -87,6 +91,7 @@ export function PreMadePractices({ onboarding }: { onboarding?: boolean }) {
             <PracticeFeedCard
               key={String(discipline._id)}
               step={discipline}
+              showTypeIcon={false}
             />
           ))}
         </Accordion>
