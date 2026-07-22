@@ -88,7 +88,7 @@ export function PracticeForm({
 
         <div className="flex flex-col justify-center items-center mt-2 px-4">
           <Button
-            className="w-full mt-3 mb-4"
+            className="w-full mt-3 mb-4 rounded-full"
             type="submit"
             disabled={submitting}
           >
@@ -98,7 +98,7 @@ export function PracticeForm({
             href="/settings?page=Practices"
             className="w-full flex justify-center mb-4"
           >
-            <Button variant="secondary" className="w-full">
+            <Button variant="secondary" className="w-full rounded-full">
               Cancel
             </Button>
           </Link>
