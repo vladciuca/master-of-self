@@ -10,10 +10,10 @@ export function CreatePageCard({ onCreate }: { onCreate: () => void }) {
       discipline="1 / 1 available"
       title="Create a New Practice"
       color="primary"
-      iconClassName="border-none p-0 -mt-2"
+      iconClassName="border-none p-0 -mt-3 bg-transparent"
       iconSize={80}
       className="mt-2 mb-6"
-      triggerClassName="bg-muted/30 rounded-lg pb-2 pt-4"
+      triggerClassName="bg-muted/30 rounded-lg pt-4 pb-1"
       action={
         <Button
           variant="default"

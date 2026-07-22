@@ -30,6 +30,7 @@ type PracticeCardProps = {
   iconSize?: number;
   className?: string;
   triggerClassName?: string;
+  disableAccordionToggle?: boolean;
 };
 
 export function PracticeCard({
@@ -49,6 +50,7 @@ export function PracticeCard({
   iconSize = 50,
   className,
   triggerClassName,
+  disableAccordionToggle = false,
 }: PracticeCardProps) {
   const resolvedValue = value ?? (step ? String(step._id) : "");
   const resolvedIcon = icon ?? step?.icon;
@@ -57,7 +59,7 @@ export function PracticeCard({
   const resolvedColor = color ?? step?.color;
 
   const iconFrameClass = cn(
-    "border border-primary p-2 rounded-md",
+    "border border-primary p-2 rounded-md bg-background",
     iconClassName
   );
   const iconColorClass = isHexColor(resolvedColor)
@@ -74,7 +76,10 @@ export function PracticeCard({
       value={resolvedValue}
       className={`p-0 border-none mb-0 ${className ?? ""}`}
     >
-      <IndicatorAccordionTrigger className={`py-0 ${triggerClassName ?? ""}`}>
+      <IndicatorAccordionTrigger
+        className={`py-0 ${triggerClassName ?? ""}`}
+        disabled={disableAccordionToggle}
+      >
         <div className="grid grid-cols-[auto_1fr_auto] grid-rows-[1.25rem_auto] gap-x-3 w-full pl-2 items-start">
           {resolvedIcon && (
             <div className="col-start-1 row-start-1 row-span-2 self-center justify-self-center w-[66px] h-[66px] overflow-visible">

@@ -97,6 +97,15 @@ export function usePracticeList() {
     ...learnedCustomPracticesConfigs,
   ];
 
+  const practiceOrder = userProfile?.practiceOrder ?? [];
+  const orderIndex = new Map(practiceOrder.map((id, index) => [id, index]));
+
+  const sortedLearnedPracticeList = [...learnedPracticeList].sort((a, b) => {
+    const aIndex = orderIndex.get(String(a._id)) ?? Number.MAX_SAFE_INTEGER;
+    const bIndex = orderIndex.get(String(b._id)) ?? Number.MAX_SAFE_INTEGER;
+    return aIndex - bIndex;
+  });
+
   //====================================================================
   //NOW LETS GET THE ACTIVE PRACTICE CONFIGS
   const activePracticeIds =
@@ -105,7 +114,7 @@ export function usePracticeList() {
       : [];
 
   // Filter the learnedPracticeList to get only those practices that are active
-  const activePracticeConfigs = learnedPracticeList.filter(
+  const activePracticeConfigs = sortedLearnedPracticeList.filter(
     (practice) =>
       practice._id && activePracticeIds.includes(String(practice._id))
   );
@@ -115,7 +124,7 @@ export function usePracticeList() {
   );
 
   return {
-    learnedPracticeList,
+    learnedPracticeList: sortedLearnedPracticeList,
     activePracticeSteps,
     practicesConfigsLoading: practicesConfigsLoading || userProfileLoading,
     practicesConfigsError,

@@ -29,6 +29,7 @@ export type UserProfile = {
   disciplines: UserDisciplines;
   practices: UserPractices;
   activePractices: string[];
+  practiceOrder?: string[];
   journalStartTime: {
     morning: string;
     evening: string;
