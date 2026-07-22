@@ -84,7 +84,7 @@ export function PracticeCard({
     "text-muted-foreground hover:text-primary transition-colors disabled:opacity-30 disabled:hover:text-muted-foreground";
 
   const reorderAccessory = isReorderMode ? (
-    <div className="flex flex-col items-center justify-center gap-4 mr-2 flex-shrink-0 pointer-events-auto">
+    <div className="flex flex-col items-center justify-center gap-6 mr-2 flex-shrink-0 pointer-events-auto">
       <button
         type="button"
         aria-label="Move practice up"

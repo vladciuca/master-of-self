@@ -2,12 +2,14 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { IconRenderer } from "@components/IconRenderer";
 import { NavButton } from "@components/ui/nav-button";
 import { ProgressRing } from "@components/ui/progress-ring";
 import { getTimePeriodIconAndColor } from "@components/ui/constants";
 import { HiUser, HiUserGroup } from "react-icons/hi2";
+import { useTodayJournalEntry } from "@hooks/journal/useTodayJournalEntry";
+import { useCreateJournalEntry } from "@hooks/journal/useCreateJournalEntry";
 import {
   getCurrentTimePeriod,
   getCountdownToNextPeriod,
@@ -23,6 +25,10 @@ type BottomNavProps = {
 
 export function BottomNav({ userProfile, userProfileError }: BottomNavProps) {
   const pathname = usePathname();
+  const router = useRouter();
+  const { todayEntry } = useTodayJournalEntry();
+  const { createJournalEntry, submittingJournalEntry } =
+    useCreateJournalEntry();
   const [currentTime, setCurrentTime] = useState(new Date());
   const [timerDisplay, setTimerDisplay] = useState("--:--");
 
@@ -79,6 +85,26 @@ export function BottomNav({ userProfile, userProfileError }: BottomNavProps) {
 
   const isJournalActive = pathname.startsWith("/journal");
 
+  const handleJournalClick = async (e: React.MouseEvent) => {
+    if (!isJournalActive) return;
+
+    e.preventDefault();
+
+    if (submittingJournalEntry) return;
+
+    if (todayEntry) {
+      router.push(`/update-journal-entry/${String(todayEntry._id)}`);
+      return;
+    }
+
+    try {
+      const newEntryId = await createJournalEntry();
+      router.push(`/update-journal-entry/${newEntryId}`);
+    } catch (error) {
+      console.error("Failed to create journal entry:", error);
+    }
+  };
+
   return (
     <nav className="h-full w-full flex justify-around items-center px-2">
       <Link href="/profile" className="flex-1 flex justify-center w-full">
@@ -87,7 +113,11 @@ export function BottomNav({ userProfile, userProfileError }: BottomNavProps) {
         </NavButton>
       </Link>
 
-      <Link href="/journal" className="flex-1 flex justify-center w-full">
+      <Link
+        href="/journal"
+        onClick={handleJournalClick}
+        className="flex-1 flex justify-center w-full"
+      >
         <div className="flex flex-col items-center">
           <div className="-mt-8">
             <ProgressRing
