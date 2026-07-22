@@ -836,6 +836,7 @@ import type { JournalDayEntry, JournalNightEntry } from "@models/types";
 import { usePracticeData } from "@hooks/practices/usePracticeData";
 import { Skeleton } from "@components/ui/skeleton";
 import { IconRenderer } from "@components/IconRenderer";
+import { PiCaretDownFill } from "react-icons/pi";
 import { stepIconMap } from "@components/ui/constants";
 import { customStepConfigs } from "@components/journal/journal-entry-form/form-steps/steps/CustomSteps";
 
@@ -1098,7 +1099,7 @@ export function JournalEntryPracticeSection({
     <Accordion
       type="single"
       collapsible
-      className="grid grid-cols-1 gap-1 p-0 m-0"
+      className="grid grid-cols-1 gap-2 p-0 m-0"
       value={openItem}
       onValueChange={handleAccordionChange}
     >
@@ -1146,21 +1147,6 @@ export function JournalEntryPracticeSection({
           );
         });
 
-        const stepDisplayText = (() => {
-          // First check custom step configs for discipline
-          if (stepConfigMap[step]) {
-            return stepConfigMap[step].discipline;
-          }
-
-          // Then check practiceData for MongoDB ObjectIds
-          if (practiceData && practiceData[step]) {
-            return practiceData[step].name;
-          }
-
-          // Fallback to capitalizing the step name
-          return step.charAt(0).toUpperCase() + step.slice(1);
-        })();
-
         return (
           <AccordionItem
             key={step}
@@ -1168,12 +1154,14 @@ export function JournalEntryPracticeSection({
             className="border-none rounded-lg overflow-hidden p-0 mb-0"
           >
             <IndicatorAccordionTrigger
-              className={`hover:no-underline flex flex-col items-start py-0`}
+              className="hover:no-underline py-0 group"
+              hideIndicator
             >
               <div className="flex items-center justify-between w-full">
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-1">
+                  <PiCaretDownFill className="h-3 w-4 flex-shrink-0 text-primary transition-transform duration-200 group-data-[state=open]:rotate-180" />
                   {icon && (
-                    <div className="w-10 flex items-center justify-center">
+                    <div className="w-10 h-10 flex items-center justify-center border border-primary rounded-md p-1 flex-shrink-0">
                       <IconRenderer
                         iconName={
                           step === "highlights" ? stepIconMap.highlights : icon
@@ -1190,18 +1178,15 @@ export function JournalEntryPracticeSection({
                         }
                         size={
                           step === "discipline" || step === "highlights"
-                            ? 25
+                            ? 22
                             : 30
                         }
                       />
                     </div>
                   )}
-                  <div className="flex flex-col h-full w-full">
-                    <span className="font-medium text-muted-foreground flex items-start capitalize">
-                      {stepDisplayText}
-                    </span>
+                  <div className="ml-1 flex-1 flex justify-start">
                     <div
-                      className={`overflow-hidden flex flex-wrap max-w-[90%] gap-1.5 transition-all duration-100 ${
+                      className={`flex flex-wrap justify-start gap-1.5 mr-3 transition-all duration-100 ${
                         openItem === step
                           ? "opacity-0"
                           : "delay-100 duration-200 opacity-100"
@@ -1211,7 +1196,7 @@ export function JournalEntryPracticeSection({
                     </div>
                   </div>
                 </div>
-                <div className="flex items-start h-full">
+                <div className="flex items-center h-full">
                   {step === "discipline" ? (
                     <span
                       className={`text-lg font-semibold text-${JOURNAL_COLORS.score} flex items-center`}

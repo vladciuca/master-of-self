@@ -89,11 +89,11 @@ export function BottomNav({ userProfile, userProfileError }: BottomNavProps) {
 
       <Link href="/journal" className="flex-1 flex justify-center w-full">
         <div className="flex flex-col items-center">
-          <div className="-mt-14">
+          <div className="-mt-8">
             <ProgressRing
               progress={periodProgress}
               colorHex={periodHexColor}
-              size={72}
+              size={68}
               strokeWidth={6}
             >
               <IconRenderer
@@ -105,7 +105,7 @@ export function BottomNav({ userProfile, userProfileError }: BottomNavProps) {
               />
             </ProgressRing>
           </div>
-          <div className="text-xs mt-2.5">{timerDisplay}</div>
+          <div className="text-xs mt-1">{timerDisplay}</div>
         </div>
       </Link>
 

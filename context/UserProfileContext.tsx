@@ -456,6 +456,7 @@ type UserProfileContextType = {
   updateActivePractice: (practiceId: string, isActive: boolean) => void;
   submittingActiveUpdate: boolean;
   updateActiveError: string | null;
+  updatePracticeOrder: (practiceOrder: string[]) => Promise<void>;
   //UPDATE PRACTICE VALUES=================================================================
   updatePracticesValues: (
     practiceUpdates: Record<string, number>
@@ -479,6 +480,7 @@ export function UserProfileProvider({ children }: { children: ReactNode }) {
     disciplines: {},
     practices: {},
     activePractices: [],
+    practiceOrder: [],
     journalStartTime: {
       morning: "08:00",
       evening: "18:00",
@@ -841,8 +843,46 @@ export function UserProfileProvider({ children }: { children: ReactNode }) {
     }
   };
 
-  const deletePracticeFromProfile = async (practiceId: string) => {
-    if (!user?.id) return;
+  const updatePracticeOrder = async (practiceOrder: string[]) => {
+    if (!userProfile || !user?.id) return;
+
+    const current = [...(userProfile.practiceOrder ?? [])];
+
+    setUserProfile((prev) => ({
+      ...prev,
+      practiceOrder,
+    }));
+
+    try {
+      const response = await fetch(`/api/users/${user.id}/practice-order`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ practiceOrder }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to update practice order on server");
+      }
+
+      const data = await response.json();
+
+      setUserProfile((prev) => ({
+        ...prev,
+        practiceOrder: data.practiceOrder,
+      }));
+    } catch (error) {
+      console.error("Error updating practice order:", error);
+
+      setUserProfile((prev) => ({
+        ...prev,
+        practiceOrder: current,
+      }));
+    }
+  };
+
+  const deletePracticeFromProfile = async (practiceId: string) => {    if (!user?.id) return;
 
     const response = await fetch(`/api/practice/${practiceId}`, {
       method: "DELETE",
@@ -881,6 +921,7 @@ export function UserProfileProvider({ children }: { children: ReactNode }) {
     updateActivePractice,
     submittingActiveUpdate,
     updateActiveError,
+    updatePracticeOrder,
     deletePracticeFromProfile,
   };
 

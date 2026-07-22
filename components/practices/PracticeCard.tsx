@@ -21,7 +21,6 @@ type PracticeCardProps = {
   color?: string;
   type?: "dayEntry" | "nightEntry";
   action?: React.ReactNode;
-  indicator?: React.ReactNode;
   disciplineIcon?: React.ReactNode;
   footer?: React.ReactNode;
   expandedContent?: React.ReactNode;
@@ -30,6 +29,7 @@ type PracticeCardProps = {
   iconSize?: number;
   className?: string;
   triggerClassName?: string;
+  disableAccordionToggle?: boolean;
 };
 
 export function PracticeCard({
@@ -40,7 +40,6 @@ export function PracticeCard({
   discipline,
   color,
   action,
-  indicator,
   disciplineIcon,
   footer,
   expandedContent,
@@ -49,6 +48,7 @@ export function PracticeCard({
   iconSize = 50,
   className,
   triggerClassName,
+  disableAccordionToggle = false,
 }: PracticeCardProps) {
   const resolvedValue = value ?? (step ? String(step._id) : "");
   const resolvedIcon = icon ?? step?.icon;
@@ -57,7 +57,7 @@ export function PracticeCard({
   const resolvedColor = color ?? step?.color;
 
   const iconFrameClass = cn(
-    "border border-primary p-2 rounded-md",
+    "border border-primary p-2 rounded-md bg-background",
     iconClassName
   );
   const iconColorClass = isHexColor(resolvedColor)
@@ -74,8 +74,12 @@ export function PracticeCard({
       value={resolvedValue}
       className={`p-0 border-none mb-0 ${className ?? ""}`}
     >
-      <IndicatorAccordionTrigger className={`py-0 ${triggerClassName ?? ""}`}>
-        <div className="grid grid-cols-[auto_1fr_auto] grid-rows-[1.25rem_auto] gap-x-3 w-full pl-2 items-start">
+      <IndicatorAccordionTrigger
+        className={`py-0 ${triggerClassName ?? ""}`}
+        disabled={disableAccordionToggle}
+        indicatorPosition="start"
+      >
+        <div className="grid grid-cols-[auto_1fr_auto] grid-rows-[1.25rem_auto] gap-x-3 w-full items-start">
           {resolvedIcon && (
             <div className="col-start-1 row-start-1 row-span-2 self-center justify-self-center w-[66px] h-[66px] overflow-visible">
               <IconRenderer
@@ -101,15 +105,9 @@ export function PracticeCard({
             </div>
           )}
 
-          {indicator && (
-            <div className="col-start-3 row-start-1 self-start justify-self-center">
-              {indicator}
-            </div>
-          )}
-
           {action && (
             <div
-              className="col-start-3 row-start-2 self-start justify-self-center"
+              className="col-start-3 row-start-1 row-span-2 self-center justify-self-center w-11 flex items-center justify-center"
               onClick={(e) => e.stopPropagation()}
             >
               {action}

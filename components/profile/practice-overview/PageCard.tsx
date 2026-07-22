@@ -1,7 +1,7 @@
 import { PracticeCard } from "@components/practices/PracticeCard";
 import { PracticeSwitch } from "@components/practices/PracticeSwitch";
 import { Button } from "@components/ui/button";
-import { Trash2 } from "lucide-react";
+import { Trash2, GripVertical } from "lucide-react";
 import type { PracticePageItem } from "@models/types";
 
 function isOwnPage(page: PracticePageItem, userId?: string): boolean {
@@ -16,6 +16,7 @@ export function PageCard({
   onEdit,
   onDelete,
   userId,
+  reorderMode = false,
 }: {
   page: PracticePageItem;
   isActive: boolean;
@@ -23,17 +24,23 @@ export function PageCard({
   onEdit: (page: PracticePageItem) => void;
   onDelete: (page: PracticePageItem) => void;
   userId?: string;
+  reorderMode?: boolean;
 }) {
   return (
     <PracticeCard
       step={page}
+      disableAccordionToggle={reorderMode}
       action={
-        <PracticeSwitch
-          type={page.type}
-          checked={isActive}
-          onCheckedChange={onToggle}
-          disabled={false}
-        />
+        reorderMode ? (
+          <GripVertical className="h-5 w-5 text-muted-foreground" />
+        ) : (
+          <PracticeSwitch
+            type={page.type}
+            checked={isActive}
+            onCheckedChange={onToggle}
+            disabled={false}
+          />
+        )
       }
       footer={
         isOwnPage(page, userId) ? (

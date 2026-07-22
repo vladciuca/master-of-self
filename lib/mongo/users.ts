@@ -74,6 +74,7 @@ export async function getOrCreateUser(
             disciplines: { discipline: 0 },
             practices: {},
             activePractices: [],
+            practiceOrder: [],
             journalStartTime: { morning: "08:00", evening: "18:00" },
             onboardingCompleted: false,
           },
@@ -332,6 +333,38 @@ export async function updateActivePractices(
       user: null,
       status: "no_change",
       error: "Failed to update user active practices",
+    };
+  }
+}
+
+export async function updatePracticeOrder(
+  userId: string,
+  practiceOrder: string[]
+) {
+  try {
+    if (!users) await init();
+
+    const result = await users.findOneAndUpdate(
+      { _id: userId },
+      { $set: { "profile.practiceOrder": practiceOrder } },
+      { returnDocument: "after" }
+    );
+
+    if (!result) {
+      return {
+        user: null,
+        status: "no_change",
+        error: "User not found",
+      };
+    }
+
+    return { user: result, status: "success" };
+  } catch (error) {
+    console.error("Error updating practice order:", error);
+    return {
+      user: null,
+      status: "no_change",
+      error: "Failed to update user practice order",
     };
   }
 }
