@@ -13,7 +13,7 @@ import type { Practice } from "@models/mongodb";
 
 function DisciplineXpBarsSkeleton() {
   return (
-    <div className="space-y-5 mx-2">
+    <div className="space-y-5">
       {[1, 2, 3, 4].map((i) => (
         <div key={`skeleton-${i}`} className="flex items-center mb-3">
           <div className="flex-1">
@@ -108,7 +108,7 @@ export function DisciplineXpBars() {
   }
 
   return (
-    <div className="space-y-5 mx-2">
+    <div className="space-y-5">
       {DISCIPLINES.map((config) => (
         <XpProgressBar
           key={config.discipline}

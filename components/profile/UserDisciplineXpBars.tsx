@@ -9,7 +9,7 @@ import type { UserProfile } from "@models/types";
 
 function UserDisciplineXpBarsSkeleton() {
   return (
-    <div className="space-y-5 mx-2">
+    <div className="space-y-5">
       {[1, 2, 3, 4].map((i) => (
         <div key={`skeleton-${i}`} className="flex items-center mb-3">
           <div className="flex-1">
