@@ -13,7 +13,7 @@ type UserLevelProps = {
 export function UserLevel({ user }: UserLevelProps) {
   return (
     <div className="flex items-center h-full mx-4">
-      <div className="flex justify-center">
+      {/*<div className="flex justify-center">
         <Link href="/settings?page=Overview">
           <div className="cursor-pointer text-primary relative flex justify-center items-center mx-2">
             <GiWhiteBook size={50} />
@@ -22,7 +22,7 @@ export function UserLevel({ user }: UserLevelProps) {
             </span>
           </div>
         </Link>
-      </div>
+      </div>*/}
 
       <div className="flex flex-grow flex-col justify-end ml-3">
         <UserWillpowerLevelBar />

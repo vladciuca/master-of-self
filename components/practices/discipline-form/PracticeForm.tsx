@@ -125,7 +125,7 @@ export function PracticeForm({
             {type}
           </Button>
           <Link
-            href="/settings?page=Practices"
+            href="/profile?page=practices"
             className="w-full flex justify-center mb-4"
           >
             <Button variant="secondary" className="w-full rounded-full">

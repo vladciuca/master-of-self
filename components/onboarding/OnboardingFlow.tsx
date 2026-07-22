@@ -6,7 +6,7 @@ import { FormStepNavigation } from "@components/FormStepNavigation";
 import { OnboardingStepper } from "./OnboardingStepper";
 import { Welcome } from "./Welcome";
 import { PreMadePractices } from "@components/practices/PreMadePractices";
-import { PracticeOverview } from "@components/settings/PracticeOverview";
+import { PracticeOverview } from "@components/profile/PracticeOverview";
 import { JournalEntryActionButton } from "@components/journal/JournalEntryActionButton";
 import { LoadingScreen } from "@components/skeletons/LoadingScreen";
 import { useOnboardingCompletion } from "@hooks/user/useOnboardingCompletion";

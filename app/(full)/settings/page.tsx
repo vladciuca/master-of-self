@@ -2,10 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
-import { PracticeOverview } from "@components/settings/PracticeOverview";
 import { MobileSideContent } from "components/side-content/MobileSideContent";
-import { DaySplit } from "@components/profile/DaySplit";
-import { SignOut } from "@components/profile/SignOut";
 import { DiscordPage } from "@components/side-content/community/DiscordPage";
 import { Button } from "@/components/ui/button";
 import { useUser } from "@clerk/nextjs";
@@ -18,19 +15,6 @@ export default function Settings() {
   const isLargeScreen = useScreenSize();
 
   const pageConfig = [
-    {
-      name: "Practices",
-      component: <PracticeOverview />,
-    },
-    {
-      name: "Settings",
-      component: (
-        <div className="flex flex-col space-y-10 pb-4">
-          <DaySplit />
-          <SignOut />
-        </div>
-      ),
-    },
     // Only add "About" on small/medium screens
     ...(!isLargeScreen
       ? [

@@ -5,6 +5,9 @@ import { useSearchParams, useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { WeeklyWillpowerChart } from "@components/profile/weekly-willpower-chart/WeeklyWillpowerChart";
 import { DisciplineXpBars } from "@components/profile/DisciplineXpBars";
+import { PracticeOverview } from "@components/profile/PracticeOverview";
+import { DaySplit } from "@components/profile/DaySplit";
+import { SignOut } from "@components/profile/SignOut";
 // import { UserHabits } from "@components/habits/UserHabits";
 
 export default function Profile() {
@@ -13,6 +16,10 @@ export default function Profile() {
 
   // page tab configuration object - contains name and component for each page
   const pageConfig = [
+    {
+      name: "practices",
+      component: <PracticeOverview />,
+    },
     {
       name: "disciplines",
       component: <DisciplineXpBars />,
@@ -24,6 +31,15 @@ export default function Profile() {
     {
       name: "willpower",
       component: <WeeklyWillpowerChart />,
+    },
+    {
+      name: "settings",
+      component: (
+        <div className="flex flex-col space-y-10 pb-4">
+          <DaySplit />
+          <SignOut />
+        </div>
+      ),
     },
   ];
 
