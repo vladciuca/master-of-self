@@ -8,6 +8,7 @@ type CustomAccordionTriggerProps = {
   className?: string;
   disabled?: boolean;
   hideIndicator?: boolean;
+  indicatorPosition?: "bottom" | "start";
 };
 
 export function IndicatorAccordionTrigger({
@@ -15,7 +16,33 @@ export function IndicatorAccordionTrigger({
   className,
   disabled = false,
   hideIndicator = false,
+  indicatorPosition = "bottom",
 }: CustomAccordionTriggerProps) {
+  if (indicatorPosition === "start") {
+    return (
+      <AccordionTrigger
+        disabled={disabled}
+        className={cn(
+          "py-1 group",
+          disabled ? "pointer-events-none" : "",
+          className
+        )}
+      >
+        <div className="flex items-center w-full">
+          {!hideIndicator && (
+            <PiCaretDownFill
+              className={cn(
+                "h-3 w-4 mr-2 flex-shrink-0 transition-transform duration-200 ease-in-out group-data-[state=open]:rotate-180",
+                disabled ? "text-muted-foreground/40" : ""
+              )}
+            />
+          )}
+          <div className="flex-1">{children}</div>
+        </div>
+      </AccordionTrigger>
+    );
+  }
+
   return (
     <AccordionTrigger
       disabled={disabled}

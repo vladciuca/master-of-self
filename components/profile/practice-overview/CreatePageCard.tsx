@@ -18,7 +18,7 @@ export function CreatePageCard({ onCreate }: { onCreate: () => void }) {
         <Button
           variant="default"
           size="icon"
-          className="rounded-full h-7 w-7 mr-2.5"
+          className="rounded-full h-7 w-7"
           aria-label="Create a new practice"
           onClick={(e) => {
             e.stopPropagation();
