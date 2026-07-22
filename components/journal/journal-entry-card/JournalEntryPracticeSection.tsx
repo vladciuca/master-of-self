@@ -836,6 +836,7 @@ import type { JournalDayEntry, JournalNightEntry } from "@models/types";
 import { usePracticeData } from "@hooks/practices/usePracticeData";
 import { Skeleton } from "@components/ui/skeleton";
 import { IconRenderer } from "@components/IconRenderer";
+import { PiCaretDownFill } from "react-icons/pi";
 import { stepIconMap } from "@components/ui/constants";
 import { customStepConfigs } from "@components/journal/journal-entry-form/form-steps/steps/CustomSteps";
 
@@ -1098,7 +1099,7 @@ export function JournalEntryPracticeSection({
     <Accordion
       type="single"
       collapsible
-      className="grid grid-cols-1 gap-1 p-0 m-0"
+      className="grid grid-cols-1 gap-2 p-0 m-0"
       value={openItem}
       onValueChange={handleAccordionChange}
     >
@@ -1153,10 +1154,12 @@ export function JournalEntryPracticeSection({
             className="border-none rounded-lg overflow-hidden p-0 mb-0"
           >
             <IndicatorAccordionTrigger
-              className={`hover:no-underline flex flex-col items-start py-0`}
+              className="hover:no-underline py-0 group"
+              hideIndicator
             >
               <div className="flex items-center justify-between w-full">
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-1">
+                  <PiCaretDownFill className="h-3 w-4 flex-shrink-0 text-primary transition-transform duration-200 group-data-[state=open]:rotate-180" />
                   {icon && (
                     <div className="w-10 flex items-center justify-center">
                       <IconRenderer
@@ -1175,13 +1178,13 @@ export function JournalEntryPracticeSection({
                         }
                         size={
                           step === "discipline" || step === "highlights"
-                            ? 28
-                            : 34
+                            ? 22
+                            : 30
                         }
                       />
                     </div>
                   )}
-                  <div className="flex-1 flex justify-start">
+                  <div className="ml-1 flex-1 flex justify-start">
                     <div
                       className={`flex flex-wrap justify-start gap-1.5 mr-3 transition-all duration-100 ${
                         openItem === step

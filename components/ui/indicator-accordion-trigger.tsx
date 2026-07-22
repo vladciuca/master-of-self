@@ -7,12 +7,14 @@ type CustomAccordionTriggerProps = {
   children: ReactNode;
   className?: string;
   disabled?: boolean;
+  hideIndicator?: boolean;
 };
 
 export function IndicatorAccordionTrigger({
   children,
   className,
   disabled = false,
+  hideIndicator = false,
 }: CustomAccordionTriggerProps) {
   return (
     <AccordionTrigger
@@ -25,14 +27,16 @@ export function IndicatorAccordionTrigger({
     >
       <div className="flex flex-col w-full">
         {children}
-        <div className="flex justify-center">
-          <PiCaretDownFill
-            className={cn(
-              "h-4 w-6 transition-transform duration-200 ease-in-out",
-              disabled ? "text-muted-foreground/40" : ""
-            )}
-          />
-        </div>
+        {!hideIndicator && (
+          <div className="flex justify-center">
+            <PiCaretDownFill
+              className={cn(
+                "h-4 w-6 transition-transform duration-200 ease-in-out",
+                disabled ? "text-muted-foreground/40" : ""
+              )}
+            />
+          </div>
+        )}
       </div>
     </AccordionTrigger>
   );
