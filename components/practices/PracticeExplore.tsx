@@ -83,7 +83,10 @@ export function PracticeExplore() {
 
   return (
     <div className="flex flex-col">
-      <div className="flex flex-wrap items-center gap-2 py-2">
+      <div
+        className="flex items-center gap-2 py-2 overflow-x-auto scrollbar-hide"
+        style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+      >
         <FilterPill
           label="Morning"
           selected={timeFilters.includes("dayEntry")}
@@ -100,7 +103,7 @@ export function PracticeExplore() {
           }
           colorHex={JOURNAL_HEX_COLORS.nightHex}
         />
-        <span className="h-4 w-px bg-border mx-1" />
+        <span className="h-4 w-px bg-border mx-1 flex-shrink-0" />
         <FilterPill
           label="Curated"
           selected={sourceFilters.includes("curated")}
@@ -117,7 +120,10 @@ export function PracticeExplore() {
         />
       </div>
 
-      <div className="flex gap-2 overflow-x-auto py-2 mb-4">
+      <div
+        className="flex gap-2 overflow-x-auto py-2 mb-4 scrollbar-hide"
+        style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+      >
         {disciplineOptions.map(([name, colorHex]) => (
           <FilterPill
             key={name}
