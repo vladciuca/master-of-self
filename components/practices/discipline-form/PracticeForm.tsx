@@ -102,7 +102,7 @@ export function PracticeForm({
         </div>
 
         <ScrollArea className="px-4 flex-grow">
-          <div className="space-y-8 px-1">
+          <div className="space-y-8 px-1 mt-4">
             <PracticeTitleField control={form.control} type={type} />
             <PracticeDescriptionField control={form.control} type={type} />
             <PracticeTypeField control={form.control} type={type} />
