@@ -1146,21 +1146,6 @@ export function JournalEntryPracticeSection({
           );
         });
 
-        const stepDisplayText = (() => {
-          // First check custom step configs for discipline
-          if (stepConfigMap[step]) {
-            return stepConfigMap[step].discipline;
-          }
-
-          // Then check practiceData for MongoDB ObjectIds
-          if (practiceData && practiceData[step]) {
-            return practiceData[step].name;
-          }
-
-          // Fallback to capitalizing the step name
-          return step.charAt(0).toUpperCase() + step.slice(1);
-        })();
-
         return (
           <AccordionItem
             key={step}
@@ -1173,7 +1158,7 @@ export function JournalEntryPracticeSection({
               <div className="flex items-center justify-between w-full">
                 <div className="flex items-center gap-3">
                   {icon && (
-                    <div className="w-10 flex items-center justify-center">
+                    <div className="w-10 flex items-center justify-center pl-2">
                       <IconRenderer
                         iconName={
                           step === "highlights" ? stepIconMap.highlights : icon
@@ -1190,18 +1175,15 @@ export function JournalEntryPracticeSection({
                         }
                         size={
                           step === "discipline" || step === "highlights"
-                            ? 25
-                            : 30
+                            ? 28
+                            : 34
                         }
                       />
                     </div>
                   )}
-                  <div className="flex flex-col h-full w-full">
-                    <span className="font-medium text-muted-foreground flex items-start capitalize">
-                      {stepDisplayText}
-                    </span>
+                  <div className="flex-1 flex justify-start">
                     <div
-                      className={`overflow-hidden flex flex-wrap max-w-[90%] gap-1.5 transition-all duration-100 ${
+                      className={`flex flex-wrap justify-start gap-1.5 mr-3 transition-all duration-100 ${
                         openItem === step
                           ? "opacity-0"
                           : "delay-100 duration-200 opacity-100"

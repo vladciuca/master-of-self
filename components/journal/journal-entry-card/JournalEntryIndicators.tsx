@@ -54,7 +54,7 @@ export function JournalEntryIndicators({
   const completedDailyToDosCount = completedDailyToDos().length;
 
   return (
-    <div className="h-full ml-4 flex items-start space-x-3 text-muted-foreground">
+    <div className="ml-4 flex items-center space-x-3 text-muted-foreground">
       {totalDayEntries > 0 && (
         <div
           className={`w-[22px] h-[22px] rounded-full flex items-center justify-center ${journalStepStyle.dayEntry.bgColor} text-white`}
