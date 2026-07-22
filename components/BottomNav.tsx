@@ -105,7 +105,7 @@ export function BottomNav({ userProfile, userProfileError }: BottomNavProps) {
               />
             </ProgressRing>
           </div>
-          <div className="text-xs mt-2">{timerDisplay}</div>
+          <div className="text-xs mt-2.5">{timerDisplay}</div>
         </div>
       </Link>
 
