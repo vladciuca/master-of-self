@@ -93,12 +93,12 @@ export function PracticeForm({
               </div>
             )}
           </div>
-          {type === "Create" && (
+          {/*{type === "Create" && (
             <p className="text-center text-muted-foreground text-sm px-6 sm:px-8">
               Create a practice by choosing a Discipline and defining a daily
               Practice.
             </p>
-          )}
+          )}*/}
         </div>
 
         <ScrollArea className="px-4 flex-grow">

@@ -17,7 +17,7 @@ export function CreatePageCard({ onCreate }: { onCreate: () => void }) {
         <Button
           variant="default"
           size="icon"
-          className="rounded-full h-8 w-8 mr-2 mt-2"
+          className="rounded-full h-7 w-7 mr-2.5 mt-2.5"
           aria-label="Create a new practice"
           onClick={(e) => {
             e.stopPropagation();
@@ -30,8 +30,8 @@ export function CreatePageCard({ onCreate }: { onCreate: () => void }) {
       expandedContent={
         <div className="px-2 mt-2 text-sm text-muted-foreground">
           <p>
-            Build a custom practice with your own prompt, discipline, and daily
-            or nightly rhythm.
+            Create a custom practice with your own prompt by choosing a Discipline and choosing your daily
+            rhythm.
           </p>
         </div>
       }

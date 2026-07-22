@@ -62,20 +62,20 @@ export function PracticeFeedCard({ step, showTypeIcon = true }: PracticeFeedCard
         isPracticeAdded ? (
           <CircleCheck
             className="text-green-500"
-            size={32}
-            strokeWidth={2.5}
+            size={28}
+            strokeWidth={2}
           />
         ) : (
           <Button
             variant="default"
             size="icon"
-            className="rounded-full h-8 w-8"
+            className="rounded-full h-7 w-7"
             aria-label="Add practice"
             disabled={isAdding}
             onClick={handleAddPractice}
           >
             {isAdding ? (
-              <Loader2 className="h-5 w-5 animate-spin" />
+              <Loader2 className="h-4 w-4 animate-spin" />
             ) : (
               <Plus className="h-5 w-5" strokeWidth={2.5} />
             )}
