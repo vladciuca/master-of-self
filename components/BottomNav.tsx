@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { IconRenderer } from "@components/IconRenderer";
 import { NavButton } from "@components/ui/nav-button";
 import { getTimePeriodIconAndColor } from "@components/ui/constants";
@@ -15,6 +16,7 @@ type BottomNavProps = {
 };
 
 export function BottomNav({ userProfile, userProfileError }: BottomNavProps) {
+  const pathname = usePathname();
   const [currentTime, setCurrentTime] = useState(new Date());
   const [timerDisplay, setTimerDisplay] = useState("--:--");
 
@@ -60,13 +62,13 @@ export function BottomNav({ userProfile, userProfileError }: BottomNavProps) {
   return (
     <nav className="h-full w-full flex justify-around items-center px-2">
       <Link href="/profile" className="flex-1 flex justify-center w-full">
-        <NavButton>
+        <NavButton isActive={pathname.startsWith("/profile")}>
           <HiUser size={34} />
         </NavButton>
       </Link>
 
       <Link href="/journal" className="flex-1 flex justify-center w-full">
-        <NavButton>
+        <NavButton isActive={pathname.startsWith("/journal")}>
           <IconRenderer
             iconName={iconName}
             size={28}
@@ -77,7 +79,7 @@ export function BottomNav({ userProfile, userProfileError }: BottomNavProps) {
       </Link>
 
       <Link href="/community" className="flex-1 flex justify-center w-full">
-        <NavButton>
+        <NavButton isActive={pathname.startsWith("/community")}>
           <HiUserGroup size={40} />
         </NavButton>
       </Link>
