@@ -116,11 +116,9 @@ export function FormStepProgress({
                     }}
                   >
                     <div
-                      className={`${
-                        stepId === activeStep
-                          ? "bg-secondary text-primary"
-                          : "text-primary"
-                      } w-11 h-11 rounded-full flex items-center justify-center`}
+                      className={`w-11 h-11 rounded-md border border-primary flex items-center justify-center ${
+                        stepId === activeStep ? "bg-muted" : ""
+                      } text-primary`}
                     >
                       <IconRenderer
                         iconName={step.icon}
@@ -153,7 +151,7 @@ export function FormStepProgress({
                     {count > 0 && (
                       <Badge
                         variant="outline"
-                        className={`${bgColor} absolute -top-1 -right-1 text-[0.6rem] px-1 py-0 min-w-[1.2rem] h-[1.2rem] flex items-center justify-center text-white`}
+                        className={`${bgColor} absolute -top-2 -right-2 text-[0.6rem] px-1 py-0 min-w-[1.2rem] h-[1.2rem] flex items-center justify-center text-white`}
                       >
                         {count}
                       </Badge>
