@@ -130,9 +130,9 @@ export function FormStepProgress({
                           stepId === "highlights" ||
                           stepId === "summary" ||
                           stepId === "habits"
-                            ? 25
-                            : stepId === "bonus"
                             ? 23
+                            : stepId === "bonus"
+                            ? 21
                             : 30
                         }
                         className={

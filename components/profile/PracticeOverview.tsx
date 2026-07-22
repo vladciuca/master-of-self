@@ -10,7 +10,7 @@ import { usePracticeList } from "@hooks/user/usePracticeList";
 import { DISCIPLINES, BASE_DISCIPLINE_ID } from "@lib/disciplines";
 import { stepIconMap } from "@components/ui/constants";
 import { SectionHeader } from "./practice-overview/SectionHeader";
-import { CreatePageCard } from "./practice-overview/CreatePageCard";
+import { CreatePracticeCard } from "./practice-overview/CreatePracticeCard";
 import { BaseDisciplineCard } from "./practice-overview/BaseDisciplineCard";
 import { PageCard } from "./practice-overview/PageCard";
 import { PagesOverviewSkeleton } from "./practice-overview/PagesOverviewSkeleton";
@@ -175,7 +175,7 @@ export function PracticeOverview({
 
   return (
     <Accordion type="single" collapsible className="space-y-4">
-      {showCreateCard && <CreatePageCard onCreate={handleCreatePage} />}
+      {showCreateCard && <CreatePracticeCard onCreate={handleCreatePage} />}
 
       {baseDiscipline && (
         <BaseDisciplineCard page={baseDiscipline} />
