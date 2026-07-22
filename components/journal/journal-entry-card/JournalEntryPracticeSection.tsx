@@ -1161,7 +1161,7 @@ export function JournalEntryPracticeSection({
                 <div className="flex items-center gap-1">
                   <PiCaretDownFill className="h-3 w-4 flex-shrink-0 text-primary transition-transform duration-200 group-data-[state=open]:rotate-180" />
                   {icon && (
-                    <div className="w-10 flex items-center justify-center">
+                    <div className="w-10 h-10 flex items-center justify-center border border-primary rounded-md p-1 flex-shrink-0">
                       <IconRenderer
                         iconName={
                           step === "highlights" ? stepIconMap.highlights : icon
