@@ -7,17 +7,18 @@ export function CreatePageCard({ onCreate }: { onCreate: () => void }) {
     <PracticeCard
       value="create-new-page"
       icon="GiSpellBook"
+      discipline="1 / 1 available"
       title="Create a New Practice"
       color="primary"
-      hideIconBorder
+      iconClassName="border-none p-0 -mt-2"
       iconSize={80}
       className="mt-2 mb-6"
-      triggerClassName="bg-muted/30 rounded-lg pb-2"
+      triggerClassName="bg-muted/30 rounded-lg pb-2 pt-4"
       action={
         <Button
           variant="default"
           size="icon"
-          className="rounded-full h-7 w-7 mr-2.5 mt-2.5"
+          className="rounded-full h-7 w-7 mr-2.5"
           aria-label="Create a new practice"
           onClick={(e) => {
             e.stopPropagation();
@@ -28,10 +29,13 @@ export function CreatePageCard({ onCreate }: { onCreate: () => void }) {
         </Button>
       }
       expandedContent={
-        <div className="px-2 mt-2 text-sm text-muted-foreground">
+        <div className="px-2 mt-2 text-sm text-muted-foreground space-y-2">
           <p>
-            Create a custom practice with your own prompt by choosing a Discipline and choosing your daily
-            rhythm.
+            Create a custom practice with your own prompt by choosing a
+            Discipline and choosing your daily rhythm.
+          </p>
+          <p>
+            Leveling up unlocks the ability to create new custom practices.
           </p>
         </div>
       }

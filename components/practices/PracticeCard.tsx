@@ -6,7 +6,7 @@ import {
 import { IndicatorAccordionTrigger } from "@components/ui/indicator-accordion-trigger";
 import { IconRenderer } from "@components/IconRenderer";
 import { PracticeCardContent } from "@components/practices/PracticeCardContent";
-import { isHexColor } from "@lib/utils";
+import { isHexColor, cn } from "@lib/utils";
 import type { JournalCustomStepConfig } from "@models/types";
 import type { Practice } from "@models/mongodb";
 
@@ -26,7 +26,7 @@ type PracticeCardProps = {
   footer?: React.ReactNode;
   expandedContent?: React.ReactNode;
   showDescription?: boolean;
-  hideIconBorder?: boolean;
+  iconClassName?: string;
   iconSize?: number;
   className?: string;
   triggerClassName?: string;
@@ -45,7 +45,7 @@ export function PracticeCard({
   footer,
   expandedContent,
   showDescription = true,
-  hideIconBorder,
+  iconClassName,
   iconSize = 50,
   className,
   triggerClassName,
@@ -56,9 +56,10 @@ export function PracticeCard({
   const resolvedDiscipline = discipline ?? step?.discipline;
   const resolvedColor = color ?? step?.color;
 
-  const iconFrameClass = hideIconBorder
-    ? "rounded-md"
-    : "border border-primary p-2 rounded-md";
+  const iconFrameClass = cn(
+    "border border-primary p-2 rounded-md",
+    iconClassName
+  );
   const iconColorClass = isHexColor(resolvedColor)
     ? ""
     : resolvedColor
