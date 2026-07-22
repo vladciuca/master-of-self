@@ -106,6 +106,29 @@ export function PracticeOverview({
     updatePracticeOrder(draftOrder);
   };
 
+  const handleMoveCard = (
+    sectionIds: string[],
+    pageId: string,
+    direction: "up" | "down"
+  ) => {
+    const index = sectionIds.indexOf(pageId);
+    const targetIndex = direction === "up" ? index - 1 : index + 1;
+
+    if (index === -1 || targetIndex < 0 || targetIndex >= sectionIds.length) {
+      return;
+    }
+
+    const nextSectionIds = [...sectionIds];
+    [nextSectionIds[index], nextSectionIds[targetIndex]] = [
+      nextSectionIds[targetIndex],
+      nextSectionIds[index],
+    ];
+
+    const mergedOrder = mergeSectionOrder(draftOrder, nextSectionIds);
+    setDraftOrder(mergedOrder);
+    updatePracticeOrder(mergedOrder);
+  };
+
   const handleCreatePage = () => {
     router.push("/create-practice");
   };
@@ -155,9 +178,14 @@ export function PracticeOverview({
     );
   }
 
-  const renderPageCard = (page: PracticePageItem, reorderMode: boolean) => {
+  const renderPageCard = (
+    page: PracticePageItem,
+    reorderMode: boolean,
+    sectionIds?: string[]
+  ) => {
     const pageId = String(page._id);
     const isActive = activePracticeIds.includes(pageId);
+    const cardIndex = sectionIds ? sectionIds.indexOf(pageId) : -1;
 
     return (
       <PageCard
@@ -169,6 +197,20 @@ export function PracticeOverview({
         onDelete={handleDelete}
         userId={user?.id}
         reorderMode={reorderMode}
+        onMoveUp={
+          sectionIds
+            ? () => handleMoveCard(sectionIds, pageId, "up")
+            : undefined
+        }
+        onMoveDown={
+          sectionIds
+            ? () => handleMoveCard(sectionIds, pageId, "down")
+            : undefined
+        }
+        disableMoveUp={cardIndex <= 0}
+        disableMoveDown={
+          sectionIds ? cardIndex === sectionIds.length - 1 : false
+        }
       />
     );
   };
@@ -208,7 +250,7 @@ export function PracticeOverview({
                     value={String(page._id)}
                     onDragEnd={handleDragEnd}
                   >
-                    {renderPageCard(page, true)}
+                    {renderPageCard(page, true, sectionIds)}
                   </Reorder.Item>
                 ))}
               </Reorder.Group>

@@ -9,6 +9,7 @@ type CustomAccordionTriggerProps = {
   disabled?: boolean;
   hideIndicator?: boolean;
   indicatorPosition?: "bottom" | "start";
+  leadingAccessory?: ReactNode;
 };
 
 export function IndicatorAccordionTrigger({
@@ -17,11 +18,13 @@ export function IndicatorAccordionTrigger({
   disabled = false,
   hideIndicator = false,
   indicatorPosition = "bottom",
+  leadingAccessory,
 }: CustomAccordionTriggerProps) {
   if (indicatorPosition === "start") {
     return (
       <AccordionTrigger
-        disabled={disabled}
+        aria-disabled={disabled || undefined}
+        tabIndex={disabled ? -1 : undefined}
         className={cn(
           "py-1 group",
           disabled ? "pointer-events-none" : "",
@@ -29,14 +32,15 @@ export function IndicatorAccordionTrigger({
         )}
       >
         <div className="flex items-center w-full">
-          {!hideIndicator && (
-            <PiCaretDownFill
-              className={cn(
-                "h-3 w-4 mr-2 flex-shrink-0 transition-transform duration-200 ease-in-out group-data-[state=open]:rotate-180",
-                disabled ? "text-muted-foreground/40" : ""
-              )}
-            />
-          )}
+          {leadingAccessory ??
+            (!hideIndicator && (
+              <PiCaretDownFill
+                className={cn(
+                  "h-3 w-4 mr-2 flex-shrink-0 transition-transform duration-200 ease-in-out group-data-[state=open]:rotate-180",
+                  disabled ? "text-muted-foreground/40" : ""
+                )}
+              />
+            ))}
           <div className="flex-1">{children}</div>
         </div>
       </AccordionTrigger>
@@ -45,7 +49,8 @@ export function IndicatorAccordionTrigger({
 
   return (
     <AccordionTrigger
-      disabled={disabled}
+      aria-disabled={disabled || undefined}
+      tabIndex={disabled ? -1 : undefined}
       className={cn(
         "py-1 [&[data-state=open]>div>div:last-child>svg]:rotate-180",
         disabled ? "pointer-events-none" : "",

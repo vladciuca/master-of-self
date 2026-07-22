@@ -7,6 +7,7 @@ import { IndicatorAccordionTrigger } from "@components/ui/indicator-accordion-tr
 import { IconRenderer } from "@components/IconRenderer";
 import { PracticeCardContent } from "@components/practices/PracticeCardContent";
 import { isHexColor, cn } from "@lib/utils";
+import { PiCaretUpFill, PiCaretDownFill } from "react-icons/pi";
 import type { JournalCustomStepConfig } from "@models/types";
 import type { Practice } from "@models/mongodb";
 
@@ -30,6 +31,10 @@ type PracticeCardProps = {
   className?: string;
   triggerClassName?: string;
   disableAccordionToggle?: boolean;
+  onMoveUp?: () => void;
+  onMoveDown?: () => void;
+  disableMoveUp?: boolean;
+  disableMoveDown?: boolean;
 };
 
 export function PracticeCard({
@@ -49,6 +54,10 @@ export function PracticeCard({
   className,
   triggerClassName,
   disableAccordionToggle = false,
+  onMoveUp,
+  onMoveDown,
+  disableMoveUp = false,
+  disableMoveDown = false,
 }: PracticeCardProps) {
   const resolvedValue = value ?? (step ? String(step._id) : "");
   const resolvedIcon = icon ?? step?.icon;
@@ -69,6 +78,42 @@ export function PracticeCard({
     ? { color: resolvedColor }
     : undefined;
 
+  const isReorderMode = Boolean(onMoveUp || onMoveDown);
+
+  const moveButtonClass =
+    "text-muted-foreground hover:text-primary transition-colors disabled:opacity-30 disabled:hover:text-muted-foreground";
+
+  const reorderAccessory = isReorderMode ? (
+    <div className="flex flex-col items-center justify-center gap-4 mr-2 flex-shrink-0 pointer-events-auto">
+      <button
+        type="button"
+        aria-label="Move practice up"
+        className={moveButtonClass}
+        disabled={disableMoveUp}
+        onPointerDown={(e) => e.stopPropagation()}
+        onClick={(e) => {
+          e.stopPropagation();
+          onMoveUp?.();
+        }}
+      >
+        <PiCaretUpFill className="h-3 w-4" />
+      </button>
+      <button
+        type="button"
+        aria-label="Move practice down"
+        className={moveButtonClass}
+        disabled={disableMoveDown}
+        onPointerDown={(e) => e.stopPropagation()}
+        onClick={(e) => {
+          e.stopPropagation();
+          onMoveDown?.();
+        }}
+      >
+        <PiCaretDownFill className="h-3 w-4" />
+      </button>
+    </div>
+  ) : undefined;
+
   return (
     <AccordionItem
       value={resolvedValue}
@@ -78,6 +123,7 @@ export function PracticeCard({
         className={`py-0 ${triggerClassName ?? ""}`}
         disabled={disableAccordionToggle}
         indicatorPosition="start"
+        leadingAccessory={reorderAccessory}
       >
         <div className="grid grid-cols-[auto_1fr_auto] grid-rows-[1.25rem_auto] gap-x-3 w-full items-start">
           {resolvedIcon && (

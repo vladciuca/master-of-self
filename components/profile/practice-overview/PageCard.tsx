@@ -17,6 +17,10 @@ export function PageCard({
   onDelete,
   userId,
   reorderMode = false,
+  onMoveUp,
+  onMoveDown,
+  disableMoveUp = false,
+  disableMoveDown = false,
 }: {
   page: PracticePageItem;
   isActive: boolean;
@@ -25,11 +29,19 @@ export function PageCard({
   onDelete: (page: PracticePageItem) => void;
   userId?: string;
   reorderMode?: boolean;
+  onMoveUp?: () => void;
+  onMoveDown?: () => void;
+  disableMoveUp?: boolean;
+  disableMoveDown?: boolean;
 }) {
   return (
     <PracticeCard
       step={page}
       disableAccordionToggle={reorderMode}
+      onMoveUp={reorderMode ? onMoveUp : undefined}
+      onMoveDown={reorderMode ? onMoveDown : undefined}
+      disableMoveUp={disableMoveUp}
+      disableMoveDown={disableMoveDown}
       action={
         reorderMode ? (
           <GripVertical className="h-5 w-5 text-muted-foreground" />
