@@ -1,9 +1,9 @@
 "use client";
 
-import Link from "next/link";
+// import Link from "next/link";
 import { UserWillpowerLevelBar } from "@components/profile/user-level/UserWillpowerLevelBar";
-import { GiWhiteBook } from "react-icons/gi";
-import { FaBoltLightning } from "react-icons/fa6";
+// import { GiWhiteBook } from "react-icons/gi";
+// import { FaBoltLightning } from "react-icons/fa6";
 import { User } from "@models/types";
 
 type UserLevelProps = {
@@ -23,8 +23,9 @@ export function UserLevel({ user }: UserLevelProps) {
           </div>
         </Link>
       </div>*/}
+      {/*<FaBoltLightning size={40} className="" />*/}
 
-      <div className="flex flex-grow flex-col justify-end ml-3">
+      <div className="flex flex-grow flex-col justify-end">
         <UserWillpowerLevelBar />
       </div>
     </div>

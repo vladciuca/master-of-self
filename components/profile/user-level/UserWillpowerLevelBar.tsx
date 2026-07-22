@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { useTotalWillpowerBeforeToday } from "@hooks/useTotalWillpowerBeforeToday";
 import { useTodayJournalEntry } from "@hooks/journal/useTodayJournalEntry";
 import { calculateCharacterLevel, xpForCharacterLevel } from "@lib/level";
+import { FaBoltLightning } from "react-icons/fa6";
 import { JOURNAL_COLORS } from "@lib/colors";
 
 export function UserWillpowerLevelBar() {
@@ -60,9 +61,14 @@ export function UserWillpowerLevelBar() {
   return (
     <div className="w-full max-w-md mx-auto">
       <div className="flex items-baseline justify-between text-primary text-xl mr-1 font-bold mx-1">
-        <div className="text-sm">
-          Level
-          <span className="text-primary text-xl ml-1 font-bold">
+        <div className="text-sm flex">
+          <span className="flex items-center">
+            <FaBoltLightning size={18} className="mr-1" />
+            Level
+          </span>
+
+
+          <span className="text-primary text-xl ml-1 font-bold -mt-1">
             {totalWillpowerBeforeTodayLoading ? "??" : level}
           </span>
         </div>
@@ -158,7 +164,7 @@ export function UserWillpowerLevelBar() {
             {/* <span className="text-primary">
               <span className="mr-1">Previous:</span>
               <span className="font-semibold">{currentXP}</span>
-              
+
             </span> */}
             {bonusXP > 0 && (
               <span className={`text-${JOURNAL_COLORS.night}`}>
