@@ -1147,6 +1147,21 @@ export function JournalEntryPracticeSection({
           );
         });
 
+        const stepDisplayText = (() => {
+          // First check custom step configs for discipline
+          if (stepConfigMap[step]) {
+            return stepConfigMap[step].discipline;
+          }
+
+          // Then check practiceData for MongoDB ObjectIds
+          if (practiceData && practiceData[step]) {
+            return practiceData[step].name;
+          }
+
+          // Fallback to capitalizing the step name
+          return step.charAt(0).toUpperCase() + step.slice(1);
+        })();
+
         return (
           <AccordionItem
             key={step}
@@ -1161,7 +1176,7 @@ export function JournalEntryPracticeSection({
                 <div className="flex items-center gap-1">
                   <PiCaretDownFill className="h-3 w-4 flex-shrink-0 text-primary transition-transform duration-200 group-data-[state=open]:rotate-180" />
                   {icon && (
-                    <div className="w-10 h-10 flex items-center justify-center border border-primary rounded-md p-1 flex-shrink-0">
+                    <div className="w-10 h-10 flex items-center justify-center border border-primary rounded-full p-1 flex-shrink-0">
                       <IconRenderer
                         iconName={
                           step === "highlights" ? stepIconMap.highlights : icon
@@ -1185,15 +1200,21 @@ export function JournalEntryPracticeSection({
                     </div>
                   )}
                   <div className="ml-1 flex-1 flex justify-start">
-                    <div
-                      className={`flex flex-wrap justify-start gap-1.5 mr-3 transition-all duration-100 ${
-                        openItem === step
-                          ? "opacity-0"
-                          : "delay-100 duration-200 opacity-100"
-                      }`}
-                    >
-                      {circles}
-                    </div>
+                    {openItem === step ? (
+                      <span className="font-medium text-muted-foreground capitalize delay-100 duration-200 transition-opacity">
+                        {stepDisplayText}
+                      </span>
+                    ) : (
+                      <div
+                        className={`flex flex-wrap justify-start gap-1.5 mr-3 transition-all duration-100 ${
+                          openItem === step
+                            ? "opacity-0"
+                            : "delay-100 duration-200 opacity-100"
+                        }`}
+                      >
+                        {circles}
+                      </div>
+                    )}
                   </div>
                 </div>
                 <div className="flex items-center h-full">

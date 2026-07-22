@@ -57,7 +57,7 @@ export function PracticeCard({
   const resolvedColor = color ?? step?.color;
 
   const iconFrameClass = cn(
-    "border border-primary p-2 rounded-md bg-background",
+    "border border-primary p-2 rounded-full bg-background",
     iconClassName
   );
   const iconColorClass = isHexColor(resolvedColor)

@@ -116,7 +116,7 @@ export function FormStepProgress({
                     }}
                   >
                     <div
-                      className={`w-11 h-11 rounded-md border border-primary flex items-center justify-center ${
+                      className={`w-11 h-11 rounded-full border border-primary flex items-center justify-center ${
                         stepId === activeStep ? "bg-muted" : ""
                       } text-primary`}
                     >
