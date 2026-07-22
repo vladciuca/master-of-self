@@ -47,7 +47,7 @@ export function NewJournalEntry({ isEveningTime }: NewJournalEntryProps) {
   const hasTodayEntry = !!todayEntry;
 
   return (
-    <Card className="p-4 mb-4">
+    <Card className="p-4 mb-4 border-none bg-muted/30">
       <div className="w-full">
         <div className="flex w-full justify-between">
           <div className="flex items-center">
