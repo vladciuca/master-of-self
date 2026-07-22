@@ -54,7 +54,7 @@ export function JournalEntryIndicators({
   const completedDailyToDosCount = completedDailyToDos().length;
 
   return (
-    <div className="ml-4 flex items-center space-x-3 text-muted-foreground">
+    <div className="ml-4 flex flex-wrap items-center justify-start gap-x-3 gap-y-1 text-muted-foreground">
       {totalDayEntries > 0 && (
         <div className="flex items-center gap-1.5">
           <span className="font-semibold text-primary">{totalDayEntries}</span>x

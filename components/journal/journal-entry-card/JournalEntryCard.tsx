@@ -55,7 +55,7 @@ export function JournalEntryCard({
       <div className="w-full">
         <div className="flex w-full items-center justify-between">
           <div className="flex items-center">
-            <div className="bg-muted h-16 w-16 rounded-sm flex flex-col justify-center items-center">
+            <div className="bg-muted h-16 w-16 rounded-sm flex flex-col justify-center items-center flex-shrink-0">
               <div className="uppercase text-md font-semibold">{dayOfWeek}</div>
               <div className="text-3xl font-semibold">{day}</div>
             </div>
@@ -66,7 +66,7 @@ export function JournalEntryCard({
             />
           </div>
 
-          <div className="ml-6 flex items-center">
+          <div className="ml-6 flex items-center flex-shrink-0">
             <div className="w-full flex items-center justify-center text-3xl font-bold">
               {totalWillpower}
               <FaBoltLightning className="ml-1 text-2xl" />
