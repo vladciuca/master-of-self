@@ -120,7 +120,7 @@ export function OnboardingFlow() {
             disabled={isLoading}
             lastStepAction={
               <JournalEntryActionButton
-                text="Start the Loop"
+                text="Start the loop"
                 size={"default"}
                 handleClick={completeOnboarding}
                 handleDisabled={isLoading}
