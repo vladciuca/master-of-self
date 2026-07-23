@@ -49,33 +49,26 @@ export function NewJournalEntry({ isEveningTime }: NewJournalEntryProps) {
   return (
     <Card className="p-4 mb-4 border-none bg-muted/30">
       <div className="w-full">
-        <div className="flex w-full justify-between">
+        <div className="flex w-full items-center justify-between">
           <div className="flex items-center">
-            <div className="bg-muted text-foreground h-16 w-16 rounded-sm flex flex-col justify-center items-center">
+            <div className="bg-muted text-foreground h-16 w-16 rounded-sm flex flex-col justify-center items-center flex-shrink-0">
               <div className="uppercase text-md font-semibold">{dayOfWeek}</div>
               <div className="text-3xl font-semibold">{day}</div>
             </div>
           </div>
-          <div className="ml-6">
-            <div className="flex items-center">
-              <div className="w-full flex items-center justify-center text-3xl">
-                {(bonusWillpower ?? 0) > 0 ? (
-                  <span className={`text-${JOURNAL_COLORS.night} font-bold`}>
-                    +{bonusWillpower}
-                  </span>
-                ) : (
-                  <span className="font-semibold">
-                    {yesterdayEntryLoading ? "??" : 0}
-                  </span>
-                )}
-                <FaBoltLightning className="ml-1 text-2xl" />
-              </div>
+          <div className="ml-6 flex items-center flex-shrink-0">
+            <div className="w-full flex items-center justify-center text-3xl">
+              {(bonusWillpower ?? 0) > 0 ? (
+                <span className={`text-${JOURNAL_COLORS.night} font-bold`}>
+                  +{bonusWillpower}
+                </span>
+              ) : (
+                <span className="font-semibold">
+                  {yesterdayEntryLoading ? "??" : 0}
+                </span>
+              )}
+              <FaBoltLightning className="ml-1 text-2xl" />
             </div>
-            {/* <div className="flex justify-end">
-              <div className="text-xs mt-1 text-muted-foreground">
-                {"Willpower"}
-              </div>
-            </div> */}
           </div>
         </div>
       </div>
