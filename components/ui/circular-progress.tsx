@@ -1,6 +1,5 @@
 import React, { useRef, useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { XP_HEX_COLORS } from "@lib/colors";
 
 interface CircularProgressProps extends React.HTMLAttributes<HTMLDivElement> {
   // currentProgressPercentage
@@ -96,7 +95,7 @@ export function CircularProgress({
               cx={size / 2}
               cy={size / 2}
               r={radius}
-              stroke={XP_HEX_COLORS.positiveHex}
+              stroke="#84CC16"
               strokeWidth={strokeWidth}
               fill="none"
               style={{
@@ -116,7 +115,7 @@ export function CircularProgress({
             className="fill-none"
             strokeWidth={strokeWidth}
             stroke={
-              isNegativeXp ? XP_HEX_COLORS.negativeHex : "url(#circle-progress)"
+              isNegativeXp ? "#F43F5E" : "url(#circle-progress)"
             }
             animate={{
               strokeDashoffset: offset,

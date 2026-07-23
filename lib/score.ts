@@ -1,4 +1,3 @@
-import { HABIT_COLORS } from "@lib/colors";
 import type {
   JournalEntry,
   JournalDayEntry,
@@ -40,12 +39,12 @@ export function isActionOverCapped({
 export function getActionValueColor(params: HabitActionValueParams): string {
   if (isActionOverCapped(params)) {
     return params.isActionBreak
-      ? `text-${HABIT_COLORS.failed}`
-      : `text-${HABIT_COLORS.burnedOut}`;
+      ? "text-xp-negative"
+      : "text-habit-burned-out";
   }
 
   if (isDailyTargetCompleted(params)) {
-    return `text-${HABIT_COLORS.completed}`;
+    return "text-xp-positive";
   }
 
   return "text-primary";

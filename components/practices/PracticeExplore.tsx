@@ -7,7 +7,7 @@ import { FilterPill } from "@components/practices/practice-explore/FilterPill";
 import { SkeletonPracticeCard } from "@components/skeletons/SkeletonPracticeCard";
 import { useAllPractices } from "@hooks/practices/useAllPractices";
 import { DISCIPLINES, BASE_DISCIPLINE_ID } from "@lib/disciplines";
-import { JOURNAL_HEX_COLORS, isHexColor } from "@lib/colors";
+import { isHexColor } from "@lib/utils";
 import type { Practice } from "@models/mongodb";
 import type { JournalCustomStepConfig } from "@models/types";
 
@@ -92,7 +92,7 @@ export function PracticeExplore() {
           onToggle={() =>
             setTimeFilters((prev) => toggleValue(prev, "dayEntry"))
           }
-          colorHex={JOURNAL_HEX_COLORS.dayHex}
+          colorHex="#EAB308"
         />
         <FilterPill
           label="Evening"
@@ -100,7 +100,7 @@ export function PracticeExplore() {
           onToggle={() =>
             setTimeFilters((prev) => toggleValue(prev, "nightEntry"))
           }
-          colorHex={JOURNAL_HEX_COLORS.nightHex}
+          colorHex="#A855F7"
         />
         <span className="h-4 w-px bg-border mx-1 flex-shrink-0" />
         <FilterPill
@@ -137,7 +137,7 @@ export function PracticeExplore() {
       </div>
 
       {loading ? (
-        <div className="space-y-4 mt-2">{skeletonCards}</div>
+        <div className="flex flex-col gap-4 mt-2">{skeletonCards}</div>
       ) : error ? (
         <div>
           <span>Error:</span>
@@ -151,7 +151,7 @@ export function PracticeExplore() {
           No practices match your filters.
         </div>
       ) : (
-        <Accordion type="single" collapsible className="space-y-4 mt-2">
+        <Accordion type="single" collapsible className="flex flex-col gap-4 mt-2">
           {filteredPractices.map((item) => (
             <PracticeFeedCard key={String(item._id)} step={item} />
           ))}

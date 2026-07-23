@@ -8,8 +8,6 @@ import { Button } from "@/components/ui/button";
 
 import { FilePenLine } from "lucide-react";
 
-import { HABIT_COLORS } from "@lib/colors";
-
 import type { HabitAction } from "@models/types";
 
 type ActionFieldItemProps = {
@@ -58,7 +56,7 @@ export function ActionFieldItem({
           variant="ghost"
           onClick={handleEditAction}
           aria-label={`Edit action ${action.task}`}
-          className={`h-8 w-8 p-0 text-${HABIT_COLORS.main} hover:text-${HABIT_COLORS.main}`}
+          className="h-8 w-8 p-0 text-habit-main hover:text-habit-main"
         >
           <FilePenLine size={20} />
         </Button>

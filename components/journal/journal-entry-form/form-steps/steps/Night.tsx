@@ -7,7 +7,6 @@ import { StepScoreDisplay } from "../StepScoreDisplay";
 // import { Badge } from "@components/ui/badge";
 import { Checkbox } from "@components/ui/checkbox";
 import { calculateStepScoreMultiplier } from "@lib/score";
-import { JOURNAL_COLORS } from "@lib/colors";
 import type { JournalEntry } from "@models/types";
 
 export function Night() {
@@ -57,7 +56,7 @@ export function Night() {
           {Object.values(checkedItems).filter(Boolean).length + 1 <= 1 ? (
             <></>
           ) : (
-            <span className={`text-${JOURNAL_COLORS.score} flex items-center`}>
+            <span className="text-journal-score flex items-center">
               <span className="ml-2 mr-[2px] text-2xl">x</span>
               {calculateStepScoreMultiplier(night)}
             </span>
@@ -85,7 +84,7 @@ export function Night() {
               <div
                 className={`mr-1 ${
                   checkedItems[item]
-                    ? `text-${JOURNAL_COLORS.score}`
+                    ? "text-journal-score"
                     : "text-primary"
                 }`}
               >

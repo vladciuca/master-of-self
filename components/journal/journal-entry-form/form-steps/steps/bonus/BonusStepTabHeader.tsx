@@ -2,7 +2,7 @@ import type React from "react";
 import { Badge } from "@/components/ui/badge";
 import { IconRenderer } from "@components/IconRenderer";
 import { getJournalStepStyle, stepIconMap } from "@components/ui/constants";
-import { getRuntimeColorProps } from "@lib/colors";
+import { getRuntimeColorProps } from "@lib/utils";
 
 type BonusStepTabHeaderProps = {
   icon?: React.ReactNode;

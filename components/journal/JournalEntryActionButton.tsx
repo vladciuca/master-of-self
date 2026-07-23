@@ -75,7 +75,7 @@ export function JournalEntryActionButton({
           ? "border-muted bg-muted text-muted-foreground"
           : `group border-${periodColor}/40 bg-${periodColor} text-white hover:bg-${periodColor}/90`,
         disabledClasses,
-        "rounded-full font-normal w-full",
+        "rounded-full font-normal w-full cursor-pointer",
       )}
     >
       {isSubmitting ? (

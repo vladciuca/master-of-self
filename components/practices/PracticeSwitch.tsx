@@ -1,6 +1,5 @@
 import { Switch } from "@components/ui/switch";
 import { cn } from "@lib/utils";
-import { JOURNAL_COLORS } from "@lib/colors";
 
 type PracticeSwitchProps = {
   type: string;
@@ -19,8 +18,8 @@ export function PracticeSwitch({
   // Dynamic styles based on type
   const trackColorClass =
     type === "dayEntry"
-      ? `bg-${JOURNAL_COLORS.day}`
-      : `bg-${JOURNAL_COLORS.night}`;
+      ? "bg-journal-day"
+      : "bg-journal-night";
 
   const handleSwitchClick = (e: React.MouseEvent) => {
     // Stop the event from bubbling up to the AccordionTrigger

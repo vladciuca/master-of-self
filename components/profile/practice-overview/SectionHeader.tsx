@@ -1,6 +1,5 @@
 import { IconRenderer } from "@components/IconRenderer";
 import { Button } from "@components/ui/button";
-import { JOURNAL_COLORS } from "@lib/colors";
 import { ArrowUpDown } from "lucide-react";
 
 export function SectionHeader({
@@ -23,12 +22,12 @@ export function SectionHeader({
     active === 0
       ? "text-muted-foreground"
       : isMorning
-        ? `text-${JOURNAL_COLORS.day}`
-        : `text-${JOURNAL_COLORS.night}`;
+        ? "text-journal-day"
+        : "text-journal-night";
   const textColor = active === 0 ? "text-muted-foreground" : "text-primary";
 
   return (
-    <div className="flex items-center justify-between mt-4 mb-6 bg-muted/30 rounded-lg p-2 px-3">
+    <div className="flex items-center justify-between my-4 bg-muted/30 rounded-lg p-2 px-3">
       <div
         className={`font-semibold tracking-tight flex items-center gap-2 ${textColor}`}
       >

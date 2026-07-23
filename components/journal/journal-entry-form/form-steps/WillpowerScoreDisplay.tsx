@@ -1,5 +1,5 @@
 import { FaBoltLightning } from "react-icons/fa6";
-import { getRuntimeColorProps } from "@lib/colors";
+import { getRuntimeColorProps } from "@lib/utils";
 
 export type WillpowerScoreDisplayProps = {
   willpower: number | string;

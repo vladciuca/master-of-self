@@ -11,7 +11,6 @@ import {
 } from "react-hook-form";
 
 import { cn } from "@lib/utils";
-import { ERROR_COLOR } from "@lib/colors";
 import { Label } from "@components/ui/label";
 
 const Form = FormProvider;
@@ -94,7 +93,7 @@ const FormLabel = React.forwardRef<
   return (
     <Label
       ref={ref}
-      className={cn(error && `text-${ERROR_COLOR}`, className)}
+      className={cn(error && "text-error", className)}
       htmlFor={formItemId}
       {...props}
     />
@@ -157,7 +156,7 @@ const FormMessage = React.forwardRef<
     <p
       ref={ref}
       id={formMessageId}
-      className={cn(`text-xs font-normal text-${ERROR_COLOR}`, className)}
+      className={cn("text-xs font-normal text-error", className)}
       {...props}
     >
       {body}

@@ -5,7 +5,6 @@ import { HabitActions } from "@components/habits/habit-actions/HabitActions";
 import { SkeletonHabitAction } from "@components/skeletons/SkeletonHabitAction";
 import { useUserHabits } from "@hooks/habits/useUserHabits";
 import { calculateHabitsXpFromEntry } from "@lib/level";
-import { XP_COLORS } from "@lib/colors";
 import type { Habit, JournalEntry } from "@models/types";
 
 const skeletonCards = Array.from({ length: 3 }, (_, index) => (
@@ -49,7 +48,7 @@ export function HabitActionsStep() {
       scoreSection={
         totalWillpower > 0 && (
           <>
-            <span className={`text-${XP_COLORS.positive}`}>
+            <span className="text-xp-positive">
               +{totalWillpower}%
             </span>
             <span className="ml-2 text-2xl">XP</span>

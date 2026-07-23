@@ -4,7 +4,6 @@ import { PracticeCreator } from "../PracticeCreator";
 import { IconRenderer } from "@components/IconRenderer";
 import { Button } from "@components/ui/button";
 import { stepIconMap } from "@components/ui/constants";
-import { JOURNAL_COLORS } from "@lib/colors";
 import { useUserProfile } from "@context/UserProfileContext";
 import { CircleCheck, Plus, Loader2 } from "lucide-react";
 import type { JournalCustomStepConfig } from "@models/types";
@@ -22,7 +21,7 @@ function DayNightIcon({ type }: { type?: string }) {
   return (
     <IconRenderer
       iconName={isDay ? stepIconMap.day : stepIconMap.night}
-      className={isDay ? `text-${JOURNAL_COLORS.day}` : `text-${JOURNAL_COLORS.night}`}
+      className={isDay ? "text-journal-day" : "text-journal-night"}
       size={18}
     />
   );

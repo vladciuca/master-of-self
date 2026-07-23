@@ -9,7 +9,6 @@ import { BASE_DISCIPLINE_ID } from "@lib/disciplines";
 
 import { IconRenderer } from "@components/IconRenderer";
 import { stepIconMap } from "@components/ui/constants";
-import { JOURNAL_COLORS } from "@lib/colors";
 
 export function PreMadePractices({ onboarding }: { onboarding?: boolean }) {
   const [activeTab, setActiveTab] = useState<"dayEntry" | "nightEntry">(
@@ -44,7 +43,7 @@ export function PreMadePractices({ onboarding }: { onboarding?: boolean }) {
                   iconName={stepIconMap.day}
                   className={
                     activeTab === "dayEntry"
-                      ? `text-${JOURNAL_COLORS.day}`
+                      ? "text-journal-day"
                       : "text-muted-foreground"
                   }
                   size={28}
@@ -59,7 +58,7 @@ export function PreMadePractices({ onboarding }: { onboarding?: boolean }) {
                   iconName={stepIconMap.night}
                   className={
                     activeTab === "nightEntry"
-                      ? `text-${JOURNAL_COLORS.night}`
+                      ? "text-journal-night"
                       : "text-muted-foreground"
                   }
                   size={28}

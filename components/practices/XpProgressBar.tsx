@@ -2,7 +2,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import { LevelIndicator } from "@components/ui/level-indicator";
 import { calculateDisciplineLevel, xpForDisciplineLevel } from "@lib/level";
-import { JOURNAL_COLORS, getRuntimeColorProps } from "@lib/colors";
+import { getRuntimeColorProps } from "@lib/utils";
 
 function ProgressBar({
   currentProgressPercentage,
@@ -23,7 +23,7 @@ function ProgressBar({
     >
       <div className="h-full flex relative">
         <motion.div
-          className={`h-full bg-${JOURNAL_COLORS.score}`}
+          className="h-full bg-journal-score"
           initial={{ width: 0 }}
           animate={{ width: `${xpGainProgressPercentage}%` }}
           transition={{ duration: 0.5, ease: "easeInOut" }}
@@ -105,7 +105,7 @@ export const XpProgressBar = ({
 
           {projectedXp > 0 && (
             <div
-              className={`text-${JOURNAL_COLORS.score} font-semibold text-lg flex-shrink-0`}
+              className="text-journal-score font-semibold text-lg flex-shrink-0"
             >
               +{projectedXp}
             </div>
@@ -182,8 +182,8 @@ export const XpProgressBar = ({
             />
           </div>
           <div
-            className={`text-${JOURNAL_COLORS.score} font-semibold text-lg
-             flex justify-end`}
+            className="text-journal-score font-semibold text-lg
+             flex justify-end"
           >
             {projectedXp > 0 && `+${projectedXp}`}
           </div>

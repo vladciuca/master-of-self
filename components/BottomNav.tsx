@@ -15,7 +15,6 @@ import {
   getCountdownToNextPeriod,
   getCurrentPeriodProgress,
 } from "@lib/time";
-import { JOURNAL_HEX_COLORS } from "@lib/colors";
 import type { UserProfile } from "@models/types";
 
 type BottomNavProps = {
@@ -73,10 +72,10 @@ export function BottomNav({ userProfile, userProfileError }: BottomNavProps) {
 
   const periodHexColor =
     timePeriod === "day"
-      ? JOURNAL_HEX_COLORS.dayHex
+      ? "#EAB308"
       : timePeriod === "night"
-        ? JOURNAL_HEX_COLORS.nightHex
-        : JOURNAL_HEX_COLORS.sleepHex;
+        ? "#A855F7"
+        : "#3b82f6";
 
   const periodProgress = getCurrentPeriodProgress(
     userMorningTime,

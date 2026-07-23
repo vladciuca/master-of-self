@@ -14,8 +14,7 @@ import { ChartContainer } from "@components/ui/chart";
 import { Skeleton } from "@components/ui/skeleton";
 import { FaBoltLightning } from "react-icons/fa6";
 import { getStartOfCurrentWeek, getEndOfCurrentWeek } from "@lib/time";
-import { JOURNAL_COLORS, JOURNAL_HEX_COLORS } from "@lib/colors";
-import { WeeklyWillpowerData } from "@models/types";
+import type { WeeklyWillpowerData } from "@models/types";
 
 export type WillpowerChartBaseProps = {
   x?: number;
@@ -96,11 +95,11 @@ export function WeeklyWillpowerChart({
   const chartConfig = {
     generatedWillpower: {
       label: "Generated Willpower",
-      color: JOURNAL_HEX_COLORS.dayHex,
+      color: "#EAB308",
     },
     bonusWillpower: {
       label: "Bonus Willpower",
-      color: JOURNAL_HEX_COLORS.nightHex,
+      color: "#A855F7",
     },
   };
 
@@ -219,11 +218,11 @@ export function WeeklyWillpowerChart({
                         <></>
                       ) : (
                         <div className="text-center font-semibold text-xs">
-                          <span className={`text-${JOURNAL_COLORS.night}`}>
+                          <span className="text-journal-night">
                             +{bonusWillpower}
                           </span>
                           <span className="font-thin">/</span>
-                          <span className={`text-${JOURNAL_COLORS.day}`}>
+                          <span className="text-journal-day">
                             {generatedWillpower}
                           </span>
                         </div>

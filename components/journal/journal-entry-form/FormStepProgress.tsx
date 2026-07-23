@@ -3,7 +3,7 @@ import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
 import { IconRenderer } from "@components/IconRenderer";
 import { getJournalStepStyle } from "@components/ui/constants";
-import { getRuntimeColorProps } from "@lib/colors";
+import { getRuntimeColorProps } from "@lib/utils";
 import type { JournalCustomStep } from "@models/types";
 
 type FormStepProgressProps = {

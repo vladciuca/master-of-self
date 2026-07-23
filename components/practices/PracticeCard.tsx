@@ -7,7 +7,7 @@ import { IndicatorAccordionTrigger } from "@components/ui/indicator-accordion-tr
 import { IconRenderer } from "@components/IconRenderer";
 import { PracticeCardContent } from "@components/practices/PracticeCardContent";
 import { cn } from "@lib/utils";
-import { getRuntimeColorProps } from "@lib/colors";
+import { getRuntimeColorProps } from "@lib/utils";
 import { PiCaretUpFill, PiCaretDownFill } from "react-icons/pi";
 import type { JournalCustomStepConfig } from "@models/types";
 import type { Practice } from "@models/mongodb";

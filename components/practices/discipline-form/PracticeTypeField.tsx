@@ -13,7 +13,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { JOURNAL_COLORS } from "@lib/colors";
 import { stepIconMap } from "@components/ui/constants";
 import { IconRenderer } from "@components/IconRenderer";
 import { Control } from "react-hook-form";
@@ -25,8 +24,8 @@ type DisciplineTitleFieldProps = {
 };
 
 const TYPE_OPTIONS = [
-  { value: "dayEntry", label: "Morning", icon: stepIconMap.day, color: JOURNAL_COLORS.day },
-  { value: "nightEntry", label: "Evening", icon: stepIconMap.night, color: JOURNAL_COLORS.night },
+  { value: "dayEntry", label: "Morning", icon: stepIconMap.day, color: "journal-day" },
+  { value: "nightEntry", label: "Evening", icon: stepIconMap.night, color: "journal-night" },
 ] as const;
 
 export function PracticeTypeField({

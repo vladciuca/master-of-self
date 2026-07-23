@@ -1,5 +1,5 @@
 import { PiArrowFatLinesUpFill, PiArrowFatLinesDownFill } from "react-icons/pi";
-import { getRuntimeColorProps } from "@lib/colors";
+import { getRuntimeColorProps } from "@lib/utils";
 
 type LevelIndicatorProps = {
   currentLevel: number;

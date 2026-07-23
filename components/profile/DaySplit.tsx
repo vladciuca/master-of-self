@@ -7,7 +7,6 @@ import { Label } from "@components/ui/label";
 import { Input } from "@components/ui/input";
 import { FaSun, FaMoon } from "react-icons/fa6";
 import { useUserProfile } from "@context/UserProfileContext";
-import { ERROR_COLOR } from "@lib/colors";
 
 interface InvalidFields {
   morning: boolean;
@@ -149,7 +148,7 @@ export function DaySplit({ onboarding = false }: { onboarding?: boolean }) {
 
   const getInputClassName = (isInvalid: boolean): string => {
     return `max-w-fit transition-all duration-200 ${
-      isInvalid ? `border-${ERROR_COLOR}` : ""
+      isInvalid ? "border-error" : ""
     }`;
   };
 
@@ -232,7 +231,7 @@ export function DaySplit({ onboarding = false }: { onboarding?: boolean }) {
                 transition={{ duration: 0.2 }}
               >
                 <p
-                  className={`text-${ERROR_COLOR} sm:mt-2 text-sm text-center`}
+                  className="text-error sm:mt-2 text-sm text-center"
                 >
                   {errorMessage}.
                 </p>

@@ -1,7 +1,6 @@
 import { PracticeCard } from "@components/practices/PracticeCard";
 import { IconRenderer } from "@components/IconRenderer";
 import { stepIconMap } from "@components/ui/constants";
-import { JOURNAL_COLORS } from "@lib/colors";
 import type { PracticePageItem } from "@models/types";
 
 export function BaseDisciplineCard({ page }: { page: PracticePageItem }) {
@@ -22,7 +21,7 @@ export function BaseDisciplineCard({ page }: { page: PracticePageItem }) {
               <IconRenderer
                 iconName={stepIconMap.day}
                 size={16}
-                className={`text-${JOURNAL_COLORS.day}`}
+                className="text-journal-day"
               />
               <span>How will I make today great?</span>
             </div>
@@ -30,7 +29,7 @@ export function BaseDisciplineCard({ page }: { page: PracticePageItem }) {
               <IconRenderer
                 iconName={stepIconMap.night}
                 size={16}
-                className={`text-${JOURNAL_COLORS.night}`}
+                className="text-journal-night"
               />
               <span>How great was today?</span>
             </div>

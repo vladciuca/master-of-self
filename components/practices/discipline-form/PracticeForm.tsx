@@ -13,7 +13,7 @@ import { Form } from "@/components/ui/form";
 import { ScrollArea } from "@components/ui/scroll-area";
 import { Button } from "@/components/ui/button";
 import { IconRenderer } from "@components/IconRenderer";
-import { getRuntimeColorProps } from "@lib/colors";
+import { getRuntimeColorProps } from "@lib/utils";
 import { FaPersonCircleQuestion } from "react-icons/fa6";
 import {
   type PracticeZodType,

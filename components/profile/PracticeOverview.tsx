@@ -242,7 +242,7 @@ export function PracticeOverview({
                 axis="y"
                 values={sectionIds}
                 onReorder={handleSectionReorder}
-                className="space-y-4"
+                className="flex flex-col gap-4"
               >
                 {section.pages.map((page) => (
                   <Reorder.Item
@@ -255,7 +255,7 @@ export function PracticeOverview({
                 ))}
               </Reorder.Group>
             ) : (
-              <div className="space-y-4">
+              <div className="flex flex-col gap-4">
                 {section.pages.map((page) => renderPageCard(page, false))}
               </div>
             )}

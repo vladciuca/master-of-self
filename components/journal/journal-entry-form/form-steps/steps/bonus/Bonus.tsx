@@ -8,7 +8,7 @@ import { WillpowerScoreDisplay } from "@components/journal/journal-entry-form/fo
 import { JournalEntryPracticeList } from "@components/journal/journal-entry-card/JournalEntryPracticeList";
 import { useYesterdayJournalEntry } from "@hooks/journal/useYesterdayJournalEntry";
 import { BonusStepTabHeader } from "./BonusStepTabHeader";
-import { JOURNAL_COLORS, getRuntimeColorProps } from "@lib/colors";
+import { getRuntimeColorProps } from "@lib/utils";
 import { usePracticeData } from "@hooks/practices/usePracticeData";
 import { Skeleton } from "@components/ui/skeleton";
 
@@ -166,7 +166,7 @@ export function Bonus() {
         title={"Willpower Bonus"}
         description="Gain bonus Willpower from yesterday's evening journaling."
         scoreSection={
-          <WillpowerScoreDisplay willpower="??" color={JOURNAL_COLORS.night} />
+          <WillpowerScoreDisplay willpower="??" color="journal-night" />
         }
       >
         <div className="w-full max-w-md mx-auto p-4 pt-0">
@@ -187,7 +187,7 @@ export function Bonus() {
       scoreSection={
         <WillpowerScoreDisplay
           willpower={yesterdayEntryLoading ? "??" : `+${bonusWillpower || 0}`}
-          color={JOURNAL_COLORS.night}
+          color="journal-night"
         />
       }
     >
@@ -229,7 +229,7 @@ export function Bonus() {
                             <div
                               className={`font-semibold text-lg flex items-center ${
                                 tabColorProps.className ??
-                                `text-${JOURNAL_COLORS.score}`
+                                "text-journal-score"
                               }`}
                               style={tabColorProps.style}
                             >

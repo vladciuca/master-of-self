@@ -1,5 +1,3 @@
-import { HABIT_TIER_COLORS } from "@lib/colors";
-
 // Generic XP calculation functions
 export function xpForLevel(
   level: number,
@@ -94,37 +92,37 @@ export const getHabitRarity = (
 ): { bg: string; icon: string; label: string } => {
   if (level >= 40)
     return {
-      bg: `bg-${HABIT_TIER_COLORS.transcendent.background}`,
-      icon: `text-${HABIT_TIER_COLORS.transcendent.foreground}`,
+      bg: "bg-habit-tier-transcendent-bg",
+      icon: "text-habit-tier-transcendent-fg",
       label: "Transcendent",
     };
   if (level >= 30)
     return {
-      bg: `bg-${HABIT_TIER_COLORS.legendary.background}`,
-      icon: `text-${HABIT_TIER_COLORS.legendary.foreground}`,
+      bg: "bg-habit-tier-legendary-bg",
+      icon: "text-habit-tier-legendary-fg",
       label: "Legendary",
     };
   if (level >= 20)
     return {
-      bg: `bg-${HABIT_TIER_COLORS.epic.background}`,
-      icon: `text-${HABIT_TIER_COLORS.epic.foreground}`,
+      bg: "bg-habit-tier-epic-bg",
+      icon: "text-habit-tier-epic-fg",
       label: "Epic",
     };
   if (level >= 10)
     return {
-      bg: `bg-${HABIT_TIER_COLORS.rare.background}`,
-      icon: `text-${HABIT_TIER_COLORS.rare.foreground}`,
+      bg: "bg-habit-tier-rare-bg",
+      icon: "text-habit-tier-rare-fg",
       label: "Rare",
     };
   if (level >= 5)
     return {
-      bg: `bg-${HABIT_TIER_COLORS.uncommon.background}`,
-      icon: `text-${HABIT_TIER_COLORS.uncommon.foreground}`,
+      bg: "bg-habit-tier-uncommon-bg",
+      icon: "text-habit-tier-uncommon-fg",
       label: "Uncommon",
     };
   return {
-    bg: `bg-${HABIT_TIER_COLORS.common.background}`,
-    icon: `text-${HABIT_TIER_COLORS.common.foreground}`,
+    bg: "bg-habit-tier-common-bg",
+    icon: "text-habit-tier-common-fg",
     label: "Common",
   };
 };

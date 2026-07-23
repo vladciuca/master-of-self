@@ -4,7 +4,6 @@ import { XpProgressBar } from "@components/practices/XpProgressBar";
 import { IconRenderer } from "@components/IconRenderer";
 import { getDayDisciplineScores, getNightDisciplineScores } from "@lib/score";
 import { isEvening } from "@lib/time";
-import { JOURNAL_COLORS } from "@lib/colors";
 import type { UserPractices } from "@models/types";
 import { useUserProfile } from "@context/UserProfileContext";
 import { stepIconMap } from "@components/ui/constants";
@@ -113,8 +112,8 @@ export const Summary = () => {
     ? "Complete evening journal pages to increase your discipline."
     : "Complete morning journal pages to increase your discipline.";
   const iconColor = isEveningTime
-    ? `text-${JOURNAL_COLORS.night}`
-    : `text-${JOURNAL_COLORS.day}`;
+    ? "text-journal-night"
+    : "text-journal-day";
 
   // Function to render practice bars
   const renderPracticeBars = (

@@ -1,5 +1,3 @@
-import { JOURNAL_COLORS, HABIT_COLORS } from "@lib/colors";
-
 export type StepIconMap = {
   [key: string]: string;
 };
@@ -48,28 +46,28 @@ export type StepStyle = {
 
 export const journalStepStyle: { [key: string]: StepStyle } = {
   default: {
-    bgColor: `bg-${JOURNAL_COLORS.day}`,
+    bgColor: "bg-journal-day",
   },
   bonus: {
-    bgColor: `bg-${JOURNAL_COLORS.day}`,
+    bgColor: "bg-journal-day",
   },
   day: {
-    bgColor: `bg-${JOURNAL_COLORS.day}`,
+    bgColor: "bg-journal-day",
   },
   night: {
     bgColor: "bg-[linear-gradient(to_right,_#eab308_50%,_#a855f7_50%)]",
   },
   highlights: {
-    bgColor: `bg-${JOURNAL_COLORS.night}`,
+    bgColor: "bg-journal-night",
   },
   habits: {
-    bgColor: `bg-${HABIT_COLORS.main}`,
+    bgColor: "bg-habit-main",
   },
   dayEntry: {
-    bgColor: `bg-${JOURNAL_COLORS.day}`,
+    bgColor: "bg-journal-day",
   },
   nightEntry: {
-    bgColor: `bg-${JOURNAL_COLORS.night}`,
+    bgColor: "bg-journal-night",
   },
 };
 
@@ -83,17 +81,17 @@ export function getTimePeriodIconAndColor(
   switch (timePeriod) {
     case "day":
       return {
-        periodColor: JOURNAL_COLORS.day,
+        periodColor: "journal-day",
         iconName: stepIconMap.day,
       };
     case "night":
       return {
-        periodColor: JOURNAL_COLORS.night,
+        periodColor: "journal-night",
         iconName: stepIconMap.night,
       };
     default: // 'sleep'
       return {
-        periodColor: JOURNAL_COLORS.sleep,
+        periodColor: "journal-sleep",
         iconName: stepIconMap.sleep,
       };
   }

@@ -5,7 +5,6 @@ import { useTotalWillpowerBeforeToday } from "@hooks/useTotalWillpowerBeforeToda
 import { useTodayJournalEntry } from "@hooks/journal/useTodayJournalEntry";
 import { calculateCharacterLevel, xpForCharacterLevel } from "@lib/level";
 import { FaBoltLightning } from "react-icons/fa6";
-import { JOURNAL_COLORS } from "@lib/colors";
 
 export function UserWillpowerLevelBar() {
   const { totalWillpowerBeforeToday, totalWillpowerBeforeTodayLoading } =
@@ -118,7 +117,7 @@ export function UserWillpowerLevelBar() {
             </motion.div>
           )}
           <motion.div
-            className={`h-full bg-${JOURNAL_COLORS.night}`}
+            className="h-full bg-journal-night"
             initial={{ width: 0 }}
             animate={{ width: `${bonusPercentage}%` }}
             transition={{ duration: 0.5, ease: "easeInOut" }}
@@ -135,7 +134,7 @@ export function UserWillpowerLevelBar() {
           </motion.div>
           {projectedXP > 0 && (
             <motion.div
-              className={`h-full bg-${JOURNAL_COLORS.day}`}
+              className="h-full bg-journal-day"
               initial={{ width: 0 }}
               animate={{ width: `${projectedPercentage}%` }}
               transition={{ duration: 0.5, ease: "easeInOut" }}
@@ -167,7 +166,7 @@ export function UserWillpowerLevelBar() {
 
             </span> */}
             {bonusXP > 0 && (
-              <span className={`text-${JOURNAL_COLORS.night}`}>
+              <span className="text-journal-night">
                 <span className="mr-1">Bonus:</span>
                 <span className="font-semibold">{bonusXP}</span>
               </span>
@@ -178,7 +177,7 @@ export function UserWillpowerLevelBar() {
                 className={`${
                   projectedXP < 0
                     ? "text-pink-500"
-                    : `text-${JOURNAL_COLORS.day}`
+                    : "text-journal-day"
                 }`}
               >
                 <span className="mr-1">Today:</span>

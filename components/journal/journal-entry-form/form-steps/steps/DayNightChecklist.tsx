@@ -8,7 +8,6 @@ import { JournalStepTemplate } from "@components/journal/journal-entry-form/form
 import { StepScoreDisplay } from "@components/journal/journal-entry-form/form-steps/StepScoreDisplay";
 import { Button } from "@components/ui/button";
 import { Checkbox } from "@components/ui/checkbox";
-import { JOURNAL_COLORS } from "@lib/colors";
 import { calculateStepScoreMultiplier } from "@lib/score";
 import { cn } from "@lib/utils";
 import type { JournalEntry } from "@models/types";
@@ -208,7 +207,7 @@ export function DayNightChecklist({ mode }: DayNightChecklistProps) {
     <div className="flex items-center">
       <div>Discipline</div>
       {night.length + 1 <= 1 ? null : (
-        <span className={`text-${JOURNAL_COLORS.score} flex items-center`}>
+        <span className="text-journal-score flex items-center">
           <span className="ml-2 mr-[2px] text-2xl">x</span>
           {calculateStepScoreMultiplier(night)}
         </span>

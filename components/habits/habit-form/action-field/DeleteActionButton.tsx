@@ -13,7 +13,6 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { useSideContentPosition } from "@hooks/useSideContentPosition";
-import { ERROR_COLOR } from "@lib/colors";
 
 interface DeleteActionButtonProps {
   handleRemoveAction: () => void;
@@ -35,7 +34,7 @@ export function DeleteActionButton({
       <AlertDialogTrigger asChild>
         <Button
           variant="ghost"
-          className={`h-8 w-8 p-0 text-${ERROR_COLOR} hover:text-${ERROR_COLOR}`}
+          className="h-8 w-8 p-0 text-error hover:text-error"
         >
           <Archive size={20} />
         </Button>
@@ -61,7 +60,7 @@ export function DeleteActionButton({
           <AlertDialogCancel>Cancel</AlertDialogCancel>
           <AlertDialogAction
             onClick={handleRemoveAction}
-            className={`mb-2 bg-${ERROR_COLOR} text-white hover:bg-${ERROR_COLOR}/80`}
+            className="mb-2 bg-error text-white hover:bg-error/80"
           >
             Delete
           </AlertDialogAction>
