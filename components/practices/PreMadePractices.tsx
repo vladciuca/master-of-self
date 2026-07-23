@@ -71,8 +71,8 @@ export function PreMadePractices({ onboarding }: { onboarding?: boolean }) {
           {/* Explanatory text */}
           <p className="text-center text-sm text-muted-foreground mt-2 sm:mt-4 max-w-2xl mx-auto">
             {activeTab === "dayEntry"
-              ? "Mornings are for discipline and direction."
-              : "Evenings are for reflection and planning."}
+              ? "Mornings are for planning and direction."
+              : "Evenings are for reflection and growth."}
           </p>
         </div>
       </div>

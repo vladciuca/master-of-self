@@ -34,7 +34,7 @@ export function OnboardingFlow() {
       id: 3,
       title: "Manage Your Practices",
       description:
-        "Toggle practices on or off - active ones will appear in your daily journal.",
+        "Toggle on or off and reorder your practices. Active ones will appear in your daily journal in this sequence.",
       content: <PracticeOverview showCreateCard={false} />,
     },
   ];
@@ -121,6 +121,7 @@ export function OnboardingFlow() {
             lastStepAction={
               <JournalEntryActionButton
                 text={isLoading ? "Completing Setup..." : "Start the Loop"}
+                size={"default"}
                 handleClick={completeOnboarding}
                 handleDisabled={isLoading}
                 isSubmitting={isLoading}

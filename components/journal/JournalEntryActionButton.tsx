@@ -9,6 +9,7 @@ import { useUserProfile } from "@context/UserProfileContext";
 
 type JournalEntryActionButtonProps = {
   text: string;
+  size?: "sm" | "default" | "lg" | "icon" | null | undefined,
   handleClick?: () => void;
   handleDisabled?: boolean;
   isSubmitting?: boolean; // New prop to track if we're in submitting state
@@ -16,6 +17,7 @@ type JournalEntryActionButtonProps = {
 
 export function JournalEntryActionButton({
   text,
+  size = "sm",
   handleClick = () => {},
   handleDisabled = false,
   isSubmitting = false, // Default to false
@@ -39,12 +41,12 @@ export function JournalEntryActionButton({
     <Button
       onClick={handleClick}
       disabled={handleDisabled}
-      size="sm"
+      size={size}
       variant="outline"
       className={cn(
         `group border-${periodColor}/40 bg-${periodColor} text-white hover:bg-${periodColor}/90`,
         disabledClasses,
-        "rounded-full font-normal w-full py-5",
+        "rounded-full font-normal w-full",
       )}
     >
       <IconRenderer
