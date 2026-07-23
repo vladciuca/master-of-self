@@ -87,13 +87,7 @@ export function NewJournalEntry({ isEveningTime }: NewJournalEntryProps) {
 
       <div className="w-full flex mt-3">
         <JournalEntryActionButton
-          text={
-            submittingJournalEntry
-              ? "Creating Entry..."
-              : hasTodayEntry
-                ? "Entry for today already exists"
-                : "Start today's Entry"
-          }
+          text={hasTodayEntry ? "Today's loop already started" : undefined}
           handleClick={handleCreateJournalEntry}
           handleDisabled={
             submittingJournalEntry || todayEntryLoading || hasTodayEntry

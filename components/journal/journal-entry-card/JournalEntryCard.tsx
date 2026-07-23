@@ -7,6 +7,7 @@ import { JournalEntryPracticeSection } from "./JournalEntryPracticeSection";
 import { Card } from "@components/ui/card";
 import { FaBoltLightning } from "react-icons/fa6";
 import { calculateHabitsXpFromEntry } from "@/lib/level";
+import { hasEntryContent } from "@lib/journal";
 import { JournalEntryMetadata } from "@models/types";
 
 import { JournalEntryActionButton } from "../JournalEntryActionButton";
@@ -80,7 +81,7 @@ export function JournalEntryCard({
           {user?.id === creatorId && pathName === "/journal" && (
             <div className="w-full">
               <Link href={`/update-journal-entry/${_id}`}>
-                <JournalEntryActionButton text={"Continue today's Entry"} />
+                <JournalEntryActionButton journalEntry={journalEntry} />
               </Link>
             </div>
           )}
@@ -103,10 +104,7 @@ export function JournalEntryCard({
           </div>
         )}
 
-      {(Object.values(dayEntry ?? {}).some((arr) => (arr ?? []).length > 0) ||
-        Object.values(nightEntry ?? {}).some(
-          (arr) => (arr ?? []).length > 0
-        )) && (
+      {(hasEntryContent(dayEntry) || hasEntryContent(nightEntry)) && (
         <JournalEntryPracticeSection
           dayEntry={dayEntry ?? {}}
           nightEntry={nightEntry ?? {}}
