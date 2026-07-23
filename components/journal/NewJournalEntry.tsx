@@ -46,18 +46,30 @@ export function NewJournalEntry({ isEveningTime }: NewJournalEntryProps) {
   // Check of entry for today exists by converting it to a boolean
   const hasTodayEntry = !!todayEntry;
 
+  const hasBonusWillpower = (bonusWillpower ?? 0) > 0;
+  const bannerMessage = hasBonusWillpower
+    ? isEveningTime
+      ? "Bonus willpower is waiting! Finish your evening loop to claim it and earn more for tomorrow."
+      : "Bonus willpower awaits! Start your morning loop to keep momentum throughout the day."
+    : isEveningTime
+      ? "Close out with your evening loop! Reflect, recharge, and earn bonus willpower for tomorrow."
+      : "A new day awaits! Start your morning loop to generate willpower and make every moment count.";
+
   return (
-    <Card className="p-4 mb-4 border-none bg-muted/30">
+    <Card className="p-3 mb-4 border-none bg-muted/30">
       <div className="w-full">
-        <div className="flex w-full items-center justify-between">
-          <div className="flex items-center">
-            <div className="bg-muted text-foreground h-16 w-16 rounded-sm flex flex-col justify-center items-center flex-shrink-0">
-              <div className="uppercase text-md font-semibold">{dayOfWeek}</div>
-              <div className="text-3xl font-semibold">{day}</div>
-            </div>
+        <div className="flex w-full items-center justify-between gap-3">
+          <div className="bg-muted text-foreground h-12 w-12 rounded-sm flex flex-col justify-center items-center flex-shrink-0">
+            <div className="uppercase text-xs font-semibold">{dayOfWeek}</div>
+            <div className="text-xl font-semibold leading-tight">{day}</div>
           </div>
-          <div className="ml-6 flex items-center flex-shrink-0">
-            <div className="w-full flex items-center justify-center text-3xl">
+
+          <div className="flex-1 text-xs text-muted-foreground">
+            {bannerMessage}
+          </div>
+
+          <div className="flex items-center flex-shrink-0">
+            <div className="flex items-center text-3xl">
               {(bonusWillpower ?? 0) > 0 ? (
                 <span className={`text-${JOURNAL_COLORS.night} font-bold`}>
                   +{bonusWillpower}
@@ -73,17 +85,7 @@ export function NewJournalEntry({ isEveningTime }: NewJournalEntryProps) {
         </div>
       </div>
 
-      {/* <div className="w-full text-muted-foreground mt-4">
-        <div className="flex items-center flex-col">
-          <div className="flex items-center text-sm">
-            {!isEveningTime
-              ? "Journal today to generate willpower and stay motivated through the day!"
-              : "Reflect on today and start tomorrow with more discipline and willpower!"}
-          </div>
-        </div>
-      </div> */}
-
-      <div className="w-full flex mt-4">
+      <div className="w-full flex mt-3">
         <JournalEntryActionButton
           text={
             submittingJournalEntry
