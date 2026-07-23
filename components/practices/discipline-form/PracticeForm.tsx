@@ -13,7 +13,7 @@ import { Form } from "@/components/ui/form";
 import { ScrollArea } from "@components/ui/scroll-area";
 import { Button } from "@/components/ui/button";
 import { IconRenderer } from "@components/IconRenderer";
-import { isHexColor } from "@lib/utils";
+import { getRuntimeColorProps } from "@lib/colors";
 import { FaPersonCircleQuestion } from "react-icons/fa6";
 import {
   type PracticeZodType,
@@ -70,28 +70,26 @@ export function PracticeForm({
             {type} Practice
           </h1>
           <div className="flex justify-center">
-            {selectedIcon ? (
-              <IconRenderer
-                iconName={selectedIcon}
-                className={`border border-primary p-2 rounded-md ${
-                  isHexColor(selectedColor)
-                    ? ""
-                    : selectedColor
-                      ? `text-${selectedColor}`
-                      : ""
-                }`}
-                style={
-                  isHexColor(selectedColor)
-                    ? { color: selectedColor }
-                    : undefined
-                }
-                size={50}
-              />
-            ) : (
-              <div className="border border-primary p-2 rounded-md w-[66px] h-[66px] flex items-center justify-center">
-                <FaPersonCircleQuestion className="h-[50px] w-[50px]" />
-              </div>
-            )}
+            {(() => {
+              const colorProps = getRuntimeColorProps(
+                selectedColor,
+                "text"
+              );
+              return selectedIcon ? (
+                <IconRenderer
+                  iconName={selectedIcon}
+                  className={`border border-primary p-2 rounded-md ${
+                    colorProps.className ?? ""
+                  }`}
+                  style={colorProps.style}
+                  size={50}
+                />
+              ) : (
+                <div className="border border-primary p-2 rounded-md w-[66px] h-[66px] flex items-center justify-center">
+                  <FaPersonCircleQuestion className="h-[50px] w-[50px]" />
+                </div>
+              );
+            })()}
           </div>
           {/*{type === "Create" && (
             <p className="text-center text-muted-foreground text-sm px-6 sm:px-8">

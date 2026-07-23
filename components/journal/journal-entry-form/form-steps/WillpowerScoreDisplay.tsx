@@ -1,5 +1,5 @@
 import { FaBoltLightning } from "react-icons/fa6";
-import { isHexColor } from "@lib/utils";
+import { getRuntimeColorProps } from "@lib/colors";
 
 export type WillpowerScoreDisplayProps = {
   willpower: number | string;
@@ -10,13 +10,12 @@ export function WillpowerScoreDisplay({
   willpower,
   color,
 }: WillpowerScoreDisplayProps) {
+  const colorProps = getRuntimeColorProps(color, "text");
   return (
     <div className="flex items-center">
       <span
-        className={`${
-          isHexColor(color) ? "" : `text-${color}`
-        } text-bold text-5xl`}
-        style={isHexColor(color) ? { color } : undefined}
+        className={`${colorProps.className ?? ""} text-bold text-5xl`}
+        style={colorProps.style}
       >
         {willpower}
       </span>

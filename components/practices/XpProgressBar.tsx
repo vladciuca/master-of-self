@@ -2,9 +2,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import { LevelIndicator } from "@components/ui/level-indicator";
 import { calculateDisciplineLevel, xpForDisciplineLevel } from "@lib/level";
-import { JOURNAL_COLORS } from "@lib/colors";
-
-import { isHexColor } from "@lib/utils";
+import { JOURNAL_COLORS, getRuntimeColorProps } from "@lib/colors";
 
 function ProgressBar({
   currentProgressPercentage,
@@ -38,9 +36,9 @@ function ProgressBar({
         {showBaseXpBar && (
           <motion.div
             className={`h-full absolute top-0 ${
-              isHexColor(color) ? "" : `bg-${color}`
+              getRuntimeColorProps(color, "bg").className ?? ""
             }`}
-            style={isHexColor(color) ? { backgroundColor: color } : undefined}
+            style={getRuntimeColorProps(color, "bg").style}
             initial={{ width: 0 }}
             animate={{ width: `${currentProgressPercentage}%` }}
             transition={{ duration: 0.5, ease: "easeInOut" }}

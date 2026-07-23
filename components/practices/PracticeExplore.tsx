@@ -7,8 +7,7 @@ import { FilterPill } from "@components/practices/practice-explore/FilterPill";
 import { SkeletonPracticeCard } from "@components/skeletons/SkeletonPracticeCard";
 import { useAllPractices } from "@hooks/practices/useAllPractices";
 import { DISCIPLINES, BASE_DISCIPLINE_ID } from "@lib/disciplines";
-import { JOURNAL_HEX_COLORS } from "@lib/colors";
-import { isHexColor } from "@lib/utils";
+import { JOURNAL_HEX_COLORS, isHexColor } from "@lib/colors";
 import type { Practice } from "@models/mongodb";
 import type { JournalCustomStepConfig } from "@models/types";
 

@@ -831,7 +831,7 @@ import {
 import { IndicatorAccordionTrigger } from "@/components/ui/indicator-accordion-trigger";
 import { calculateStepScore } from "@lib/score";
 import { JOURNAL_COLORS } from "@lib/colors";
-import { isHexColor } from "@lib/utils";
+import { getRuntimeColorProps } from "@lib/colors";
 import type { JournalDayEntry, JournalNightEntry } from "@models/types";
 import { usePracticeData } from "@hooks/practices/usePracticeData";
 import { Skeleton } from "@components/ui/skeleton";
@@ -1162,6 +1162,8 @@ export function JournalEntryPracticeSection({
           return step.charAt(0).toUpperCase() + step.slice(1);
         })();
 
+        const iconColorProps = getRuntimeColorProps(color, "text");
+
         return (
           <AccordionItem
             key={step}
@@ -1181,16 +1183,8 @@ export function JournalEntryPracticeSection({
                         iconName={
                           step === "highlights" ? stepIconMap.highlights : icon
                         }
-                        className={
-                          color && isHexColor(color)
-                            ? ""
-                            : color
-                            ? `text-${color}`
-                            : "text-primary"
-                        }
-                        style={
-                          color && isHexColor(color) ? { color } : undefined
-                        }
+                        className={iconColorProps.className ?? "text-primary"}
+                        style={iconColorProps.style}
                         size={
                           step === "discipline" || step === "highlights"
                             ? 22

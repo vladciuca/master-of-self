@@ -1,5 +1,5 @@
 import { PiArrowFatLinesUpFill, PiArrowFatLinesDownFill } from "react-icons/pi";
-import { isHexColor } from "@lib/utils";
+import { getRuntimeColorProps } from "@lib/colors";
 
 type LevelIndicatorProps = {
   currentLevel: number;
@@ -12,23 +12,26 @@ type LevelIndicatorProps = {
 export function LevelIndicator({
   currentLevel,
   level,
-  positiveColor = "lime-500",
-  negativeColor = "rose-500",
+  positiveColor = "xp-positive",
+  negativeColor = "xp-negative",
   size = 16,
 }: LevelIndicatorProps) {
+  const positiveProps = getRuntimeColorProps(positiveColor, "text");
+  const negativeProps = getRuntimeColorProps(negativeColor, "text");
+
   return (
     <div>
       {currentLevel < level && (
         <PiArrowFatLinesUpFill
-          className={`${isHexColor(positiveColor) ? "" : `text-${positiveColor}`} ml-1`}
-          style={isHexColor(positiveColor) ? { color: positiveColor } : undefined}
+          className={`${positiveProps.className ?? ""} ml-1`}
+          style={positiveProps.style}
           size={size}
         />
       )}
       {currentLevel > level && (
         <PiArrowFatLinesDownFill
-          className={`${isHexColor(negativeColor) ? "" : `text-${negativeColor}`} ml-1`}
-          style={isHexColor(negativeColor) ? { color: negativeColor } : undefined}
+          className={`${negativeProps.className ?? ""} ml-1`}
+          style={negativeProps.style}
           size={size}
         />
       )}

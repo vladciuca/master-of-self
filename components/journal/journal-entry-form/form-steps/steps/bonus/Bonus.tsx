@@ -8,8 +8,7 @@ import { WillpowerScoreDisplay } from "@components/journal/journal-entry-form/fo
 import { JournalEntryPracticeList } from "@components/journal/journal-entry-card/JournalEntryPracticeList";
 import { useYesterdayJournalEntry } from "@hooks/journal/useYesterdayJournalEntry";
 import { BonusStepTabHeader } from "./BonusStepTabHeader";
-import { JOURNAL_COLORS } from "@lib/colors";
-import { isHexColor } from "@lib/utils";
+import { JOURNAL_COLORS, getRuntimeColorProps } from "@lib/colors";
 import { usePracticeData } from "@hooks/practices/usePracticeData";
 import { Skeleton } from "@components/ui/skeleton";
 
@@ -221,23 +220,26 @@ export function Bonus() {
                   <div className="mb-4">
                     <div className="flex items-center justify-center">
                       <div className="flex items-center mr-2">
-                        <div
-                          className={`font-semibold text-lg flex items-center ${
-                            tab.color && !isHexColor(tab.color)
-                              ? `text-${tab.color}`
-                              : `text-${JOURNAL_COLORS.score}`
-                          }`}
-                          style={
-                            tab.color && isHexColor(tab.color)
-                              ? { color: tab.color }
-                              : undefined
-                          }
-                        >
-                          <span className="text-sm">
-                            {tab.scoreName === "Discipline" ? "x" : "+"}
-                          </span>
-                          {tab.score}
-                        </div>
+                        {(() => {
+                          const tabColorProps = getRuntimeColorProps(
+                            tab.color,
+                            "text"
+                          );
+                          return (
+                            <div
+                              className={`font-semibold text-lg flex items-center ${
+                                tabColorProps.className ??
+                                `text-${JOURNAL_COLORS.score}`
+                              }`}
+                              style={tabColorProps.style}
+                            >
+                              <span className="text-sm">
+                                {tab.scoreName === "Discipline" ? "x" : "+"}
+                              </span>
+                              {tab.score}
+                            </div>
+                          );
+                        })()}
                       </div>
                       <div className="flex items-center capitalize text-lg font-semibold">
                         {tab.scoreName}

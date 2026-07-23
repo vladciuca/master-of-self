@@ -1,88 +1,151 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+@import "tw-animate-css";
 
-@layer base {
-  :root {
-    --background: 0 0% 100%;
-    --foreground: 240 10% 3.9%;
+@theme inline {
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
 
-    --card: 0 0% 100%;
-    --card-foreground: 240 10% 3.9%;
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 240 10% 3.9%;
+  --color-popover: hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
 
-    --primary: 240 5.9% 10%;
-    --primary-level-bar: hsl(var(--primary));
-    --primary-foreground: 0 0% 98%;
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+  --color-primary-level-bar: hsl(var(--primary-level-bar));
 
-    --secondary: 240 4.8% 95.9%;
-    --secondary-foreground: 240 5.9% 10%;
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
 
-    --muted: 240 4.8% 95.9%;
-    --muted-foreground: 240 3.8% 46.1%;
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
 
-    --accent: 240 4.8% 95.9%;
-    --accent-foreground: 240 5.9% 10%;
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
 
-    --border: 240 5.9% 90%;
-    --input: 240 5.9% 90%;
-    --ring: 240 10% 3.9%;
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
 
-    --radius: 0.5rem;
+  --color-journal-day: #eab308;
+  --color-journal-night: #a855f7;
+  --color-journal-sleep: #3b82f6;
+  --color-journal-score: #22c55e;
 
-    --chart-1: 12 76% 61%;
-    --chart-2: 173 58% 39%;
-    --chart-3: 197 37% 24%;
-    --chart-4: 43 74% 66%;
-    --chart-5: 27 87% 67%;
-  }
+  --color-xp-positive: #84cc16;
+  --color-xp-negative: #f43f5e;
 
-  .dark {
-    --background: 240 10% 3.9%;
-    --foreground: 0 0% 98%;
+  --color-habit-main: #14b8a6;
+  --color-habit-completed: #84cc16;
+  --color-habit-failed: #f43f5e;
+  --color-habit-burned-out: #f97316;
 
-    --card: 240 10% 3.9%;
-    --card-foreground: 0 0% 98%;
+  --color-habit-tier-common-bg: #e5e5e5;
+  --color-habit-tier-common-fg: #737373;
+  --color-habit-tier-uncommon-bg: #a7f3d0;
+  --color-habit-tier-uncommon-fg: #10b981;
+  --color-habit-tier-rare-bg: #bfdbfe;
+  --color-habit-tier-rare-fg: #3b82f6;
+  --color-habit-tier-epic-bg: #ddd6fe;
+  --color-habit-tier-epic-fg: #8b5cf6;
+  --color-habit-tier-legendary-bg: #fecaca;
+  --color-habit-tier-legendary-fg: #f87171;
+  --color-habit-tier-transcendent-bg: #f5d0fe;
+  --color-habit-tier-transcendent-fg: #d946ef;
 
-    --popover: 240 10% 3.9%;
-    --popover-foreground: 0 0% 98%;
+  --color-error: #ef4444;
 
-    --primary: 0 0% 98%;
-    --primary-level-bar: hsl(var(--primary));
-    --primary-foreground: 240 5.9% 10%;
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
 
-    --secondary: 240 3.7% 15.9%;
-    --secondary-foreground: 0 0% 98%;
+  --animate-float: float 6s ease-in-out infinite;
+}
 
-    --muted: 240 3.7% 15.9%;
-    --muted-foreground: 240 5% 64.9%;
+:root {
+  --background: 0 0% 100%;
+  --foreground: 240 10% 3.9%;
 
-    --accent: 240 3.7% 15.9%;
-    --accent-foreground: 0 0% 98%;
+  --card: 0 0% 100%;
+  --card-foreground: 240 10% 3.9%;
 
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 240 10% 3.9%;
 
-    --border: 240 3.7% 15.9%;
-    --input: 240 3.7% 15.9%;
-    --ring: 240 4.9% 83.9%;
+  --primary: 240 5.9% 10%;
+  --primary-foreground: 0 0% 98%;
+  --primary-level-bar: hsl(var(--primary));
 
-    --chart-1: 220 70% 50%;
-    --chart-2: 160 60% 45%;
-    --chart-3: 30 80% 55%;
-    --chart-4: 280 65% 60%;
-    --chart-5: 340 75% 55%;
-  }
+  --secondary: 240 4.8% 95.9%;
+  --secondary-foreground: 240 5.9% 10%;
+
+  --muted: 240 4.8% 95.9%;
+  --muted-foreground: 240 3.8% 46.1%;
+
+  --accent: 240 4.8% 95.9%;
+  --accent-foreground: 240 5.9% 10%;
+
+  --destructive: 0 84.2% 60.2%;
+  --destructive-foreground: 0 0% 98%;
+
+  --border: 240 5.9% 90%;
+  --input: 240 5.9% 90%;
+  --ring: 240 10% 3.9%;
+
+  --radius: 0.5rem;
+
+  --chart-1: 12 76% 61%;
+  --chart-2: 173 58% 39%;
+  --chart-3: 197 37% 24%;
+  --chart-4: 43 74% 66%;
+  --chart-5: 27 87% 67%;
+}
+
+.dark {
+  --background: 240 10% 3.9%;
+  --foreground: 0 0% 98%;
+
+  --card: 240 10% 3.9%;
+  --card-foreground: 0 0% 98%;
+
+  --popover: 240 10% 3.9%;
+  --popover-foreground: 0 0% 98%;
+
+  --primary: 0 0% 98%;
+  --primary-foreground: 240 5.9% 10%;
+  --primary-level-bar: hsl(var(--primary));
+
+  --secondary: 240 3.7% 15.9%;
+  --secondary-foreground: 0 0% 98%;
+
+  --muted: 240 3.7% 15.9%;
+  --muted-foreground: 240 5% 64.9%;
+
+  --accent: 240 3.7% 15.9%;
+  --accent-foreground: 0 0% 98%;
+
+  --destructive: 0 62.8% 30.6%;
+  --destructive-foreground: 0 0% 98%;
+
+  --border: 240 3.7% 15.9%;
+  --input: 240 3.7% 15.9%;
+  --ring: 240 4.9% 83.9%;
+
+  --chart-1: 220 70% 50%;
+  --chart-2: 160 60% 45%;
+  --chart-3: 30 80% 55%;
+  --chart-4: 280 65% 60%;
+  --chart-5: 340 75% 55%;
 }
 
 @layer base {
   * {
-    @apply border-border;
+    @apply border-border outline-ring/50;
   }
   body {
     @apply bg-background text-foreground;
@@ -101,6 +164,7 @@
   border: 3px solid;
   position: relative;
 }
+
 .loader::before {
   content: "";
   position: absolute;
@@ -113,6 +177,7 @@
   background: currentColor;
   animation: l3 1s infinite linear;
 }
+
 @keyframes l3 {
   50% {
     left: 100%;
@@ -153,13 +218,4 @@
   /* Hide scrollbar for IE, Edge and Firefox */
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
-}
-
-@layer base {
-  * {
-    @apply border-border outline-ring/50;
-  }
-  body {
-    @apply bg-background text-foreground;
-  }
 }

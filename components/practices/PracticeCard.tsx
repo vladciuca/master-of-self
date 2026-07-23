@@ -6,7 +6,8 @@ import {
 import { IndicatorAccordionTrigger } from "@components/ui/indicator-accordion-trigger";
 import { IconRenderer } from "@components/IconRenderer";
 import { PracticeCardContent } from "@components/practices/PracticeCardContent";
-import { isHexColor, cn } from "@lib/utils";
+import { cn } from "@lib/utils";
+import { getRuntimeColorProps } from "@lib/colors";
 import { PiCaretUpFill, PiCaretDownFill } from "react-icons/pi";
 import type { JournalCustomStepConfig } from "@models/types";
 import type { Practice } from "@models/mongodb";
@@ -69,14 +70,9 @@ export function PracticeCard({
     "border border-primary p-2 rounded-full bg-background",
     iconClassName
   );
-  const iconColorClass = isHexColor(resolvedColor)
-    ? ""
-    : resolvedColor
-      ? `text-${resolvedColor}`
-      : "";
-  const iconStyle = isHexColor(resolvedColor)
-    ? { color: resolvedColor }
-    : undefined;
+  const iconColorProps = getRuntimeColorProps(resolvedColor, "text");
+  const iconColorClass = iconColorProps.className ?? "";
+  const iconStyle = iconColorProps.style;
 
   const isReorderMode = Boolean(onMoveUp || onMoveDown);
 

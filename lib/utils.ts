@@ -20,7 +20,3 @@ export function formatNumberSuffixes(number: number): string {
 
   return `${number.toFixed(1).replace(/\.0$/, "")}${suffixes[suffixIndex]}`;
 }
-
-export function isHexColor(value: string | null | undefined): value is string {
-  return !!value && /^#[0-9A-Fa-f]{6}$/.test(value);
-}
