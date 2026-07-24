@@ -1,7 +1,7 @@
 import type React from "react";
 import { Badge } from "@/components/ui/badge";
 import { IconRenderer } from "@components/IconRenderer";
-import { getJournalStepStyle, stepIconMap } from "@components/ui/constants";
+import { getStepBgColor, stepIconMap } from "@components/ui/constants";
 import { getRuntimeColorProps } from "@lib/utils";
 
 type BonusStepTabHeaderProps = {
@@ -22,7 +22,7 @@ export const BonusStepTabHeader = ({
   disciplineIcon,
   disciplineColor,
 }: BonusStepTabHeaderProps) => {
-  const { bgColor } = getJournalStepStyle(stepType);
+  const bgColor = getStepBgColor(stepType);
 
   // Determine which icon to use - prioritize disciplineIcon, then stepIconMap, then default
   const iconToRender =

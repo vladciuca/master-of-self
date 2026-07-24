@@ -19,7 +19,7 @@ export const metadata = {
 
 export default async function RootLayout({ children }: Layout) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body className={`relative ${font.className}`}>
         <Provider>
           <ThemeProvider

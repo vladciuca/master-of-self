@@ -2,10 +2,7 @@
 
 import React from "react";
 import { JournalEntryPracticeList } from "@components/journal/journal-entry-card/JournalEntryPracticeList";
-import {
-  journalStepStyle,
-  getJournalStepStyle,
-} from "@components/ui/constants";
+import { getStepBgColor, stepIconMap } from "@components/ui/constants";
 import {
   Accordion,
   AccordionContent,
@@ -19,7 +16,6 @@ import { usePracticeData } from "@hooks/practices/usePracticeData";
 import { Skeleton } from "@components/ui/skeleton";
 import { IconRenderer } from "@components/IconRenderer";
 import { PiCaretDownFill } from "react-icons/pi";
-import { stepIconMap } from "@components/ui/constants";
 import { customStepConfigs } from "@components/journal/journal-entry-form/form-steps/steps/CustomSteps";
 
 type StepData = {
@@ -300,11 +296,11 @@ export function JournalEntryPracticeSection({
 
         if (!data || data.length === 0) return null;
 
-        const { bgColor } = getJournalStepStyle(stepType);
+        const bgColor = getStepBgColor(stepType);
 
-        const dayBgColor = journalStepStyle.day.bgColor;
-        const nightBgColor = journalStepStyle.night.bgColor;
-        const highlightsBgColor = journalStepStyle.highlights.bgColor;
+        const dayBgColor = "bg-journal-day";
+        const nightBgColor = "bg-[linear-gradient(to_right,var(--journal-day)_50%,var(--journal-night)_50%)]";
+        const highlightsBgColor = "bg-journal-night";
 
         const circles = Array.from({ length: data.length }).map((_, index) => {
           let circleBgColor = bgColor;

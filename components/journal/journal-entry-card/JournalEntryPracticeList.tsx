@@ -1,7 +1,7 @@
 import React from "react";
 import { FaRedoAlt } from "react-icons/fa";
 import { SkeletonList } from "@components/skeletons/SkeletonList";
-import { getJournalStepStyle } from "@components/ui/constants";
+import { getStepBgColor } from "@components/ui/constants";
 
 type JournalEntryPracticeListProps = {
   title?: string;
@@ -20,7 +20,7 @@ export function JournalEntryPracticeList({
   bonusList,
   repeat = [],
 }: JournalEntryPracticeListProps) {
-  const { bgColor } = getJournalStepStyle(stepType);
+  const bgColor = getStepBgColor(stepType);
   const bulletPointPosition = bonusList ? "mt-2" : "mt-[6px]";
 
   return (

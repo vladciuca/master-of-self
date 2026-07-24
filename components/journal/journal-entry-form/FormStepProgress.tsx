@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from "react";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
 import { IconRenderer } from "@components/IconRenderer";
-import { getJournalStepStyle } from "@components/ui/constants";
+import { getStepBgColor } from "@components/ui/constants";
 import { getRuntimeColorProps } from "@lib/utils";
 import type { JournalCustomStep } from "@models/types";
 
@@ -102,7 +102,7 @@ export function FormStepProgress({
                 const stepId = step._id;
                 const discipline =
                   step.type === "other" ? step.discipline : step.type;
-                const { bgColor } = getJournalStepStyle(discipline);
+                const bgColor = getStepBgColor(discipline)
                 const count = getCount(String(stepId));
                 return (
                   <span

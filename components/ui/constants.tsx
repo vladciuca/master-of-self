@@ -44,38 +44,46 @@ export type StepStyle = {
   bgColor: string;
 };
 
-export const journalStepStyle: { [key: string]: StepStyle } = {
-  default: {
-    bgColor: "bg-journal-day",
-  },
-  bonus: {
-    bgColor: "bg-journal-day",
-  },
-  day: {
-    bgColor: "bg-journal-day",
-  },
-  night: {
-    bgColor: "bg-[linear-gradient(to_right,_#eab308_50%,_#a855f7_50%)]",
-  },
-  sleep: {
-      bgColor: "bg-journal-sleep",
-  },
-  highlights: {
-    bgColor: "bg-journal-night",
-  },
-  habits: {
-    bgColor: "bg-habit-main",
-  },
-  dayEntry: {
-    bgColor: "bg-journal-day",
-  },
-  nightEntry: {
-    bgColor: "bg-journal-night",
-  },
-};
+// export const journalStepStyle: { [key: string]: StepStyle } = {
+//   default: {
+//     bgColor: "bg-journal-day",
+//   },
+//   bonus: {
+//     bgColor: "bg-journal-day",
+//   },
+//   day: {
+//     bgColor: "bg-journal-day",
+//   },
+//   night: {
+//     bgColor: "bg-[linear-gradient(to_right,_#eab308_50%,_#a855f7_50%)]",
+//   },
+//   sleep: {
+//       bgColor: "bg-journal-sleep",
+//   },
+//   highlights: {
+//     bgColor: "bg-journal-night",
+//   },
+//   habits: {
+//     bgColor: "bg-habit-main",
+//   },
+//   dayEntry: {
+//     bgColor: "bg-journal-day",
+//   },
+//   nightEntry: {
+//     bgColor: "bg-journal-night",
+//   },
+// };
 
-export const getJournalStepStyle = (stepType: string): StepStyle => {
-  return journalStepStyle[stepType] || journalStepStyle.default;
+// export const getJournalStepStyle = (stepType: string): StepStyle => {
+//   return journalStepStyle[stepType] || journalStepStyle.default;
+// };
+
+export const getStepBgColor = (stepType: string): string => {
+  if (stepType === "night") return "bg-[linear-gradient(to_right,var(--journal-day)_50%,var(--journal-night)_50%)]";
+  if (stepType === "nightEntry" || stepType === "highlights") return "bg-journal-night";
+  if (stepType === "habits") return "bg-habit-main";
+  if (stepType === "sleep") return "bg-journal-sleep";
+  return "bg-journal-day";
 };
 
 export function getTimePeriodIconAndColor(

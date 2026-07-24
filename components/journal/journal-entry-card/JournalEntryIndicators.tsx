@@ -1,4 +1,3 @@
-import { journalStepStyle } from "@components/ui/constants";
 import type { JournalDayEntry, JournalNightEntry } from "@models/types";
 
 interface JournalEntryIndicatorsProps {
@@ -59,7 +58,7 @@ export function JournalEntryIndicators({
         <div className="flex items-center gap-1.5">
           <span className="font-semibold text-primary">{totalDayEntries}</span>x
           <div
-            className={`w-[15px] h-[15px] rounded-full ${journalStepStyle.dayEntry.bgColor}`}
+            className={`w-[15px] h-[15px] rounded-full bg-journal-day`}
           />
         </div>
       )}
@@ -69,7 +68,7 @@ export function JournalEntryIndicators({
             {completedDailyToDosCount}
           </span>x
           <div
-            className={`w-[15px] h-[15px] rounded-full ${journalStepStyle.night.bgColor}`}
+            className={`w-[15px] h-[15px] rounded-full bg-[linear-gradient(to_right,var(--journal-day)_50%,var(--journal-night)_50%)]`}
           />
         </div>
       )}
@@ -77,7 +76,7 @@ export function JournalEntryIndicators({
         <div className="flex items-center gap-1.5">
           <span className="font-semibold text-primary">{nightEntries}</span>x
           <div
-            className={`w-[15px] h-[15px] rounded-full ${journalStepStyle.nightEntry.bgColor}`}
+            className={`w-[15px] h-[15px] rounded-full bg-journal-night`}
           />
         </div>
       )}
