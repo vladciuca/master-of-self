@@ -57,6 +57,9 @@ export const journalStepStyle: { [key: string]: StepStyle } = {
   night: {
     bgColor: "bg-[linear-gradient(to_right,_#eab308_50%,_#a855f7_50%)]",
   },
+  sleep: {
+      bgColor: "bg-journal-sleep",
+  },
   highlights: {
     bgColor: "bg-journal-night",
   },

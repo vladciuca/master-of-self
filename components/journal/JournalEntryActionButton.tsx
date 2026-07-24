@@ -40,7 +40,11 @@ export function JournalEntryActionButton({
   const isProfileLoadingState = userProfileLoading && !isSubmitting;
 
   const getLoopText = (): string => {
-    if (timePeriod === "sleep") return "Continue your morning loop";
+    if (timePeriod === "sleep") {
+      return hasEntryContent(journalEntry?.dayEntry)
+        ? "Continue your morning loop"
+        : "Start your morning loop early";
+    }
 
     if (timePeriod === "night") {
       return hasEntryContent(journalEntry?.nightEntry)

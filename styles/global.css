@@ -2,6 +2,21 @@
 @import "tw-animate-css";
 
 @theme inline {
+  --color-journal-day: var(--journal-day);
+  --color-journal-night: var(--journal-night);
+  --color-journal-sleep: var(--journal-sleep);
+  --color-journal-score: var(--journal-score);
+
+  --color-discipline-awareness: var(--discipline-awareness);
+  --color-discipline-discipline: var(--discipline-discipline);
+  --color-discipline-courage: var(--discipline-courage);
+  --color-discipline-gratitude: var(--discipline-gratitude);
+  --color-discipline-wisdom: var(--discipline-wisdom);
+  --color-discipline-compassion: var(--discipline-compassion);
+  --color-discipline-creativity: var(--discipline-creativity);
+  --color-discipline-vitality: var(--discipline-vitality);
+  --color-discipline-purpose: var(--discipline-purpose);
+
   --color-background: var(--background);
   --color-foreground: var(--foreground);
 
@@ -40,10 +55,20 @@
 }
 
 @theme {
-  --color-journal-day: #eab308;
-  --color-journal-night: #a855f7;
-  --color-journal-sleep: #3b82f6;
-  --color-journal-score: #22c55e;
+  /*--color-journal-day: var(--journal-day);
+  --color-journal-night: var(--journal-night);
+  --color-journal-sleep: var(--journal-sleep);
+  --color-journal-score: var(--journal-score);
+
+  --color-discipline-awareness: var(--discipline-awareness);
+  --color-discipline-discipline: var(--discipline-discipline);
+  --color-discipline-courage: var(--discipline-courage);
+  --color-discipline-gratitude: var(--discipline-gratitude);
+  --color-discipline-wisdom: var(--discipline-wisdom);
+  --color-discipline-compassion: var(--discipline-compassion);
+  --color-discipline-creativity: var(--discipline-creativity);
+  --color-discipline-vitality: var(--discipline-vitality);
+  --color-discipline-purpose: var(--discipline-purpose);*/
 
   --color-xp-positive: #84cc16;
   --color-xp-negative: #f43f5e;
@@ -71,6 +96,21 @@
 
 :root {
   --radius: 0.5rem;
+
+  --journal-day: #eab308;
+  --journal-night: #a855f7;
+  --journal-sleep: #3b82f6;
+  --journal-score: #84cc16;
+
+  --discipline-awareness: #3BA7F0;
+  --discipline-discipline: var(--primary);
+  --discipline-courage: #E74C3C;
+  --discipline-gratitude: #F5A623;
+  --discipline-wisdom: #6C63FF;
+  --discipline-compassion: #EC5A8C;
+  --discipline-creativity: #C04CF5;
+  --discipline-vitality: #20B26B;
+  --discipline-purpose: #FFD84D;
 
   /* shadcn zinc light — OKLCH */
   --background: oklch(1 0 0);
