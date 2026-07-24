@@ -298,10 +298,6 @@ export function JournalEntryPracticeSection({
 
         const bgColor = getStepBgColor(stepType);
 
-        const dayBgColor = "bg-journal-day";
-        const nightBgColor = "bg-[linear-gradient(to_right,var(--journal-day)_50%,var(--journal-night)_50%)]";
-        const highlightsBgColor = "bg-journal-night";
-
         const circles = Array.from({ length: data.length }).map((_, index) => {
           let circleBgColor = bgColor;
           if (step === "discipline") {
@@ -309,11 +305,11 @@ export function JournalEntryPracticeSection({
             const comp = completed.length;
 
             if (index < uncomp) {
-              circleBgColor = dayBgColor;
+              circleBgColor = "bg-journal-day";
             } else if (index < uncomp + comp) {
-              circleBgColor = nightBgColor;
+              circleBgColor = "bg-[linear-gradient(to_right,var(--journal-day)_50%,var(--journal-night)_50%)]"
             } else {
-              circleBgColor = highlightsBgColor;
+              circleBgColor = "bg-journal-night";
             }
           }
 

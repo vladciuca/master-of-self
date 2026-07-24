@@ -16,6 +16,7 @@ export const DISCIPLINES: JournalCustomStepConfig[] = [
       "Better understand yourself through reflection, mindfulness, and honest observation. Create practices that help you notice your thoughts, emotions, behaviors, and personal growth.\n\nExamples: Daily Reflection, Meditation, Emotional Check-in, Self Awareness, Lessons Learned",
     color: "#3BA7F0",
   },
+  //NOTE* This will need to be treated accordingly + steps should live in disciplines - needs decouple from practice steps
   {
     _id: "discipline",
     icon: stepIconMap.discipline,

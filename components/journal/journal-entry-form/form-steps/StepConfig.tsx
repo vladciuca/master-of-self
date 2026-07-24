@@ -56,7 +56,7 @@ export function createSteps(params: CreateStepsParams): JournalCustomStep[] {
     },
     //=====ADD_DAY steps here
     ...customSteps
-      .filter((step) => step.type === "dayEntry")
+      .filter((step) => step.type === "dayEntry").filter((step) => step.type === "dayEntry")
       .map((step) => ({
         ...step,
         isAvailable: SHOW_ALL_TEST || !isEvening(userEveningTime, now),
